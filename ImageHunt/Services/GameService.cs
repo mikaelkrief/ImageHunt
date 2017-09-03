@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
@@ -12,16 +13,15 @@ namespace ImageHunt.Services
         {
         }
 
-        public Game CreateGame(string gameName, DateTime startDate, List<Node> nodes, Node firstNode)
+        public Game CreateGame(string gameName, DateTime startDate, List<Node> nodes)
         {
-            if (!nodes.Contains(firstNode))
-                throw new ArgumentException("The first node is not contained in nodes", nameof(firstNode));
+            if (!nodes.Any(n=>n.GetType() == typeof(FirstNode)))
+              throw new ArgumentException("There is no first node in the list of node");
             var game = new Game()
             {
                 Name = gameName,
                 StartDate = startDate,
                 Nodes = nodes,
-                FirstNode = firstNode
             };
             Context.Games.Add(game);
             Context.SaveChanges();

@@ -22,14 +22,15 @@ namespace ImageHuntTest.Services
         public void CreateGame()
         {
             // Arrange
-            var nodes = new List<Node>(){new TimerNode(), new TimerNode(), new TimerNode(), new QuestionNode()};
+            var nodes = new List<Node>() { new FirstNode(), new TimerNode(), new TimerNode(), new TimerNode(), new QuestionNode() };
+            _context.Nodes.AddRange(nodes);
+            _context.SaveChanges();
             // Act
-            var result = _target.CreateGame("TheGame", DateTime.Today, nodes, nodes[0]);
+            var result = _target.CreateGame("TheGame", DateTime.Today, nodes);
             // Assert
             Check.That(result.Id).Not.IsEqualTo(0);
             Check.That(result.StartDate).IsEqualTo(DateTime.Today);
             Check.That(result.Nodes).ContainsExactly(nodes);
-            Check.That(result.FirstNode).Equals(nodes[0]);
         }
 
         [Fact]
@@ -37,9 +38,8 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var nodes = new List<Node>() { new TimerNode(), new TimerNode(), new TimerNode(), new QuestionNode() };
-            var firstNode = new TimerNode();
             // Act
-            Check.ThatCode(() => _target.CreateGame("TheGame", DateTime.Today, nodes, firstNode)).Throws<ArgumentException>();
+            Check.ThatCode(() => _target.CreateGame("TheGame", DateTime.Today, nodes)).Throws<ArgumentException>();
             // Assert
         }
     }

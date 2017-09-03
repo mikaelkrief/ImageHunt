@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using NFluent;
 using SQLitePCL;
 using Xunit;
@@ -22,10 +26,7 @@ namespace ImageHuntTest.Services
         public void AddNode()
         {
             // Arrange
-            var coordinate = new Geography(10,10,10);
-            var node = new TimerNode();
-            node.Coordinate = coordinate;
-            node.Delay = 10000;
+            var node = new TimerNode {Delay = 10000};
             // Act
             _target.AddNode(node);
             // Assert
@@ -73,5 +74,6 @@ namespace ImageHuntTest.Services
             // Assert
             Check.That(resultNode).IsEqualTo(nodes.Single(n => n.Id == 2));
         }
+
     }
 }
