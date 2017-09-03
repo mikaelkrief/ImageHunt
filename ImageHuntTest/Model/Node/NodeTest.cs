@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using ImageHunt.Computation;
 using ImageHunt.Model;
-using ImageHunt.Computation;
-using Newtonsoft.Json.Schema;
+using ImageHunt.Model.Node;
 using NFluent;
 using Xunit;
 
-namespace ScavengerHuntTests
+namespace ImageHuntTest.Model.Node
 {
     public class NodeTest
     {
@@ -22,7 +18,8 @@ namespace ScavengerHuntTests
             var coordinate = new Geography(10.3, 1.2, 10.0);
             coordinate.DegToRad();
             // Act
-            var node = new TimerNode("Toto", coordinate, 100);
+            var node = new TimerNode();
+            node.Coordinate = coordinate;
 
             // Assert
             Check.That(node).IsNotNull();

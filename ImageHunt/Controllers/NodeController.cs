@@ -9,14 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ImageHunt.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class NodeController : Controller
     {
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "ta", "mère", "en", "short" };
-        }
-
     }
 }
