@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ImageHunt.Data;
+using ImageHunt.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,7 @@ namespace ImageHunt
             services.AddMvc();
             services.AddDbContext<HuntContext>(options => 
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<ITeamService, TeamService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

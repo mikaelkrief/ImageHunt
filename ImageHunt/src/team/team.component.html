@@ -1,0 +1,21 @@
+<div>
+  <h1>Teams</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Nom team</th>
+      <th>Pseudo joueur</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let team of teams">
+      <td>{{team.name}}</td>
+      <td>
+        <ul>
+          <li *ngFor="let pseudo of team.members">{{pseudo.pseudo}}</li>
+        </ul>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

@@ -13,77 +13,6 @@ webpackEmptyAsyncContext.id = "../../../../../src/$$_gendir lazy recursive";
 
 /***/ }),
 
-/***/ "../../../../../src/app/app.component.css":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ "../../../../../src/app/app.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<h1>Image Hunt</h1>\n<ul>\n  <li *ngFor=\"let value of apiValues\">{{value}}</li>\n</ul>\n"
-
-/***/ }),
-
-/***/ "../../../../../src/app/app.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var AppComponent = (function () {
-    function AppComponent(_httpService) {
-        this._httpService = _httpService;
-        this.apiValues = [];
-        this.title = 'Images Hunt';
-    }
-    AppComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this._httpService.get('/api/values').subscribe(function (values) {
-            _this.apiValues = values.json();
-        });
-    };
-    return AppComponent;
-}());
-AppComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'app-root',
-        template: __webpack_require__("../../../../../src/app/app.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/app.component.css")]
-    }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
-], AppComponent);
-
-var _a;
-//# sourceMappingURL=app.component.js.map
-
-/***/ }),
-
 /***/ "../../../../../src/app/app.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -91,7 +20,7 @@ var _a;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__team_team_component__ = __webpack_require__("../../../../../src/team/team.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -102,6 +31,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 
 
+//import { AppComponent } from './app.component';
 
 
 
@@ -113,15 +43,19 @@ var AppModule = (function () {
 AppModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["L" /* NgModule */])({
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]
+            //AppComponent,
+            __WEBPACK_IMPORTED_MODULE_2__team_team_component__["a" /* TeamComponent */]
+        ],
+        bootstrap: [
+            //AppComponent,
+            __WEBPACK_IMPORTED_MODULE_2__team_team_component__["a" /* TeamComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
             __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* HttpModule */]
+            __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* HttpModule */]
         ],
-        providers: [],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]]
+        providers: []
     })
 ], AppModule);
 
@@ -164,6 +98,74 @@ if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment *
 }
 Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */]);
 //# sourceMappingURL=main.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/team/team.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div>\r\n  <h1>Teams</h1>\r\n  <table class=\"table\">\r\n    <thead>\r\n    <tr>\r\n      <th>Nom team</th>\r\n      <th>Pseudo joueur</th>\r\n    </tr>\r\n    </thead>\r\n    <tbody>\r\n    <tr *ngFor=\"let team of teams\">\r\n      <td>{{team.name}}</td>\r\n      <td>\r\n        <ul>\r\n          <li *ngFor=\"let pseudo of team.members\">{{pseudo.pseudo}}</li>\r\n        </ul>\r\n      </td>\r\n    </tr>\r\n    </tbody>\r\n  </table>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/team/team.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/team/team.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TeamComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var TeamComponent = (function () {
+    /** team ctor */
+    function TeamComponent() {
+        this.teams = [
+            { name: "Team1", members: [{ pseudo: "Player1" }, { pseudo: "Player2" }, { pseudo: "Player3" }] },
+            { name: "Team2", members: [{ pseudo: "Player4" }, { pseudo: "Player5" }, { pseudo: "Player6" }, { pseudo: "Player7" }] }
+        ];
+    }
+    /** Called by Angular after team component initialized */
+    TeamComponent.prototype.ngOnInit = function () { };
+    return TeamComponent;
+}());
+TeamComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'app-team',
+        template: __webpack_require__("../../../../../src/team/team.component.html"),
+        styles: [__webpack_require__("../../../../../src/team/team.component.scss")]
+    })
+    /** team component*/
+    ,
+    __metadata("design:paramtypes", [])
+], TeamComponent);
+
+//# sourceMappingURL=team.component.js.map
 
 /***/ }),
 

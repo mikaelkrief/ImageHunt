@@ -3,11 +3,18 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
-    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="src\app\app.ts" />
+    <None Remove="src\app\top-menu.config.ts" />
+    <None Remove="src\navmenu\navmenu.module.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="src\NewFolder\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -24,6 +31,11 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="src\app\top-menu.config.ts" />
+    <TypeScriptCompile Include="src\navmenu\navmenu.module.ts" />
   </ItemGroup>
 
 </Project>
