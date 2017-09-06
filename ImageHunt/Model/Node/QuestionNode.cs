@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ImageHunt.Model.Node
@@ -9,10 +9,8 @@ namespace ImageHunt.Model.Node
         public List<Answer> Answers { get; set; }
     }
 
-    public class Answer
+    public class Answer : DbObject
     {
-        [Key]
-        public int Id { get; set; }
         public string Response { get; set; }
         public Node Node { get; set; }
     }

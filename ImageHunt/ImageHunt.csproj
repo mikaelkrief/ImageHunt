@@ -7,14 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="src\navmenu\**" />
+    <Compile Remove="src\NewFolder\**" />
+    <Content Remove="src\navmenu\**" />
+    <Content Remove="src\NewFolder\**" />
+    <EmbeddedResource Remove="src\navmenu\**" />
+    <EmbeddedResource Remove="src\NewFolder\**" />
+    <None Remove="src\navmenu\**" />
+    <None Remove="src\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="src\app\app.ts" />
     <None Remove="src\app\top-menu.config.ts" />
-    <None Remove="src\navmenu\navmenu.module.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="src\NewFolder\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -31,11 +40,6 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="src\app\top-menu.config.ts" />
-    <TypeScriptCompile Include="src\navmenu\navmenu.module.ts" />
   </ItemGroup>
 
 </Project>

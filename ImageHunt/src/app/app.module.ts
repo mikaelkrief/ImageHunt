@@ -5,6 +5,7 @@ import { TeamComponent } from '../team/team.component';
 
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import {TeamService} from "../team/team.service";
 
 @NgModule({
   declarations: [
@@ -20,6 +21,6 @@ import { HttpModule } from '@angular/http';
       FormsModule,
       HttpModule
   ],
-  providers: []
+  providers: [TeamService]
 })
 export class AppModule { }

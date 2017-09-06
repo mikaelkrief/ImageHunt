@@ -3,16 +3,18 @@
   <table class="table">
     <thead>
     <tr>
-      <th>Nom team</th>
-      <th>Pseudo joueur</th>
+      <th colspan="2">Nom team</th>
+      <th colspan="2">Pseudo joueur</th>
+
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let team of teams">
       <td>{{team.name}}</td>
+      <td><span class="btn btn-danger fa fa-minus-square"></span></td>
       <td>
         <ul>
-          <li *ngFor="let pseudo of team.members">{{pseudo.pseudo}}</li>
+          <li *ngFor="let pseudo of team.players"><span>{{pseudo.name}}</span> <span class="btn btn-danger fa fa-minus-square"></span></li>
         </ul>
       </td>
     </tr>
