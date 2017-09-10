@@ -1,5 +1,8 @@
-﻿namespace ImageHunt.Model.Node
+namespace ImageHunt.Model.Node
 {
+  /// <summary>
+  /// Timer node only give a delay to the player.
+  /// </summary>
     public class TimerNode : Node
     {
 

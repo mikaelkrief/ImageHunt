@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace ImageHunt.Model.Node
 {
+    /// <summary>
+    /// First node of the game
+    /// </summary>
     public class FirstNode : Node
     {
     }

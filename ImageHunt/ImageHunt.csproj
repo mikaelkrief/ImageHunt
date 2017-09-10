@@ -7,13 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="src\navmenu\**" />
     <Compile Remove="src\NewFolder\**" />
-    <Content Remove="src\navmenu\**" />
     <Content Remove="src\NewFolder\**" />
-    <EmbeddedResource Remove="src\navmenu\**" />
     <EmbeddedResource Remove="src\NewFolder\**" />
-    <None Remove="src\navmenu\**" />
     <None Remove="src\NewFolder\**" />
   </ItemGroup>
 

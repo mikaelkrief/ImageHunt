@@ -1,13 +1,15 @@
-<nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
-  <div class="container">
-    <a class="navbar-brand">Angular Router</a>
-    <ul class="nav navbar-nav" routerLinkActive="active">
-      <li class="nav-item"><a class="nav-link" routerLink="home">Home</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="team">Teams</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="node">Nodes</a></li>
-      <li class="nav-item"><a class="nav-link" routerLink="about">About</a></li>
-    </ul>
+<!---->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3">
+      <navmenu></navmenu>
+    </div>
   </div>
-</nav>
+<div class="row">
+  <div class="col-sm-9 body-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+</div>
 
-<router-outlet></router-outlet>
+
