@@ -1,23 +1,23 @@
-﻿/// <reference path="../../node_modules/@types/jasmine/index.d.ts" />
+/// <reference path="../../../node_modules/@types/jasmine/index.d.ts" />
 import { TestBed, async, ComponentFixture, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { BrowserModule, By } from "@angular/platform-browser";
-import { AdminComponent } from './admin.component';
+import { AdminListComponent } from './admin-list.component';
 
-let component: AdminComponent;
-let fixture: ComponentFixture<AdminComponent>;
+let component: AdminListComponent;
+let fixture: ComponentFixture<AdminListComponent>;
 
-describe('admin component', () =>
+describe('admin-list component', () =>
 {
     beforeEach(async(() =>
     {
         TestBed.configureTestingModule({
-            declarations: [AdminComponent],
+            declarations: [AdminListComponent],
             imports: [ BrowserModule ],
             providers: [
                 { provide: ComponentFixtureAutoDetect, useValue: true }
             ]
         });
-        fixture = TestBed.createComponent(AdminComponent);
+        fixture = TestBed.createComponent(AdminListComponent);
         component = fixture.componentInstance;
     }));
 
