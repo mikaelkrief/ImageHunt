@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ImageHunt.Data;
 using ImageHunt.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,11 +29,14 @@ namespace ImageHunt
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+          services.AddAuthorization();
+          services.AddTransient<IAuthorizationHandler, TokenAuthorizationHandler>();
             services.AddDbContext<HuntContext>(options => 
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<ITeamService, TeamService>();
             services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<IGameService, GameService>();
+            services.AddTransient<IAuthService, AuthService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

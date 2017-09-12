@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { Ng2UiAuthModule, CustomConfig } from 'ng2-ui-auth';
 import { HomeModule } from "../home/home.module";
 import { PageNotFoundModule } from "../page-not-found/page.not.found.module";
 import { TeamModule } from "../team/team.module";
@@ -22,6 +23,11 @@ import {GameDetailModule} from "../game/game-detail/game.detail.module";
 import {GameListComponent} from "../game/game-list/game-list.component";
 import {GameDetailComponent} from "../game/game-detail/game.detail.component";
 
+export const GOOGLE_CLIENT_ID = '663482349038-jregj38js8hr7fm104jpnoisrgegorh8.apps.googleusercontent.com';
+export class MyAuthConfig extends CustomConfig {
+  defaultHeaders = { 'Content-Type': 'application/json' };
+  providers = { google: { clientId: GOOGLE_CLIENT_ID } };
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +46,7 @@ import {GameDetailComponent} from "../game/game-detail/game.detail.component";
     NewAdminModule,
     NavmenuModule,
     PageNotFoundModule,
+    Ng2UiAuthModule.forRoot(MyAuthConfig),
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent },
       { path: 'game', component: GameListComponent },

@@ -83,6 +83,1557 @@ function toComment(sourceMap) {
 
 /***/ }),
 
+/***/ "../../../../ng2-ui-auth/undefined/ng2-ui-auth.es5.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Ng2UiAuthModule; });
+/* unused harmony export LocalService */
+/* unused harmony export Oauth2Service */
+/* unused harmony export Oauth1Service */
+/* unused harmony export PopupService */
+/* unused harmony export OauthService */
+/* unused harmony export JwtHttp */
+/* unused harmony export SharedService */
+/* unused harmony export StorageService */
+/* unused harmony export BrowserStorageService */
+/* unused harmony export AuthService */
+/* unused harmony export ConfigService */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CustomConfig; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_switchMap__ = __webpack_require__("../../../../rxjs/add/operator/switchMap.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_switchMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_switchMap__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__ = __webpack_require__("../../../../rxjs/add/operator/catch.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_catch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_observable_interval__ = __webpack_require__("../../../../rxjs/add/observable/interval.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_observable_interval___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_observable_interval__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_observable_fromEvent__ = __webpack_require__("../../../../rxjs/add/observable/fromEvent.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_observable_fromEvent___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_add_observable_fromEvent__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_observable_throw__ = __webpack_require__("../../../../rxjs/add/observable/throw.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_observable_throw___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rxjs_add_observable_throw__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_observable_empty__ = __webpack_require__("../../../../rxjs/add/observable/empty.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_observable_empty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rxjs_add_observable_empty__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_add_observable_merge__ = __webpack_require__("../../../../rxjs/add/observable/merge.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_add_observable_merge___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_rxjs_add_observable_merge__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_add_operator_take__ = __webpack_require__("../../../../rxjs/add/operator/take.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_rxjs_add_operator_take__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_rxjs_add_operator_takeWhile__ = __webpack_require__("../../../../rxjs/add/operator/takeWhile.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_rxjs_add_operator_takeWhile___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_rxjs_add_operator_takeWhile__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_rxjs_add_operator_delay__ = __webpack_require__("../../../../rxjs/add/operator/delay.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_rxjs_add_operator_delay___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13_rxjs_add_operator_delay__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_rxjs_add_observable_of__ = __webpack_require__("../../../../rxjs/add/observable/of.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_rxjs_add_observable_of___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_rxjs_add_observable_of__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_rxjs_add_operator_do__ = __webpack_require__("../../../../rxjs/add/operator/do.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_rxjs_add_operator_do___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_rxjs_add_operator_do__);
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * @abstract
+ */
+var CustomConfig = (function () {
+    function CustomConfig() {
+    }
+    return CustomConfig;
+}());
+var ConfigService = (function () {
+    /**
+     * @param {?=} config
+     */
+    function ConfigService(config) {
+        var _this = this;
+        this.withCredentials = false;
+        this.tokenRoot = null;
+        this.baseUrl = '/';
+        this.loginUrl = '/auth/login';
+        this.signupUrl = '/auth/signup';
+        this.unlinkUrl = '/auth/unlink/';
+        this.refreshUrl = '/auth/refresh';
+        this.tokenName = 'token';
+        this.tokenSeparator = '_';
+        this.tokenPrefix = 'ng2-ui-auth';
+        this.authHeader = 'Authorization';
+        this.authToken = 'Bearer';
+        this.storageType = 'localStorage';
+        this.defaultHeaders = null;
+        this.autoRefreshToken = false;
+        this.refreshBeforeExpiration = 600000; //10 minutes
+        this.tryTokenRefreshIfUnauthorized = false;
+        this.cordova = this.isCordovaApp();
+        this.resolveToken = function (response) {
+            var /** @type {?} */ tokenObj = response;
+            if (response instanceof __WEBPACK_IMPORTED_MODULE_1__angular_http__["f" /* Response */]) {
+                tokenObj = response.json();
+            }
+            var /** @type {?} */ accessToken = tokenObj &&
+                (tokenObj['access_token'] || tokenObj['token'] || tokenObj['data']);
+            if (!accessToken) {
+                console.warn('No token found');
+                return null;
+            }
+            if (typeof accessToken === 'string') {
+                return accessToken;
+            }
+            if (typeof accessToken !== 'object') {
+                console.warn('No token found');
+                return null;
+            }
+            var /** @type {?} */ tokenRootData = _this.tokenRoot &&
+                _this.tokenRoot.split('.').reduce(function (o, x) {
+                    return o[x];
+                }, accessToken);
+            var /** @type {?} */ token = tokenRootData ? tokenRootData[_this.tokenName] : accessToken[_this.tokenName];
+            if (token) {
+                return token;
+            }
+            var /** @type {?} */ tokenPath = _this.tokenRoot ? _this.tokenRoot + '.' + _this.tokenName : _this.tokenName;
+            console.warn('Expecting a token named "' + tokenPath);
+            return null;
+        };
+        this.providers = {
+            facebook: {
+                name: 'facebook',
+                url: '/auth/facebook',
+                authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
+                redirectUri: this.getHttpHost('/'),
+                requiredUrlParams: ['display', 'scope'],
+                scope: ['email'],
+                scopeDelimiter: ',',
+                display: 'popup',
+                oauthType: '2.0',
+                popupOptions: { width: 580, height: 400 }
+            },
+            google: {
+                name: 'google',
+                url: '/auth/google',
+                authorizationEndpoint: 'https://accounts.google.com/o/oauth2/auth',
+                redirectUri: this.getHttpHost(),
+                requiredUrlParams: ['scope'],
+                optionalUrlParams: ['display', 'state', 'prompt', 'login_hint', 'access_type', 'include_granted_scopes', 'openid.realm', 'hd'],
+                scope: ['profile', 'email'],
+                scopePrefix: 'openid',
+                scopeDelimiter: ' ',
+                display: 'popup',
+                oauthType: '2.0',
+                popupOptions: { width: 452, height: 633 },
+                state: function () { return encodeURIComponent(Math.random().toString(36).substr(2)); },
+            },
+            github: {
+                name: 'github',
+                url: '/auth/github',
+                authorizationEndpoint: 'https://github.com/login/oauth/authorize',
+                redirectUri: this.getHttpHost(),
+                optionalUrlParams: ['scope'],
+                scope: ['user:email'],
+                scopeDelimiter: ' ',
+                oauthType: '2.0',
+                popupOptions: { width: 1020, height: 618 }
+            },
+            instagram: {
+                name: 'instagram',
+                url: '/auth/instagram',
+                authorizationEndpoint: 'https://api.instagram.com/oauth/authorize',
+                redirectUri: this.getHttpHost(),
+                requiredUrlParams: ['scope'],
+                scope: ['basic'],
+                scopeDelimiter: '+',
+                oauthType: '2.0'
+            },
+            linkedin: {
+                name: 'linkedin',
+                url: '/auth/linkedin',
+                authorizationEndpoint: 'https://www.linkedin.com/uas/oauth2/authorization',
+                redirectUri: this.getHttpHost(),
+                requiredUrlParams: ['state'],
+                scope: ['r_emailaddress'],
+                scopeDelimiter: ' ',
+                state: 'STATE',
+                oauthType: '2.0',
+                popupOptions: { width: 527, height: 582 }
+            },
+            twitter: {
+                name: 'twitter',
+                url: '/auth/twitter',
+                authorizationEndpoint: 'https://api.twitter.com/oauth/authenticate',
+                redirectUri: this.getHttpHost(),
+                oauthType: '1.0',
+                popupOptions: { width: 495, height: 645 }
+            },
+            twitch: {
+                name: 'twitch',
+                url: '/auth/twitch',
+                authorizationEndpoint: 'https://api.twitch.tv/kraken/oauth2/authorize',
+                redirectUri: this.getHttpHost(),
+                requiredUrlParams: ['scope'],
+                scope: ['user_read'],
+                scopeDelimiter: ' ',
+                display: 'popup',
+                oauthType: '2.0',
+                popupOptions: { width: 500, height: 560 }
+            },
+            live: {
+                name: 'live',
+                url: '/auth/live',
+                authorizationEndpoint: 'https://login.live.com/oauth20_authorize.srf',
+                redirectUri: this.getHttpHost(),
+                requiredUrlParams: ['display', 'scope'],
+                scope: ['wl.emails'],
+                scopeDelimiter: ' ',
+                display: 'popup',
+                oauthType: '2.0',
+                popupOptions: { width: 500, height: 560 }
+            },
+            yahoo: {
+                name: 'yahoo',
+                url: '/auth/yahoo',
+                authorizationEndpoint: 'https://api.login.yahoo.com/oauth2/request_auth',
+                redirectUri: this.getHttpHost(),
+                scope: [],
+                scopeDelimiter: ',',
+                oauthType: '2.0',
+                popupOptions: { width: 559, height: 519 }
+            },
+            bitbucket: {
+                name: 'bitbucket',
+                url: '/auth/bitbucket',
+                authorizationEndpoint: 'https://bitbucket.org/site/oauth2/authorize',
+                redirectUri: this.getHttpHost('/'),
+                requiredUrlParams: ['scope'],
+                scope: ['email'],
+                scopeDelimiter: ',',
+                oauthType: '2.0',
+                popupOptions: { width: 1028, height: 529 }
+            },
+            spotify: {
+                name: 'spotify',
+                url: '/auth/spotify',
+                authorizationEndpoint: 'https://accounts.spotify.com/authorize',
+                redirectUri: this.getHttpHost(),
+                optionalUrlParams: ['state'],
+                requiredUrlParams: ['scope'],
+                scope: ['user-read-email'],
+                scopePrefix: '',
+                scopeDelimiter: ',',
+                oauthType: '2.0',
+                popupOptions: { width: 500, height: 530 },
+                state: function () { return encodeURIComponent(Math.random().toString(36).substr(2)); }
+            }
+        };
+        Object.keys(config).forEach(function (key) {
+            if (typeof config[key] === "undefined") {
+                return;
+            }
+            if (key !== 'providers') {
+                _this[key] = config[key];
+            }
+            else {
+                Object.keys(config[key]).map(function (provider) {
+                    _this.providers[provider] = Object.assign(_this.providers[provider] || {}, config.providers[provider]);
+                });
+            }
+        });
+    }
+    /**
+     * @param {?=} path
+     * @return {?}
+     */
+    ConfigService.prototype.getHttpHost = function (path) {
+        if (path === void 0) { path = ''; }
+        return window.location.origin + path;
+    };
+    /**
+     * @return {?}
+     */
+    ConfigService.prototype.isCordovaApp = function () {
+        return !!window['cordova'];
+    };
+    return ConfigService;
+}());
+ConfigService.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+];
+/**
+ * @nocollapse
+ */
+ConfigService.ctorParameters = function () { return [
+    { type: CustomConfig, },
+]; };
+/**
+ * @abstract
+ */
+var StorageService = (function () {
+    function StorageService() {
+    }
+    /**
+     * @abstract
+     * @param {?} key
+     * @return {?}
+     */
+    StorageService.prototype.get = function (key) { };
+    /**
+     * @abstract
+     * @param {?} key
+     * @param {?} value
+     * @param {?} date
+     * @return {?}
+     */
+    StorageService.prototype.set = function (key, value, date) { };
+    /**
+     * @abstract
+     * @param {?} key
+     * @return {?}
+     */
+    StorageService.prototype.remove = function (key) { };
+    return StorageService;
+}());
+/**
+ * Created by Ron on 17/12/2015.
+ */
+var BrowserStorageService = (function (_super) {
+    __extends(BrowserStorageService, _super);
+    /**
+     * @param {?} config
+     */
+    function BrowserStorageService(config) {
+        var _this = _super.call(this) || this;
+        _this.config = config;
+        _this.store = {};
+        _this.isStorageAvailable = _this.checkIsStorageAvailable(config);
+        if (!_this.isStorageAvailable) {
+            console.warn(config.storageType + ' is not available.');
+        }
+        return _this;
+    }
+    /**
+     * @param {?} key
+     * @return {?}
+     */
+    BrowserStorageService.prototype.get = function (key) {
+        return this.isStorageAvailable
+            ? this.config.storageType === 'cookie' || this.config.storageType === 'sessionCookie'
+                ? this.getCookie(key)
+                : window[this.config.storageType].getItem(key)
+            : this.store[key];
+    };
+    /**
+     * @param {?} key
+     * @param {?} value
+     * @param {?} date
+     * @return {?}
+     */
+    BrowserStorageService.prototype.set = function (key, value, date) {
+        this.isStorageAvailable
+            ? this.config.storageType === 'cookie' || this.config.storageType === 'sessionCookie'
+                ? this.setCookie(key, value, this.config.storageType === 'cookie' ? date : '')
+                : window[this.config.storageType].setItem(key, value)
+            : this.store[key] = value;
+    };
+    /**
+     * @param {?} key
+     * @return {?}
+     */
+    BrowserStorageService.prototype.remove = function (key) {
+        this.isStorageAvailable
+            ? this.config.storageType === 'cookie' || this.config.storageType === 'sessionCookie'
+                ? this.removeCookie(key)
+                : window[this.config.storageType].removeItem(key)
+            : delete this.store[key];
+    };
+    /**
+     * @param {?} config
+     * @return {?}
+     */
+    BrowserStorageService.prototype.checkIsStorageAvailable = function (config) {
+        if (config.storageType === 'cookie' || config.storageType === 'sessionCookie') {
+            return this.isCookieStorageAvailable();
+        }
+        try {
+            var /** @type {?} */ supported = window && config.storageType in window && window[config.storageType] !== null;
+            if (supported) {
+                var /** @type {?} */ key = Math.random().toString(36).substring(7);
+                window[this.config.storageType].setItem(key, '');
+                window[this.config.storageType].removeItem(key);
+            }
+            return supported;
+        }
+        catch (e) {
+            return false;
+        }
+    };
+    /**
+     * @return {?}
+     */
+    BrowserStorageService.prototype.isCookieStorageAvailable = function () {
+        try {
+            var /** @type {?} */ supported = document && 'cookie' in document;
+            if (supported) {
+                var /** @type {?} */ key = Math.random().toString(36).substring(7);
+                this.setCookie(key, 'test', new Date(Date.now() + 60 * 1000).toUTCString());
+                var /** @type {?} */ value = this.getCookie(key);
+                this.removeCookie(key);
+                return value === 'test';
+            }
+            return false;
+        }
+        catch (e) {
+            return false;
+        }
+    };
+    /**
+     * @param {?} key
+     * @param {?} value
+     * @param {?=} expires
+     * @param {?=} path
+     * @return {?}
+     */
+    BrowserStorageService.prototype.setCookie = function (key, value, expires, path) {
+        if (expires === void 0) { expires = ''; }
+        if (path === void 0) { path = '/'; }
+        document.cookie = key + "=" + value + (expires ? "; expires=" + expires : '') + "; path=" + path;
+    };
+    /**
+     * @param {?} key
+     * @param {?=} path
+     * @return {?}
+     */
+    BrowserStorageService.prototype.removeCookie = function (key, path) {
+        if (path === void 0) { path = '/'; }
+        this.setCookie(key, '', new Date(0).toUTCString(), path);
+    };
+    /**
+     * @param {?} key
+     * @return {?}
+     */
+    BrowserStorageService.prototype.getCookie = function (key) {
+        return document.cookie.replace(new RegExp("(?:(?:^|.*;\\s*)" + key + "\\s*\\=\\s*([^;]*).*$)|^.*$"), '$1');
+    };
+    return BrowserStorageService;
+}(StorageService));
+BrowserStorageService.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+];
+/**
+ * @nocollapse
+ */
+BrowserStorageService.ctorParameters = function () { return [
+    { type: ConfigService, },
+]; };
+/**
+ * Created by Ron on 17/12/2015.
+ */
+/**
+ * Created by Ron on 17/12/2015.
+ */
+var SharedService = (function () {
+    /**
+     * @param {?} storage
+     * @param {?} config
+     */
+    function SharedService(storage, config) {
+        this.storage = storage;
+        this.config = config;
+        this.tokenName = this.config.tokenPrefix ? [this.config.tokenPrefix, this.config.tokenName].join(this.config.tokenSeparator) : this.config.tokenName;
+    }
+    /**
+     * @return {?}
+     */
+    SharedService.prototype.getToken = function () {
+        return this.storage.get(this.tokenName);
+    };
+    /**
+     * @param {?=} token
+     * @return {?}
+     */
+    SharedService.prototype.getPayload = function (token) {
+        if (token === void 0) { token = this.getToken(); }
+        if (token && token.split('.').length === 3) {
+            try {
+                var /** @type {?} */ base64Url = token.split('.')[1];
+                var /** @type {?} */ base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                return JSON.parse(decodeURIComponent(encodeURIComponent(window.atob(base64))));
+            }
+            catch (e) {
+                return undefined;
+            }
+        }
+    };
+    /**
+     * @param {?} response
+     * @return {?}
+     */
+    SharedService.prototype.setToken = function (response) {
+        if (!response) {
+            console.warn('Can\'t set token without passing a value');
+            return;
+        }
+        var /** @type {?} */ token;
+        if (typeof response === 'string') {
+            token = response;
+        }
+        else {
+            token = this.config.resolveToken(response);
+        }
+        if (token) {
+            var /** @type {?} */ expDate = this.getExpirationDate(token);
+            this.storage.set(this.tokenName, token, expDate ? expDate.toUTCString() : '');
+        }
+    };
+    /**
+     * @return {?}
+     */
+    SharedService.prototype.removeToken = function () {
+        this.storage.remove(this.tokenName);
+    };
+    /**
+     * @param {?=} token
+     * @return {?}
+     */
+    SharedService.prototype.isAuthenticated = function (token) {
+        if (token === void 0) { token = this.getToken(); }
+        // a token is present
+        if (token) {
+            // token with a valid JWT format XXX.YYY.ZZZ
+            if (token.split('.').length === 3) {
+                // could be a valid JWT or an access token with the same format
+                try {
+                    var /** @type {?} */ base64Url = token.split('.')[1];
+                    var /** @type {?} */ base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                    var /** @type {?} */ exp = JSON.parse(window.atob(base64)).exp;
+                    // jwt with an optional expiration claims
+                    if (exp) {
+                        var /** @type {?} */ isExpired = Math.round(new Date().getTime() / 1000) >= exp;
+                        if (isExpired) {
+                            // fail: Expired token
+                            this.storage.remove(this.tokenName);
+                            return false;
+                        }
+                        else {
+                            // pass: Non-expired token
+                            return true;
+                        }
+                    }
+                }
+                catch (e) {
+                    // pass: Non-JWT token that looks like JWT
+                    return true;
+                }
+            }
+            // pass: All other tokens
+            return true;
+        }
+        // lail: No token at all
+        return false;
+    };
+    /**
+     * @param {?=} token
+     * @return {?}
+     */
+    SharedService.prototype.getExpirationDate = function (token) {
+        if (token === void 0) { token = this.getToken(); }
+        var /** @type {?} */ payload = this.getPayload(token);
+        if (payload && payload.exp && Math.round(new Date().getTime() / 1000) < payload.exp) {
+            var /** @type {?} */ date = new Date(0);
+            date.setUTCSeconds(payload.exp);
+            return date;
+        }
+        return null;
+    };
+    /**
+     * @return {?}
+     */
+    SharedService.prototype.logout = function () {
+        var _this = this;
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].create(function (observer) {
+            _this.storage.remove(_this.tokenName);
+            observer.next();
+            observer.complete();
+        });
+    };
+    /**
+     * @param {?} type
+     * @return {?}
+     */
+    SharedService.prototype.setStorageType = function (type) {
+        this.config.storageType = type;
+    };
+    return SharedService;
+}());
+SharedService.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+];
+/**
+ * @nocollapse
+ */
+SharedService.ctorParameters = function () { return [
+    { type: StorageService, },
+    { type: ConfigService, },
+]; };
+var JwtHttp = (function () {
+    /**
+     * @param {?} _http
+     * @param {?} _shared
+     * @param {?} _config
+     */
+    function JwtHttp(_http, _shared, _config) {
+        this._http = _http;
+        this._shared = _shared;
+        this._config = _config;
+    }
+    /**
+     * @param {?} url
+     * @param {?=} options
+     * @return {?}
+     */
+    JwtHttp.prototype.request = function (url, options) {
+        var _this = this;
+        //if the token is expired the "getExpirationDate" function returns null
+        var /** @type {?} */ exp = this._shared.getExpirationDate();
+        if (this._shared.getToken() &&
+            (!exp || exp.getTime() + this._config.refreshBeforeExpiration > Date.now()) &&
+            (options.autoRefreshToken ||
+                typeof options.autoRefreshToken === 'undefined' && this._config.autoRefreshToken)) {
+            return this.refreshToken()
+                .switchMap(function () { return _this.actualRequest(url, options); });
+        }
+        if (this._config.tryTokenRefreshIfUnauthorized) {
+            return this.actualRequest(url, options)
+                .catch(function (response) {
+                if (response.status === 401) {
+                    return _this.refreshToken()
+                        .switchMap(function () { return _this.actualRequest(url, options); });
+                }
+                throw response;
+            });
+        }
+        return this.actualRequest(url, options);
+    };
+    /**
+     * @param {?} url
+     * @param {?=} options
+     * @return {?}
+     */
+    JwtHttp.prototype.get = function (url, options) {
+        options = options || {};
+        options.method = __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestMethod */].Get;
+        return this.request(url, options);
+    };
+    /**
+     * @param {?} url
+     * @param {?} body
+     * @param {?=} options
+     * @return {?}
+     */
+    JwtHttp.prototype.post = function (url, body, options) {
+        options = options || {};
+        options.method = __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestMethod */].Post;
+        options.body = body;
+        return this.request(url, options);
+    };
+    /**
+     * @param {?} url
+     * @param {?} body
+     * @param {?=} options
+     * @return {?}
+     */
+    JwtHttp.prototype.put = function (url, body, options) {
+        options = options || {};
+        options.method = __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestMethod */].Put;
+        options.body = body;
+        return this.request(url, options);
+    };
+    /**
+     * @param {?} url
+     * @param {?=} options
+     * @return {?}
+     */
+    JwtHttp.prototype.delete = function (url, options) {
+        options = options || {};
+        options.method = __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestMethod */].Delete;
+        return this.request(url, options);
+    };
+    /**
+     * @param {?} url
+     * @param {?} body
+     * @param {?=} options
+     * @return {?}
+     */
+    JwtHttp.prototype.patch = function (url, body, options) {
+        options = options || {};
+        options.method = __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestMethod */].Patch;
+        options.body = body;
+        return this.request(url, options);
+    };
+    /**
+     * @param {?} url
+     * @param {?=} options
+     * @return {?}
+     */
+    JwtHttp.prototype.head = function (url, options) {
+        options = options || {};
+        options.method = __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestMethod */].Head;
+        return this.request(url, options);
+    };
+    /**
+     * @return {?}
+     */
+    JwtHttp.prototype.refreshToken = function () {
+        var _this = this;
+        var /** @type {?} */ authHeader = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        authHeader.append(this._config.authHeader, (this._config.authToken + ' ' + this._shared.getToken()));
+        return this._http
+            .get(this._config.refreshUrl, {
+            headers: authHeader
+        })
+            .do(function (res) { return _this._shared.setToken(res); });
+    };
+    /**
+     * @param {?} url
+     * @param {?=} options
+     * @return {?}
+     */
+    JwtHttp.prototype.actualRequest = function (url, options) {
+        if (url instanceof __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* Request */]) {
+            url.headers = url.headers || new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+            this.setHeaders(url);
+        }
+        else {
+            options = options || {};
+            this.setHeaders(options);
+        }
+        return this._http.request(url, options);
+    };
+    /**
+     * @param {?} obj
+     * @return {?}
+     */
+    JwtHttp.prototype.setHeaders = function (obj) {
+        var _this = this;
+        obj.headers = obj.headers || new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        if (this._config.defaultHeaders) {
+            Object.keys(this._config.defaultHeaders).forEach(function (defaultHeader) {
+                if (!obj.headers.has(defaultHeader)) {
+                    obj.headers.set(defaultHeader, _this._config.defaultHeaders[defaultHeader]);
+                }
+            });
+        }
+        if (this._shared.isAuthenticated()) {
+            obj.headers.set(this._config.authHeader, this._config.authToken + ' ' + this._shared.getToken());
+        }
+    };
+    return JwtHttp;
+}());
+JwtHttp.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+];
+/**
+ * @nocollapse
+ */
+JwtHttp.ctorParameters = function () { return [
+    { type: __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */], },
+    { type: SharedService, },
+    { type: ConfigService, },
+]; };
+/**
+ * Created by Ron on 17/12/2015.
+ * @param {?} target
+ * @param {...?} src
+ * @return {?}
+ */
+function assign(target) {
+    var src = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        src[_i - 1] = arguments[_i];
+    }
+    if (target == null) {
+        throw new TypeError('Cannot convert undefined or null to object');
+    }
+    target = Object(target);
+    for (var /** @type {?} */ index = 1; index < arguments.length; index++) {
+        var /** @type {?} */ source = arguments[index];
+        if (source != null) {
+            for (var /** @type {?} */ key in source) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                    target[key] = source[key];
+                }
+            }
+        }
+    }
+    return target;
+}
+/**
+ * @param {?} baseUrl
+ * @param {?} url
+ * @return {?}
+ */
+function joinUrl(baseUrl, url) {
+    if (/^(?:[a-z]+:)?\/\//i.test(url)) {
+        return url;
+    }
+    var /** @type {?} */ joined = [baseUrl, url].join('/');
+    var /** @type {?} */ normalize = function (str) {
+        return str
+            .replace(/[\/]+/g, '/')
+            .replace(/\/\?/g, '?')
+            .replace(/\/\#/g, '#')
+            .replace(/\:\//g, '://');
+    };
+    return normalize(joined);
+}
+/**
+ * @param {?} obj1
+ * @param {?} obj2
+ * @return {?}
+ */
+function merge(obj1, obj2) {
+    var /** @type {?} */ result = {};
+    for (var /** @type {?} */ i in obj1) {
+        if (obj1.hasOwnProperty(i)) {
+            if ((i in obj2) && (typeof obj1[i] === 'object') && (i !== null)) {
+                result[i] = merge(obj1[i], obj2[i]);
+            }
+            else {
+                result[i] = obj1[i];
+            }
+        }
+    }
+    for (i in obj2) {
+        if (obj2.hasOwnProperty(i)) {
+            if (i in result) {
+                continue;
+            }
+            result[i] = obj2[i];
+        }
+    }
+    return result;
+}
+/**
+ * @param {?} name
+ * @return {?}
+ */
+function camelCase(name) {
+    return name.replace(/([\:\-\_]+(.))/g, function (_, separator, letter, offset) {
+        return offset ? letter.toUpperCase() : letter;
+    });
+}
+/**
+ * Created by Ron on 17/12/2015.
+ */
+var PopupService = (function () {
+    /**
+     * @param {?} config
+     */
+    function PopupService(config) {
+        this.config = config;
+        this.url = '';
+        this.popupWindow = null;
+    }
+    /**
+     * @param {?} url
+     * @param {?} name
+     * @param {?} options
+     * @return {?}
+     */
+    PopupService.prototype.open = function (url, name, options) {
+        this.url = url;
+        var /** @type {?} */ stringifiedOptions = this.stringifyOptions(this.prepareOptions(options));
+        var /** @type {?} */ UA = window.navigator.userAgent;
+        var /** @type {?} */ windowName = (this.config.cordova || UA.indexOf('CriOS') > -1) ? '_blank' : name;
+        this.popupWindow = window.open(url, windowName, stringifiedOptions);
+        window['popup'] = this.popupWindow;
+        if (this.popupWindow && this.popupWindow.focus) {
+            this.popupWindow.focus();
+        }
+        return this;
+    };
+    /**
+     * @param {?} redirectUri
+     * @return {?}
+     */
+    PopupService.prototype.eventListener = function (redirectUri) {
+        var _this = this;
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"]
+            .merge(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].fromEvent(this.popupWindow, 'loadstart')
+            .switchMap(function (event) {
+            if (!_this.popupWindow || _this.popupWindow.closed) {
+                return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].throw(new Error('Authentication Canceled'));
+            }
+            if (event.url.indexOf(redirectUri) !== 0) {
+                return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].empty();
+            }
+            var /** @type {?} */ parser = document.createElement('a');
+            parser.href = event.url;
+            if (parser.search || parser.hash) {
+                var /** @type {?} */ queryParams = parser.search.substring(1).replace(/\/$/, '');
+                var /** @type {?} */ hashParams = parser.hash.substring(1).replace(/\/$/, '');
+                var /** @type {?} */ hash = _this.parseQueryString(hashParams);
+                var /** @type {?} */ qs = _this.parseQueryString(queryParams);
+                var /** @type {?} */ allParams = assign({}, qs, hash);
+                _this.popupWindow.close();
+                if (allParams.error) {
+                    throw allParams.error;
+                }
+                else {
+                    return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].of(allParams);
+                }
+            }
+            return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].empty();
+        }), __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].fromEvent(this.popupWindow, 'exit').delay(100).map(function () { throw new Error('Authentication Canceled'); })).take(1);
+    };
+    /**
+     * @return {?}
+     */
+    PopupService.prototype.pollPopup = function () {
+        var _this = this;
+        return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"]
+            .interval(50)
+            .switchMap(function () {
+            if (!_this.popupWindow || _this.popupWindow.closed) {
+                return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].throw(new Error('Authentication Canceled'));
+            }
+            var /** @type {?} */ documentOrigin = document.location.host;
+            var /** @type {?} */ popupWindowOrigin = '';
+            try {
+                popupWindowOrigin = _this.popupWindow.location.host;
+            }
+            catch (error) {
+                // ignore DOMException: Blocked a frame with origin from accessing a cross-origin frame.
+                //error instanceof DOMException && error.name === 'SecurityError'
+            }
+            if (popupWindowOrigin === documentOrigin && (_this.popupWindow.location.search || _this.popupWindow.location.hash)) {
+                var /** @type {?} */ queryParams = _this.popupWindow.location.search.substring(1).replace(/\/$/, '');
+                var /** @type {?} */ hashParams = _this.popupWindow.location.hash.substring(1).replace(/[\/$]/, '');
+                var /** @type {?} */ hash = _this.parseQueryString(hashParams);
+                var /** @type {?} */ qs = _this.parseQueryString(queryParams);
+                _this.popupWindow.close();
+                var /** @type {?} */ allParams = assign({}, qs, hash);
+                if (allParams.error) {
+                    throw allParams.error;
+                }
+                else {
+                    return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].of(allParams);
+                }
+            }
+            return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].empty();
+        })
+            .take(1);
+    };
+    /**
+     * @param {?} options
+     * @return {?}
+     */
+    PopupService.prototype.prepareOptions = function (options) {
+        options = options || {};
+        var /** @type {?} */ width = options.width || 500;
+        var /** @type {?} */ height = options.height || 500;
+        return assign({
+            width: width,
+            height: height,
+            left: window.screenX + ((window.outerWidth - width) / 2),
+            top: window.screenY + ((window.outerHeight - height) / 2.5),
+            toolbar: options.visibleToolbar ? 'yes' : 'no'
+        }, options);
+    };
+    /**
+     * @param {?} options
+     * @return {?}
+     */
+    PopupService.prototype.stringifyOptions = function (options) {
+        return Object.keys(options).map(function (key) {
+            return key + '=' + options[key];
+        }).join(',');
+    };
+    /**
+     * @param {?} joinedKeyValue
+     * @return {?}
+     */
+    PopupService.prototype.parseQueryString = function (joinedKeyValue) {
+        var /** @type {?} */ key, /** @type {?} */ value;
+        return joinedKeyValue.split('&').reduce(function (obj, keyValue) {
+            if (keyValue) {
+                value = keyValue.split('=');
+                key = decodeURIComponent(value[0]);
+                obj[key] = typeof value[1] !== 'undefined' ? decodeURIComponent(value[1]) : true;
+            }
+            return obj;
+        }, {});
+    };
+    return PopupService;
+}());
+PopupService.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+];
+/**
+ * @nocollapse
+ */
+PopupService.ctorParameters = function () { return [
+    { type: ConfigService, },
+]; };
+/**
+ * Created by Ron on 17/12/2015.
+ */
+var Oauth1Service = (function () {
+    /**
+     * @param {?} http
+     * @param {?} popup
+     * @param {?} config
+     */
+    function Oauth1Service(http, popup, config) {
+        this.http = http;
+        this.popup = popup;
+        this.config = config;
+    }
+    /**
+     * @param {?=} options
+     * @param {?=} userData
+     * @return {?}
+     */
+    Oauth1Service.prototype.open = function (options, userData) {
+        var _this = this;
+        this.defaults = assign({}, Oauth1Service.base, options);
+        var /** @type {?} */ popupWindow;
+        var /** @type {?} */ serverUrl = this.config.baseUrl ? joinUrl(this.config.baseUrl, this.defaults.url) : this.defaults.url;
+        if (!this.config.cordova) {
+            popupWindow = this.popup.open('', this.defaults.name, this.defaults.popupOptions /*, this.defaults.redirectUri*/);
+        }
+        return this.http.post(serverUrl, JSON.stringify(this.defaults))
+            .switchMap(function (response) {
+            if (_this.config.cordova) {
+                popupWindow = _this.popup.open([_this.defaults.authorizationEndpoint, _this.buildQueryString(response.json())].join('?'), _this.defaults.name, _this.defaults.popupOptions);
+            }
+            else {
+                popupWindow.popupWindow.location =
+                    [_this.defaults.authorizationEndpoint, _this.buildQueryString(response.json())].join('?');
+            }
+            return _this.config.cordova ? popupWindow.eventListener(_this.defaults.redirectUri) : popupWindow.pollPopup();
+        })
+            .switchMap(function (response) {
+            var /** @type {?} */ exchangeForToken = options.exchangeForToken;
+            if (typeof exchangeForToken !== 'function') {
+                exchangeForToken = _this.exchangeForToken.bind(_this);
+            }
+            return exchangeForToken(response, userData);
+        });
+    };
+    /**
+     * @param {?} oauthData
+     * @param {?=} userData
+     * @return {?}
+     */
+    Oauth1Service.prototype.exchangeForToken = function (oauthData, userData) {
+        var /** @type {?} */ data = assign({}, this.defaults, oauthData, userData);
+        var /** @type {?} */ exchangeForTokenUrl = this.config.baseUrl ? joinUrl(this.config.baseUrl, this.defaults.url) : this.defaults.url;
+        return this.defaults.method
+            ? this.http.request(exchangeForTokenUrl, {
+                body: JSON.stringify(data),
+                withCredentials: this.config.withCredentials,
+                method: this.defaults.method
+            })
+            : this.http.post(exchangeForTokenUrl, data, { withCredentials: this.config.withCredentials });
+    };
+    /**
+     * @param {?} obj
+     * @return {?}
+     */
+    Oauth1Service.prototype.buildQueryString = function (obj) {
+        return Object.keys(obj).map(function (key) {
+            return encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]);
+        }).join('&');
+    };
+    return Oauth1Service;
+}());
+Oauth1Service.base = {
+    url: null,
+    name: null,
+    popupOptions: null,
+    redirectUri: null,
+    authorizationEndpoint: null
+};
+Oauth1Service.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+];
+/**
+ * @nocollapse
+ */
+Oauth1Service.ctorParameters = function () { return [
+    { type: JwtHttp, },
+    { type: PopupService, },
+    { type: ConfigService, },
+]; };
+/**
+ * Created by Ron on 17/12/2015.
+ */
+var Oauth2Service = (function () {
+    /**
+     * @param {?} http
+     * @param {?} popup
+     * @param {?} storage
+     * @param {?} config
+     */
+    function Oauth2Service(http, popup, storage, config) {
+        this.http = http;
+        this.popup = popup;
+        this.storage = storage;
+        this.config = config;
+    }
+    /**
+     * @param {?} options
+     * @param {?=} userData
+     * @return {?}
+     */
+    Oauth2Service.prototype.open = function (options, userData) {
+        var _this = this;
+        this.defaults = merge(options, Oauth2Service.base);
+        var /** @type {?} */ url;
+        var /** @type {?} */ openPopup;
+        var /** @type {?} */ stateName = this.defaults.name + '_state';
+        var /** @type {?} */ state = this.defaults.state;
+        var /** @type {?} */ exp = new Date(Date.now() + 60 * 60 * 1000).toUTCString();
+        if (typeof state === 'string') {
+            this.storage.set(stateName, state, exp);
+        }
+        else if (typeof state === 'function') {
+            this.storage.set(stateName, state(), exp);
+        }
+        url = [this.defaults.authorizationEndpoint, this.buildQueryString()].join('?');
+        if (this.config.cordova) {
+            openPopup = this.popup
+                .open(url, this.defaults.name, this.defaults.popupOptions /*, this.defaults.redirectUri*/)
+                .eventListener(this.defaults.redirectUri);
+        }
+        else {
+            openPopup = this.popup
+                .open(url, this.defaults.name, this.defaults.popupOptions /*, this.defaults.redirectUri*/)
+                .pollPopup();
+        }
+        return openPopup
+            .switchMap(function (oauthData) {
+            // when no server URL provided, return popup params as-is.
+            // this is for a scenario when someone wishes to opt out from
+            // satellizer's magic by doing authorization code exchange and
+            // saving a token manually.
+            if (_this.defaults.responseType === 'token' || !_this.defaults.url) {
+                return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].of(oauthData);
+            }
+            if (oauthData.state && oauthData.state !== _this.storage.get(stateName)) {
+                throw 'OAuth "state" mismatch';
+            }
+            var /** @type {?} */ exchangeForToken = options.exchangeForToken;
+            if (typeof exchangeForToken !== 'function') {
+                exchangeForToken = _this.exchangeForToken.bind(_this);
+            }
+            return exchangeForToken(oauthData, userData);
+        });
+    };
+    /**
+     * @param {?} oauthData
+     * @param {?=} userData
+     * @return {?}
+     */
+    Oauth2Service.prototype.exchangeForToken = function (oauthData, userData) {
+        var /** @type {?} */ data = assign({}, this.defaults, oauthData, userData);
+        var /** @type {?} */ exchangeForTokenUrl = this.config.baseUrl ? joinUrl(this.config.baseUrl, this.defaults.url) : this.defaults.url;
+        return this.defaults.method
+            ? this.http.request(exchangeForTokenUrl, {
+                body: JSON.stringify(data),
+                withCredentials: this.config.withCredentials,
+                method: this.defaults.method
+            })
+            : this.http.post(exchangeForTokenUrl, JSON.stringify(data), { withCredentials: this.config.withCredentials });
+    };
+    /**
+     * @return {?}
+     */
+    Oauth2Service.prototype.buildQueryString = function () {
+        var _this = this;
+        var /** @type {?} */ keyValuePairs = [];
+        var /** @type {?} */ urlParams = ['defaultUrlParams', 'requiredUrlParams', 'optionalUrlParams'];
+        urlParams.forEach(function (params) {
+            if (_this.defaults[params]) {
+                ((_this.defaults[params])).forEach(function (paramName) {
+                    var /** @type {?} */ camelizedName = camelCase(paramName);
+                    var /** @type {?} */ paramValue = typeof _this.defaults[paramName] === 'function' ?
+                        _this.defaults[paramName]() :
+                        _this.defaults[camelizedName];
+                    if (paramName === 'state') {
+                        var /** @type {?} */ stateName = _this.defaults.name + '_state';
+                        paramValue = encodeURIComponent(_this.storage.get(stateName));
+                    }
+                    if (paramName === 'scope' && Array.isArray(paramValue)) {
+                        paramValue = paramValue.join(_this.defaults.scopeDelimiter);
+                        if (_this.defaults.scopePrefix) {
+                            paramValue = [_this.defaults.scopePrefix, paramValue].join(_this.defaults.scopeDelimiter);
+                        }
+                    }
+                    if (params !== 'optionalUrlParams' || typeof paramValue !== 'undefined') {
+                        keyValuePairs.push([paramName, paramValue]);
+                    }
+                });
+            }
+        });
+        return keyValuePairs.map(function (pair) {
+            return pair.join('=');
+        }).join('&');
+    };
+    return Oauth2Service;
+}());
+Oauth2Service.base = {
+    defaultUrlParams: ['response_type', 'client_id', 'redirect_uri'],
+    responseType: 'code',
+    responseParams: {
+        code: 'code',
+        clientId: 'clientId',
+        redirectUri: 'redirectUri'
+    }
+};
+Oauth2Service.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+];
+/**
+ * @nocollapse
+ */
+Oauth2Service.ctorParameters = function () { return [
+    { type: JwtHttp, },
+    { type: PopupService, },
+    { type: StorageService, },
+    { type: ConfigService, },
+]; };
+/**
+ * Created by Ron on 17/12/2015.
+ */
+var OauthService = (function () {
+    /**
+     * @param {?} http
+     * @param {?} injector
+     * @param {?} shared
+     * @param {?} config
+     */
+    function OauthService(http, injector, shared, config) {
+        this.http = http;
+        this.injector = injector;
+        this.shared = shared;
+        this.config = config;
+    }
+    /**
+     * @param {?} name
+     * @param {?=} userData
+     * @return {?}
+     */
+    OauthService.prototype.authenticate = function (name, userData) {
+        var _this = this;
+        // var injector = Injector.resolveAndCreate([Oauth1, Oauth2]);
+        var /** @type {?} */ provider = this.config.providers[name].oauthType === '1.0' ? this.injector.get(Oauth1Service) : this.injector.get(Oauth2Service);
+        return provider.open(this.config.providers[name], userData || {})
+            .do(function (response) {
+            // this is for a scenario when someone wishes to opt out from
+            // satellizer's magic by doing authorization code exchange and
+            // saving a token manually.
+            if (_this.config.providers[name].url) {
+                _this.shared.setToken(response);
+            }
+        });
+    };
+    /**
+     * @param {?} provider
+     * @param {?} opts
+     * @return {?}
+     */
+    OauthService.prototype.unlink = function (provider, opts) {
+        opts = opts || {};
+        var /** @type {?} */ url = opts.url ? opts.url : joinUrl(this.config.baseUrl, this.config.unlinkUrl);
+        opts.body = JSON.stringify({ provider: provider }) || opts.body;
+        opts.method = opts.method || 'POST';
+        return this.http.request(url, opts);
+    };
+    return OauthService;
+}());
+OauthService.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+];
+/**
+ * @nocollapse
+ */
+OauthService.ctorParameters = function () { return [
+    { type: JwtHttp, },
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Injector */], },
+    { type: SharedService, },
+    { type: ConfigService, },
+]; };
+/**
+ * Created by Ron on 17/12/2015.
+ * @param {?} user
+ * @param {?=} userOpts
+ * @return {?}
+ */
+function getFullOpts(user, userOpts) {
+    var /** @type {?} */ opts = userOpts || {};
+    if (user) {
+        opts.body = typeof user === 'string' ? user : JSON.stringify(user);
+    }
+    opts.method = opts.method || 'POST';
+    return opts;
+}
+var LocalService = (function () {
+    /**
+     * @param {?} http
+     * @param {?} shared
+     * @param {?} config
+     */
+    function LocalService(http, shared, config) {
+        this.http = http;
+        this.shared = shared;
+        this.config = config;
+    }
+    /**
+     * @param {?} user
+     * @param {?=} opts
+     * @return {?}
+     */
+    LocalService.prototype.login = function (user, opts) {
+        var _this = this;
+        var /** @type {?} */ fullOpts = getFullOpts(user, opts);
+        var /** @type {?} */ url = fullOpts.url ? fullOpts.url : joinUrl(this.config.baseUrl, this.config.loginUrl);
+        return this.http.request(url, fullOpts)
+            .do(function (response) { return _this.shared.setToken(response); });
+    };
+    /**
+     * @param {?} user
+     * @param {?=} opts
+     * @return {?}
+     */
+    LocalService.prototype.signup = function (user, opts) {
+        var /** @type {?} */ fullOpts = getFullOpts(user, opts);
+        var /** @type {?} */ url = fullOpts.url ? fullOpts.url : joinUrl(this.config.baseUrl, this.config.signupUrl);
+        return this.http.request(url, getFullOpts(user, fullOpts));
+    };
+    return LocalService;
+}());
+LocalService.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+];
+/**
+ * @nocollapse
+ */
+LocalService.ctorParameters = function () { return [
+    { type: JwtHttp, },
+    { type: SharedService, },
+    { type: ConfigService, },
+]; };
+/**
+ * Created by Ron on 17/12/2015.
+ */
+var AuthService = (function () {
+    /**
+     * @param {?} shared
+     * @param {?} local
+     * @param {?} oauth
+     */
+    function AuthService(shared, local, oauth) {
+        this.shared = shared;
+        this.local = local;
+        this.oauth = oauth;
+    }
+    /**
+     * @param {?} user
+     * @param {?=} opts
+     * @return {?}
+     */
+    AuthService.prototype.login = function (user, opts) {
+        return this.local.login(user, opts);
+    };
+    /**
+     * @param {?} user
+     * @param {?=} opts
+     * @return {?}
+     */
+    AuthService.prototype.signup = function (user, opts) {
+        return this.local.signup(user, opts);
+    };
+    /**
+     * @return {?}
+     */
+    AuthService.prototype.logout = function () {
+        return this.shared.logout();
+    };
+    /**
+     * @param {?} name
+     * @param {?=} userData
+     * @return {?}
+     */
+    AuthService.prototype.authenticate = function (name, userData) {
+        return this.oauth.authenticate(name, userData);
+    };
+    /**
+     * @param {?} name
+     * @param {?=} userData
+     * @return {?}
+     */
+    AuthService.prototype.link = function (name, userData) {
+        return this.oauth.authenticate(name, userData);
+    };
+    /**
+     * @param {?} provider
+     * @param {?} opts
+     * @return {?}
+     */
+    AuthService.prototype.unlink = function (provider, opts) {
+        return this.oauth.unlink(provider, opts);
+    };
+    /**
+     * @return {?}
+     */
+    AuthService.prototype.isAuthenticated = function () {
+        return this.shared.isAuthenticated();
+    };
+    /**
+     * @return {?}
+     */
+    AuthService.prototype.getToken = function () {
+        return this.shared.getToken();
+    };
+    /**
+     * @param {?} token
+     * @return {?}
+     */
+    AuthService.prototype.setToken = function (token) {
+        this.shared.setToken(token);
+    };
+    /**
+     * @return {?}
+     */
+    AuthService.prototype.removeToken = function () {
+        this.shared.removeToken();
+    };
+    /**
+     * @return {?}
+     */
+    AuthService.prototype.getPayload = function () {
+        return this.shared.getPayload();
+    };
+    /**
+     * @param {?} type
+     * @return {?}
+     */
+    AuthService.prototype.setStorageType = function (type) {
+        this.shared.setStorageType(type);
+    };
+    /**
+     * @return {?}
+     */
+    AuthService.prototype.getExpirationDate = function () {
+        return this.shared.getExpirationDate();
+    };
+    return AuthService;
+}());
+AuthService.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+];
+/**
+ * @nocollapse
+ */
+AuthService.ctorParameters = function () { return [
+    { type: SharedService, },
+    { type: LocalService, },
+    { type: OauthService, },
+]; };
+/**
+ * Created by Ron on 25/12/2015.
+ */
+var Ng2UiAuthModule = (function () {
+    function Ng2UiAuthModule() {
+    }
+    /**
+     * @param {?} config
+     * @param {?} httpProvider
+     * @return {?}
+     */
+    Ng2UiAuthModule.forRootWithCustomHttp = function (config, httpProvider) {
+        return {
+            ngModule: Ng2UiAuthModule,
+            providers: [
+                { provide: CustomConfig, useClass: config },
+                { provide: ConfigService, useClass: ConfigService, deps: [CustomConfig] },
+                { provide: StorageService, useClass: BrowserStorageService, deps: [ConfigService] },
+                { provide: SharedService, useClass: SharedService, deps: [StorageService, ConfigService] },
+                httpProvider,
+                { provide: OauthService, useClass: OauthService, deps: [JwtHttp, __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Injector */], SharedService, ConfigService] },
+                { provide: PopupService, useClass: PopupService, deps: [ConfigService] },
+                { provide: Oauth1Service, useClass: Oauth1Service, deps: [JwtHttp, PopupService, ConfigService] },
+                { provide: Oauth2Service, useClass: Oauth2Service, deps: [JwtHttp, PopupService, StorageService, ConfigService] },
+                { provide: LocalService, useClass: LocalService, deps: [JwtHttp, SharedService, ConfigService] },
+                { provide: AuthService, useClass: AuthService, deps: [SharedService, LocalService, OauthService] },
+            ]
+        };
+    };
+    /**
+     * @param {?} config
+     * @return {?}
+     */
+    Ng2UiAuthModule.forRoot = function (config) {
+        return {
+            ngModule: Ng2UiAuthModule,
+            providers: [
+                { provide: CustomConfig, useClass: config },
+                { provide: ConfigService, useClass: ConfigService, deps: [CustomConfig] },
+                { provide: StorageService, useClass: BrowserStorageService, deps: [ConfigService] },
+                { provide: SharedService, useClass: SharedService, deps: [StorageService, ConfigService] },
+                { provide: JwtHttp, useClass: JwtHttp, deps: [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */], SharedService, ConfigService] },
+                { provide: OauthService, useClass: OauthService, deps: [JwtHttp, __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Injector */], SharedService, ConfigService] },
+                { provide: PopupService, useClass: PopupService, deps: [ConfigService] },
+                { provide: Oauth1Service, useClass: Oauth1Service, deps: [JwtHttp, PopupService, ConfigService] },
+                { provide: Oauth2Service, useClass: Oauth2Service, deps: [JwtHttp, PopupService, StorageService, ConfigService] },
+                { provide: LocalService, useClass: LocalService, deps: [JwtHttp, SharedService, ConfigService] },
+                { provide: AuthService, useClass: AuthService, deps: [SharedService, LocalService, OauthService] },
+            ]
+        };
+    };
+    return Ng2UiAuthModule;
+}());
+Ng2UiAuthModule.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */], args: [{
+                imports: [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* HttpModule */]]
+            },] },
+];
+/**
+ * @nocollapse
+ */
+Ng2UiAuthModule.ctorParameters = function () { return []; };
+/**
+ * Generated bundle index. Do not edit.
+ */
+
+//# sourceMappingURL=ng2-ui-auth.es5.js.map
+
+
+/***/ }),
+
 /***/ "../../../../rxjs/BehaviorSubject.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -628,6 +2179,62 @@ var OuterSubscriber = (function (_super) {
 }(Subscriber_1.Subscriber));
 exports.OuterSubscriber = OuterSubscriber;
 //# sourceMappingURL=OuterSubscriber.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/Scheduler.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+/**
+ * An execution context and a data structure to order tasks and schedule their
+ * execution. Provides a notion of (potentially virtual) time, through the
+ * `now()` getter method.
+ *
+ * Each unit of work in a Scheduler is called an {@link Action}.
+ *
+ * ```ts
+ * class Scheduler {
+ *   now(): number;
+ *   schedule(work, delay?, state?): Subscription;
+ * }
+ * ```
+ *
+ * @class Scheduler
+ */
+var Scheduler = (function () {
+    function Scheduler(SchedulerAction, now) {
+        if (now === void 0) { now = Scheduler.now; }
+        this.SchedulerAction = SchedulerAction;
+        this.now = now;
+    }
+    /**
+     * Schedules a function, `work`, for execution. May happen at some point in
+     * the future, according to the `delay` parameter, if specified. May be passed
+     * some context object, `state`, which will be passed to the `work` function.
+     *
+     * The given arguments will be processed an stored as an Action object in a
+     * queue of actions.
+     *
+     * @param {function(state: ?T): ?Subscription} work A function representing a
+     * task, or some unit of work to be executed by the Scheduler.
+     * @param {number} [delay] Time to wait before executing the work, where the
+     * time unit is implicit and defined by the Scheduler itself.
+     * @param {T} [state] Some contextual data that the `work` function uses when
+     * called by the Scheduler.
+     * @return {Subscription} A subscription in order to be able to unsubscribe
+     * the scheduled work.
+     */
+    Scheduler.prototype.schedule = function (work, delay, state) {
+        if (delay === void 0) { delay = 0; }
+        return new this.SchedulerAction(this, work).schedule(state, delay);
+    };
+    Scheduler.now = Date.now ? Date.now : function () { return +new Date(); };
+    return Scheduler;
+}());
+exports.Scheduler = Scheduler;
+//# sourceMappingURL=Scheduler.js.map
 
 /***/ }),
 
@@ -1324,6 +2931,103 @@ function flattenUnsubscriptionErrors(errors) {
 
 /***/ }),
 
+/***/ "../../../../rxjs/add/observable/empty.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var empty_1 = __webpack_require__("../../../../rxjs/observable/empty.js");
+Observable_1.Observable.empty = empty_1.empty;
+//# sourceMappingURL=empty.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/observable/fromEvent.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var fromEvent_1 = __webpack_require__("../../../../rxjs/observable/fromEvent.js");
+Observable_1.Observable.fromEvent = fromEvent_1.fromEvent;
+//# sourceMappingURL=fromEvent.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/observable/interval.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var interval_1 = __webpack_require__("../../../../rxjs/observable/interval.js");
+Observable_1.Observable.interval = interval_1.interval;
+//# sourceMappingURL=interval.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/observable/merge.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var merge_1 = __webpack_require__("../../../../rxjs/observable/merge.js");
+Observable_1.Observable.merge = merge_1.merge;
+//# sourceMappingURL=merge.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/observable/of.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var of_1 = __webpack_require__("../../../../rxjs/observable/of.js");
+Observable_1.Observable.of = of_1.of;
+//# sourceMappingURL=of.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/observable/throw.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var throw_1 = __webpack_require__("../../../../rxjs/observable/throw.js");
+Observable_1.Observable.throw = throw_1._throw;
+//# sourceMappingURL=throw.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/operator/catch.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var catch_1 = __webpack_require__("../../../../rxjs/operator/catch.js");
+Observable_1.Observable.prototype.catch = catch_1._catch;
+Observable_1.Observable.prototype._catch = catch_1._catch;
+//# sourceMappingURL=catch.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/operator/delay.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var delay_1 = __webpack_require__("../../../../rxjs/operator/delay.js");
+Observable_1.Observable.prototype.delay = delay_1.delay;
+//# sourceMappingURL=delay.js.map
+
+/***/ }),
+
 /***/ "../../../../rxjs/add/operator/do.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1346,6 +3050,42 @@ var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
 var map_1 = __webpack_require__("../../../../rxjs/operator/map.js");
 Observable_1.Observable.prototype.map = map_1.map;
 //# sourceMappingURL=map.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/operator/switchMap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var switchMap_1 = __webpack_require__("../../../../rxjs/operator/switchMap.js");
+Observable_1.Observable.prototype.switchMap = switchMap_1.switchMap;
+//# sourceMappingURL=switchMap.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/operator/take.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var take_1 = __webpack_require__("../../../../rxjs/operator/take.js");
+Observable_1.Observable.prototype.take = take_1.take;
+//# sourceMappingURL=take.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/operator/takeWhile.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var takeWhile_1 = __webpack_require__("../../../../rxjs/operator/takeWhile.js");
+Observable_1.Observable.prototype.takeWhile = takeWhile_1.takeWhile;
+//# sourceMappingURL=takeWhile.js.map
 
 /***/ }),
 
@@ -1831,6 +3571,96 @@ exports.EmptyObservable = EmptyObservable;
 
 /***/ }),
 
+/***/ "../../../../rxjs/observable/ErrorObservable.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var ErrorObservable = (function (_super) {
+    __extends(ErrorObservable, _super);
+    function ErrorObservable(error, scheduler) {
+        _super.call(this);
+        this.error = error;
+        this.scheduler = scheduler;
+    }
+    /**
+     * Creates an Observable that emits no items to the Observer and immediately
+     * emits an error notification.
+     *
+     * <span class="informal">Just emits 'error', and nothing else.
+     * </span>
+     *
+     * <img src="./img/throw.png" width="100%">
+     *
+     * This static operator is useful for creating a simple Observable that only
+     * emits the error notification. It can be used for composing with other
+     * Observables, such as in a {@link mergeMap}.
+     *
+     * @example <caption>Emit the number 7, then emit an error.</caption>
+     * var result = Rx.Observable.throw(new Error('oops!')).startWith(7);
+     * result.subscribe(x => console.log(x), e => console.error(e));
+     *
+     * @example <caption>Map and flatten numbers to the sequence 'a', 'b', 'c', but throw an error for 13</caption>
+     * var interval = Rx.Observable.interval(1000);
+     * var result = interval.mergeMap(x =>
+     *   x === 13 ?
+     *     Rx.Observable.throw('Thirteens are bad') :
+     *     Rx.Observable.of('a', 'b', 'c')
+     * );
+     * result.subscribe(x => console.log(x), e => console.error(e));
+     *
+     * @see {@link create}
+     * @see {@link empty}
+     * @see {@link never}
+     * @see {@link of}
+     *
+     * @param {any} error The particular Error to pass to the error notification.
+     * @param {Scheduler} [scheduler] A {@link IScheduler} to use for scheduling
+     * the emission of the error notification.
+     * @return {Observable} An error Observable: emits only the error notification
+     * using the given error argument.
+     * @static true
+     * @name throw
+     * @owner Observable
+     */
+    ErrorObservable.create = function (error, scheduler) {
+        return new ErrorObservable(error, scheduler);
+    };
+    ErrorObservable.dispatch = function (arg) {
+        var error = arg.error, subscriber = arg.subscriber;
+        subscriber.error(error);
+    };
+    ErrorObservable.prototype._subscribe = function (subscriber) {
+        var error = this.error;
+        var scheduler = this.scheduler;
+        subscriber.syncErrorThrowable = true;
+        if (scheduler) {
+            return scheduler.schedule(ErrorObservable.dispatch, 0, {
+                error: error, subscriber: subscriber
+            });
+        }
+        else {
+            subscriber.error(error);
+        }
+    };
+    return ErrorObservable;
+}(Observable_1.Observable));
+exports.ErrorObservable = ErrorObservable;
+//# sourceMappingURL=ErrorObservable.js.map
+
+/***/ }),
+
 /***/ "../../../../rxjs/observable/ForkJoinObservable.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1947,6 +3777,153 @@ var ForkJoinSubscriber = (function (_super) {
     return ForkJoinSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 //# sourceMappingURL=ForkJoinObservable.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/observable/FromEventObservable.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var tryCatch_1 = __webpack_require__("../../../../rxjs/util/tryCatch.js");
+var isFunction_1 = __webpack_require__("../../../../rxjs/util/isFunction.js");
+var errorObject_1 = __webpack_require__("../../../../rxjs/util/errorObject.js");
+var Subscription_1 = __webpack_require__("../../../../rxjs/Subscription.js");
+var toString = Object.prototype.toString;
+function isNodeStyleEventEmitter(sourceObj) {
+    return !!sourceObj && typeof sourceObj.addListener === 'function' && typeof sourceObj.removeListener === 'function';
+}
+function isJQueryStyleEventEmitter(sourceObj) {
+    return !!sourceObj && typeof sourceObj.on === 'function' && typeof sourceObj.off === 'function';
+}
+function isNodeList(sourceObj) {
+    return !!sourceObj && toString.call(sourceObj) === '[object NodeList]';
+}
+function isHTMLCollection(sourceObj) {
+    return !!sourceObj && toString.call(sourceObj) === '[object HTMLCollection]';
+}
+function isEventTarget(sourceObj) {
+    return !!sourceObj && typeof sourceObj.addEventListener === 'function' && typeof sourceObj.removeEventListener === 'function';
+}
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var FromEventObservable = (function (_super) {
+    __extends(FromEventObservable, _super);
+    function FromEventObservable(sourceObj, eventName, selector, options) {
+        _super.call(this);
+        this.sourceObj = sourceObj;
+        this.eventName = eventName;
+        this.selector = selector;
+        this.options = options;
+    }
+    /* tslint:enable:max-line-length */
+    /**
+     * Creates an Observable that emits events of a specific type coming from the
+     * given event target.
+     *
+     * <span class="informal">Creates an Observable from DOM events, or Node
+     * EventEmitter events or others.</span>
+     *
+     * <img src="./img/fromEvent.png" width="100%">
+     *
+     * Creates an Observable by attaching an event listener to an "event target",
+     * which may be an object with `addEventListener` and `removeEventListener`,
+     * a Node.js EventEmitter, a jQuery style EventEmitter, a NodeList from the
+     * DOM, or an HTMLCollection from the DOM. The event handler is attached when
+     * the output Observable is subscribed, and removed when the Subscription is
+     * unsubscribed.
+     *
+     * @example <caption>Emits clicks happening on the DOM document</caption>
+     * var clicks = Rx.Observable.fromEvent(document, 'click');
+     * clicks.subscribe(x => console.log(x));
+     *
+     * // Results in:
+     * // MouseEvent object logged to console everytime a click
+     * // occurs on the document.
+     *
+     * @see {@link from}
+     * @see {@link fromEventPattern}
+     *
+     * @param {EventTargetLike} target The DOMElement, event target, Node.js
+     * EventEmitter, NodeList or HTMLCollection to attach the event handler to.
+     * @param {string} eventName The event name of interest, being emitted by the
+     * `target`.
+     * @param {EventListenerOptions} [options] Options to pass through to addEventListener
+     * @param {SelectorMethodSignature<T>} [selector] An optional function to
+     * post-process results. It takes the arguments from the event handler and
+     * should return a single value.
+     * @return {Observable<T>}
+     * @static true
+     * @name fromEvent
+     * @owner Observable
+     */
+    FromEventObservable.create = function (target, eventName, options, selector) {
+        if (isFunction_1.isFunction(options)) {
+            selector = options;
+            options = undefined;
+        }
+        return new FromEventObservable(target, eventName, selector, options);
+    };
+    FromEventObservable.setupSubscription = function (sourceObj, eventName, handler, subscriber, options) {
+        var unsubscribe;
+        if (isNodeList(sourceObj) || isHTMLCollection(sourceObj)) {
+            for (var i = 0, len = sourceObj.length; i < len; i++) {
+                FromEventObservable.setupSubscription(sourceObj[i], eventName, handler, subscriber, options);
+            }
+        }
+        else if (isEventTarget(sourceObj)) {
+            var source_1 = sourceObj;
+            sourceObj.addEventListener(eventName, handler, options);
+            unsubscribe = function () { return source_1.removeEventListener(eventName, handler); };
+        }
+        else if (isJQueryStyleEventEmitter(sourceObj)) {
+            var source_2 = sourceObj;
+            sourceObj.on(eventName, handler);
+            unsubscribe = function () { return source_2.off(eventName, handler); };
+        }
+        else if (isNodeStyleEventEmitter(sourceObj)) {
+            var source_3 = sourceObj;
+            sourceObj.addListener(eventName, handler);
+            unsubscribe = function () { return source_3.removeListener(eventName, handler); };
+        }
+        else {
+            throw new TypeError('Invalid event target');
+        }
+        subscriber.add(new Subscription_1.Subscription(unsubscribe));
+    };
+    FromEventObservable.prototype._subscribe = function (subscriber) {
+        var sourceObj = this.sourceObj;
+        var eventName = this.eventName;
+        var options = this.options;
+        var selector = this.selector;
+        var handler = selector ? function () {
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
+            }
+            var result = tryCatch_1.tryCatch(selector).apply(void 0, args);
+            if (result === errorObject_1.errorObject) {
+                subscriber.error(errorObject_1.errorObject.e);
+            }
+            else {
+                subscriber.next(result);
+            }
+        } : function (e) { return subscriber.next(e); };
+        FromEventObservable.setupSubscription(sourceObj, eventName, handler, subscriber, options);
+    };
+    return FromEventObservable;
+}(Observable_1.Observable));
+exports.FromEventObservable = FromEventObservable;
+//# sourceMappingURL=FromEventObservable.js.map
 
 /***/ }),
 
@@ -2076,6 +4053,101 @@ var FromObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.FromObservable = FromObservable;
 //# sourceMappingURL=FromObservable.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/observable/IntervalObservable.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var isNumeric_1 = __webpack_require__("../../../../rxjs/util/isNumeric.js");
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var async_1 = __webpack_require__("../../../../rxjs/scheduler/async.js");
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @extends {Ignored}
+ * @hide true
+ */
+var IntervalObservable = (function (_super) {
+    __extends(IntervalObservable, _super);
+    function IntervalObservable(period, scheduler) {
+        if (period === void 0) { period = 0; }
+        if (scheduler === void 0) { scheduler = async_1.async; }
+        _super.call(this);
+        this.period = period;
+        this.scheduler = scheduler;
+        if (!isNumeric_1.isNumeric(period) || period < 0) {
+            this.period = 0;
+        }
+        if (!scheduler || typeof scheduler.schedule !== 'function') {
+            this.scheduler = async_1.async;
+        }
+    }
+    /**
+     * Creates an Observable that emits sequential numbers every specified
+     * interval of time, on a specified IScheduler.
+     *
+     * <span class="informal">Emits incremental numbers periodically in time.
+     * </span>
+     *
+     * <img src="./img/interval.png" width="100%">
+     *
+     * `interval` returns an Observable that emits an infinite sequence of
+     * ascending integers, with a constant interval of time of your choosing
+     * between those emissions. The first emission is not sent immediately, but
+     * only after the first period has passed. By default, this operator uses the
+     * `async` IScheduler to provide a notion of time, but you may pass any
+     * IScheduler to it.
+     *
+     * @example <caption>Emits ascending numbers, one every second (1000ms)</caption>
+     * var numbers = Rx.Observable.interval(1000);
+     * numbers.subscribe(x => console.log(x));
+     *
+     * @see {@link timer}
+     * @see {@link delay}
+     *
+     * @param {number} [period=0] The interval size in milliseconds (by default)
+     * or the time unit determined by the scheduler's clock.
+     * @param {Scheduler} [scheduler=async] The IScheduler to use for scheduling
+     * the emission of values, and providing a notion of "time".
+     * @return {Observable} An Observable that emits a sequential number each time
+     * interval.
+     * @static true
+     * @name interval
+     * @owner Observable
+     */
+    IntervalObservable.create = function (period, scheduler) {
+        if (period === void 0) { period = 0; }
+        if (scheduler === void 0) { scheduler = async_1.async; }
+        return new IntervalObservable(period, scheduler);
+    };
+    IntervalObservable.dispatch = function (state) {
+        var index = state.index, subscriber = state.subscriber, period = state.period;
+        subscriber.next(index);
+        if (subscriber.closed) {
+            return;
+        }
+        state.index += 1;
+        this.schedule(state, period);
+    };
+    IntervalObservable.prototype._subscribe = function (subscriber) {
+        var index = 0;
+        var period = this.period;
+        var scheduler = this.scheduler;
+        subscriber.add(scheduler.schedule(IntervalObservable.dispatch, period, {
+            index: index, subscriber: subscriber, period: period
+        }));
+    };
+    return IntervalObservable;
+}(Observable_1.Observable));
+exports.IntervalObservable = IntervalObservable;
+//# sourceMappingURL=IntervalObservable.js.map
 
 /***/ }),
 
@@ -2442,6 +4514,17 @@ exports.ScalarObservable = ScalarObservable;
 
 /***/ }),
 
+/***/ "../../../../rxjs/observable/empty.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var EmptyObservable_1 = __webpack_require__("../../../../rxjs/observable/EmptyObservable.js");
+exports.empty = EmptyObservable_1.EmptyObservable.create;
+//# sourceMappingURL=empty.js.map
+
+/***/ }),
+
 /***/ "../../../../rxjs/observable/forkJoin.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2464,6 +4547,17 @@ exports.from = FromObservable_1.FromObservable.create;
 
 /***/ }),
 
+/***/ "../../../../rxjs/observable/fromEvent.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var FromEventObservable_1 = __webpack_require__("../../../../rxjs/observable/FromEventObservable.js");
+exports.fromEvent = FromEventObservable_1.FromEventObservable.create;
+//# sourceMappingURL=fromEvent.js.map
+
+/***/ }),
+
 /***/ "../../../../rxjs/observable/fromPromise.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2472,6 +4566,17 @@ exports.from = FromObservable_1.FromObservable.create;
 var PromiseObservable_1 = __webpack_require__("../../../../rxjs/observable/PromiseObservable.js");
 exports.fromPromise = PromiseObservable_1.PromiseObservable.create;
 //# sourceMappingURL=fromPromise.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/observable/interval.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var IntervalObservable_1 = __webpack_require__("../../../../rxjs/observable/IntervalObservable.js");
+exports.interval = IntervalObservable_1.IntervalObservable.create;
+//# sourceMappingURL=interval.js.map
 
 /***/ }),
 
@@ -2494,6 +4599,17 @@ exports.merge = merge_1.mergeStatic;
 var ArrayObservable_1 = __webpack_require__("../../../../rxjs/observable/ArrayObservable.js");
 exports.of = ArrayObservable_1.ArrayObservable.of;
 //# sourceMappingURL=of.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/observable/throw.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var ErrorObservable_1 = __webpack_require__("../../../../rxjs/observable/ErrorObservable.js");
+exports._throw = ErrorObservable_1.ErrorObservable.create;
+//# sourceMappingURL=throw.js.map
 
 /***/ }),
 
@@ -2754,6 +4870,148 @@ function concatMap(project, resultSelector) {
 }
 exports.concatMap = concatMap;
 //# sourceMappingURL=concatMap.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/operator/delay.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var async_1 = __webpack_require__("../../../../rxjs/scheduler/async.js");
+var isDate_1 = __webpack_require__("../../../../rxjs/util/isDate.js");
+var Subscriber_1 = __webpack_require__("../../../../rxjs/Subscriber.js");
+var Notification_1 = __webpack_require__("../../../../rxjs/Notification.js");
+/**
+ * Delays the emission of items from the source Observable by a given timeout or
+ * until a given Date.
+ *
+ * <span class="informal">Time shifts each item by some specified amount of
+ * milliseconds.</span>
+ *
+ * <img src="./img/delay.png" width="100%">
+ *
+ * If the delay argument is a Number, this operator time shifts the source
+ * Observable by that amount of time expressed in milliseconds. The relative
+ * time intervals between the values are preserved.
+ *
+ * If the delay argument is a Date, this operator time shifts the start of the
+ * Observable execution until the given date occurs.
+ *
+ * @example <caption>Delay each click by one second</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var delayedClicks = clicks.delay(1000); // each click emitted after 1 second
+ * delayedClicks.subscribe(x => console.log(x));
+ *
+ * @example <caption>Delay all clicks until a future date happens</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var date = new Date('March 15, 2050 12:00:00'); // in the future
+ * var delayedClicks = clicks.delay(date); // click emitted only after that date
+ * delayedClicks.subscribe(x => console.log(x));
+ *
+ * @see {@link debounceTime}
+ * @see {@link delayWhen}
+ *
+ * @param {number|Date} delay The delay duration in milliseconds (a `number`) or
+ * a `Date` until which the emission of the source items is delayed.
+ * @param {Scheduler} [scheduler=async] The IScheduler to use for
+ * managing the timers that handle the time-shift for each item.
+ * @return {Observable} An Observable that delays the emissions of the source
+ * Observable by the specified timeout or Date.
+ * @method delay
+ * @owner Observable
+ */
+function delay(delay, scheduler) {
+    if (scheduler === void 0) { scheduler = async_1.async; }
+    var absoluteDelay = isDate_1.isDate(delay);
+    var delayFor = absoluteDelay ? (+delay - scheduler.now()) : Math.abs(delay);
+    return this.lift(new DelayOperator(delayFor, scheduler));
+}
+exports.delay = delay;
+var DelayOperator = (function () {
+    function DelayOperator(delay, scheduler) {
+        this.delay = delay;
+        this.scheduler = scheduler;
+    }
+    DelayOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new DelaySubscriber(subscriber, this.delay, this.scheduler));
+    };
+    return DelayOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var DelaySubscriber = (function (_super) {
+    __extends(DelaySubscriber, _super);
+    function DelaySubscriber(destination, delay, scheduler) {
+        _super.call(this, destination);
+        this.delay = delay;
+        this.scheduler = scheduler;
+        this.queue = [];
+        this.active = false;
+        this.errored = false;
+    }
+    DelaySubscriber.dispatch = function (state) {
+        var source = state.source;
+        var queue = source.queue;
+        var scheduler = state.scheduler;
+        var destination = state.destination;
+        while (queue.length > 0 && (queue[0].time - scheduler.now()) <= 0) {
+            queue.shift().notification.observe(destination);
+        }
+        if (queue.length > 0) {
+            var delay_1 = Math.max(0, queue[0].time - scheduler.now());
+            this.schedule(state, delay_1);
+        }
+        else {
+            source.active = false;
+        }
+    };
+    DelaySubscriber.prototype._schedule = function (scheduler) {
+        this.active = true;
+        this.add(scheduler.schedule(DelaySubscriber.dispatch, this.delay, {
+            source: this, destination: this.destination, scheduler: scheduler
+        }));
+    };
+    DelaySubscriber.prototype.scheduleNotification = function (notification) {
+        if (this.errored === true) {
+            return;
+        }
+        var scheduler = this.scheduler;
+        var message = new DelayMessage(scheduler.now() + this.delay, notification);
+        this.queue.push(message);
+        if (this.active === false) {
+            this._schedule(scheduler);
+        }
+    };
+    DelaySubscriber.prototype._next = function (value) {
+        this.scheduleNotification(Notification_1.Notification.createNext(value));
+    };
+    DelaySubscriber.prototype._error = function (err) {
+        this.errored = true;
+        this.queue = [];
+        this.destination.error(err);
+    };
+    DelaySubscriber.prototype._complete = function () {
+        this.scheduleNotification(Notification_1.Notification.createComplete());
+    };
+    return DelaySubscriber;
+}(Subscriber_1.Subscriber));
+var DelayMessage = (function () {
+    function DelayMessage(time, notification) {
+        this.time = time;
+        this.notification = notification;
+    }
+    return DelayMessage;
+}());
+//# sourceMappingURL=delay.js.map
 
 /***/ }),
 
@@ -4232,6 +6490,348 @@ exports.share = share;
 
 /***/ }),
 
+/***/ "../../../../rxjs/operator/switchMap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var OuterSubscriber_1 = __webpack_require__("../../../../rxjs/OuterSubscriber.js");
+var subscribeToResult_1 = __webpack_require__("../../../../rxjs/util/subscribeToResult.js");
+/* tslint:enable:max-line-length */
+/**
+ * Projects each source value to an Observable which is merged in the output
+ * Observable, emitting values only from the most recently projected Observable.
+ *
+ * <span class="informal">Maps each value to an Observable, then flattens all of
+ * these inner Observables using {@link switch}.</span>
+ *
+ * <img src="./img/switchMap.png" width="100%">
+ *
+ * Returns an Observable that emits items based on applying a function that you
+ * supply to each item emitted by the source Observable, where that function
+ * returns an (so-called "inner") Observable. Each time it observes one of these
+ * inner Observables, the output Observable begins emitting the items emitted by
+ * that inner Observable. When a new inner Observable is emitted, `switchMap`
+ * stops emitting items from the earlier-emitted inner Observable and begins
+ * emitting items from the new one. It continues to behave like this for
+ * subsequent inner Observables.
+ *
+ * @example <caption>Rerun an interval Observable on every click event</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var result = clicks.switchMap((ev) => Rx.Observable.interval(1000));
+ * result.subscribe(x => console.log(x));
+ *
+ * @see {@link concatMap}
+ * @see {@link exhaustMap}
+ * @see {@link mergeMap}
+ * @see {@link switch}
+ * @see {@link switchMapTo}
+ *
+ * @param {function(value: T, ?index: number): ObservableInput} project A function
+ * that, when applied to an item emitted by the source Observable, returns an
+ * Observable.
+ * @param {function(outerValue: T, innerValue: I, outerIndex: number, innerIndex: number): any} [resultSelector]
+ * A function to produce the value on the output Observable based on the values
+ * and the indices of the source (outer) emission and the inner Observable
+ * emission. The arguments passed to this function are:
+ * - `outerValue`: the value that came from the source
+ * - `innerValue`: the value that came from the projected Observable
+ * - `outerIndex`: the "index" of the value that came from the source
+ * - `innerIndex`: the "index" of the value from the projected Observable
+ * @return {Observable} An Observable that emits the result of applying the
+ * projection function (and the optional `resultSelector`) to each item emitted
+ * by the source Observable and taking only the values from the most recently
+ * projected inner Observable.
+ * @method switchMap
+ * @owner Observable
+ */
+function switchMap(project, resultSelector) {
+    return this.lift(new SwitchMapOperator(project, resultSelector));
+}
+exports.switchMap = switchMap;
+var SwitchMapOperator = (function () {
+    function SwitchMapOperator(project, resultSelector) {
+        this.project = project;
+        this.resultSelector = resultSelector;
+    }
+    SwitchMapOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new SwitchMapSubscriber(subscriber, this.project, this.resultSelector));
+    };
+    return SwitchMapOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var SwitchMapSubscriber = (function (_super) {
+    __extends(SwitchMapSubscriber, _super);
+    function SwitchMapSubscriber(destination, project, resultSelector) {
+        _super.call(this, destination);
+        this.project = project;
+        this.resultSelector = resultSelector;
+        this.index = 0;
+    }
+    SwitchMapSubscriber.prototype._next = function (value) {
+        var result;
+        var index = this.index++;
+        try {
+            result = this.project(value, index);
+        }
+        catch (error) {
+            this.destination.error(error);
+            return;
+        }
+        this._innerSub(result, value, index);
+    };
+    SwitchMapSubscriber.prototype._innerSub = function (result, value, index) {
+        var innerSubscription = this.innerSubscription;
+        if (innerSubscription) {
+            innerSubscription.unsubscribe();
+        }
+        this.add(this.innerSubscription = subscribeToResult_1.subscribeToResult(this, result, value, index));
+    };
+    SwitchMapSubscriber.prototype._complete = function () {
+        var innerSubscription = this.innerSubscription;
+        if (!innerSubscription || innerSubscription.closed) {
+            _super.prototype._complete.call(this);
+        }
+    };
+    SwitchMapSubscriber.prototype._unsubscribe = function () {
+        this.innerSubscription = null;
+    };
+    SwitchMapSubscriber.prototype.notifyComplete = function (innerSub) {
+        this.remove(innerSub);
+        this.innerSubscription = null;
+        if (this.isStopped) {
+            _super.prototype._complete.call(this);
+        }
+    };
+    SwitchMapSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        if (this.resultSelector) {
+            this._tryNotifyNext(outerValue, innerValue, outerIndex, innerIndex);
+        }
+        else {
+            this.destination.next(innerValue);
+        }
+    };
+    SwitchMapSubscriber.prototype._tryNotifyNext = function (outerValue, innerValue, outerIndex, innerIndex) {
+        var result;
+        try {
+            result = this.resultSelector(outerValue, innerValue, outerIndex, innerIndex);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return;
+        }
+        this.destination.next(result);
+    };
+    return SwitchMapSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+//# sourceMappingURL=switchMap.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/operator/take.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscriber_1 = __webpack_require__("../../../../rxjs/Subscriber.js");
+var ArgumentOutOfRangeError_1 = __webpack_require__("../../../../rxjs/util/ArgumentOutOfRangeError.js");
+var EmptyObservable_1 = __webpack_require__("../../../../rxjs/observable/EmptyObservable.js");
+/**
+ * Emits only the first `count` values emitted by the source Observable.
+ *
+ * <span class="informal">Takes the first `count` values from the source, then
+ * completes.</span>
+ *
+ * <img src="./img/take.png" width="100%">
+ *
+ * `take` returns an Observable that emits only the first `count` values emitted
+ * by the source Observable. If the source emits fewer than `count` values then
+ * all of its values are emitted. After that, it completes, regardless if the
+ * source completes.
+ *
+ * @example <caption>Take the first 5 seconds of an infinite 1-second interval Observable</caption>
+ * var interval = Rx.Observable.interval(1000);
+ * var five = interval.take(5);
+ * five.subscribe(x => console.log(x));
+ *
+ * @see {@link takeLast}
+ * @see {@link takeUntil}
+ * @see {@link takeWhile}
+ * @see {@link skip}
+ *
+ * @throws {ArgumentOutOfRangeError} When using `take(i)`, it delivers an
+ * ArgumentOutOrRangeError to the Observer's `error` callback if `i < 0`.
+ *
+ * @param {number} count The maximum number of `next` values to emit.
+ * @return {Observable<T>} An Observable that emits only the first `count`
+ * values emitted by the source Observable, or all of the values from the source
+ * if the source emits fewer than `count` values.
+ * @method take
+ * @owner Observable
+ */
+function take(count) {
+    if (count === 0) {
+        return new EmptyObservable_1.EmptyObservable();
+    }
+    else {
+        return this.lift(new TakeOperator(count));
+    }
+}
+exports.take = take;
+var TakeOperator = (function () {
+    function TakeOperator(total) {
+        this.total = total;
+        if (this.total < 0) {
+            throw new ArgumentOutOfRangeError_1.ArgumentOutOfRangeError;
+        }
+    }
+    TakeOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new TakeSubscriber(subscriber, this.total));
+    };
+    return TakeOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var TakeSubscriber = (function (_super) {
+    __extends(TakeSubscriber, _super);
+    function TakeSubscriber(destination, total) {
+        _super.call(this, destination);
+        this.total = total;
+        this.count = 0;
+    }
+    TakeSubscriber.prototype._next = function (value) {
+        var total = this.total;
+        var count = ++this.count;
+        if (count <= total) {
+            this.destination.next(value);
+            if (count === total) {
+                this.destination.complete();
+                this.unsubscribe();
+            }
+        }
+    };
+    return TakeSubscriber;
+}(Subscriber_1.Subscriber));
+//# sourceMappingURL=take.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/operator/takeWhile.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscriber_1 = __webpack_require__("../../../../rxjs/Subscriber.js");
+/**
+ * Emits values emitted by the source Observable so long as each value satisfies
+ * the given `predicate`, and then completes as soon as this `predicate` is not
+ * satisfied.
+ *
+ * <span class="informal">Takes values from the source only while they pass the
+ * condition given. When the first value does not satisfy, it completes.</span>
+ *
+ * <img src="./img/takeWhile.png" width="100%">
+ *
+ * `takeWhile` subscribes and begins mirroring the source Observable. Each value
+ * emitted on the source is given to the `predicate` function which returns a
+ * boolean, representing a condition to be satisfied by the source values. The
+ * output Observable emits the source values until such time as the `predicate`
+ * returns false, at which point `takeWhile` stops mirroring the source
+ * Observable and completes the output Observable.
+ *
+ * @example <caption>Emit click events only while the clientX property is greater than 200</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var result = clicks.takeWhile(ev => ev.clientX > 200);
+ * result.subscribe(x => console.log(x));
+ *
+ * @see {@link take}
+ * @see {@link takeLast}
+ * @see {@link takeUntil}
+ * @see {@link skip}
+ *
+ * @param {function(value: T, index: number): boolean} predicate A function that
+ * evaluates a value emitted by the source Observable and returns a boolean.
+ * Also takes the (zero-based) index as the second argument.
+ * @return {Observable<T>} An Observable that emits the values from the source
+ * Observable so long as each value satisfies the condition defined by the
+ * `predicate`, then completes.
+ * @method takeWhile
+ * @owner Observable
+ */
+function takeWhile(predicate) {
+    return this.lift(new TakeWhileOperator(predicate));
+}
+exports.takeWhile = takeWhile;
+var TakeWhileOperator = (function () {
+    function TakeWhileOperator(predicate) {
+        this.predicate = predicate;
+    }
+    TakeWhileOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new TakeWhileSubscriber(subscriber, this.predicate));
+    };
+    return TakeWhileOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var TakeWhileSubscriber = (function (_super) {
+    __extends(TakeWhileSubscriber, _super);
+    function TakeWhileSubscriber(destination, predicate) {
+        _super.call(this, destination);
+        this.predicate = predicate;
+        this.index = 0;
+    }
+    TakeWhileSubscriber.prototype._next = function (value) {
+        var destination = this.destination;
+        var result;
+        try {
+            result = this.predicate(value, this.index++);
+        }
+        catch (err) {
+            destination.error(err);
+            return;
+        }
+        this.nextOrComplete(value, result);
+    };
+    TakeWhileSubscriber.prototype.nextOrComplete = function (value, predicateResult) {
+        var destination = this.destination;
+        if (Boolean(predicateResult)) {
+            destination.next(value);
+        }
+        else {
+            destination.complete();
+        }
+    };
+    return TakeWhileSubscriber;
+}(Subscriber_1.Subscriber));
+//# sourceMappingURL=takeWhile.js.map
+
+/***/ }),
+
 /***/ "../../../../rxjs/operator/toPromise.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4308,6 +6908,318 @@ function toPromise(PromiseCtor) {
 }
 exports.toPromise = toPromise;
 //# sourceMappingURL=toPromise.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/scheduler/Action.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscription_1 = __webpack_require__("../../../../rxjs/Subscription.js");
+/**
+ * A unit of work to be executed in a {@link Scheduler}. An action is typically
+ * created from within a Scheduler and an RxJS user does not need to concern
+ * themselves about creating and manipulating an Action.
+ *
+ * ```ts
+ * class Action<T> extends Subscription {
+ *   new (scheduler: Scheduler, work: (state?: T) => void);
+ *   schedule(state?: T, delay: number = 0): Subscription;
+ * }
+ * ```
+ *
+ * @class Action<T>
+ */
+var Action = (function (_super) {
+    __extends(Action, _super);
+    function Action(scheduler, work) {
+        _super.call(this);
+    }
+    /**
+     * Schedules this action on its parent Scheduler for execution. May be passed
+     * some context object, `state`. May happen at some point in the future,
+     * according to the `delay` parameter, if specified.
+     * @param {T} [state] Some contextual data that the `work` function uses when
+     * called by the Scheduler.
+     * @param {number} [delay] Time to wait before executing the work, where the
+     * time unit is implicit and defined by the Scheduler.
+     * @return {void}
+     */
+    Action.prototype.schedule = function (state, delay) {
+        if (delay === void 0) { delay = 0; }
+        return this;
+    };
+    return Action;
+}(Subscription_1.Subscription));
+exports.Action = Action;
+//# sourceMappingURL=Action.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/scheduler/AsyncAction.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var root_1 = __webpack_require__("../../../../rxjs/util/root.js");
+var Action_1 = __webpack_require__("../../../../rxjs/scheduler/Action.js");
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var AsyncAction = (function (_super) {
+    __extends(AsyncAction, _super);
+    function AsyncAction(scheduler, work) {
+        _super.call(this, scheduler, work);
+        this.scheduler = scheduler;
+        this.work = work;
+        this.pending = false;
+    }
+    AsyncAction.prototype.schedule = function (state, delay) {
+        if (delay === void 0) { delay = 0; }
+        if (this.closed) {
+            return this;
+        }
+        // Always replace the current state with the new state.
+        this.state = state;
+        // Set the pending flag indicating that this action has been scheduled, or
+        // has recursively rescheduled itself.
+        this.pending = true;
+        var id = this.id;
+        var scheduler = this.scheduler;
+        //
+        // Important implementation note:
+        //
+        // Actions only execute once by default, unless rescheduled from within the
+        // scheduled callback. This allows us to implement single and repeat
+        // actions via the same code path, without adding API surface area, as well
+        // as mimic traditional recursion but across asynchronous boundaries.
+        //
+        // However, JS runtimes and timers distinguish between intervals achieved by
+        // serial `setTimeout` calls vs. a single `setInterval` call. An interval of
+        // serial `setTimeout` calls can be individually delayed, which delays
+        // scheduling the next `setTimeout`, and so on. `setInterval` attempts to
+        // guarantee the interval callback will be invoked more precisely to the
+        // interval period, regardless of load.
+        //
+        // Therefore, we use `setInterval` to schedule single and repeat actions.
+        // If the action reschedules itself with the same delay, the interval is not
+        // canceled. If the action doesn't reschedule, or reschedules with a
+        // different delay, the interval will be canceled after scheduled callback
+        // execution.
+        //
+        if (id != null) {
+            this.id = this.recycleAsyncId(scheduler, id, delay);
+        }
+        this.delay = delay;
+        // If this action has already an async Id, don't request a new one.
+        this.id = this.id || this.requestAsyncId(scheduler, this.id, delay);
+        return this;
+    };
+    AsyncAction.prototype.requestAsyncId = function (scheduler, id, delay) {
+        if (delay === void 0) { delay = 0; }
+        return root_1.root.setInterval(scheduler.flush.bind(scheduler, this), delay);
+    };
+    AsyncAction.prototype.recycleAsyncId = function (scheduler, id, delay) {
+        if (delay === void 0) { delay = 0; }
+        // If this action is rescheduled with the same delay time, don't clear the interval id.
+        if (delay !== null && this.delay === delay && this.pending === false) {
+            return id;
+        }
+        // Otherwise, if the action's delay time is different from the current delay,
+        // or the action has been rescheduled before it's executed, clear the interval id
+        return root_1.root.clearInterval(id) && undefined || undefined;
+    };
+    /**
+     * Immediately executes this action and the `work` it contains.
+     * @return {any}
+     */
+    AsyncAction.prototype.execute = function (state, delay) {
+        if (this.closed) {
+            return new Error('executing a cancelled action');
+        }
+        this.pending = false;
+        var error = this._execute(state, delay);
+        if (error) {
+            return error;
+        }
+        else if (this.pending === false && this.id != null) {
+            // Dequeue if the action didn't reschedule itself. Don't call
+            // unsubscribe(), because the action could reschedule later.
+            // For example:
+            // ```
+            // scheduler.schedule(function doWork(counter) {
+            //   /* ... I'm a busy worker bee ... */
+            //   var originalAction = this;
+            //   /* wait 100ms before rescheduling the action */
+            //   setTimeout(function () {
+            //     originalAction.schedule(counter + 1);
+            //   }, 100);
+            // }, 1000);
+            // ```
+            this.id = this.recycleAsyncId(this.scheduler, this.id, null);
+        }
+    };
+    AsyncAction.prototype._execute = function (state, delay) {
+        var errored = false;
+        var errorValue = undefined;
+        try {
+            this.work(state);
+        }
+        catch (e) {
+            errored = true;
+            errorValue = !!e && e || new Error(e);
+        }
+        if (errored) {
+            this.unsubscribe();
+            return errorValue;
+        }
+    };
+    AsyncAction.prototype._unsubscribe = function () {
+        var id = this.id;
+        var scheduler = this.scheduler;
+        var actions = scheduler.actions;
+        var index = actions.indexOf(this);
+        this.work = null;
+        this.state = null;
+        this.pending = false;
+        this.scheduler = null;
+        if (index !== -1) {
+            actions.splice(index, 1);
+        }
+        if (id != null) {
+            this.id = this.recycleAsyncId(scheduler, id, null);
+        }
+        this.delay = null;
+    };
+    return AsyncAction;
+}(Action_1.Action));
+exports.AsyncAction = AsyncAction;
+//# sourceMappingURL=AsyncAction.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/scheduler/AsyncScheduler.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Scheduler_1 = __webpack_require__("../../../../rxjs/Scheduler.js");
+var AsyncScheduler = (function (_super) {
+    __extends(AsyncScheduler, _super);
+    function AsyncScheduler() {
+        _super.apply(this, arguments);
+        this.actions = [];
+        /**
+         * A flag to indicate whether the Scheduler is currently executing a batch of
+         * queued actions.
+         * @type {boolean}
+         */
+        this.active = false;
+        /**
+         * An internal ID used to track the latest asynchronous task such as those
+         * coming from `setTimeout`, `setInterval`, `requestAnimationFrame`, and
+         * others.
+         * @type {any}
+         */
+        this.scheduled = undefined;
+    }
+    AsyncScheduler.prototype.flush = function (action) {
+        var actions = this.actions;
+        if (this.active) {
+            actions.push(action);
+            return;
+        }
+        var error;
+        this.active = true;
+        do {
+            if (error = action.execute(action.state, action.delay)) {
+                break;
+            }
+        } while (action = actions.shift()); // exhaust the scheduler queue
+        this.active = false;
+        if (error) {
+            while (action = actions.shift()) {
+                action.unsubscribe();
+            }
+            throw error;
+        }
+    };
+    return AsyncScheduler;
+}(Scheduler_1.Scheduler));
+exports.AsyncScheduler = AsyncScheduler;
+//# sourceMappingURL=AsyncScheduler.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/scheduler/async.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var AsyncAction_1 = __webpack_require__("../../../../rxjs/scheduler/AsyncAction.js");
+var AsyncScheduler_1 = __webpack_require__("../../../../rxjs/scheduler/AsyncScheduler.js");
+/**
+ *
+ * Async Scheduler
+ *
+ * <span class="informal">Schedule task as if you used setTimeout(task, duration)</span>
+ *
+ * `async` scheduler schedules tasks asynchronously, by putting them on the JavaScript
+ * event loop queue. It is best used to delay tasks in time or to schedule tasks repeating
+ * in intervals.
+ *
+ * If you just want to "defer" task, that is to perform it right after currently
+ * executing synchronous code ends (commonly achieved by `setTimeout(deferredTask, 0)`),
+ * better choice will be the {@link asap} scheduler.
+ *
+ * @example <caption>Use async scheduler to delay task</caption>
+ * const task = () => console.log('it works!');
+ *
+ * Rx.Scheduler.async.schedule(task, 2000);
+ *
+ * // After 2 seconds logs:
+ * // "it works!"
+ *
+ *
+ * @example <caption>Use async scheduler to repeat task in intervals</caption>
+ * function task(state) {
+ *   console.log(state);
+ *   this.schedule(state + 1, 1000); // `this` references currently executing Action,
+ *                                   // which we reschedule with new state and delay
+ * }
+ *
+ * Rx.Scheduler.async.schedule(task, 3000, 0);
+ *
+ * // Logs:
+ * // 0 after 3s
+ * // 1 after 4s
+ * // 2 after 5s
+ * // 3 after 6s
+ *
+ * @static true
+ * @name async
+ * @owner Scheduler
+ */
+exports.async = new AsyncScheduler_1.AsyncScheduler(AsyncAction_1.AsyncAction);
+//# sourceMappingURL=async.js.map
 
 /***/ }),
 
@@ -4403,6 +7315,41 @@ exports.rxSubscriber = (typeof Symbol === 'function' && typeof Symbol.for === 'f
  */
 exports.$$rxSubscriber = exports.rxSubscriber;
 //# sourceMappingURL=rxSubscriber.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/util/ArgumentOutOfRangeError.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+/**
+ * An error thrown when an element was queried at a certain index of an
+ * Observable, but no such index or position exists in that sequence.
+ *
+ * @see {@link elementAt}
+ * @see {@link take}
+ * @see {@link takeLast}
+ *
+ * @class ArgumentOutOfRangeError
+ */
+var ArgumentOutOfRangeError = (function (_super) {
+    __extends(ArgumentOutOfRangeError, _super);
+    function ArgumentOutOfRangeError() {
+        var err = _super.call(this, 'argument out of range');
+        this.name = err.name = 'ArgumentOutOfRangeError';
+        this.stack = err.stack;
+        this.message = err.message;
+    }
+    return ArgumentOutOfRangeError;
+}(Error));
+exports.ArgumentOutOfRangeError = ArgumentOutOfRangeError;
+//# sourceMappingURL=ArgumentOutOfRangeError.js.map
 
 /***/ }),
 
@@ -4538,6 +7485,19 @@ exports.isArrayLike = (function (x) { return x && typeof x.length === 'number'; 
 
 /***/ }),
 
+/***/ "../../../../rxjs/util/isDate.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function isDate(value) {
+    return value instanceof Date && !isNaN(+value);
+}
+exports.isDate = isDate;
+//# sourceMappingURL=isDate.js.map
+
+/***/ }),
+
 /***/ "../../../../rxjs/util/isFunction.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4548,6 +7508,25 @@ function isFunction(x) {
 }
 exports.isFunction = isFunction;
 //# sourceMappingURL=isFunction.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/util/isNumeric.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var isArray_1 = __webpack_require__("../../../../rxjs/util/isArray.js");
+function isNumeric(val) {
+    // parseFloat NaNs numeric-cast false positives (null|true|false|"")
+    // ...but misinterprets leading-number strings, particularly hex literals ("0x...")
+    // subtraction forces infinities to NaN
+    // adding 1 corrects loss of precision from parseFloat (#15100)
+    return !isArray_1.isArray(val) && (val - parseFloat(val) + 1) >= 0;
+}
+exports.isNumeric = isNumeric;
+;
+//# sourceMappingURL=isNumeric.js.map
 
 /***/ }),
 
@@ -58116,19 +61095,19 @@ ReactiveFormsModule.ctorParameters = function () { return []; };
 /* unused harmony export BaseResponseOptions */
 /* unused harmony export ResponseOptions */
 /* unused harmony export ReadyState */
-/* unused harmony export RequestMethod */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return RequestMethod; });
 /* unused harmony export ResponseContentType */
 /* unused harmony export ResponseType */
-/* unused harmony export Headers */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Http; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Headers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Http; });
 /* unused harmony export Jsonp */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return HttpModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return HttpModule; });
 /* unused harmony export JsonpModule */
 /* unused harmony export Connection */
 /* unused harmony export ConnectionBackend */
 /* unused harmony export XSRFStrategy */
-/* unused harmony export Request */
-/* unused harmony export Response */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return Request; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return Response; });
 /* unused harmony export QueryEncoder */
 /* unused harmony export URLSearchParams */
 /* unused harmony export VERSION */
