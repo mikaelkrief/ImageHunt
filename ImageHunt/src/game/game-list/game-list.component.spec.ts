@@ -1,23 +1,23 @@
-﻿/// <reference path="../../node_modules/@types/jasmine/index.d.ts" />
+/// <reference path="../../../node_modules/@types/jasmine/index.d.ts" />
 import { TestBed, async, ComponentFixture, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { BrowserModule, By } from "@angular/platform-browser";
-import { GameComponent } from './game.component';
+import { GameListComponent } from './game-list.component';
 
-let component: GameComponent;
-let fixture: ComponentFixture<GameComponent>;
+let component: GameListComponent;
+let fixture: ComponentFixture<GameListComponent>;
 
 describe('game component', () =>
 {
     beforeEach(async(() =>
     {
         TestBed.configureTestingModule({
-            declarations: [GameComponent],
+            declarations: [GameListComponent],
             imports: [ BrowserModule ],
             providers: [
                 { provide: ComponentFixtureAutoDetect, useValue: true }
             ]
         });
-        fixture = TestBed.createComponent(GameComponent);
+        fixture = TestBed.createComponent(GameListComponent);
         component = fixture.componentInstance;
     }));
 
