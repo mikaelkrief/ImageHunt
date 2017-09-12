@@ -3,7 +3,7 @@ import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {NewAdminComponent} from "./new.admin.component";
-import {AdminService} from "../../shared/admin.service";
+import {AdminService} from "../../shared/services/admin.service";
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule],

@@ -36,7 +36,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="src\shared\player.ts" />
-    <TypeScriptCompile Include="src\shared\game.service.ts" />
+    <TypeScriptCompile Include="src\shared\services\game.service.ts" />
     <TypeScriptCompile Include="src\shared\team.ts" />
     <TypeScriptCompile Include="src\team\team.service.ts" />
   </ItemGroup>

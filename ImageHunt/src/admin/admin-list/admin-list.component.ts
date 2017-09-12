@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AdminService} from "../../shared/admin.service";
+import {AdminService} from "../../shared/services/admin.service";
 import {Admin} from "../../shared/admin";
 
 @Component({

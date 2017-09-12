@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
-import {Admin} from "./admin";
+import {Admin} from "../admin";
 
 @Injectable()
 export class AdminService {

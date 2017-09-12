@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {Admin} from "../../shared/admin";
 import {Game} from "../../shared/game";
-import {AdminService} from "../../shared/admin.service";
+import {AdminService} from "../../shared/services/admin.service";
 
 
 @Component({

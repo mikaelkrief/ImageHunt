@@ -44,7 +44,7 @@ module.exports = module.exports.toString();
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AdminListComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_admin_service__ = __webpack_require__("../../../../../src/shared/admin.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_services_admin_service__ = __webpack_require__("../../../../../src/shared/services/admin.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -82,7 +82,7 @@ AdminListComponent = __decorate([
     })
     /** admin component*/
     ,
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__shared_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__shared_admin_service__["a" /* AdminService */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__shared_services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__shared_services_admin_service__["a" /* AdminService */]) === "function" && _a || Object])
 ], AdminListComponent);
 
 var _a;
@@ -98,7 +98,7 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__admin_list_component__ = __webpack_require__("../../../../../src/admin/admin-list/admin-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_admin_service__ = __webpack_require__("../../../../../src/shared/admin.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_admin_service__ = __webpack_require__("../../../../../src/shared/services/admin.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__new_admin_new_admin_module__ = __webpack_require__("../../../../../src/admin/new-admin/new.admin.module.ts");
@@ -126,7 +126,7 @@ AdminListModule = __decorate([
         declarations: [__WEBPACK_IMPORTED_MODULE_2__admin_list_component__["a" /* AdminListComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_2__admin_list_component__["a" /* AdminListComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_2__admin_list_component__["a" /* AdminListComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_3__shared_admin_service__["a" /* AdminService */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_3__shared_services_admin_service__["a" /* AdminService */]]
     })
 ], AdminListModule);
 
@@ -165,7 +165,7 @@ module.exports = module.exports.toString();
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NewAdminComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_admin_service__ = __webpack_require__("../../../../../src/shared/admin.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_services_admin_service__ = __webpack_require__("../../../../../src/shared/services/admin.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -198,7 +198,7 @@ NewAdminComponent = __decorate([
     })
     /** newAdmin component*/
     ,
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__shared_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__shared_admin_service__["a" /* AdminService */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__shared_services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__shared_services_admin_service__["a" /* AdminService */]) === "function" && _a || Object])
 ], NewAdminComponent);
 
 var _a;
@@ -216,7 +216,7 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__new_admin_component__ = __webpack_require__("../../../../../src/admin/new-admin/new.admin.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_admin_service__ = __webpack_require__("../../../../../src/shared/admin.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_services_admin_service__ = __webpack_require__("../../../../../src/shared/services/admin.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -240,7 +240,7 @@ NewAdminModule = __decorate([
         declarations: [__WEBPACK_IMPORTED_MODULE_4__new_admin_component__["a" /* NewAdminComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_4__new_admin_component__["a" /* NewAdminComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_4__new_admin_component__["a" /* NewAdminComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_5__shared_admin_service__["a" /* AdminService */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_5__shared_services_admin_service__["a" /* AdminService */]]
     })
 ], NewAdminModule);
 
@@ -450,7 +450,7 @@ module.exports = module.exports.toString();
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GameDetailComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_game_service__ = __webpack_require__("../../../../../src/shared/game.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -485,7 +485,7 @@ GameDetailComponent = __decorate([
     })
     /** gameDetail component*/
     ,
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__shared_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__shared_game_service__["a" /* GameService */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */]) === "function" && _b || Object])
 ], GameDetailComponent);
 
 var _a, _b;
@@ -502,7 +502,7 @@ var _a, _b;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__game_detail_component__ = __webpack_require__("../../../../../src/game/game-detail/game.detail.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_game_service__ = __webpack_require__("../../../../../src/shared/game.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -525,7 +525,7 @@ GameDetailModule = __decorate([
         declarations: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_4__shared_game_service__["a" /* GameService */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_4__shared_services_game_service__["a" /* GameService */]]
     })
 ], GameDetailModule);
 
@@ -1048,7 +1048,7 @@ PageNotFoundModule = __decorate([
 
 /***/ }),
 
-/***/ "../../../../../src/shared/admin.service.ts":
+/***/ "../../../../../src/shared/services/admin.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1098,7 +1098,7 @@ var _a;
 
 /***/ }),
 
-/***/ "../../../../../src/shared/game.service.ts":
+/***/ "../../../../../src/shared/services/game.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
