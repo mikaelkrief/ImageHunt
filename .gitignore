@@ -262,4 +262,5 @@ __pycache__/
 *.pyc
 
 # Secrets
-appsettings.*.json
+appsettings.Development.json
+appsettings.Production.json
