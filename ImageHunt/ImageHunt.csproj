@@ -7,15 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="src\NewFolder\**" />
-    <Content Remove="src\NewFolder\**" />
-    <EmbeddedResource Remove="src\NewFolder\**" />
-    <None Remove="src\NewFolder\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="src\app\app.ts" />
     <None Remove="src\app\top-menu.config.ts" />
+    <None Remove="src\shared\player.ts" />
+    <None Remove="src\shared\team.ts" />
+    <None Remove="src\team\team.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +32,13 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="src\shared\player.ts" />
+    <TypeScriptCompile Include="src\shared\game.service.ts" />
+    <TypeScriptCompile Include="src\shared\team.ts" />
+    <TypeScriptCompile Include="src\team\team.service.ts" />
   </ItemGroup>
 
 </Project>

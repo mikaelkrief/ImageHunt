@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using NFluent;
@@ -42,5 +43,24 @@ namespace ImageHuntTest.Services
             Check.ThatCode(() => _target.CreateGame("TheGame", DateTime.Today, nodes)).Throws<ArgumentException>();
             // Assert
         }
+
+        [Fact]
+        public void GetGameFromId()
+        {
+            // Arrange
+            var games = new List<Game>()
+            {
+                new Game(),
+                new Game(),
+                new Game()
+            };
+            _context.Games.AddRange(games);
+            _context.SaveChanges();
+            // Act
+            var result = _target.GetGameById(2);
+            // Assert
+            Check.That(result).IsEqualTo(games[1]);
+        }
+
     }
 }

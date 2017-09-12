@@ -4,10 +4,11 @@ using System.Linq;
 using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
+using Microsoft.EntityFrameworkCore;
 
 namespace ImageHunt.Services
 {
-    public class GameService : AbstractService
+    public class GameService : AbstractService, IGameService
     {
         public GameService(HuntContext context): base(context)
         {
@@ -27,5 +28,10 @@ namespace ImageHunt.Services
             Context.SaveChanges();
             return game;
         }
+
+      public Game GetGameById(int gameId)
+      {
+        return Context.Games.Include(g => g.Nodes).Include(g => g.Teams).Single(g => g.Id == gameId);
+      }
     }
 }

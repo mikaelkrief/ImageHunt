@@ -1,0 +1,26 @@
+<h2>Administrateurs actuels</h2>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Nom</th>
+    <th>Email</th>
+    <th></th>
+    <th>Jeux associés</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let admin of admins">
+    <td>{{admin.name}}</td>
+    <td class="email">{{admin.email}}</td>
+    <td><button class="btn btn-danger" (click)="deleteAdmin(admin.id)"><span class="fa fa-delete"></span> Effacer</button></td>
+    <td>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let game of admin.games"><span class=" fa fa-gamepad"></span> <a routerLink="/game/{{game.id}}">{{game.name}}</a></li>
+      </ul>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<new-admin></new-admin>

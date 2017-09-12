@@ -31,6 +31,8 @@ namespace ImageHunt
             services.AddDbContext<HuntContext>(options => 
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<ITeamService, TeamService>();
+            services.AddTransient<IAdminService, AdminService>();
+            services.AddTransient<IGameService, GameService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

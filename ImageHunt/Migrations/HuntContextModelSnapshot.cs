@@ -21,11 +21,34 @@ namespace ImageHunt.Migrations
                 .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452");
 
+            modelBuilder.Entity("ImageHunt.Model.Admin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email");
+
+                    b.Property<DateTime?>("ExpirationTokenDate");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Token");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Admins");
+                });
+
             modelBuilder.Entity("ImageHunt.Model.Game", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AdminId");
 
                     b.Property<bool>("IsActive");
 
@@ -33,9 +56,11 @@ namespace ImageHunt.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<DateTime>("StartDate");
+                    b.Property<DateTime?>("StartDate");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AdminId");
 
                     b.ToTable("Games");
                 });
@@ -126,11 +151,15 @@ namespace ImageHunt.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("GameId");
+
                     b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GameId");
 
                     b.ToTable("Teams");
                 });
@@ -190,6 +219,13 @@ namespace ImageHunt.Migrations
                     b.HasDiscriminator().HasValue("TimerNode");
                 });
 
+            modelBuilder.Entity("ImageHunt.Model.Game", b =>
+                {
+                    b.HasOne("ImageHunt.Model.Admin")
+                        .WithMany("Games")
+                        .HasForeignKey("AdminId");
+                });
+
             modelBuilder.Entity("ImageHunt.Model.Node.Answer", b =>
                 {
                     b.HasOne("ImageHunt.Model.Node.Node", "Node")
@@ -221,6 +257,13 @@ namespace ImageHunt.Migrations
                     b.HasOne("ImageHunt.Model.Team")
                         .WithMany("Players")
                         .HasForeignKey("TeamId");
+                });
+
+            modelBuilder.Entity("ImageHunt.Model.Team", b =>
+                {
+                    b.HasOne("ImageHunt.Model.Game")
+                        .WithMany("Teams")
+                        .HasForeignKey("GameId");
                 });
 #pragma warning restore 612, 618
         }

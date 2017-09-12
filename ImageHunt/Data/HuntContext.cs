@@ -27,6 +27,7 @@ namespace ImageHunt.Data
         public DbSet<Team> Teams { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<Answer> Answers { get; set; }
+      public DbSet<Admin> Admins { get; set; }
 
       protected override void OnModelCreating(ModelBuilder modelBuilder)
       {
@@ -52,6 +53,8 @@ namespace ImageHunt.Data
           .Property<bool>("IsDeleted");
         modelBuilder.Entity<Answer>()
           .Property<bool>("IsDeleted");
+        modelBuilder.Entity<Admin>()
+          .Property<bool>("IsDeleted");
         // Filter entities
         modelBuilder.Entity<Game>()
           .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
@@ -62,6 +65,8 @@ namespace ImageHunt.Data
       modelBuilder.Entity<Node>()
         .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
       modelBuilder.Entity<Answer>()
+        .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
+      modelBuilder.Entity<Admin>()
         .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
     }
 
