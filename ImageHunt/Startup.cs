@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using ImageHunt.Controllers;
 using ImageHunt.Data;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +36,16 @@ namespace ImageHunt
           services.AddTransient<IAuthorizationHandler, TokenAuthorizationHandler>();
             services.AddDbContext<HuntContext>(options => 
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+          services.AddSingleton(Configuration);
+          services.AddTransient<AuthControllerParameters>(s =>
+          {
+            var sb = services.BuildServiceProvider();
+            return new AuthControllerParameters(Configuration,
+              new HttpClient() {BaseAddress = new Uri(Configuration["GoogleApi:AccessTokenUrl"])},
+              new HttpClient() {BaseAddress = new Uri(Configuration["GoogleApi:UserInfoUrl"])},
+              sb.GetService<IAuthService>()
+            );
+          });
             services.AddTransient<ITeamService, TeamService>();
             services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<IGameService, GameService>();

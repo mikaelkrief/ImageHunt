@@ -10,19 +10,34 @@ using Newtonsoft.Json.Linq;
 
 namespace ImageHunt.Controllers
 {
+  public class AuthControllerParameters
+  {
+    public IConfiguration Configuration { get; }
+    public HttpClient HttpToken { get; }
+    public HttpClient HttpUser { get; }
+    public IAuthService AuthService { get; }
+
+    public AuthControllerParameters(IConfiguration configuration, HttpClient httpToken, HttpClient httpUser, IAuthService authService)
+    {
+      Configuration = configuration;
+      HttpToken = httpToken;
+      HttpUser = httpUser;
+      AuthService = authService;
+    }  
+  }
   [Route("api/auth")]
   public class AuthController : Controller
   {
-    private readonly IConfigurationRoot _configuration;
+    private readonly IConfiguration _configuration;
     private readonly HttpClient _httpToken;
     private readonly HttpClient _httpUser;
     private readonly IAuthService _authService;
-    public AuthController(IConfigurationRoot configuration, HttpClient httpToken, HttpClient httpUser, IAuthService authService)
+    public AuthController(AuthControllerParameters parameters)
     {
-      _configuration = configuration;
-      _httpToken = httpToken;
-      _httpUser = httpUser;
-      _authService = authService;
+      _configuration = parameters.Configuration;
+      _httpToken = parameters.HttpToken;
+      _httpUser = parameters.HttpUser;
+      _authService = parameters.AuthService;
     }
     [HttpPost("google")]
     public async Task<IActionResult> GoogleSignIn([FromBody]JObject bearer)
