@@ -307,7 +307,6 @@ AppComponent = __decorate([
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export GOOGLE_CLIENT_ID */
 /* unused harmony export MyAuthConfig */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
@@ -333,6 +332,8 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__game_game_detail_game_detail_module__ = __webpack_require__("../../../../../src/game/game-detail/game.detail.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__game_game_list_game_list_component__ = __webpack_require__("../../../../../src/game/game-list/game-list.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__game_game_detail_game_detail_component__ = __webpack_require__("../../../../../src/game/game-detail/game.detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__shared_google_button_google_button_module__ = __webpack_require__("../../../../../src/shared/google-button/google.button.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -372,17 +373,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var GOOGLE_CLIENT_ID = '663482349038-jregj38js8hr7fm104jpnoisrgegorh8.apps.googleusercontent.com';
+
+
 var MyAuthConfig = (function (_super) {
     __extends(MyAuthConfig, _super);
     function MyAuthConfig() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.defaultHeaders = { 'Content-Type': 'application/json' };
-        _this.providers = { google: { clientId: GOOGLE_CLIENT_ID } };
+        _this.providers = {
+            google: { clientId: __WEBPACK_IMPORTED_MODULE_24__environments_environment__["a" /* environment */].GOOGLE_CLIENT_ID },
+        };
+        _this.tokenName = 'accessToken';
+        _this.tokenPrefix = '';
+        _this.baseUrl = __WEBPACK_IMPORTED_MODULE_24__environments_environment__["a" /* environment */].API_ENDPOINT;
         return _this;
     }
     return MyAuthConfig;
-}(__WEBPACK_IMPORTED_MODULE_6_ng2_ui_auth__["a" /* CustomConfig */]));
+}(__WEBPACK_IMPORTED_MODULE_6_ng2_ui_auth__["b" /* CustomConfig */]));
 
 var AppModule = (function () {
     function AppModule() {
@@ -408,7 +415,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_16__admin_new_admin_new_admin_module__["a" /* NewAdminModule */],
             __WEBPACK_IMPORTED_MODULE_13__navmenu_navmenu_module__["a" /* NavmenuModule */],
             __WEBPACK_IMPORTED_MODULE_8__page_not_found_page_not_found_module__["a" /* PageNotFoundModule */],
-            __WEBPACK_IMPORTED_MODULE_6_ng2_ui_auth__["b" /* Ng2UiAuthModule */].forRoot(MyAuthConfig),
+            __WEBPACK_IMPORTED_MODULE_23__shared_google_button_google_button_module__["a" /* GoogleButtonModule */],
+            __WEBPACK_IMPORTED_MODULE_6_ng2_ui_auth__["c" /* Ng2UiAuthModule */].forRoot(MyAuthConfig),
             __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* RouterModule */].forRoot([
                 { path: 'home', component: __WEBPACK_IMPORTED_MODULE_11__home_home_component__["a" /* HomeComponent */] },
                 { path: 'game', component: __WEBPACK_IMPORTED_MODULE_21__game_game_list_game_list_component__["a" /* GameListComponent */] },
@@ -439,7 +447,9 @@ AppModule = __decorate([
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 // The file contents for the current environment will overwrite these during build.
 var environment = {
-    production: false
+    production: false,
+    GOOGLE_CLIENT_ID: "663482349038-jregj38js8hr7fm104jpnoisrgegorh8.apps.googleusercontent.com",
+    API_ENDPOINT: "api",
 };
 //# sourceMappingURL=environment.js.map
 
@@ -879,7 +889,7 @@ MapModule = __decorate([
 /***/ "../../../../../src/navmenu/navmenu.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-inverse\">\r\n  <div class=\"container-fluid\">\r\n    <div class='navbar-header'>\r\n      <button type='button' class='navbar-toggle collapsed' data-toggle=\"collapse\" data-target='#bs-navigationbar'>\r\n        <span class='sr-only'>Toggle navigation</span>\r\n        <span class='icon-bar'></span>\r\n        <span class='icon-bar'></span>\r\n        <span class='icon-bar'></span>\r\n      </button>\r\n      <a class='navbar-brand' routerLink=\"home\">Image Hunt</a>\r\n    </div>\r\n    <div id=\"bs-navigationbar\" class=\"navbar-collapse collapse\" >\r\n      <ul class=\"nav navbar-nav\" routerLinkActive=\"active\">\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"home\"><span class=\"fa fa-home\"></span> Home</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"game\"><span class=\"fa fa-gamepad\"></span> Jeu</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"team\"><span class=\"fa fa-users\"></span> Teams</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"map\"><span class=\"fa fa-map\"></span> Carte</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"admin\"><span class=\"fa fa-lock\"></span> Admin</a></li>\r\n      </ul>\r\n    </div>\r\n  </div>\r\n</nav>\r\n\r\n"
+module.exports = "<nav class=\"navbar navbar-inverse\">\r\n  <div class=\"container-fluid\">\r\n    <div class='navbar-header'>\r\n      <button type='button' class='navbar-toggle collapsed' data-toggle=\"collapse\" data-target='#bs-navigationbar'>\r\n        <span class='sr-only'>Toggle navigation</span>\r\n        <span class='icon-bar'></span>\r\n        <span class='icon-bar'></span>\r\n        <span class='icon-bar'></span>\r\n      </button>\r\n      <a class='navbar-brand' routerLink=\"home\">Image Hunt</a>\r\n    </div>\r\n    <div id=\"bs-navigationbar\" class=\"navbar-collapse collapse\" >\r\n      <ul class=\"nav navbar-nav\" routerLinkActive=\"active\">\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"home\"><span class=\"fa fa-home\"></span> Home</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"game\"><span class=\"fa fa-gamepad\"></span> Jeu</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"team\"><span class=\"fa fa-users\"></span> Teams</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"map\"><span class=\"fa fa-map\"></span> Carte</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"admin\"><span class=\"fa fa-lock\"></span> Admin</a></li>\r\n      </ul>\r\n      <ul class=\"nav navbar-nav navbar-right\">\r\n        <li><google-button></google-button></li>\r\n      </ul>\r\n\r\n    </div>\r\n  </div>\r\n</nav>\r\n\r\n"
 
 /***/ }),
 
@@ -949,12 +959,14 @@ NavmenuComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__navmenu_component__ = __webpack_require__("../../../../../src/navmenu/navmenu.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_google_button_google_button_module__ = __webpack_require__("../../../../../src/shared/google-button/google.button.module.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -966,7 +978,7 @@ var NavmenuModule = (function () {
 }());
 NavmenuModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_2__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */]],
+        imports: [__WEBPACK_IMPORTED_MODULE_2__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */], __WEBPACK_IMPORTED_MODULE_4__shared_google_button_google_button_module__["a" /* GoogleButtonModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_1__navmenu_component__["a" /* NavmenuComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_1__navmenu_component__["a" /* NavmenuComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_1__navmenu_component__["a" /* NavmenuComponent */]]
@@ -1072,6 +1084,116 @@ PageNotFoundModule = __decorate([
 ], PageNotFoundModule);
 
 //# sourceMappingURL=page.not.found.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/shared/google-button/google.button.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<button class=\"btn btn-danger\" *ngIf=\"!authenticated\" (click)=\"authenticate()\">\r\n  <span class=\"fa fa-google\"> Sign in with Google</span>\r\n</button>\r\n<button class=\"btn btn-default\" *ngIf=\"authenticated\" (click)=\"authenticate()\">\r\n  <span class=\"fa fa-google\"> Logout</span>\r\n</button>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/shared/google-button/google.button.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/shared/google-button/google.button.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GoogleButtonComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__ = __webpack_require__("../../../../ng2-ui-auth/undefined/ng2-ui-auth.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var GoogleButtonComponent = (function () {
+    /** google.button ctor */
+    function GoogleButtonComponent(auth) {
+        this.auth = auth;
+    }
+    /** Called by Angular after google.button component initialized */
+    GoogleButtonComponent.prototype.ngOnInit = function () { };
+    GoogleButtonComponent.prototype.authenticate = function () {
+        var _this = this;
+        this.auth.authenticate('google')
+            .subscribe({ complete: function () { return _this.authenticated = !_this.authenticated; } });
+    };
+    return GoogleButtonComponent;
+}());
+GoogleButtonComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'google-button',
+        template: __webpack_require__("../../../../../src/shared/google-button/google.button.component.html"),
+        styles: [__webpack_require__("../../../../../src/shared/google-button/google.button.component.scss")]
+    })
+    /** google.button component*/
+    ,
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__["a" /* AuthService */]) === "function" && _a || Object])
+], GoogleButtonComponent);
+
+var _a;
+//# sourceMappingURL=google.button.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/shared/google-button/google.button.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GoogleButtonModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__google_button_component__ = __webpack_require__("../../../../../src/shared/google-button/google.button.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+var GoogleButtonModule = (function () {
+    function GoogleButtonModule() {
+    }
+    return GoogleButtonModule;
+}());
+GoogleButtonModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [__WEBPACK_IMPORTED_MODULE_2__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */]],
+        declarations: [__WEBPACK_IMPORTED_MODULE_1__google_button_component__["a" /* GoogleButtonComponent */]],
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_1__google_button_component__["a" /* GoogleButtonComponent */]],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__google_button_component__["a" /* GoogleButtonComponent */]]
+    })
+], GoogleButtonModule);
+
+//# sourceMappingURL=google.button.module.js.map
 
 /***/ }),
 

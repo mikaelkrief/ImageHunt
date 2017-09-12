@@ -87,7 +87,7 @@ function toComment(sourceMap) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Ng2UiAuthModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return Ng2UiAuthModule; });
 /* unused harmony export LocalService */
 /* unused harmony export Oauth2Service */
 /* unused harmony export Oauth1Service */
@@ -97,9 +97,9 @@ function toComment(sourceMap) {
 /* unused harmony export SharedService */
 /* unused harmony export StorageService */
 /* unused harmony export BrowserStorageService */
-/* unused harmony export AuthService */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthService; });
 /* unused harmony export ConfigService */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CustomConfig; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return CustomConfig; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/Observable.js");

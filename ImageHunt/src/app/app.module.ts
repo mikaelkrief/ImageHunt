@@ -22,11 +22,17 @@ import {GameListModule} from "../game/game-list/game-list.module";
 import {GameDetailModule} from "../game/game-detail/game.detail.module";
 import {GameListComponent} from "../game/game-list/game-list.component";
 import {GameDetailComponent} from "../game/game-detail/game.detail.component";
+import {GoogleButtonModule} from "../shared/google-button/google.button.module";
+import {environment} from "../environments/environment";
 
-export const GOOGLE_CLIENT_ID = '663482349038-jregj38js8hr7fm104jpnoisrgegorh8.apps.googleusercontent.com';
 export class MyAuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': 'application/json' };
-  providers = { google: { clientId: GOOGLE_CLIENT_ID } };
+  providers = {
+    google: { clientId: environment.GOOGLE_CLIENT_ID },
+  };
+  tokenName = 'accessToken';
+  tokenPrefix = '';
+  baseUrl = environment.API_ENDPOINT;
 }
 @NgModule({
   declarations: [
@@ -46,6 +52,7 @@ export class MyAuthConfig extends CustomConfig {
     NewAdminModule,
     NavmenuModule,
     PageNotFoundModule,
+    GoogleButtonModule,
     Ng2UiAuthModule.forRoot(MyAuthConfig),
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent },
