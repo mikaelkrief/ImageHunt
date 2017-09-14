@@ -334,6 +334,8 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__game_game_detail_game_detail_component__ = __webpack_require__("../../../../../src/game/game-detail/game.detail.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__shared_google_button_google_button_module__ = __webpack_require__("../../../../../src/shared/google-button/google.button.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__shared_globals__ = __webpack_require__("../../../../../src/shared/globals.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__game_game_create_game_create_module__ = __webpack_require__("../../../../../src/game/game-create/game.create.module.ts");
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -350,6 +352,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -409,6 +413,7 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_7__home_home_module__["a" /* HomeModule */],
             __WEBPACK_IMPORTED_MODULE_19__game_game_list_game_list_module__["a" /* GameListModule */],
             __WEBPACK_IMPORTED_MODULE_20__game_game_detail_game_detail_module__["a" /* GameDetailModule */],
+            __WEBPACK_IMPORTED_MODULE_26__game_game_create_game_create_module__["a" /* GameCreateModule */],
             __WEBPACK_IMPORTED_MODULE_9__team_team_module__["a" /* TeamModule */],
             __WEBPACK_IMPORTED_MODULE_14__map_map_module__["a" /* MapModule */],
             __WEBPACK_IMPORTED_MODULE_17__admin_admin_list_admin_list_module__["a" /* AdminListModule */],
@@ -428,7 +433,7 @@ AppModule = __decorate([
                 { path: '**', component: __WEBPACK_IMPORTED_MODULE_12__page_not_found_page_not_found_component__["a" /* PageNotFoundComponent */] }
             ])
         ],
-        providers: []
+        providers: [__WEBPACK_IMPORTED_MODULE_25__shared_globals__["a" /* Globals */]]
     })
 ], AppModule);
 
@@ -452,6 +457,116 @@ var environment = {
     API_ENDPOINT: "api",
 };
 //# sourceMappingURL=environment.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/game/game-create/game.create.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<h2>Creation d'une partie</h2>\r\n\r\n<form>\r\n  <label>Administrateur</label>\r\n  <!--<span>{{admin.name}}</span>-->\r\n  <div class=\"form-inline\">\r\n    <div class=\"input-group\">\r\n      <label for=\"name\">Nom de la partie</label>\r\n      <input type=\"text\" class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de la partie\" id=\"name\"/>\r\n    </div>\r\n    <div class=\"input-group\">\r\n      <label for=\"startDate\">Date de la partie</label>\r\n    </div>\r\n  </div>\r\n  <script type=\"text/javascript\">\r\n    $(function () {\r\n      $('#datetimepicker1').datetimepicker();\r\n    });\r\n  </script>\r\n</form>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/game/game-create/game.create.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/game/game-create/game.create.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GameCreateComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_globals__ = __webpack_require__("../../../../../src/shared/globals.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var GameCreateComponent = (function () {
+    /** game.create ctor */
+    function GameCreateComponent(globals) {
+        this.globals = globals;
+    }
+    /** Called by Angular after game.create component initialized */
+    GameCreateComponent.prototype.ngOnInit = function () {
+        this.admin = this.globals.connectedUser;
+    };
+    return GameCreateComponent;
+}());
+GameCreateComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'game-create',
+        template: __webpack_require__("../../../../../src/game/game-create/game.create.component.html"),
+        styles: [__webpack_require__("../../../../../src/game/game-create/game.create.component.scss")]
+    })
+    /** game.create component*/
+    ,
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__shared_globals__["a" /* Globals */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__shared_globals__["a" /* Globals */]) === "function" && _a || Object])
+], GameCreateComponent);
+
+var _a;
+//# sourceMappingURL=game.create.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/game/game-create/game.create.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GameCreateModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__game_create_component__ = __webpack_require__("../../../../../src/game/game-create/game.create.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+var GameCreateModule = (function () {
+    function GameCreateModule() {
+    }
+    return GameCreateModule;
+}());
+GameCreateModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* RouterModule */]],
+        declarations: [__WEBPACK_IMPORTED_MODULE_3__game_create_component__["a" /* GameCreateComponent */]],
+        exports: [__WEBPACK_IMPORTED_MODULE_3__game_create_component__["a" /* GameCreateComponent */]],
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_3__game_create_component__["a" /* GameCreateComponent */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_4__shared_services_game_service__["a" /* GameService */]]
+    })
+], GameCreateModule);
+
+//# sourceMappingURL=game.create.module.js.map
 
 /***/ }),
 
@@ -573,7 +688,7 @@ GameDetailModule = __decorate([
 /***/ "../../../../../src/game/game-list/game-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Jeux existants</h2>\r\n<table class=\"table\">\r\n  <thead>\r\n  <tr>\r\n    <th>Nom</th>\r\n    <th>Date de la chasse</th>\r\n    <th>Active</th>\r\n  </tr>\r\n  </thead>\r\n</table>\r\n<h2>Création d'un nouveau jeu</h2>\r\n"
+module.exports = "<h2>Jeux existants</h2>\r\n<table class=\"table\">\r\n  <thead>\r\n  <tr>\r\n    <th>Nom</th>\r\n    <th>Date de la chasse</th>\r\n    <th>Active</th>\r\n  </tr>\r\n  </thead>\r\n</table>\r\n<game-create></game-create>\r\n"
 
 /***/ }),
 
@@ -642,12 +757,14 @@ GameListComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__game_list_component__ = __webpack_require__("../../../../../src/game/game-list/game-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__game_create_game_create_module__ = __webpack_require__("../../../../../src/game/game-create/game.create.module.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -658,7 +775,7 @@ var GameListModule = (function () {
 }());
 GameListModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]],
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_3__game_create_game_create_module__["a" /* GameCreateModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_2__game_list_component__["a" /* GameListComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_2__game_list_component__["a" /* GameListComponent */]]
     })
@@ -699,6 +816,7 @@ module.exports = module.exports.toString();
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_globals__ = __webpack_require__("../../../../../src/shared/globals.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -709,9 +827,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var HomeComponent = (function () {
     /** home ctor */
-    function HomeComponent() {
+    function HomeComponent(globals) {
+        this.globals = globals;
     }
     /** Called by Angular after home component initialized */
     HomeComponent.prototype.ngOnInit = function () { };
@@ -725,9 +845,10 @@ HomeComponent = __decorate([
     })
     /** home component*/
     ,
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__shared_globals__["a" /* Globals */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__shared_globals__["a" /* Globals */]) === "function" && _a || Object])
 ], HomeComponent);
 
+var _a;
 //# sourceMappingURL=home.component.js.map
 
 /***/ }),
@@ -889,7 +1010,7 @@ MapModule = __decorate([
 /***/ "../../../../../src/navmenu/navmenu.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-inverse\">\r\n  <div class=\"container-fluid\">\r\n    <div class='navbar-header'>\r\n      <button type='button' class='navbar-toggle collapsed' data-toggle=\"collapse\" data-target='#bs-navigationbar'>\r\n        <span class='sr-only'>Toggle navigation</span>\r\n        <span class='icon-bar'></span>\r\n        <span class='icon-bar'></span>\r\n        <span class='icon-bar'></span>\r\n      </button>\r\n      <a class='navbar-brand' routerLink=\"home\">Image Hunt</a>\r\n    </div>\r\n    <div id=\"bs-navigationbar\" class=\"navbar-collapse collapse\" >\r\n      <ul class=\"nav navbar-nav\" routerLinkActive=\"active\">\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"home\"><span class=\"fa fa-home\"></span> Home</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"game\"><span class=\"fa fa-gamepad\"></span> Jeu</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"team\"><span class=\"fa fa-users\"></span> Teams</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"map\"><span class=\"fa fa-map\"></span> Carte</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"admin\"><span class=\"fa fa-lock\"></span> Admin</a></li>\r\n      </ul>\r\n      <ul class=\"nav navbar-nav navbar-right\">\r\n        <li><google-button></google-button></li>\r\n      </ul>\r\n\r\n    </div>\r\n  </div>\r\n</nav>\r\n\r\n"
+module.exports = "<nav class=\"navbar navbar-inverse\">\r\n  <div class=\"container-fluid\">\r\n    <div class='navbar-header'>\r\n      <button type='button' class='navbar-toggle collapsed' data-toggle=\"collapse\" data-target='#bs-navigationbar'>\r\n        <span class='sr-only'>Toggle navigation</span>\r\n        <span class='icon-bar'></span>\r\n        <span class='icon-bar'></span>\r\n        <span class='icon-bar'></span>\r\n      </button>\r\n      <a class='navbar-brand' routerLink=\"home\">Image Hunt</a>\r\n    </div>\r\n    <div id=\"bs-navigationbar\" class=\"navbar-collapse collapse\" >\r\n      <ul class=\"nav navbar-nav\" routerLinkActive=\"active\" *ngIf=\"isAuthenticated\">\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"home\"><span class=\"fa fa-home\"></span> Home</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"game\"><span class=\"fa fa-gamepad\"></span> Jeu</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"team\"><span class=\"fa fa-users\"></span> Teams</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"map\"><span class=\"fa fa-map\"></span> Carte</a></li>\r\n        <li class=\"nav-item\"><a class=\"nav-link\" routerLink=\"admin\"><span class=\"fa fa-lock\"></span> Admin</a></li>\r\n      </ul>\r\n      <ul class=\"nav navbar-nav navbar-right\">\r\n        <li><google-button></google-button></li>\r\n      </ul>\r\n\r\n    </div>\r\n  </div>\r\n</nav>\r\n\r\n"
 
 /***/ }),
 
@@ -917,6 +1038,7 @@ module.exports = module.exports.toString();
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NavmenuComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__ = __webpack_require__("../../../../ng2-ui-auth/undefined/ng2-ui-auth.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -927,12 +1049,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var NavmenuComponent = (function () {
     /** navmenu ctor */
-    function NavmenuComponent() {
+    function NavmenuComponent(auth) {
+        this.auth = auth;
     }
     /** Called by Angular after navmenu component initialized */
-    NavmenuComponent.prototype.ngOnInit = function () { };
+    NavmenuComponent.prototype.ngOnInit = function () {
+        this.isAuthenticated = this.auth.isAuthenticated();
+    };
     return NavmenuComponent;
 }());
 NavmenuComponent = __decorate([
@@ -943,9 +1069,10 @@ NavmenuComponent = __decorate([
     })
     /** navmenu component*/
     ,
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__["a" /* AuthService */]) === "function" && _a || Object])
 ], NavmenuComponent);
 
+var _a;
 //# sourceMappingURL=navmenu.component.js.map
 
 /***/ }),
@@ -1087,10 +1214,36 @@ PageNotFoundModule = __decorate([
 
 /***/ }),
 
+/***/ "../../../../../src/shared/globals.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Globals; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var Globals = (function () {
+    function Globals() {
+    }
+    return Globals;
+}());
+Globals = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
+], Globals);
+
+//# sourceMappingURL=globals.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/shared/google-button/google.button.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<button class=\"btn btn-danger\" *ngIf=\"!authenticated\" (click)=\"authenticate()\">\r\n  <span class=\"fa fa-google\"> Sign in with Google</span>\r\n</button>\r\n<button class=\"btn btn-default\" *ngIf=\"authenticated\" (click)=\"authenticate()\">\r\n  <span class=\"fa fa-google\"> Logout</span>\r\n</button>\r\n"
+module.exports = "<button class=\"btn btn-danger\" *ngIf=\"!authenticated\" (click)=\"authenticate()\">\r\n  <span class=\"fa fa-google\"> Sign in with Google</span>\r\n</button>\r\n<button class=\"btn btn-default\" *ngIf=\"authenticated\" (click)=\"logout()\">\r\n  <span class=\"fa fa-google\"> Logout</span>\r\n</button>\r\n"
 
 /***/ }),
 
@@ -1119,6 +1272,8 @@ module.exports = module.exports.toString();
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GoogleButtonComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__ = __webpack_require__("../../../../ng2-ui-auth/undefined/ng2-ui-auth.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_admin_service__ = __webpack_require__("../../../../../src/shared/services/admin.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__globals__ = __webpack_require__("../../../../../src/shared/globals.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1130,17 +1285,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
 var GoogleButtonComponent = (function () {
     /** google.button ctor */
-    function GoogleButtonComponent(auth) {
+    function GoogleButtonComponent(auth, adminService, globals) {
         this.auth = auth;
+        this.adminService = adminService;
+        this.globals = globals;
     }
     /** Called by Angular after google.button component initialized */
-    GoogleButtonComponent.prototype.ngOnInit = function () { };
+    GoogleButtonComponent.prototype.ngOnInit = function () {
+        this.authenticated = this.auth.isAuthenticated();
+    };
     GoogleButtonComponent.prototype.authenticate = function () {
         var _this = this;
         this.auth.authenticate('google')
-            .subscribe({ complete: function () { return _this.authenticated = !_this.authenticated; } });
+            .subscribe({
+            next: function (response) {
+                var data = response.json();
+                _this.auth.setToken(data.access_token);
+                _this.userEmail = data.email;
+                console.log(_this.userEmail);
+            },
+            complete: function () {
+                _this.authenticated = _this.authenticated = _this.auth.isAuthenticated();
+                _this.adminService.getAdminByEmail(_this.userEmail).subscribe(function (value) { return _this.globals.connectedUser = value.json(); });
+            }
+        });
+    };
+    GoogleButtonComponent.prototype.logout = function () {
+        var _this = this;
+        this.auth.logout()
+            .subscribe({ complete: function () { return _this.authenticated = _this.auth.isAuthenticated(); } });
     };
     return GoogleButtonComponent;
 }());
@@ -1152,10 +1329,10 @@ GoogleButtonComponent = __decorate([
     })
     /** google.button component*/
     ,
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__["a" /* AuthService */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__["a" /* AuthService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_admin_service__["a" /* AdminService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__globals__["a" /* Globals */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__globals__["a" /* Globals */]) === "function" && _c || Object])
 ], GoogleButtonComponent);
 
-var _a;
+var _a, _b, _c;
 //# sourceMappingURL=google.button.component.js.map
 
 /***/ }),
@@ -1234,6 +1411,9 @@ var AdminService = (function () {
     };
     AdminService.prototype.deleteAdmin = function (adminId) {
         return this.http.delete('api/admin/' + adminId).toPromise();
+    };
+    AdminService.prototype.getAdminByEmail = function (email) {
+        return this.http.get('api/admin/ByEmail/' + email);
     };
     return AdminService;
 }());

@@ -18,12 +18,12 @@ namespace ImageHunt.Controllers
     {
       return Ok(_adminService.GetAllAdmins());
     }
-    [HttpGet("/id={adminId}")]
+    [HttpGet("ById/{adminId}")]
     public IActionResult GetAdminById(int adminId)
     {
       return Ok(_adminService.GetAdminById(adminId));
     }
-    [HttpGet("/email={email}")]
+    [HttpGet("ByEmail/{email}")]
     public IActionResult GetAdminByEmail(string email)
     {
       return Ok(_adminService.GetAdminByEmail(email));

@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { Ng2UiAuthModule, CustomConfig } from 'ng2-ui-auth';
 import { HomeModule } from "../home/home.module";
@@ -24,6 +25,8 @@ import {GameListComponent} from "../game/game-list/game-list.component";
 import {GameDetailComponent} from "../game/game-detail/game.detail.component";
 import {GoogleButtonModule} from "../shared/google-button/google.button.module";
 import {environment} from "../environments/environment";
+import {Globals} from "../shared/globals";
+import {GameCreateModule} from "../game/game-create/game.create.module";
 
 export class MyAuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': 'application/json' };
@@ -41,11 +44,13 @@ export class MyAuthConfig extends CustomConfig {
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
     HomeModule,
     GameListModule,
     GameDetailModule,
+    GameCreateModule,
     TeamModule,
     MapModule,
     AdminListModule,
@@ -64,6 +69,7 @@ export class MyAuthConfig extends CustomConfig {
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', component: PageNotFoundComponent }])
   ],
-  providers: []
+  providers: [Globals]
 })
-export class AppModule { } 
+export class AppModule {
+} 

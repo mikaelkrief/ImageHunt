@@ -1,4 +1,5 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {AuthService} from "ng2-ui-auth";
 
 @Component({
     selector: 'navmenu',
@@ -8,9 +9,12 @@
 /** navmenu component*/
 export class NavmenuComponent implements OnInit
 {
+  isAuthenticated:boolean;
     /** navmenu ctor */
-    constructor() { }
+  constructor(private auth: AuthService) { }
 
     /** Called by Angular after navmenu component initialized */
-    ngOnInit(): void { }
+    ngOnInit(): void {
+      this.isAuthenticated = this.auth.isAuthenticated();
+    }
 }

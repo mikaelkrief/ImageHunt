@@ -1,6 +1,6 @@
 <button class="btn btn-danger" *ngIf="!authenticated" (click)="authenticate()">
   <span class="fa fa-google"> Sign in with Google</span>
 </button>
-<button class="btn btn-default" *ngIf="authenticated" (click)="authenticate()">
+<button class="btn btn-default" *ngIf="authenticated" (click)="logout()">
   <span class="fa fa-google"> Logout</span>
 </button>

@@ -10,7 +10,7 @@
       <a class='navbar-brand' routerLink="home">Image Hunt</a>
     </div>
     <div id="bs-navigationbar" class="navbar-collapse collapse" >
-      <ul class="nav navbar-nav" routerLinkActive="active">
+      <ul class="nav navbar-nav" routerLinkActive="active" *ngIf="isAuthenticated">
         <li class="nav-item"><a class="nav-link" routerLink="home"><span class="fa fa-home"></span> Home</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="game"><span class="fa fa-gamepad"></span> Jeu</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="team"><span class="fa fa-users"></span> Teams</a></li>

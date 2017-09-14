@@ -13,6 +13,7 @@ namespace ImageHunt.Controllers
         {
             _gameService = gameService;
         }
+        
         [HttpGet("{gameId}")]
         public IActionResult GetGameById(int gameId)
         {

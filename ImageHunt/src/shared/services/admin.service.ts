@@ -17,4 +17,7 @@ export class AdminService {
   deleteAdmin(adminId: number) {
     return this.http.delete('api/admin/' + adminId).toPromise();
   }
+  getAdminByEmail(email: string) {
+    return this.http.get('api/admin/ByEmail/' + email);
+  }
 }

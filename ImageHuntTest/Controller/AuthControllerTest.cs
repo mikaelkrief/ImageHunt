@@ -30,8 +30,8 @@ namespace ImageHuntTest.Controller
             _httpUser = new HttpClient(_fakeUserMessageHandler) { BaseAddress = new Uri("http://test.com") };
             _authService = A.Fake<IAuthService>();
             _configuration = A.Fake<IConfigurationRoot>();
-
-            _target = new AuthController(_configuration, _httpToken, _httpUser, _authService);
+            var parameters = new AuthControllerParameters(_configuration, _httpToken, _httpUser, _authService);
+            _target = new AuthController(parameters);
         }
 
         [Fact]

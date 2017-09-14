@@ -12,9 +12,10 @@ using System;
 namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
-    partial class HuntContextModelSnapshot : ModelSnapshot
+    [Migration("20170913192125_AddChatLoginForPlayers")]
+    partial class AddChatLoginForPlayers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
