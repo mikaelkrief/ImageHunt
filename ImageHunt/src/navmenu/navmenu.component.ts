@@ -9,7 +9,8 @@ import {AuthService} from "ng2-ui-auth";
 /** navmenu component*/
 export class NavmenuComponent implements OnInit
 {
-  isAuthenticated:boolean;
+  isAuthenticated: boolean;
+  isCollapsed: boolean;
     /** navmenu ctor */
   constructor(private auth: AuthService) { }
 

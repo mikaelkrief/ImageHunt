@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import {AgmCoreModule} from '@agm/core';
 import { AppComponent } from './app.component';
 
 import { FormsModule } from '@angular/forms';
@@ -45,6 +46,7 @@ export class MyAuthConfig extends CustomConfig {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    AgmCoreModule.forRoot({apiKey:environment.GOOGLE_MAP_API_KEY}),
     FormsModule,
     HttpModule,
     HomeModule,

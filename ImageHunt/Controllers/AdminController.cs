@@ -1,5 +1,6 @@
 using ImageHunt.Model;
 using ImageHunt.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ImageHunt.Controllers
@@ -14,6 +15,7 @@ namespace ImageHunt.Controllers
       _adminService = adminService;
     }
     [HttpGet]
+    [Authorize]
     public IActionResult GetAllAdmins()
     {
       return Ok(_adminService.GetAllAdmins());

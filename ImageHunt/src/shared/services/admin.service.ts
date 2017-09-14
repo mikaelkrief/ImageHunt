@@ -3,10 +3,11 @@ import { Http } from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import {Admin} from "../admin";
+import { JwtHttp } from "ng2-ui-auth";
 
 @Injectable()
 export class AdminService {
-  constructor(private http: Http) { }
+  constructor(private http: JwtHttp) { }
   getAllAdmins() {
     return this.http.get('api/admin')
       .map(a => a.json());
