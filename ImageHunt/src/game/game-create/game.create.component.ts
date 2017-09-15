@@ -10,7 +10,8 @@ import {Admin} from "../../shared/admin";
 /** game.create component*/
 export class GameCreateComponent implements OnInit
 {
-  admin:Admin;
+  admin: Admin;
+  value: Date;
     /** game.create ctor */
     constructor(private globals:Globals) { }
 

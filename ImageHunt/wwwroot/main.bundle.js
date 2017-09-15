@@ -75,7 +75,7 @@ var AdminListComponent = (function () {
     return AdminListComponent;
 }());
 AdminListComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'admin-list',
         template: __webpack_require__("../../../../../src/admin/admin-list/admin-list.component.html"),
         styles: [__webpack_require__("../../../../../src/admin/admin-list/admin-list.component.scss")]
@@ -121,8 +121,8 @@ var AdminListModule = (function () {
     return AdminListModule;
 }());
 AdminListModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* RouterModule */], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["a" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_6__new_admin_new_admin_module__["a" /* NewAdminModule */]],
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_4__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_6__new_admin_new_admin_module__["a" /* NewAdminModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_2__admin_list_component__["a" /* AdminListComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_2__admin_list_component__["a" /* AdminListComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_2__admin_list_component__["a" /* AdminListComponent */]],
@@ -191,7 +191,7 @@ var NewAdminComponent = (function () {
     return NewAdminComponent;
 }());
 NewAdminComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'new-admin',
         template: __webpack_require__("../../../../../src/admin/new-admin/new.admin.component.html"),
         styles: [__webpack_require__("../../../../../src/admin/new-admin/new.admin.component.scss")]
@@ -235,8 +235,8 @@ var NewAdminModule = (function () {
     return NewAdminModule;
 }());
 NewAdminModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* RouterModule */], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["a" /* FormsModule */]],
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormsModule"]],
         declarations: [__WEBPACK_IMPORTED_MODULE_4__new_admin_component__["a" /* NewAdminComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_4__new_admin_component__["a" /* NewAdminComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_4__new_admin_component__["a" /* NewAdminComponent */]],
@@ -292,7 +292,7 @@ var AppComponent = (function () {
     return AppComponent;
 }());
 AppComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-root',
         template: __webpack_require__("../../../../../src/app/app.component.html"),
         styles: [__webpack_require__("../../../../../src/app/app.component.css")]
@@ -405,16 +405,16 @@ var AppModule = (function () {
     return AppModule;
 }());
 AppModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["M" /* NgModule */])({
+    Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"])({
         declarations: [
             __WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */],
         ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */]],
         imports: [
-            __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["BrowserModule"],
             __WEBPACK_IMPORTED_MODULE_6__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
             __WEBPACK_IMPORTED_MODULE_3__agm_core__["a" /* AgmCoreModule */].forRoot({ apiKey: __WEBPACK_IMPORTED_MODULE_26__environments_environment__["a" /* environment */].GOOGLE_MAP_API_KEY }),
-            __WEBPACK_IMPORTED_MODULE_5__angular_forms__["a" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"],
             __WEBPACK_IMPORTED_MODULE_7__angular_http__["c" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_9__home_home_module__["a" /* HomeModule */],
             __WEBPACK_IMPORTED_MODULE_21__game_game_list_game_list_module__["a" /* GameListModule */],
@@ -428,7 +428,7 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_10__page_not_found_page_not_found_module__["a" /* PageNotFoundModule */],
             __WEBPACK_IMPORTED_MODULE_25__shared_google_button_google_button_module__["a" /* GoogleButtonModule */],
             __WEBPACK_IMPORTED_MODULE_8_ng2_ui_auth__["d" /* Ng2UiAuthModule */].forRoot(MyAuthConfig),
-            __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* RouterModule */].forRoot([
+            __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"].forRoot([
                 { path: 'home', component: __WEBPACK_IMPORTED_MODULE_13__home_home_component__["a" /* HomeComponent */] },
                 { path: 'game', component: __WEBPACK_IMPORTED_MODULE_23__game_game_list_game_list_component__["a" /* GameListComponent */] },
                 { path: 'game/:gameId', component: __WEBPACK_IMPORTED_MODULE_24__game_game_detail_game_detail_component__["a" /* GameDetailComponent */] },
@@ -470,7 +470,7 @@ var environment = {
 /***/ "../../../../../src/game/game-create/game.create.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Creation d'une partie</h2>\r\n\r\n<form>\r\n  <label>Administrateur</label>\r\n  <!--<span>{{admin.name}}</span>-->\r\n  <div class=\"form-inline\">\r\n    <div class=\"input-group\">\r\n      <label for=\"name\">Nom de la partie</label>\r\n      <input type=\"text\" class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de la partie\" id=\"name\"/>\r\n    </div>\r\n    <div class=\"input-group\">\r\n      <label for=\"startDate\">Date de la partie</label>\r\n    </div>\r\n  </div>\r\n  <script type=\"text/javascript\">\r\n    $(function () {\r\n      $('#datetimepicker1').datetimepicker();\r\n    });\r\n  </script>\r\n</form>\r\n"
+module.exports = "<h2>Creation d'une partie</h2>\r\n\r\n<form>\r\n  <label>Administrateur</label>\r\n  <!--<span>{{admin.name}}</span>-->\r\n  <div class=\"form-inline\">\r\n    <div class=\"input-group\">\r\n      <label for=\"name\">Nom de la partie</label>\r\n      <input type=\"text\" class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de la partie\" id=\"name\"/>\r\n    </div>\r\n    <div class=\"input-group\">\r\n      <label for=\"startDate\">Date de la partie</label>\r\n      <p-calendar [(ngModel)]=\"value\"></p-calendar>\r\n    </div>\r\n  </div>\r\n</form>\r\n"
 
 /***/ }),
 
@@ -522,7 +522,7 @@ var GameCreateComponent = (function () {
     return GameCreateComponent;
 }());
 GameCreateComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'game-create',
         template: __webpack_require__("../../../../../src/game/game-create/game.create.component.html"),
         styles: [__webpack_require__("../../../../../src/game/game-create/game.create.component.scss")]
@@ -545,8 +545,11 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__game_create_component__ = __webpack_require__("../../../../../src/game/game-create/game.create.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__game_create_component__ = __webpack_require__("../../../../../src/game/game-create/game.create.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__ = __webpack_require__("../../../../primeng/primeng.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_primeng_primeng__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -558,18 +561,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+
 var GameCreateModule = (function () {
     function GameCreateModule() {
     }
     return GameCreateModule;
 }());
 GameCreateModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* RouterModule */]],
-        declarations: [__WEBPACK_IMPORTED_MODULE_3__game_create_component__["a" /* GameCreateComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_3__game_create_component__["a" /* GameCreateComponent */]],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_3__game_create_component__["a" /* GameCreateComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_4__shared_services_game_service__["a" /* GameService */]]
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["CalendarModule"]],
+        declarations: [__WEBPACK_IMPORTED_MODULE_4__game_create_component__["a" /* GameCreateComponent */]],
+        exports: [__WEBPACK_IMPORTED_MODULE_4__game_create_component__["a" /* GameCreateComponent */]],
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_4__game_create_component__["a" /* GameCreateComponent */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_5__shared_services_game_service__["a" /* GameService */]]
     })
 ], GameCreateModule);
 
@@ -637,14 +642,14 @@ var GameDetailComponent = (function () {
     return GameDetailComponent;
 }());
 GameDetailComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'game-detail',
         template: __webpack_require__("../../../../../src/game/game-detail/game.detail.component.html"),
         styles: [__webpack_require__("../../../../../src/game/game-detail/game.detail.component.scss")]
     })
     /** gameDetail component*/
     ,
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */]) === "function" && _b || Object])
 ], GameDetailComponent);
 
 var _a, _b;
@@ -679,8 +684,8 @@ var GameDetailModule = (function () {
     return GameDetailModule;
 }());
 GameDetailModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* RouterModule */]],
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"]],
         declarations: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
@@ -742,7 +747,7 @@ var GameListComponent = (function () {
     return GameListComponent;
 }());
 GameListComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'game-list',
         template: __webpack_require__("../../../../../src/game/game-list/game-list.component.html"),
         styles: [__webpack_require__("../../../../../src/game/game-list/game-list.component.scss")]
@@ -781,8 +786,8 @@ var GameListModule = (function () {
     return GameListModule;
 }());
 GameListModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_3__game_create_game_create_module__["a" /* GameCreateModule */]],
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_3__game_create_game_create_module__["a" /* GameCreateModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_2__game_list_component__["a" /* GameListComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_2__game_list_component__["a" /* GameListComponent */]]
     })
@@ -845,7 +850,7 @@ var HomeComponent = (function () {
     return HomeComponent;
 }());
 HomeComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'home',
         template: __webpack_require__("../../../../../src/home/home.component.html"),
         styles: [__webpack_require__("../../../../../src/home/home.component.scss")]
@@ -883,8 +888,8 @@ var HomeModule = (function () {
     return HomeModule;
 }());
 HomeModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]],
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"]],
         declarations: [__WEBPACK_IMPORTED_MODULE_2__home_component__["a" /* HomeComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_2__home_component__["a" /* HomeComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_2__home_component__["a" /* HomeComponent */]]
@@ -909,7 +914,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].production) {
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_24" /* enableProdMode */])();
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["enableProdMode"])();
 }
 Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */]);
 //# sourceMappingURL=main.js.map
@@ -919,7 +924,7 @@ Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* pl
 /***/ "../../../../../src/map/map.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Module de création des parcours de la chasse</h2>\r\n"
+module.exports = "<h2>Module de création des parcours de la chasse</h2>\r\n<agm-map [latitude]=\"lat\" [longitude]=\"lng\">\r\n  <agm-marker [latitude]=\"lat\" [longitude]=\"lng\"></agm-marker>\r\n</agm-map>\r\n"
 
 /***/ }),
 
@@ -931,7 +936,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ":host agm-map {\n  height: 300px; }\n", ""]);
 
 // exports
 
@@ -960,13 +965,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var MapComponent = (function () {
     /** map ctor */
     function MapComponent() {
+        this.title = 'My first AGM project';
+        this.lat = 51.678418;
+        this.lng = 7.809007;
     }
     /** Called by Angular after map component initialized */
     MapComponent.prototype.ngOnInit = function () { };
     return MapComponent;
 }());
 MapComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'map',
         template: __webpack_require__("../../../../../src/map/map.component.html"),
         styles: [__webpack_require__("../../../../../src/map/map.component.scss")]
@@ -986,8 +994,10 @@ MapComponent = __decorate([
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__map_component__ = __webpack_require__("../../../../../src/map/map.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__agm_core__ = __webpack_require__("../../../../@agm/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__map_component__ = __webpack_require__("../../../../../src/map/map.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -997,16 +1007,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+
 var MapModule = (function () {
     function MapModule() {
     }
     return MapModule;
 }());
 MapModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_2__angular_common__["b" /* CommonModule */]],
-        declarations: [__WEBPACK_IMPORTED_MODULE_1__map_component__["a" /* MapComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__map_component__["a" /* MapComponent */]]
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_3__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_1__agm_core__["a" /* AgmCoreModule */].forRoot({ apiKey: __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].GOOGLE_MAP_API_KEY })],
+        declarations: [__WEBPACK_IMPORTED_MODULE_2__map_component__["a" /* MapComponent */]],
+        exports: [__WEBPACK_IMPORTED_MODULE_2__map_component__["a" /* MapComponent */]]
     })
 ], MapModule);
 
@@ -1069,7 +1081,7 @@ var NavmenuComponent = (function () {
     return NavmenuComponent;
 }());
 NavmenuComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'navmenu',
         template: __webpack_require__("../../../../../src/navmenu/navmenu.component.html"),
         styles: [__webpack_require__("../../../../../src/navmenu/navmenu.component.scss")]
@@ -1113,8 +1125,8 @@ var NavmenuModule = (function () {
     return NavmenuModule;
 }());
 NavmenuModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_2__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */], __WEBPACK_IMPORTED_MODULE_4__shared_google_button_google_button_module__["a" /* GoogleButtonModule */], __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap__["a" /* CollapseModule */]],
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_2__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_4__shared_google_button_google_button_module__["a" /* GoogleButtonModule */], __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap__["a" /* CollapseModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_1__navmenu_component__["a" /* NavmenuComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_1__navmenu_component__["a" /* NavmenuComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_1__navmenu_component__["a" /* NavmenuComponent */]]
@@ -1175,7 +1187,7 @@ var PageNotFoundComponent = (function () {
     return PageNotFoundComponent;
 }());
 PageNotFoundComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'page-not-found',
         template: __webpack_require__("../../../../../src/page-not-found/page.not.found.component.html"),
         styles: [__webpack_require__("../../../../../src/page-not-found/page.not.found.component.scss")]
@@ -1212,8 +1224,8 @@ var PageNotFoundModule = (function () {
     return PageNotFoundModule;
 }());
 PageNotFoundModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_2__angular_common__["b" /* CommonModule */]],
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_2__angular_common__["CommonModule"]],
         declarations: [__WEBPACK_IMPORTED_MODULE_1__page_not_found_component__["a" /* PageNotFoundComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_1__page_not_found_component__["a" /* PageNotFoundComponent */]]
     })
@@ -1242,7 +1254,7 @@ var Globals = (function () {
     return Globals;
 }());
 Globals = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])()
 ], Globals);
 
 //# sourceMappingURL=globals.js.map
@@ -1331,7 +1343,7 @@ var GoogleButtonComponent = (function () {
     return GoogleButtonComponent;
 }());
 GoogleButtonComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'google-button',
         template: __webpack_require__("../../../../../src/shared/google-button/google.button.component.html"),
         styles: [__webpack_require__("../../../../../src/shared/google-button/google.button.component.scss")]
@@ -1371,8 +1383,8 @@ var GoogleButtonModule = (function () {
     return GoogleButtonModule;
 }());
 GoogleButtonModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_2__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* RouterModule */]],
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_2__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["RouterModule"]],
         declarations: [__WEBPACK_IMPORTED_MODULE_1__google_button_component__["a" /* GoogleButtonComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_1__google_button_component__["a" /* GoogleButtonComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_1__google_button_component__["a" /* GoogleButtonComponent */]]
@@ -1427,7 +1439,7 @@ var AdminService = (function () {
     return AdminService;
 }());
 AdminService = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3_ng2_ui_auth__["c" /* JwtHttp */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ng2_ui_auth__["c" /* JwtHttp */]) === "function" && _a || Object])
 ], AdminService);
 
@@ -1464,7 +1476,7 @@ var GameService = (function () {
     return GameService;
 }());
 GameService = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], GameService);
 
@@ -1531,7 +1543,7 @@ var TeamComponent = (function () {
     return TeamComponent;
 }());
 TeamComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'team',
         template: __webpack_require__("../../../../../src/team/team.component.html"),
         styles: [__webpack_require__("../../../../../src/team/team.component.scss")]
@@ -1571,8 +1583,8 @@ var TeamModule = (function () {
     return TeamModule;
 }());
 TeamModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]],
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"]],
         declarations: [__WEBPACK_IMPORTED_MODULE_2__team_component__["a" /* TeamComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_2__team_component__["a" /* TeamComponent */]],
         providers: [__WEBPACK_IMPORTED_MODULE_3__team_service__["a" /* TeamService */]]
@@ -1619,7 +1631,7 @@ var TeamService = (function () {
     return TeamService;
 }());
 TeamService = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], TeamService);
 
