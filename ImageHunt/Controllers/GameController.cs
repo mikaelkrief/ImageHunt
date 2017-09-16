@@ -14,10 +14,15 @@ namespace ImageHunt.Controllers
             _gameService = gameService;
         }
         
-        [HttpGet("{gameId}")]
+        [HttpGet("ById/{gameId}")]
         public IActionResult GetGameById(int gameId)
         {
             return Ok(_gameService.GetGameById(gameId));
         }
+    [HttpGet("ByAdminId/{adminId}")]
+      public IActionResult GetGames(int adminId)
+      {
+        return Ok(_gameService.GetGamesForAdmin(adminId));
+      }
     }
 }

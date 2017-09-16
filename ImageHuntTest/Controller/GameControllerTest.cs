@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using FakeItEasy;
 using ImageHunt.Controllers;
+using ImageHunt.Model;
 using ImageHunt.Services;
+using Microsoft.AspNetCore.Mvc;
+using NFluent;
 using Xunit;
 
 namespace ImageHuntTest.Controller
@@ -28,6 +31,18 @@ namespace ImageHuntTest.Controller
             _target.GetGameById(2);
             // Assert
             A.CallTo(() => _gameService.GetGameById(A<int>._)).MustHaveHappened();
+        }
+
+        [Fact]
+        public void GetGames()
+        {
+            // Arrange
+
+            // Act
+            var result = _target.GetGames(1) as OkObjectResult;
+            // Assert
+            A.CallTo(() => _gameService.GetGamesForAdmin(A<int>._)).MustHaveHappened();
+            Check.That(result).IsNotNull();
         }
     }
 }

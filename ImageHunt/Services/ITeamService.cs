@@ -7,7 +7,7 @@ namespace ImageHunt.Services
     {
         void CreateTeam(Team team);
         void DeleteTeam(Team team);
-        IEnumerable<Team> GetTeams();
+        IEnumerable<Team> GetTeams(int adminId);
       void AddMemberToTeam(Team team, List<Player> players);
       void DelMemberToTeam(Team team, Player playerToDelete);
       Team GetTeamByName(string teamName);

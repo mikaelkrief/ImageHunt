@@ -62,5 +62,22 @@ namespace ImageHuntTest.Services
             Check.That(result).IsEqualTo(games[1]);
         }
 
+        [Fact]
+        public void GetGamesForAdmin()
+        {
+            // Arrange
+            var games = new List<Game>()
+            {
+                new Game(),
+                new Game()
+            };
+            var admin = new Admin() {Games = games};
+            _context.Admins.Add(admin);
+            _context.SaveChanges();
+            // Act
+            var results = _target.GetGamesForAdmin(admin.Id);
+            // Assert
+            Check.That(results).ContainsExactly(games);
+        }
     }
 }

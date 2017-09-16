@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "ng2-ui-auth";
 import {AdminService} from "../services/admin.service";
-import {Globals} from "../globals";
+import {Admin} from "../admin";
+import { AuthService } from "ng2-ui-auth";
+import { LocalStorageService } from "angular-2-local-storage";
 
 @Component({
   selector: 'google-button',
@@ -12,12 +13,21 @@ import {Globals} from "../globals";
 export class GoogleButtonComponent implements OnInit {
   authenticated: boolean;
   userEmail: string;
+  admin:Admin;
   /** google.button ctor */
-  constructor(private auth: AuthService, private adminService: AdminService, private globals:Globals) { }
+  constructor(private auth: AuthService,
+    private adminService: AdminService,
+    private localStorageService: LocalStorageService) { 
+  }
 
   /** Called by Angular after google.button component initialized */
   ngOnInit(): void {
-    this.authenticated = this.auth.isAuthenticated();
+    var expirationDate = <number>(this.localStorageService.get('expiration-date'));
+    this.authenticated = new Date().getTime() < expirationDate;
+    if (this.authenticated)
+      this.admin = <Admin>(this.localStorageService.get('connectedAdmin'));
+    else
+      this.admin = null;
   }
 
   authenticate() {
@@ -27,12 +37,18 @@ export class GoogleButtonComponent implements OnInit {
         next: (response) => {
           let data = response.json();
           this.auth.setToken(data.access_token);
+          var seconds = new Date().getSeconds() + data.expires_in;
+          var expireDate = new Date().setSeconds(seconds);
+          this.localStorageService.set('expiration-date', expireDate);
           this.userEmail = data.email;
-          console.log(this.userEmail);
         },
         complete: () => {
-          this.authenticated = this.authenticated = this.auth.isAuthenticated();
-          this.adminService.getAdminByEmail(this.userEmail).subscribe(value => this.globals.connectedUser = value.json());
+          this.authenticated = this.auth.isAuthenticated();
+          this.adminService.getAdminByEmail(this.userEmail)
+            .subscribe(value => {
+              this.admin = value.json();
+              this.localStorageService.set('connectedAdmin', this.admin);
+            });
         }
 
       });

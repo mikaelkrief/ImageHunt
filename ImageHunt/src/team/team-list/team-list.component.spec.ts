@@ -1,0 +1,27 @@
+/// <reference path="../../../node_modules/@types/jasmine/index.d.ts" />
+import { TestBed, async, ComponentFixture, ComponentFixtureAutoDetect } from '@angular/core/testing';
+import { BrowserModule, By } from "@angular/platform-browser";
+import {TeamListComponent} from "./team-list.component";
+let component: TeamListComponent;
+let fixture: ComponentFixture<TeamListComponent>;
+
+describe('team component', () =>
+{
+    beforeEach(async(() =>
+    {
+        TestBed.configureTestingModule({
+            declarations: [TeamListComponent],
+            imports: [ BrowserModule ],
+            providers: [
+                { provide: ComponentFixtureAutoDetect, useValue: true }
+            ]
+        });
+        fixture = TestBed.createComponent(TeamListComponent);
+        component = fixture.componentInstance;
+    }));
+
+    it('should do something', async(() =>
+    {
+        expect(true).toEqual(true);
+    }));
+});

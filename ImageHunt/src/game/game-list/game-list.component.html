@@ -5,7 +5,21 @@
     <th>Nom</th>
     <th>Date de la chasse</th>
     <th>Active</th>
+    <th>Teams</th>
+    <th>Carte</th>
   </tr>
   </thead>
+  <tbody>
+  <tr *ngFor="let game of games">
+    <td><span class="fa fa-gamepad"></span> <a routerLink="/game/{{game.id}}">{{game.name}}</a></td>
+    <td>{{game.startDate | date:'medium'}}</td>
+    <td>{{game.isActive}}</td>
+    <td>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let team of game.teams"><span class="fa fa-users"> <a routerLink="/team/{{team.id}}">{{team.name}}</a></span></li>
+      </ul>
+    </td>
+  </tr>
+  </tbody>
 </table>
-<game-create></game-create>
+

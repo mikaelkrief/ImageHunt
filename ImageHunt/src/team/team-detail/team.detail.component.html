@@ -1,0 +1,20 @@
+<h2>Détails de la team</h2>
+<div class="col-sm-10">
+  Nom de la team : {{team.name}}
+  <ul class="list-group" *ngIf="team.players != null">
+    <li class="list-group-item" *ngFor="let player of team.players"><span class="fa fa-user"></span> {{player.name}}</li>
+  </ul>
+  <form>
+    <div class="form-inline">
+      <div class="form-control">
+        <label>Pseudo du joueur</label>
+        <input type="text" required/>
+      </div>
+      <div class="form-control">
+        <label>Pseudo de chat</label>
+        <input type="text"/>
+      </div>
+    </div>
+    <a class="btn btn-default" (click)="addPlayer()">Ajouter un joueur</a>
+  </form>
+</div>

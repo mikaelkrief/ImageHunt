@@ -1,4 +1,4 @@
-﻿/// <reference path="../../node_modules/@types/jasmine/index.d.ts" />
+/// <reference path="../../node_modules/@types/jasmine/index.d.ts" />
 import { TestBed, async, ComponentFixture, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { BrowserModule, By } from "@angular/platform-browser";
 import { PageNotFoundComponent } from './page.not.found.component';
@@ -23,6 +23,5 @@ describe('pageNotFound component', () =>
 
     it('should do something', async(() =>
     {
-        expect(true).toEqual(true);
     }));
 });

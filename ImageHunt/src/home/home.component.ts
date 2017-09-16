@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Globals} from "../shared/globals";
 
 @Component({
   moduleId: module.id,
@@ -11,7 +10,7 @@ import {Globals} from "../shared/globals";
 export class HomeComponent implements OnInit
 {
     /** home ctor */
-    constructor(private globals:Globals) { }
+    constructor() { }
 
     /** Called by Angular after home component initialized */
     ngOnInit(): void { }

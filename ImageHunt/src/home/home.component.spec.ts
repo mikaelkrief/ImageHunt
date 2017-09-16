@@ -1,4 +1,4 @@
-﻿/// <reference path="../../node_modules/@types/jasmine/index.d.ts" />
+/// <reference path="../../node_modules/@types/jasmine/index.d.ts" />
 import { TestBed, async, ComponentFixture, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { BrowserModule, By } from "@angular/platform-browser";
 import { HomeComponent } from './home.component';
@@ -21,8 +21,8 @@ describe('home component', () =>
         component = fixture.componentInstance;
     }));
 
-    it('should do something', async(() =>
-    {
-        expect(true).toEqual(true);
+    it('should do something', async(() => {
+      fixture.detectChanges();
+      expect(true).toBe(true);
     }));
 });

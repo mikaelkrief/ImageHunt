@@ -33,5 +33,10 @@ namespace ImageHunt.Services
       {
         return Context.Games.Include(g => g.Nodes).Include(g => g.Teams).Single(g => g.Id == gameId);
       }
+
+      public IEnumerable<Game> GetGamesForAdmin(int adminId)
+      {
+        return Context.Admins.Include(a=>a.Games).ThenInclude(g=>g.Teams).Single(a => a.Id == adminId).Games;
+      }
     }
 }
