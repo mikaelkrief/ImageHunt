@@ -15,9 +15,10 @@ namespace ImageHunt.Services
             
         }
 
-        public void CreateTeam(Team team)
+        public void CreateTeam(int gameId, Team team)
         {
-            Context.Teams.Add(team);
+            var game = Context.Games.Include(g => g.Teams).Single(g => g.Id == gameId);
+            game.Teams.Add(team);
             Context.SaveChanges();
         }
 

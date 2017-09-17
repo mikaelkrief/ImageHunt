@@ -5,7 +5,7 @@ namespace ImageHunt.Services
 {
     public interface ITeamService : IService
     {
-        void CreateTeam(Team team);
+        void CreateTeam(int gameId, Team team);
         void DeleteTeam(Team team);
         IEnumerable<Team> GetTeams(int adminId);
       void AddMemberToTeam(Team team, List<Player> players);

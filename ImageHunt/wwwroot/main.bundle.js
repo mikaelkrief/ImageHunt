@@ -598,7 +598,7 @@ GameCreateModule = __decorate([
 /***/ "../../../../../src/game/game-detail/game.detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Detail d'une partie</h2>\r\nNom de la partie: {{game.name}}\r\nDate de début : {{game.startDate}}\r\n\r\n"
+module.exports = "<div class=\"col-sm-10\">\r\n  <h2>Detail d'une partie</h2>\r\n  <div class=\"form-inline\">\r\n    <div class=\"form-control\">\r\n      <label>Nom de la partie</label>\r\n      <span>{{game.name}}</span>\r\n    </div>\r\n    <div class=\"form-control\">\r\n      <label>Date de début</label>\r\n      <span>{{game.startDate | date:medium}}</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-5\"> \r\n    <ul class=\"list-group\">\r\n      <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"></span> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></li>\r\n    </ul>\r\n\r\n    <h2>Création d'une équipe</h2>\r\n    <form #form=\"ngForm\" (submit)=\"createTeam(game.id, form)\">\r\n      <div class=\"form-inline\">\r\n        <label>Nom de la team</label>\r\n        <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'équipe\" type=\"text\" id=\"name\"/>\r\n      </div>\r\n      <button type=\"submit\" class=\"btn btn-default\">Créer l'équipe</button>\r\n    </form>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -627,7 +627,9 @@ module.exports = module.exports.toString();
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GameDetailComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_game__ = __webpack_require__("../../../../../src/shared/game.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_team_service__ = __webpack_require__("../../../../../src/shared/services/team.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -640,17 +642,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var GameDetailComponent = (function () {
     /** gameDetail ctor */
-    function GameDetailComponent(_route, _gameService) {
+    function GameDetailComponent(_route, _gameService, _teamService) {
         this._route = _route;
         this._gameService = _gameService;
+        this._teamService = _teamService;
+        this.game = new __WEBPACK_IMPORTED_MODULE_2__shared_game__["a" /* Game */]();
     }
     /** Called by Angular after gameDetail component initialized */
     GameDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
         var gameId = this._route.snapshot.params["gameId"];
         this._gameService.getGameById(gameId).subscribe(function (res) { return _this.game = res; });
+    };
+    GameDetailComponent.prototype.createTeam = function (gameId, form) {
+        var _this = this;
+        var team = { id: 0, name: form.value.name, players: null };
+        this._teamService.createTeam(gameId, team)
+            .subscribe(null, null, function () {
+            _this._gameService.getGameById(gameId).subscribe(function (res) { return _this.game = res; });
+            form.resetForm();
+        });
     };
     return GameDetailComponent;
 }());
@@ -662,10 +677,10 @@ GameDetailComponent = __decorate([
     })
     /** gameDetail component*/
     ,
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__shared_services_game_service__["a" /* GameService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__shared_services_team_service__["a" /* TeamService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__shared_services_team_service__["a" /* TeamService */]) === "function" && _c || Object])
 ], GameDetailComponent);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=game.detail.component.js.map
 
 /***/ }),
@@ -680,12 +695,16 @@ var _a, _b;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__game_detail_component__ = __webpack_require__("../../../../../src/game/game-detail/game.detail.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_services_team_service__ = __webpack_require__("../../../../../src/shared/services/team.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -698,11 +717,11 @@ var GameDetailModule = (function () {
 }());
 GameDetailModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"]],
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"]],
         declarations: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_4__shared_services_game_service__["a" /* GameService */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_4__shared_services_game_service__["a" /* GameService */], __WEBPACK_IMPORTED_MODULE_6__shared_services_team_service__["a" /* TeamService */]]
     })
 ], GameDetailModule);
 
@@ -1259,6 +1278,21 @@ PageNotFoundModule = __decorate([
 
 /***/ }),
 
+/***/ "../../../../../src/shared/game.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Game; });
+var Game = (function () {
+    function Game() {
+    }
+    return Game;
+}());
+
+//# sourceMappingURL=game.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/shared/globals.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1561,6 +1595,9 @@ var TeamService = (function () {
     TeamService.prototype.addMemberToTeam = function (teamId, player) {
         return this.http.put('api/team/' + teamId, player);
     };
+    TeamService.prototype.createTeam = function (gameId, team) {
+        return this.http.post('api/team/' + gameId, team);
+    };
     return TeamService;
 }());
 TeamService = __decorate([
@@ -1591,7 +1628,7 @@ var Team = (function () {
 /***/ "../../../../../src/team/team-detail/team.detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Détails de la team</h2>\r\n<div class=\"col-sm-10\">\r\n  Nom de la team : {{team.name}}\r\n  <ul class=\"list-group\" *ngIf=\"team.players != null\">\r\n    <li class=\"list-group-item\" *ngFor=\"let player of team.players\"><span class=\"fa fa-user\"></span> {{player.name}}</li>\r\n  </ul>\r\n  <form>\r\n    <div class=\"form-inline\">\r\n      <div class=\"form-control\">\r\n        <label>Pseudo du joueur</label>\r\n        <input type=\"text\" required/>\r\n      </div>\r\n      <div class=\"form-control\">\r\n        <label>Pseudo de chat</label>\r\n        <input type=\"text\"/>\r\n      </div>\r\n    </div>\r\n    <a class=\"btn btn-default\" (click)=\"addPlayer()\">Ajouter un joueur</a>\r\n  </form>\r\n</div>\r\n"
+module.exports = "<h2>Détails de la team</h2>\r\n<div class=\"col-sm-10\">\r\n  Nom de la team : {{team.name}}\r\n  <ul class=\"list-group\" *ngIf=\"team.players != null\">\r\n    <li class=\"list-group-item\" *ngFor=\"let player of team.players\"><span class=\"fa fa-user\"></span> {{player.name}}</li>\r\n  </ul>\r\n  <form #form=\"ngForm\" (submit)=\"addPlayer(team.id, form)\">\r\n    <div class=\"form-inline\">\r\n      <div class=\"input-group\">\r\n      <label>Pseudo du joueur</label>\r\n        <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom du joueur\" type=\"text\" id=\"name\"/>\r\n      </div>\r\n      \r\n      <div class=\"input-group\">\r\n        <label>Pseudo de chat</label>\r\n        <input  class=\"form-control\" ngModel name=\"chatId\" required placeholder=\"Pseudo de chat du joueur\" type=\"text\" id=\"chatId\"/>\r\n      </div>\r\n    </div>\r\n    <button  type=\"submit\" class=\"btn btn-default\">Ajouter un joueur</button>\r\n  </form>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1644,14 +1681,22 @@ var TeamDetailComponent = (function () {
     }
     /** Called by Angular after team-detail component initialized */
     TeamDetailComponent.prototype.ngOnInit = function () {
-        var _this = this;
         var teamId = this._route.snapshot.params["teamId"];
+        this.getTeam(teamId);
+    };
+    TeamDetailComponent.prototype.getTeam = function (teamId) {
+        var _this = this;
         this._teamService.getTeam(teamId)
             .subscribe(function (next) { return _this.team = next.json(); });
     };
-    TeamDetailComponent.prototype.addPlayer = function (teamId, playerName, playerChatId) {
-        var player = ({ name: playerName, chatLogin: playerChatId });
-        this._teamService.addMemberToTeam(teamId, player).subscribe();
+    TeamDetailComponent.prototype.addPlayer = function (teamId, form) {
+        var _this = this;
+        var player = { id: 0, name: form.value.name, chatLogin: form.value.chatId, startDate: null };
+        this._teamService.addMemberToTeam(teamId, player)
+            .subscribe(null, null, function () {
+            _this.getTeam(_this.team.id);
+            form.resetForm();
+        });
     };
     return TeamDetailComponent;
 }());
@@ -1679,13 +1724,17 @@ var _a, _b;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__team_detail_component__ = __webpack_require__("../../../../../src/team/team-detail/team.detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__team_detail_component__ = __webpack_require__("../../../../../src/team/team-detail/team.detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_services_team_service__ = __webpack_require__("../../../../../src/shared/services/team.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -1697,9 +1746,10 @@ var TeamDetailModule = (function () {
 }());
 TeamDetailModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"]],
-        declarations: [__WEBPACK_IMPORTED_MODULE_3__team_detail_component__["a" /* TeamDetailComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_3__team_detail_component__["a" /* TeamDetailComponent */]]
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormsModule"]],
+        declarations: [__WEBPACK_IMPORTED_MODULE_4__team_detail_component__["a" /* TeamDetailComponent */]],
+        exports: [__WEBPACK_IMPORTED_MODULE_4__team_detail_component__["a" /* TeamDetailComponent */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_5__shared_services_team_service__["a" /* TeamService */]]
     })
 ], TeamDetailModule);
 

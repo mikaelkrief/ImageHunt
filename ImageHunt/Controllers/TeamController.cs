@@ -34,11 +34,10 @@ namespace ImageHunt.Controllers
     }
 
     // POST api/Team
-    [HttpPost]
-    public IActionResult CreateTeam([FromBody]string teamName)
+    [HttpPost("{gameId}")]
+    public IActionResult CreateTeam(int gameId, [FromBody]Team team)
     {
-      var team = new Team() { Name = teamName };
-      _teamService.CreateTeam(team);
+      _teamService.CreateTeam(gameId, team);
       return Ok(team);
     }
 

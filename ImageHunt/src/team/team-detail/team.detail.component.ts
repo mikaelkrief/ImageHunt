@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TeamService} from "../../shared/services/team.service";
+import { NgForm } from '@angular/forms';
 import {Team} from "../../shared/team";
 import { ActivatedRoute } from "@angular/router";
 import {Player} from "../../shared/player";
@@ -21,11 +22,18 @@ export class TeamDetailComponent implements OnInit
     /** Called by Angular after team-detail component initialized */
     ngOnInit(): void {
       let teamId = this._route.snapshot.params["teamId"];
-      this._teamService.getTeam(teamId)
-        .subscribe(next => this.team = next.json());
+      this.getTeam(teamId);
   }
-    addPlayer(teamId: number, playerName: string, playerChatId: string): void {
-      var player: Player = <Player>({name : playerName, chatLogin : playerChatId});
-      this._teamService.addMemberToTeam(teamId, player).subscribe();
+  getTeam(teamId: number) {
+    this._teamService.getTeam(teamId)
+      .subscribe(next => this.team = next.json());
+  }
+    addPlayer(teamId: number, form: NgForm): void {
+      var player: Player = {id:0, name : form.value.name, chatLogin : form.value.chatId, startDate:null};
+      this._teamService.addMemberToTeam(teamId, player)
+        .subscribe(null, null, () => {
+          this.getTeam(this.team.id);
+          form.resetForm();
+        });
     }
 }

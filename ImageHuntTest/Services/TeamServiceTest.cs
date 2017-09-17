@@ -21,11 +21,14 @@ namespace ImageHuntTest.Services
         public void CreateTeam()
         {
             // Arrange
+            var games = new List<Game>() {new Game(), new Game()};
+            _context.Games.AddRange(games);
+            _context.SaveChanges();
             var team = new Team() { Name = "Team1" };
             // Act
-            _target.CreateTeam(team);
+            _target.CreateTeam(games[1].Id, team);
             // Assert
-            Check.That(_context.Teams.First()).IsEqualTo(team);
+            Check.That(games[1].Teams.First()).IsEqualTo(team);
             Check.That(team.Id).IsNotZero();
         }
 
