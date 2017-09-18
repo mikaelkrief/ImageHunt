@@ -29,7 +29,6 @@ export class GameDetailComponent implements OnInit
       let gameId = this._route.snapshot.params["gameId"];
       this._gameService.getGameById(gameId).subscribe(res => {
         this.game = res;
-        this.addNodesToMap();
       });
     }
   createTeam(gameId: number, form: NgForm) {
@@ -45,8 +44,4 @@ export class GameDetailComponent implements OnInit
     this._gameService.addNode(gameId, null);
   }
 
-  addNodesToMap() {
-    var g = this.game;
-    return g;
-  }
 }

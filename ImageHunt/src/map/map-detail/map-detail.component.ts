@@ -29,14 +29,5 @@ export class MapDetailComponent implements OnInit
           );
         }
       }
-      if (this.Nodes) {
-        this.insertNodes(this.Nodes);
-      }
     }
-
-    insertNodes(nodes: Node[]) {
-    //for (var node of nodes) {
-    //};
-    
-  }
 }

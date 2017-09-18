@@ -1,4 +1,10 @@
 <h2>Module de création des parcours de la chasse</h2>
 <agm-map #map [latitude]="CenterLat" [longitude]="CenterLng">
-  <agm-marker *ngFor="let node of Nodes" [latitude]="node.latitude" [longitude]="node.longitude"></agm-marker>
+  <agm-marker *ngFor="let node of Nodes"
+              [latitude]="node.latitude"
+              [longitude]="node.longitude"
+              
+              >
+    
+  </agm-marker>
 </agm-map>

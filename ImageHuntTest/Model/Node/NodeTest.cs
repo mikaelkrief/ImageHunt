@@ -22,5 +22,18 @@ namespace ImageHuntTest.Model.Node
             // Assert
             Check.That(node).IsNotNull();
         }
+
+        [Fact]
+        public void NodeType()
+        {
+            // Arrange
+            var timerNode = new TimerNode();
+            var questionNode = new QuestionNode();
+            // Act
+
+            // Assert
+            Check.That(timerNode.NodeType).Equals("TimerNode");
+            Check.That(questionNode.NodeType).Equals("QuestionNode");
+        }
     }
 }

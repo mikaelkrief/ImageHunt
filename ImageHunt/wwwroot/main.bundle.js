@@ -558,7 +558,6 @@ var GameDetailComponent = (function () {
         var gameId = this._route.snapshot.params["gameId"];
         this._gameService.getGameById(gameId).subscribe(function (res) {
             _this.game = res;
-            _this.addNodesToMap();
         });
     };
     GameDetailComponent.prototype.createTeam = function (gameId, form) {
@@ -573,10 +572,6 @@ var GameDetailComponent = (function () {
     GameDetailComponent.prototype.addMysteryPicture = function (gameId) {
         var node;
         this._gameService.addNode(gameId, null);
-    };
-    GameDetailComponent.prototype.addNodesToMap = function () {
-        var g = this.game;
-        return g;
     };
     return GameDetailComponent;
 }());
@@ -904,7 +899,7 @@ Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* pl
 /***/ "../../../../../src/map/map-detail/map-detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Module de création des parcours de la chasse</h2>\r\n<agm-map #map [latitude]=\"CenterLat\" [longitude]=\"CenterLng\">\r\n  <agm-marker *ngFor=\"let node of Nodes\" [latitude]=\"node.latitude\" [longitude]=\"node.longitude\"></agm-marker>\r\n</agm-map>\r\n"
+module.exports = "<h2>Module de création des parcours de la chasse</h2>\r\n<agm-map #map [latitude]=\"CenterLat\" [longitude]=\"CenterLng\">\r\n  <agm-marker *ngFor=\"let node of Nodes\"\r\n              [latitude]=\"node.latitude\"\r\n              [longitude]=\"node.longitude\"\r\n              \r\n              >\r\n    \r\n  </agm-marker>\r\n</agm-map>\r\n"
 
 /***/ }),
 
@@ -959,13 +954,6 @@ var MapDetailComponent = (function () {
                 }, function (err) { _this.CenterLat = 51.4872846; _this.CenterLng = -0.1197003; });
             }
         }
-        if (this.Nodes) {
-            this.insertNodes(this.Nodes);
-        }
-    };
-    MapDetailComponent.prototype.insertNodes = function (nodes) {
-        //for (var node of nodes) {
-        //};
     };
     return MapDetailComponent;
 }());
