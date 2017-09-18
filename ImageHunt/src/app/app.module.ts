@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AgmCoreModule } from '@agm/core';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { AppComponent } from './app.component';
+import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap';
 
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,7 +19,6 @@ import { PageNotFoundComponent } from "../page-not-found/page.not.found.componen
 import { NavmenuModule } from "../navmenu/navmenu.module";
 import { MapModule } from "../map/map.module";
 import { MapComponent } from "../map/map.component";
-import {NewAdminModule} from "../admin/new-admin/new.admin.module";
 import {AdminListModule} from "../admin/admin-list/admin-list.module";
 import {AdminListComponent} from "../admin/admin-list/admin-list.component";
 import {GameListModule} from "../game/game-list/game-list.module";
@@ -31,6 +31,7 @@ import {Globals} from "../shared/globals";
 import {GameCreateModule} from "../game/game-create/game.create.module";
 import { TeamDetailComponent } from "../team/team-detail/team.detail.component";
 import {TeamDetailModule} from "../team/team-detail/team.detail.module";
+import {MapThumbnailModule} from "../map/map-thumbnail/map.thumbnail.module";
 
 export class MyAuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': 'application/json' };
@@ -63,12 +64,14 @@ export class MyAuthConfig extends CustomConfig {
     TeamListModule,
     TeamDetailModule,
     MapModule,
+    MapThumbnailModule,
     AdminListModule,
-    NewAdminModule,
     NavmenuModule,
     PageNotFoundModule,
     GoogleButtonModule,
     Ng2UiAuthModule.forRoot(MyAuthConfig),
+    BsDatepickerModule.forRoot(),
+    TimepickerModule.forRoot(),
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent },
       { path: 'game', component: GameListComponent },

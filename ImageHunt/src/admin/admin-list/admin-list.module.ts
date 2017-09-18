@@ -4,10 +4,9 @@ import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import {AdminListComponent} from "./admin-list.component";
 import {AdminService} from "../../shared/services/admin.service";
-import {NewAdminModule} from "../new-admin/new.admin.module";
 
 @NgModule({
-  imports: [CommonModule, RouterModule, FormsModule, NewAdminModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   declarations: [AdminListComponent],
   exports: [AdminListComponent],
   bootstrap: [AdminListComponent],

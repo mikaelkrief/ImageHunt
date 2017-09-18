@@ -22,5 +22,19 @@
   </tr>
   </tbody>
 </table>
+<h2>Créer un administrateur</h2>
 
-<new-admin></new-admin>
+<form #form="ngForm" (submit)="createAdmin(form)">
+  <div class="form-inline">
+    <div class="input-group">
+      <label for="name">Nom</label>
+      <input type="text" class="form-control" ngModel name="name" required placeholder="Nom de l'admin" id="name"/>
+    </div>
+    <div class="input-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" ngModel name="email" required placeholder="Email de l'admin" id="email"/>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-default"><span class="fa fa-plus-square"></span> Créer</button>
+</form>
+

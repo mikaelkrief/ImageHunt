@@ -13,10 +13,10 @@ export class AdminService {
       .map(a => a.json());
   }
   createAdmin(newAdmin: Admin) {
-    return this.http.post('api/admin/', newAdmin).toPromise();
+    return this.http.post('api/admin/', newAdmin);
   }
   deleteAdmin(adminId: number) {
-    return this.http.delete('api/admin/' + adminId).toPromise();
+    return this.http.delete('api/admin/' + adminId);
   }
   getAdminByEmail(email: string) {
     return this.http.get('api/admin/ByEmail/' + email);

@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace ImageHunt.Model
 {
-    public class Game : DbObject
+  public class Game : DbObject
+  {
+    public Game()
     {
-        public bool IsActive { get; set; }
-        public string Name { get; set; }
-        public DateTime? StartDate { get; set; }
-        public List<Node.Node> Nodes { get; set; }
-      public List<Team> Teams { get; set; }
+      Nodes = new List<Node.Node>();
+      Teams = new List<Team>();
     }
+    public bool IsActive { get; set; }
+    public string Name { get; set; }
+    public DateTime? StartDate { get; set; }
+    public List<Node.Node> Nodes { get; set; }
+    public List<Team> Teams { get; set; }
+  }
 }

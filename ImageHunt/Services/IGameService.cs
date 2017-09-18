@@ -7,7 +7,7 @@ namespace ImageHunt.Services
 {
   public interface IGameService : IService
   {
-    Game CreateGame(string gameName, DateTime startDate, List<Node> nodes);
+    Game CreateGame(int adminId, Game newGame);
     Game GetGameById(int gameId);
     IEnumerable<Game> GetGamesForAdmin(int adminId);
   }

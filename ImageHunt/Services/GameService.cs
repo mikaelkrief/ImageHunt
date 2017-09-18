@@ -14,19 +14,14 @@ namespace ImageHunt.Services
         {
         }
 
-        public Game CreateGame(string gameName, DateTime startDate, List<Node> nodes)
+        public Game CreateGame(int adminId, Game newGame)
         {
-            if (!nodes.Any(n=>n.GetType() == typeof(FirstNode)))
-              throw new ArgumentException("There is no first node in the list of node");
-            var game = new Game()
-            {
-                Name = gameName,
-                StartDate = startDate,
-                Nodes = nodes,
-            };
-            Context.Games.Add(game);
-            Context.SaveChanges();
-            return game;
+          var admin = Context.Admins.Single(a => a.Id == adminId);
+          var games = admin.Games ?? new List<Game>();
+          games.Add(newGame);
+          admin.Games = games;
+          Context.SaveChanges();
+          return newGame;
         }
 
       public Game GetGameById(int gameId)

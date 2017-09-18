@@ -44,5 +44,16 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _gameService.GetGamesForAdmin(A<int>._)).MustHaveHappened();
             Check.That(result).IsNotNull();
         }
+
+        [Fact]
+        public void CreateGame()
+        {
+            // Arrange
+            var game = new Game();
+            // Act
+            var result = _target.CreateGame(1, game);
+            // Assert
+            A.CallTo(() => _gameService.CreateGame(1, game)).MustHaveHappened();
+        }
     }
 }

@@ -5,10 +5,13 @@ using System.Threading.Tasks;
 
 namespace ImageHunt.Model
 {
-    public class Team : DbObject
+  public class Team : DbObject
+  {
+    public Team()
     {
-
-        public string Name { get; set; }
-        public List<Player> Players { get; set; }
+      Players = new List<Player>();
     }
+    public string Name { get; set; }
+    public List<Player> Players { get; set; }
+  }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ImageHunt.Model;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,6 +24,11 @@ namespace ImageHunt.Controllers
       public IActionResult GetGames(int adminId)
       {
         return Ok(_gameService.GetGamesForAdmin(adminId));
+      }
+      [HttpPost("{adminId}")]
+      public IActionResult CreateGame(int adminId, [FromBody] Game newGame)
+      {
+        return Ok(_gameService.CreateGame(adminId, newGame));
       }
     }
 }

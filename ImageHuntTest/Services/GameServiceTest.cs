@@ -23,26 +23,26 @@ namespace ImageHuntTest.Services
         public void CreateGame()
         {
             // Arrange
-            var nodes = new List<Node>() { new FirstNode(), new TimerNode(), new TimerNode(), new TimerNode(), new QuestionNode() };
-            _context.Nodes.AddRange(nodes);
+            var admins = new List<Admin>(){new Admin(), new Admin(), new Admin()};
+            _context.Admins.AddRange(admins);
             _context.SaveChanges();
+            var game = new Game();
             // Act
-            var result = _target.CreateGame("TheGame", DateTime.Today, nodes);
+            var result = _target.CreateGame(admins[1].Id, game);
             // Assert
             Check.That(result.Id).Not.IsEqualTo(0);
-            Check.That(result.StartDate).IsEqualTo(DateTime.Today);
-            Check.That(result.Nodes).ContainsExactly(nodes);
+            Check.That(admins[1].Games).ContainsExactly(game);
         }
 
-        [Fact]
-        public void CreateGameFirstNodeNotInNodes()
-        {
-            // Arrange
-            var nodes = new List<Node>() { new TimerNode(), new TimerNode(), new TimerNode(), new QuestionNode() };
-            // Act
-            Check.ThatCode(() => _target.CreateGame("TheGame", DateTime.Today, nodes)).Throws<ArgumentException>();
-            // Assert
-        }
+        //[Fact]
+        //public void CreateGameFirstNodeNotInNodes()
+        //{
+        //    // Arrange
+        //    var nodes = new List<Node>() { new TimerNode(), new TimerNode(), new TimerNode(), new QuestionNode() };
+        //    // Act
+        //    Check.ThatCode(() => _target.CreateGame("TheGame", DateTime.Today, nodes)).Throws<ArgumentException>();
+        //    // Assert
+        //}
 
         [Fact]
         public void GetGameFromId()
