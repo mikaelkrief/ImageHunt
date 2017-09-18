@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
     selector: 'map-thumbnail',
@@ -8,6 +8,9 @@
 /** map-thumbnail component*/
 export class MapThumbnailComponent implements OnInit
 {
+  @Input() public CenterLat: number;
+  @Input() public CenterLng: number;
+
     /** map-thumbnail ctor */
     constructor() { }
 

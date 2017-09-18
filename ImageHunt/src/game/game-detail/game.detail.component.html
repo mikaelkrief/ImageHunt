@@ -2,20 +2,21 @@
   <h2>Detail d'une partie</h2>
   <div class="form-inline">
     <div class="form-control">
-      <label>Nom de la partie</label>
+      <label>Nom de la partie :</label>
       <span>{{game.name}}</span>
     </div>
     <div class="form-control">
-      <label>Date de début</label>
+      <label>Date de début :</label>
       <span>{{game.startDate | date:medium}}</span>
     </div>
   </div>
   <div class="col-sm-5"> 
+    <h3>Equipes</h3>
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let team of game.teams"><span class="fa fa-users"></span> <a routerLink="/team/{{team.id}}">{{team.name}}</a></li>
     </ul>
 
-    <h2>Création d'une équipe</h2>
+    <h3>Création d'une équipe</h3>
     <form #form="ngForm" (submit)="createTeam(game.id, form)">
       <div class="form-inline">
         <label>Nom de la team</label>
@@ -23,5 +24,20 @@
       </div>
       <button type="submit" class="btn btn-default">Créer l'équipe</button>
     </form>
+  </div>
+  <div class="row">
+    <div class="col-sm-9">
+      <h3>Points d'intêts</h3>
+      <map-detail [CenterLat]="game.mapCenterLat" [CenterLng]="game.mapCenterLng" [Nodes]="game.nodes"></map-detail>
+    </div>
+    <div class="col-sm-3">
+      <div class="panel panel-default">
+        <h4>Actions</h4>
+        <ul>
+          <li><button class="btn btn-default" (click)="addMysteryPicture(game.id)">Ajouter les photos mystères</button></li>
+          <li><button class="btn btn-default">Ajouter un point</button></li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>

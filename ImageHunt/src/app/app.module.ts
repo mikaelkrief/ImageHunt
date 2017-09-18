@@ -17,8 +17,6 @@ import { TeamListComponent } from "../team/team-list/team-list.component";
 import { HomeComponent } from "../home/home.component";
 import { PageNotFoundComponent } from "../page-not-found/page.not.found.component";
 import { NavmenuModule } from "../navmenu/navmenu.module";
-import { MapModule } from "../map/map.module";
-import { MapComponent } from "../map/map.component";
 import {AdminListModule} from "../admin/admin-list/admin-list.module";
 import {AdminListComponent} from "../admin/admin-list/admin-list.component";
 import {GameListModule} from "../game/game-list/game-list.module";
@@ -32,6 +30,8 @@ import {GameCreateModule} from "../game/game-create/game.create.module";
 import { TeamDetailComponent } from "../team/team-detail/team.detail.component";
 import {TeamDetailModule} from "../team/team-detail/team.detail.module";
 import {MapThumbnailModule} from "../map/map-thumbnail/map.thumbnail.module";
+import {MapDetailModule} from "../map/map-detail/map-detail.module";
+import {MapDetailComponent} from "../map/map-detail/map-detail.component";
 
 export class MyAuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': 'application/json' };
@@ -63,7 +63,7 @@ export class MyAuthConfig extends CustomConfig {
     GameCreateModule,
     TeamListModule,
     TeamDetailModule,
-    MapModule,
+    MapDetailModule,
     MapThumbnailModule,
     AdminListModule,
     NavmenuModule,
@@ -78,7 +78,7 @@ export class MyAuthConfig extends CustomConfig {
       { path: 'game/:gameId', component: GameDetailComponent },
       { path: 'team/:teamId', component: TeamDetailComponent },
       { path: 'team', component: TeamListComponent },
-      { path: 'map', component: MapComponent },
+      { path: 'map', component: MapDetailComponent },
       { path: 'admin', component: AdminListComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', component: PageNotFoundComponent }])

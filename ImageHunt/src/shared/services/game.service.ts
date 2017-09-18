@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { JwtHttp } from "ng2-ui-auth";
-import {Game} from "../game";
+import { Game } from "../game";
+import { Node } from "../node";
 
 @Injectable()
 export class GameService {
@@ -13,5 +14,8 @@ export class GameService {
   }
   createGame(adminId: number, game: Game) {
     return this.http.post('api/game/' + adminId, game);
+  }
+  addNode(gameId: number, node: Node) {
+    return this.http.get('api/game/' + gameId, node);
   }
 }

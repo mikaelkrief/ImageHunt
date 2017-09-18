@@ -19,6 +19,7 @@ namespace ImageHunt.Data
 
         public DbSet<Node> Nodes { get; set; }
         public DbSet<FirstNode> FirstNodes { get; set; }
+        public DbSet<LastNode> LastNodes { get; set; }
         public DbSet<TimerNode> TimerNodes { get; set; }
         public DbSet<PictureNode> PictureNodes { get; set; }
         public DbSet<QuestionNode> QuestionNodes { get; set; }
@@ -40,6 +41,8 @@ namespace ImageHunt.Data
         modelBuilder.Entity<Team>()
           .Property<bool>("IsDeleted");
         modelBuilder.Entity<FirstNode>()
+          .Property<bool>("IsDeleted");
+        modelBuilder.Entity<LastNode>()
           .Property<bool>("IsDeleted");
         modelBuilder.Entity<Node>()
           .Property<bool>("IsDeleted");

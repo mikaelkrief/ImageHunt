@@ -35,7 +35,7 @@ export class GameListComponent implements OnInit
   createGame(form: NgForm) {
     var startDate = <Date>(form.value.date);
     startDate.setTime(form.value.time);
-      var game: Game = { id: 0, name: form.value.name, startDate: startDate, isActive: true };
+      var game: Game = { id: 0, name: form.value.name, startDate: startDate, isActive: true, mapCenterLat:0, mapCenterLng:0, nodes:null };
     this.gameService.createGame(this.admin.id, game)
       .subscribe(null, null, () => {
         this.getGames();

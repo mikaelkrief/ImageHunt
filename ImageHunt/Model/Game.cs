@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using ImageHunt.Model.Node;
 
 namespace ImageHunt.Model
 {
@@ -18,5 +20,7 @@ namespace ImageHunt.Model
     public DateTime? StartDate { get; set; }
     public List<Node.Node> Nodes { get; set; }
     public List<Team> Teams { get; set; }
+    public double? MapCenterLat { get; set; }
+    public double? MapCenterLng { get; set; }
   }
 }

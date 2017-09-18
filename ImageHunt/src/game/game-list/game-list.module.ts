@@ -5,9 +5,10 @@ import {GameListComponent} from "./game-list.component";
 import {GameCreateModule} from "../game-create/game.create.module";
 import { FormsModule } from "@angular/forms";
 import { BsDatepickerModule, TimepickerModule} from 'ngx-bootstrap';
+import {MapThumbnailModule} from "../../map/map-thumbnail/map.thumbnail.module";
 
 @NgModule({
-  imports: [CommonModule, GameCreateModule, RouterModule, FormsModule, BsDatepickerModule, TimepickerModule],
+  imports: [CommonModule, GameCreateModule, RouterModule, FormsModule, BsDatepickerModule, TimepickerModule, MapThumbnailModule],
 declarations:[GameListComponent],
 exports: [GameListComponent]
 })

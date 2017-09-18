@@ -5,7 +5,8 @@ import {GameService } from "../../shared/services/game.service";
 import { NgForm } from "@angular/forms";
 import {TeamService} from "../../shared/services/team.service";
 import {Player} from "../../shared/player";
-import {Team} from "../../shared/team";
+import { Team } from "../../shared/team";
+import { Node } from "../../shared/node";
 
 @Component({
     selector: 'game-detail',
@@ -26,7 +27,10 @@ export class GameDetailComponent implements OnInit
     /** Called by Angular after gameDetail component initialized */
     ngOnInit(): void {
       let gameId = this._route.snapshot.params["gameId"];
-      this._gameService.getGameById(gameId).subscribe(res => this.game = res);
+      this._gameService.getGameById(gameId).subscribe(res => {
+        this.game = res;
+        this.addNodesToMap();
+      });
     }
   createTeam(gameId: number, form: NgForm) {
     var team: Team = { id: 0, name: form.value.name, players: null };
@@ -35,5 +39,14 @@ export class GameDetailComponent implements OnInit
         this._gameService.getGameById(gameId).subscribe(res => this.game = res);
         form.resetForm();
       });
+  }
+  addMysteryPicture(gameId: number) {
+    var node: Node;
+    this._gameService.addNode(gameId, null);
+  }
+
+  addNodesToMap() {
+    var g = this.game;
+    return g;
   }
 }

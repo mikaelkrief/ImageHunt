@@ -23,6 +23,7 @@
             <li class="list-group-item" *ngFor="let team of game.teams"><span class="fa fa-users"> <a routerLink="/team/{{team.id}}">{{team.name}}</a></span></li>
           </ul>
         </td>
+        <td><map-thumbnail [CenterLat]="game.mapCenterLat" [CenterLng]="game.mapCenterLng"></map-thumbnail></td>
       </tr>
     </tbody>
   </table>

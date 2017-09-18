@@ -10,5 +10,6 @@ namespace ImageHunt.Services
     Game CreateGame(int adminId, Game newGame);
     Game GetGameById(int gameId);
     IEnumerable<Game> GetGamesForAdmin(int adminId);
+    void AddNode(int gameId, Node node);
   }
 }

@@ -79,5 +79,19 @@ namespace ImageHuntTest.Services
             // Assert
             Check.That(results).ContainsExactly(games);
         }
+
+        [Fact]
+        public void AddNode()
+        {
+            // Arrange
+            var games = new List<Game>() {new Game(), new Game(){Nodes = new List<Node>(){new TimerNode()}}, new Game()};
+            _context.Games.AddRange(games);
+            _context.SaveChanges();
+            var node = new TimerNode();
+            // Act
+            _target.AddNode(games[1].Id, node);
+            // Assert
+            Check.That(games[1].Nodes).HasSize(2);
+        }
     }
 }
