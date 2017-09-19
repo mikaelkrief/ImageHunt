@@ -3,7 +3,8 @@
   <agm-marker *ngFor="let node of Nodes"
               [latitude]="node.latitude"
               [longitude]="node.longitude"
-              
+              [title]="node.name"
+              [iconUrl]="getIconForNodeType(node.nodeType)"
               >
     
   </agm-marker>

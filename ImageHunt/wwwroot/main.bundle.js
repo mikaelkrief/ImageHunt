@@ -899,7 +899,7 @@ Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* pl
 /***/ "../../../../../src/map/map-detail/map-detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Module de création des parcours de la chasse</h2>\r\n<agm-map #map [latitude]=\"CenterLat\" [longitude]=\"CenterLng\">\r\n  <agm-marker *ngFor=\"let node of Nodes\"\r\n              [latitude]=\"node.latitude\"\r\n              [longitude]=\"node.longitude\"\r\n              \r\n              >\r\n    \r\n  </agm-marker>\r\n</agm-map>\r\n"
+module.exports = "<h2>Module de création des parcours de la chasse</h2>\r\n<agm-map #map [latitude]=\"CenterLat\" [longitude]=\"CenterLng\">\r\n  <agm-marker *ngFor=\"let node of Nodes\"\r\n              [latitude]=\"node.latitude\"\r\n              [longitude]=\"node.longitude\"\r\n              [title]=\"node.name\"\r\n              [iconUrl]=\"getIconForNodeType(node.nodeType)\"\r\n              >\r\n    \r\n  </agm-marker>\r\n</agm-map>\r\n"
 
 /***/ }),
 
@@ -927,7 +927,6 @@ module.exports = module.exports.toString();
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapDetailComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__agm_core__ = __webpack_require__("../../../../@agm/core/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -937,7 +936,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
 
 var MapDetailComponent = (function () {
     /** map ctor */
@@ -955,6 +953,24 @@ var MapDetailComponent = (function () {
             }
         }
     };
+    MapDetailComponent.prototype.getIconForNodeType = function (nodeType) {
+        switch (nodeType) {
+            case "TimerNode":
+                return "assets/timerNode.png";
+            case "PictureNode":
+                return "assets/pictureNode.png";
+            case "FirstNode":
+                return "assets/startNode.png";
+            case "LastNode":
+                return "assets/endNode.png";
+            case "QuestionNode":
+                return "assets/questionNode.png";
+            case "ObjectNode":
+                return "assets/objectNode.png";
+            default:
+                return null;
+        }
+    };
     return MapDetailComponent;
 }());
 __decorate([
@@ -969,10 +985,6 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
     __metadata("design:type", Array)
 ], MapDetailComponent.prototype, "Nodes", void 0);
-__decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('map'),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__agm_core__["b" /* AgmMap */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__agm_core__["b" /* AgmMap */]) === "function" && _a || Object)
-], MapDetailComponent.prototype, "map", void 0);
 MapDetailComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'map-detail',
@@ -984,7 +996,6 @@ MapDetailComponent = __decorate([
     __metadata("design:paramtypes", [])
 ], MapDetailComponent);
 
-var _a;
 //# sourceMappingURL=map-detail.component.js.map
 
 /***/ }),

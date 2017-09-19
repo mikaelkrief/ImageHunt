@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {Node} from "../../shared/node";
-import { AgmMap, AgmMarker, MarkerManager } from "@agm/core";
 
 @Component({
     selector: 'map-detail',
@@ -13,7 +12,6 @@ export class MapDetailComponent implements OnInit
   @Input() CenterLat: number;
   @Input() CenterLng: number;
   @Input() Nodes: Node[];
-  @ViewChild('map') map: AgmMap;
     /** map ctor */
     constructor() { }
 
@@ -30,4 +28,22 @@ export class MapDetailComponent implements OnInit
         }
       }
     }
+  getIconForNodeType(nodeType: string): string {
+    switch (nodeType) {
+    case "TimerNode":
+        return "assets/timerNode.png";
+    case "PictureNode":
+      return "assets/pictureNode.png";
+    case "FirstNode":
+      return "assets/startNode.png";
+    case "LastNode":
+        return "assets/endNode.png";
+    case "QuestionNode":
+        return "assets/questionNode.png";
+    case "ObjectNode":
+        return "assets/objectNode.png";
+    default:
+      return null;
+    }
+  }
 }
