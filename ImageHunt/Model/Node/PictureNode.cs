@@ -11,6 +11,6 @@ namespace ImageHunt.Model.Node
     /// </summary>
     public class PictureNode : Node
     {
-      public byte[] Image { get; set; }
+      public Picture Image { get; set; }
     }
 }

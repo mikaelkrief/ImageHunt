@@ -29,6 +29,7 @@ namespace ImageHunt.Data
         public DbSet<Game> Games { get; set; }
         public DbSet<Answer> Answers { get; set; }
       public DbSet<Admin> Admins { get; set; }
+      public DbSet<Picture> Pictures { get; set; }
 
       protected override void OnModelCreating(ModelBuilder modelBuilder)
       {
@@ -57,6 +58,8 @@ namespace ImageHunt.Data
         modelBuilder.Entity<Answer>()
           .Property<bool>("IsDeleted");
         modelBuilder.Entity<Admin>()
+          .Property<bool>("IsDeleted");
+        modelBuilder.Entity<Picture>()
           .Property<bool>("IsDeleted");
         // Filter entities
         modelBuilder.Entity<Game>()

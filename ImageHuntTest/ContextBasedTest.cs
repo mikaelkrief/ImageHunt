@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ImageHuntTest
 {
-    public class ContextBasedTest : IDisposable
+    public class ContextBasedTest : BaseTest, IDisposable
     {
         protected HuntContext _context;
 

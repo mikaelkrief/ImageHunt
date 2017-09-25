@@ -10,10 +10,12 @@ namespace ImageHunt.Controllers
   public class GameController : Controller
   {
     private readonly IGameService _gameService;
+    private readonly IImageService _imageService;
 
-    public GameController(IGameService gameService)
+    public GameController(IGameService gameService, IImageService imageService)
     {
       _gameService = gameService;
+      _imageService = imageService;
     }
 
     [HttpGet("ById/{gameId}")]
@@ -36,6 +38,25 @@ namespace ImageHunt.Controllers
     {
       _gameService.AddNode(gameId, node);
       return Ok();
+    }
+    [HttpPost("AddPictures/{gameId}")]
+    public IEnumerable<Node> AddImageNodes(int gameId, [FromBody]List<Picture> images)
+    {
+      var nodes = new List<Node>();
+      foreach (var picture in images)
+      {
+        _imageService.AddPicture(picture);
+        var coordinates = _imageService.ExtractLocationFromImage(picture);
+        var node = new PictureNode
+        {
+          Image = picture,
+          Latitude = coordinates.Item1,
+          Longitude = coordinates.Item2
+        };
+        _gameService.AddNode(gameId, node);
+        nodes.Add(node);
+      }
+      return nodes;
     }
   }
 }

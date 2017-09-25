@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 
@@ -122,6 +124,21 @@ namespace ImageHunt.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Node");
                 });
 
+            modelBuilder.Entity("ImageHunt.Model.Picture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte[]>("Image");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pictures");
+                });
+
             modelBuilder.Entity("ImageHunt.Model.Player", b =>
                 {
                     b.Property<int>("Id")
@@ -178,6 +195,16 @@ namespace ImageHunt.Migrations
                     b.HasDiscriminator().HasValue("FirstNode");
                 });
 
+            modelBuilder.Entity("ImageHunt.Model.Node.LastNode", b =>
+                {
+                    b.HasBaseType("ImageHunt.Model.Node.Node");
+
+
+                    b.ToTable("LastNode");
+
+                    b.HasDiscriminator().HasValue("LastNode");
+                });
+
             modelBuilder.Entity("ImageHunt.Model.Node.ObjectNode", b =>
                 {
                     b.HasBaseType("ImageHunt.Model.Node.Node");
@@ -193,7 +220,9 @@ namespace ImageHunt.Migrations
                 {
                     b.HasBaseType("ImageHunt.Model.Node.Node");
 
-                    b.Property<byte[]>("Image");
+                    b.Property<int?>("ImageId");
+
+                    b.HasIndex("ImageId");
 
                     b.ToTable("PictureNode");
 
@@ -268,6 +297,13 @@ namespace ImageHunt.Migrations
                     b.HasOne("ImageHunt.Model.Game")
                         .WithMany("Teams")
                         .HasForeignKey("GameId");
+                });
+
+            modelBuilder.Entity("ImageHunt.Model.Node.PictureNode", b =>
+                {
+                    b.HasOne("ImageHunt.Model.Picture", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
                 });
 #pragma warning restore 612, 618
         }
