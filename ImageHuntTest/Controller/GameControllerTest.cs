@@ -9,7 +9,9 @@ using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using NFluent;
 using Xunit;
 
@@ -79,16 +81,24 @@ namespace ImageHuntTest.Controller
         public void AddImagesNodes()
         {
             // Arrange
-            var images = new List<Picture>() { new Picture(), new Picture(), new Picture() };
+            var file = A.Fake<IFormFile>();
+            var images = new List<IFormFile>() { file, file, file };
             A.CallTo(() => _imageService.ExtractLocationFromImage(A<Picture>._)).Returns((15d, 16d));
             // Act
-            var nodes = _target.AddImageNodes(1, images).Cast<PictureNode>();
+            _target.AddImageNodes(1, images);
             // Assert
-            A.CallTo(() => _imageService.AddPicture(A<Picture>._)).MustHaveHappened(Repeated.Exactly.Times(3));
-            Check.That(nodes.Extracting("Image")).ContainsExactly(images);
-            Check.That(nodes.Extracting("Latitude")).ContainsExactly(15d, 15d, 15d);
-            Check.That(nodes.Extracting("Longitude")).ContainsExactly(16d, 16d, 16d);
             A.CallTo(() => _gameService.AddNode(1, A<Node>._)).MustHaveHappened(Repeated.Exactly.Times(3));
         }
+
+      [Fact]
+      public void SetCenterOfGameByNodes()
+      {
+        // Arrange
+        
+        // Act
+        _target.SetCenterOfGameByNodes(1);
+        // Assert
+        A.CallTo(() => _gameService.SetCenterOfGameByNodes(A<int>._)).MustHaveHappened();
+      }
     }
 }

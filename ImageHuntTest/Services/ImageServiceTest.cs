@@ -49,8 +49,19 @@ namespace ImageHuntTest.Services
             // Act
             var result = _service.ExtractLocationFromImage(picture);
             // Assert
-            Check.That(result.Item1 - 59.3278160094444).IsStrictlyLessThan(0.001);
-            Check.That(result.Item2 - 18.0551338194444).IsStrictlyLessThan(0.001);
+            Check.That(Math.Abs(result.Item1 - 59.3278160094444)).IsStrictlyLessThan(0.001);
+            Check.That(Math.Abs(result.Item2 - 18.0551338194444)).IsStrictlyLessThan(0.001);
+        }
+        [Fact]
+        public void ExtractLocationFromImageWithoutGPSLocation()
+        {
+            // Arrange
+            var picture = new Picture() { Image = GetImageFromResource("ImageHuntTest.TestData.image1.jpg") };
+            // Act
+            var result = _service.ExtractLocationFromImage(picture);
+            // Assert
+            Check.That(result.Item1 ).Equals(0d);
+            Check.That(result.Item2 ).Equals(0d);
         }
     }
 }

@@ -32,6 +32,8 @@ import {TeamDetailModule} from "../team/team-detail/team.detail.module";
 import {MapThumbnailModule} from "../map/map-thumbnail/map.thumbnail.module";
 import {MapDetailModule} from "../map/map-detail/map-detail.module";
 import {MapDetailComponent} from "../map/map-detail/map-detail.component";
+//import {UploadImagesModule} from "../game/upload-images/upload.images.module";
+import {UploadImagesComponent} from "../game/upload-images/upload-images.component";
 
 export class MyAuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': 'application/json' };
@@ -45,6 +47,7 @@ export class MyAuthConfig extends CustomConfig {
 @NgModule({
   declarations: [
     AppComponent,
+    UploadImagesComponent,
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -61,6 +64,7 @@ export class MyAuthConfig extends CustomConfig {
     GameListModule,
     GameDetailModule,
     GameCreateModule,
+    //UploadImagesModule,
     TeamListModule,
     TeamDetailModule,
     MapDetailModule,
@@ -76,6 +80,7 @@ export class MyAuthConfig extends CustomConfig {
       { path: 'home', component: HomeComponent },
       { path: 'game', component: GameListComponent },
       { path: 'game/:gameId', component: GameDetailComponent },
+      { path: 'game/uploadImages/:gameId', component: UploadImagesComponent},
       { path: 'team/:teamId', component: TeamDetailComponent },
       { path: 'team', component: TeamListComponent },
       { path: 'map', component: MapDetailComponent },

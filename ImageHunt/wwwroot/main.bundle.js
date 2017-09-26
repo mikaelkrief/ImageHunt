@@ -239,6 +239,7 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__map_map_thumbnail_map_thumbnail_module__ = __webpack_require__("../../../../../src/map/map-thumbnail/map.thumbnail.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__map_map_detail_map_detail_module__ = __webpack_require__("../../../../../src/map/map-detail/map-detail.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__map_map_detail_map_detail_component__ = __webpack_require__("../../../../../src/map/map-detail/map-detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__game_upload_images_upload_images_component__ = __webpack_require__("../../../../../src/game/upload-images/upload-images.component.ts");
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -288,6 +289,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+//import {UploadImagesModule} from "../game/upload-images/upload.images.module";
+
 var MyAuthConfig = (function (_super) {
     __extends(MyAuthConfig, _super);
     function MyAuthConfig() {
@@ -313,6 +316,7 @@ AppModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"])({
         declarations: [
             __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */],
+            __WEBPACK_IMPORTED_MODULE_33__game_upload_images_upload_images_component__["a" /* UploadImagesComponent */],
         ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */]],
         imports: [
@@ -329,6 +333,7 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_20__game_game_list_game_list_module__["a" /* GameListModule */],
             __WEBPACK_IMPORTED_MODULE_21__game_game_detail_game_detail_module__["a" /* GameDetailModule */],
             __WEBPACK_IMPORTED_MODULE_27__game_game_create_game_create_module__["a" /* GameCreateModule */],
+            //UploadImagesModule,
             __WEBPACK_IMPORTED_MODULE_13__team_team_list_team_list_module__["a" /* TeamListModule */],
             __WEBPACK_IMPORTED_MODULE_29__team_team_detail_team_detail_module__["a" /* TeamDetailModule */],
             __WEBPACK_IMPORTED_MODULE_31__map_map_detail_map_detail_module__["a" /* MapDetailModule */],
@@ -344,6 +349,7 @@ AppModule = __decorate([
                 { path: 'home', component: __WEBPACK_IMPORTED_MODULE_15__home_home_component__["a" /* HomeComponent */] },
                 { path: 'game', component: __WEBPACK_IMPORTED_MODULE_22__game_game_list_game_list_component__["a" /* GameListComponent */] },
                 { path: 'game/:gameId', component: __WEBPACK_IMPORTED_MODULE_23__game_game_detail_game_detail_component__["a" /* GameDetailComponent */] },
+                { path: 'game/uploadImages/:gameId', component: __WEBPACK_IMPORTED_MODULE_33__game_upload_images_upload_images_component__["a" /* UploadImagesComponent */] },
                 { path: 'team/:teamId', component: __WEBPACK_IMPORTED_MODULE_28__team_team_detail_team_detail_component__["a" /* TeamDetailComponent */] },
                 { path: 'team', component: __WEBPACK_IMPORTED_MODULE_14__team_team_list_team_list_component__["a" /* TeamListComponent */] },
                 { path: 'map', component: __WEBPACK_IMPORTED_MODULE_32__map_map_detail_map_detail_component__["a" /* MapDetailComponent */] },
@@ -498,7 +504,7 @@ GameCreateModule = __decorate([
 /***/ "../../../../../src/game/game-detail/game.detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-sm-10\">\r\n  <h2>Detail d'une partie</h2>\r\n  <div class=\"form-inline\">\r\n    <div class=\"form-control\">\r\n      <label>Nom de la partie :</label>\r\n      <span>{{game.name}}</span>\r\n    </div>\r\n    <div class=\"form-control\">\r\n      <label>Date de début :</label>\r\n      <span>{{game.startDate | date:medium}}</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-5\"> \r\n    <h3>Equipes</h3>\r\n    <ul class=\"list-group\">\r\n      <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"></span> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></li>\r\n    </ul>\r\n\r\n    <h3>Création d'une équipe</h3>\r\n    <form #form=\"ngForm\" (submit)=\"createTeam(game.id, form)\">\r\n      <div class=\"form-inline\">\r\n        <label>Nom de la team</label>\r\n        <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'équipe\" type=\"text\" id=\"name\"/>\r\n      </div>\r\n      <button type=\"submit\" class=\"btn btn-default\">Créer l'équipe</button>\r\n    </form>\r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-9\">\r\n      <h3>Points d'intêts</h3>\r\n      <map-detail [CenterLat]=\"game.mapCenterLat\" [CenterLng]=\"game.mapCenterLng\" [Nodes]=\"game.nodes\"></map-detail>\r\n    </div>\r\n    <div class=\"col-sm-3\">\r\n      <div class=\"panel panel-default\">\r\n        <h4>Actions</h4>\r\n        <ul>\r\n          <li><button class=\"btn btn-default\" (click)=\"addMysteryPicture(game.id)\">Ajouter les photos mystères</button></li>\r\n          <li><button class=\"btn btn-default\">Ajouter un point</button></li>\r\n        </ul>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"col-sm-10\">\r\n  <h2>Detail d'une partie</h2>\r\n  <div class=\"form-inline\">\r\n    <div class=\"form-control\">\r\n      <label>Nom de la partie :</label>\r\n      <span>{{game.name}}</span>\r\n    </div>\r\n    <div class=\"form-control\">\r\n      <label>Date de début :</label>\r\n      <span>{{game.startDate | date:medium}}</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-5\"> \r\n    <h3>Equipes</h3>\r\n    <ul class=\"list-group\">\r\n      <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"></span> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></li>\r\n    </ul>\r\n\r\n    <h3>Création d'une équipe</h3>\r\n    <form #form=\"ngForm\" (submit)=\"createTeam(game.id, form)\">\r\n      <div class=\"form-inline\">\r\n        <label>Nom de la team</label>\r\n        <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'équipe\" type=\"text\" id=\"name\"/>\r\n      </div>\r\n      <button type=\"submit\" class=\"btn btn-default\">Créer l'équipe</button>\r\n    </form>\r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-9\">\r\n      <h3>Points d'intêts</h3>\r\n      <map-detail [CenterLat]=\"game.mapCenterLat\" [CenterLng]=\"game.mapCenterLng\" [Nodes]=\"game.nodes\"></map-detail>\r\n    </div>\r\n    <div class=\"col-sm-3\">\r\n      <div class=\"panel panel-default\">\r\n        <h4>Actions</h4>\r\n        <ul>\r\n          <li><a class=\"btn btn-default\" routerLink=\"/game/uploadImages/{{game.id}}\">Ajouter les photos mystères</a></li>\r\n          <li><button class=\"btn btn-default\">Ajouter un point</button></li>\r\n          <li><button class=\"btn btn-default\" (click)=\"centerMap(game.id)\">Centrer la carte sur les noeuds</button></li>\r\n        </ul>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -554,8 +560,11 @@ var GameDetailComponent = (function () {
     }
     /** Called by Angular after gameDetail component initialized */
     GameDetailComponent.prototype.ngOnInit = function () {
-        var _this = this;
         var gameId = this._route.snapshot.params["gameId"];
+        this.getGame(gameId);
+    };
+    GameDetailComponent.prototype.getGame = function (gameId) {
+        var _this = this;
         this._gameService.getGameById(gameId).subscribe(function (res) {
             _this.game = res;
         });
@@ -569,9 +578,9 @@ var GameDetailComponent = (function () {
             form.resetForm();
         });
     };
-    GameDetailComponent.prototype.addMysteryPicture = function (gameId) {
-        var node;
-        this._gameService.addNode(gameId, null);
+    GameDetailComponent.prototype.centerMap = function (gameId) {
+        var _this = this;
+        this._gameService.centerMap(gameId).subscribe(null, null, function () { return _this.getGame(gameId); });
     };
     return GameDetailComponent;
 }());
@@ -773,6 +782,87 @@ GameListModule = __decorate([
 ], GameListModule);
 
 //# sourceMappingURL=game-list.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/game/upload-images/upload-images.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/game/upload-images/upload-images.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div>\r\n  <input type=\"file\" #fileInput placeholder=\"Upload file...\" multiple />\r\n  <button type=\"button\" (click)=\"upload()\">Télécharger</button>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/game/upload-images/upload-images.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UploadImagesComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var UploadImagesComponent = (function () {
+    function UploadImagesComponent(_route, _gameService) {
+        this._route = _route;
+        this._gameService = _gameService;
+    }
+    UploadImagesComponent.prototype.ngOnInit = function () {
+        this.gameId = this._route.snapshot.params["gameId"];
+    };
+    UploadImagesComponent.prototype.upload = function () {
+        var fileBrowser = this.fileInput.nativeElement;
+        if (fileBrowser.files) {
+            this._gameService.upload(fileBrowser.files, this.gameId).subscribe(function (res) {
+                // do stuff w/my uploaded file
+            });
+        }
+    };
+    return UploadImagesComponent;
+}());
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('fileInput'),
+    __metadata("design:type", Object)
+], UploadImagesComponent.prototype, "fileInput", void 0);
+UploadImagesComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        selector: 'app-upload-images',
+        template: __webpack_require__("../../../../../src/game/upload-images/upload-images.component.html"),
+        styles: [__webpack_require__("../../../../../src/game/upload-images/upload-images.component.css")]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */]) === "function" && _b || Object])
+], UploadImagesComponent);
+
+var _a, _b;
+//# sourceMappingURL=upload-images.component.js.map
 
 /***/ }),
 
@@ -1604,6 +1694,7 @@ var _a;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GameService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__ = __webpack_require__("../../../../ng2-ui-auth/undefined/ng2-ui-auth.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1615,30 +1706,46 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var GameService = (function () {
-    function GameService(http) {
+    function GameService(http, jwtHttp) {
         this.http = http;
+        this.jwtHttp = jwtHttp;
     }
     GameService.prototype.getGameForAdmin = function (adminId) {
-        return this.http.get('api/game/ByAdminId/' + adminId);
+        return this.jwtHttp.get('api/game/ByAdminId/' + adminId);
     };
     GameService.prototype.getGameById = function (gameId) {
-        return this.http.get('api/game/byId/' + gameId).map(function (g) { return g.json(); });
+        return this.jwtHttp.get('api/game/byId/' + gameId).map(function (g) { return g.json(); });
     };
     GameService.prototype.createGame = function (adminId, game) {
-        return this.http.post('api/game/' + adminId, game);
+        return this.jwtHttp.post('api/game/' + adminId, game);
     };
     GameService.prototype.addNode = function (gameId, node) {
-        return this.http.get('api/game/' + gameId, node);
+        return this.jwtHttp.get('api/game/' + gameId, node);
+    };
+    GameService.prototype.upload = function (files, gameId) {
+        var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Headers */]();
+        headers.delete('Content-Type');
+        var formData = new FormData();
+        for (var _i = 0, files_1 = files; _i < files_1.length; _i++) {
+            var file = files_1[_i];
+            formData.append("files", file);
+        }
+        var options = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["f" /* RequestOptions */]({ headers: headers });
+        return this.http.put("api/game/AddPictures/" + gameId, formData, options);
+    };
+    GameService.prototype.centerMap = function (gameId) {
+        return this.jwtHttp.post("api/game/CenterGameByNodes/" + gameId, null);
     };
     return GameService;
 }());
 GameService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__["c" /* JwtHttp */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__["c" /* JwtHttp */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__["c" /* JwtHttp */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ng2_ui_auth__["c" /* JwtHttp */]) === "function" && _b || Object])
 ], GameService);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=game.service.js.map
 
 /***/ }),

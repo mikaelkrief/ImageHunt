@@ -93,5 +93,25 @@ namespace ImageHuntTest.Services
             // Assert
             Check.That(games[1].Nodes).HasSize(2);
         }
-    }
+
+      [Fact]
+      public void SetCenterOfGameByNodes()
+      {
+      // Arrange
+        var nodes = new List<Node>()
+        {
+          new PictureNode(){Latitude = 48.8501065, Longitude = 2.327722},
+          new TimerNode(){Latitude = 48.851291, Longitude = 2.3318698},
+          new QuestionNode(){Latitude = 48.8537828, Longitude = 2.3310879}
+        };
+        var games = new List<Game>() {new Game(), new Game() { Nodes = nodes } };
+        _context.Games.AddRange(games);
+        _context.SaveChanges();
+        // Act
+        _target.SetCenterOfGameByNodes(games[1].Id);
+        // Assert
+        Check.That(games[1].MapCenterLat.Value).IsEqualsWithDelta(48.8517267806692, 0.0001);
+        Check.That(games[1].MapCenterLng.Value).IsEqualsWithDelta(2.33022653262665, 0.0001);
+      }
+  }
 }

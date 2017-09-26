@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ImageHunt.Controllers
@@ -39,24 +40,33 @@ namespace ImageHunt.Controllers
       _gameService.AddNode(gameId, node);
       return Ok();
     }
-    [HttpPost("AddPictures/{gameId}")]
-    public IEnumerable<Node> AddImageNodes(int gameId, [FromBody]List<Picture> images)
+    [HttpPut("AddPictures/{gameId}")]
+    public IActionResult AddImageNodes(int gameId, List<IFormFile> files)
     {
-      var nodes = new List<Node>();
-      foreach (var picture in images)
+      foreach (var file in files)
       {
-        _imageService.AddPicture(picture);
-        var coordinates = _imageService.ExtractLocationFromImage(picture);
-        var node = new PictureNode
+        using (var fileStream = file.OpenReadStream())
         {
-          Image = picture,
-          Latitude = coordinates.Item1,
-          Longitude = coordinates.Item2
-        };
-        _gameService.AddNode(gameId, node);
-        nodes.Add(node);
+          byte[] bytes = new byte[fileStream.Length];
+          fileStream.Read(bytes, 0, (int)fileStream.Length);
+          var picture = new Picture(){Image = bytes};
+          //_imageService.AddPicture(picture);
+          var coordinates = _imageService.ExtractLocationFromImage(picture);
+          var node = new PictureNode
+          {
+            Image = picture,
+            Latitude = coordinates.Item1,
+            Longitude = coordinates.Item2
+          };
+          _gameService.AddNode(gameId, node);
+        }
       }
-      return nodes;
+      return Ok();
+    }
+    [HttpPost("CenterGameByNodes/{gameId}")]
+    public void SetCenterOfGameByNodes(int gameId)
+    {
+      _gameService.SetCenterOfGameByNodes(gameId);
     }
   }
 }

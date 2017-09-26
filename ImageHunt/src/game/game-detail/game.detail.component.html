@@ -34,8 +34,9 @@
       <div class="panel panel-default">
         <h4>Actions</h4>
         <ul>
-          <li><button class="btn btn-default" (click)="addMysteryPicture(game.id)">Ajouter les photos mystères</button></li>
+          <li><a class="btn btn-default" routerLink="/game/uploadImages/{{game.id}}">Ajouter les photos mystères</a></li>
           <li><button class="btn btn-default">Ajouter un point</button></li>
+          <li><button class="btn btn-default" (click)="centerMap(game.id)">Centrer la carte sur les noeuds</button></li>
         </ul>
       </div>
     </div>

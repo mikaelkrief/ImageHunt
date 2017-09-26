@@ -27,10 +27,14 @@ export class GameDetailComponent implements OnInit
     /** Called by Angular after gameDetail component initialized */
     ngOnInit(): void {
       let gameId = this._route.snapshot.params["gameId"];
-      this._gameService.getGameById(gameId).subscribe(res => {
-        this.game = res;
-      });
+      this.getGame(gameId);
     }
+  getGame(gameId: number) {
+    this._gameService.getGameById(gameId).subscribe(res => {
+      this.game = res;
+    });
+
+  }
   createTeam(gameId: number, form: NgForm) {
     var team: Team = { id: 0, name: form.value.name, players: null };
     this._teamService.createTeam(gameId, team)
@@ -39,9 +43,8 @@ export class GameDetailComponent implements OnInit
         form.resetForm();
       });
   }
-  addMysteryPicture(gameId: number) {
-    var node: Node;
-    this._gameService.addNode(gameId, null);
+  centerMap(gameId: number) {
+    this._gameService.centerMap(gameId).subscribe(null, null, () => this.getGame(gameId));
   }
 
 }
