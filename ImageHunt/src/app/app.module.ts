@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AgmCoreModule } from '@agm/core';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { AppComponent } from './app.component';
-import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, TimepickerModule, BsDropdownModule } from 'ngx-bootstrap';
 
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -75,6 +75,7 @@ export class MyAuthConfig extends CustomConfig {
     GoogleButtonModule,
     Ng2UiAuthModule.forRoot(MyAuthConfig),
     BsDatepickerModule.forRoot(),
+    BsDropdownModule.forRoot(),
     TimepickerModule.forRoot(),
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent },

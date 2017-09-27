@@ -17,8 +17,8 @@ export class GameService {
   createGame(adminId: number, game: Game) {
     return this.jwtHttp.post('api/game/' + adminId, game);
   }
-  addNode(gameId: number, node: Node) {
-    return this.jwtHttp.get('api/game/' + gameId, node);
+  addNode(gameId: number, node) {
+    return this.jwtHttp.post(`api/game/AddNode/${gameId}`, node);
   }
   upload(files: File[], gameId) {
     let headers = new Headers();

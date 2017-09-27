@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
+using ImageHunt.Request;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,9 +35,15 @@ namespace ImageHunt.Controllers
     {
       return Ok(_gameService.CreateGame(adminId, newGame));
     }
-    [HttpPut("{gameId}")]
-    public IActionResult AddNode(int gameId, [FromBody] Node node)
+    [HttpPost("AddNode/{gameId}")]
+    public IActionResult AddNode(int gameId, [FromBody] AddNodeRequest nodeRequest)
     {
+      if (nodeRequest == null)
+        return BadRequest("Node is missing");
+      var node = NodeFactory.CreateNode(nodeRequest.NodeType);
+      node.Name = nodeRequest.Name;
+      node.Latitude = nodeRequest.Latitude;
+      node.Longitude = nodeRequest.Longitude;
       _gameService.AddNode(gameId, node);
       return Ok();
     }

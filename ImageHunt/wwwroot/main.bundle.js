@@ -344,7 +344,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_24__shared_google_button_google_button_module__["a" /* GoogleButtonModule */],
             __WEBPACK_IMPORTED_MODULE_10_ng2_ui_auth__["d" /* Ng2UiAuthModule */].forRoot(MyAuthConfig),
             __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["a" /* BsDatepickerModule */].forRoot(),
-            __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["c" /* TimepickerModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["b" /* BsDropdownModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["d" /* TimepickerModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"].forRoot([
                 { path: 'home', component: __WEBPACK_IMPORTED_MODULE_15__home_home_component__["a" /* HomeComponent */] },
                 { path: 'game', component: __WEBPACK_IMPORTED_MODULE_22__game_game_list_game_list_component__["a" /* GameListComponent */] },
@@ -504,7 +505,7 @@ GameCreateModule = __decorate([
 /***/ "../../../../../src/game/game-detail/game.detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-sm-10\">\r\n  <h2>Detail d'une partie</h2>\r\n  <div class=\"form-inline\">\r\n    <div class=\"form-control\">\r\n      <label>Nom de la partie :</label>\r\n      <span>{{game.name}}</span>\r\n    </div>\r\n    <div class=\"form-control\">\r\n      <label>Date de début :</label>\r\n      <span>{{game.startDate | date:medium}}</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-5\"> \r\n    <h3>Equipes</h3>\r\n    <ul class=\"list-group\">\r\n      <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"></span> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></li>\r\n    </ul>\r\n\r\n    <h3>Création d'une équipe</h3>\r\n    <form #form=\"ngForm\" (submit)=\"createTeam(game.id, form)\">\r\n      <div class=\"form-inline\">\r\n        <label>Nom de la team</label>\r\n        <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'équipe\" type=\"text\" id=\"name\"/>\r\n      </div>\r\n      <button type=\"submit\" class=\"btn btn-default\">Créer l'équipe</button>\r\n    </form>\r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-9\">\r\n      <h3>Points d'intêts</h3>\r\n      <map-detail [CenterLat]=\"game.mapCenterLat\" [CenterLng]=\"game.mapCenterLng\" [Nodes]=\"game.nodes\"></map-detail>\r\n    </div>\r\n    <div class=\"col-sm-3\">\r\n      <div class=\"panel panel-default\">\r\n        <h4>Actions</h4>\r\n        <ul>\r\n          <li><a class=\"btn btn-default\" routerLink=\"/game/uploadImages/{{game.id}}\">Ajouter les photos mystères</a></li>\r\n          <li><button class=\"btn btn-default\">Ajouter un point</button></li>\r\n          <li><button class=\"btn btn-default\" (click)=\"centerMap(game.id)\">Centrer la carte sur les noeuds</button></li>\r\n        </ul>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"col-sm-10\">\r\n  <h2>Detail d'une partie</h2>\r\n  <div class=\"form-inline\">\r\n    <div class=\"form-control\">\r\n      <label>Nom de la partie :</label>\r\n      <span>{{game.name}}</span>\r\n    </div>\r\n    <div class=\"form-control\">\r\n      <label>Date de début :</label>\r\n      <span>{{game.startDate | date:medium}}</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-5\">\r\n    <h3>Equipes</h3>\r\n    <ul class=\"list-group\">\r\n      <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"></span> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></li>\r\n    </ul>\r\n\r\n    <h3>Création d'une équipe</h3>\r\n    <form #form=\"ngForm\" (submit)=\"createTeam(game.id, form)\">\r\n      <div class=\"form-inline\">\r\n        <label>Nom de la team</label>\r\n        <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'équipe\" type=\"text\" id=\"name\" />\r\n      </div>\r\n      <button type=\"submit\" class=\"btn btn-default\">Créer l'équipe</button>\r\n    </form>\r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-9\">\r\n      <h3>Points d'intêts</h3>\r\n      <map-detail [CenterLat]=\"game.mapCenterLat\"\r\n                  [CenterLng]=\"game.mapCenterLng\"\r\n                  [Nodes]=\"game.nodes\"\r\n                  [gameId]=\"game.id\"\r\n                  (mapClicked)=\"mapClicked($event)\">\r\n      </map-detail>\r\n    </div>\r\n    <div class=\"col-sm-3\">\r\n      <h4>Actions</h4>\r\n      <div class=\"btn-group-vertical\" role=\"group\">\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" routerLink=\"/game/uploadImages/{{game.id}}\">Ajouter les photos mystères</button></div>\r\n        <div class=\"btn-group\" dropdown>\r\n          <button dropdownToggle type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"False\">Ajouter un point <span class=\"caret\"></span></button>\r\n          <ul *dropdownMenu class=\"dropdown-menu\" role=\"menu\">\r\n            <li role=\"menuitem\"><a (click)=\"nodeMode('start')\"><span class=\"fa fa-flag-o\"></span> Start Node</a></li>\r\n            <li role=\"menuitem\"><a (click)=\"nodeMode('object')\"><span class=\"fa fa-cube\"></span> Object Node</a></li>\r\n            <li role=\"menuitem\"><a (click)=\"nodeMode('timer')\"><span class=\"fa fa-clock-o\"></span> Timer Node</a></li>\r\n            <li role=\"menuitem\"><a (click)=\"nodeMode('picture')\"><span class=\"fa fa-camera\"></span> Picture Node</a></li>\r\n            <li role=\"menuitem\"><a (click)=\"nodeMode('question')\"><span class=\"fa fa-question-circle-o\"></span> Question Node</a></li>\r\n            <li role=\"menuitem\"><a (click)=\"nodeMode('end')\"><span class=\"fa fa-flag-checkered\"></span> End Node</a></li>\r\n          </ul>\r\n        </div>\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" (click)=\"centerMap(game.id)\">Centrer la carte sur les noeuds</button></div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -582,6 +583,10 @@ var GameDetailComponent = (function () {
         var _this = this;
         this._gameService.centerMap(gameId).subscribe(null, null, function () { return _this.getGame(gameId); });
     };
+    GameDetailComponent.prototype.nodeMode = function (nodeType) {
+    };
+    GameDetailComponent.prototype.mapClicked = function (event) {
+    };
     return GameDetailComponent;
 }());
 GameDetailComponent = __decorate([
@@ -613,12 +618,14 @@ var _a, _b, _c;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_services_team_service__ = __webpack_require__("../../../../../src/shared/services/team.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__map_map_detail_map_detail_module__ = __webpack_require__("../../../../../src/map/map-detail/map-detail.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -634,7 +641,7 @@ var GameDetailModule = (function () {
 }());
 GameDetailModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_7__map_map_detail_map_detail_module__["a" /* MapDetailModule */]],
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_7__map_map_detail_map_detail_module__["a" /* MapDetailModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["b" /* BsDropdownModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
@@ -775,7 +782,7 @@ var GameListModule = (function () {
 }());
 GameListModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_4__game_create_game_create_module__["a" /* GameCreateModule */], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["a" /* BsDatepickerModule */], __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["c" /* TimepickerModule */], __WEBPACK_IMPORTED_MODULE_7__map_map_thumbnail_map_thumbnail_module__["a" /* MapThumbnailModule */]],
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_4__game_create_game_create_module__["a" /* GameCreateModule */], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["a" /* BsDatepickerModule */], __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["d" /* TimepickerModule */], __WEBPACK_IMPORTED_MODULE_7__map_map_thumbnail_map_thumbnail_module__["a" /* MapThumbnailModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_3__game_list_component__["a" /* GameListComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_3__game_list_component__["a" /* GameListComponent */]]
     })
@@ -989,7 +996,7 @@ Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* pl
 /***/ "../../../../../src/map/map-detail/map-detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Module de création des parcours de la chasse</h2>\r\n<agm-map #map [latitude]=\"CenterLat\" [longitude]=\"CenterLng\">\r\n  <agm-marker *ngFor=\"let node of Nodes\"\r\n              [latitude]=\"node.latitude\"\r\n              [longitude]=\"node.longitude\"\r\n              [title]=\"node.name\"\r\n              [iconUrl]=\"getIconForNodeType(node.nodeType)\"\r\n              >\r\n    \r\n  </agm-marker>\r\n</agm-map>\r\n"
+module.exports = "<h2>Module de création des parcours de la chasse</h2>\r\n<agm-map #map [latitude]=\"CenterLat\" [longitude]=\"CenterLng\" [maxZoom]=\"17\"\r\n         (mapClick)=\"mapClick($event)\">\r\n  <agm-marker *ngFor=\"let node of Nodes\"\r\n              [latitude]=\"node.latitude\"\r\n              [longitude]=\"node.longitude\"\r\n              [title]=\"node.name\"\r\n              [iconUrl]=\"getIconForNodeType(node.nodeType)\"\r\n              >\r\n    \r\n  </agm-marker>\r\n</agm-map>\r\n"
 
 /***/ }),
 
@@ -1017,6 +1024,7 @@ module.exports = module.exports.toString();
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapDetailComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1027,9 +1035,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var MapDetailComponent = (function () {
     /** map ctor */
-    function MapDetailComponent() {
+    function MapDetailComponent(_gameService) {
+        this._gameService = _gameService;
+        this.mapClicked = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
     }
     /** Called by Angular after map component initialized */
     MapDetailComponent.prototype.ngOnInit = function () {
@@ -1061,6 +1072,19 @@ var MapDetailComponent = (function () {
                 return null;
         }
     };
+    MapDetailComponent.prototype.mapClick = function (event) {
+        var _this = this;
+        this.mapClicked.emit(event);
+        var coordinates = event.coords;
+        var node = {
+            nodeType: 'QuestionNode',
+            name: 'From TypeScript',
+            latitude: coordinates.lat,
+            longitude: coordinates.lng
+        };
+        this._gameService.addNode(this.gameId, node)
+            .subscribe(null, null, function () { return _this._gameService.getGameById(_this.gameId).subscribe(function (res) { return _this.Nodes = res.nodes; }, null, null); });
+    };
     return MapDetailComponent;
 }());
 __decorate([
@@ -1073,8 +1097,20 @@ __decorate([
 ], MapDetailComponent.prototype, "CenterLng", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Number)
+], MapDetailComponent.prototype, "gameId", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
     __metadata("design:type", Array)
 ], MapDetailComponent.prototype, "Nodes", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", String)
+], MapDetailComponent.prototype, "nodeMode", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+    __metadata("design:type", Object)
+], MapDetailComponent.prototype, "mapClicked", void 0);
 MapDetailComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'map-detail',
@@ -1083,9 +1119,10 @@ MapDetailComponent = __decorate([
     })
     /** map component*/
     ,
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__shared_services_game_service__["a" /* GameService */]) === "function" && _a || Object])
 ], MapDetailComponent);
 
+var _a;
 //# sourceMappingURL=map-detail.component.js.map
 
 /***/ }),
@@ -1338,7 +1375,7 @@ var NavmenuModule = (function () {
 }());
 NavmenuModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_2__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_4__shared_google_button_google_button_module__["a" /* GoogleButtonModule */], __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap__["b" /* CollapseModule */]],
+        imports: [__WEBPACK_IMPORTED_MODULE_2__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_4__shared_google_button_google_button_module__["a" /* GoogleButtonModule */], __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap__["c" /* CollapseModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_1__navmenu_component__["a" /* NavmenuComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_1__navmenu_component__["a" /* NavmenuComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_1__navmenu_component__["a" /* NavmenuComponent */]]
@@ -1722,7 +1759,7 @@ var GameService = (function () {
         return this.jwtHttp.post('api/game/' + adminId, game);
     };
     GameService.prototype.addNode = function (gameId, node) {
-        return this.jwtHttp.get('api/game/' + gameId, node);
+        return this.jwtHttp.post("api/game/AddNode/" + gameId, node);
     };
     GameService.prototype.upload = function (files, gameId) {
         var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Headers */]();

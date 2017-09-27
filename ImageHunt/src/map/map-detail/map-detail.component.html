@@ -1,5 +1,6 @@
 <h2>Module de création des parcours de la chasse</h2>
-<agm-map #map [latitude]="CenterLat" [longitude]="CenterLng">
+<agm-map #map [latitude]="CenterLat" [longitude]="CenterLng" [maxZoom]="17"
+         (mapClick)="mapClick($event)">
   <agm-marker *ngFor="let node of Nodes"
               [latitude]="node.latitude"
               [longitude]="node.longitude"

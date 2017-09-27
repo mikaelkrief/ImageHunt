@@ -21,7 +21,7 @@ export class GameDetailComponent implements OnInit
     constructor(private _route: ActivatedRoute,
       private _gameService: GameService,
       private _teamService: TeamService) {
-      this.game = new Game();
+      this.game = new Game(); 
     }
 
     /** Called by Angular after gameDetail component initialized */
@@ -46,5 +46,10 @@ export class GameDetailComponent implements OnInit
   centerMap(gameId: number) {
     this._gameService.centerMap(gameId).subscribe(null, null, () => this.getGame(gameId));
   }
-
+  nodeMode(nodeType:string) {
+    
+  }
+  mapClicked(event) {
+    
+  }
 }

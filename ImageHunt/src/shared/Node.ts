@@ -1,8 +1,9 @@
 export class Node {
   id: number;
-  discriminator: string;
+  image: any;
   latitude: number;
   longitude: number;
   name: string;
-
+  children: Node[];
+  nodeType: string;
 }

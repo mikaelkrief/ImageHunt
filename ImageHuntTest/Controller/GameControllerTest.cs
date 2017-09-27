@@ -8,6 +8,7 @@ using FakeItEasy;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
+using ImageHunt.Request;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -70,11 +71,11 @@ namespace ImageHuntTest.Controller
         public void AddNode()
         {
             // Arrange
-            var node = new TimerNode();
+            var node = new AddNodeRequest(){NodeType = "TimerNode"};
             // Act
             var result = _target.AddNode(1, node);
             // Assert
-            A.CallTo(() => _gameService.AddNode(1, node)).MustHaveHappened();
+            A.CallTo(() => _gameService.AddNode(1, A<Node>._)).MustHaveHappened();
         }
 
         [Fact]
