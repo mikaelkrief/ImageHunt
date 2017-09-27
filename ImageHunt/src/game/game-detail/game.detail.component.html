@@ -38,20 +38,24 @@
     <div class="col-sm-3">
       <h4>Actions</h4>
       <div class="btn-group-vertical" role="group">
-        <div class="btn-group"><button class="btn btn-default" routerLink="/game/uploadImages/{{game.id}}">Ajouter les photos mystères</button></div>
-        <div class="btn-group" dropdown>
-          <button dropdownToggle type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="False">Ajouter un point <span class="caret"></span></button>
-          <ul *dropdownMenu class="dropdown-menu" role="menu">
-            <li role="menuitem"><a (click)="nodeMode('start')"><span class="fa fa-flag-o"></span> Start Node</a></li>
-            <li role="menuitem"><a (click)="nodeMode('object')"><span class="fa fa-cube"></span> Object Node</a></li>
-            <li role="menuitem"><a (click)="nodeMode('timer')"><span class="fa fa-clock-o"></span> Timer Node</a></li>
-            <li role="menuitem"><a (click)="nodeMode('picture')"><span class="fa fa-camera"></span> Picture Node</a></li>
-            <li role="menuitem"><a (click)="nodeMode('question')"><span class="fa fa-question-circle-o"></span> Question Node</a></li>
-            <li role="menuitem"><a (click)="nodeMode('end')"><span class="fa fa-flag-checkered"></span> End Node</a></li>
-          </ul>
-        </div>
+        <div class="btn-group"><button class="btn btn-default" (click)="uploadImages(uploadImagesTemplate)">Ajouter les photos mystères</button></div>
         <div class="btn-group"><button class="btn btn-default" (click)="centerMap(game.id)">Centrer la carte sur les noeuds</button></div>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #uploadImagesTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Téléchargement de noeuds images</h4>
+    <button type="button" class="close pull-right" aria-label="Fermer" (click)="uploadModalRef.hide()">
+      <span aria-hidden="true" class="fa fa-times"></span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <br/>
+    <form>
+      <input type="file" #fileInput placeholder="Upload file..." multiple (change)="uploadFiles(fileInput.files)" />
+    </form>
+  </div>
+</ng-template>

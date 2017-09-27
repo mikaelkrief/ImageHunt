@@ -1,12 +1,64 @@
 <h2>Module de création des parcours de la chasse</h2>
 <agm-map #map [latitude]="CenterLat" [longitude]="CenterLng" [maxZoom]="17"
-         (mapClick)="mapClick($event)">
+         (mapClick)="mapClick($event, createNodeTemplate)">
   <agm-marker *ngFor="let node of Nodes"
               [latitude]="node.latitude"
               [longitude]="node.longitude"
               [title]="node.name"
               [iconUrl]="getIconForNodeType(node.nodeType)"
-              >
+  >
     
   </agm-marker>
 </agm-map>
+
+<ng-template #createNodeTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Création d'un Noeud</h4>
+    <button type="button" class="close pull-right" aria-label="Fermer" (click)="modalRef.hide()">
+      <span aria-hidden="true" class="fa fa-times"></span>
+    </button>
+  </div>
+  
+  <div class="modal-body">
+    <span></span>
+    <form>
+      <div class="form-inline">
+        <div class="input-group">
+          <label for="name">Nom du noeud</label>
+          <input type="text" class="form-control" id="name" ngModel name="name" placeholder="Entrez le nom du noeud"/>
+        </div>
+        <div class="input-group">
+          <label for="nodeType">Type de Noeud</label>
+          <select class="form-control fa">
+            <option value="FirstNode">&#xf11d; FirstNode</option>
+            <option value="TimerNode">&#xf017; TimerNode</option>
+            <option value="ObjectNode">&#xf1b2; ObjectNode</option>
+            <option value="QuestionNode">&#xf29c; QuestionNode</option>
+            <option value="PictureNode">&#xf030; PictureNode</option>
+            <option value="LastNode">&#xf11e; LastNode</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-inline">
+        <div class="input-group">
+          <table class="table">
+            <tr>
+              <th rowspan="2"><label>Position</label></th>
+              <th><label>Latitude</label></th>
+              <td>{{currentLatitude}}</td>
+            </tr>
+            <tr>
+              
+              <th><label>Longitude</label></th>
+              <td>{{currentLongitude}}</td>
+            </tr>
+          </table>
+          
+        </div>
+      </div>
+      <div class="modal-footer">
+      <button class="close pull-right" aria-label="Close" (click)="modalRef.hide()">Créer le Noeud</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

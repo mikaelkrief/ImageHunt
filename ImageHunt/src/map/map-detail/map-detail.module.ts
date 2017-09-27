@@ -5,7 +5,8 @@ import { CommonModule } from "@angular/common";
 import {environment} from "../../environments/environment";
 
 @NgModule({
-  imports: [CommonModule, AgmCoreModule.forRoot({ apiKey: environment.GOOGLE_MAP_API_KEY })],
+  imports: [CommonModule,
+    AgmCoreModule.forRoot({ apiKey: environment.GOOGLE_MAP_API_KEY })],
   declarations: [MapDetailComponent],
   exports: [MapDetailComponent]
 })

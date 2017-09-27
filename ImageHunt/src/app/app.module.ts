@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AgmCoreModule } from '@agm/core';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { AppComponent } from './app.component';
-import { BsDatepickerModule, TimepickerModule, BsDropdownModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, TimepickerModule, BsDropdownModule, ModalModule } from 'ngx-bootstrap';
 
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,7 +33,6 @@ import {MapThumbnailModule} from "../map/map-thumbnail/map.thumbnail.module";
 import {MapDetailModule} from "../map/map-detail/map-detail.module";
 import {MapDetailComponent} from "../map/map-detail/map-detail.component";
 //import {UploadImagesModule} from "../game/upload-images/upload.images.module";
-import {UploadImagesComponent} from "../game/upload-images/upload-images.component";
 
 export class MyAuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': 'application/json' };
@@ -47,7 +46,6 @@ export class MyAuthConfig extends CustomConfig {
 @NgModule({
   declarations: [
     AppComponent,
-    UploadImagesComponent,
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -64,7 +62,6 @@ export class MyAuthConfig extends CustomConfig {
     GameListModule,
     GameDetailModule,
     GameCreateModule,
-    //UploadImagesModule,
     TeamListModule,
     TeamDetailModule,
     MapDetailModule,
@@ -76,12 +73,12 @@ export class MyAuthConfig extends CustomConfig {
     Ng2UiAuthModule.forRoot(MyAuthConfig),
     BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
     TimepickerModule.forRoot(),
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent },
       { path: 'game', component: GameListComponent },
       { path: 'game/:gameId', component: GameDetailComponent },
-      { path: 'game/uploadImages/:gameId', component: UploadImagesComponent},
       { path: 'team/:teamId', component: TeamDetailComponent },
       { path: 'team', component: TeamListComponent },
       { path: 'map', component: MapDetailComponent },
