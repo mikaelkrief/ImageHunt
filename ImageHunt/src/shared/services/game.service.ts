@@ -36,4 +36,8 @@ export class GameService {
     return this.jwtHttp.post(`api/game/CenterGameByNodes/${gameId}`, null);
 
   }
+
+  getNodeRelations(gameId: number) {
+     return this.jwtHttp.get(`api/game/NodesRelations/${gameId}`);
+  }
 }

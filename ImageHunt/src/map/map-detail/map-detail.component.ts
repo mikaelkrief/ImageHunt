@@ -4,6 +4,7 @@ import {GameService} from "../../shared/services/game.service";
 import { BsModalService, BsModalRef } from "ngx-bootstrap";
 import { Subscription } from "rxjs/Subscription";
 import { NgForm } from "@angular/forms";
+import {NodeRelation} from "../../shared/NodeRelation";
 
 @Component({
   selector: 'map-detail',
@@ -15,13 +16,12 @@ export class MapDetailComponent implements OnInit {
   @Input() CenterLat: number;
   @Input() CenterLng: number;
   @Input() gameId: number;
-  @Input() Nodes: Node[];
+  @Input() nodes: Node[];
+  @Input() nodesRelation: NodeRelation[];
   @Input() nodeMode: string;
   @Input() filterNode: string[];
   @Output() mapClicked = new EventEmitter();
-  public modalRef: BsModalRef;
-  currentLatitude: number;
-  currentLongitude: number;
+  @Output() nodeClicked = new EventEmitter<Node>();
   /** map ctor */
   constructor(private _gameService: GameService, private _modalService: BsModalService) { }
 
@@ -41,13 +41,13 @@ export class MapDetailComponent implements OnInit {
       }
     }
   }
-  getGameData(gameId: number) {
+  public getGameData(gameId: number) {
     if (gameId != null) {
       this._gameService.getGameById(gameId)
         .subscribe(res => {
           this.CenterLat = res.mapCenterLat;
           this.CenterLng = res.mapCenterLng;
-          this.Nodes = res.nodes;
+          this.nodes = res.nodes;
         });
     }
   }
@@ -78,22 +78,8 @@ export class MapDetailComponent implements OnInit {
   }
   mapClick(event, templateName:TemplateRef<any>) {
     this.mapClicked.emit(event);
-    var coordinates = event.coords;
-    this.currentLatitude = coordinates.lat;
-    this.currentLongitude = coordinates.lng;
-    this.modalRef = this._modalService.show(templateName, { ignoreBackdropClick:true});
   }
-  createNode(form: NgForm) {
-    var node = {
-      nodeType: form.value.nodeType,
-      name: form.value.name,
-      latitude: this.currentLatitude,
-      longitude: this.currentLongitude
-    };
-    this._gameService.addNode(this.gameId, node)
-      .subscribe(null,
-        null,
-        () => this.getGameData(this.gameId));
-    
+  markerClicked(node: Node) {
+    this.nodeClicked.emit(node);
   }
 }

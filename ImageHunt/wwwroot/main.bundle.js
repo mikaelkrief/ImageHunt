@@ -501,7 +501,7 @@ GameCreateModule = __decorate([
 /***/ "../../../../../src/game/game-detail/game.detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-sm-10\">\r\n  <h2>Detail d'une partie</h2>\r\n  <div class=\"form-inline\">\r\n    <div class=\"form-control\">\r\n      <label>Nom de la partie :</label>\r\n      <span>{{game.name}}</span>\r\n    </div>\r\n    <div class=\"form-control\">\r\n      <label>Date de début :</label>\r\n      <span>{{game.startDate | date:medium}}</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-5\">\r\n    <h3>Equipes</h3>\r\n    <ul class=\"list-group\">\r\n      <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"></span> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></li>\r\n    </ul>\r\n\r\n    <h3>Création d'une équipe</h3>\r\n    <form #form=\"ngForm\" (submit)=\"createTeam(game.id, form)\">\r\n      <div class=\"form-inline\">\r\n        <label>Nom de la team</label>\r\n        <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'équipe\" type=\"text\" id=\"name\" />\r\n      </div>\r\n      <button type=\"submit\" class=\"btn btn-default\">Créer l'équipe</button>\r\n    </form>\r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-9\">\r\n      <h3>Points d'intêts</h3>\r\n      <map-detail [CenterLat]=\"game.mapCenterLat\"\r\n                  [CenterLng]=\"game.mapCenterLng\"\r\n                  [Nodes]=\"game.nodes\"\r\n                  [gameId]=\"game.id\"\r\n                  (mapClicked)=\"mapClicked($event)\">\r\n      </map-detail>\r\n    </div>\r\n    <div class=\"col-sm-3\">\r\n      <h4>Actions</h4>\r\n      <div class=\"btn-group-vertical\" role=\"group\">\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" (click)=\"uploadImages(uploadImagesTemplate)\">Ajouter les photos mystères</button></div>\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" (click)=\"centerMap(game.id)\">Centrer la carte sur les noeuds</button></div>\r\n        \r\n      </div>\r\n      <h4>Filtres</h4>\r\n      <div class=\"btn-group-vertical\" role=\"group\">\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" btnCheckbox>Filtrer les noeuds images</button></div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #uploadImagesTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Téléchargement de noeuds images</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"uploadModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <br/>\r\n    <form>\r\n      <input type=\"file\" #fileInput placeholder=\"Upload file...\" multiple (change)=\"uploadFiles(fileInput.files)\" />\r\n    </form>\r\n  </div>\r\n</ng-template>\r\n"
+module.exports = "<div class=\"col-sm-10\">\r\n  <h2>Detail d'une partie</h2>\r\n  <div class=\"form-inline\">\r\n    <div class=\"form-control\">\r\n      <label>Nom de la partie :</label>\r\n      <span>{{game.name}}</span>\r\n    </div>\r\n    <div class=\"form-control\">\r\n      <label>Date de début :</label>\r\n      <span>{{game.startDate | date:medium}}</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-5\">\r\n    <h3>Equipes</h3>\r\n    <ul class=\"list-group\">\r\n      <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"></span> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></li>\r\n    </ul>\r\n\r\n    <h3>Création d'une équipe</h3>\r\n    <form #form=\"ngForm\" (submit)=\"createTeam(game.id, form)\">\r\n      <div class=\"form-inline\">\r\n        <label>Nom de la team</label>\r\n        <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'équipe\" type=\"text\" id=\"name\" />\r\n      </div>\r\n      <button type=\"submit\" class=\"btn btn-default\">Créer l'équipe</button>\r\n    </form>\r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-9\">\r\n      <h3>Points d'intêts</h3>\r\n      <map-detail #mapComponent\r\n                  [CenterLat]=\"game.mapCenterLat\"\r\n                  [CenterLng]=\"game.mapCenterLng\"\r\n                  [nodes]=\"game.nodes\"\r\n                  [gameId]=\"game.id\"\r\n                  [nodesRelation]=\"nodeRelations\"\r\n                  (mapClicked)=\"mapClicked($event, createNodeTemplate)\">\r\n      </map-detail>\r\n\r\n    </div>\r\n    <div class=\"col-sm-3\">\r\n      <h4>Actions</h4>\r\n      <div class=\"btn-group-vertical\" role=\"group\">\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" (click)=\"uploadImages(uploadImagesTemplate)\">Ajouter les photos mystères</button></div>\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" (click)=\"centerMap(game.id)\">Centrer la carte sur les noeuds</button></div>\r\n        \r\n      </div>\r\n      <h4>Filtres</h4>\r\n      <div class=\"btn-group-vertical\" role=\"group\">\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" btnCheckbox>Filtrer les noeuds images</button></div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #uploadImagesTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Téléchargement de noeuds images</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"uploadModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <br/>\r\n    <form>\r\n      <input type=\"file\" #fileInput placeholder=\"Upload file...\" multiple (change)=\"uploadFiles(fileInput.files)\" />\r\n    </form>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #createNodeTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Création d'un Noeud</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"modalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n\r\n  <div class=\"modal-body\">\r\n    <span></span>\r\n    <form #form=\"ngForm\" (submit)=\"createNode(form)\">\r\n      <div class=\"form-inline\">\r\n        <div class=\"input-group\">\r\n          <label for=\"name\">Nom du noeud</label>\r\n          <input type=\"text\" class=\"form-control\" id=\"name\" ngModel name=\"name\" placeholder=\"Entrez le nom du noeud\" />\r\n        </div>\r\n        <div class=\"input-group\">\r\n          <label for=\"nodeType\">Type de Noeud</label>\r\n          <select class=\"form-control fa\" ngModel name=\"nodeType\" id=\"nodeType\">\r\n            <option value=\"FirstNode\">&#xf11d; FirstNode</option>\r\n            <option value=\"TimerNode\">&#xf017; TimerNode</option>\r\n            <option value=\"ObjectNode\">&#xf1b2; ObjectNode</option>\r\n            <option value=\"QuestionNode\">&#xf29c; QuestionNode</option>\r\n            <option value=\"PictureNode\">&#xf030; PictureNode</option>\r\n            <option value=\"LastNode\">&#xf11e; LastNode</option>\r\n          </select>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-inline\">\r\n        <div class=\"input-group\">\r\n          <table class=\"table\">\r\n            <tr>\r\n              <th rowspan=\"2\"><label>Position</label></th>\r\n              <th><label>Latitude</label></th>\r\n              <td>{{currentLatitude}}</td>\r\n            </tr>\r\n            <tr>\r\n\r\n              <th><label>Longitude</label></th>\r\n              <td>{{currentLongitude}}</td>\r\n            </tr>\r\n          </table>\r\n\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button class=\"close pull-right\" type=\"submit\" aria-label=\"Close\"\r\n                (click)=\"modalRef.hide()\">\r\n          Créer le Noeud\r\n        </button>\r\n      </div>\r\n    </form>\r\n  </div>\r\n</ng-template>\r\n\r\n"
 
 /***/ }),
 
@@ -581,7 +581,29 @@ var GameDetailComponent = (function () {
         var _this = this;
         this._gameService.getGameById(gameId).subscribe(function (res) {
             _this.game = res;
+            _this.getNodeRelations(gameId);
         }, function (err) { return console.error("getGame raise error: " + err); });
+    };
+    GameDetailComponent.prototype.getNodeRelations = function (gameId) {
+        var _this = this;
+        this._gameService.getNodeRelations(gameId)
+            .subscribe(function (res) {
+            _this.nodeRelations = res.json();
+            _this.buildRelations();
+        });
+    };
+    GameDetailComponent.prototype.buildRelations = function () {
+        var nodes = this.game.nodes;
+        for (var _i = 0, _a = this.nodeRelations; _i < _a.length; _i++) {
+            var relation = _a[_i];
+            // Find the origin node
+            var orgNode = nodes.find(function (n) { return n.id === relation.nodeId; });
+            for (var _b = 0, _c = relation.childNodeId; _b < _c.length; _b++) {
+                var childId = _c[_b];
+                orgNode.children.push(nodes.find(function (n) { return n.id === childId; }));
+            }
+        }
+        this.mapComponent.nodes = this.game.nodes;
     };
     GameDetailComponent.prototype.createTeam = function (gameId, form) {
         var _this = this;
@@ -598,7 +620,22 @@ var GameDetailComponent = (function () {
     };
     GameDetailComponent.prototype.nodeMode = function (nodeType) {
     };
-    GameDetailComponent.prototype.mapClicked = function (event) {
+    GameDetailComponent.prototype.mapClicked = function (event, template) {
+        var coordinates = event.coords;
+        this.currentLatitude = coordinates.lat;
+        this.currentLongitude = coordinates.lng;
+        this.modalRef = this._modalService.show(template, { ignoreBackdropClick: true });
+    };
+    GameDetailComponent.prototype.createNode = function (form) {
+        var _this = this;
+        var node = {
+            nodeType: form.value.nodeType,
+            name: form.value.name,
+            latitude: this.currentLatitude,
+            longitude: this.currentLongitude
+        };
+        this._gameService.addNode(this.game.id, node)
+            .subscribe(function () { return _this.getGame(_this.game.id); });
     };
     return GameDetailComponent;
 }());
@@ -606,6 +643,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ContentChildren"])('fileInput'),
     __metadata("design:type", Object)
 ], GameDetailComponent.prototype, "fileInput", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('mapComponent'),
+    __metadata("design:type", Object)
+], GameDetailComponent.prototype, "mapComponent", void 0);
 GameDetailComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'game-detail',
@@ -932,7 +973,7 @@ Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* pl
 /***/ "../../../../../src/map/map-detail/map-detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Module de création des parcours de la chasse</h2>\r\n<agm-map #map [latitude]=\"CenterLat\" [longitude]=\"CenterLng\" [maxZoom]=\"17\"\r\n         (mapClick)=\"mapClick($event, createNodeTemplate)\">\r\n  <agm-marker *ngFor=\"let node of Nodes\"\r\n              [latitude]=\"node.latitude\"\r\n              [longitude]=\"node.longitude\"\r\n              [title]=\"node.name\"\r\n              [iconUrl]=\"getIconForNodeType(node.nodeType)\"\r\n  >\r\n    \r\n  </agm-marker>\r\n</agm-map>\r\n\r\n<ng-template #createNodeTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Création d'un Noeud</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"modalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  \r\n  <div class=\"modal-body\">\r\n    <span></span>\r\n    <form #form=\"ngForm\" (submit)=\"createNode(form)\">\r\n      <div class=\"form-inline\">\r\n        <div class=\"input-group\">\r\n          <label for=\"name\">Nom du noeud</label>\r\n          <input type=\"text\" class=\"form-control\" id=\"name\" ngModel name=\"name\" placeholder=\"Entrez le nom du noeud\"/>\r\n        </div>\r\n        <div class=\"input-group\">\r\n          <label for=\"nodeType\">Type de Noeud</label>\r\n          <select class=\"form-control fa\" ngModel name=\"nodeType\" id=\"nodeType\">\r\n            <option value=\"FirstNode\">&#xf11d; FirstNode</option>\r\n            <option value=\"TimerNode\">&#xf017; TimerNode</option>\r\n            <option value=\"ObjectNode\">&#xf1b2; ObjectNode</option>\r\n            <option value=\"QuestionNode\">&#xf29c; QuestionNode</option>\r\n            <option value=\"PictureNode\">&#xf030; PictureNode</option>\r\n            <option value=\"LastNode\">&#xf11e; LastNode</option>\r\n          </select>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-inline\">\r\n        <div class=\"input-group\">\r\n          <table class=\"table\">\r\n            <tr>\r\n              <th rowspan=\"2\"><label>Position</label></th>\r\n              <th><label>Latitude</label></th>\r\n              <td>{{currentLatitude}}</td>\r\n            </tr>\r\n            <tr>\r\n              \r\n              <th><label>Longitude</label></th>\r\n              <td>{{currentLongitude}}</td>\r\n            </tr>\r\n          </table>\r\n          \r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button class=\"close pull-right\" type=\"submit\" aria-label=\"Close\"\r\n                (click)=\"modalRef.hide()\">Créer le Noeud</button>\r\n      </div>\r\n    </form>\r\n  </div>\r\n</ng-template>\r\n"
+module.exports = "<h2>Module de création des parcours de la chasse</h2>\r\n<agm-map #map [latitude]=\"CenterLat\" [longitude]=\"CenterLng\" [maxZoom]=\"17\"\r\n         (mapClick)=\"mapClick($event, createNodeTemplate)\">\r\n  <agm-marker *ngFor=\"let node of nodes\"\r\n              [latitude]=\"node.latitude\"\r\n              [longitude]=\"node.longitude\"\r\n              [title]=\"node.name\"\r\n              [iconUrl]=\"getIconForNodeType(node.nodeType)\"\r\n              (markerClick)=\"markerClicked(node)\"\r\n  >\r\n    <agm-polyline *ngFor=\"let node of nodes\"\r\n                  [editable]=\"false\"\r\n                  [strokeColor]=\"red\"\r\n                  [strokeWeight]=\"2\">\r\n      <div *ngFor=\"let children of node.children\">\r\n        <agm-polyline-point [latitude]=\"node.latitude\" [longitude]=\"node.longitude\"></agm-polyline-point>\r\n        <agm-polyline-point [latitude]=\"children.latitude\" [longitude]=\"children.longitude\"></agm-polyline-point>\r\n      </div>\r\n\r\n    </agm-polyline>  \r\n  </agm-marker>\r\n</agm-map>\r\n"
 
 /***/ }),
 
@@ -980,6 +1021,7 @@ var MapDetailComponent = (function () {
         this._gameService = _gameService;
         this._modalService = _modalService;
         this.mapClicked = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.nodeClicked = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.subscriptions = [];
     }
     /** Called by Angular after map component initialized */
@@ -1006,7 +1048,7 @@ var MapDetailComponent = (function () {
                 .subscribe(function (res) {
                 _this.CenterLat = res.mapCenterLat;
                 _this.CenterLng = res.mapCenterLng;
-                _this.Nodes = res.nodes;
+                _this.nodes = res.nodes;
             });
         }
     };
@@ -1036,21 +1078,9 @@ var MapDetailComponent = (function () {
     };
     MapDetailComponent.prototype.mapClick = function (event, templateName) {
         this.mapClicked.emit(event);
-        var coordinates = event.coords;
-        this.currentLatitude = coordinates.lat;
-        this.currentLongitude = coordinates.lng;
-        this.modalRef = this._modalService.show(templateName, { ignoreBackdropClick: true });
     };
-    MapDetailComponent.prototype.createNode = function (form) {
-        var _this = this;
-        var node = {
-            nodeType: form.value.nodeType,
-            name: form.value.name,
-            latitude: this.currentLatitude,
-            longitude: this.currentLongitude
-        };
-        this._gameService.addNode(this.gameId, node)
-            .subscribe(null, null, function () { return _this.getGameData(_this.gameId); });
+    MapDetailComponent.prototype.markerClicked = function (node) {
+        this.nodeClicked.emit(node);
     };
     return MapDetailComponent;
 }());
@@ -1069,7 +1099,11 @@ __decorate([
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
     __metadata("design:type", Array)
-], MapDetailComponent.prototype, "Nodes", void 0);
+], MapDetailComponent.prototype, "nodes", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Array)
+], MapDetailComponent.prototype, "nodesRelation", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
     __metadata("design:type", String)
@@ -1082,6 +1116,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
     __metadata("design:type", Object)
 ], MapDetailComponent.prototype, "mapClicked", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+    __metadata("design:type", Object)
+], MapDetailComponent.prototype, "nodeClicked", void 0);
 MapDetailComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'map-detail',
@@ -1749,6 +1787,9 @@ var GameService = (function () {
     };
     GameService.prototype.centerMap = function (gameId) {
         return this.jwtHttp.post("api/game/CenterGameByNodes/" + gameId, null);
+    };
+    GameService.prototype.getNodeRelations = function (gameId) {
+        return this.jwtHttp.get("api/game/NodesRelations/" + gameId);
     };
     return GameService;
 }());

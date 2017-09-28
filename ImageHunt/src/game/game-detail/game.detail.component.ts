@@ -7,6 +7,8 @@ import {TeamService} from "../../shared/services/team.service";
 import { Team } from "../../shared/team";
 import 'rxjs/Rx';
 import { BsModalService, BsModalRef } from "ngx-bootstrap";
+import {NodeRelation} from "../../shared/NodeRelation";
+
 @Component({
     selector: 'game-detail',
     templateUrl: './game.detail.component.html',
@@ -16,8 +18,10 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap";
 export class GameDetailComponent implements OnInit
 {
   @ContentChildren('fileInput') fileInput;
+  @ViewChild('mapComponent') mapComponent;
     public uploadModalRef: BsModalRef;
-    game:Game;
+    game: Game;
+  nodeRelations: NodeRelation[];
     /** gameDetail ctor */
     constructor(private _route: ActivatedRoute,
       private _gameService: GameService,
@@ -45,9 +49,27 @@ export class GameDetailComponent implements OnInit
   getGame(gameId: number) {
     this._gameService.getGameById(gameId).subscribe(res => {
       this.game = res;
-    },
+        this.getNodeRelations(gameId);
+      },
       err => console.error("getGame raise error: " + err));
-
+  }
+  getNodeRelations(gameId: number) {
+    this._gameService.getNodeRelations(gameId)
+      .subscribe(res => {
+        this.nodeRelations = res.json();
+        this.buildRelations();
+      });
+  }
+  buildRelations() {
+    let nodes = this.game.nodes;
+    for (var relation of this.nodeRelations) {
+      // Find the origin node
+      var orgNode = nodes.find(n => n.id === relation.nodeId);
+      for (var childId of relation.childNodeId) {
+        orgNode.children.push(nodes.find(n => n.id === childId));
+      }
+    }
+    this.mapComponent.nodes = this.game.nodes;
   }
   createTeam(gameId: number, form: NgForm) {
     var team: Team = { id: 0, name: form.value.name, players: null };
@@ -63,7 +85,28 @@ export class GameDetailComponent implements OnInit
   nodeMode(nodeType:string) {
     
   }
-  mapClicked(event) {
+  public modalRef: BsModalRef;
+  currentLatitude: number;
+  currentLongitude: number;
+
+  mapClicked(event, template) {
+    var coordinates = event.coords;
+    this.currentLatitude = coordinates.lat;
+    this.currentLongitude = coordinates.lng;
+    this.modalRef = this._modalService.show(template, { ignoreBackdropClick: true });
     
   }
+
+  createNode(form: NgForm) {
+    var node = {
+      nodeType: form.value.nodeType,
+      name: form.value.name,
+      latitude: this.currentLatitude,
+      longitude: this.currentLongitude
+    };
+    this._gameService.addNode(this.game.id, node)
+      .subscribe(() => this.getGame(this.game.id));
+
+  }
+
 }
