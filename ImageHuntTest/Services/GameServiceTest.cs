@@ -4,6 +4,7 @@ using System.Text;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using Microsoft.CodeAnalysis;
 using NFluent;
 using SQLitePCL;
 using Xunit;
@@ -94,6 +95,23 @@ namespace ImageHuntTest.Services
             Check.That(games[1].Nodes).HasSize(2);
         }
 
+      [Fact]
+      public void GetNodes()
+      {
+        // Arrange
+        var nodes = new List<Node>(){new TimerNode(){Name="First"}, new TimerNode(){Name="Second"}, new TimerNode(){Name = "Third"}, new TimerNode(){Name = "Fourth"}};
+        var games = new List<Game>(){new Game(), new Game(){Nodes = nodes}};
+        nodes[0].ChildrenRelation.Add(new ParentChildren(){Parent = nodes[0], Children = nodes[1]});
+        nodes[1].ChildrenRelation.Add(new ParentChildren(){Parent = nodes[1], Children = nodes[2]});
+        nodes[2].ChildrenRelation.Add(new ParentChildren(){Parent = nodes[2], Children = nodes[3]});
+      _context.Games.AddRange(games);
+        _context.SaveChanges();
+        // Act
+        var resNodes = _target.GetNodes(games[1].Id);
+        // Assert
+        Check.That(resNodes).ContainsExactly(nodes);
+        Check.That(nodes[0].Children).ContainsExactly(nodes[1]);
+      }
       [Fact]
       public void SetCenterOfGameByNodes()
       {

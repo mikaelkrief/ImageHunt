@@ -3,6 +3,7 @@ import { Node } from "../../shared/node";
 import {GameService} from "../../shared/services/game.service";
 import { BsModalService, BsModalRef } from "ngx-bootstrap";
 import { Subscription } from "rxjs/Subscription";
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: 'map-detail',
@@ -16,6 +17,7 @@ export class MapDetailComponent implements OnInit {
   @Input() gameId: number;
   @Input() Nodes: Node[];
   @Input() nodeMode: string;
+  @Input() filterNode: string[];
   @Output() mapClicked = new EventEmitter();
   public modalRef: BsModalRef;
   currentLatitude: number;
@@ -79,16 +81,12 @@ export class MapDetailComponent implements OnInit {
     var coordinates = event.coords;
     this.currentLatitude = coordinates.lat;
     this.currentLongitude = coordinates.lng;
-    this.subscriptions.push(this._modalService.onHide.subscribe((reason: string) => {
-      this.createNode();
-    }));
-    this.subscriptions.push(this._modalService.onHidden.subscribe((reason: string) => this.unsubscribe()));
     this.modalRef = this._modalService.show(templateName, { ignoreBackdropClick:true});
   }
-  createNode() {
+  createNode(form: NgForm) {
     var node = {
-      nodeType: 'QuestionNode',
-      name: 'From TypeScript',
+      nodeType: form.value.nodeType,
+      name: form.value.name,
       latitude: this.currentLatitude,
       longitude: this.currentLongitude
     };

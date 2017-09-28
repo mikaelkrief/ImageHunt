@@ -8,6 +8,6 @@ namespace ImageHunt.Services
         void AddNode(Node node);
         Node GetNode(int nodeId);
         void AddChildren(int nodeId, Node childrenNode);
-        void AddChildren(Node parentNode, TimerNode childrenNode);
+        void AddChildren(Node parentNode, Node childrenNode);
     }
 }

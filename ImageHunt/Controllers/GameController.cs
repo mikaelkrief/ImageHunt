@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Request;
+using ImageHunt.Response;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +25,8 @@ namespace ImageHunt.Controllers
     [HttpGet("ById/{gameId}")]
     public IActionResult GetGameById(int gameId)
     {
-      return Ok(_gameService.GetGameById(gameId));
+      var gameById = _gameService.GetGameById(gameId);
+      return Ok(gameById);
     }
     [HttpGet("ByAdminId/{adminId}")]
     public IActionResult GetGames(int adminId)
@@ -74,6 +77,18 @@ namespace ImageHunt.Controllers
     public void SetCenterOfGameByNodes(int gameId)
     {
       _gameService.SetCenterOfGameByNodes(gameId);
+    }
+    [HttpGet("NodesRelations/{gameId}")]
+    public IActionResult GetNodesRelations(int gameId)
+    {
+      var nodes = _gameService.GetNodes(gameId);
+      var resNodes = new List<NodeResponse>();
+      foreach (var node in nodes)
+      {
+        var resNode = new NodeResponse(){NodeId = node.Id, ChildNodeId = node.Children.Select(c=>c.Id).ToArray()};
+        resNodes.Add(resNode);
+      }
+      return Ok(resNodes);
     }
   }
 }

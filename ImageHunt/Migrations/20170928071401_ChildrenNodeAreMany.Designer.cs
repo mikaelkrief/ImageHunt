@@ -4,15 +4,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 
 namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
-    partial class HuntContextModelSnapshot : ModelSnapshot
+    [Migration("20170928071401_ChildrenNodeAreMany")]
+    partial class ChildrenNodeAreMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,21 +123,19 @@ namespace ImageHunt.Migrations
 
             modelBuilder.Entity("ImageHunt.Model.Node.ParentChildren", b =>
                 {
+                    b.Property<int>("ParentId");
+
+                    b.Property<int>("ChildrenId");
+
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ChildrenId");
+                    b.HasKey("ParentId", "ChildrenId");
 
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<int>("ParentId");
-
-                    b.HasKey("Id");
+                    b.HasAlternateKey("Id");
 
                     b.HasIndex("ChildrenId");
-
-                    b.HasIndex("ParentId");
 
                     b.ToTable("ParentChildren");
                 });
@@ -295,7 +296,7 @@ namespace ImageHunt.Migrations
             modelBuilder.Entity("ImageHunt.Model.Node.ParentChildren", b =>
                 {
                     b.HasOne("ImageHunt.Model.Node.Node", "Children")
-                        .WithMany("ChildrenRelation")
+                        .WithMany("Children")
                         .HasForeignKey("ChildrenId")
                         .OnDelete(DeleteBehavior.Cascade);
 

@@ -45,7 +45,7 @@ namespace ImageHuntTest.Services
             _target.AddChildren(nodes[1].Id, childrenNode);
             // Assert
             Check.That(nodes[1].Children).ContainsExactly(childrenNode);
-            Check.That(nodes[1].Children.First().Id).Not.IsEqualTo(0);
+            //Check.That(nodes[1].ChildrenRelation.First().Id).Not.IsEqualTo(0);
         }
 
         [Fact]
@@ -60,7 +60,7 @@ namespace ImageHuntTest.Services
             _target.AddChildren(nodes[1], childrenNode);
             // Assert
             Check.That(nodes[1].Children).ContainsExactly(childrenNode);
-            Check.That(nodes[1].Children.First().Id).Not.IsEqualTo(0);
+            //Check.That(nodes[1].ChildrenRelation.First().Id).Not.IsEqualTo(0);
         }
         [Fact]
         public void GetNodeFromId()

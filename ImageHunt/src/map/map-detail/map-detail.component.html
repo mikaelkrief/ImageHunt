@@ -21,7 +21,7 @@
   
   <div class="modal-body">
     <span></span>
-    <form>
+    <form #form="ngForm" (submit)="createNode(form)">
       <div class="form-inline">
         <div class="input-group">
           <label for="name">Nom du noeud</label>
@@ -29,7 +29,7 @@
         </div>
         <div class="input-group">
           <label for="nodeType">Type de Noeud</label>
-          <select class="form-control fa">
+          <select class="form-control fa" ngModel name="nodeType" id="nodeType">
             <option value="FirstNode">&#xf11d; FirstNode</option>
             <option value="TimerNode">&#xf017; TimerNode</option>
             <option value="ObjectNode">&#xf1b2; ObjectNode</option>
@@ -57,7 +57,8 @@
         </div>
       </div>
       <div class="modal-footer">
-      <button class="close pull-right" aria-label="Close" (click)="modalRef.hide()">Créer le Noeud</button>
+        <button class="close pull-right" type="submit" aria-label="Close"
+                (click)="modalRef.hide()">Créer le Noeud</button>
       </div>
     </form>
   </div>

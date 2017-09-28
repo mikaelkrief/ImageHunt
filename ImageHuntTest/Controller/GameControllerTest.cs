@@ -9,6 +9,7 @@ using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Request;
+using ImageHunt.Response;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -78,6 +79,40 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _gameService.AddNode(1, A<Node>._)).MustHaveHappened();
         }
 
+      [Fact]
+      public void GetNodes()
+      {
+        // Arrange
+        var nodes = new List<Node>()
+        {
+          new TimerNode()
+          {
+            Id = 1,
+            ChildrenRelation = new List<ParentChildren>() {new ParentChildren()
+            {
+              Children = new QuestionNode()
+              {
+                Id = 2,
+                ChildrenRelation = new List<ParentChildren>()
+                {
+                  new ParentChildren() { Children = new FirstNode(){Id = 3}}
+                }
+              }
+              
+            }}
+          }
+        };
+        A.CallTo(() => _gameService.GetNodes(1)).Returns(nodes);
+        // Act
+        var result = _target.GetNodesRelations(1) as OkObjectResult;
+        // Assert
+        Check.That(result).IsNotNull();
+        A.CallTo(() => _gameService.GetNodes(1)).MustHaveHappened();
+        var resNodes = result.Value as List<NodeResponse>;
+        // Check that only first level nodes are populated
+        Check.That(resNodes[0].NodeId).Equals(1);
+        Check.That(resNodes[0].ChildNodeId).HasSize(1).And.ContainsExactly(2);
+      }
         [Fact]
         public void AddImagesNodes()
         {

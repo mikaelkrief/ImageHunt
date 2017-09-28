@@ -30,6 +30,7 @@ namespace ImageHunt.Data
         public DbSet<Answer> Answers { get; set; }
       public DbSet<Admin> Admins { get; set; }
       public DbSet<Picture> Pictures { get; set; }
+      public DbSet<ParentChildren> ParentChildren { get; set; }
 
       protected override void OnModelCreating(ModelBuilder modelBuilder)
       {
@@ -61,6 +62,8 @@ namespace ImageHunt.Data
           .Property<bool>("IsDeleted");
         modelBuilder.Entity<Picture>()
           .Property<bool>("IsDeleted");
+        modelBuilder.Entity<ParentChildren>()
+          .Property<bool>("IsDeleted");
         // Filter entities
         modelBuilder.Entity<Game>()
           .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
@@ -74,6 +77,18 @@ namespace ImageHunt.Data
         .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
       modelBuilder.Entity<Admin>()
         .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
+      modelBuilder.Entity<ParentChildren>()
+        .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
+        //modelBuilder.Entity<ParentChildren>()
+        //  .HasKey(pc => pc.Id);
+        modelBuilder.Entity<ParentChildren>()
+          .HasOne(n => n.Parent)
+          .WithMany(n=>n.ChildrenRelation)
+          .HasForeignKey(pc=>pc.ParentId);
+      //modelBuilder.Entity<ParentChildren>()
+      //  .HasOne(pc => pc.Children)
+      //  .WithMany(n => n.ChildrenRelation)
+      //  .HasForeignKey(pc => pc.ChildrenId);
     }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)

@@ -386,7 +386,7 @@ var environment = {
 /***/ "../../../../../src/game/game-create/game.create.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Creation d'une partie</h2>\r\n\r\n<form>\r\n  <label>Administrateur</label>\r\n  <!--<span>{{admin.name}}</span>-->\r\n  <div class=\"form-inline\">\r\n    <div class=\"input-group\">\r\n      <label for=\"name\">Nom de la partie</label>\r\n      <input type=\"text\" class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de la partie\" id=\"name\"/>\r\n    </div>\r\n    <div class=\"input-group\">\r\n      <label for=\"startDate\">Date de la partie</label>\r\n      <p-calendar [(ngModel)]=\"value\"></p-calendar>\r\n    </div>\r\n  </div>\r\n</form>\r\n"
+module.exports = "<h2>Creation d'une partie</h2>\r\n\r\n<form>\r\n  <label>Administrateur</label>\r\n  <!--<span>{{admin.name}}</span>-->\r\n  <div class=\"form-inline\">\r\n    <div class=\"input-group\">\r\n      <label for=\"name\">Nom de la partie</label>\r\n      <input type=\"text\" class=\"form-control\" ngModel name=\"name\"\r\n             required placeholder=\"Nom de la partie\" id=\"name\"/>\r\n    </div>\r\n    <div class=\"input-group\">\r\n      <label for=\"startDate\">Date de la partie</label>\r\n      <p-calendar [(ngModel)]=\"value\"></p-calendar>\r\n    </div>\r\n  </div>\r\n</form>\r\n"
 
 /***/ }),
 
@@ -501,7 +501,7 @@ GameCreateModule = __decorate([
 /***/ "../../../../../src/game/game-detail/game.detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-sm-10\">\r\n  <h2>Detail d'une partie</h2>\r\n  <div class=\"form-inline\">\r\n    <div class=\"form-control\">\r\n      <label>Nom de la partie :</label>\r\n      <span>{{game.name}}</span>\r\n    </div>\r\n    <div class=\"form-control\">\r\n      <label>Date de début :</label>\r\n      <span>{{game.startDate | date:medium}}</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-5\">\r\n    <h3>Equipes</h3>\r\n    <ul class=\"list-group\">\r\n      <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"></span> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></li>\r\n    </ul>\r\n\r\n    <h3>Création d'une équipe</h3>\r\n    <form #form=\"ngForm\" (submit)=\"createTeam(game.id, form)\">\r\n      <div class=\"form-inline\">\r\n        <label>Nom de la team</label>\r\n        <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'équipe\" type=\"text\" id=\"name\" />\r\n      </div>\r\n      <button type=\"submit\" class=\"btn btn-default\">Créer l'équipe</button>\r\n    </form>\r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-9\">\r\n      <h3>Points d'intêts</h3>\r\n      <map-detail [CenterLat]=\"game.mapCenterLat\"\r\n                  [CenterLng]=\"game.mapCenterLng\"\r\n                  [Nodes]=\"game.nodes\"\r\n                  [gameId]=\"game.id\"\r\n                  (mapClicked)=\"mapClicked($event)\">\r\n      </map-detail>\r\n    </div>\r\n    <div class=\"col-sm-3\">\r\n      <h4>Actions</h4>\r\n      <div class=\"btn-group-vertical\" role=\"group\">\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" (click)=\"uploadImages(uploadImagesTemplate)\">Ajouter les photos mystères</button></div>\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" (click)=\"centerMap(game.id)\">Centrer la carte sur les noeuds</button></div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #uploadImagesTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Téléchargement de noeuds images</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"uploadModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <br/>\r\n    <form>\r\n      <input type=\"file\" #fileInput placeholder=\"Upload file...\" multiple (change)=\"uploadFiles(fileInput.files)\" />\r\n    </form>\r\n  </div>\r\n</ng-template>\r\n"
+module.exports = "<div class=\"col-sm-10\">\r\n  <h2>Detail d'une partie</h2>\r\n  <div class=\"form-inline\">\r\n    <div class=\"form-control\">\r\n      <label>Nom de la partie :</label>\r\n      <span>{{game.name}}</span>\r\n    </div>\r\n    <div class=\"form-control\">\r\n      <label>Date de début :</label>\r\n      <span>{{game.startDate | date:medium}}</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-5\">\r\n    <h3>Equipes</h3>\r\n    <ul class=\"list-group\">\r\n      <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"></span> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></li>\r\n    </ul>\r\n\r\n    <h3>Création d'une équipe</h3>\r\n    <form #form=\"ngForm\" (submit)=\"createTeam(game.id, form)\">\r\n      <div class=\"form-inline\">\r\n        <label>Nom de la team</label>\r\n        <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'équipe\" type=\"text\" id=\"name\" />\r\n      </div>\r\n      <button type=\"submit\" class=\"btn btn-default\">Créer l'équipe</button>\r\n    </form>\r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-9\">\r\n      <h3>Points d'intêts</h3>\r\n      <map-detail [CenterLat]=\"game.mapCenterLat\"\r\n                  [CenterLng]=\"game.mapCenterLng\"\r\n                  [Nodes]=\"game.nodes\"\r\n                  [gameId]=\"game.id\"\r\n                  (mapClicked)=\"mapClicked($event)\">\r\n      </map-detail>\r\n    </div>\r\n    <div class=\"col-sm-3\">\r\n      <h4>Actions</h4>\r\n      <div class=\"btn-group-vertical\" role=\"group\">\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" (click)=\"uploadImages(uploadImagesTemplate)\">Ajouter les photos mystères</button></div>\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" (click)=\"centerMap(game.id)\">Centrer la carte sur les noeuds</button></div>\r\n        \r\n      </div>\r\n      <h4>Filtres</h4>\r\n      <div class=\"btn-group-vertical\" role=\"group\">\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" btnCheckbox>Filtrer les noeuds images</button></div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #uploadImagesTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Téléchargement de noeuds images</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"uploadModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <br/>\r\n    <form>\r\n      <input type=\"file\" #fileInput placeholder=\"Upload file...\" multiple (change)=\"uploadFiles(fileInput.files)\" />\r\n    </form>\r\n  </div>\r\n</ng-template>\r\n"
 
 /***/ }),
 
@@ -932,7 +932,7 @@ Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* pl
 /***/ "../../../../../src/map/map-detail/map-detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Module de création des parcours de la chasse</h2>\r\n<agm-map #map [latitude]=\"CenterLat\" [longitude]=\"CenterLng\" [maxZoom]=\"17\"\r\n         (mapClick)=\"mapClick($event, createNodeTemplate)\">\r\n  <agm-marker *ngFor=\"let node of Nodes\"\r\n              [latitude]=\"node.latitude\"\r\n              [longitude]=\"node.longitude\"\r\n              [title]=\"node.name\"\r\n              [iconUrl]=\"getIconForNodeType(node.nodeType)\"\r\n  >\r\n    \r\n  </agm-marker>\r\n</agm-map>\r\n\r\n<ng-template #createNodeTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Création d'un Noeud</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"modalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  \r\n  <div class=\"modal-body\">\r\n    <span></span>\r\n    <form>\r\n      <div class=\"form-inline\">\r\n        <div class=\"input-group\">\r\n          <label for=\"name\">Nom du noeud</label>\r\n          <input type=\"text\" class=\"form-control\" id=\"name\" ngModel name=\"name\" placeholder=\"Entrez le nom du noeud\"/>\r\n        </div>\r\n        <div class=\"input-group\">\r\n          <label for=\"nodeType\">Type de Noeud</label>\r\n          <select class=\"form-control fa\">\r\n            <option value=\"FirstNode\">&#xf11d; FirstNode</option>\r\n            <option value=\"TimerNode\">&#xf017; TimerNode</option>\r\n            <option value=\"ObjectNode\">&#xf1b2; ObjectNode</option>\r\n            <option value=\"QuestionNode\">&#xf29c; QuestionNode</option>\r\n            <option value=\"PictureNode\">&#xf030; PictureNode</option>\r\n            <option value=\"LastNode\">&#xf11e; LastNode</option>\r\n          </select>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-inline\">\r\n        <div class=\"input-group\">\r\n          <table class=\"table\">\r\n            <tr>\r\n              <th rowspan=\"2\"><label>Position</label></th>\r\n              <th><label>Latitude</label></th>\r\n              <td>{{currentLatitude}}</td>\r\n            </tr>\r\n            <tr>\r\n              \r\n              <th><label>Longitude</label></th>\r\n              <td>{{currentLongitude}}</td>\r\n            </tr>\r\n          </table>\r\n          \r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n      <button class=\"close pull-right\" aria-label=\"Close\" (click)=\"modalRef.hide()\">Créer le Noeud</button>\r\n      </div>\r\n    </form>\r\n  </div>\r\n</ng-template>\r\n"
+module.exports = "<h2>Module de création des parcours de la chasse</h2>\r\n<agm-map #map [latitude]=\"CenterLat\" [longitude]=\"CenterLng\" [maxZoom]=\"17\"\r\n         (mapClick)=\"mapClick($event, createNodeTemplate)\">\r\n  <agm-marker *ngFor=\"let node of Nodes\"\r\n              [latitude]=\"node.latitude\"\r\n              [longitude]=\"node.longitude\"\r\n              [title]=\"node.name\"\r\n              [iconUrl]=\"getIconForNodeType(node.nodeType)\"\r\n  >\r\n    \r\n  </agm-marker>\r\n</agm-map>\r\n\r\n<ng-template #createNodeTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Création d'un Noeud</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"modalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  \r\n  <div class=\"modal-body\">\r\n    <span></span>\r\n    <form #form=\"ngForm\" (submit)=\"createNode(form)\">\r\n      <div class=\"form-inline\">\r\n        <div class=\"input-group\">\r\n          <label for=\"name\">Nom du noeud</label>\r\n          <input type=\"text\" class=\"form-control\" id=\"name\" ngModel name=\"name\" placeholder=\"Entrez le nom du noeud\"/>\r\n        </div>\r\n        <div class=\"input-group\">\r\n          <label for=\"nodeType\">Type de Noeud</label>\r\n          <select class=\"form-control fa\" ngModel name=\"nodeType\" id=\"nodeType\">\r\n            <option value=\"FirstNode\">&#xf11d; FirstNode</option>\r\n            <option value=\"TimerNode\">&#xf017; TimerNode</option>\r\n            <option value=\"ObjectNode\">&#xf1b2; ObjectNode</option>\r\n            <option value=\"QuestionNode\">&#xf29c; QuestionNode</option>\r\n            <option value=\"PictureNode\">&#xf030; PictureNode</option>\r\n            <option value=\"LastNode\">&#xf11e; LastNode</option>\r\n          </select>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-inline\">\r\n        <div class=\"input-group\">\r\n          <table class=\"table\">\r\n            <tr>\r\n              <th rowspan=\"2\"><label>Position</label></th>\r\n              <th><label>Latitude</label></th>\r\n              <td>{{currentLatitude}}</td>\r\n            </tr>\r\n            <tr>\r\n              \r\n              <th><label>Longitude</label></th>\r\n              <td>{{currentLongitude}}</td>\r\n            </tr>\r\n          </table>\r\n          \r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button class=\"close pull-right\" type=\"submit\" aria-label=\"Close\"\r\n                (click)=\"modalRef.hide()\">Créer le Noeud</button>\r\n      </div>\r\n    </form>\r\n  </div>\r\n</ng-template>\r\n"
 
 /***/ }),
 
@@ -1035,22 +1035,17 @@ var MapDetailComponent = (function () {
         this.subscriptions = [];
     };
     MapDetailComponent.prototype.mapClick = function (event, templateName) {
-        var _this = this;
         this.mapClicked.emit(event);
         var coordinates = event.coords;
         this.currentLatitude = coordinates.lat;
         this.currentLongitude = coordinates.lng;
-        this.subscriptions.push(this._modalService.onHide.subscribe(function (reason) {
-            _this.createNode();
-        }));
-        this.subscriptions.push(this._modalService.onHidden.subscribe(function (reason) { return _this.unsubscribe(); }));
         this.modalRef = this._modalService.show(templateName, { ignoreBackdropClick: true });
     };
-    MapDetailComponent.prototype.createNode = function () {
+    MapDetailComponent.prototype.createNode = function (form) {
         var _this = this;
         var node = {
-            nodeType: 'QuestionNode',
-            name: 'From TypeScript',
+            nodeType: form.value.nodeType,
+            name: form.value.name,
             latitude: this.currentLatitude,
             longitude: this.currentLongitude
         };
@@ -1079,6 +1074,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
     __metadata("design:type", String)
 ], MapDetailComponent.prototype, "nodeMode", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Array)
+], MapDetailComponent.prototype, "filterNode", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
     __metadata("design:type", Object)
@@ -1109,12 +1108,14 @@ var _a, _b;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__map_detail_component__ = __webpack_require__("../../../../../src/map/map-detail/map-detail.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -1128,7 +1129,8 @@ var MapDetailModule = (function () {
 MapDetailModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [__WEBPACK_IMPORTED_MODULE_3__angular_common__["CommonModule"],
-            __WEBPACK_IMPORTED_MODULE_1__agm_core__["a" /* AgmCoreModule */].forRoot({ apiKey: __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].GOOGLE_MAP_API_KEY })],
+            __WEBPACK_IMPORTED_MODULE_1__agm_core__["a" /* AgmCoreModule */].forRoot({ apiKey: __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].GOOGLE_MAP_API_KEY }),
+            __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"]],
         declarations: [__WEBPACK_IMPORTED_MODULE_2__map_detail_component__["a" /* MapDetailComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_2__map_detail_component__["a" /* MapDetailComponent */]]
     })

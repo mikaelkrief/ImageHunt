@@ -1,21 +1,37 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace ImageHunt.Model.Node
 {
   /// <summary>
   /// Base class of all node object. 
   /// </summary>
-    public abstract class Node : DbObject
+  public abstract class Node : DbObject
+  {
+
+    public Node()
     {
-        public double Longitude { get; set; }
-        public double Latitude { get; set; }
-        public string Name { get; set; }
-        // Node that are children of the current node. The application will follow up one of this node to the player if he complies with the current node
-        public List<Node> Children { get; set; }
-      [NotMapped]
-      public string NodeType {
-        get { return GetType().Name; }
+      ChildrenRelation = new List<ParentChildren>();
     }
-    }
+    public double Longitude { get; set; }
+    public double Latitude { get; set; }
+    public string Name { get; set; }
+    // Node that are children of the current node.
+    //The application will follow up one of this node to the player if he complies with the current node
+    public List<ParentChildren> ChildrenRelation { get; set; }
+    [NotMapped]
+    public string NodeType => GetType().Name;
+
+    [NotMapped]
+    public List<Node> Children => ChildrenRelation.Select(cr => cr.Children).ToList();
+  }
+
+  public class ParentChildren : DbObject
+  {
+    public int ParentId { get; set; }
+    public int ChildrenId { get; set; }
+    public Node Parent { get; set; }
+    public Node Children { get; set; }
+  }
 }
