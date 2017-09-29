@@ -6,8 +6,9 @@ import { NgForm } from "@angular/forms";
 import {TeamService} from "../../shared/services/team.service";
 import { Team } from "../../shared/team";
 import 'rxjs/Rx';
-import { BsModalService, BsModalRef } from "ngx-bootstrap";
+import { BsModalService, BsModalRef, TabsetComponent } from "ngx-bootstrap";
 import {NodeRelation} from "../../shared/NodeRelation";
+import {NodeCreateComponent} from "../node-create/node.create.component";
 
 @Component({
     selector: 'game-detail',
@@ -90,20 +91,18 @@ export class GameDetailComponent implements OnInit
   currentLongitude: number;
 
   mapClicked(event, template) {
+
     var coordinates = event.coords;
     this.currentLatitude = coordinates.lat;
     this.currentLongitude = coordinates.lng;
-    this.modalRef = this._modalService.show(template, { ignoreBackdropClick: true });
-    
+    this.modalRef = this._modalService.show(NodeCreateComponent, { ignoreBackdropClick: true });
+    this.modalRef.content.latitude = this.currentLatitude;
+    this.modalRef.content.longitude = this.currentLongitude;
+    this.modalRef.content.newNode.subscribe(node=> this.createNode(node));
+
   }
 
-  createNode(form: NgForm) {
-    var node = {
-      nodeType: form.value.nodeType,
-      name: form.value.name,
-      latitude: this.currentLatitude,
-      longitude: this.currentLongitude
-    };
+  createNode(node: Node) {
     this._gameService.addNode(this.game.id, node)
       .subscribe(() => this.getGame(this.game.id));
 

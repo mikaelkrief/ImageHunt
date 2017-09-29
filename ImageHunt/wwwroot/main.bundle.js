@@ -239,6 +239,9 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__map_map_thumbnail_map_thumbnail_module__ = __webpack_require__("../../../../../src/map/map-thumbnail/map.thumbnail.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__map_map_detail_map_detail_module__ = __webpack_require__("../../../../../src/map/map-detail/map-detail.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__map_map_detail_map_detail_component__ = __webpack_require__("../../../../../src/map/map-detail/map-detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33_primeng_primeng__ = __webpack_require__("../../../../primeng/primeng.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_33_primeng_primeng__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__game_node_create_node_create_module__ = __webpack_require__("../../../../../src/game/node-create/node.create.module.ts");
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -288,7 +291,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-//import {UploadImagesModule} from "../game/upload-images/upload.images.module";
+
+
 var MyAuthConfig = (function (_super) {
     __extends(MyAuthConfig, _super);
     function MyAuthConfig() {
@@ -313,7 +317,7 @@ var AppModule = (function () {
 AppModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"])({
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */],
+            __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */]
         ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */]],
         imports: [
@@ -335,14 +339,17 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_31__map_map_detail_map_detail_module__["a" /* MapDetailModule */],
             __WEBPACK_IMPORTED_MODULE_30__map_map_thumbnail_map_thumbnail_module__["a" /* MapThumbnailModule */],
             __WEBPACK_IMPORTED_MODULE_18__admin_admin_list_admin_list_module__["a" /* AdminListModule */],
+            __WEBPACK_IMPORTED_MODULE_33_primeng_primeng__["ContextMenuModule"],
             __WEBPACK_IMPORTED_MODULE_17__navmenu_navmenu_module__["a" /* NavmenuModule */],
             __WEBPACK_IMPORTED_MODULE_12__page_not_found_page_not_found_module__["a" /* PageNotFoundModule */],
             __WEBPACK_IMPORTED_MODULE_24__shared_google_button_google_button_module__["a" /* GoogleButtonModule */],
             __WEBPACK_IMPORTED_MODULE_10_ng2_ui_auth__["d" /* Ng2UiAuthModule */].forRoot(MyAuthConfig),
             __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["a" /* BsDatepickerModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["b" /* BsDropdownModule */].forRoot(),
-            __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["e" /* ModalModule */].forRoot(),
-            __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["f" /* TimepickerModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["g" /* TabsModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["f" /* ModalModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_34__game_node_create_node_create_module__["a" /* NodeCreateModule */],
+            //TimepickerModule.forRoot(),
             __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"].forRoot([
                 { path: 'home', component: __WEBPACK_IMPORTED_MODULE_15__home_home_component__["a" /* HomeComponent */] },
                 { path: 'game', component: __WEBPACK_IMPORTED_MODULE_22__game_game_list_game_list_component__["a" /* GameListComponent */] },
@@ -501,7 +508,7 @@ GameCreateModule = __decorate([
 /***/ "../../../../../src/game/game-detail/game.detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-sm-10\">\r\n  <h2>Detail d'une partie</h2>\r\n  <div class=\"form-inline\">\r\n    <div class=\"form-control\">\r\n      <label>Nom de la partie :</label>\r\n      <span>{{game.name}}</span>\r\n    </div>\r\n    <div class=\"form-control\">\r\n      <label>Date de début :</label>\r\n      <span>{{game.startDate | date:medium}}</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-5\">\r\n    <h3>Equipes</h3>\r\n    <ul class=\"list-group\">\r\n      <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"></span> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></li>\r\n    </ul>\r\n\r\n    <h3>Création d'une équipe</h3>\r\n    <form #form=\"ngForm\" (submit)=\"createTeam(game.id, form)\">\r\n      <div class=\"form-inline\">\r\n        <label>Nom de la team</label>\r\n        <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'équipe\" type=\"text\" id=\"name\" />\r\n      </div>\r\n      <button type=\"submit\" class=\"btn btn-default\">Créer l'équipe</button>\r\n    </form>\r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-9\">\r\n      <h3>Points d'intêts</h3>\r\n      <map-detail #mapComponent\r\n                  [CenterLat]=\"game.mapCenterLat\"\r\n                  [CenterLng]=\"game.mapCenterLng\"\r\n                  [nodes]=\"game.nodes\"\r\n                  [gameId]=\"game.id\"\r\n                  [nodesRelation]=\"nodeRelations\"\r\n                  (mapClicked)=\"mapClicked($event, createNodeTemplate)\">\r\n      </map-detail>\r\n\r\n    </div>\r\n    <div class=\"col-sm-3\">\r\n      <h4>Actions</h4>\r\n      <div class=\"btn-group-vertical\" role=\"group\">\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" (click)=\"uploadImages(uploadImagesTemplate)\">Ajouter les photos mystères</button></div>\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" (click)=\"centerMap(game.id)\">Centrer la carte sur les noeuds</button></div>\r\n        \r\n      </div>\r\n      <h4>Filtres</h4>\r\n      <div class=\"btn-group-vertical\" role=\"group\">\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" btnCheckbox>Filtrer les noeuds images</button></div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #uploadImagesTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Téléchargement de noeuds images</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"uploadModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <br/>\r\n    <form>\r\n      <input type=\"file\" #fileInput placeholder=\"Upload file...\" multiple (change)=\"uploadFiles(fileInput.files)\" />\r\n    </form>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #createNodeTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Création d'un Noeud</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"modalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n\r\n  <div class=\"modal-body\">\r\n    <span></span>\r\n    <form #form=\"ngForm\" (submit)=\"createNode(form)\">\r\n      <div class=\"form-inline\">\r\n        <div class=\"input-group\">\r\n          <label for=\"name\">Nom du noeud</label>\r\n          <input type=\"text\" class=\"form-control\" id=\"name\" ngModel name=\"name\" placeholder=\"Entrez le nom du noeud\" />\r\n        </div>\r\n        <div class=\"input-group\">\r\n          <label for=\"nodeType\">Type de Noeud</label>\r\n          <select class=\"form-control fa\" ngModel name=\"nodeType\" id=\"nodeType\">\r\n            <option value=\"FirstNode\">&#xf11d; FirstNode</option>\r\n            <option value=\"TimerNode\">&#xf017; TimerNode</option>\r\n            <option value=\"ObjectNode\">&#xf1b2; ObjectNode</option>\r\n            <option value=\"QuestionNode\">&#xf29c; QuestionNode</option>\r\n            <option value=\"PictureNode\">&#xf030; PictureNode</option>\r\n            <option value=\"LastNode\">&#xf11e; LastNode</option>\r\n          </select>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-inline\">\r\n        <div class=\"input-group\">\r\n          <table class=\"table\">\r\n            <tr>\r\n              <th rowspan=\"2\"><label>Position</label></th>\r\n              <th><label>Latitude</label></th>\r\n              <td>{{currentLatitude}}</td>\r\n            </tr>\r\n            <tr>\r\n\r\n              <th><label>Longitude</label></th>\r\n              <td>{{currentLongitude}}</td>\r\n            </tr>\r\n          </table>\r\n\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button class=\"close pull-right\" type=\"submit\" aria-label=\"Close\"\r\n                (click)=\"modalRef.hide()\">\r\n          Créer le Noeud\r\n        </button>\r\n      </div>\r\n    </form>\r\n  </div>\r\n</ng-template>\r\n\r\n"
+module.exports = "<div class=\"col-sm-10\">\r\n  <h2>Detail d'une partie</h2>\r\n  <div class=\"form-inline\">\r\n    <div class=\"form-control\">\r\n      <label>Nom de la partie :</label>\r\n      <span>{{game.name}}</span>\r\n    </div>\r\n    <div class=\"form-control\">\r\n      <label>Date de début :</label>\r\n      <span>{{game.startDate | date:medium}}</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"col-sm-5\">\r\n    <h3>Equipes</h3>\r\n    <ul class=\"list-group\">\r\n      <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"></span> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></li>\r\n    </ul>\r\n\r\n    <h3>Création d'une équipe</h3>\r\n    <form #form=\"ngForm\" (submit)=\"createTeam(game.id, form)\">\r\n      <div class=\"form-inline\">\r\n        <label>Nom de la team</label>\r\n        <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'équipe\" type=\"text\" id=\"name\" />\r\n      </div>\r\n      <button type=\"submit\" class=\"btn btn-default\">Créer l'équipe</button>\r\n    </form>\r\n  </div>\r\n  <div class=\"row\">\r\n    <div class=\"col-sm-9\">\r\n      <h3>Points d'intêts</h3>\r\n      <map-detail #mapComponent\r\n                  [CenterLat]=\"game.mapCenterLat\"\r\n                  [CenterLng]=\"game.mapCenterLng\"\r\n                  [nodes]=\"game.nodes\"\r\n                  [gameId]=\"game.id\"\r\n                  [nodesRelation]=\"nodeRelations\"\r\n                  (mapClicked)=\"mapClicked($event, createNodeTemplate)\">\r\n      </map-detail>\r\n\r\n    </div>\r\n    <div class=\"col-sm-3\">\r\n      <h4>Actions</h4>\r\n      <div class=\"btn-group-vertical\" role=\"group\">\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" (click)=\"uploadImages(uploadImagesTemplate)\">Ajouter les photos mystères</button></div>\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" (click)=\"centerMap(game.id)\">Centrer la carte sur les noeuds</button></div>\r\n        \r\n      </div>\r\n      <h4>Filtres</h4>\r\n      <div class=\"btn-group-vertical\" role=\"group\">\r\n        <div class=\"btn-group\"><button class=\"btn btn-default\" btnCheckbox>Filtrer les noeuds images</button></div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #uploadImagesTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Téléchargement de noeuds images</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"uploadModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <br/>\r\n    <form>\r\n      <input type=\"file\" #fileInput placeholder=\"Upload file...\" multiple (change)=\"uploadFiles(fileInput.files)\" />\r\n    </form>\r\n  </div>\r\n</ng-template>\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -536,6 +543,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_Rx__ = __webpack_require__("../../../../rxjs/Rx.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_Rx__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__node_create_node_create_component__ = __webpack_require__("../../../../../src/game/node-create/node.create.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -545,6 +553,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -621,19 +630,17 @@ var GameDetailComponent = (function () {
     GameDetailComponent.prototype.nodeMode = function (nodeType) {
     };
     GameDetailComponent.prototype.mapClicked = function (event, template) {
+        var _this = this;
         var coordinates = event.coords;
         this.currentLatitude = coordinates.lat;
         this.currentLongitude = coordinates.lng;
-        this.modalRef = this._modalService.show(template, { ignoreBackdropClick: true });
+        this.modalRef = this._modalService.show(__WEBPACK_IMPORTED_MODULE_7__node_create_node_create_component__["a" /* NodeCreateComponent */], { ignoreBackdropClick: true });
+        this.modalRef.content.latitude = this.currentLatitude;
+        this.modalRef.content.longitude = this.currentLongitude;
+        this.modalRef.content.newNode.subscribe(function (node) { return _this.createNode(node); });
     };
-    GameDetailComponent.prototype.createNode = function (form) {
+    GameDetailComponent.prototype.createNode = function (node) {
         var _this = this;
-        var node = {
-            nodeType: form.value.nodeType,
-            name: form.value.name,
-            latitude: this.currentLatitude,
-            longitude: this.currentLongitude
-        };
         this._gameService.addNode(this.game.id, node)
             .subscribe(function () { return _this.getGame(_this.game.id); });
     };
@@ -655,7 +662,7 @@ GameDetailComponent = __decorate([
     })
     /** gameDetail component*/
     ,
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__shared_services_game_service__["a" /* GameService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__shared_services_team_service__["a" /* TeamService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__shared_services_team_service__["a" /* TeamService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["c" /* BsModalService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["c" /* BsModalService */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__shared_services_game_service__["a" /* GameService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__shared_services_team_service__["a" /* TeamService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__shared_services_team_service__["a" /* TeamService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["d" /* BsModalService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["d" /* BsModalService */]) === "function" && _d || Object])
 ], GameDetailComponent);
 
 var _a, _b, _c, _d;
@@ -677,12 +684,14 @@ var _a, _b, _c, _d;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_services_team_service__ = __webpack_require__("../../../../../src/shared/services/team.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__map_map_detail_map_detail_module__ = __webpack_require__("../../../../../src/map/map-detail/map-detail.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__node_create_node_create_module__ = __webpack_require__("../../../../../src/game/node-create/node.create.module.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -699,7 +708,7 @@ var GameDetailModule = (function () {
 }());
 GameDetailModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_7__map_map_detail_map_detail_module__["a" /* MapDetailModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["b" /* BsDropdownModule */]],
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_7__map_map_detail_map_detail_module__["a" /* MapDetailModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["b" /* BsDropdownModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["g" /* TabsModule */], __WEBPACK_IMPORTED_MODULE_9__node_create_node_create_module__["a" /* NodeCreateModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
@@ -714,7 +723,7 @@ GameDetailModule = __decorate([
 /***/ "../../../../../src/game/game-list/game-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-sm-10\">\r\n  <h2>Jeux existants</h2>\r\n  <table class=\"table\">\r\n    <thead>\r\n      <tr>\r\n        <th>Nom</th>\r\n        <th>Date de la chasse</th>\r\n        <th>Active</th>\r\n        <th>Teams</th>\r\n        <th>Carte</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr *ngFor=\"let game of games\">\r\n        <td><span class=\"fa fa-gamepad\"></span> <a routerLink=\"/game/{{game.id}}\">{{game.name}}</a></td>\r\n        <td>{{game.startDate | date:'medium'}}</td>\r\n        <td>\r\n          <!--<span *ngClass=\"{'fa fa-eye':true, 'fa fa-eye-slash':false}\"></span>-->\r\n          {{game.isActive}}\r\n        </td>\r\n        <td>\r\n          <ul class=\"list-group\">\r\n            <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></span></li>\r\n          </ul>\r\n        </td>\r\n        <td><map-thumbnail [CenterLat]=\"game.mapCenterLat\" [CenterLng]=\"game.mapCenterLng\"></map-thumbnail></td>\r\n      </tr>\r\n    </tbody>\r\n  </table>\r\n\r\n  <h2>Créer une nouvelle partie</h2>\r\n  <form #form=\"ngForm\" (submit)=\"createGame(form)\">\r\n    <div class=\"form-inline\">\r\n      <div class=\"control-group\">\r\n        <label>Nom de la partie</label>\r\n        <input type=\"text\" ngModel name=\"name\" id=\"name\" required placeholder=\"Nom de la partie\"/>\r\n      </div>\r\n      <div>\r\n        <label>Date de la partie</label>\r\n        <input type=\"text\"\r\n               #dp=\"bsDatepicker\"\r\n               minDate=\"minDate\"\r\n               ngModel name=\"date\" id=\"date\"\r\n               bsDatepicker [(bsValue)]=\"bsValue\">\r\n        <timepicker ngModel name=\"time\" id=\"time\"></timepicker>\r\n      </div>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-default\">Créer la partie</button>\r\n  </form>\r\n</div>\r\n"
+module.exports = "<div class=\"col-sm-10\">\r\n  <h2>Jeux existants</h2>\r\n  <table class=\"table\">\r\n    <thead>\r\n      <tr>\r\n        <th>Nom</th>\r\n        <th>Date de la chasse</th>\r\n        <th>Active</th>\r\n        <th>Teams</th>\r\n        <th>Carte</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr *ngFor=\"let game of games\">\r\n        <td><span class=\"fa fa-gamepad\"></span> <a routerLink=\"/game/{{game.id}}\">{{game.name}}</a></td>\r\n        <td>{{game.startDate | date:'medium'}}</td>\r\n        <td>\r\n          <!--<span *ngClass=\"{'fa fa-eye':true, 'fa fa-eye-slash':false}\"></span>-->\r\n          {{game.isActive}}\r\n        </td>\r\n        <td>\r\n          <ul class=\"list-group\">\r\n            <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></span></li>\r\n          </ul>\r\n        </td>\r\n        <td><map-thumbnail [CenterLat]=\"game.mapCenterLat\" [CenterLng]=\"game.mapCenterLng\"></map-thumbnail></td>\r\n      </tr>\r\n    </tbody>\r\n  </table>\r\n\r\n  <h2>Créer une nouvelle partie</h2>\r\n  <form #form=\"ngForm\" (submit)=\"createGame(form)\">\r\n    <div class=\"form-inline\">\r\n      <div class=\"control-group\">\r\n        <label>Nom de la partie</label>\r\n        <input type=\"text\" ngModel name=\"name\" id=\"name\" required placeholder=\"Nom de la partie\"/>\r\n      </div>\r\n      <div>\r\n        <label>Date de la partie</label>\r\n        <input type=\"text\"\r\n               #dp=\"bsDatepicker\"\r\n               minDate=\"minDate\"\r\n               ngModel name=\"date\" id=\"date\"\r\n               bsDatepicker [(bsValue)]=\"bsValue\">\r\n     <!--   <timepicker ngModel name=\"time\" id=\"time\"></timepicker>-->\r\n      </div>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-default\">Créer la partie</button>\r\n  </form>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -840,13 +849,139 @@ var GameListModule = (function () {
 }());
 GameListModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_4__game_create_game_create_module__["a" /* GameCreateModule */], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["a" /* BsDatepickerModule */], __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["f" /* TimepickerModule */], __WEBPACK_IMPORTED_MODULE_7__map_map_thumbnail_map_thumbnail_module__["a" /* MapThumbnailModule */]],
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_4__game_create_game_create_module__["a" /* GameCreateModule */], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["a" /* BsDatepickerModule */], __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["h" /* TimepickerModule */], __WEBPACK_IMPORTED_MODULE_7__map_map_thumbnail_map_thumbnail_module__["a" /* MapThumbnailModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_3__game_list_component__["a" /* GameListComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_3__game_list_component__["a" /* GameListComponent */]]
     })
 ], GameListModule);
 
 //# sourceMappingURL=game-list.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/game/node-create/node.create.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div #createNodeTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Création d'un Noeud</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"bsModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n\r\n  <div class=\"modal-body\">\r\n    <span></span>\r\n    <form #form=\"ngForm\" (submit)=\"createNode(form)\">\r\n      <div class=\"form-inline\">\r\n        <div class=\"input-group\">\r\n          <label for=\"name\">Nom du noeud</label>\r\n          <input type=\"text\" class=\"form-control\" id=\"name\" ngModel name=\"name\" placeholder=\"Entrez le nom du noeud\" />\r\n        </div>\r\n        <div class=\"input-group\">\r\n          <label for=\"nodeType\">Type de Noeud</label>\r\n          <select class=\"form-control fa\" ngModel name=\"nodeType\" id=\"nodeType\">\r\n            <option value=\"FirstNode\">&#xf11d; FirstNode</option>\r\n            <option value=\"TimerNode\">&#xf017; TimerNode</option>\r\n            <option value=\"ObjectNode\">&#xf1b2; ObjectNode</option>\r\n            <option value=\"QuestionNode\">&#xf29c; QuestionNode</option>\r\n            <option value=\"PictureNode\">&#xf030; PictureNode</option>\r\n            <option value=\"LastNode\">&#xf11e; LastNode</option>\r\n          </select>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-inline\">\r\n        <div class=\"input-group\">\r\n          <table class=\"table\">\r\n            <tr>\r\n              <th rowspan=\"2\"><label>Position</label></th>\r\n              <th><label>Latitude</label></th>\r\n              <td>{{latitude}}</td>\r\n            </tr>\r\n            <tr>\r\n\r\n              <th><label>Longitude</label></th>\r\n              <td>{{longitude}}</td>\r\n            </tr>\r\n          </table>\r\n\r\n        </div>\r\n      </div>\r\n      <div>\r\n        <tabset>\r\n          <tab heading=\"Timer\" [disabled]=\"form.value.nodeType !== 'TimerNode'\" [active]=\"form.value.nodeType === 'TimerNode'\">\r\n            <div class=\"form-inline\">\r\n              <div class=\"input-group\">\r\n                <label for=\"duration\">Durée d'attente (en secondes)</label>\r\n                <input type=\"number\" class=\"form-control\" id=\"duration\" name=\"duration\" ngModel placeholder=\"Durée en secondes\"/>\r\n              </div>\r\n            </div>\r\n          </tab>\r\n          <tab heading=\"Objet\"  [disabled]=\"form.value.nodeType !== 'ObjectNode'\" [active]=\"form.value.nodeType === 'ObjectNode'\">\r\n            <div class=\"form-inline\">\r\n              <div class=\"input-group\">\r\n                <label for=\"action\">Action à faire sur le noeud</label>\r\n                <textarea class=\"form-control\" cols=\"40\" rows=\"3\" id=\"action\" ngModel name=\"action\" placeholder=\"Action à effectuer par les joueurs\"></textarea>\r\n              </div>\r\n            </div>\r\n          </tab>\r\n          <tab heading=\"Question\"  [disabled]=\"form.value.nodeType !== 'QuestionNode'\" [active]=\"form.value.nodeType === 'QuestionNode'\">\r\n            <div class=\"form-inline\">\r\n              <div class=\"input-group\">\r\n                <label for=\"question\">Question</label>\r\n                <textarea class=\"form-control\" cols=\"40\" rows=\"3\" id=\"question\" ngModel name=\"question\" placeholder=\"Question à poser aux joueurs\"></textarea>\r\n              </div>\r\n              <div class=\"input-group\" *ngFor=\"let answer of form.value.answers\">\r\n                <label>Réponse 1</label>\r\n                <input type=\"text\" class=\"form-control\"/>\r\n              </div>\r\n            </div>\r\n            <br/>\r\n            <button class=\"btn btn-primary\"><span class=\"fa fa-plus-square\"> Ajouter une réponse</span></button>\r\n          </tab>\r\n        </tabset>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button class=\"btn btn-success pull-right\" type=\"submit\" aria-label=\"Close\"\r\n                (click)=\"bsModalRef.hide()\">\r\n          Créer le Noeud\r\n        </button>\r\n      </div>\r\n    </form>\r\n  </div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/game/node-create/node.create.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/game/node-create/node.create.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NodeCreateComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var NodeCreateComponent = (function () {
+    /** node-create ctor */
+    function NodeCreateComponent(bsModalRef) {
+        this.bsModalRef = bsModalRef;
+        this.newNode = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+    }
+    /** Called by Angular after node-create component initialized */
+    NodeCreateComponent.prototype.ngOnInit = function () { };
+    NodeCreateComponent.prototype.createNode = function (form) {
+        var node = {
+            id: 0,
+            image: null,
+            nodeType: form.value.nodeType,
+            name: form.value.name,
+            latitude: this.latitude,
+            longitude: this.longitude,
+            children: null
+        };
+        this.newNode.emit(node);
+    };
+    return NodeCreateComponent;
+}());
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+    __metadata("design:type", Object)
+], NodeCreateComponent.prototype, "newNode", void 0);
+NodeCreateComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        selector: 'node-create',
+        template: __webpack_require__("../../../../../src/game/node-create/node.create.component.html"),
+        styles: [__webpack_require__("../../../../../src/game/node-create/node.create.component.scss")]
+    })
+    /** node-create component*/
+    ,
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__["c" /* BsModalRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__["c" /* BsModalRef */]) === "function" && _a || Object])
+], NodeCreateComponent);
+
+var _a;
+//# sourceMappingURL=node.create.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/game/node-create/node.create.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NodeCreateModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__node_create_component__ = __webpack_require__("../../../../../src/game/node-create/node.create.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+var NodeCreateModule = (function () {
+    function NodeCreateModule() {
+    }
+    return NodeCreateModule;
+}());
+NodeCreateModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap__["b" /* BsDropdownModule */], __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap__["g" /* TabsModule */]],
+        declarations: [__WEBPACK_IMPORTED_MODULE_4__node_create_component__["a" /* NodeCreateComponent */]],
+        exports: [__WEBPACK_IMPORTED_MODULE_4__node_create_component__["a" /* NodeCreateComponent */]],
+        entryComponents: [__WEBPACK_IMPORTED_MODULE_4__node_create_component__["a" /* NodeCreateComponent */]]
+    })
+], NodeCreateModule);
+
+//# sourceMappingURL=node.create.module.js.map
 
 /***/ }),
 
@@ -1128,7 +1263,7 @@ MapDetailComponent = __decorate([
     })
     /** map component*/
     ,
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__shared_services_game_service__["a" /* GameService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_ngx_bootstrap__["c" /* BsModalService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ngx_bootstrap__["c" /* BsModalService */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__shared_services_game_service__["a" /* GameService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_ngx_bootstrap__["d" /* BsModalService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ngx_bootstrap__["d" /* BsModalService */]) === "function" && _b || Object])
 ], MapDetailComponent);
 
 var _a, _b;
@@ -1388,7 +1523,7 @@ var NavmenuModule = (function () {
 }());
 NavmenuModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_2__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_4__shared_google_button_google_button_module__["a" /* GoogleButtonModule */], __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap__["d" /* CollapseModule */]],
+        imports: [__WEBPACK_IMPORTED_MODULE_2__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_4__shared_google_button_google_button_module__["a" /* GoogleButtonModule */], __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap__["e" /* CollapseModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_1__navmenu_component__["a" /* NavmenuComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_1__navmenu_component__["a" /* NavmenuComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_1__navmenu_component__["a" /* NavmenuComponent */]]

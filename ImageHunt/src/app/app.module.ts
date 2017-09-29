@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AgmCoreModule } from '@agm/core';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { AppComponent } from './app.component';
-import { BsDatepickerModule, TimepickerModule, BsDropdownModule, ModalModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, TimepickerModule, BsDropdownModule, ModalModule, TabsModule } from 'ngx-bootstrap';
 
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -32,7 +32,9 @@ import {TeamDetailModule} from "../team/team-detail/team.detail.module";
 import {MapThumbnailModule} from "../map/map-thumbnail/map.thumbnail.module";
 import {MapDetailModule} from "../map/map-detail/map-detail.module";
 import {MapDetailComponent} from "../map/map-detail/map-detail.component";
-//import {UploadImagesModule} from "../game/upload-images/upload.images.module";
+import { ContextMenuModule } from "primeng/primeng";
+import {NodeCreateModule} from "../game/node-create/node.create.module";
+import {NodeCreateComponent} from "../game/node-create/node.create.component";
 
 export class MyAuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': 'application/json' };
@@ -45,7 +47,7 @@ export class MyAuthConfig extends CustomConfig {
 }
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -67,14 +69,17 @@ export class MyAuthConfig extends CustomConfig {
     MapDetailModule,
     MapThumbnailModule,
     AdminListModule,
+    ContextMenuModule,
     NavmenuModule,
     PageNotFoundModule,
     GoogleButtonModule,
     Ng2UiAuthModule.forRoot(MyAuthConfig),
     BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
+    TabsModule.forRoot(),
     ModalModule.forRoot(),
-    TimepickerModule.forRoot(),
+    NodeCreateModule,
+    //TimepickerModule.forRoot(),
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent },
       { path: 'game', component: GameListComponent },
