@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BsModalRef, TabsetComponent } from "ngx-bootstrap";
 import { NgForm } from "@angular/forms";
 import { Node } from "../../shared/node";
+import {NodeRequest} from "../../shared/nodeRequest";
 
 @Component({
     selector: 'node-create',
@@ -13,23 +14,39 @@ export class NodeCreateComponent implements OnInit
 {
   public latitude: number;
   public longitude: number;
-  @Output() newNode = new EventEmitter<Node>();
+  @Output() newNode = new EventEmitter<NodeRequest>();
     /** node-create ctor */
   constructor(public bsModalRef: BsModalRef) { }
-
+   
     /** Called by Angular after node-create component initialized */
   ngOnInit(): void { }
 
   createNode(form: NgForm) {
-    var node: Node = {
-      id: 0,
-      image:null,
+    var node: NodeRequest = {
       nodeType : form.value.nodeType,
       name: form.value.name,
       latitude: this.latitude,
       longitude: this.longitude,
-      children:null
+      duration: form.value.duration === "" ? 0 : form.value.duration,
+      action: form.value.action,
+      question: form.value.question,
+      answers: null
     };
+    // Add answers
+    if (form.value.nodeType === "QuestionNode") {
+      node.answers = new Array();
+      for (var i = 0; i < this.answers.length; i++) {
+        node.answers.push(this.answers[i]);
+      }
+    }
     this.newNode.emit(node);
   }
+  addAnswer(newAnswer:NgForm) {
+    if (this.answers == null)
+      this.answers = [];
+    this.answers.push(newAnswer.value.answer);
+    newAnswer.reset();
+  }
+
+  answers : string[];
 }

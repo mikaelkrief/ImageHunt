@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ImageHunt.Migrations
 {
@@ -8,44 +9,40 @@ namespace ImageHunt.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropUniqueConstraint(
-                name: "AK_ParentChildren_Id",
-                table: "ParentChildren");
+          migrationBuilder.DropTable("ParentChildren");
 
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_ParentChildren",
-                table: "ParentChildren");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_ParentChildren",
-                table: "ParentChildren",
-                column: "Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ParentChildren_ParentId",
-                table: "ParentChildren",
-                column: "ParentId");
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
+      migrationBuilder.CreateTable(
+        name: "ParentChildren",
+        columns: table => new
         {
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_ParentChildren",
-                table: "ParentChildren");
+          ParentId = table.Column<int>(type: "int", nullable: false),
+          ChildrenId = table.Column<int>(type: "int", nullable: false),
+          IsDeleted = table.Column<bool>(type:"bit", nullable:false),
+          Id = table.Column<int>(type: "int", nullable: false)
+            .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
+        },
+        constraints: table =>
+        {
+          table.PrimaryKey("PK_ParentChildren", x => x.Id);
+          table.UniqueConstraint("AK_ParentChildren_Id", x => x.Id);
+          table.ForeignKey(
+            name: "FK_ParentChildren_Nodes_ChildrenId",
+            column: x => x.ChildrenId,
+            principalTable: "Nodes",
+            principalColumn: "Id",
+            onDelete: ReferentialAction.Cascade);
+          table.ForeignKey(
+            name: "FK_ParentChildren_Nodes_ParentId",
+            column: x => x.ParentId,
+            principalTable: "Nodes",
+            principalColumn: "Id",
+            onDelete: ReferentialAction.Cascade);
+        });
 
-            migrationBuilder.DropIndex(
-                name: "IX_ParentChildren_ParentId",
-                table: "ParentChildren");
+    }
 
-            migrationBuilder.AddUniqueConstraint(
-                name: "AK_ParentChildren_Id",
-                table: "ParentChildren",
-                column: "Id");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_ParentChildren",
-                table: "ParentChildren",
-                columns: new[] { "ParentId", "ChildrenId" });
+    protected override void Down(MigrationBuilder migrationBuilder)
+        {
         }
     }
 }

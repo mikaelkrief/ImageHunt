@@ -69,15 +69,58 @@ namespace ImageHuntTest.Controller
         }
 
         [Fact]
-        public void AddNode()
+        public void AddNodeTimerNode()
         {
             // Arrange
-            var node = new AddNodeRequest(){NodeType = "TimerNode"};
+            var node = new AddNodeRequest(){NodeType = "TimerNode", Duration = 1561};
             // Act
             var result = _target.AddNode(1, node);
             // Assert
-            A.CallTo(() => _gameService.AddNode(1, A<Node>._)).MustHaveHappened();
+            A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n=>CheckTimerNode(n, node.Duration)))).MustHaveHappened();
         }
+
+      private bool CheckTimerNode(Node node, int expectedDuration)
+      {
+        var timerNode = node as TimerNode;
+        Check.That(timerNode.Delay).Equals(expectedDuration);
+        return true;
+      }
+
+      [Fact]
+      public void AddNodeObjectNode()
+      {
+      // Arrange
+        var node = new AddNodeRequest() { NodeType = "ObjectNode", Action = "Selfie" };
+        // Act
+        var result = _target.AddNode(1, node);
+      // Assert
+        A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckObjectNode(n, node.Action)))).MustHaveHappened();
+    }
+
+      private bool CheckObjectNode(Node node, string expectedAction)
+      {
+        var objectNode = node as ObjectNode;
+        Check.That(objectNode.Action).Equals(expectedAction);
+        return true;
+      }
+      [Fact]
+      public void AddNodeQuestionNode()
+      {
+        // Arrange
+        var node = new AddNodeRequest() { NodeType = "QuestionNode", Question = "Selfie", Answers = new[]{"Toto", "Tata"}};
+        // Act
+        var result = _target.AddNode(1, node);
+        // Assert
+        A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckQuestionNode(n, node.Question, node.Answers)))).MustHaveHappened();
+      }
+
+      private bool CheckQuestionNode(Node node, string expectedQuestion, string[] nodeAnswers)
+      {
+        var questionNode = node as QuestionNode;
+        Check.That(questionNode.Question).Equals(expectedQuestion);
+        Check.That(questionNode.Answers.Extracting("Response")).ContainsExactly(nodeAnswers);
+        return true;
+      }
 
       [Fact]
       public void GetNodes()

@@ -10,6 +10,6 @@ namespace ImageHunt.Model.Node
   /// </summary>
   public class ObjectNode : Node
   {
-    public string Question { get; set; }
+    public string Action { get; set; }
   }
 }

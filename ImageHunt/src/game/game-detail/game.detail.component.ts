@@ -9,6 +9,7 @@ import 'rxjs/Rx';
 import { BsModalService, BsModalRef, TabsetComponent } from "ngx-bootstrap";
 import {NodeRelation} from "../../shared/NodeRelation";
 import {NodeCreateComponent} from "../node-create/node.create.component";
+import {NodeRequest} from "../../shared/nodeRequest";
 
 @Component({
     selector: 'game-detail',
@@ -102,7 +103,7 @@ export class GameDetailComponent implements OnInit
 
   }
 
-  createNode(node: Node) {
+  createNode(node: NodeRequest) {
     this._gameService.addNode(this.game.id, node)
       .subscribe(() => this.getGame(this.game.id));
 

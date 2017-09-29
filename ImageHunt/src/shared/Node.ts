@@ -6,4 +6,6 @@ export class Node {
   name: string;
   children: Node[];
   nodeType: string;
+  duration: number;
+  action: string;
 }

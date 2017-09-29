@@ -3,6 +3,7 @@ import { JwtHttp } from "ng2-ui-auth";
 import { Game } from "../game";
 import { Node } from "../node";
 import { Http, RequestOptions, Headers } from "@angular/http";
+import {NodeRequest} from "../nodeRequest";
 
 @Injectable()
 export class GameService {
@@ -17,7 +18,7 @@ export class GameService {
   createGame(adminId: number, game: Game) {
     return this.jwtHttp.post('api/game/' + adminId, game);
   }
-  addNode(gameId: number, node) {
+  addNode(gameId: number, node: NodeRequest) {
     return this.jwtHttp.post(`api/game/AddNode/${gameId}`, node);
   }
   upload(files: File[], gameId) {

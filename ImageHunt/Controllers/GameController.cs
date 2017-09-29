@@ -7,6 +7,7 @@ using ImageHunt.Response;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ImageHunt.Controllers
 {
@@ -47,6 +48,22 @@ namespace ImageHunt.Controllers
       node.Name = nodeRequest.Name;
       node.Latitude = nodeRequest.Latitude;
       node.Longitude = nodeRequest.Longitude;
+      switch (nodeRequest.NodeType)
+      {
+        case "TimerNode":
+          var timerNode = node as TimerNode;
+          timerNode.Delay = nodeRequest.Duration;
+          break;
+         case "ObjectNode":
+          var objectNode = node as ObjectNode;
+          objectNode.Action = nodeRequest.Action;
+          break;
+        case "QuestionNode":
+          var questionNode = node as QuestionNode;
+          questionNode.Question = nodeRequest.Question;
+          questionNode.Answers = nodeRequest.Answers.Select(a => new Answer() {Node = questionNode, Response = a}).ToList();
+          break;
+     }
       _gameService.AddNode(gameId, node);
       return Ok();
     }

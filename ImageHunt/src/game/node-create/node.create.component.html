@@ -19,7 +19,7 @@
           <select class="form-control fa" ngModel name="nodeType" id="nodeType">
             <option value="FirstNode">&#xf11d; FirstNode</option>
             <option value="TimerNode">&#xf017; TimerNode</option>
-            <option value="ObjectNode">&#xf1b2; ObjectNode</option>
+            <option value="ObjectNode">&#xf1b2; ActionNode</option>
             <option value="QuestionNode">&#xf29c; QuestionNode</option>
             <option value="PictureNode">&#xf030; PictureNode</option>
             <option value="LastNode">&#xf11e; LastNode</option>
@@ -35,7 +35,6 @@
               <td>{{latitude}}</td>
             </tr>
             <tr>
-
               <th><label>Longitude</label></th>
               <td>{{longitude}}</td>
             </tr>
@@ -53,7 +52,7 @@
               </div>
             </div>
           </tab>
-          <tab heading="Objet"  [disabled]="form.value.nodeType !== 'ObjectNode'" [active]="form.value.nodeType === 'ObjectNode'">
+          <tab heading="Action"  [disabled]="form.value.nodeType !== 'ObjectNode'" [active]="form.value.nodeType === 'ObjectNode'">
             <div class="form-inline">
               <div class="input-group">
                 <label for="action">Action à faire sur le noeud</label>
@@ -67,13 +66,26 @@
                 <label for="question">Question</label>
                 <textarea class="form-control" cols="40" rows="3" id="question" ngModel name="question" placeholder="Question à poser aux joueurs"></textarea>
               </div>
-              <div class="input-group" *ngFor="let answer of form.value.answers">
-                <label>Réponse 1</label>
-                <input type="text" class="form-control"/>
-              </div>
+              
             </div>
             <br/>
-            <button class="btn btn-primary"><span class="fa fa-plus-square"> Ajouter une réponse</span></button>
+            <ol class="col-sm-10">
+              <li *ngFor="let answer of answers; let i = index">
+                <span class="form-control">{{answer}}</span>
+              </li>
+            </ol>
+            <br/>
+            <form #newAnswer="ngForm">
+            <div class="form-inline">
+              <div class="input-group">
+                <label for="answer">Réponse</label>
+                <input type="text" ngModel name="answer" id="answer" class="form-control"/>
+                <button type="button" class="btn btn-primary pull-right" (click)="addAnswer(newAnswer)">
+                  <span class="fa fa-plus-square"> Ajouter une réponse</span>
+                </button>
+              </div>
+            </div>
+            </form>
           </tab>
         </tabset>
       </div>
