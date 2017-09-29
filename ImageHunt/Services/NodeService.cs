@@ -23,9 +23,10 @@ namespace ImageHunt.Services
       return Context.Nodes.Single(n => n.Id == nodeId);
     }
 
-    public void AddChildren(int nodeId, Node childrenNode)
+    public void AddChildren(int nodeId, int childrenNodeId)
     {
       var node = Context.Nodes.Single(n => n.Id == nodeId);
+      var childrenNode = Context.Nodes.Single(n => n.Id == childrenNodeId);
       var parentChildren = new ParentChildren(){Parent = node, Children = childrenNode};
       node.ChildrenRelation.Add(parentChildren);
 
@@ -35,7 +36,8 @@ namespace ImageHunt.Services
     public void AddChildren(Node parentNode, Node childrenNode)
     {
       var node = Context.Nodes.Single(n => n == parentNode);
-      var parentChildren = new ParentChildren() { Parent = node, Children = childrenNode };
+      var children = Context.Nodes.Single(n => n == childrenNode);
+      var parentChildren = new ParentChildren() { Parent = node, Children = children };
       node.ChildrenRelation.Add(parentChildren);
       Context.SaveChanges();
     }

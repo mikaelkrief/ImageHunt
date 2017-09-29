@@ -40,11 +40,11 @@ namespace ImageHuntTest.Services
             var nodes = new List<Node>() { new TimerNode(), new TimerNode(), new TimerNode()};
             _context.Nodes.AddRange(nodes);
             _context.SaveChanges();
-            var childrenNode = new TimerNode();
+            
             // Act
-            _target.AddChildren(nodes[1].Id, childrenNode);
+            _target.AddChildren(nodes[1].Id, nodes[2].Id);
             // Assert
-            Check.That(nodes[1].Children).ContainsExactly(childrenNode);
+            Check.That(nodes[1].Children).ContainsExactly(nodes[2]);
             //Check.That(nodes[1].ChildrenRelation.First().Id).Not.IsEqualTo(0);
         }
 
@@ -55,11 +55,10 @@ namespace ImageHuntTest.Services
             var nodes = new List<Node>() { new TimerNode(), new TimerNode(), new TimerNode() };
             _context.Nodes.AddRange(nodes);
             _context.SaveChanges();
-            var childrenNode = new TimerNode();
             // Act
-            _target.AddChildren(nodes[1], childrenNode);
+            _target.AddChildren(nodes[1], nodes[2]);
             // Assert
-            Check.That(nodes[1].Children).ContainsExactly(childrenNode);
+            Check.That(nodes[1].Children).ContainsExactly(nodes[2]);
             //Check.That(nodes[1].ChildrenRelation.First().Id).Not.IsEqualTo(0);
         }
         [Fact]
