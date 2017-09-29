@@ -108,5 +108,7 @@ export class GameDetailComponent implements OnInit
       .subscribe(() => this.getGame(this.game.id));
 
   }
-
+  nodeClicked(event) {
+    console.log(event.id);
+  }
 }

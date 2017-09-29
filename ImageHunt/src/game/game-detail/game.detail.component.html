@@ -10,44 +10,53 @@
       <span>{{game.startDate | date:medium}}</span>
     </div>
   </div>
-  <div class="col-sm-5">
-    <h3>Equipes</h3>
-    <ul class="list-group">
-      <li class="list-group-item" *ngFor="let team of game.teams"><span class="fa fa-users"></span> <a routerLink="/team/{{team.id}}">{{team.name}}</a></li>
-    </ul>
+  <div>
+    <div heading="Equipes">
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let team of game.teams"><span class="fa fa-users"></span> <a routerLink="/team/{{team.id}}">{{team.name}}</a></li>
+      </ul>
 
-    <h3>Création d'une équipe</h3>
-    <form #form="ngForm" (submit)="createTeam(game.id, form)">
-      <div class="form-inline">
-        <label>Nom de la team</label>
-        <input class="form-control" ngModel name="name" required placeholder="Nom de l'équipe" type="text" id="name" />
-      </div>
-      <button type="submit" class="btn btn-default">Créer l'équipe</button>
-    </form>
-  </div>
-  <div class="row">
-    <div class="col-sm-9">
-      <h3>Points d'intêts</h3>
-      <map-detail #mapComponent
-                  [CenterLat]="game.mapCenterLat"
-                  [CenterLng]="game.mapCenterLng"
-                  [nodes]="game.nodes"
-                  [gameId]="game.id"
-                  [nodesRelation]="nodeRelations"
-                  (mapClicked)="mapClicked($event, createNodeTemplate)">
-      </map-detail>
-
+      <h3>Création d'une équipe</h3>
+      <form #form="ngForm" (submit)="createTeam(game.id, form)">
+        <div class="form-inline">
+          <label>Nom de la team</label>
+          <input class="form-control" ngModel name="name" required placeholder="Nom de l'équipe" type="text" id="name" />
+          <button type="submit" class="btn btn-success"><span class="fa fa-users"></span> Créer l'équipe</button>
+       </div>
+      </form>
     </div>
-    <div class="col-sm-3">
-      <h4>Actions</h4>
-      <div class="btn-group-vertical" role="group">
-        <div class="btn-group"><button class="btn btn-default" (click)="uploadImages(uploadImagesTemplate)">Ajouter les photos mystères</button></div>
-        <div class="btn-group"><button class="btn btn-default" (click)="centerMap(game.id)">Centrer la carte sur les noeuds</button></div>
-        
-      </div>
-      <h4>Filtres</h4>
-      <div class="btn-group-vertical" role="group">
-        <div class="btn-group"><button class="btn btn-default" btnCheckbox>Filtrer les noeuds images</button></div>
+    <br/>
+    <div heading="Noeuds">
+      <div class="row">
+        <div class="col-sm-9">
+          <map-detail #mapComponent
+                      [CenterLat]="game.mapCenterLat"
+                      [CenterLng]="game.mapCenterLng"
+                      [nodes]="game.nodes"
+                      [gameId]="game.id"
+                      [nodesRelation]="nodeRelations"
+                      (mapClicked)="mapClicked($event, createNodeTemplate)"
+                      (nodeClicked)="nodeClicked($event)">
+          </map-detail>
+        </div>
+        <div class="col-sm-3">
+          <h4>Actions</h4>
+          <div class="btn-group-vertical" role="group">
+            <div class="btn-group">
+              <button class="btn btn-default" (click)="uploadImages(uploadImagesTemplate)">Ajouter les photos mystères</button>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-default" (click)="centerMap(game.id)">Centrer la carte sur les noeuds</button>
+            </div>
+
+          </div>
+          <h4>Filtres</h4>
+          <div class="btn-group-vertical" role="group">
+            <div class="btn-group">
+              <button class="btn btn-default" btnCheckbox>Filtrer les noeuds images</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -61,7 +70,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <br/>
+    <br />
     <form>
       <input type="file" #fileInput placeholder="Upload file..." multiple (change)="uploadFiles(fileInput.files)" />
     </form>

@@ -6,9 +6,9 @@
     </button>
   </div>
 
-  <div class="modal-body">
-    <span></span>
-    <form #form="ngForm" (submit)="createNode(form)">
+  <form #form="ngForm" (submit)="createNode(form)">
+    <div class="modal-body">
+      <span></span>
       <div class="form-inline">
         <div class="input-group">
           <label for="name">Nom du noeud</label>
@@ -48,11 +48,11 @@
             <div class="form-inline">
               <div class="input-group">
                 <label for="duration">Durée d'attente (en secondes)</label>
-                <input type="number" class="form-control" id="duration" name="duration" ngModel placeholder="Durée en secondes"/>
+                <input type="number" class="form-control" id="duration" name="duration" ngModel placeholder="Durée en secondes" />
               </div>
             </div>
           </tab>
-          <tab heading="Action"  [disabled]="form.value.nodeType !== 'ObjectNode'" [active]="form.value.nodeType === 'ObjectNode'">
+          <tab heading="Action" [disabled]="form.value.nodeType !== 'ObjectNode'" [active]="form.value.nodeType === 'ObjectNode'">
             <div class="form-inline">
               <div class="input-group">
                 <label for="action">Action à faire sur le noeud</label>
@@ -60,41 +60,41 @@
               </div>
             </div>
           </tab>
-          <tab heading="Question"  [disabled]="form.value.nodeType !== 'QuestionNode'" [active]="form.value.nodeType === 'QuestionNode'">
+          <tab heading="Question" [disabled]="form.value.nodeType !== 'QuestionNode'" [active]="form.value.nodeType === 'QuestionNode'">
             <div class="form-inline">
               <div class="input-group">
                 <label for="question">Question</label>
                 <textarea class="form-control" cols="40" rows="3" id="question" ngModel name="question" placeholder="Question à poser aux joueurs"></textarea>
               </div>
-              
+
             </div>
-            <br/>
+            <br />
             <ol class="col-sm-10">
               <li *ngFor="let answer of answers; let i = index">
                 <span class="form-control">{{answer}}</span>
               </li>
             </ol>
-            <br/>
+            <br />
             <form #newAnswer="ngForm">
-            <div class="form-inline">
-              <div class="input-group">
-                <label for="answer">Réponse</label>
-                <input type="text" ngModel name="answer" id="answer" class="form-control"/>
-                <button type="button" class="btn btn-primary pull-right" (click)="addAnswer(newAnswer)">
-                  <span class="fa fa-plus-square"> Ajouter une réponse</span>
-                </button>
+              <div class="form-inline">
+                <div class="input-group">
+                  <label for="answer">Réponse</label>
+                  <input type="text" ngModel name="answer" id="answer" class="form-control" />
+                  <button type="button" class="btn btn-primary pull-right" (click)="addAnswer(newAnswer)">
+                    <span class="fa fa-plus-square"> Ajouter une réponse</span>
+                  </button>
+                </div>
               </div>
-            </div>
             </form>
           </tab>
         </tabset>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-success pull-right" type="submit" aria-label="Close"
-                (click)="bsModalRef.hide()">
-          Créer le Noeud
-        </button>
-      </div>
-    </form>
-  </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-success pull-right" type="submit" aria-label="Close"
+              (click)="bsModalRef.hide()">
+        Créer le Noeud
+      </button>
+    </div>
+  </form>
 </div>
