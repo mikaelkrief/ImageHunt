@@ -69,13 +69,6 @@
     </div>
   </div>
 </div>
-<footer class="footer">
-  <div *ngFor="let alert of alerts">
-  <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">
-    <strong>{{alert.time | date:'mediumTime'}}</strong> {{alert.msg}}
-  </alert>
-  </div>
-</footer>
 
 <ng-template #uploadImagesTemplate>
   <div class="modal-header">

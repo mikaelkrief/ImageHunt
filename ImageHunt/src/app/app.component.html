@@ -9,3 +9,12 @@
   </div>
 </div>
 
+
+<footer class="footer sticky">
+  <div *ngFor="let alert of _alertService.alerts">
+    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" dismissible="true">
+      <strong>{{alert.time | date:'mediumTime'}}</strong> {{alert.message}}
+    </alert>
+  </div>
+</footer>
+

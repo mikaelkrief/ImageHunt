@@ -13,6 +13,7 @@ import { NodeCreateComponent } from "../node-create/node.create.component";
 import { NodeRequest } from "../../shared/nodeRequest";
 import { GeoPoint } from "../../shared/GeoPoint";
 import { GeoVector } from "../../shared/GeoVector";
+import {AlertService} from "../../shared/services/alert.service";
 
 @Component({
   selector: 'game-detail',
@@ -33,7 +34,8 @@ export class GameDetailComponent implements OnInit {
   constructor(private _route: ActivatedRoute,
     private _gameService: GameService,
     private _teamService: TeamService,
-    private _modalService: BsModalService) {
+    private _modalService: BsModalService,
+    private _alertService: AlertService) {
     this.game = new Game();
   }
 
@@ -125,7 +127,7 @@ export class GameDetailComponent implements OnInit {
     var parentNode = this.game.nodes.find(n => n.id === nodeRelation.nodeId);
     var childNode = this.game.nodes.find(n => n.id === nodeRelation.childNodeId[0]);
     if (childNode.nodeType === "FirstNode") {
-      this.addAlert(`Le noeud ${childNode.name} ne peut pas être un enfant.`, "warning", 10000);
+      this._alertService.sendAlert(`Le noeud ${childNode.name} ne peut pas être un enfant.`, "danger", 10000);
       return;
     }
     if (parentNode.nodeType === "QuestionNode" || parentNode.children.length === 0) {
@@ -137,9 +139,9 @@ export class GameDetailComponent implements OnInit {
         destId: childNode.id,
         dest: { latitude: childNode.latitude, longitude: childNode.longitude }
       });
-      this.addAlert(`Liaison de ${parentNode.name} vers ${childNode.name} réussie`, "success", 5000);
+      this._alertService.sendAlert(`Liaison de ${parentNode.name} vers ${childNode.name} réussie`, "success", 5000);
     } else if (parentNode.children.length !== 0) {
-      this.addAlert(`Le noeud ${parentNode.name} ne peut plus accepter d'enfant.`, "warning", 10000);
+      this._alertService.sendAlert(`Le noeud ${parentNode.name} ne peut plus accepter d'enfant.`, "danger", 10000);
       return;
     }
   }
@@ -149,9 +151,6 @@ export class GameDetailComponent implements OnInit {
         .subscribe(() => this.getGame(this.game.id));
     }
 
-  }
-  addAlert(message: string, type: string, timeout: number) {
-    this.alerts.push({ type: type, msg: message, timeout: timeout, time: new Date() });
   }
   mapZoomChange(zoom) {
     this.currentZoom = zoom;
