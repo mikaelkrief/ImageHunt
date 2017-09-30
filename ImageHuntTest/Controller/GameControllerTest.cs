@@ -179,5 +179,16 @@ namespace ImageHuntTest.Controller
         // Assert
         A.CallTo(() => _gameService.SetCenterOfGameByNodes(A<int>._)).MustHaveHappened();
       }
+
+      [Fact]
+      public void UpdateZoom()
+      {
+        // Arrange
+        
+        // Act
+        _target.UpdateZoom(1, 12);
+        // Assert
+        A.CallTo(() => _gameService.SetGameZoom(1, 12)).MustHaveHappened();
+      }
     }
 }

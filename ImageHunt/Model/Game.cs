@@ -22,5 +22,6 @@ namespace ImageHunt.Model
     public List<Team> Teams { get; set; }
     public double? MapCenterLat { get; set; }
     public double? MapCenterLng { get; set; }
+    public int? MapZoom { get; set; }
   }
 }

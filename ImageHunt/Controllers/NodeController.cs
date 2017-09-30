@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ImageHunt.Controllers
 {
-    [Route("api/[controller]")]
-    public class NodeController : Controller
-    {
+  [Route("api/[controller]")]
+  public class NodeController : Controller
+  {
     private INodeService _nodeService;
 
     public NodeController(INodeService nodeService)
@@ -20,13 +20,11 @@ namespace ImageHunt.Controllers
       _nodeService = nodeService;
     }
 
-    [HttpPost]
-      public void AddRelationToNode([FromBody]NodeRelationRequest relationRequest)
-      {
-        foreach (var childrenId in relationRequest.ChildrenId)
-        {
-          _nodeService.AddChildren(relationRequest.NodeId, childrenId);  
-        }
-      }
+    [HttpPost("AddRelationToNode")]
+    public IActionResult AddRelationToNode([FromBody]NodeRelationRequest relationRequest)
+    {
+      _nodeService.AddChildren(relationRequest.NodeId, relationRequest.ChildrenId);
+      return Ok();
     }
+  }
 }

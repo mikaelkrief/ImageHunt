@@ -5,6 +5,7 @@ import { AgmCoreModule } from '@agm/core';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { AppComponent } from './app.component';
 import { BsDatepickerModule, TimepickerModule, BsDropdownModule, ModalModule, TabsModule } from 'ngx-bootstrap';
+import {AlertModule } from 'ngx-bootstrap/alert';
 
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -76,6 +77,7 @@ export class MyAuthConfig extends CustomConfig {
     Ng2UiAuthModule.forRoot(MyAuthConfig),
     BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
+    AlertModule.forRoot(),
     TabsModule.forRoot(),
     ModalModule.forRoot(),
     NodeCreateModule,

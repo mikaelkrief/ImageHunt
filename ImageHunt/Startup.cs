@@ -45,6 +45,7 @@ namespace ImageHunt
       services.AddTransient<IGameService, GameService>();
       services.AddTransient<IAuthService, AuthService>();
       services.AddTransient<IImageService, ImageService>();
+      services.AddTransient<INodeService, NodeService>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

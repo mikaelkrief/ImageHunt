@@ -1,46 +1,51 @@
 import { Component, OnInit, TemplateRef, ViewChild, ContentChild, ContentChildren } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import {Game} from "../../shared/game";
-import {GameService } from "../../shared/services/game.service";
+import { Game } from "../../shared/game";
+import { GameService } from "../../shared/services/game.service";
 import { NgForm } from "@angular/forms";
-import {TeamService} from "../../shared/services/team.service";
+import { TeamService } from "../../shared/services/team.service";
 import { Team } from "../../shared/team";
 import 'rxjs/Rx';
 import { BsModalService, BsModalRef, TabsetComponent } from "ngx-bootstrap";
-import {NodeRelation} from "../../shared/NodeRelation";
-import {NodeCreateComponent} from "../node-create/node.create.component";
-import {NodeRequest} from "../../shared/nodeRequest";
+import { NodeRelation } from "../../shared/NodeRelation";
+import { NodeCreateComponent } from "../node-create/node.create.component";
+import { NodeRequest } from "../../shared/nodeRequest";
+import { GeoPoint } from "../../shared/GeoPoint";
+import { GeoVector } from "../../shared/GeoVector";
 
 @Component({
-    selector: 'game-detail',
-    templateUrl: './game.detail.component.html',
-    styleUrls: ['./game.detail.component.scss']
+  selector: 'game-detail',
+  templateUrl: './game.detail.component.html',
+  styleUrls: ['./game.detail.component.scss']
 })
 /** gameDetail component*/
-export class GameDetailComponent implements OnInit
-{
+export class GameDetailComponent implements OnInit {
   @ContentChildren('fileInput') fileInput;
   @ViewChild('mapComponent') mapComponent;
-    public uploadModalRef: BsModalRef;
-    game: Game;
+  alerts: any = [];
+  public uploadModalRef: BsModalRef;
+  game: Game;
   nodeRelations: NodeRelation[];
-    /** gameDetail ctor */
-    constructor(private _route: ActivatedRoute,
-      private _gameService: GameService,
-      private _teamService: TeamService,
-      private _modalService: BsModalService) {
-      this.game = new Game(); 
-    }
+  newRelations: GeoVector[];
+  currentZoom: number;
+  /** gameDetail ctor */
+  constructor(private _route: ActivatedRoute,
+    private _gameService: GameService,
+    private _teamService: TeamService,
+    private _modalService: BsModalService) {
+    this.game = new Game();
+  }
 
-    /** Called by Angular after gameDetail component initialized */
-    ngOnInit(): void {
-      let gameId = this._route.snapshot.params["gameId"];
-      this.game.id = gameId;
-      this.getGame(gameId);
-    }
+  /** Called by Angular after gameDetail component initialized */
+  ngOnInit(): void {
+    let gameId = this._route.snapshot.params["gameId"];
+    this.game.id = gameId;
+    this.getGame(gameId);
+  }
   uploadImages(template: TemplateRef<any>) {
     this.uploadModalRef = this._modalService.show(template);
-    }
+  }
 
   uploadFiles(files) {
     this._gameService.upload(files, this.game.id).subscribe(res => {
@@ -51,8 +56,8 @@ export class GameDetailComponent implements OnInit
   getGame(gameId: number) {
     this._gameService.getGameById(gameId).subscribe(res => {
       this.game = res;
-        this.getNodeRelations(gameId);
-      },
+      this.getNodeRelations(gameId);
+    },
       err => console.error("getGame raise error: " + err));
   }
   getNodeRelations(gameId: number) {
@@ -60,6 +65,7 @@ export class GameDetailComponent implements OnInit
       .subscribe(res => {
         this.nodeRelations = res.json();
         this.buildRelations();
+        this.newRelations = null;
       });
   }
   buildRelations() {
@@ -82,10 +88,15 @@ export class GameDetailComponent implements OnInit
       });
   }
   centerMap(gameId: number) {
-    this._gameService.centerMap(gameId).subscribe(null, null, () => this.getGame(gameId));
-  }
-  nodeMode(nodeType:string) {
+    this._gameService.centerMap(gameId).subscribe(null, null,
+      () => {
+        this._gameService.setZoom(gameId, this.currentZoom)
+          .subscribe(() => this.getGame(gameId));
+      });
     
+  }
+  nodeMode(nodeType: string) {
+
   }
   public modalRef: BsModalRef;
   currentLatitude: number;
@@ -99,7 +110,7 @@ export class GameDetailComponent implements OnInit
     this.modalRef = this._modalService.show(NodeCreateComponent, { ignoreBackdropClick: true });
     this.modalRef.content.latitude = this.currentLatitude;
     this.modalRef.content.longitude = this.currentLongitude;
-    this.modalRef.content.newNode.subscribe(node=> this.createNode(node));
+    this.modalRef.content.newNode.subscribe(node => this.createNode(node));
 
   }
 
@@ -109,6 +120,41 @@ export class GameDetailComponent implements OnInit
 
   }
   nodeClicked(event) {
-    console.log(event.id);
   }
+  newRelation(nodeRelation: NodeRelation) {
+    var parentNode = this.game.nodes.find(n => n.id === nodeRelation.nodeId);
+    var childNode = this.game.nodes.find(n => n.id === nodeRelation.childNodeId[0]);
+    if (childNode.nodeType === "FirstNode") {
+      this.addAlert(`Le noeud ${childNode.name} ne peut pas être un enfant.`, "warning", 10000);
+      return;
+    }
+    if (parentNode.nodeType === "QuestionNode" || parentNode.children.length === 0) {
+      if (this.newRelations == null)
+        this.newRelations = new Array<GeoVector>();
+      this.newRelations.push({
+        orgId: parentNode.id,
+        org: { latitude: parentNode.latitude, longitude: parentNode.longitude },
+        destId: childNode.id,
+        dest: { latitude: childNode.latitude, longitude: childNode.longitude }
+      });
+      this.addAlert(`Liaison de ${parentNode.name} vers ${childNode.name} réussie`, "success", 5000);
+    } else if (parentNode.children.length !== 0) {
+      this.addAlert(`Le noeud ${parentNode.name} ne peut plus accepter d'enfant.`, "warning", 10000);
+      return;
+    }
+  }
+  uploadNewRelations() {
+    for (var relation of this.newRelations) {
+      this._gameService.addRelation(relation.orgId, relation.destId)
+        .subscribe(() => this.getGame(this.game.id));
+    }
+
+  }
+  addAlert(message: string, type: string, timeout: number) {
+    this.alerts.push({ type: type, msg: message, timeout: timeout, time: new Date() });
+  }
+  mapZoomChange(zoom) {
+    this.currentZoom = zoom;
+  }
+
 }

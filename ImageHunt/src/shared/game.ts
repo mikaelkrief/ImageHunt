@@ -6,5 +6,6 @@ export class Game {
   startDate: Date;
   mapCenterLat: number;
   mapCenterLng: number;
+  mapZoom:number;
   nodes: Node[];
 }

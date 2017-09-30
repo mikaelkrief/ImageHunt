@@ -6,11 +6,11 @@ import {GameService} from "../../shared/services/game.service";
 import { FormsModule } from "@angular/forms";
 import { TeamService } from "../../shared/services/team.service";
 import {MapDetailModule} from "../../map/map-detail/map-detail.module";
-import { BsDropdownModule, TabsModule } from "ngx-bootstrap";
+import { BsDropdownModule, TabsModule, AlertModule } from "ngx-bootstrap";
 import {NodeCreateModule} from "../node-create/node.create.module";
 
 @NgModule({
-  imports: [CommonModule, RouterModule, FormsModule, MapDetailModule, BsDropdownModule, TabsModule, NodeCreateModule],
+  imports: [CommonModule, RouterModule, FormsModule, MapDetailModule, BsDropdownModule, TabsModule, NodeCreateModule, AlertModule],
   declarations: [GameDetailComponent],
   exports: [GameDetailComponent],
   bootstrap: [GameDetailComponent],

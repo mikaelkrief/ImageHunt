@@ -107,5 +107,12 @@ namespace ImageHunt.Controllers
       }
       return Ok(resNodes);
     }
+
+    [HttpPatch("UpdateZoom/{gameId}/{zoom}")]
+    public IActionResult UpdateZoom(int gameId, int zoom)
+    {
+      _gameService.SetGameZoom(gameId, zoom);
+      return Ok();
+    }
   }
 }

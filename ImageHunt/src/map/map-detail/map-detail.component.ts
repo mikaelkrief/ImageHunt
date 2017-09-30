@@ -5,6 +5,7 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap";
 import { Subscription } from "rxjs/Subscription";
 import { NgForm } from "@angular/forms";
 import {NodeRelation} from "../../shared/NodeRelation";
+import {GeoPoint} from "../../shared/GeoPoint";
 
 @Component({
   selector: 'map-detail',
@@ -15,13 +16,17 @@ import {NodeRelation} from "../../shared/NodeRelation";
 export class MapDetailComponent implements OnInit {
   @Input() CenterLat: number;
   @Input() CenterLng: number;
+  @Input() zoom: number;
   @Input() gameId: number;
   @Input() nodes: Node[];
   @Input() nodesRelation: NodeRelation[];
+  @Input() newNodesRelation: GeoPoint[];
   @Input() nodeMode: string;
   @Input() filterNode: string[];
   @Output() mapClicked = new EventEmitter();
   @Output() nodeClicked = new EventEmitter<Node>();
+  @Output() newRelation = new EventEmitter<NodeRelation>();
+  @Output() zoomChange = new EventEmitter<number>();
   /** map ctor */
   constructor(private _gameService: GameService, private _modalService: BsModalService) { }
 
@@ -33,6 +38,7 @@ export class MapDetailComponent implements OnInit {
         navigator.geolocation.getCurrentPosition(position => {
           this.CenterLat = position.coords.latitude;
           this.CenterLng = position.coords.longitude;
+          
         },
           err => { console.error(err); this.CenterLat = 51.4872846;
             this.CenterLng = -0.1197003;
@@ -48,6 +54,7 @@ export class MapDetailComponent implements OnInit {
           this.CenterLat = res.mapCenterLat;
           this.CenterLng = res.mapCenterLng;
           this.nodes = res.nodes;
+          this.zoom = res.mapZoom;
         });
     }
   }
@@ -79,7 +86,25 @@ export class MapDetailComponent implements OnInit {
   mapClick(event, templateName:TemplateRef<any>) {
     this.mapClicked.emit(event);
   }
+  isFirstClick:boolean = true;
+  firstNode: Node;
   markerClicked(node: Node) {
+    if (this.isFirstClick) {
+      this.firstNode = node;
+      this.isFirstClick = false;
+    } else {
+      this.secondNode = node;
+      this.isFirstClick = true;
+      this.newRelation.emit({ nodeId: this.firstNode.id, childNodeId: [this.secondNode.id]});
+    }
     this.nodeClicked.emit(node);
   }
+
+  secondNode: Node;
+
+  mapZoomChange(event) {
+    console.log(event);
+    this.zoomChange.emit(event);
+  }
+
 }

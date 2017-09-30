@@ -27,12 +27,12 @@ namespace ImageHuntTest.Controller
         var relationRequest = new NodeRelationRequest()
         {
           NodeId = 1,
-          ChildrenId = new []{2, 3}
+          ChildrenId = 2
         };
         // Act
         _target.AddRelationToNode(relationRequest);
         // Assert
-        A.CallTo(() => _nodeService.AddChildren(1, A<int>._)).MustHaveHappened(Repeated.Exactly.Twice);
+        A.CallTo(() => _nodeService.AddChildren(1, A<int>._)).MustHaveHappened(Repeated.Exactly.Once);
       }
     }
 }

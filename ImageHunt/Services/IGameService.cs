@@ -13,5 +13,6 @@ namespace ImageHunt.Services
     void AddNode(int gameId, Node node);
     void SetCenterOfGameByNodes(int gameId);
     IEnumerable<Node> GetNodes(int gameId);
+    void SetGameZoom(int gameId, int zoom);
   }
 }

@@ -29,7 +29,8 @@ namespace ImageHunt.Services
     {
       return Context.Games
         .Include(g => g.Nodes)
-        .Include(g => g.Teams).Single(g => g.Id == gameId);
+        .Include(g => g.Teams)
+        .Single(g => g.Id == gameId);
     }
 
     public IEnumerable<Game> GetGamesForAdmin(int adminId)
@@ -59,6 +60,12 @@ namespace ImageHunt.Services
     {
       var nodes = Context.Games.Include(n=>n.Nodes).ThenInclude(n=>n.ChildrenRelation).Single(g=>g.Id == gameId).Nodes;
       return nodes;
+    }
+
+    public void SetGameZoom(int gameId, int zoom)
+    {
+      Context.Games.Single(g => g.Id == gameId).MapZoom = zoom;
+      Context.SaveChanges();
     }
   }
 }

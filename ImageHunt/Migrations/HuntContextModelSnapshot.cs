@@ -58,6 +58,8 @@ namespace ImageHunt.Migrations
 
                     b.Property<double?>("MapCenterLng");
 
+                    b.Property<int?>("MapZoom");
+
                     b.Property<string>("Name");
 
                     b.Property<DateTime?>("StartDate");

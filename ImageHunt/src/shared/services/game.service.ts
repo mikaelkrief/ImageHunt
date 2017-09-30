@@ -41,4 +41,12 @@ export class GameService {
   getNodeRelations(gameId: number) {
      return this.jwtHttp.get(`api/game/NodesRelations/${gameId}`);
   }
+
+  addRelation(orgNodeId: number, destNodeId: number) {
+
+    return this.jwtHttp.post("api/node/AddRelationToNode", { nodeId: orgNodeId, childrenId: destNodeId });
+
+  }
+
+  setZoom(gameId: number, zoom: number) { return this.jwtHttp.patch(`api/game/UpdateZoom/${gameId}/${zoom}`, null); }
 }

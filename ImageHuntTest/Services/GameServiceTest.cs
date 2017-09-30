@@ -131,5 +131,18 @@ namespace ImageHuntTest.Services
         Check.That(games[1].MapCenterLat.Value).IsEqualsWithDelta(48.8517267806692, 0.0001);
         Check.That(games[1].MapCenterLng.Value).IsEqualsWithDelta(2.33022653262665, 0.0001);
       }
+
+      [Fact]
+      public void SetGameZoom()
+      {
+        // Arrange
+        var games = new List<Game>() { new Game(), new Game(), new Game()};
+      _context.Games.AddRange(games);
+        _context.SaveChanges();
+        // Act
+        _target.SetGameZoom(games[1].Id, 15);
+        // Assert
+        Check.That(games[1].MapZoom).Equals(15);
+      }
   }
 }
