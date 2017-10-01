@@ -3,12 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHunt", "ImageHunt\ImageHunt.csproj", "{E421ECAC-1902-4191-B1EF-EA772422F9D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHunt", "ImageHunt\ImageHunt.csproj", "{E421ECAC-1902-4191-B1EF-EA772422F9D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntTest", "ImageHuntTest\ImageHuntTest.csproj", "{FF5ABD78-BD1C-4445-AC23-6A533BF840E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntTest", "ImageHuntTest\ImageHuntTest.csproj", "{FF5ABD78-BD1C-4445-AC23-6A533BF840E0}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E421ECAC-1902-4191-B1EF-EA772422F9D7} = {E421ECAC-1902-4191-B1EF-EA772422F9D7}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntBot", "ImageHuntBot\ImageHuntBot.csproj", "{B4F24725-F2E7-411D-86B1-15D59B201A64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntBotTest", "ImageHuntBotTest\ImageHuntBotTest.csproj", "{806D9536-9786-4B77-8CF6-93EB224E6929}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +28,14 @@ Global
 		{FF5ABD78-BD1C-4445-AC23-6A533BF840E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF5ABD78-BD1C-4445-AC23-6A533BF840E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF5ABD78-BD1C-4445-AC23-6A533BF840E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4F24725-F2E7-411D-86B1-15D59B201A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4F24725-F2E7-411D-86B1-15D59B201A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4F24725-F2E7-411D-86B1-15D59B201A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4F24725-F2E7-411D-86B1-15D59B201A64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{806D9536-9786-4B77-8CF6-93EB224E6929}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{806D9536-9786-4B77-8CF6-93EB224E6929}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{806D9536-9786-4B77-8CF6-93EB224E6929}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{806D9536-9786-4B77-8CF6-93EB224E6929}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
