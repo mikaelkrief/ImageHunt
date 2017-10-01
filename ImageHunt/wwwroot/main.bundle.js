@@ -1179,7 +1179,7 @@ Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* pl
 /***/ "../../../../../src/map/map-detail/map-detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<agm-map #map\r\n         [latitude]=\"CenterLat\"\r\n         [longitude]=\"CenterLng\"\r\n         [zoom]=\"zoom\"\r\n         (zoomChange)=\"mapZoomChange($event)\"\r\n         (mapClick)=\"mapClick($event, createNodeTemplate)\">\r\n  <agm-marker *ngFor=\"let node of nodes\"\r\n              [latitude]=\"node.latitude\"\r\n              [longitude]=\"node.longitude\"\r\n              [title]=\"node.name\"\r\n              [iconUrl]=\"getIconForNodeType(node.nodeType)\"\r\n              (markerClick)=\"markerClicked(node)\"\r\n              \r\n  >\r\n    <agm-polyline *ngFor=\"let node of nodes\"\r\n                  [editable]=\"false\"\r\n                  strokeColor=\"Blue\"\r\n                  strokeWeight=\"2\">\r\n      <div *ngFor=\"let children of node.children\">\r\n        <agm-polyline-point [latitude]=\"node.latitude\" [longitude]=\"node.longitude\"></agm-polyline-point>\r\n        <agm-polyline-point [latitude]=\"children.latitude\" [longitude]=\"children.longitude\"></agm-polyline-point>\r\n      </div>\r\n\r\n    </agm-polyline>\r\n    <agm-polyline *ngFor=\"let vector of newNodesRelation\"\r\n                  [editable]=\"false\"\r\n                  strokeColor=\"Red\"\r\n                  strokeWeight=\"2\">\r\n      <div *ngFor=\"let children of node.children\">\r\n        <agm-polyline-point [latitude]=\"vector.org.latitude\" [longitude]=\"vector.org.longitude\"></agm-polyline-point>\r\n        <agm-polyline-point [latitude]=\"vector.dest.latitude\" [longitude]=\"vector.dest.longitude\"></agm-polyline-point>\r\n      </div>\r\n\r\n    </agm-polyline>\r\n\r\n  </agm-marker>\r\n</agm-map>\r\n"
+module.exports = "<agm-map #map\r\n         [latitude]=\"CenterLat\"\r\n         [longitude]=\"CenterLng\"\r\n         [zoom]=\"zoom\"\r\n         (zoomChange)=\"mapZoomChange($event)\"\r\n         (mapClick)=\"mapClick($event, createNodeTemplate)\">\r\n  <agm-marker *ngFor=\"let node of nodes\"\r\n              [latitude]=\"node.latitude\"\r\n              [longitude]=\"node.longitude\"\r\n              [title]=\"node.name\"\r\n              [iconUrl]=\"getIconForNodeType(node.nodeType)\"\r\n              (markerClick)=\"markerClicked(node)\"\r\n              \r\n  >\r\n    <agm-polyline *ngFor=\"let node of nodes\"\r\n                  [editable]=\"false\"\r\n                  strokeColor=\"Blue\"\r\n                  strokeWeight=\"2\"\r\n                  >\r\n      <div *ngFor=\"let children of node.children\">\r\n        <agm-polyline-point [latitude]=\"node.latitude\" [longitude]=\"node.longitude\"></agm-polyline-point>\r\n        <agm-polyline-point [latitude]=\"children.latitude\" [longitude]=\"children.longitude\"></agm-polyline-point>\r\n      </div>\r\n\r\n    </agm-polyline>\r\n    <agm-polyline *ngFor=\"let vector of newNodesRelation\"\r\n                  [editable]=\"false\"\r\n                  strokeColor=\"Red\"\r\n                  strokeWeight=\"2\">\r\n        <agm-polyline-point [latitude]=\"vector.org.latitude\" [longitude]=\"vector.org.longitude\"></agm-polyline-point>\r\n        <agm-polyline-point [latitude]=\"vector.dest.latitude\" [longitude]=\"vector.dest.longitude\"></agm-polyline-point>\r\n\r\n    </agm-polyline>\r\n\r\n  </agm-marker>\r\n</agm-map>\r\n"
 
 /***/ }),
 
@@ -1191,7 +1191,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ":host agm-map {\n  height: 500px;\n  width: 600px; }\n", ""]);
+exports.push([module.i, ":host agm-map {\n  height: 600px;\n  width: 800px; }\n", ""]);
 
 // exports
 
@@ -1302,7 +1302,6 @@ var MapDetailComponent = (function () {
         this.nodeClicked.emit(node);
     };
     MapDetailComponent.prototype.mapZoomChange = function (event) {
-        console.log(event);
         this.zoomChange.emit(event);
     };
     return MapDetailComponent;

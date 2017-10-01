@@ -15,7 +15,8 @@
     <agm-polyline *ngFor="let node of nodes"
                   [editable]="false"
                   strokeColor="Blue"
-                  strokeWeight="2">
+                  strokeWeight="2"
+                  >
       <div *ngFor="let children of node.children">
         <agm-polyline-point [latitude]="node.latitude" [longitude]="node.longitude"></agm-polyline-point>
         <agm-polyline-point [latitude]="children.latitude" [longitude]="children.longitude"></agm-polyline-point>
@@ -26,10 +27,8 @@
                   [editable]="false"
                   strokeColor="Red"
                   strokeWeight="2">
-      <div *ngFor="let children of node.children">
         <agm-polyline-point [latitude]="vector.org.latitude" [longitude]="vector.org.longitude"></agm-polyline-point>
         <agm-polyline-point [latitude]="vector.dest.latitude" [longitude]="vector.dest.longitude"></agm-polyline-point>
-      </div>
 
     </agm-polyline>
 

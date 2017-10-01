@@ -103,8 +103,6 @@ export class MapDetailComponent implements OnInit {
   secondNode: Node;
 
   mapZoomChange(event) {
-    console.log(event);
     this.zoomChange.emit(event);
   }
-
 }
