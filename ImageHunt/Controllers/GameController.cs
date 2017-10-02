@@ -78,7 +78,7 @@ namespace ImageHunt.Controllers
           fileStream.Read(bytes, 0, (int)fileStream.Length);
           var picture = new Picture(){Image = bytes};
           //_imageService.AddPicture(picture);
-          var coordinates = _imageService.ExtractLocationFromImage(picture);
+          var coordinates = ImageService.ExtractLocationFromImage(picture);
           var node = new PictureNode
           {
             Image = picture,

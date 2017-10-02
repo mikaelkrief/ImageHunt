@@ -1,8 +1,11 @@
 using System.IO;
 using System.Linq;
+using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Model;
+using ImageHunt.Model.Node;
 using ImageMagick;
+using Microsoft.EntityFrameworkCore;
 
 namespace ImageHunt.Services
 {
@@ -24,7 +27,7 @@ namespace ImageHunt.Services
       return Queryable.Single<Picture>(Context.Pictures, p => p.Id == pictureId);
     }
 
-    public (double, double) ExtractLocationFromImage(Picture picture)
+    public static (double, double) ExtractLocationFromImage(Picture picture)
     {
       using (var imageStream = new MemoryStream(picture.Image))
       {
@@ -52,5 +55,6 @@ namespace ImageHunt.Services
         }
       }
     }
+
   }
 }

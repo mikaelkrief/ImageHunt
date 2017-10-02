@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ImageHunt.Model;
+using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.StaticFiles;
 using NFluent;
@@ -47,7 +48,7 @@ namespace ImageHuntTest.Services
             // Arrange
             var picture = new Picture() { Image = GetImageFromResource("ImageHuntTest.TestData.IMG_20170920_180905.jpg") };
             // Act
-            var result = _service.ExtractLocationFromImage(picture);
+            var result = ImageService.ExtractLocationFromImage(picture);
             // Assert
             Check.That(Math.Abs(result.Item1 - 59.3278160094444)).IsStrictlyLessThan(0.001);
             Check.That(Math.Abs(result.Item2 - 18.0551338194444)).IsStrictlyLessThan(0.001);
@@ -58,10 +59,11 @@ namespace ImageHuntTest.Services
             // Arrange
             var picture = new Picture() { Image = GetImageFromResource("ImageHuntTest.TestData.image1.jpg") };
             // Act
-            var result = _service.ExtractLocationFromImage(picture);
+            var result = ImageService.ExtractLocationFromImage(picture);
             // Assert
             Check.That(result.Item1 ).Equals(0d);
             Check.That(result.Item2 ).Equals(0d);
         }
+
     }
 }

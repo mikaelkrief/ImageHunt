@@ -1,9 +1,11 @@
 using System;
 using System.IO;
 using System.Net.Http;
+using ImageHunt.Bot;
 using ImageHunt.Controllers;
 using ImageHunt.Data;
 using ImageHunt.Services;
+using ImageHuntBot;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,7 +33,7 @@ namespace ImageHunt
       services.AddDbContext<HuntContext>(options =>
           options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
       services.AddSingleton(Configuration);
-      services.AddTransient<AuthControllerParameters>(s =>
+      services.AddTransient(s =>
       {
         var sb = services.BuildServiceProvider();
         return new AuthControllerParameters(Configuration,
@@ -46,6 +48,7 @@ namespace ImageHunt
       services.AddTransient<IAuthService, AuthService>();
       services.AddTransient<IImageService, ImageService>();
       services.AddTransient<INodeService, NodeService>();
+      services.AddSingleton<IBotHost, ImageHuntBotHost>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,6 +74,8 @@ namespace ImageHunt
       app.UseDefaultFiles();
       app.UseStaticFiles();
       app.UseMvc();
+      var bot= app.ApplicationServices.GetService<IBotHost>();
+      bot.Start();
     }
   }
 }

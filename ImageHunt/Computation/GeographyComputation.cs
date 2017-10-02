@@ -11,8 +11,7 @@ namespace ImageHunt.Computation
         private const double EarthRayon = 6378137;
         public static double Distance(this Node point1, Node point2)
         {
-            return Math.Acos(Math.Sin(point1.Latitude) * Math.Sin(point2.Latitude) + Math.Cos(point1.Latitude) *
-                      Math.Cos(point2.Latitude) * Math.Cos(point2.Longitude - point1.Longitude)) * EarthRayon;
+          return Distance((point1.Latitude, point1.Longitude), (point2.Latitude, point2.Longitude));
         }
         public static (double, double) DegToRad((double, double)degCoordinates)
         {
@@ -47,5 +46,11 @@ namespace ImageHunt.Computation
       {
         return (radCoordinates.Item1 * 180.0 / Math.PI, radCoordinates.Item2 * 180.0 / Math.PI);
       }
+
+    public static double Distance((double, double) point1, (double, double) point2)
+    {
+      return Math.Acos(Math.Sin(point1.Item1) * Math.Sin(point2.Item1) + Math.Cos(point1.Item1) *
+                       Math.Cos(point2.Item1) * Math.Cos(point2.Item2 - point1.Item2)) * EarthRayon;
     }
+  }
 }

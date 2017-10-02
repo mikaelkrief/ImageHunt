@@ -73,6 +73,29 @@ namespace ImageHuntTest.Services
             // Assert
             Check.That(resultNode).IsEqualTo(nodes.Single(n => n.Id == 2));
         }
+      [Fact]
+      public void FindImageByLocation()
+      {
+        // Arrange
+        var pictureNodes = new List<Node>()
+        {
+          new PictureNode(){Latitude = 15, Longitude = 15},
+          new PictureNode(){Latitude = 16, Longitude = 16},
+          new PictureNode(){Latitude = 17, Longitude = 17},
+          new PictureNode(){Latitude = 18, Longitude = 18},
+          new PictureNode(){Latitude = 59.327816, Longitude = 18.055133},
 
-    }
+
+        };
+        var games = new List<Game>() { new Game(), new Game() { Nodes = pictureNodes } };
+        _context.Games.AddRange(games);
+        _context.SaveChanges();
+        var picture = new Picture() { Image = GetImageFromResource("ImageHuntTest.TestData.IMG_20170920_180905.jpg") };
+        // Act
+        var result = _target.FindImageByLocation(games[1].Id, picture);
+        // Assert
+        Check.That(result).Equals(pictureNodes[4]);
+      }
+
+  }
 }

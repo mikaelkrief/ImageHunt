@@ -53,5 +53,17 @@ namespace ImageHuntTest.Computation
         Check.That(result.Item1).IsEqualsWithDelta(48.8517267806692, 0.001);
         Check.That(result.Item2).IsEqualsWithDelta(2.33022653262665, 0.001);
       }
+
+      [Fact]
+      public void DistanceBetweenTwoPosition()
+      {
+        // Arrange
+        var point1 = (48.8501065, 2.327722);
+        var point2 = (48.851291, 2.3318698);
+        // Act
+        var distance = GeographyComputation.Distance(point1, point2);
+        // Assert
+        Check.That(distance).IsEqualsWithDelta(8600.78833324218, 0.001);
+      }
     }
 }
