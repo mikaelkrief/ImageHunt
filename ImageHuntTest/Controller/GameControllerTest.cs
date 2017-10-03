@@ -31,7 +31,7 @@ namespace ImageHuntTest.Controller
       _gameService = A.Fake<IGameService>();
       _nodeService = A.Fake<INodeService>();
       _imageService = A.Fake<IImageService>();
-      _target = new GameController(_gameService, _imageService);
+      _target = new GameController(_gameService, _imageService, _nodeService);
     }
 
     [Fact]
@@ -164,7 +164,6 @@ namespace ImageHuntTest.Controller
       var file = A.Fake<IFormFile>();
       A.CallTo(() => file.OpenReadStream()).ReturnsNextFromSequence(new MemoryStream(picture), new MemoryStream(picture), new MemoryStream(picture));
       var images = new List<IFormFile>() { file, file, file };
-      //A.CallTo(() => ImageService.ExtractLocationFromImage(A<Picture>._)).Returns((15d, 16d));
       // Act
       _target.AddImageNodes(1, images);
       // Assert
@@ -191,6 +190,19 @@ namespace ImageHuntTest.Controller
       _target.UpdateZoom(1, 12);
       // Assert
       A.CallTo(() => _gameService.SetGameZoom(1, 12)).MustHaveHappened();
+    }
+
+    [Fact]
+    public void GetGameFromPlayerUserName()
+    {
+      // Arrange
+      var game = new Game();
+      A.CallTo(() => _gameService.GetGameFromPlayerChatId(A<string>._)).Returns(game);
+      // Act
+      var result = _target.GetGameFromPlayerUserName("toto") as OkObjectResult;
+      // Assert
+      Check.That(result.Value).Equals(game);
+      A.CallTo(() => _gameService.GetGameFromPlayerChatId(A<string>._)).MustHaveHappened();
     }
   }
 }

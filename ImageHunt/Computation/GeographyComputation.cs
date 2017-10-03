@@ -49,8 +49,10 @@ namespace ImageHunt.Computation
 
     public static double Distance((double, double) point1, (double, double) point2)
     {
-      return Math.Acos(Math.Sin(point1.Item1) * Math.Sin(point2.Item1) + Math.Cos(point1.Item1) *
-                       Math.Cos(point2.Item1) * Math.Cos(point2.Item2 - point1.Item2)) * EarthRayon;
+      var radPoint1 = DegToRad(point1);
+      var radPoint2 = DegToRad(point2);
+      return Math.Acos(Math.Sin(radPoint1.Item1) * Math.Sin(radPoint2.Item1) + Math.Cos(radPoint1.Item1) *
+                       Math.Cos(radPoint2.Item1) * Math.Cos(radPoint2.Item2 - radPoint1.Item2)) * EarthRayon;
     }
   }
 }

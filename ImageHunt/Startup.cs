@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Telegram.Bot;
 
 namespace ImageHunt
 {
@@ -48,6 +49,7 @@ namespace ImageHunt
       services.AddTransient<IAuthService, AuthService>();
       services.AddTransient<IImageService, ImageService>();
       services.AddTransient<INodeService, NodeService>();
+      services.AddSingleton<ITelegramBotClient, TelegramBotClient>(s=> new TelegramBotClient(Configuration["Telegram:APIKey"]));
       services.AddSingleton<IBotHost, ImageHuntBotHost>();
     }
 

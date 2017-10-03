@@ -43,7 +43,7 @@ namespace ImageHunt.Services
       node.ChildrenRelation.Add(parentChildren);
       Context.SaveChanges();
     }
-    public Node FindImageByLocation(int gameId, Picture pictureToFind)
+    public Node FindPictureNodeByLocation(int gameId, Picture pictureToFind)
     {
       var nodes = Context.Games.Include(g => g.Nodes).Single(g => g.Id == gameId).Nodes.Where(n => n is PictureNode);
       if (!nodes.Any())

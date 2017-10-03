@@ -144,5 +144,45 @@ namespace ImageHuntTest.Services
         // Assert
         Check.That(games[1].MapZoom).Equals(15);
       }
+
+      [Fact]
+      public void AddGameAction()
+      {
+        // Arrange
+        
+        // Act
+
+        // Assert
+      }
+
+      [Fact]
+      public void GetGameFromChatId()
+      {
+        // Arrange
+        var users = new List<Player>()
+        {
+          new Player() {ChatLogin = "toto"},
+          new Player() {ChatLogin = "Titi"},
+          new Player() {ChatLogin = "tata"}
+        };
+        var teams = new List<Team>(){new Team(), new Team(){Players = users}};
+      var games = new List<Game>(){new Game(), new Game() {Teams = teams}};
+      _context.Games.AddRange(games);
+        _context.SaveChanges();
+        // Act
+        var game = _target.GetGameFromPlayerChatId("Titi");
+        // Assert
+        Check.That(game).Equals(games[1]);
+      }
+
+      [Fact]
+      public void FactMethodName()
+      {
+        // Arrange
+        
+        // Act
+
+        // Assert
+      }
   }
 }

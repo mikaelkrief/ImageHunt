@@ -16,8 +16,6 @@ namespace ImageHuntBot
     // Messages managment
     void OnMessage(object sender, MessageEventArgs messageEventArgs);
 
-    // Specific messages
-    Task OnTextMessage(Message message);
 
   }
 }

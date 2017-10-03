@@ -16,11 +16,13 @@ namespace ImageHunt.Controllers
   {
     private readonly IGameService _gameService;
     private readonly IImageService _imageService;
+    private readonly INodeService _nodeService;
 
-    public GameController(IGameService gameService, IImageService imageService)
+    public GameController(IGameService gameService, IImageService imageService, INodeService nodeService)
     {
       _gameService = gameService;
       _imageService = imageService;
+      _nodeService = nodeService;
     }
 
     [HttpGet("ById/{gameId}")]
@@ -113,6 +115,11 @@ namespace ImageHunt.Controllers
     {
       _gameService.SetGameZoom(gameId, zoom);
       return Ok();
+    }
+    [HttpGet("GetGameFromPlayerUserName/{playerUserName}")]
+    public IActionResult GetGameFromPlayerUserName(string playerUserName)
+    {
+      return Ok(_gameService.GetGameFromPlayerChatId(playerUserName));
     }
   }
 }

@@ -16,11 +16,11 @@ namespace ImageHuntBot
     private ManualResetEvent _shutdownEvent;
     private CancellationTokenSource _cancelationTokenSource;
 
-    public BotHost(IConfiguration configuration)
+    public BotHost(IConfiguration configuration, ITelegramBotClient telegramClient)
     {
       _configuration = configuration;
       _shutdownEvent = new ManualResetEvent(false);
-      _bot = new TelegramBotClient(_configuration["Telegram:APIKey"]);
+      _bot = telegramClient;
       _cancelationTokenSource = new CancellationTokenSource();
     }
     public void Dispose()
@@ -55,6 +55,7 @@ namespace ImageHuntBot
           await OnTextMessage(message);
           break;
         case MessageType.PhotoMessage:
+          await OnPhotoMessage(message);
           break;
         case MessageType.AudioMessage:
           break;
@@ -87,7 +88,9 @@ namespace ImageHuntBot
       }
     }
 
-    public abstract Task OnTextMessage(Message message);
+    protected abstract Task OnPhotoMessage(Message message);
+
+    protected abstract Task OnTextMessage(Message message);
 
     public void Stop(CancellationToken cancellationToken = default(CancellationToken))
     {

@@ -63,7 +63,7 @@ namespace ImageHuntTest.Computation
         // Act
         var distance = GeographyComputation.Distance(point1, point2);
         // Assert
-        Check.That(distance).IsEqualsWithDelta(8600.78833324218, 0.001);
+        Check.That(distance).IsEqualsWithDelta(331.208482931862, 0.001);
       }
     }
 }
