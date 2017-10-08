@@ -519,7 +519,7 @@ GameCreateModule = __decorate([
 /***/ "../../../../../src/game/game-detail/game.detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-sm-10\">\r\n    <h2>Detail d'une partie</h2>\r\n    <div class=\"form-inline\">\r\n      <div class=\"form-control\">\r\n        <label>Nom de la partie :</label>\r\n        <span>{{game.name}}</span>\r\n      </div>\r\n      <div class=\"form-control\">\r\n        <label>Date de début :</label>\r\n        <span>{{game.startDate | date:medium}}</span>\r\n      </div>\r\n    </div>\r\n    <div>\r\n      <div heading=\"Equipes\">\r\n        <ul class=\"list-group\">\r\n          <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"></span> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></li>\r\n        </ul>\r\n\r\n        <h3>Création d'une équipe</h3>\r\n        <form #form=\"ngForm\" (submit)=\"createTeam(game.id, form)\">\r\n          <div class=\"form-inline\">\r\n            <label>Nom de la team</label>\r\n            <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'équipe\" type=\"text\" id=\"name\" />\r\n            <button type=\"submit\" class=\"btn btn-success\"><span class=\"fa fa-users\"></span> Créer l'équipe</button>\r\n          </div>\r\n        </form>\r\n      </div>\r\n      <br />\r\n      <div heading=\"Noeuds\">\r\n        <div class=\"row\">\r\n          <div class=\"col-sm-9\">\r\n            <map-detail #mapComponent\r\n                        [CenterLat]=\"game.mapCenterLat\"\r\n                        [CenterLng]=\"game.mapCenterLng\"\r\n                        [nodes]=\"game.nodes\"\r\n                        [gameId]=\"game.id\"\r\n                        [nodesRelation]=\"nodeRelations\"\r\n                        [newNodesRelation]=\"newRelations\"\r\n                        (mapClicked)=\"mapClicked($event, createNodeTemplate)\"\r\n                        (nodeClicked)=\"nodeClicked($event)\"\r\n                        (newRelation)=\"newRelation($event)\"\r\n                        [zoom]=\"game.zoom\"\r\n                        (zoomChange)=\"mapZoomChange($event)\">\r\n            </map-detail>\r\n          </div>\r\n          <div class=\"col-sm-3\">\r\n            <h4>Actions</h4>\r\n            <div class=\"btn-group-vertical\" role=\"group\">\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-default\" (click)=\"uploadImages(uploadImagesTemplate)\">Ajouter les photos mystères</button>\r\n              </div>\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-default\" (click)=\"centerMap(game.id)\">Centrer la carte sur les noeuds</button>\r\n              </div>\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-primary\" (click)=\"uploadNewRelations(game.id)\"><span class=\"fa fa-link\"> Ajouter les nouvelles relations</span></button>\r\n              </div>\r\n            </div>\r\n            <h4>Filtres</h4>\r\n            <div class=\"btn-group-vertical\" role=\"group\">\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-default\" btnCheckbox>Filtrer les noeuds images</button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #uploadImagesTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Téléchargement de noeuds images</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"uploadModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <br />\r\n    <form>\r\n      <input type=\"file\" #fileInput placeholder=\"Upload file...\" multiple (change)=\"uploadFiles(fileInput.files)\" />\r\n    </form>\r\n  </div>\r\n</ng-template>\r\n\r\n\r\n"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-sm-10\">\r\n    <h2>Detail d'une partie</h2>\r\n    <div class=\"form-inline\">\r\n      <div class=\"form-control\">\r\n        <label>Nom de la partie :</label>\r\n        <span>{{game.name}}</span>\r\n      </div>\r\n      <div class=\"form-control\">\r\n        <label>Date de début :</label>\r\n        <span>{{game.startDate | date:medium}}</span>\r\n      </div>\r\n    </div>\r\n    <div>\r\n      <div heading=\"Equipes\">\r\n        <ul class=\"list-group\">\r\n          <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"></span> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></li>\r\n        </ul>\r\n\r\n        <h3>Création d'une équipe</h3>\r\n        <form #form=\"ngForm\" (submit)=\"createTeam(game.id, form)\">\r\n          <div class=\"form-inline\">\r\n            <label>Nom de la team</label>\r\n            <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'équipe\" type=\"text\" id=\"name\" />\r\n            <button type=\"submit\" class=\"btn btn-success\"><span class=\"fa fa-users\"></span> Créer l'équipe</button>\r\n          </div>\r\n        </form>\r\n      </div>\r\n      <br />\r\n      <div heading=\"Noeuds\">\r\n        <div class=\"row\">\r\n          <div class=\"col-sm-9\">\r\n            <map-detail #mapComponent\r\n                        [CenterLat]=\"game.mapCenterLat\"\r\n                        [CenterLng]=\"game.mapCenterLng\"\r\n                        [nodes]=\"game.nodes\"\r\n                        [gameId]=\"game.id\"\r\n                        [nodesRelation]=\"nodeRelations\"\r\n                        [newNodesRelation]=\"newRelations\"\r\n                        (mapClicked)=\"mapClicked($event, createNodeTemplate)\"\r\n                        (nodeClicked)=\"nodeClicked($event)\"\r\n                        (newRelation)=\"newRelation($event)\"\r\n                        [zoom]=\"game.zoom\"\r\n                        (zoomChange)=\"mapZoomChange($event)\">\r\n            </map-detail>\r\n          </div>\r\n          <div class=\"col-sm-3\">\r\n            <h4>Actions</h4>\r\n            <div class=\"btn-group-vertical\" role=\"group\">\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-default\" (click)=\"uploadImages(uploadImagesTemplate)\">Ajouter les photos mystères</button>\r\n              </div>\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-default\" (click)=\"centerMap(game.id)\">Centrer la carte sur les noeuds</button>\r\n              </div>\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-primary\" (click)=\"editNodeRelations(game.id)\"><span class=\"fa fa-link\"> Editer les relations</span></button>\r\n              </div>\r\n            </div>\r\n            <h4>Filtres</h4>\r\n            <div class=\"btn-group-vertical\" role=\"group\">\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-default\" btnCheckbox>Filtrer les noeuds images</button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #uploadImagesTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Téléchargement de noeuds images</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"uploadModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <br />\r\n    <form>\r\n      <input type=\"file\" #fileInput placeholder=\"Upload file...\" multiple (change)=\"uploadFiles(fileInput.files)\" />\r\n    </form>\r\n  </div>\r\n</ng-template>\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -555,7 +555,8 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_Rx__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__node_create_node_create_component__ = __webpack_require__("../../../../../src/game/node-create/node.create.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_services_alert_service__ = __webpack_require__("../../../../../src/shared/services/alert.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__node_relation_node_relation_component__ = __webpack_require__("../../../../../src/game/node-relation/node.relation.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__shared_services_alert_service__ = __webpack_require__("../../../../../src/shared/services/alert.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -565,6 +566,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -688,13 +690,9 @@ var GameDetailComponent = (function () {
             return;
         }
     };
-    GameDetailComponent.prototype.uploadNewRelations = function () {
-        var _this = this;
-        for (var _i = 0, _a = this.newRelations; _i < _a.length; _i++) {
-            var relation = _a[_i];
-            this._gameService.addRelation(relation.orgId, relation.destId)
-                .subscribe(function () { return _this.getGame(_this.game.id); });
-        }
+    GameDetailComponent.prototype.editNodeRelations = function () {
+        this.modalRef = this._modalService.show(__WEBPACK_IMPORTED_MODULE_8__node_relation_node_relation_component__["a" /* NodeRelationComponent */], { ignoreBackdropClick: true });
+        this.modalRef.content.nodes = this.game.nodes;
     };
     GameDetailComponent.prototype.mapZoomChange = function (zoom) {
         this.currentZoom = zoom;
@@ -717,7 +715,7 @@ GameDetailComponent = __decorate([
     })
     /** gameDetail component*/
     ,
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__shared_services_game_service__["a" /* GameService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__shared_services_team_service__["a" /* TeamService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__shared_services_team_service__["a" /* TeamService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["e" /* BsModalService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["e" /* BsModalService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_8__shared_services_alert_service__["a" /* AlertService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__shared_services_alert_service__["a" /* AlertService */]) === "function" && _e || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["ActivatedRoute"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__shared_services_game_service__["a" /* GameService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__shared_services_team_service__["a" /* TeamService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__shared_services_team_service__["a" /* TeamService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["e" /* BsModalService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["e" /* BsModalService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_9__shared_services_alert_service__["a" /* AlertService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__shared_services_alert_service__["a" /* AlertService */]) === "function" && _e || Object])
 ], GameDetailComponent);
 
 var _a, _b, _c, _d, _e;
@@ -741,12 +739,14 @@ var _a, _b, _c, _d, _e;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__node_create_node_create_module__ = __webpack_require__("../../../../../src/game/node-create/node.create.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__shared_services_alert_service__ = __webpack_require__("../../../../../src/shared/services/alert.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__node_relation_node_relation_module__ = __webpack_require__("../../../../../src/game/node-relation/node.relation.module.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -765,7 +765,7 @@ var GameDetailModule = (function () {
 }());
 GameDetailModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_7__map_map_detail_map_detail_module__["a" /* MapDetailModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["c" /* BsDropdownModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["h" /* TabsModule */], __WEBPACK_IMPORTED_MODULE_9__node_create_node_create_module__["a" /* NodeCreateModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["a" /* AlertModule */]],
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_7__map_map_detail_map_detail_module__["a" /* MapDetailModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["c" /* BsDropdownModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["h" /* TabsModule */], __WEBPACK_IMPORTED_MODULE_9__node_create_node_create_module__["a" /* NodeCreateModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["a" /* AlertModule */], __WEBPACK_IMPORTED_MODULE_11__node_relation_node_relation_module__["a" /* NodeRelationModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
@@ -1053,6 +1053,119 @@ NodeCreateModule = __decorate([
 ], NodeCreateModule);
 
 //# sourceMappingURL=node.create.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/game/node-relation/node.relation.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div #nodeRelationsTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Assigner les enfants du noeud</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"bsModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n    <form>\r\n    <div class=\"modal-body\">\r\n      <div *ngFor=\"let node of nodes\">{{node.name}}</div>\r\n\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <button class=\"btn btn-success pull-right\" type=\"submit\" aria-label=\"Close\"\r\n              (click)=\"bsModalRef.hide()\">\r\n        Assigner les enfants\r\n      </button>\r\n    </div>\r\n  </form>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/game/node-relation/node.relation.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/game/node-relation/node.relation.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NodeRelationComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var NodeRelationComponent = (function () {
+    /** node.relation ctor */
+    function NodeRelationComponent(bsModalRef) {
+        this.bsModalRef = bsModalRef;
+    }
+    /** Called by Angular after node.relation component initialized */
+    NodeRelationComponent.prototype.ngOnInit = function () { };
+    return NodeRelationComponent;
+}());
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+    __metadata("design:type", Array)
+], NodeRelationComponent.prototype, "nodes", void 0);
+NodeRelationComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        selector: 'node-relation',
+        template: __webpack_require__("../../../../../src/game/node-relation/node.relation.component.html"),
+        styles: [__webpack_require__("../../../../../src/game/node-relation/node.relation.component.scss")]
+    })
+    /** node.relation component*/
+    ,
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__["d" /* BsModalRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__["d" /* BsModalRef */]) === "function" && _a || Object])
+], NodeRelationComponent);
+
+var _a;
+//# sourceMappingURL=node.relation.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/game/node-relation/node.relation.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NodeRelationModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__node_relation_component__ = __webpack_require__("../../../../../src/game/node-relation/node.relation.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+var NodeRelationModule = (function () {
+    function NodeRelationModule() {
+    }
+    return NodeRelationModule;
+}());
+NodeRelationModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap__["c" /* BsDropdownModule */], __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap__["h" /* TabsModule */]],
+        declarations: [__WEBPACK_IMPORTED_MODULE_5__node_relation_component__["a" /* NodeRelationComponent */]],
+        exports: [__WEBPACK_IMPORTED_MODULE_5__node_relation_component__["a" /* NodeRelationComponent */]],
+        entryComponents: [__WEBPACK_IMPORTED_MODULE_5__node_relation_component__["a" /* NodeRelationComponent */]]
+    })
+], NodeRelationModule);
+
+//# sourceMappingURL=node.relation.module.js.map
 
 /***/ }),
 

@@ -10,6 +10,7 @@ import 'rxjs/Rx';
 import { BsModalService, BsModalRef, TabsetComponent } from "ngx-bootstrap";
 import { NodeRelation } from "../../shared/NodeRelation";
 import { NodeCreateComponent } from "../node-create/node.create.component";
+import { NodeRelationComponent } from "../node-relation/node.relation.component";
 import { NodeRequest } from "../../shared/nodeRequest";
 import { GeoPoint } from "../../shared/GeoPoint";
 import { GeoVector } from "../../shared/GeoVector";
@@ -145,12 +146,9 @@ export class GameDetailComponent implements OnInit {
       return;
     }
   }
-  uploadNewRelations() {
-    for (var relation of this.newRelations) {
-      this._gameService.addRelation(relation.orgId, relation.destId)
-        .subscribe(() => this.getGame(this.game.id));
-    }
-
+  editNodeRelations() {
+    this.modalRef = this._modalService.show(NodeRelationComponent, { ignoreBackdropClick: true });
+    this.modalRef.content.nodes = this.game.nodes;
   }
   mapZoomChange(zoom) {
     this.currentZoom = zoom;

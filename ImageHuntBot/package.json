@@ -8,10 +8,11 @@
   },
   "dependencies": {
     "botbuilder": "^3.11.0",
+    "botbuilder-location": "^2.0.0",
     "restify": "^6.0.1"
   },
-  "devDependencies" : {
+  "devDependencies": {
     "@types/node": "^6.0.52",
-    "@types/restify": "^2.0.35" 
-  } 
+    "@types/restify": "^2.0.35"
+  }
 }

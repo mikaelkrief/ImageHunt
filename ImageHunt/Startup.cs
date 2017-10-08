@@ -1,11 +1,9 @@
 using System;
 using System.IO;
 using System.Net.Http;
-using ImageHunt.Bot;
 using ImageHunt.Controllers;
 using ImageHunt.Data;
 using ImageHunt.Services;
-using ImageHuntBot;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,8 +47,6 @@ namespace ImageHunt
       services.AddTransient<IAuthService, AuthService>();
       services.AddTransient<IImageService, ImageService>();
       services.AddTransient<INodeService, NodeService>();
-      services.AddSingleton<ITelegramBotClient, TelegramBotClient>(s=> new TelegramBotClient(Configuration["Telegram:APIKey"]));
-      services.AddSingleton<IBotHost, ImageHuntBotHost>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,8 +72,6 @@ namespace ImageHunt
       app.UseDefaultFiles();
       app.UseStaticFiles();
       app.UseMvc();
-      var bot= app.ApplicationServices.GetService<IBotHost>();
-      bot.Start();
     }
   }
 }

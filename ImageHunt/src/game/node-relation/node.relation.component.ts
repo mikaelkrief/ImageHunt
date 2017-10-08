@@ -1,4 +1,5 @@
-﻿import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { BsModalRef } from "ngx-bootstrap";
 
 @Component({
     selector: 'node-relation',
@@ -8,8 +9,9 @@
 /** node.relation component*/
 export class NodeRelationComponent implements OnInit
 {
+  @Input() nodes: Node[];
     /** node.relation ctor */
-    constructor() { }
+  constructor(public bsModalRef: BsModalRef) { }
 
     /** Called by Angular after node.relation component initialized */
     ngOnInit(): void { }
