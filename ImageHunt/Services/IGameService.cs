@@ -15,5 +15,6 @@ namespace ImageHunt.Services
     IEnumerable<Node> GetNodes(int gameId);
     void SetGameZoom(int gameId, int zoom);
     Game GetGameFromPlayerChatId(string playerChatUserName);
+    IEnumerable<Game> GetGamesFromPosition(double lat, double lng);
   }
 }

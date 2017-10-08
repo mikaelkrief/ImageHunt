@@ -2,26 +2,31 @@
 import { TestBed, async, ComponentFixture, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { BrowserModule, By } from "@angular/platform-browser";
 import {TeamListComponent} from "./team-list.component";
+import { TeamService } from "../../shared/services/team.service";
 let component: TeamListComponent;
 let fixture: ComponentFixture<TeamListComponent>;
-
 describe('team component', () =>
 {
-    beforeEach(async(() =>
-    {
+    beforeEach(async(() => {
+      var teamServiceStub = {
+        getTeams() {
+          
+        }
+      };
         TestBed.configureTestingModule({
             declarations: [TeamListComponent],
             imports: [ BrowserModule ],
             providers: [
-                { provide: ComponentFixtureAutoDetect, useValue: true }
+              { provide: ComponentFixtureAutoDetect, useValue: true },
+              { provide: TeamService, userValue: teamServiceStub }
             ]
         });
         fixture = TestBed.createComponent(TeamListComponent);
         component = fixture.componentInstance;
     }));
 
-    it('should do something', async(() =>
-    {
-        expect(true).toEqual(true);
-    }));
+    it('ngOnInit test', () => {
+      var teamService = TestBed.get(TeamService);
+      fixture.detectChanges();
+    });
 });

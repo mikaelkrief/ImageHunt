@@ -74,5 +74,16 @@ namespace ImageHunt.Services
         .Include(g => g.Nodes)
         .Single(g => g.Teams.Any(t => t.Players.Any(p => p.ChatLogin == playerChatUserName)));
     }
+
+    /// <summary>
+    /// Returns all the games in a specific radius (5km)
+    /// </summary>
+    /// <param name="lat">latitude of the point to check games for</param>
+    /// <param name="lng">longitude of the point to check games for</param>
+    /// <returns>List of games where the center is less than 5km from the position</returns>
+    public IEnumerable<Game> GetGamesFromPosition(double lat, double lng)
+    {
+      return Context.Games.Where(g => g.IsActive && g.MapCenterLat.HasValue && GeographyComputation.Distance(lat, lng, g.MapCenterLat.Value, g.MapCenterLng.Value) < 5000);
+    }
   }
 }

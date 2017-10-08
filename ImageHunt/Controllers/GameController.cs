@@ -121,5 +121,10 @@ namespace ImageHunt.Controllers
     {
       return Ok(_gameService.GetGameFromPlayerChatId(playerUserName));
     }
+
+    public IActionResult GetGamesFromLocation(double lat, double lng)
+    {
+      return Ok(_gameService.GetGamesFromPosition(lat, lng));
+    }
   }
 }

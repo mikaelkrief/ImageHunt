@@ -204,5 +204,17 @@ namespace ImageHuntTest.Controller
       Check.That(result.Value).Equals(game);
       A.CallTo(() => _gameService.GetGameFromPlayerChatId(A<string>._)).MustHaveHappened();
     }
+
+    [Fact]
+    public void GetGamesfromLocation()
+    {
+      // Arrange
+
+      // Act
+      var result = _target.GetGamesFromLocation(15.26, 1.26) as OkObjectResult;
+      // Assert
+      A.CallTo(() => _gameService.GetGamesFromPosition(A<double>._, A<double>._)).MustHaveHappened();
+      Check.That(result).IsNotNull();
+    }
   }
 }
