@@ -9,6 +9,7 @@
   <ItemGroup>
     <None Remove="src\app\app.ts" />
     <None Remove="src\app\top-menu.config.ts" />
+    <None Remove="src\shared\GUINode.ts" />
     <None Remove="src\shared\player.ts" />
     <None Remove="src\shared\team.ts" />
     <None Remove="src\team\team.service.ts" />
@@ -38,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="src\shared\GUINode.ts" />
     <TypeScriptCompile Include="src\shared\player.ts" />
     <TypeScriptCompile Include="src\shared\services\game.service.ts" />
     <TypeScriptCompile Include="src\shared\team.ts" />

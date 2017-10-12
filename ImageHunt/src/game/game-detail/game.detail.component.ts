@@ -11,6 +11,7 @@ import { BsModalService, BsModalRef, TabsetComponent } from "ngx-bootstrap";
 import { NodeRelation } from "../../shared/NodeRelation";
 import { NodeCreateComponent } from "../node-create/node.create.component";
 import { NodeRelationComponent } from "../node-relation/node.relation.component";
+import { NodeListComponent } from "../node-list/node.list.component";
 import { NodeRequest } from "../../shared/nodeRequest";
 import { GeoPoint } from "../../shared/GeoPoint";
 import { GeoVector } from "../../shared/GeoVector";

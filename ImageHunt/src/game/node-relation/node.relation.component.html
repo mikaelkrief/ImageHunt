@@ -5,10 +5,44 @@
       <span aria-hidden="true" class="fa fa-times"></span>
     </button>
   </div>
-    <form>
     <div class="modal-body">
-      <div *ngFor="let node of nodes">{{node.name}}</div>
+      <div class="row" style="height: 400px; width: 800px">
+        <div class="col-sm-3">
+          <span>Noeud parent</span>
+        </div>
+        <div class="col-sm-3">
+          <span>Noeuds enfants</span>
+          <div class="panel panel-primary">
+            <div class="panel-body">
+              <div class="list-group node-list">
+                <div class="list-group-item" *ngFor="let node of nodes">{{node.name}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <table>
+            <tr>
+              <td>
+                <button class="btn btn-success">Ajouter</button>
+                <button class="btn btn-danger">Enlever</button>
+              </td>
 
+            </tr>
+
+          </table>
+        </div>
+        <div class="col-sm-3">
+          <span>Noeuds possibles</span>
+          <div class="panel panel-primary">
+            <div class="panel-body">
+              <div class="list-group node-list">
+                <div class="list-group-item" *ngFor="let node of nodes">{{node.name}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-success pull-right" type="submit" aria-label="Close"
@@ -16,5 +50,4 @@
         Assigner les enfants
       </button>
     </div>
-  </form>
 </div>

@@ -10,9 +10,10 @@ import { BsDropdownModule, TabsModule, AlertModule } from "ngx-bootstrap";
 import { NodeCreateModule } from "../node-create/node.create.module";
 import {AlertService} from "../../shared/services/alert.service";
 import {NodeRelationModule} from "../node-relation/node.relation.module";
+import {NodeListModule} from "../node-list/node.list.module";
 
 @NgModule({
-  imports: [CommonModule, RouterModule, FormsModule, MapDetailModule, BsDropdownModule, TabsModule, NodeCreateModule, AlertModule, NodeRelationModule],
+  imports: [CommonModule, RouterModule, FormsModule, MapDetailModule, NodeListModule, BsDropdownModule, TabsModule, NodeCreateModule, AlertModule, NodeRelationModule],
   declarations: [GameDetailComponent],
   exports: [GameDetailComponent],
   bootstrap: [GameDetailComponent],

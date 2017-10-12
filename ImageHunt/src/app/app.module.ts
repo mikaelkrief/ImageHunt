@@ -35,7 +35,8 @@ import {MapDetailModule} from "../map/map-detail/map-detail.module";
 import {MapDetailComponent} from "../map/map-detail/map-detail.component";
 import { ContextMenuModule } from "primeng/primeng";
 import {NodeCreateModule} from "../game/node-create/node.create.module";
-import {NodeCreateComponent} from "../game/node-create/node.create.component";
+import {NodeListComponent} from "../game/node-list/node.list.component";
+import {NodeListModule} from "../game/node-list/node.list.module";
 
 export class MyAuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': 'application/json' };
@@ -80,6 +81,7 @@ export class MyAuthConfig extends CustomConfig {
     AlertModule.forRoot(),
     TabsModule.forRoot(),
     ModalModule.forRoot(),
+    NodeListModule,
     NodeCreateModule,
     //TimepickerModule.forRoot(),
     RouterModule.forRoot([
