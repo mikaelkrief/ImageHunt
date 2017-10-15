@@ -16,6 +16,7 @@ import { NodeRequest } from "../../shared/nodeRequest";
 import { GeoPoint } from "../../shared/GeoPoint";
 import { GeoVector } from "../../shared/GeoVector";
 import {AlertService} from "../../shared/services/alert.service";
+import { Observable } from "rxjs/Observable";
 
 @Component({
   selector: 'game-detail',
@@ -154,5 +155,7 @@ export class GameDetailComponent implements OnInit {
   mapZoomChange(zoom) {
     this.currentZoom = zoom;
   }
-
+  saveChanges(gameId: number) {
+    this.newRelations.forEach(r => Observable.forkJoin(this._gameService.addRelation(r.orgId, r.destId)).subscribe(() => this.getGame(gameId)));
+  }
 }
