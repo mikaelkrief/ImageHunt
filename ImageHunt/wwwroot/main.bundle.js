@@ -773,21 +773,19 @@ var _a, _b;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__map_map_module__ = __webpack_require__("../../../../../src/map/map.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__node_relation_node_relation_module__ = __webpack_require__("../../../../../src/game/node-relation/node.relation.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__game_detail_game_detail_component__ = __webpack_require__("../../../../../src/game/game-detail/game.detail.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__shared_services_team_service__ = __webpack_require__("../../../../../src/shared/services/team.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_services_alert_service__ = __webpack_require__("../../../../../src/shared/services/alert.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__game_list_game_list_component__ = __webpack_require__("../../../../../src/game/game-list/game-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__node_create_node_create_component__ = __webpack_require__("../../../../../src/game/node-create/node.create.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__node_list_node_list_component__ = __webpack_require__("../../../../../src/game/node-list/node.list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__node_relation_node_relation_component__ = __webpack_require__("../../../../../src/game/node-relation/node.relation.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__game_detail_game_detail_component__ = __webpack_require__("../../../../../src/game/game-detail/game.detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__shared_services_team_service__ = __webpack_require__("../../../../../src/shared/services/team.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__shared_services_alert_service__ = __webpack_require__("../../../../../src/shared/services/alert.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__game_list_game_list_component__ = __webpack_require__("../../../../../src/game/game-list/game-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__ = __webpack_require__("../../../../../src/game/node-create/node.create.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__node_list_node_list_component__ = __webpack_require__("../../../../../src/game/node-list/node.list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__node_relation_node_relation_component__ = __webpack_require__("../../../../../src/game/node-relation/node.relation.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-
 
 
 
@@ -812,11 +810,11 @@ var GameModule = (function () {
 GameModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_4_primeng_components_calendar_calendar__["CalendarModule"], __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
-            __WEBPACK_IMPORTED_MODULE_7__map_map_module__["a" /* MapModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["c" /* BsDropdownModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["h" /* TabsModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["a" /* AlertModule */], __WEBPACK_IMPORTED_MODULE_9__node_relation_node_relation_module__["a" /* NodeRelationModule */]],
-        declarations: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_10__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_13__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_14__node_create_node_create_component__["a" /* NodeCreateComponent */], __WEBPACK_IMPORTED_MODULE_15__node_list_node_list_component__["a" /* NodeListComponent */], __WEBPACK_IMPORTED_MODULE_16__node_relation_node_relation_component__["a" /* NodeRelationComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_10__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_13__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_14__node_create_node_create_component__["a" /* NodeCreateComponent */]],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_10__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_13__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_14__node_create_node_create_component__["a" /* NodeCreateComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_6__shared_services_game_service__["a" /* GameService */], __WEBPACK_IMPORTED_MODULE_11__shared_services_team_service__["a" /* TeamService */], __WEBPACK_IMPORTED_MODULE_12__shared_services_alert_service__["a" /* AlertService */]]
+            __WEBPACK_IMPORTED_MODULE_7__map_map_module__["a" /* MapModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["c" /* BsDropdownModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["h" /* TabsModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["a" /* AlertModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["b" /* BsDatepickerModule */]],
+        declarations: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_9__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_12__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__["a" /* NodeCreateComponent */], __WEBPACK_IMPORTED_MODULE_14__node_list_node_list_component__["a" /* NodeListComponent */], __WEBPACK_IMPORTED_MODULE_15__node_relation_node_relation_component__["a" /* NodeRelationComponent */]],
+        exports: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_9__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_12__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__["a" /* NodeCreateComponent */]],
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_9__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_12__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__["a" /* NodeCreateComponent */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_6__shared_services_game_service__["a" /* GameService */], __WEBPACK_IMPORTED_MODULE_10__shared_services_team_service__["a" /* TeamService */], __WEBPACK_IMPORTED_MODULE_11__shared_services_alert_service__["a" /* AlertService */]]
     })
 ], GameModule);
 
@@ -1089,47 +1087,6 @@ NodeRelationComponent = __decorate([
 
 var _a;
 //# sourceMappingURL=node.relation.component.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/game/node-relation/node.relation.module.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NodeRelationModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__node_relation_component__ = __webpack_require__("../../../../../src/game/node-relation/node.relation.component.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-
-var NodeRelationModule = (function () {
-    function NodeRelationModule() {
-    }
-    return NodeRelationModule;
-}());
-NodeRelationModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap__["c" /* BsDropdownModule */], __WEBPACK_IMPORTED_MODULE_4_ngx_bootstrap__["h" /* TabsModule */]],
-        declarations: [__WEBPACK_IMPORTED_MODULE_5__node_relation_component__["a" /* NodeRelationComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_5__node_relation_component__["a" /* NodeRelationComponent */]],
-        entryComponents: [__WEBPACK_IMPORTED_MODULE_5__node_relation_component__["a" /* NodeRelationComponent */]]
-    })
-], NodeRelationModule);
-
-//# sourceMappingURL=node.relation.module.js.map
 
 /***/ }),
 
