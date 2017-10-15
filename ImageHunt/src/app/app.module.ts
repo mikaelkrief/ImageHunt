@@ -13,30 +13,23 @@ import { HttpModule } from '@angular/http';
 import { Ng2UiAuthModule, CustomConfig } from 'ng2-ui-auth';
 import { HomeModule } from "../home/home.module";
 import { PageNotFoundModule } from "../page-not-found/page.not.found.module";
-import { TeamListModule } from "../team/team-list/team-list.module";
+import { TeamModule } from "../team/team.module";
 import { TeamListComponent } from "../team/team-list/team-list.component";
 import { HomeComponent } from "../home/home.component";
 import { PageNotFoundComponent } from "../page-not-found/page.not.found.component";
 import { NavmenuModule } from "../navmenu/navmenu.module";
 import {AdminListModule} from "../admin/admin-list/admin-list.module";
 import {AdminListComponent} from "../admin/admin-list/admin-list.component";
-import {GameListModule} from "../game/game-list/game-list.module";
-import {GameDetailModule} from "../game/game-detail/game.detail.module";
+import {GameModule} from "../game/game.module";
 import {GameListComponent} from "../game/game-list/game-list.component";
 import {GameDetailComponent} from "../game/game-detail/game.detail.component";
 import {GoogleButtonModule} from "../shared/google-button/google.button.module";
 import {environment} from "../environments/environment";
 import {Globals} from "../shared/globals";
-import {GameCreateModule} from "../game/game-create/game.create.module";
 import { TeamDetailComponent } from "../team/team-detail/team.detail.component";
-import {TeamDetailModule} from "../team/team-detail/team.detail.module";
-import {MapThumbnailModule} from "../map/map-thumbnail/map.thumbnail.module";
-import {MapDetailModule} from "../map/map-detail/map-detail.module";
+import {MapModule} from "../map/map.module";
 import {MapDetailComponent} from "../map/map-detail/map-detail.component";
 import { ContextMenuModule } from "primeng/primeng";
-import {NodeCreateModule} from "../game/node-create/node.create.module";
-import {NodeListComponent} from "../game/node-list/node.list.component";
-import {NodeListModule} from "../game/node-list/node.list.module";
 
 export class MyAuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': 'application/json' };
@@ -63,13 +56,9 @@ export class MyAuthConfig extends CustomConfig {
     FormsModule,
     HttpModule,
     HomeModule,
-    GameListModule,
-    GameDetailModule,
-    GameCreateModule,
-    TeamListModule,
-    TeamDetailModule,
-    MapDetailModule,
-    MapThumbnailModule,
+    GameModule,
+    TeamModule,
+    MapModule,
     AdminListModule,
     ContextMenuModule,
     NavmenuModule,
@@ -81,8 +70,6 @@ export class MyAuthConfig extends CustomConfig {
     AlertModule.forRoot(),
     TabsModule.forRoot(),
     ModalModule.forRoot(),
-    NodeListModule,
-    NodeCreateModule,
     //TimepickerModule.forRoot(),
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent },

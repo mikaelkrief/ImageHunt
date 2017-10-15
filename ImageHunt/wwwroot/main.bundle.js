@@ -228,30 +228,24 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_ng2_ui_auth__ = __webpack_require__("../../../../ng2-ui-auth/undefined/ng2-ui-auth.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__home_home_module__ = __webpack_require__("../../../../../src/home/home.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__page_not_found_page_not_found_module__ = __webpack_require__("../../../../../src/page-not-found/page.not.found.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__team_team_list_team_list_module__ = __webpack_require__("../../../../../src/team/team-list/team-list.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__team_team_module__ = __webpack_require__("../../../../../src/team/team.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__team_team_list_team_list_component__ = __webpack_require__("../../../../../src/team/team-list/team-list.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__home_home_component__ = __webpack_require__("../../../../../src/home/home.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__page_not_found_page_not_found_component__ = __webpack_require__("../../../../../src/page-not-found/page.not.found.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__navmenu_navmenu_module__ = __webpack_require__("../../../../../src/navmenu/navmenu.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__admin_admin_list_admin_list_module__ = __webpack_require__("../../../../../src/admin/admin-list/admin-list.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__admin_admin_list_admin_list_component__ = __webpack_require__("../../../../../src/admin/admin-list/admin-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__game_game_list_game_list_module__ = __webpack_require__("../../../../../src/game/game-list/game-list.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__game_game_detail_game_detail_module__ = __webpack_require__("../../../../../src/game/game-detail/game.detail.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__game_game_list_game_list_component__ = __webpack_require__("../../../../../src/game/game-list/game-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__game_game_detail_game_detail_component__ = __webpack_require__("../../../../../src/game/game-detail/game.detail.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__shared_google_button_google_button_module__ = __webpack_require__("../../../../../src/shared/google-button/google.button.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__shared_globals__ = __webpack_require__("../../../../../src/shared/globals.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__game_game_create_game_create_module__ = __webpack_require__("../../../../../src/game/game-create/game.create.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__team_team_detail_team_detail_component__ = __webpack_require__("../../../../../src/team/team-detail/team.detail.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__team_team_detail_team_detail_module__ = __webpack_require__("../../../../../src/team/team-detail/team.detail.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__map_map_thumbnail_map_thumbnail_module__ = __webpack_require__("../../../../../src/map/map-thumbnail/map.thumbnail.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__map_map_detail_map_detail_module__ = __webpack_require__("../../../../../src/map/map-detail/map-detail.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__map_map_detail_map_detail_component__ = __webpack_require__("../../../../../src/map/map-detail/map-detail.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34_primeng_primeng__ = __webpack_require__("../../../../primeng/primeng.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_34_primeng_primeng__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__game_node_create_node_create_module__ = __webpack_require__("../../../../../src/game/node-create/node.create.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__game_node_list_node_list_module__ = __webpack_require__("../../../../../src/game/node-list/node.list.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__game_game_module__ = __webpack_require__("../../../../../src/game/game.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__game_game_list_game_list_component__ = __webpack_require__("../../../../../src/game/game-list/game-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__game_game_detail_game_detail_component__ = __webpack_require__("../../../../../src/game/game-detail/game.detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__shared_google_button_google_button_module__ = __webpack_require__("../../../../../src/shared/google-button/google.button.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__shared_globals__ = __webpack_require__("../../../../../src/shared/globals.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__team_team_detail_team_detail_component__ = __webpack_require__("../../../../../src/team/team-detail/team.detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__map_map_module__ = __webpack_require__("../../../../../src/map/map.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__map_map_detail_map_detail_component__ = __webpack_require__("../../../../../src/map/map-detail/map-detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30_primeng_primeng__ = __webpack_require__("../../../../primeng/primeng.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_30_primeng_primeng__);
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -299,23 +293,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-
-
-
-
-
-
 var MyAuthConfig = (function (_super) {
     __extends(MyAuthConfig, _super);
     function MyAuthConfig() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.defaultHeaders = { 'Content-Type': 'application/json' };
         _this.providers = {
-            google: { clientId: __WEBPACK_IMPORTED_MODULE_26__environments_environment__["a" /* environment */].GOOGLE_CLIENT_ID },
+            google: { clientId: __WEBPACK_IMPORTED_MODULE_25__environments_environment__["a" /* environment */].GOOGLE_CLIENT_ID },
         };
         _this.tokenName = 'accessToken';
         _this.tokenPrefix = '';
-        _this.baseUrl = __WEBPACK_IMPORTED_MODULE_26__environments_environment__["a" /* environment */].API_ENDPOINT;
+        _this.baseUrl = __WEBPACK_IMPORTED_MODULE_25__environments_environment__["a" /* environment */].API_ENDPOINT;
         return _this;
     }
     return MyAuthConfig;
@@ -339,44 +327,38 @@ AppModule = __decorate([
                 prefix: 'Img-Hunt',
                 storageType: 'localStorage'
             }),
-            __WEBPACK_IMPORTED_MODULE_3__agm_core__["a" /* AgmCoreModule */].forRoot({ apiKey: __WEBPACK_IMPORTED_MODULE_26__environments_environment__["a" /* environment */].GOOGLE_MAP_API_KEY }),
+            __WEBPACK_IMPORTED_MODULE_3__agm_core__["a" /* AgmCoreModule */].forRoot({ apiKey: __WEBPACK_IMPORTED_MODULE_25__environments_environment__["a" /* environment */].GOOGLE_MAP_API_KEY }),
             __WEBPACK_IMPORTED_MODULE_8__angular_forms__["FormsModule"],
             __WEBPACK_IMPORTED_MODULE_10__angular_http__["c" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_12__home_home_module__["a" /* HomeModule */],
-            __WEBPACK_IMPORTED_MODULE_21__game_game_list_game_list_module__["a" /* GameListModule */],
-            __WEBPACK_IMPORTED_MODULE_22__game_game_detail_game_detail_module__["a" /* GameDetailModule */],
-            __WEBPACK_IMPORTED_MODULE_28__game_game_create_game_create_module__["a" /* GameCreateModule */],
-            __WEBPACK_IMPORTED_MODULE_14__team_team_list_team_list_module__["a" /* TeamListModule */],
-            __WEBPACK_IMPORTED_MODULE_30__team_team_detail_team_detail_module__["a" /* TeamDetailModule */],
-            __WEBPACK_IMPORTED_MODULE_32__map_map_detail_map_detail_module__["a" /* MapDetailModule */],
-            __WEBPACK_IMPORTED_MODULE_31__map_map_thumbnail_map_thumbnail_module__["a" /* MapThumbnailModule */],
+            __WEBPACK_IMPORTED_MODULE_21__game_game_module__["a" /* GameModule */],
+            __WEBPACK_IMPORTED_MODULE_14__team_team_module__["a" /* TeamModule */],
+            __WEBPACK_IMPORTED_MODULE_28__map_map_module__["a" /* MapModule */],
             __WEBPACK_IMPORTED_MODULE_19__admin_admin_list_admin_list_module__["a" /* AdminListModule */],
-            __WEBPACK_IMPORTED_MODULE_34_primeng_primeng__["ContextMenuModule"],
+            __WEBPACK_IMPORTED_MODULE_30_primeng_primeng__["ContextMenuModule"],
             __WEBPACK_IMPORTED_MODULE_18__navmenu_navmenu_module__["a" /* NavmenuModule */],
             __WEBPACK_IMPORTED_MODULE_13__page_not_found_page_not_found_module__["a" /* PageNotFoundModule */],
-            __WEBPACK_IMPORTED_MODULE_25__shared_google_button_google_button_module__["a" /* GoogleButtonModule */],
+            __WEBPACK_IMPORTED_MODULE_24__shared_google_button_google_button_module__["a" /* GoogleButtonModule */],
             __WEBPACK_IMPORTED_MODULE_11_ng2_ui_auth__["d" /* Ng2UiAuthModule */].forRoot(MyAuthConfig),
             __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["b" /* BsDatepickerModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["c" /* BsDropdownModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_7_ngx_bootstrap_alert__["a" /* AlertModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["h" /* TabsModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["g" /* ModalModule */].forRoot(),
-            __WEBPACK_IMPORTED_MODULE_36__game_node_list_node_list_module__["a" /* NodeListModule */],
-            __WEBPACK_IMPORTED_MODULE_35__game_node_create_node_create_module__["a" /* NodeCreateModule */],
             //TimepickerModule.forRoot(),
             __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"].forRoot([
                 { path: 'home', component: __WEBPACK_IMPORTED_MODULE_16__home_home_component__["a" /* HomeComponent */] },
-                { path: 'game', component: __WEBPACK_IMPORTED_MODULE_23__game_game_list_game_list_component__["a" /* GameListComponent */] },
-                { path: 'game/:gameId', component: __WEBPACK_IMPORTED_MODULE_24__game_game_detail_game_detail_component__["a" /* GameDetailComponent */] },
-                { path: 'team/:teamId', component: __WEBPACK_IMPORTED_MODULE_29__team_team_detail_team_detail_component__["a" /* TeamDetailComponent */] },
+                { path: 'game', component: __WEBPACK_IMPORTED_MODULE_22__game_game_list_game_list_component__["a" /* GameListComponent */] },
+                { path: 'game/:gameId', component: __WEBPACK_IMPORTED_MODULE_23__game_game_detail_game_detail_component__["a" /* GameDetailComponent */] },
+                { path: 'team/:teamId', component: __WEBPACK_IMPORTED_MODULE_27__team_team_detail_team_detail_component__["a" /* TeamDetailComponent */] },
                 { path: 'team', component: __WEBPACK_IMPORTED_MODULE_15__team_team_list_team_list_component__["a" /* TeamListComponent */] },
-                { path: 'map', component: __WEBPACK_IMPORTED_MODULE_33__map_map_detail_map_detail_component__["a" /* MapDetailComponent */] },
+                { path: 'map', component: __WEBPACK_IMPORTED_MODULE_29__map_map_detail_map_detail_component__["a" /* MapDetailComponent */] },
                 { path: 'admin', component: __WEBPACK_IMPORTED_MODULE_20__admin_admin_list_admin_list_component__["a" /* AdminListComponent */] },
                 { path: '', redirectTo: 'home', pathMatch: 'full' },
                 { path: '**', component: __WEBPACK_IMPORTED_MODULE_17__page_not_found_page_not_found_component__["a" /* PageNotFoundComponent */] }
             ])
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_27__shared_globals__["a" /* Globals */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_26__shared_globals__["a" /* Globals */]]
     })
 ], AppModule);
 
@@ -471,51 +453,6 @@ GameCreateComponent = __decorate([
 
 var _a;
 //# sourceMappingURL=game.create.component.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/game/game-create/game.create.module.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GameCreateModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__game_create_component__ = __webpack_require__("../../../../../src/game/game-create/game.create.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__ = __webpack_require__("../../../../primeng/primeng.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_primeng_primeng__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-
-
-var GameCreateModule = (function () {
-    function GameCreateModule() {
-    }
-    return GameCreateModule;
-}());
-GameCreateModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_6_primeng_primeng__["CalendarModule"]],
-        declarations: [__WEBPACK_IMPORTED_MODULE_4__game_create_component__["a" /* GameCreateComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_4__game_create_component__["a" /* GameCreateComponent */]],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_4__game_create_component__["a" /* GameCreateComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_5__shared_services_game_service__["a" /* GameService */]]
-    })
-], GameCreateModule);
-
-//# sourceMappingURL=game.create.module.js.map
 
 /***/ }),
 
@@ -726,62 +663,6 @@ var _a, _b, _c, _d, _e;
 
 /***/ }),
 
-/***/ "../../../../../src/game/game-detail/game.detail.module.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GameDetailModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__game_detail_component__ = __webpack_require__("../../../../../src/game/game-detail/game.detail.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_services_team_service__ = __webpack_require__("../../../../../src/shared/services/team.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__map_map_detail_map_detail_module__ = __webpack_require__("../../../../../src/map/map-detail/map-detail.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__node_create_node_create_module__ = __webpack_require__("../../../../../src/game/node-create/node.create.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__shared_services_alert_service__ = __webpack_require__("../../../../../src/shared/services/alert.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__node_relation_node_relation_module__ = __webpack_require__("../../../../../src/game/node-relation/node.relation.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__node_list_node_list_module__ = __webpack_require__("../../../../../src/game/node-list/node.list.module.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-var GameDetailModule = (function () {
-    function GameDetailModule() {
-    }
-    return GameDetailModule;
-}());
-GameDetailModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_7__map_map_detail_map_detail_module__["a" /* MapDetailModule */], __WEBPACK_IMPORTED_MODULE_12__node_list_node_list_module__["a" /* NodeListModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["c" /* BsDropdownModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["h" /* TabsModule */], __WEBPACK_IMPORTED_MODULE_9__node_create_node_create_module__["a" /* NodeCreateModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["a" /* AlertModule */], __WEBPACK_IMPORTED_MODULE_11__node_relation_node_relation_module__["a" /* NodeRelationModule */]],
-        declarations: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_3__game_detail_component__["a" /* GameDetailComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_4__shared_services_game_service__["a" /* GameService */], __WEBPACK_IMPORTED_MODULE_6__shared_services_team_service__["a" /* TeamService */], __WEBPACK_IMPORTED_MODULE_10__shared_services_alert_service__["a" /* AlertService */]]
-    })
-], GameDetailModule);
-
-//# sourceMappingURL=game.detail.module.js.map
-
-/***/ }),
-
 /***/ "../../../../../src/game/game-list/game-list.component.html":
 /***/ (function(module, exports) {
 
@@ -877,19 +758,29 @@ var _a, _b;
 
 /***/ }),
 
-/***/ "../../../../../src/game/game-list/game-list.module.ts":
+/***/ "../../../../../src/game/game.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GameListModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GameModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__game_list_component__ = __webpack_require__("../../../../../src/game/game-list/game-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__game_create_game_create_module__ = __webpack_require__("../../../../../src/game/game-create/game.create.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__map_map_thumbnail_map_thumbnail_module__ = __webpack_require__("../../../../../src/map/map-thumbnail/map.thumbnail.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_primeng_components_calendar_calendar__ = __webpack_require__("../../../../primeng/components/calendar/calendar.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_primeng_components_calendar_calendar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_primeng_components_calendar_calendar__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__ = __webpack_require__("../../../../../src/game/game-create/game.create.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__map_map_module__ = __webpack_require__("../../../../../src/map/map.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__node_relation_node_relation_module__ = __webpack_require__("../../../../../src/game/node-relation/node.relation.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__game_detail_game_detail_component__ = __webpack_require__("../../../../../src/game/game-detail/game.detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__shared_services_team_service__ = __webpack_require__("../../../../../src/shared/services/team.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_services_alert_service__ = __webpack_require__("../../../../../src/shared/services/alert.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__game_list_game_list_component__ = __webpack_require__("../../../../../src/game/game-list/game-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__node_create_node_create_component__ = __webpack_require__("../../../../../src/game/node-create/node.create.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__node_list_node_list_component__ = __webpack_require__("../../../../../src/game/node-list/node.list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__node_relation_node_relation_component__ = __webpack_require__("../../../../../src/game/node-relation/node.relation.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -904,20 +795,32 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var GameListModule = (function () {
-    function GameListModule() {
-    }
-    return GameListModule;
-}());
-GameListModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_4__game_create_game_create_module__["a" /* GameCreateModule */], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["b" /* BsDatepickerModule */], __WEBPACK_IMPORTED_MODULE_6_ngx_bootstrap__["i" /* TimepickerModule */], __WEBPACK_IMPORTED_MODULE_7__map_map_thumbnail_map_thumbnail_module__["a" /* MapThumbnailModule */]],
-        declarations: [__WEBPACK_IMPORTED_MODULE_3__game_list_component__["a" /* GameListComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_3__game_list_component__["a" /* GameListComponent */]]
-    })
-], GameListModule);
 
-//# sourceMappingURL=game-list.module.js.map
+
+
+
+
+
+
+
+
+var GameModule = (function () {
+    function GameModule() {
+    }
+    return GameModule;
+}());
+GameModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_4_primeng_components_calendar_calendar__["CalendarModule"], __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
+            __WEBPACK_IMPORTED_MODULE_7__map_map_module__["a" /* MapModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["c" /* BsDropdownModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["h" /* TabsModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["a" /* AlertModule */], __WEBPACK_IMPORTED_MODULE_9__node_relation_node_relation_module__["a" /* NodeRelationModule */]],
+        declarations: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_10__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_13__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_14__node_create_node_create_component__["a" /* NodeCreateComponent */], __WEBPACK_IMPORTED_MODULE_15__node_list_node_list_component__["a" /* NodeListComponent */], __WEBPACK_IMPORTED_MODULE_16__node_relation_node_relation_component__["a" /* NodeRelationComponent */]],
+        exports: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_10__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_13__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_14__node_create_node_create_component__["a" /* NodeCreateComponent */]],
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_10__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_13__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_14__node_create_node_create_component__["a" /* NodeCreateComponent */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_6__shared_services_game_service__["a" /* GameService */], __WEBPACK_IMPORTED_MODULE_11__shared_services_team_service__["a" /* TeamService */], __WEBPACK_IMPORTED_MODULE_12__shared_services_alert_service__["a" /* AlertService */]]
+    })
+], GameModule);
+
+//# sourceMappingURL=game.module.js.map
 
 /***/ }),
 
@@ -1020,47 +923,6 @@ var _a;
 
 /***/ }),
 
-/***/ "../../../../../src/game/node-create/node.create.module.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NodeCreateModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__node_create_component__ = __webpack_require__("../../../../../src/game/node-create/node.create.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-
-var NodeCreateModule = (function () {
-    function NodeCreateModule() {
-    }
-    return NodeCreateModule;
-}());
-NodeCreateModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap__["c" /* BsDropdownModule */], __WEBPACK_IMPORTED_MODULE_5_ngx_bootstrap__["h" /* TabsModule */]],
-        declarations: [__WEBPACK_IMPORTED_MODULE_4__node_create_component__["a" /* NodeCreateComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_4__node_create_component__["a" /* NodeCreateComponent */]],
-        entryComponents: [__WEBPACK_IMPORTED_MODULE_4__node_create_component__["a" /* NodeCreateComponent */]]
-    })
-], NodeCreateModule);
-
-//# sourceMappingURL=node.create.module.js.map
-
-/***/ }),
-
 /***/ "../../../../../src/game/node-list/node.list.component.html":
 /***/ (function(module, exports) {
 
@@ -1155,41 +1017,6 @@ NodeListComponent = __decorate([
 ], NodeListComponent);
 
 //# sourceMappingURL=node.list.component.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/game/node-list/node.list.module.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NodeListModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_list_component__ = __webpack_require__("../../../../../src/game/node-list/node.list.component.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-var NodeListModule = (function () {
-    function NodeListModule() {
-    }
-    return NodeListModule;
-}());
-NodeListModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"]],
-        declarations: [__WEBPACK_IMPORTED_MODULE_2__node_list_component__["a" /* NodeListComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_2__node_list_component__["a" /* NodeListComponent */]],
-        entryComponents: [__WEBPACK_IMPORTED_MODULE_2__node_list_component__["a" /* NodeListComponent */]]
-    })
-], NodeListModule);
-
-//# sourceMappingURL=node.list.module.js.map
 
 /***/ }),
 
@@ -1624,48 +1451,6 @@ var _a, _b;
 
 /***/ }),
 
-/***/ "../../../../../src/map/map-detail/map-detail.module.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapDetailModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__agm_core__ = __webpack_require__("../../../../@agm/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__map_detail_component__ = __webpack_require__("../../../../../src/map/map-detail/map-detail.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-
-var MapDetailModule = (function () {
-    function MapDetailModule() {
-    }
-    return MapDetailModule;
-}());
-MapDetailModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_3__angular_common__["CommonModule"],
-            __WEBPACK_IMPORTED_MODULE_1__agm_core__["a" /* AgmCoreModule */].forRoot({ apiKey: __WEBPACK_IMPORTED_MODULE_4__environments_environment__["a" /* environment */].GOOGLE_MAP_API_KEY }),
-            __WEBPACK_IMPORTED_MODULE_5__angular_forms__["FormsModule"]],
-        declarations: [__WEBPACK_IMPORTED_MODULE_2__map_detail_component__["a" /* MapDetailComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_2__map_detail_component__["a" /* MapDetailComponent */]]
-    })
-], MapDetailModule);
-
-//# sourceMappingURL=map-detail.module.js.map
-
-/***/ }),
-
 /***/ "../../../../../src/map/map-thumbnail/map.thumbnail.component.html":
 /***/ (function(module, exports) {
 
@@ -1738,16 +1523,18 @@ MapThumbnailComponent = __decorate([
 
 /***/ }),
 
-/***/ "../../../../../src/map/map-thumbnail/map.thumbnail.module.ts":
+/***/ "../../../../../src/map/map.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapThumbnailModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__map_thumbnail_component__ = __webpack_require__("../../../../../src/map/map-thumbnail/map.thumbnail.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__agm_core__ = __webpack_require__("../../../../@agm/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__agm_core__ = __webpack_require__("../../../../@agm/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__map_detail_map_detail_component__ = __webpack_require__("../../../../../src/map/map-detail/map-detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__map_thumbnail_map_thumbnail_component__ = __webpack_require__("../../../../../src/map/map-thumbnail/map.thumbnail.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1759,20 +1546,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var MapThumbnailModule = (function () {
-    function MapThumbnailModule() {
-    }
-    return MapThumbnailModule;
-}());
-MapThumbnailModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_4__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_3__agm_core__["a" /* AgmCoreModule */].forRoot({ apiKey: __WEBPACK_IMPORTED_MODULE_2__environments_environment__["a" /* environment */].GOOGLE_MAP_API_KEY })],
-        declarations: [__WEBPACK_IMPORTED_MODULE_1__map_thumbnail_component__["a" /* MapThumbnailComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__map_thumbnail_component__["a" /* MapThumbnailComponent */]]
-    })
-], MapThumbnailModule);
 
-//# sourceMappingURL=map.thumbnail.module.js.map
+
+var MapModule = (function () {
+    function MapModule() {
+    }
+    return MapModule;
+}());
+MapModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
+            __WEBPACK_IMPORTED_MODULE_2__agm_core__["a" /* AgmCoreModule */].forRoot({ apiKey: __WEBPACK_IMPORTED_MODULE_5__environments_environment__["a" /* environment */].GOOGLE_MAP_API_KEY }),
+            __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormsModule"]],
+        declarations: [__WEBPACK_IMPORTED_MODULE_4__map_detail_map_detail_component__["a" /* MapDetailComponent */], __WEBPACK_IMPORTED_MODULE_6__map_thumbnail_map_thumbnail_component__["a" /* MapThumbnailComponent */]],
+        exports: [__WEBPACK_IMPORTED_MODULE_4__map_detail_map_detail_component__["a" /* MapDetailComponent */], __WEBPACK_IMPORTED_MODULE_6__map_thumbnail_map_thumbnail_component__["a" /* MapThumbnailComponent */]]
+    })
+], MapModule);
+
+//# sourceMappingURL=map.module.js.map
 
 /***/ }),
 
@@ -2535,47 +2326,6 @@ var _a, _b;
 
 /***/ }),
 
-/***/ "../../../../../src/team/team-detail/team.detail.module.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TeamDetailModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__team_detail_component__ = __webpack_require__("../../../../../src/team/team-detail/team.detail.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_services_team_service__ = __webpack_require__("../../../../../src/shared/services/team.service.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-
-var TeamDetailModule = (function () {
-    function TeamDetailModule() {
-    }
-    return TeamDetailModule;
-}());
-TeamDetailModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormsModule"]],
-        declarations: [__WEBPACK_IMPORTED_MODULE_4__team_detail_component__["a" /* TeamDetailComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_4__team_detail_component__["a" /* TeamDetailComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_5__shared_services_team_service__["a" /* TeamService */]]
-    })
-], TeamDetailModule);
-
-//# sourceMappingURL=team.detail.module.js.map
-
-/***/ }),
-
 /***/ "../../../../../src/team/team-list/team-list.component.html":
 /***/ (function(module, exports) {
 
@@ -2649,15 +2399,18 @@ var _a;
 
 /***/ }),
 
-/***/ "../../../../../src/team/team-list/team-list.module.ts":
+/***/ "../../../../../src/team/team.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TeamListModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TeamModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__team_list_component__ = __webpack_require__("../../../../../src/team/team-list/team-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_team_service__ = __webpack_require__("../../../../../src/shared/services/team.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__team_detail_team_detail_component__ = __webpack_require__("../../../../../src/team/team-detail/team.detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_services_team_service__ = __webpack_require__("../../../../../src/shared/services/team.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__team_list_team_list_component__ = __webpack_require__("../../../../../src/team/team-list/team-list.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2668,21 +2421,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var TeamListModule = (function () {
-    function TeamListModule() {
-    }
-    return TeamListModule;
-}());
-TeamListModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"]],
-        declarations: [__WEBPACK_IMPORTED_MODULE_2__team_list_component__["a" /* TeamListComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_2__team_list_component__["a" /* TeamListComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_3__shared_services_team_service__["a" /* TeamService */]]
-    })
-], TeamListModule);
 
-//# sourceMappingURL=team-list.module.js.map
+
+
+var TeamModule = (function () {
+    function TeamModule() {
+    }
+    return TeamModule;
+}());
+TeamModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormsModule"]],
+        declarations: [__WEBPACK_IMPORTED_MODULE_4__team_detail_team_detail_component__["a" /* TeamDetailComponent */], __WEBPACK_IMPORTED_MODULE_6__team_list_team_list_component__["a" /* TeamListComponent */]],
+        exports: [__WEBPACK_IMPORTED_MODULE_4__team_detail_team_detail_component__["a" /* TeamDetailComponent */], __WEBPACK_IMPORTED_MODULE_6__team_list_team_list_component__["a" /* TeamListComponent */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_5__shared_services_team_service__["a" /* TeamService */]]
+    })
+], TeamModule);
+
+//# sourceMappingURL=team.module.js.map
 
 /***/ }),
 
