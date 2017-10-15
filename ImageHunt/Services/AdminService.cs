@@ -15,7 +15,7 @@ namespace ImageHunt.Services
 
     public IEnumerable<Admin> GetAllAdmins()
     {
-      return EntityFrameworkQueryableExtensions.Include<Admin, List<Game>>(Context.Admins, a => a.Games);
+      return Context.Admins.Include(a => a.Games);
     }
 
     public void InsertAdmin(Admin admin)

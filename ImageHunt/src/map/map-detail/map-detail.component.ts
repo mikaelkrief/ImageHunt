@@ -54,7 +54,7 @@ export class MapDetailComponent implements OnInit {
           this.CenterLat = res.mapCenterLat;
           this.CenterLng = res.mapCenterLng;
           this.nodes = res.nodes;
-          this.zoom = res.mapZoom;
+          this.zoom = res.mapZoom == null ? 5 : res.mapZoom;
         });
     }
   }

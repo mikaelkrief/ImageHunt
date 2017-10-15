@@ -9,28 +9,30 @@
               [longitude]="node.longitude"
               [title]="node.name"
               [iconUrl]="getIconForNodeType(node.nodeType)"
-              (markerClick)="markerClicked(node)"
-              
-  >
-    <agm-polyline *ngFor="let node of nodes"
-                  [editable]="false"
-                  strokeColor="Blue"
-                  strokeWeight="2"
-                  >
-      <div *ngFor="let children of node.children">
-        <agm-polyline-point [latitude]="node.latitude" [longitude]="node.longitude"></agm-polyline-point>
-        <agm-polyline-point [latitude]="children.latitude" [longitude]="children.longitude"></agm-polyline-point>
-      </div>
-
-    </agm-polyline>
-    <agm-polyline *ngFor="let vector of newNodesRelation"
-                  [editable]="false"
-                  strokeColor="Red"
-                  strokeWeight="2">
-        <agm-polyline-point [latitude]="vector.org.latitude" [longitude]="vector.org.longitude"></agm-polyline-point>
-        <agm-polyline-point [latitude]="vector.dest.latitude" [longitude]="vector.dest.longitude"></agm-polyline-point>
-
-    </agm-polyline>
+              (markerClick)="markerClicked(node)">
 
   </agm-marker>
+  <agm-polyline *ngFor="let node of nodes"
+                [editable]="false"
+                strokeColor="Blue"
+                strokeWeight="2">
+    <div *ngFor="let children of node.children">
+      <agm-polyline-point [latitude]="node.latitude" [longitude]="node.longitude"></agm-polyline-point>
+      <agm-polyline-point [latitude]="children.latitude" [longitude]="children.longitude"></agm-polyline-point>
+    </div>
+
+  </agm-polyline>
+  <agm-polyline *ngFor="let vector of newNodesRelation"
+                [editable]="false"
+                strokeColor="Red"
+                strokeWeight="2">
+    <agm-polyline-point [latitude]="vector.org.latitude" [longitude]="vector.org.longitude"></agm-polyline-point>
+    <agm-polyline-point [latitude]="vector.dest.latitude" [longitude]="vector.dest.longitude"></agm-polyline-point>
+
+  </agm-polyline>
+  <agm-circle *ngFor="let node of nodes"
+              [latitude]="node.latitude"
+              [longitude]="node.longitude"
+              [radius]="40"
+              [fillOpacity]="0.1"></agm-circle>
 </agm-map>
