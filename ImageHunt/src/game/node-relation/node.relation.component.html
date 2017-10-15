@@ -6,19 +6,13 @@
     </button>
   </div>
     <div class="modal-body">
-      <div class="row" style="height: 400px; width: 800px">
+      <div class="row">
         <div class="col-sm-3">
           <span>Noeud parent</span>
+          <node-list [nodes]="nodes"></node-list>
         </div>
         <div class="col-sm-3">
           <span>Noeuds enfants</span>
-          <div class="panel panel-primary">
-            <div class="panel-body">
-              <div class="list-group node-list">
-                <div class="list-group-item" *ngFor="let node of nodes">{{node.name}}</div>
-              </div>
-            </div>
-          </div>
         </div>
         <div class="col-sm-3">
           <table>
@@ -34,13 +28,6 @@
         </div>
         <div class="col-sm-3">
           <span>Noeuds possibles</span>
-          <div class="panel panel-primary">
-            <div class="panel-body">
-              <div class="list-group node-list">
-                <div class="list-group-item" *ngFor="let node of nodes">{{node.name}}</div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

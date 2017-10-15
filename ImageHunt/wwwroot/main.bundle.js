@@ -459,7 +459,7 @@ var _a;
 /***/ "../../../../../src/game/game-detail/game.detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-sm-10\">\r\n    <h2>Detail d'une partie</h2>\r\n    <div class=\"form-inline\">\r\n      <div class=\"form-control\">\r\n        <label>Nom de la partie :</label>\r\n        <span>{{game.name}}</span>\r\n      </div>\r\n      <div class=\"form-control\">\r\n        <label>Date de début :</label>\r\n        <span>{{game.startDate | date:medium}}</span>\r\n      </div>\r\n    </div>\r\n    <div>\r\n      <div heading=\"Equipes\">\r\n        <ul class=\"list-group\">\r\n          <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"></span> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></li>\r\n        </ul>\r\n\r\n        <h3>Création d'une équipe</h3>\r\n        <form #form=\"ngForm\" (submit)=\"createTeam(game.id, form)\">\r\n          <div class=\"form-inline\">\r\n            <label>Nom de la team</label>\r\n            <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'équipe\" type=\"text\" id=\"name\" />\r\n            <button type=\"submit\" class=\"btn btn-success\"><span class=\"fa fa-users\"></span> Créer l'équipe</button>\r\n          </div>\r\n        </form>\r\n      </div>\r\n      <br />\r\n      <div class=\"container\" heading=\"Noeuds\">\r\n        <div class=\"row\">\r\n          <div class=\"col-sm-9\" style=\"width: 850px\">\r\n            <map-detail #mapComponent\r\n                        [CenterLat]=\"game.mapCenterLat\"\r\n                        [CenterLng]=\"game.mapCenterLng\"\r\n                        [nodes]=\"game.nodes\"\r\n                        [gameId]=\"game.id\"\r\n                        [nodesRelation]=\"nodeRelations\"\r\n                        [newNodesRelation]=\"newRelations\"\r\n                        (mapClicked)=\"mapClicked($event, createNodeTemplate)\"\r\n                        (nodeClicked)=\"nodeClicked($event)\"\r\n                        (newRelation)=\"newRelation($event)\"\r\n                        [zoom]=\"game.zoom\"\r\n                        (zoomChange)=\"mapZoomChange($event)\">\r\n            </map-detail>\r\n          </div>\r\n          <div class=\"col-sm-3 ml-1\">\r\n            <h4>Actions</h4>\r\n            <div class=\"btn-group-vertical\" role=\"group\">\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-default\" (click)=\"uploadImages(uploadImagesTemplate)\">Ajouter les photos mystères</button>\r\n              </div>\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-default\" (click)=\"centerMap(game.id)\">Centrer la carte sur les noeuds</button>\r\n              </div>\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-primary\" (click)=\"editNodeRelations(game.id)\"><span class=\"fa fa-link\"> Editer les relations</span></button>\r\n              </div>\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-danger\" (click)=\"saveChanges(game.id)\"><span class=\"fa fa-floppy-o\"> Enregistrer les changements</span></button>\r\n              </div>\r\n            </div>\r\n            <h4>Filtres</h4>\r\n            <div class=\"btn-group-vertical\" role=\"group\">\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-default\" btnCheckbox>Filtrer les noeuds images</button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<node-list [nodes]=\"game.nodes\"></node-list>\r\n\r\n<ng-template #uploadImagesTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Téléchargement de noeuds images</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"uploadModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <br />\r\n    <form>\r\n      <input type=\"file\" #fileInput placeholder=\"Upload file...\" multiple (change)=\"uploadFiles(fileInput.files)\" />\r\n    </form>\r\n  </div>\r\n</ng-template>\r\n\r\n\r\n"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-sm-10\">\r\n    <h2>Detail d'une partie</h2>\r\n    <div class=\"form-inline\">\r\n      <div class=\"form-control\">\r\n        <label>Nom de la partie :</label>\r\n        <span>{{game.name}}</span>\r\n      </div>\r\n      <div class=\"form-control\">\r\n        <label>Date de début :</label>\r\n        <span>{{game.startDate | date:medium}}</span>\r\n      </div>\r\n    </div>\r\n    <div>\r\n      <div heading=\"Equipes\">\r\n        <ul class=\"list-group\">\r\n          <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"></span> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></li>\r\n        </ul>\r\n\r\n        <h3>Création d'une équipe</h3>\r\n        <form #form=\"ngForm\" (submit)=\"createTeam(game.id, form)\">\r\n          <div class=\"form-inline\">\r\n            <label>Nom de la team</label>\r\n            <input class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'équipe\" type=\"text\" id=\"name\" />\r\n            <button type=\"submit\" class=\"btn btn-success\"><span class=\"fa fa-users\"></span> Créer l'équipe</button>\r\n          </div>\r\n        </form>\r\n      </div>\r\n      <br />\r\n      <div class=\"container\" heading=\"Noeuds\">\r\n        <div class=\"row\">\r\n          <div class=\"col-sm-9\" style=\"width: 850px\">\r\n            <map-detail #mapComponent\r\n                        [CenterLat]=\"game.mapCenterLat\"\r\n                        [CenterLng]=\"game.mapCenterLng\"\r\n                        [nodes]=\"game.nodes\"\r\n                        [gameId]=\"game.id\"\r\n                        [nodesRelation]=\"nodeRelations\"\r\n                        [newNodesRelation]=\"newRelations\"\r\n                        (mapClicked)=\"mapClicked($event, createNodeTemplate)\"\r\n                        (nodeClicked)=\"nodeClicked($event)\"\r\n                        (newRelation)=\"newRelation($event)\"\r\n                        [zoom]=\"game.zoom\"\r\n                        (zoomChange)=\"mapZoomChange($event)\">\r\n            </map-detail>\r\n          </div>\r\n          <div class=\"col-sm-3 ml-1\">\r\n            <h4>Actions</h4>\r\n            <div class=\"btn-group-vertical\" role=\"group\">\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-default\" (click)=\"uploadImages(uploadImagesTemplate)\">Ajouter les photos mystères</button>\r\n              </div>\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-default\" (click)=\"centerMap(game.id)\">Centrer la carte sur les noeuds</button>\r\n              </div>\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-primary\" (click)=\"editNodeRelations(game.id)\"><span class=\"fa fa-link\"> Editer les relations</span></button>\r\n              </div>\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-danger\" (click)=\"saveChanges(game.id)\"><span class=\"fa fa-floppy-o\"> Enregistrer les changements</span></button>\r\n              </div>\r\n            </div>\r\n            <h4>Filtres</h4>\r\n            <div class=\"btn-group-vertical\" role=\"group\">\r\n              <div class=\"btn-group\">\r\n                <button class=\"btn btn-default\" btnCheckbox>Filtrer les noeuds images</button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #uploadImagesTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Téléchargement de noeuds images</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"uploadModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <br />\r\n    <form>\r\n      <input type=\"file\" #fileInput placeholder=\"Upload file...\" multiple (change)=\"uploadFiles(fileInput.files)\" />\r\n    </form>\r\n  </div>\r\n</ng-template>\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -819,8 +819,8 @@ GameModule = __decorate([
         imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_4_primeng_components_calendar_calendar__["CalendarModule"], __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
             __WEBPACK_IMPORTED_MODULE_7__map_map_module__["a" /* MapModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["c" /* BsDropdownModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["h" /* TabsModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["a" /* AlertModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["b" /* BsDatepickerModule */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_9__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_12__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__["a" /* NodeCreateComponent */], __WEBPACK_IMPORTED_MODULE_14__node_list_node_list_component__["a" /* NodeListComponent */], __WEBPACK_IMPORTED_MODULE_15__node_relation_node_relation_component__["a" /* NodeRelationComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_9__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_12__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__["a" /* NodeCreateComponent */]],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_9__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_12__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__["a" /* NodeCreateComponent */]],
+        exports: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_9__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_12__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__["a" /* NodeCreateComponent */], __WEBPACK_IMPORTED_MODULE_14__node_list_node_list_component__["a" /* NodeListComponent */], __WEBPACK_IMPORTED_MODULE_15__node_relation_node_relation_component__["a" /* NodeRelationComponent */]],
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_9__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_12__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__["a" /* NodeCreateComponent */], __WEBPACK_IMPORTED_MODULE_14__node_list_node_list_component__["a" /* NodeListComponent */], __WEBPACK_IMPORTED_MODULE_15__node_relation_node_relation_component__["a" /* NodeRelationComponent */]],
         providers: [__WEBPACK_IMPORTED_MODULE_6__shared_services_game_service__["a" /* GameService */], __WEBPACK_IMPORTED_MODULE_10__shared_services_team_service__["a" /* TeamService */], __WEBPACK_IMPORTED_MODULE_11__shared_services_alert_service__["a" /* AlertService */]]
     })
 ], GameModule);
@@ -931,7 +931,7 @@ var _a;
 /***/ "../../../../../src/game/node-list/node.list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"panel panel-primary\">\r\n  <div class=\"panel-body\">\r\n    <div class=\"list-group node-list\">\r\n      <div class=\"list-group-item \" [ngClass]=\"node.selected?active:''\" (click)=\"nodeClick(node)\" *ngFor=\"let node of nodes\"><span class=\"fa\" [ngClass]=\"nodeIcon(node)\"></span> {{node.name}}</div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"panel panel-primary\">\r\n  <div class=\"panel-body\">\r\n    <select class=\"list-group list-box\" size=\"8\">\r\n      <option *ngFor=\"let node of nodes\" value=\"node.nodeType\">{{node.name}}</option>\r\n    </select>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -983,27 +983,6 @@ var NodeListComponent = (function () {
             this.guiNodes = this.nodes.map(function (n) { return new __WEBPACK_IMPORTED_MODULE_1__shared_GUINode__["a" /* GUINode */](n); });
         }
     };
-    NodeListComponent.prototype.nodeIcon = function (node) {
-        switch (node.nodeType) {
-            case "FirstNode":
-                return "fa-flag-o";
-            case "LastNode":
-                return "fa-flag-checkered";
-            case "ObjectNode":
-                return "fa-cube";
-            case "TimerNode":
-                return "fa-clock-o";
-            case "QuestionNode":
-                return "fa-question-circle-o";
-            case "PictureNode":
-                return "fa-camera";
-            default:
-        }
-    };
-    NodeListComponent.prototype.nodeClick = function (node) {
-        this.guiNodes.forEach(function (n) { return n.selected = false; });
-        node.selected = true;
-    };
     return NodeListComponent;
 }());
 __decorate([
@@ -1028,7 +1007,7 @@ NodeListComponent = __decorate([
 /***/ "../../../../../src/game/node-relation/node.relation.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div #nodeRelationsTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Assigner les enfants du noeud</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"bsModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n    <div class=\"modal-body\">\r\n      <div class=\"row\" style=\"height: 400px; width: 800px\">\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeud parent</span>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeuds enfants</span>\r\n          <div class=\"panel panel-primary\">\r\n            <div class=\"panel-body\">\r\n              <div class=\"list-group node-list\">\r\n                <div class=\"list-group-item\" *ngFor=\"let node of nodes\">{{node.name}}</div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <table>\r\n            <tr>\r\n              <td>\r\n                <button class=\"btn btn-success\">Ajouter</button>\r\n                <button class=\"btn btn-danger\">Enlever</button>\r\n              </td>\r\n\r\n            </tr>\r\n\r\n          </table>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeuds possibles</span>\r\n          <div class=\"panel panel-primary\">\r\n            <div class=\"panel-body\">\r\n              <div class=\"list-group node-list\">\r\n                <div class=\"list-group-item\" *ngFor=\"let node of nodes\">{{node.name}}</div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <button class=\"btn btn-success pull-right\" type=\"submit\" aria-label=\"Close\"\r\n              (click)=\"bsModalRef.hide()\">\r\n        Assigner les enfants\r\n      </button>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div #nodeRelationsTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Assigner les enfants du noeud</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"bsModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n    <div class=\"modal-body\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeud parent</span>\r\n          <node-list [nodes]=\"nodes\"></node-list>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeuds enfants</span>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <table>\r\n            <tr>\r\n              <td>\r\n                <button class=\"btn btn-success\">Ajouter</button>\r\n                <button class=\"btn btn-danger\">Enlever</button>\r\n              </td>\r\n\r\n            </tr>\r\n\r\n          </table>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeuds possibles</span>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <button class=\"btn btn-success pull-right\" type=\"submit\" aria-label=\"Close\"\r\n              (click)=\"bsModalRef.hide()\">\r\n        Assigner les enfants\r\n      </button>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1763,9 +1742,33 @@ var GUINode = (function (_super) {
         var _this = _super.call(this) || this;
         _this.id = node.id;
         _this.nodeType = node.nodeType;
-        _this.name = node.name;
+        _this.name = _this.nameWithIcon(node);
         return _this;
     }
+    GUINode.prototype.nameWithIcon = function (node) {
+        var nodeIcon = "";
+        switch (node.nodeType) {
+            case "FirstNode":
+                nodeIcon = "&#xf11d;";
+                break;
+            case "TimerNode":
+                nodeIcon = "&#xf017;";
+                break;
+            case "ObjectNode":
+                nodeIcon = "&#xf1b2;";
+                break;
+            case "QuestionNode":
+                nodeIcon = "&#xf29c;";
+                break;
+            case "PictureNode":
+                nodeIcon = "&#xf030;";
+                break;
+            case "LastNode":
+                nodeIcon = "&#xf11e;";
+                break;
+        }
+        return nodeIcon + " " + node.name;
+    };
     return GUINode;
 }(__WEBPACK_IMPORTED_MODULE_0__node__["a" /* Node */]));
 

@@ -24,25 +24,21 @@ export class NodeListComponent implements OnInit
         this.guiNodes = this.nodes.map(n => new GUINode(n));
       }
     }
-  nodeIcon(node: Node) {
-    switch (node.nodeType) {
-    case "FirstNode":
-        return "fa-flag-o";
-    case "LastNode":
-      return "fa-flag-checkered";
-    case "ObjectNode":
-      return "fa-cube";
-    case "TimerNode":
-      return "fa-clock-o";
-    case "QuestionNode":
-      return "fa-question-circle-o";
-    case "PictureNode":
-      return "fa-camera";
-    default:
-    }
-  }
-  nodeClick(node: GUINode) {
-    this.guiNodes.forEach(n=>n.selected = false);
-    node.selected = true;
-  }
+  //nodeIcon(node: Node) {
+  //  switch (node.nodeType) {
+  //  case "FirstNode":
+  //      return "fa-flag-o";
+  //  case "LastNode":
+  //    return "fa-flag-checkered";
+  //  case "ObjectNode":
+  //    return "fa-cube";
+  //  case "TimerNode":
+  //    return "fa-clock-o";
+  //  case "QuestionNode":
+  //    return "fa-question-circle-o";
+  //  case "PictureNode":
+  //    return "fa-camera";
+  //  default:
+  //  }
+  //}
 }

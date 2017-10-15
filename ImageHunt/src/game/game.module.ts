@@ -6,7 +6,7 @@ import {CalendarModule} from "primeng/components/calendar/calendar";
 import {GameCreateComponent} from "./game-create/game.create.component";
 import {GameService} from "../shared/services/game.service";
 import {MapModule} from "../map/map.module";
-import { BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule } from "ngx-bootstrap";
+import {BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule } from "ngx-bootstrap";
 import {GameDetailComponent} from "./game-detail/game.detail.component";
 import {TeamService} from "../shared/services/team.service";
 import {AlertService} from "../shared/services/alert.service";
@@ -19,8 +19,8 @@ import {NodeRelationComponent} from "./node-relation/node.relation.component";
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
     MapModule, BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent],
-  exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent],
-  bootstrap: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent],
+  exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent],
+  bootstrap: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent],
   providers: [GameService, TeamService, AlertService]
 })
 export class GameModule

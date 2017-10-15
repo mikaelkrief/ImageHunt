@@ -1,7 +1,7 @@
 <div class="panel panel-primary">
   <div class="panel-body">
-    <div class="list-group node-list">
-      <div class="list-group-item " [ngClass]="node.selected?active:''" (click)="nodeClick(node)" *ngFor="let node of nodes"><span class="fa" [ngClass]="nodeIcon(node)"></span> {{node.name}}</div>
-    </div>
+    <select class="list-group list-box" size="8">
+      <option *ngFor="let node of nodes" value="node.nodeType">{{node.name}}</option>
+    </select>
   </div>
 </div>
