@@ -1,7 +1,3 @@
-<div class="panel panel-primary">
-  <div class="panel-body">
-    <select class="list-group list-box" size="8">
-      <option *ngFor="let node of nodes" value="node.nodeType">{{node.name}}</option>
-    </select>
-  </div>
-</div>
+<select size="8">
+  <option *ngFor="let node of nodes" value="node.nodeType">{{node.name}}</option>
+</select>

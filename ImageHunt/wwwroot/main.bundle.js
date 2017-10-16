@@ -931,7 +931,7 @@ var _a;
 /***/ "../../../../../src/game/node-list/node.list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"panel panel-primary\">\r\n  <div class=\"panel-body\">\r\n    <select class=\"list-group list-box\" size=\"8\">\r\n      <option *ngFor=\"let node of nodes\" value=\"node.nodeType\">{{node.name}}</option>\r\n    </select>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<select size=\"8\">\r\n  <option *ngFor=\"let node of nodes\" value=\"node.nodeType\">{{node.name}}</option>\r\n</select>\r\n"
 
 /***/ }),
 
@@ -1007,7 +1007,7 @@ NodeListComponent = __decorate([
 /***/ "../../../../../src/game/node-relation/node.relation.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div #nodeRelationsTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Assigner les enfants du noeud</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"bsModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n    <div class=\"modal-body\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeud parent</span>\r\n          <node-list [nodes]=\"nodes\"></node-list>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeuds enfants</span>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <table>\r\n            <tr>\r\n              <td>\r\n                <button class=\"btn btn-success\">Ajouter</button>\r\n                <button class=\"btn btn-danger\">Enlever</button>\r\n              </td>\r\n\r\n            </tr>\r\n\r\n          </table>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeuds possibles</span>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <button class=\"btn btn-success pull-right\" type=\"submit\" aria-label=\"Close\"\r\n              (click)=\"bsModalRef.hide()\">\r\n        Assigner les enfants\r\n      </button>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div #nodeRelationsTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Assigner les enfants du noeud</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"bsModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div class=\"container-fluid\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeud parent</span>\r\n          <select size=\"8\">\r\n            <option *ngFor=\"let node of parentNodes\" value=\"node.nodeType\" (click)=\"parentSelected(node)\">{{node.name}}</option>\r\n          </select>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeuds enfants</span>\r\n          <select size=\"8\">\r\n            <option *ngFor=\"let node of childrenNodes\" value=\"node.nodeType\" >{{node.name}}</option>\r\n          </select>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <table>\r\n            <tr>\r\n              <td>\r\n                <button class=\"btn btn-success\" [disabled]=\"addNodeDisabled\">Ajouter</button>\r\n                <button class=\"btn btn-danger\">Enlever</button>\r\n              </td>\r\n\r\n            </tr>\r\n\r\n          </table>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeuds possibles</span>\r\n          <select size=\"8\">\r\n            <option *ngFor=\"let node of availableNodes\" value=\"node.nodeType\" >{{node.name}}</option>\r\n          </select>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n    <div class=\"modal-footer\">\r\n      <button class=\"btn btn-success pull-right\" type=\"submit\" aria-label=\"Close\"\r\n              (click)=\"bsModalRef.hide()\">\r\n        Assigner les enfants\r\n      </button>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1052,14 +1052,37 @@ var NodeRelationComponent = (function () {
     function NodeRelationComponent(bsModalRef) {
         this.bsModalRef = bsModalRef;
     }
+    Object.defineProperty(NodeRelationComponent.prototype, "nodes", {
+        get: function () {
+            return this._nodes;
+        },
+        set: function (value) {
+            this._nodes = value;
+            this.updateNodes();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    NodeRelationComponent.prototype.updateNodes = function () {
+        this.parentNodes = this.nodes.filter(function (n) { return n.nodeType !== "LastNode"; });
+    };
     /** Called by Angular after node.relation component initialized */
-    NodeRelationComponent.prototype.ngOnInit = function () { };
+    NodeRelationComponent.prototype.ngOnInit = function () {
+    };
+    NodeRelationComponent.prototype.parentSelected = function (node) {
+        var _this = this;
+        this.childrenNodes = node.children;
+        this.availableNodes = this.nodes.filter(function (n) { return n.nodeType !== "FirstNode"; })
+            .filter(function (n) { return !_this.childrenNodes.find(function (n2) { return n2 === n; }); });
+        this.addNodeDisabled = (node.nodeType !== "QuestionNode" && node.children.length > 0);
+    };
     return NodeRelationComponent;
 }());
 __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
-    __metadata("design:type", Array)
-], NodeRelationComponent.prototype, "nodes", void 0);
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])('nodes'),
+    __metadata("design:type", Array),
+    __metadata("design:paramtypes", [Array])
+], NodeRelationComponent.prototype, "nodes", null);
 NodeRelationComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'node-relation',

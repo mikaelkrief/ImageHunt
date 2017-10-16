@@ -5,20 +5,26 @@
       <span aria-hidden="true" class="fa fa-times"></span>
     </button>
   </div>
-    <div class="modal-body">
+  <div class="modal-body">
+    <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3">
           <span>Noeud parent</span>
-          <node-list [nodes]="nodes"></node-list>
+          <select size="8">
+            <option *ngFor="let node of parentNodes" value="node.nodeType" (click)="parentSelected(node)">{{node.name}}</option>
+          </select>
         </div>
         <div class="col-sm-3">
           <span>Noeuds enfants</span>
+          <select size="8">
+            <option *ngFor="let node of childrenNodes" value="node.nodeType" >{{node.name}}</option>
+          </select>
         </div>
         <div class="col-sm-3">
           <table>
             <tr>
               <td>
-                <button class="btn btn-success">Ajouter</button>
+                <button class="btn btn-success" [disabled]="addNodeDisabled">Ajouter</button>
                 <button class="btn btn-danger">Enlever</button>
               </td>
 
@@ -28,9 +34,13 @@
         </div>
         <div class="col-sm-3">
           <span>Noeuds possibles</span>
+          <select size="8">
+            <option *ngFor="let node of availableNodes" value="node.nodeType" >{{node.name}}</option>
+          </select>
         </div>
       </div>
     </div>
+  </div>
     <div class="modal-footer">
       <button class="btn btn-success pull-right" type="submit" aria-label="Close"
               (click)="bsModalRef.hide()">

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Node } from "../../shared/node";
 import {GUINode} from "../../shared/GUINode";
 
@@ -8,7 +8,7 @@ import {GUINode} from "../../shared/GUINode";
     styleUrls: ['./node.list.component.scss']
 })
 /** node-list component*/
-export class NodeListComponent implements OnInit
+export class NodeListComponent implements OnInit, OnChanges
 {
   @Input() nodes: Node[];
   guiNodes: GUINode[];
@@ -19,26 +19,9 @@ export class NodeListComponent implements OnInit
     ngOnInit(): void {
       
     }
-    ngOnChanges(changes) {
+    ngOnChanges(changes: SimpleChanges) {
       if (this.nodes != null) {
         this.guiNodes = this.nodes.map(n => new GUINode(n));
       }
     }
-  //nodeIcon(node: Node) {
-  //  switch (node.nodeType) {
-  //  case "FirstNode":
-  //      return "fa-flag-o";
-  //  case "LastNode":
-  //    return "fa-flag-checkered";
-  //  case "ObjectNode":
-  //    return "fa-cube";
-  //  case "TimerNode":
-  //    return "fa-clock-o";
-  //  case "QuestionNode":
-  //    return "fa-question-circle-o";
-  //  case "PictureNode":
-  //    return "fa-camera";
-  //  default:
-  //  }
-  //}
 }
