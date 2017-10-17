@@ -10,22 +10,22 @@
       <div class="row">
         <div class="col-sm-3">
           <span>Noeud parent</span>
-          <select size="8">
-            <option *ngFor="let node of parentNodes" value="node.nodeType" (click)="parentSelected(node)">{{node.name}}</option>
+          <select size="8" [(ngModel)]="selectedParent">
+            <option *ngFor="let node of parentNodes" [ngValue]="node" (click)="parentSelected(node)">{{node.name}}</option>
           </select>
         </div>
         <div class="col-sm-3">
           <span>Noeuds enfants</span>
-          <select size="8">
-            <option *ngFor="let node of childrenNodes" value="node.nodeType" >{{node.name}}</option>
+          <select size="8" [(ngModel)]="selectedChildren">
+            <option *ngFor="let node of childrenNodes" [ngValue]="node" >{{node.name}}</option>
           </select>
         </div>
         <div class="col-sm-3">
           <table>
             <tr>
               <td>
-                <button class="btn btn-success" [disabled]="addNodeDisabled">Ajouter</button>
-                <button class="btn btn-danger">Enlever</button>
+                <button class="btn btn-success" [disabled]="addNodeDisabled" (click)="addChildren()">Ajouter</button>
+                <button class="btn btn-danger" [disabled]="removeNodeDisabled" (click)="removeChildren()">Enlever</button>
               </td>
 
             </tr>
@@ -34,8 +34,8 @@
         </div>
         <div class="col-sm-3">
           <span>Noeuds possibles</span>
-          <select size="8">
-            <option *ngFor="let node of availableNodes" value="node.nodeType" >{{node.name}}</option>
+          <select size="8" [(ngModel)]="selectedAvailable">
+            <option *ngFor="let node of availableNodes"  [ngValue]="node" >{{node.name}}</option>
           </select>
         </div>
       </div>

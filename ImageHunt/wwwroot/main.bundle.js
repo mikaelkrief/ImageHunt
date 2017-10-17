@@ -787,12 +787,14 @@ var _a, _b;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__ = __webpack_require__("../../../../../src/game/node-create/node.create.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__node_list_node_list_component__ = __webpack_require__("../../../../../src/game/node-list/node.list.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__node_relation_node_relation_component__ = __webpack_require__("../../../../../src/game/node-relation/node.relation.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -817,7 +819,7 @@ var GameModule = (function () {
 GameModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_4_primeng_components_calendar_calendar__["CalendarModule"], __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_3__angular_router__["RouterModule"], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
-            __WEBPACK_IMPORTED_MODULE_7__map_map_module__["a" /* MapModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["c" /* BsDropdownModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["h" /* TabsModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["a" /* AlertModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["b" /* BsDatepickerModule */]],
+            __WEBPACK_IMPORTED_MODULE_7__map_map_module__["a" /* MapModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["c" /* BsDropdownModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["h" /* TabsModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["a" /* AlertModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["b" /* BsDatepickerModule */], __WEBPACK_IMPORTED_MODULE_16__angular_platform_browser__["BrowserModule"]],
         declarations: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_9__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_12__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__["a" /* NodeCreateComponent */], __WEBPACK_IMPORTED_MODULE_14__node_list_node_list_component__["a" /* NodeListComponent */], __WEBPACK_IMPORTED_MODULE_15__node_relation_node_relation_component__["a" /* NodeRelationComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_9__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_12__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__["a" /* NodeCreateComponent */], __WEBPACK_IMPORTED_MODULE_14__node_list_node_list_component__["a" /* NodeListComponent */], __WEBPACK_IMPORTED_MODULE_15__node_relation_node_relation_component__["a" /* NodeRelationComponent */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_9__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_12__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__["a" /* NodeCreateComponent */], __WEBPACK_IMPORTED_MODULE_14__node_list_node_list_component__["a" /* NodeListComponent */], __WEBPACK_IMPORTED_MODULE_15__node_relation_node_relation_component__["a" /* NodeRelationComponent */]],
@@ -1007,7 +1009,7 @@ NodeListComponent = __decorate([
 /***/ "../../../../../src/game/node-relation/node.relation.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div #nodeRelationsTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Assigner les enfants du noeud</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"bsModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div class=\"container-fluid\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeud parent</span>\r\n          <select size=\"8\">\r\n            <option *ngFor=\"let node of parentNodes\" value=\"node.nodeType\" (click)=\"parentSelected(node)\">{{node.name}}</option>\r\n          </select>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeuds enfants</span>\r\n          <select size=\"8\">\r\n            <option *ngFor=\"let node of childrenNodes\" value=\"node.nodeType\" >{{node.name}}</option>\r\n          </select>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <table>\r\n            <tr>\r\n              <td>\r\n                <button class=\"btn btn-success\" [disabled]=\"addNodeDisabled\">Ajouter</button>\r\n                <button class=\"btn btn-danger\">Enlever</button>\r\n              </td>\r\n\r\n            </tr>\r\n\r\n          </table>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeuds possibles</span>\r\n          <select size=\"8\">\r\n            <option *ngFor=\"let node of availableNodes\" value=\"node.nodeType\" >{{node.name}}</option>\r\n          </select>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n    <div class=\"modal-footer\">\r\n      <button class=\"btn btn-success pull-right\" type=\"submit\" aria-label=\"Close\"\r\n              (click)=\"bsModalRef.hide()\">\r\n        Assigner les enfants\r\n      </button>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div #nodeRelationsTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Assigner les enfants du noeud</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"bsModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div class=\"container-fluid\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeud parent</span>\r\n          <select size=\"8\" [(ngModel)]=\"selectedParent\">\r\n            <option *ngFor=\"let node of parentNodes\" [ngValue]=\"node\" (click)=\"parentSelected(node)\">{{node.name}}</option>\r\n          </select>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeuds enfants</span>\r\n          <select size=\"8\" [(ngModel)]=\"selectedChildren\">\r\n            <option *ngFor=\"let node of childrenNodes\" [ngValue]=\"node\" >{{node.name}}</option>\r\n          </select>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <table>\r\n            <tr>\r\n              <td>\r\n                <button class=\"btn btn-success\" [disabled]=\"addNodeDisabled\" (click)=\"addChildren()\">Ajouter</button>\r\n                <button class=\"btn btn-danger\" [disabled]=\"removeNodeDisabled\" (click)=\"removeChildren()\">Enlever</button>\r\n              </td>\r\n\r\n            </tr>\r\n\r\n          </table>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeuds possibles</span>\r\n          <select size=\"8\" [(ngModel)]=\"selectedAvailable\">\r\n            <option *ngFor=\"let node of availableNodes\"  [ngValue]=\"node\" >{{node.name}}</option>\r\n          </select>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n    <div class=\"modal-footer\">\r\n      <button class=\"btn btn-success pull-right\" type=\"submit\" aria-label=\"Close\"\r\n              (click)=\"bsModalRef.hide()\">\r\n        Assigner les enfants\r\n      </button>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1036,6 +1038,7 @@ module.exports = module.exports.toString();
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NodeRelationComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1047,10 +1050,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var NodeRelationComponent = (function () {
     /** node.relation ctor */
-    function NodeRelationComponent(bsModalRef) {
+    function NodeRelationComponent(bsModalRef, _gameService) {
         this.bsModalRef = bsModalRef;
+        this._gameService = _gameService;
     }
     Object.defineProperty(NodeRelationComponent.prototype, "nodes", {
         get: function () {
@@ -1075,6 +1080,21 @@ var NodeRelationComponent = (function () {
         this.availableNodes = this.nodes.filter(function (n) { return n.nodeType !== "FirstNode"; })
             .filter(function (n) { return !_this.childrenNodes.find(function (n2) { return n2 === n; }); });
         this.addNodeDisabled = (node.nodeType !== "QuestionNode" && node.children.length > 0);
+        this.removeNodeDisabled = node.children.length === 0;
+    };
+    NodeRelationComponent.prototype.addChildren = function () {
+        if (this.selectedParent && this.selectedAvailable) {
+            this.selectedParent.children.push(this.selectedAvailable);
+            this.availableNodes.splice(this.availableNodes.indexOf(this.selectedAvailable), 1);
+            this.addNodeDisabled = this.removeNodeDisabled = true;
+        }
+    };
+    NodeRelationComponent.prototype.removeChildren = function () {
+        if (this.selectedParent && this.selectedChildren) {
+            this.selectedParent.children.splice(this.selectedParent.children.indexOf(this.selectedChildren), 1);
+            this.availableNodes.push(this.selectedChildren);
+            this.addNodeDisabled = this.removeNodeDisabled = true;
+        }
     };
     return NodeRelationComponent;
 }());
@@ -1091,10 +1111,10 @@ NodeRelationComponent = __decorate([
     })
     /** node.relation component*/
     ,
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__["d" /* BsModalRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__["d" /* BsModalRef */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__["d" /* BsModalRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__["d" /* BsModalRef */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */]) === "function" && _b || Object])
 ], NodeRelationComponent);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=node.relation.component.js.map
 
 /***/ }),

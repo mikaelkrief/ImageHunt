@@ -14,10 +14,11 @@ import {GameListComponent} from "./game-list/game-list.component";
 import {NodeCreateComponent} from "./node-create/node.create.component";
 import {NodeListComponent} from "./node-list/node.list.component";
 import {NodeRelationComponent} from "./node-relation/node.relation.component";
+import { BrowserModule } from "@angular/platform-browser";
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
-    MapModule, BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule],
+    MapModule, BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule, BrowserModule],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent],
   exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent],
   bootstrap: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent],
