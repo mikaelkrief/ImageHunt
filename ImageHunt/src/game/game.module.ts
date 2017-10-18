@@ -21,7 +21,6 @@ import { BrowserModule } from "@angular/platform-browser";
     MapModule, BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule, BrowserModule],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent],
   exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent],
-  bootstrap: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent],
   providers: [GameService, TeamService, AlertService]
 })
 export class GameModule
