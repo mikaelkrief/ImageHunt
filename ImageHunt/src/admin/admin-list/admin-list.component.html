@@ -16,7 +16,7 @@
     <td><button class="btn btn-danger" (click)="deleteAdmin(admin.id)"><span class="fa fa-minus-square"></span> Effacer</button></td>
     <td>
       <ul class="list-group">
-        <li class="list-group-item" *ngFor="let game of admin.games"><span class=" fa fa-gamepad"></span> <a routerLink="/game/{{game.id}}">{{game.name}}</a></li>
+        <li class="list-group-item" *ngFor="let game of admin.games"><span class=" fa fa-gamepad"></span> <a [routerLink]="['/game', game.id]">{{game.name}}</a></li>
       </ul>
     </td>
   </tr>
