@@ -12,7 +12,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let game of games">
-        <td><span class="fa fa-gamepad"></span> <a routerLink="/game/{{game.id}}">{{game.name}}</a></td>
+        <td><span class="fa fa-gamepad"></span> <a [routerLink]="['/game', game.id]">{{game.name}}</a></td>
         <td>{{game.startDate | date:'medium'}}</td>
         <td>
           <!--<span *ngClass="{'fa fa-eye':true, 'fa fa-eye-slash':false}"></span>-->
@@ -20,7 +20,7 @@
         </td>
         <td>
           <ul class="list-group">
-            <li class="list-group-item" *ngFor="let team of game.teams"><span class="fa fa-users"> <a routerLink="/team/{{team.id}}">{{team.name}}</a></span></li>
+            <li class="list-group-item" *ngFor="let team of game.teams"><span class="fa fa-users"> <a [routerLink]="['/team', team.id]">{{team.name}}</a></span></li>
           </ul>
         </td>
         <td><map-thumbnail [CenterLat]="game.mapCenterLat" [CenterLng]="game.mapCenterLng"></map-thumbnail></td>
