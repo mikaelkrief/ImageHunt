@@ -30,6 +30,8 @@ import { TeamDetailComponent } from "../team/team-detail/team.detail.component";
 import {MapModule} from "../map/map.module";
 import {MapDetailComponent} from "../map/map-detail/map-detail.component";
 import { ContextMenuModule } from "primeng/primeng";
+import {NodeRelationComponent} from "../game/node-relation/node.relation.component";
+import {NodeCreateComponent} from "../game/node-create/node.create.component";
 
 export class MyAuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': 'application/json' };
@@ -82,7 +84,9 @@ export class MyAuthConfig extends CustomConfig {
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', component: PageNotFoundComponent }])
   ],
-  providers: [Globals]
+  providers: [Globals],
+  entryComponents: [NodeCreateComponent, NodeRelationComponent]
+
 })
 export class AppModule {
 } 

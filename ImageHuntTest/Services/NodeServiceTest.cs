@@ -47,6 +47,22 @@ namespace ImageHuntTest.Services
             Check.That(nodes[1].Children).ContainsExactly(nodes[2]);
             //Check.That(nodes[1].ChildrenRelation.First().Id).Not.IsEqualTo(0);
         }
+        [Fact]
+        public void RemoveChildrenToNode()
+        {
+            // Arrange
+            var nodes = new List<Node>() { new TimerNode(), new TimerNode(), new TimerNode(), new ObjectNode(), new PictureNode()};
+            nodes[1].ChildrenRelation.Add(new ParentChildren(){Parent = nodes[1], Children = nodes[3] }); 
+            nodes[1].ChildrenRelation.Add(new ParentChildren(){Parent = nodes[1], Children = nodes[4] }); 
+            _context.Nodes.AddRange(nodes);
+            _context.SaveChanges();
+            
+            // Act
+            _target.RemoveChildren(nodes[1].Id, nodes[1].Children[0].Id);
+            // Assert
+            Check.That(nodes[1].Children).ContainsExactly(nodes[4]);
+            //Check.That(nodes[1].ChildrenRelation.First().Id).Not.IsEqualTo(0);
+        }
 
         [Fact]
         public void AddChildrenToNodeUsingNode()

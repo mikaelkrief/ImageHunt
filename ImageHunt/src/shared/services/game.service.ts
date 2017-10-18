@@ -8,7 +8,7 @@ import {NodeRequest} from "../nodeRequest";
 @Injectable()
 export class GameService {
   constructor(private http: Http,
-              private jwtHttp: JwtHttp) { }
+    private jwtHttp: JwtHttp) { }
   getGameForAdmin(adminId: number) {
     return this.jwtHttp.get('api/game/ByAdminId/' + adminId);
   }
@@ -46,6 +46,9 @@ export class GameService {
 
     return this.jwtHttp.post("api/node/AddRelationToNode", { nodeId: orgNodeId, childrenId: destNodeId });
 
+  }
+  removeRelation(orgNodeId: number, destNodeId: number) {
+    return this.jwtHttp.post("api/node/RemoveRelationToNode", { nodeId: orgNodeId, childrenId: destNodeId });
   }
 
   setZoom(gameId: number, zoom: number) { return this.jwtHttp.patch(`api/game/UpdateZoom/${gameId}/${zoom}`, null); }

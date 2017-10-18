@@ -5,6 +5,7 @@ import { LocalStorageService } from "angular-2-local-storage";
 import { Admin } from "../../shared/admin";
 import { DatePipe } from '@angular/common';
 import { NgForm } from "@angular/forms";
+import {AlertService} from "../../shared/services/alert.service";
 
 @Component({
   selector: 'game-list',
@@ -17,7 +18,7 @@ export class GameListComponent implements OnInit {
   minDate: Date;
   admin: Admin;
   /** game ctor */
-  constructor(private gameService: GameService, private localStorageService: LocalStorageService) { }
+  constructor(private gameService: GameService, private localStorageService: LocalStorageService, private _alertService: AlertService) { }
 
   /** Called by Angular after game component initialized */
   ngOnInit(): void {
@@ -28,7 +29,8 @@ export class GameListComponent implements OnInit {
 
   getGames() {
     if (this.admin != null)
-      this.gameService.getGameForAdmin(this.admin.id).subscribe(next => this.games = next.json());
+      this.gameService.getGameForAdmin(this.admin.id)
+        .subscribe(next => this.games = next.json(), err=> this._alertService.sendAlert("Erreur lors de la mise à jour de la liste des jeux", "danger", 10000));
   }
 
   createGame(form: NgForm) {

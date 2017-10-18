@@ -1,7 +1,10 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { BsModalRef } from "ngx-bootstrap";
 import { Node } from "../../shared/Node"
-import { GameService } from "../../shared/services/game.service";
+import { NgForm } from "@angular/forms";
+import { EditedRelation } from "../../shared/EditedRelation";
+import {GameService} from "../../shared/services/game.service";
+import {AlertService} from "../../shared/services/alert.service";
 
 @Component({
   selector: 'node-relation',
@@ -26,13 +29,12 @@ export class NodeRelationComponent implements OnInit {
   childrenNodes: Node[];
   availableNodes: Node[];
   /** node.relation ctor */
-  constructor(public bsModalRef: BsModalRef, private _gameService: GameService) { }
+  constructor(public bsModalRef: BsModalRef, private _gameService: GameService, private _alertService: AlertService) { }
 
   /** Called by Angular after node.relation component initialized */
   ngOnInit(): void {
 
   }
-
   parentSelected(node: Node): void {
     this.childrenNodes = node.children;
     this.availableNodes = this.nodes.filter(n => n.nodeType !== "FirstNode")
@@ -47,6 +49,9 @@ export class NodeRelationComponent implements OnInit {
       this.selectedParent.children.push(this.selectedAvailable);
       this.availableNodes.splice(this.availableNodes.indexOf(this.selectedAvailable), 1);
       this.addNodeDisabled = this.removeNodeDisabled = true;
+      this._gameService.addRelation(this.selectedParent.id, this.selectedAvailable.id)
+        .subscribe(res => this._alertService.sendAlert(`Le noeud ${this.selectedAvailable.name} a été ajouté aux enfants de ${this.selectedParent.name}`, "success", 5000))
+        ;
     }
   }
   removeChildren() {
@@ -54,6 +59,9 @@ export class NodeRelationComponent implements OnInit {
       this.selectedParent.children.splice(this.selectedParent.children.indexOf(this.selectedChildren), 1);
       this.availableNodes.push(this.selectedChildren);
       this.addNodeDisabled = this.removeNodeDisabled = true;
+      this._gameService.removeRelation(this.selectedParent.id, this.selectedChildren.id)
+        .subscribe(res => this._alertService.sendAlert(`Le noeud ${this.selectedChildren.name} a été ôté aux enfants de ${this.selectedParent.name}`, "warning", 5000))
+        ;
     }
   }
   selectedParent: Node;

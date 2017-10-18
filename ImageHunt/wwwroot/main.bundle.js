@@ -16,7 +16,7 @@ webpackEmptyAsyncContext.id = "../../../../../src/$$_gendir lazy recursive";
 /***/ "../../../../../src/admin/admin-list/admin-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Administrateurs actuels</h2>\r\n\r\n<table class=\"table\">\r\n  <thead>\r\n  <tr>\r\n    <th>Nom</th>\r\n    <th>Email</th>\r\n    <th></th>\r\n    <th>Jeux associés</th>\r\n  </tr>\r\n  </thead>\r\n  <tbody>\r\n  <tr *ngFor=\"let admin of admins\">\r\n    <td>{{admin.name}}</td>\r\n    <td class=\"email\">{{admin.email}}</td>\r\n    <td><button class=\"btn btn-danger\" (click)=\"deleteAdmin(admin.id)\"><span class=\"fa fa-minus-square\"></span> Effacer</button></td>\r\n    <td>\r\n      <ul class=\"list-group\">\r\n        <li class=\"list-group-item\" *ngFor=\"let game of admin.games\"><span class=\" fa fa-gamepad\"></span> <a routerLink=\"/game/{{game.id}}\">{{game.name}}</a></li>\r\n      </ul>\r\n    </td>\r\n  </tr>\r\n  </tbody>\r\n</table>\r\n<h2>Créer un administrateur</h2>\r\n\r\n<form #form=\"ngForm\" (submit)=\"createAdmin(form)\">\r\n  <div class=\"form-inline\">\r\n    <div class=\"input-group\">\r\n      <label for=\"name\">Nom</label>\r\n      <input type=\"text\" class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'admin\" id=\"name\"/>\r\n    </div>\r\n    <div class=\"input-group\">\r\n      <label for=\"email\">Email</label>\r\n      <input type=\"email\" class=\"form-control\" ngModel name=\"email\" required placeholder=\"Email de l'admin\" id=\"email\"/>\r\n    </div>\r\n  </div>\r\n  <button type=\"submit\" class=\"btn btn-default\"><span class=\"fa fa-plus-square\"></span> Créer</button>\r\n</form>\r\n\r\n"
+module.exports = "<h2>Administrateurs actuels</h2>\r\n\r\n<table class=\"table\">\r\n  <thead>\r\n  <tr>\r\n    <th>Nom</th>\r\n    <th>Email</th>\r\n    <th></th>\r\n    <th>Jeux associés</th>\r\n  </tr>\r\n  </thead>\r\n  <tbody>\r\n  <tr *ngFor=\"let admin of admins\">\r\n    <td>{{admin.name}}</td>\r\n    <td class=\"email\">{{admin.email}}</td>\r\n    <td><button class=\"btn btn-danger\" (click)=\"deleteAdmin(admin.id)\"><span class=\"fa fa-minus-square\"></span> Effacer</button></td>\r\n    <td>\r\n      <ul class=\"list-group\">\r\n        <li class=\"list-group-item\" *ngFor=\"let game of admin.games\"><span class=\" fa fa-gamepad\"></span> <a [routerLink]=\"['/game', game.id]\">{{game.name}}</a></li>\r\n      </ul>\r\n    </td>\r\n  </tr>\r\n  </tbody>\r\n</table>\r\n<h2>Créer un administrateur</h2>\r\n\r\n<form #form=\"ngForm\" (submit)=\"createAdmin(form)\">\r\n  <div class=\"form-inline\">\r\n    <div class=\"input-group\">\r\n      <label for=\"name\">Nom</label>\r\n      <input type=\"text\" class=\"form-control\" ngModel name=\"name\" required placeholder=\"Nom de l'admin\" id=\"name\"/>\r\n    </div>\r\n    <div class=\"input-group\">\r\n      <label for=\"email\">Email</label>\r\n      <input type=\"email\" class=\"form-control\" ngModel name=\"email\" required placeholder=\"Email de l'admin\" id=\"email\"/>\r\n    </div>\r\n  </div>\r\n  <button type=\"submit\" class=\"btn btn-default\"><span class=\"fa fa-plus-square\"></span> Créer</button>\r\n</form>\r\n\r\n"
 
 /***/ }),
 
@@ -246,6 +246,8 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__map_map_detail_map_detail_component__ = __webpack_require__("../../../../../src/map/map-detail/map-detail.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30_primeng_primeng__ = __webpack_require__("../../../../primeng/primeng.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30_primeng_primeng___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_30_primeng_primeng__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__game_node_relation_node_relation_component__ = __webpack_require__("../../../../../src/game/node-relation/node.relation.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__game_node_create_node_create_component__ = __webpack_require__("../../../../../src/game/node-create/node.create.component.ts");
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -262,6 +264,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -358,7 +362,8 @@ AppModule = __decorate([
                 { path: '**', component: __WEBPACK_IMPORTED_MODULE_17__page_not_found_page_not_found_component__["a" /* PageNotFoundComponent */] }
             ])
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_26__shared_globals__["a" /* Globals */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_26__shared_globals__["a" /* Globals */]],
+        entryComponents: [__WEBPACK_IMPORTED_MODULE_32__game_node_create_node_create_component__["a" /* NodeCreateComponent */], __WEBPACK_IMPORTED_MODULE_31__game_node_relation_node_relation_component__["a" /* NodeRelationComponent */]]
     })
 ], AppModule);
 
@@ -634,8 +639,15 @@ var GameDetailComponent = (function () {
         }
     };
     GameDetailComponent.prototype.editNodeRelations = function () {
+        var _this = this;
         this.modalRef = this._modalService.show(__WEBPACK_IMPORTED_MODULE_8__node_relation_node_relation_component__["a" /* NodeRelationComponent */], { ignoreBackdropClick: true });
         this.modalRef.content.nodes = this.game.nodes;
+        this.modalRef.content.editRelations.subscribe(function (relations) { return _this.saveEditedRelations(relations); });
+    };
+    GameDetailComponent.prototype.saveEditedRelations = function (editedRelations) {
+        for (var _i = 0, editedRelations_1 = editedRelations; _i < editedRelations_1.length; _i++) {
+            var relation = editedRelations_1[_i];
+        }
     };
     GameDetailComponent.prototype.mapZoomChange = function (zoom) {
         this.currentZoom = zoom;
@@ -673,7 +685,7 @@ var _a, _b, _c, _d, _e;
 /***/ "../../../../../src/game/game-list/game-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-sm-10\">\r\n  <h2>Jeux existants</h2>\r\n  <table class=\"table\">\r\n    <thead>\r\n      <tr>\r\n        <th>Nom</th>\r\n        <th>Date de la chasse</th>\r\n        <th>Active</th>\r\n        <th>Teams</th>\r\n        <th>Carte</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr *ngFor=\"let game of games\">\r\n        <td><span class=\"fa fa-gamepad\"></span> <a routerLink=\"/game/{{game.id}}\">{{game.name}}</a></td>\r\n        <td>{{game.startDate | date:'medium'}}</td>\r\n        <td>\r\n          <!--<span *ngClass=\"{'fa fa-eye':true, 'fa fa-eye-slash':false}\"></span>-->\r\n          {{game.isActive}}\r\n        </td>\r\n        <td>\r\n          <ul class=\"list-group\">\r\n            <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"> <a routerLink=\"/team/{{team.id}}\">{{team.name}}</a></span></li>\r\n          </ul>\r\n        </td>\r\n        <td><map-thumbnail [CenterLat]=\"game.mapCenterLat\" [CenterLng]=\"game.mapCenterLng\"></map-thumbnail></td>\r\n      </tr>\r\n    </tbody>\r\n  </table>\r\n\r\n  <h2>Créer une nouvelle partie</h2>\r\n  <form #form=\"ngForm\" (submit)=\"createGame(form)\">\r\n    <div class=\"form-inline\">\r\n      <div class=\"control-group\">\r\n        <label>Nom de la partie</label>\r\n        <input type=\"text\" ngModel name=\"name\" id=\"name\" required placeholder=\"Nom de la partie\"/>\r\n      </div>\r\n      <div>\r\n        <label>Date de la partie</label>\r\n        <input type=\"text\"\r\n               #dp=\"bsDatepicker\"\r\n               minDate=\"minDate\"\r\n               ngModel name=\"date\" id=\"date\"\r\n               bsDatepicker [(bsValue)]=\"bsValue\">\r\n     <!--   <timepicker ngModel name=\"time\" id=\"time\"></timepicker>-->\r\n      </div>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-default\">Créer la partie</button>\r\n  </form>\r\n</div>\r\n"
+module.exports = "<div class=\"col-sm-10\">\r\n  <h2>Jeux existants</h2>\r\n  <table class=\"table\">\r\n    <thead>\r\n      <tr>\r\n        <th>Nom</th>\r\n        <th>Date de la chasse</th>\r\n        <th>Active</th>\r\n        <th>Teams</th>\r\n        <th>Carte</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr *ngFor=\"let game of games\">\r\n        <td><span class=\"fa fa-gamepad\"></span> <a [routerLink]=\"['/game', game.id]\">{{game.name}}</a></td>\r\n        <td>{{game.startDate | date:'medium'}}</td>\r\n        <td>\r\n          <!--<span *ngClass=\"{'fa fa-eye':true, 'fa fa-eye-slash':false}\"></span>-->\r\n          {{game.isActive}}\r\n        </td>\r\n        <td>\r\n          <ul class=\"list-group\">\r\n            <li class=\"list-group-item\" *ngFor=\"let team of game.teams\"><span class=\"fa fa-users\"> <a [routerLink]=\"['/team', team.id]\">{{team.name}}</a></span></li>\r\n          </ul>\r\n        </td>\r\n        <td><map-thumbnail [CenterLat]=\"game.mapCenterLat\" [CenterLng]=\"game.mapCenterLng\"></map-thumbnail></td>\r\n      </tr>\r\n    </tbody>\r\n  </table>\r\n\r\n  <h2>Créer une nouvelle partie</h2>\r\n  <form #form=\"ngForm\" (submit)=\"createGame(form)\">\r\n    <div class=\"form-inline\">\r\n      <div class=\"control-group\">\r\n        <label>Nom de la partie</label>\r\n        <input type=\"text\" ngModel name=\"name\" id=\"name\" required placeholder=\"Nom de la partie\"/>\r\n      </div>\r\n      <div>\r\n        <label>Date de la partie</label>\r\n        <input type=\"text\"\r\n               #dp=\"bsDatepicker\"\r\n               minDate=\"minDate\"\r\n               ngModel name=\"date\" id=\"date\"\r\n               bsDatepicker [(bsValue)]=\"bsValue\">\r\n     <!--   <timepicker ngModel name=\"time\" id=\"time\"></timepicker>-->\r\n      </div>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-default\">Créer la partie</button>\r\n  </form>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -704,6 +716,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular_2_local_storage__ = __webpack_require__("../../../../angular-2-local-storage/dist/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular_2_local_storage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_angular_2_local_storage__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_alert_service__ = __webpack_require__("../../../../../src/shared/services/alert.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -716,11 +729,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var GameListComponent = (function () {
     /** game ctor */
-    function GameListComponent(gameService, localStorageService) {
+    function GameListComponent(gameService, localStorageService, _alertService) {
         this.gameService = gameService;
         this.localStorageService = localStorageService;
+        this._alertService = _alertService;
     }
     /** Called by Angular after game component initialized */
     GameListComponent.prototype.ngOnInit = function () {
@@ -731,7 +746,8 @@ var GameListComponent = (function () {
     GameListComponent.prototype.getGames = function () {
         var _this = this;
         if (this.admin != null)
-            this.gameService.getGameForAdmin(this.admin.id).subscribe(function (next) { return _this.games = next.json(); });
+            this.gameService.getGameForAdmin(this.admin.id)
+                .subscribe(function (next) { return _this.games = next.json(); }, function (err) { return _this._alertService.sendAlert("Erreur lors de la mise à jour de la liste des jeux", "danger", 10000); });
     };
     GameListComponent.prototype.createGame = function (form) {
         var _this = this;
@@ -757,10 +773,10 @@ GameListComponent = __decorate([
     })
     /** game-list component*/
     ,
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__shared_services_game_service__["a" /* GameService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_angular_2_local_storage__["LocalStorageService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angular_2_local_storage__["LocalStorageService"]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__shared_services_game_service__["a" /* GameService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_angular_2_local_storage__["LocalStorageService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angular_2_local_storage__["LocalStorageService"]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__shared_services_alert_service__["a" /* AlertService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__shared_services_alert_service__["a" /* AlertService */]) === "function" && _c || Object])
 ], GameListComponent);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=game-list.component.js.map
 
 /***/ }),
@@ -822,7 +838,6 @@ GameModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_7__map_map_module__["a" /* MapModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["c" /* BsDropdownModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["h" /* TabsModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["a" /* AlertModule */], __WEBPACK_IMPORTED_MODULE_8_ngx_bootstrap__["b" /* BsDatepickerModule */], __WEBPACK_IMPORTED_MODULE_16__angular_platform_browser__["BrowserModule"]],
         declarations: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_9__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_12__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__["a" /* NodeCreateComponent */], __WEBPACK_IMPORTED_MODULE_14__node_list_node_list_component__["a" /* NodeListComponent */], __WEBPACK_IMPORTED_MODULE_15__node_relation_node_relation_component__["a" /* NodeRelationComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_9__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_12__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__["a" /* NodeCreateComponent */], __WEBPACK_IMPORTED_MODULE_14__node_list_node_list_component__["a" /* NodeListComponent */], __WEBPACK_IMPORTED_MODULE_15__node_relation_node_relation_component__["a" /* NodeRelationComponent */]],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_5__game_create_game_create_component__["a" /* GameCreateComponent */], __WEBPACK_IMPORTED_MODULE_9__game_detail_game_detail_component__["a" /* GameDetailComponent */], __WEBPACK_IMPORTED_MODULE_12__game_list_game_list_component__["a" /* GameListComponent */], __WEBPACK_IMPORTED_MODULE_13__node_create_node_create_component__["a" /* NodeCreateComponent */], __WEBPACK_IMPORTED_MODULE_14__node_list_node_list_component__["a" /* NodeListComponent */], __WEBPACK_IMPORTED_MODULE_15__node_relation_node_relation_component__["a" /* NodeRelationComponent */]],
         providers: [__WEBPACK_IMPORTED_MODULE_6__shared_services_game_service__["a" /* GameService */], __WEBPACK_IMPORTED_MODULE_10__shared_services_team_service__["a" /* TeamService */], __WEBPACK_IMPORTED_MODULE_11__shared_services_alert_service__["a" /* AlertService */]]
     })
 ], GameModule);
@@ -1009,7 +1024,7 @@ NodeListComponent = __decorate([
 /***/ "../../../../../src/game/node-relation/node.relation.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div #nodeRelationsTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Assigner les enfants du noeud</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"bsModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div class=\"container-fluid\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeud parent</span>\r\n          <select size=\"8\" [(ngModel)]=\"selectedParent\">\r\n            <option *ngFor=\"let node of parentNodes\" [ngValue]=\"node\" (click)=\"parentSelected(node)\">{{node.name}}</option>\r\n          </select>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeuds enfants</span>\r\n          <select size=\"8\" [(ngModel)]=\"selectedChildren\">\r\n            <option *ngFor=\"let node of childrenNodes\" [ngValue]=\"node\" >{{node.name}}</option>\r\n          </select>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <table>\r\n            <tr>\r\n              <td>\r\n                <button class=\"btn btn-success\" [disabled]=\"addNodeDisabled\" (click)=\"addChildren()\">Ajouter</button>\r\n                <button class=\"btn btn-danger\" [disabled]=\"removeNodeDisabled\" (click)=\"removeChildren()\">Enlever</button>\r\n              </td>\r\n\r\n            </tr>\r\n\r\n          </table>\r\n        </div>\r\n        <div class=\"col-sm-3\">\r\n          <span>Noeuds possibles</span>\r\n          <select size=\"8\" [(ngModel)]=\"selectedAvailable\">\r\n            <option *ngFor=\"let node of availableNodes\"  [ngValue]=\"node\" >{{node.name}}</option>\r\n          </select>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n    <div class=\"modal-footer\">\r\n      <button class=\"btn btn-success pull-right\" type=\"submit\" aria-label=\"Close\"\r\n              (click)=\"bsModalRef.hide()\">\r\n        Assigner les enfants\r\n      </button>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div #nodeRelationsTemplate>\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title pull-left\">Assigner les enfants du noeud</h4>\r\n    <button type=\"button\" class=\"close pull-right\" aria-label=\"Fermer\" (click)=\"bsModalRef.hide()\">\r\n      <span aria-hidden=\"true\" class=\"fa fa-times\"></span>\r\n    </button>\r\n  </div>\r\n  <!--<form #form=\"ngForm\" (submit)=\"saveRelations(form)\">-->\r\n    <div class=\"modal-body\">\r\n      <div class=\"container-fluid\">\r\n        <div class=\"row\">\r\n          <div class=\"col-sm-3\">\r\n            <span>Noeud parent</span>\r\n            <select size=\"8\" [(ngModel)]=\"selectedParent\">\r\n              <option *ngFor=\"let node of parentNodes\" [ngValue]=\"node\" (click)=\"parentSelected(node)\">{{node.name}}</option>\r\n            </select>\r\n          </div>\r\n          <div class=\"col-sm-3\">\r\n            <span>Noeuds enfants</span>\r\n            <select size=\"8\" [(ngModel)]=\"selectedChildren\">\r\n              <option *ngFor=\"let node of childrenNodes\" [ngValue]=\"node\">{{node.name}}</option>\r\n            </select>\r\n          </div>\r\n          <div class=\"col-sm-3\">\r\n            <table>\r\n              <tr>\r\n                <td>\r\n                  <button class=\"btn btn-success\" [disabled]=\"addNodeDisabled\" (click)=\"addChildren()\">Ajouter</button>\r\n                  <button class=\"btn btn-danger\" [disabled]=\"removeNodeDisabled\" (click)=\"removeChildren()\">Enlever</button>\r\n                </td>\r\n\r\n              </tr>\r\n\r\n            </table>\r\n          </div>\r\n          <div class=\"col-sm-3\">\r\n            <span>Noeuds possibles</span>\r\n            <select size=\"8\" [(ngModel)]=\"selectedAvailable\">\r\n              <option *ngFor=\"let node of availableNodes\" [ngValue]=\"node\">{{node.name}}</option>\r\n            </select>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  <!--</form>-->\r\n  <div class=\"modal-footer\">\r\n      <button class=\"btn btn-success pull-right\" type=\"submit\" aria-label=\"Close\"\r\n              (click)=\"bsModalRef.hide()\">\r\n        Terminer\r\n      </button>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1039,6 +1054,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__ = __webpack_require__("../../../../../src/shared/services/game.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_alert_service__ = __webpack_require__("../../../../../src/shared/services/alert.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1051,11 +1067,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var NodeRelationComponent = (function () {
     /** node.relation ctor */
-    function NodeRelationComponent(bsModalRef, _gameService) {
+    function NodeRelationComponent(bsModalRef, _gameService, _alertService) {
         this.bsModalRef = bsModalRef;
         this._gameService = _gameService;
+        this._alertService = _alertService;
     }
     Object.defineProperty(NodeRelationComponent.prototype, "nodes", {
         get: function () {
@@ -1083,17 +1101,23 @@ var NodeRelationComponent = (function () {
         this.removeNodeDisabled = node.children.length === 0;
     };
     NodeRelationComponent.prototype.addChildren = function () {
+        var _this = this;
         if (this.selectedParent && this.selectedAvailable) {
             this.selectedParent.children.push(this.selectedAvailable);
             this.availableNodes.splice(this.availableNodes.indexOf(this.selectedAvailable), 1);
             this.addNodeDisabled = this.removeNodeDisabled = true;
+            this._gameService.addRelation(this.selectedParent.id, this.selectedAvailable.id)
+                .subscribe(function (res) { return _this._alertService.sendAlert("Le noeud " + _this.selectedAvailable.name + " a \u00E9t\u00E9 ajout\u00E9 aux enfants de " + _this.selectedParent.name, "success", 5000); });
         }
     };
     NodeRelationComponent.prototype.removeChildren = function () {
+        var _this = this;
         if (this.selectedParent && this.selectedChildren) {
             this.selectedParent.children.splice(this.selectedParent.children.indexOf(this.selectedChildren), 1);
             this.availableNodes.push(this.selectedChildren);
             this.addNodeDisabled = this.removeNodeDisabled = true;
+            this._gameService.removeRelation(this.selectedParent.id, this.selectedChildren.id)
+                .subscribe(function (res) { return _this._alertService.sendAlert("Le noeud " + _this.selectedChildren.name + " a \u00E9t\u00E9 \u00F4t\u00E9 aux enfants de " + _this.selectedParent.name, "warning", 5000); });
         }
     };
     return NodeRelationComponent;
@@ -1111,10 +1135,10 @@ NodeRelationComponent = __decorate([
     })
     /** node.relation component*/
     ,
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__["d" /* BsModalRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__["d" /* BsModalRef */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__["d" /* BsModalRef */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ngx_bootstrap__["d" /* BsModalRef */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__shared_services_game_service__["a" /* GameService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__shared_services_alert_service__["a" /* AlertService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__shared_services_alert_service__["a" /* AlertService */]) === "function" && _c || Object])
 ], NodeRelationComponent);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=node.relation.component.js.map
 
 /***/ }),
@@ -1209,8 +1233,7 @@ HomeModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"]],
         declarations: [__WEBPACK_IMPORTED_MODULE_2__home_component__["a" /* HomeComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_2__home_component__["a" /* HomeComponent */]],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_2__home_component__["a" /* HomeComponent */]]
+        exports: [__WEBPACK_IMPORTED_MODULE_2__home_component__["a" /* HomeComponent */]]
     })
 ], HomeModule);
 
@@ -2164,6 +2187,9 @@ var GameService = (function () {
     };
     GameService.prototype.addRelation = function (orgNodeId, destNodeId) {
         return this.jwtHttp.post("api/node/AddRelationToNode", { nodeId: orgNodeId, childrenId: destNodeId });
+    };
+    GameService.prototype.removeRelation = function (orgNodeId, destNodeId) {
+        return this.jwtHttp.post("api/node/RemoveRelationToNode", { nodeId: orgNodeId, childrenId: destNodeId });
     };
     GameService.prototype.setZoom = function (gameId, zoom) { return this.jwtHttp.patch("api/game/UpdateZoom/" + gameId + "/" + zoom, null); };
     return GameService;

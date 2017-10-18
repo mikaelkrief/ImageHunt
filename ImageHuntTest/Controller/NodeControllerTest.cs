@@ -34,5 +34,21 @@ namespace ImageHuntTest.Controller
         // Assert
         A.CallTo(() => _nodeService.AddChildren(1, A<int>._)).MustHaveHappened(Repeated.Exactly.Once);
       }
+
+        [Fact]
+        public void RemoveRelationToNode()
+        {
+            // Arrange
+            // Arrange
+            var relationRequest = new NodeRelationRequest()
+            {
+                NodeId = 1,
+                ChildrenId = 2
+            };
+            // Act
+            _target.RemoveRelationToNode(relationRequest);
+            // Assert
+            A.CallTo(() => _nodeService.RemoveChildren(1, A<int>._)).MustHaveHappened(Repeated.Exactly.Once);
+        }
     }
 }

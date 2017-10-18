@@ -17,6 +17,7 @@ import { GeoPoint } from "../../shared/GeoPoint";
 import { GeoVector } from "../../shared/GeoVector";
 import {AlertService} from "../../shared/services/alert.service";
 import { Observable } from "rxjs/Observable";
+import { EditedRelation } from "../../shared/EditedRelation";
 
 @Component({
   selector: 'game-detail',
@@ -151,6 +152,12 @@ export class GameDetailComponent implements OnInit {
   editNodeRelations() {
     this.modalRef = this._modalService.show(NodeRelationComponent, { ignoreBackdropClick: true });
     this.modalRef.content.nodes = this.game.nodes;
+    this.modalRef.content.editRelations.subscribe(relations => this.saveEditedRelations(relations));
+  }
+  saveEditedRelations(editedRelations: EditedRelation[]) {
+    for (var relation of editedRelations) {
+      
+    }
   }
   mapZoomChange(zoom) {
     this.currentZoom = zoom;

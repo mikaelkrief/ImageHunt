@@ -5,46 +5,48 @@
       <span aria-hidden="true" class="fa fa-times"></span>
     </button>
   </div>
-  <div class="modal-body">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3">
-          <span>Noeud parent</span>
-          <select size="8" [(ngModel)]="selectedParent">
-            <option *ngFor="let node of parentNodes" [ngValue]="node" (click)="parentSelected(node)">{{node.name}}</option>
-          </select>
-        </div>
-        <div class="col-sm-3">
-          <span>Noeuds enfants</span>
-          <select size="8" [(ngModel)]="selectedChildren">
-            <option *ngFor="let node of childrenNodes" [ngValue]="node" >{{node.name}}</option>
-          </select>
-        </div>
-        <div class="col-sm-3">
-          <table>
-            <tr>
-              <td>
-                <button class="btn btn-success" [disabled]="addNodeDisabled" (click)="addChildren()">Ajouter</button>
-                <button class="btn btn-danger" [disabled]="removeNodeDisabled" (click)="removeChildren()">Enlever</button>
-              </td>
+  <!--<form #form="ngForm" (submit)="saveRelations(form)">-->
+    <div class="modal-body">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-3">
+            <span>Noeud parent</span>
+            <select size="8" [(ngModel)]="selectedParent">
+              <option *ngFor="let node of parentNodes" [ngValue]="node" (click)="parentSelected(node)">{{node.name}}</option>
+            </select>
+          </div>
+          <div class="col-sm-3">
+            <span>Noeuds enfants</span>
+            <select size="8" [(ngModel)]="selectedChildren">
+              <option *ngFor="let node of childrenNodes" [ngValue]="node">{{node.name}}</option>
+            </select>
+          </div>
+          <div class="col-sm-3">
+            <table>
+              <tr>
+                <td>
+                  <button class="btn btn-success" [disabled]="addNodeDisabled" (click)="addChildren()">Ajouter</button>
+                  <button class="btn btn-danger" [disabled]="removeNodeDisabled" (click)="removeChildren()">Enlever</button>
+                </td>
 
-            </tr>
+              </tr>
 
-          </table>
-        </div>
-        <div class="col-sm-3">
-          <span>Noeuds possibles</span>
-          <select size="8" [(ngModel)]="selectedAvailable">
-            <option *ngFor="let node of availableNodes"  [ngValue]="node" >{{node.name}}</option>
-          </select>
+            </table>
+          </div>
+          <div class="col-sm-3">
+            <span>Noeuds possibles</span>
+            <select size="8" [(ngModel)]="selectedAvailable">
+              <option *ngFor="let node of availableNodes" [ngValue]="node">{{node.name}}</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-    <div class="modal-footer">
+  <!--</form>-->
+  <div class="modal-footer">
       <button class="btn btn-success pull-right" type="submit" aria-label="Close"
               (click)="bsModalRef.hide()">
-        Assigner les enfants
+        Terminer
       </button>
     </div>
 </div>
