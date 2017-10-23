@@ -85,5 +85,16 @@ namespace ImageHunt.Services
     {
       return Context.Games.Where(g => g.IsActive && g.MapCenterLat.HasValue && GeographyComputation.Distance(lat, lng, g.MapCenterLat.Value, g.MapCenterLng.Value) < 5000);
     }
+
+    public IEnumerable<QuestionNode> GetQuestionNodeOfGame(int gameId)
+    {
+      var game = Context.Games
+        .Include(g=>g.Nodes)
+        .Single(g => g.Id == gameId);
+      return Context.QuestionNodes
+        .Include(n => n.Answers)
+        .Include(n=>n.ChildrenRelation)
+        .Where(n=>game.Nodes.Contains(n));
+    }
   }
 }

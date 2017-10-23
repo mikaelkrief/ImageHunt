@@ -32,6 +32,7 @@ import {MapDetailComponent} from "../map/map-detail/map-detail.component";
 import { ContextMenuModule } from "primeng/primeng";
 import {NodeRelationComponent} from "../game/node-relation/node.relation.component";
 import {NodeCreateComponent} from "../game/node-create/node.create.component";
+import { QuestionNodeComponent } from "../game/question-node/question.node.component";
 
 export class MyAuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': 'application/json' };
@@ -85,7 +86,7 @@ export class MyAuthConfig extends CustomConfig {
       { path: '**', component: PageNotFoundComponent }])
   ],
   providers: [Globals],
-  entryComponents: [NodeCreateComponent, NodeRelationComponent]
+  entryComponents: [NodeCreateComponent, NodeRelationComponent, QuestionNodeComponent]
 
 })
 export class AppModule {

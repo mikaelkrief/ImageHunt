@@ -24,6 +24,8 @@ export class NodeRelationComponent implements OnInit {
   }
   updateNodes() {
     this.parentNodes = this.nodes.filter(n => n.nodeType !== "LastNode");
+    this.selectedParent = this.parentNodes[0];
+    this.parentSelected(this.selectedParent);
   }
   parentNodes: Node[];
   childrenNodes: Node[];
@@ -33,12 +35,15 @@ export class NodeRelationComponent implements OnInit {
 
   /** Called by Angular after node.relation component initialized */
   ngOnInit(): void {
-
   }
   parentSelected(node: Node): void {
+    // Set the node children
     this.childrenNodes = node.children;
-    this.availableNodes = this.nodes.filter(n => n.nodeType !== "FirstNode")
-      .filter(n => !this.childrenNodes.find(n2 => n2 === n));
+    // Set the available nodes
+    this.availableNodes = this.nodes
+      .filter(n => n.nodeType !== "FirstNode")
+      .filter(n => !this.childrenNodes.find(n2 => n2 === n))
+      .filter(n => n !== node);
     this.addNodeDisabled = (node.nodeType !== "QuestionNode" && node.children.length > 0);
     this.removeNodeDisabled = node.children.length === 0;
   }

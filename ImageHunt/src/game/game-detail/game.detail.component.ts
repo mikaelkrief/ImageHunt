@@ -9,6 +9,7 @@ import { Team } from "../../shared/team";
 import 'rxjs/Rx';
 import { BsModalService, BsModalRef, TabsetComponent } from "ngx-bootstrap";
 import { NodeRelation } from "../../shared/NodeRelation";
+import { Node } from "../../shared/Node";
 import { NodeCreateComponent } from "../node-create/node.create.component";
 import { NodeRelationComponent } from "../node-relation/node.relation.component";
 import { NodeListComponent } from "../node-list/node.list.component";
@@ -18,6 +19,8 @@ import { GeoVector } from "../../shared/GeoVector";
 import {AlertService} from "../../shared/services/alert.service";
 import { Observable } from "rxjs/Observable";
 import { EditedRelation } from "../../shared/EditedRelation";
+import { ContextMenuComponent} from 'ngx-contextmenu';
+import {QuestionNodeComponent} from "../question-node/question.node.component";
 
 @Component({
   selector: 'game-detail',
@@ -28,6 +31,8 @@ import { EditedRelation } from "../../shared/EditedRelation";
 export class GameDetailComponent implements OnInit {
   @ContentChildren('fileInput') fileInput;
   @ViewChild('mapComponent') mapComponent;
+  @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
+
   alerts: any = [];
   public uploadModalRef: BsModalRef;
   game: Game;
@@ -102,7 +107,6 @@ export class GameDetailComponent implements OnInit {
     
   }
   nodeMode(nodeType: string) {
-
   }
   public modalRef: BsModalRef;
   currentLatitude: number;
@@ -125,7 +129,23 @@ export class GameDetailComponent implements OnInit {
       .subscribe(() => this.getGame(this.game.id));
 
   }
-  nodeClicked(event) {
+  nodeClicked(node: Node) {
+    if (node == this.mapComponent.firstNode) {
+      if (node.nodeType === "LastNode") {
+        this.mapComponent.resetNodeClick();
+        this._alertService.sendAlert(`Le noeud ${node.name} ne peut pas accepter d'enfant`, "danger", 5000);
+      }
+      if ((node.nodeType === "FirstNode" ||
+          node.nodeType === "TimerNode" ||
+          node.nodeType === "ImageNode" ||
+          node.nodeType === "ObjectNode") &&
+        node.children.length > 0) {
+        this.mapComponent.resetNodeClick();
+        this._alertService.sendAlert(`Le noeud ${node.name} ne peut pas accepter d'avantage d'enfants`, "danger", 5000);
+
+      }
+      
+    }
   }
   newRelation(nodeRelation: NodeRelation) {
     var parentNode = this.game.nodes.find(n => n.id === nodeRelation.nodeId);
@@ -153,6 +173,10 @@ export class GameDetailComponent implements OnInit {
     this.modalRef = this._modalService.show(NodeRelationComponent, { ignoreBackdropClick: true });
     this.modalRef.content.nodes = this.game.nodes;
     this.modalRef.content.editRelations.subscribe(relations => this.saveEditedRelations(relations));
+  }
+  editNodeAnswers() {
+    this.modalRef = this._modalService.show(QuestionNodeComponent, { ignoreBackdropClick: true });
+    this.modalRef.content.gameId = this.game.id;
   }
   saveEditedRelations(editedRelations: EditedRelation[]) {
     for (var relation of editedRelations) {

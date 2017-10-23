@@ -4,6 +4,7 @@ import { Game } from "../game";
 import { Node } from "../node";
 import { Http, RequestOptions, Headers } from "@angular/http";
 import {NodeRequest} from "../nodeRequest";
+import { Observable } from "rxjs/Observable";
 
 @Injectable()
 export class GameService {
@@ -52,4 +53,7 @@ export class GameService {
   }
 
   setZoom(gameId: number, zoom: number) { return this.jwtHttp.patch(`api/game/UpdateZoom/${gameId}/${zoom}`, null); }
+  getQuestionNodesOfGame(gameId: number)  {
+    return this.jwtHttp.get(`api/game/GetQuestionNodeOfGame/${gameId}`).map(j=>j.json());
+  }
 }

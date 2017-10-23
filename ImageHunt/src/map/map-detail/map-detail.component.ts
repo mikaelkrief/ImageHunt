@@ -5,7 +5,8 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap";
 import { Subscription } from "rxjs/Subscription";
 import { NgForm } from "@angular/forms";
 import {NodeRelation} from "../../shared/NodeRelation";
-import {GeoPoint} from "../../shared/GeoPoint";
+import { GeoPoint } from "../../shared/GeoPoint";
+import { AgmInfoWindow } from "@agm/core";
 
 @Component({
   selector: 'map-detail',
@@ -29,7 +30,6 @@ export class MapDetailComponent implements OnInit {
   @Output() zoomChange = new EventEmitter<number>();
   /** map ctor */
   constructor(private _gameService: GameService, private _modalService: BsModalService) { }
-
   /** Called by Angular after map component initialized */
   ngOnInit(): void {
     this.getGameData(this.gameId);
@@ -88,6 +88,10 @@ export class MapDetailComponent implements OnInit {
   }
   isFirstClick:boolean = true;
   firstNode: Node;
+  resetNodeClick() {
+    this.firstNode = null;
+    this.isFirstClick = true;
+  }
   markerClicked(node: Node) {
     if (this.isFirstClick) {
       this.firstNode = node;
@@ -99,7 +103,9 @@ export class MapDetailComponent implements OnInit {
     }
     this.nodeClicked.emit(node);
   }
-
+  lineClicked(event) {
+    
+  }
   secondNode: Node;
 
   mapZoomChange(event) {

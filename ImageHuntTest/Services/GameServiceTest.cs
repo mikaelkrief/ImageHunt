@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
@@ -63,6 +64,30 @@ namespace ImageHuntTest.Services
       Check.That(result).IsEqualTo(games[1]);
     }
 
+      [Fact]
+      public void GetQuestionNodeOfGame()
+      {
+          // Arrange
+          var answers = new List<Answer>(){new Answer(), new Answer(), new Answer(), new Answer()};
+          var nodes = new List<Node>()
+          {
+              new TimerNode(),
+              new QuestionNode() {Answers = new List<Answer>() {answers[0], answers[1]}},
+              new PictureNode(),
+              new QuestionNode() {Answers = new List<Answer>() {answers[2], answers[3]}},
+              new QuestionNode()
+          };
+            var games = new List<Game>() {new Game(), new Game(){Nodes = nodes.Take(4).ToList()}};
+            _context.Games.AddRange(games);
+          _context.SaveChanges();
+          // Act
+          var result = _target.GetQuestionNodeOfGame(games[1].Id);
+          // Assert
+          Check.That(result).ContainsExactly(nodes[1], nodes[3]);
+          Check.That(result.First().Answers).ContainsExactly(answers[0], answers[1]);
+          Check.That(result.Last().Answers).ContainsExactly(answers[2], answers[3]);
+          
+      }
     [Fact]
     public void GetGamesForAdmin()
     {

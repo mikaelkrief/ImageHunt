@@ -216,5 +216,76 @@ namespace ImageHuntTest.Controller
       A.CallTo(() => _gameService.GetGamesFromPosition(A<double>._, A<double>._)).MustHaveHappened();
       Check.That(result).IsNotNull();
     }
+
+      [Fact]
+      public void GetQuestionNodeOfGame()
+      {
+          // Arrange
+          var questionNodes = new List<QuestionNode>()
+          {
+              new QuestionNode()
+              {
+                  Id = 1,
+                  Question = "What",
+                  Answers = new List<Answer>()
+                  {
+                      new Answer()
+                      {
+                          Id = 1,
+                          Node = new PictureNode(){Id=101},
+                          Response = "A"
+                      },
+                      new Answer()
+                      {
+                          Id = 2,
+                          Response = "B"
+                      },
+                      new Answer()
+                      {
+                          Id = 3,
+                          Node = new PictureNode(){Id=102},
+                          Response = "C"
+                      },
+
+                  }
+              },
+              new QuestionNode()
+              {
+                  Id = 2,
+                  Question = "Who",
+                  Answers = new List<Answer>()
+                  {
+                      new Answer()
+                      {
+                          Id = 4,
+                          Response = "1"
+                      },
+                      new Answer()
+                      {
+                          Id = 5,
+                          Response = "2"
+                      },
+                      new Answer()
+                      {
+                          Id = 6,
+                          Node = new PictureNode(){Id=103},
+                          Response = "3"
+                      },
+
+                  }
+              }
+          };
+          A.CallTo(() => _gameService.GetQuestionNodeOfGame(A<int>._)).Returns(questionNodes);
+          // Act
+          var result = _target.GetQuestionNodeOfGame(1) as OkObjectResult;
+          // Assert
+          A.CallTo(() => _gameService.GetQuestionNodeOfGame(1)).MustHaveHappened();
+          var nodesResponse = result.Value as IEnumerable<QuestionNodeResponse>;
+          Check.That(nodesResponse.Extracting("NodeId")).ContainsExactly(questionNodes.Extracting("Id"));
+          Check.That(nodesResponse.Extracting("Question")).ContainsExactly(questionNodes.Extracting("Question"));
+          Check.That(nodesResponse.First().Answers.Extracting("Id")).ContainsExactly(1, 2, 3);
+          Check.That(nodesResponse.First().Answers.Extracting("NodeId")).ContainsExactly<int?>(101, null, 102);
+          Check.That(nodesResponse.First().Answers.Extracting("Response")).ContainsExactly("A", "B", "C");
+      }
   }
 }

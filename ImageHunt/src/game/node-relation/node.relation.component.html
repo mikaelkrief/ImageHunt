@@ -5,9 +5,11 @@
       <span aria-hidden="true" class="fa fa-times"></span>
     </button>
   </div>
-  <!--<form #form="ngForm" (submit)="saveRelations(form)">-->
     <div class="modal-body">
       <div class="container-fluid">
+        <div class="row">
+          <span class="text-danger">Attention, les changements de relations sont immédiatement enregistrés!</span>
+        </div>
         <div class="row">
           <div class="col-sm-3">
             <span>Noeud parent</span>
@@ -42,7 +44,6 @@
         </div>
       </div>
     </div>
-  <!--</form>-->
   <div class="modal-footer">
       <button class="btn btn-success pull-right" type="submit" aria-label="Close"
               (click)="bsModalRef.hide()">

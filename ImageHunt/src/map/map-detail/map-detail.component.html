@@ -10,12 +10,16 @@
               [title]="node.name"
               [iconUrl]="getIconForNodeType(node.nodeType)"
               (markerClick)="markerClicked(node)">
+    <div #infoWindow class="agm-info-window-content">
+      Info
+    </div>
 
   </agm-marker>
   <agm-polyline *ngFor="let node of nodes"
                 [editable]="false"
                 strokeColor="Blue"
-                strokeWeight="2">
+                strokeWeight="2"
+                (lineClick)="lineClicked($event)">
     <div *ngFor="let children of node.children">
       <agm-polyline-point [latitude]="node.latitude" [longitude]="node.longitude"></agm-polyline-point>
       <agm-polyline-point [latitude]="children.latitude" [longitude]="children.longitude"></agm-polyline-point>

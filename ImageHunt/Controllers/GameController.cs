@@ -63,7 +63,7 @@ namespace ImageHunt.Controllers
         case "QuestionNode":
           var questionNode = node as QuestionNode;
           questionNode.Question = nodeRequest.Question;
-          questionNode.Answers = nodeRequest.Answers.Select(a => new Answer() {Node = questionNode, Response = a}).ToList();
+          questionNode.Answers = nodeRequest.Answers.Select(a => new Answer() {Response = a}).ToList();
           break;
      }
       _gameService.AddNode(gameId, node);
@@ -104,7 +104,7 @@ namespace ImageHunt.Controllers
       var resNodes = new List<NodeResponse>();
       foreach (var node in nodes)
       {
-        var resNode = new NodeResponse(){NodeId = node.Id, ChildNodeId = node.Children.Select(c=>c.Id).ToArray()};
+        var resNode = new NodeResponse(node);
         resNodes.Add(resNode);
       }
       return Ok(resNodes);
@@ -121,10 +121,16 @@ namespace ImageHunt.Controllers
     {
       return Ok(_gameService.GetGameFromPlayerChatId(playerUserName));
     }
-
     public IActionResult GetGamesFromLocation(double lat, double lng)
     {
       return Ok(_gameService.GetGamesFromPosition(lat, lng));
+    }
+    [HttpGet("GetQuestionNodeOfGame/{gameId}")]
+    public IActionResult GetQuestionNodeOfGame(int gameId)
+    {
+      var questionNodeOfGame = _gameService.GetQuestionNodeOfGame(gameId);
+      var questionNodesResponse = questionNodeOfGame.Select(n => new QuestionNodeResponse(n));
+      return Ok(questionNodesResponse);
     }
   }
 }
