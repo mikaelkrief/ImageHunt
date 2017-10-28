@@ -4,6 +4,7 @@ import {GameService} from "../../shared/services/game.service";
 import { BsModalRef } from "ngx-bootstrap";
 import { Observable } from "rxjs/Observable";
 import {QuestionNode} from "../../shared/QuestionNode";
+import {Answer} from "../../shared/answer";
 
 @Component({
     selector: 'question-node',
@@ -19,7 +20,7 @@ export class QuestionNodeComponent implements OnInit
   set gameId(value: number) { this._gameId = value; this.loadNodes()}
   questionNodes: QuestionNode[];
   selectedNode: QuestionNode;
-  //selectedAnswer: An
+  selectedAnswer: Answer;
   nodes:Node[];
     /** QuestionNode ctor */
   constructor(public bsModalRef: BsModalRef, private _gameService:GameService) { }
