@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project>
+  <target>
+    <replace file="${INFILE}">
+      <replacetokens>
+        <token key="DBPASSWORD" value="${DBPASSWORD}"/>
+        <token key="GOOGLEAPI_CLIENT_ID" value="${GOOGLEAPI_CLIENT_ID}"/>
+        <token key="GOOGLEAPI_CLIENT_SECRET" value="${GOOGLEAPI_CLIENT_SECRET}"/>
+        <token key="TELEGRAM_APIKEY" value="${TELEGRAM_APIKEY}"/>
+      </replacetokens>
+    </replace>
+  </target>
+</project>
