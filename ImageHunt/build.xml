@@ -5,7 +5,7 @@
         <replacefilter token="DBPASSWORD" value="${DBPASSWORD}"/>
         <replacefilter token="GOOGLEAPI_CLIENT_ID" value="${GOOGLEAPI_CLIENT_ID}"/>
         <replacefilter token="GOOGLEAPI_CLIENT_SECRET" value="${GOOGLEAPI_CLIENT_SECRET}"/>
-        <replacefilter token="GOOGLE_MAP_API_KEY" value="${GOOGLE_MAP_API_KEY}"/>
+        <replacefilter token="GOOGLE_API_MAP_KEY" value="${GOOGLE_API_MAP_KEY}"/>
         <replacefilter token="TELEGRAM_APIKEY" value="${TELEGRAM_APIKEY}"/>
     </replace>
     <move file="${INFILE}" toFile="${TOFILE}"></move>
