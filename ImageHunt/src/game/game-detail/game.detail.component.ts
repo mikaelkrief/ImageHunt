@@ -9,7 +9,7 @@ import { Team } from "../../shared/team";
 import 'rxjs/Rx';
 import { BsModalService, BsModalRef, TabsetComponent } from "ngx-bootstrap";
 import { NodeRelation } from "../../shared/NodeRelation";
-import { Node } from "../../shared/Node";
+import { Node } from "../../shared/node";
 import { NodeCreateComponent } from "../node-create/node.create.component";
 import { NodeRelationComponent } from "../node-relation/node.relation.component";
 import { NodeListComponent } from "../node-list/node.list.component";

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { BsModalRef } from "ngx-bootstrap";
-import { Node } from "../../shared/Node"
+import { Node } from "../../shared/node"
 import { NgForm } from "@angular/forms";
 import { EditedRelation } from "../../shared/EditedRelation";
 import {GameService} from "../../shared/services/game.service";

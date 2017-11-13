@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Node } from "../../shared/Node";
+import { Node } from "../../shared/node";
 import {GameService} from "../../shared/services/game.service";
 import { BsModalRef } from "ngx-bootstrap";
 import { Observable } from "rxjs/Observable";
