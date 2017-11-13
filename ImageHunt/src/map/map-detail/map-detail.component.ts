@@ -7,6 +7,7 @@ import { NgForm } from "@angular/forms";
 import {NodeRelation} from "../../shared/NodeRelation";
 import { GeoPoint } from "../../shared/GeoPoint";
 import { AgmInfoWindow } from "@agm/core";
+import { NodeCreateComponent} from "../../game/node-create/node.create.component"
 
 @Component({
   selector: 'map-detail',

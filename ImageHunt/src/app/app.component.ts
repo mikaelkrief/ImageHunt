@@ -7,5 +7,5 @@ import {AlertService} from "../shared/services/alert.service";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(private _alertService:AlertService) {  }
+  constructor(public _alertService:AlertService) {  }
 }

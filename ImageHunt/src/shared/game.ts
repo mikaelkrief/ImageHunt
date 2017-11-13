@@ -1,4 +1,6 @@
 import { Node } from './node';
+import {Team} from "./team";
+
 export class Game {
   id: number;
   isActive: boolean;
@@ -8,4 +10,5 @@ export class Game {
   mapCenterLng: number;
   mapZoom:number;
   nodes: Node[];
+  teams: Team[];
 }
