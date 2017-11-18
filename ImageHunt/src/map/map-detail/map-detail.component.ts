@@ -84,7 +84,7 @@ export class MapDetailComponent implements OnInit {
     });
     this.subscriptions = [];
   }
-  mapClick(event, templateName:TemplateRef<any>) {
+  mapClick(event) {
     this.mapClicked.emit(event);
   }
   isFirstClick:boolean = true;

@@ -3,7 +3,7 @@
          [longitude]="CenterLng"
          [zoom]="zoom"
          (zoomChange)="mapZoomChange($event)"
-         (mapClick)="mapClick($event, createNodeTemplate)">
+         (mapClick)="mapClick($event)">
   <agm-marker *ngFor="let node of nodes"
               [latitude]="node.latitude"
               [longitude]="node.longitude"

@@ -8,7 +8,7 @@
       </div>
       <div class="form-control">
         <label>Date de début :</label>
-        <span>{{game.startDate | date:medium}}</span>
+        <span>{{game.startDate}}</span>
       </div>
     </div>
     <div>
@@ -37,7 +37,7 @@
                         [gameId]="game.id"
                         [nodesRelation]="nodeRelations"
                         [newNodesRelation]="newRelations"
-                        (mapClicked)="mapClicked($event, createNodeTemplate)"
+                        (mapClicked)="mapClicked($event)"
                         (nodeClicked)="nodeClicked($event)"
                         (newRelation)="newRelation($event)"
                         [zoom]="game.mapZoom"
@@ -54,7 +54,7 @@
                 <button class="btn btn-default" (click)="centerMap(game.id)">Centrer la carte sur les noeuds</button>
               </div>
               <div class="btn-group">
-                <button class="btn btn-primary" (click)="editNodeRelations(game.id)"><span class="fa fa-link"> Editer les relations</span></button>
+                <button class="btn btn-primary" (click)="editNodeRelations()"><span class="fa fa-link"> Editer les relations</span></button>
               </div>
               <div class="btn-group">
                 <button class="btn btn-primary" (click)="editNodeAnswers()"><span class="fa fa-question"> Editer les réponses aux questions</span></button>

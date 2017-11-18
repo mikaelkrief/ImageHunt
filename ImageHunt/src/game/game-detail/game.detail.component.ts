@@ -112,7 +112,7 @@ export class GameDetailComponent implements OnInit {
   currentLatitude: number;
   currentLongitude: number;
 
-  mapClicked(event, template) {
+  mapClicked(event) {
 
     var coordinates = event.coords;
     this.currentLatitude = coordinates.lat;
