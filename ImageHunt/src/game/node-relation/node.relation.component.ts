@@ -23,7 +23,7 @@ export class NodeRelationComponent implements OnInit {
     this.updateNodes();
   }
   updateNodes() {
-    this.parentNodes = this.nodes.filter(n => n.nodeType !== "LastNode");
+    this.parentNodes = this.nodes.filter(n => n.nodeType !== "LastNode" && n.nodeType !== "QuestionNode");
     this.selectedParent = this.parentNodes[0];
     this.parentSelected(this.selectedParent);
   }

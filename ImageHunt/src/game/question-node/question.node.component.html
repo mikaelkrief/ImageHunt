@@ -9,7 +9,7 @@
     <div class="form-inline">
       <div class="input-group">
         <label for="Noeud">Noeud à modifier</label>
-        <select class="form-control" [(ngModel)]="selectedNode">
+        <select class="form-control" [(ngModel)]="selectedNode" (change)="nodeSelected($event)">
           <option *ngFor="let node of questionNodes"  [ngValue]="node">{{node.name}}</option>
         </select>
       </div>
@@ -24,7 +24,7 @@
       <div class="col-sm-4">
         <div class="input-group">
           <label>Réponses</label>
-          <select class="form-control" [(ngModel)]="selectedAnswer" size="5">
+          <select class="form-control" [(ngModel)]="selectedAnswer" size="5" (change)="responseSelected()">
             <option *ngFor="let answer of selectedNode.answers" [ngValue]="answer">{{answer.response}}</option>
           </select>
         </div>
@@ -32,14 +32,14 @@
       <div class="col-sm-4">
         <div class="row">
           <span></span>
-          <button class="btn btn-success">Associer</button>
-          <button class="btn btn-danger">Dissocier</button>
+          <button class="btn btn-success" [disabled]="!linkBtnEnabled">Associer</button>
+          <button class="btn btn-danger" [disabled]="!unlinkBtnEnabled">Dissocier</button>
         </div>
       </div>
       <div class="col-sm-4">
         <label>Noeuds</label>
-        <select class="form-control" size="5">
-          <option *ngFor="let node of nodes" [ngValue]="node">{{node.name}}</option>
+        <select class="form-control" size="5" [(ngModel)]="selectedTargetNode" (change)="availableNodeSelected()">
+          <option *ngFor="let node of availableNodes" [ngValue]="node">{{node.name}}</option>
         </select>
       </div>
     </div>

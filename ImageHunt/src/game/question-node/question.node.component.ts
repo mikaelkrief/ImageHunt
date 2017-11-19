@@ -20,23 +20,37 @@ export class QuestionNodeComponent implements OnInit
   set gameId(value: number) { this._gameId = value; this.loadNodes()}
   questionNodes: QuestionNode[];
   selectedNode: QuestionNode;
+  selectedTargetNode: Node;
   selectedAnswer: Answer;
-  nodes:Node[];
+  nodes: Node[];
+  availableNodes: Node[];
+  linkBtnEnabled: boolean;
+  unlinkBtnEnabled: boolean;
     /** QuestionNode ctor */
   constructor(public bsModalRef: BsModalRef, private _gameService:GameService) { }
 
     /** Called by Angular after QuestionNode component initialized */
-    ngOnInit(): void { }
+  ngOnInit(): void { this.linkBtnEnabled = this.unlinkBtnEnabled = false; }
     loadNodes() {
       this._gameService.getQuestionNodesOfGame(this.gameId)
         .subscribe(res => this.questionNodes = res);
       this._gameService.getGameById(this.gameId)
         .subscribe(res => {
           var n = res;
-          this.nodes = n;
+          this.nodes = n.nodes;
         });
     }
-  nodeSelected(node: Node) {
+  nodeSelected(event) {
+    this.availableNodes = this.nodes.filter(n => n.id !== this.selectedNode.nodeId && n.nodeType !== "FirstNode");
+    }
+  responseSelected() {
+    if (this.selectedAnswer != null && this.selectedTargetNode != null) {
+      this.linkBtnEnabled = true;
+    } else {
+      this.linkBtnEnabled = false;
+    }
+  }
+  availableNodeSelected() {
     
   }
 }

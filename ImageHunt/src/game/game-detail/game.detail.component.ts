@@ -134,6 +134,12 @@ export class GameDetailComponent implements OnInit {
       if (node.nodeType === "LastNode") {
         this.mapComponent.resetNodeClick();
         this._alertService.sendAlert(`Le noeud ${node.name} ne peut pas accepter d'enfant`, "danger", 5000);
+        return;
+      }
+      if (node.nodeType === "QuestionNode") {
+        this.mapComponent.resetNodeClick();
+        this._alertService.sendAlert(`Editez les relations des noeuds Question dans le module d'édition des réponses aux questions`, "danger", 5000);
+        return;
       }
       if ((node.nodeType === "FirstNode" ||
           node.nodeType === "TimerNode" ||
