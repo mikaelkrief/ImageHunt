@@ -1,4 +1,4 @@
-﻿/// <reference path="../../../node_modules/@types/jasmine/index.d.ts" />
+/// <reference path="../../../node_modules/@types/jasmine/index.d.ts" />
 import { TestBed, async, ComponentFixture, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { BrowserModule, By } from "@angular/platform-browser";
 import { QuestionNodeComponent } from './question.node.component';
@@ -21,8 +21,9 @@ describe('QuestionNode component', () =>
         component = fixture.componentInstance;
     }));
 
-    it('should do something', async(() =>
-    {
-        expect(true).toEqual(true);
+    it('Enable Associate Button', async(() => {
+
+      // Act
+      fixture.nativeElement.responseSelected();
     }));
 });

@@ -26,6 +26,7 @@ export class QuestionNodeComponent implements OnInit
   availableNodes: Node[];
   linkBtnEnabled: boolean;
   unlinkBtnEnabled: boolean;
+  answersNodeRelations: {answerId:number, nodeId:number}[] =[];
     /** QuestionNode ctor */
   constructor(public bsModalRef: BsModalRef, private _gameService:GameService) { }
 
@@ -41,16 +42,46 @@ export class QuestionNodeComponent implements OnInit
         });
     }
   nodeSelected(event) {
-    this.availableNodes = this.nodes.filter(n => n.id !== this.selectedNode.nodeId && n.nodeType !== "FirstNode");
+    this.availableNodes = this.nodes.filter(n => n.id !== this.selectedNode.nodeId
+      && n.nodeType !== "FirstNode");
     }
   responseSelected() {
     if (this.selectedAnswer != null && this.selectedTargetNode != null) {
-      this.linkBtnEnabled = true;
+      if (this.answersNodeRelations.some(l => l.answerId === this.selectedAnswer.id &&
+        l.nodeId === this.selectedTargetNode.id)) {
+        this.unlinkBtnEnabled = true;
+        this.linkBtnEnabled = false;
+      } else {
+        this.unlinkBtnEnabled = false;
+        this.linkBtnEnabled = true;
+      }
     } else {
+      this.linkBtnEnabled = false;
+      this.unlinkBtnEnabled = false;
+    }
+  }
+  //availableNodeSelected() {
+  //  if (this.selectedAnswer != null && this.selectedTargetNode != null) {
+  //    this.linkBtnEnabled = true;
+
+  //  } else {
+  //    this.linkBtnEnabled = false;
+  //  }
+  //}
+  associateAnswerToNode() {
+    if (this.selectedAnswer != null && this.selectedTargetNode != null) {
+      this.answersNodeRelations.push({ answerId: this.selectedAnswer.id, nodeId: this.selectedTargetNode.id });
+      this.unlinkBtnEnabled = true;
       this.linkBtnEnabled = false;
     }
   }
-  availableNodeSelected() {
-    
+  dissociateAnswerToNode() {
+    if (this.selectedAnswer != null && this.selectedTargetNode != null) {
+      var index = this.answersNodeRelations.findIndex(l => l.answerId === this.selectedAnswer.id &&
+        l.nodeId === this.selectedTargetNode.id);
+      this.answersNodeRelations.splice(index, 1);
+      this.unlinkBtnEnabled = false;
+      this.linkBtnEnabled = true;
+    }
   }
 }

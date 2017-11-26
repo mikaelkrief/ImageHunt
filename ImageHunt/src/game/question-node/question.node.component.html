@@ -24,7 +24,8 @@
       <div class="col-sm-4">
         <div class="input-group">
           <label>Réponses</label>
-          <select class="form-control" [(ngModel)]="selectedAnswer" size="5" (change)="responseSelected()">
+          <select class="form-control" [(ngModel)]="selectedAnswer" size="5"
+                  (change)="responseSelected()">
             <option *ngFor="let answer of selectedNode.answers" [ngValue]="answer">{{answer.response}}</option>
           </select>
         </div>
@@ -32,13 +33,14 @@
       <div class="col-sm-4">
         <div class="row">
           <span></span>
-          <button class="btn btn-success" [disabled]="!linkBtnEnabled">Associer</button>
-          <button class="btn btn-danger" [disabled]="!unlinkBtnEnabled">Dissocier</button>
+          <button class="btn btn-success" [disabled]="!linkBtnEnabled" (click)="associateAnswerToNode()">Associer</button>
+          <button class="btn btn-danger" [disabled]="!unlinkBtnEnabled" (click)="dissociateAnswerToNode()">Dissocier</button>
         </div>
       </div>
       <div class="col-sm-4">
         <label>Noeuds</label>
-        <select class="form-control" size="5" [(ngModel)]="selectedTargetNode" (change)="availableNodeSelected()">
+        <select class="form-control" size="5" [(ngModel)]="selectedTargetNode"
+                (change)="responseSelected()">
           <option *ngFor="let node of availableNodes" [ngValue]="node">{{node.name}}</option>
         </select>
       </div>

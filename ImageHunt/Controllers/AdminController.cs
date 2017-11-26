@@ -14,8 +14,8 @@ namespace ImageHunt.Controllers
     {
       _adminService = adminService;
     }
-    [HttpGet]
-    [Authorize]
+    [HttpGet("GetAllAdmins")]
+    //[Authorize]
     public IActionResult GetAllAdmins()
     {
       return Ok(_adminService.GetAllAdmins());

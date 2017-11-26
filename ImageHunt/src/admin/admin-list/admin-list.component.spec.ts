@@ -7,6 +7,7 @@ import { Observable } from "rxjs/Observable";
 import {AdminService} from "../../shared/services/admin.service";
 import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
+import 'rxjs/add/observable/of';
 let component: AdminListComponent;
 let fixture: ComponentFixture<AdminListComponent>;
 class MockAdminService {
@@ -16,8 +17,11 @@ class MockAdminService {
 }
 describe('admin-list component', () =>
 {
-  let adminServiceStub = {
-    getAllAdmins: new Observable<any>()
+  let adminsAsText = '[{\"name\": \"kkskskk\",\"email\": \"kkkskk@kjj.com\",\"token\": null,\"expirationTokenDate\": null,\"games\": [],\"id\": 2},{\"name\": \"khkjjk\",\"email\": \"kkkskk@kjj.com\",\"token\": null,\"expirationTokenDate\": null,\"games\": [],\"id\": 3}]'; 
+    let adminServiceStub = {
+    getAllAdmins: function() {
+      return Observable.of(adminsAsText);
+    }
   }
   beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -27,12 +31,22 @@ describe('admin-list component', () =>
         });
         fixture = TestBed.createComponent(AdminListComponent);
         component = fixture.componentInstance;
-    }));
-
-  it('getAdmins test', async(() => {
-    fixture.detectChanges();
-      fixture.nativeElement.getAdmins();
-    }));
-  it('deleteAdmin test', async(() => {
   }));
+
+  describe('getAdmins tests', () => {
+    it('getAdmins test', async(() => {
+      var adminService = fixture.debugElement.injector.get(AdminService);
+      fixture.detectChanges();
+      var spy = spyOn(adminService, 'getAllAdmins');
+      var admins = fixture.componentInstance.getAdmins();
+      expect(spy.calls.any()).toBe(true, 'getAdmins not called');
+    }));
+    
+  });
+  describe('deleteAdmin tests', () => {
+    it('deleteAdmin test', async(() => {
+      fixture.componentInstance.deleteAdmin(1);
+    }));
+    
+  });
 });

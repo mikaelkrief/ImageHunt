@@ -18,7 +18,7 @@ export class AdminListComponent implements OnInit {
   ngOnInit(): void {
     this.getAdmins();
   }
-  getAdmins() {
+  public getAdmins() {
     this._adminService.getAllAdmins()
       .subscribe(res => this.admins = res,
         err => console.error(err.status));
