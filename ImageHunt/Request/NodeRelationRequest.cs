@@ -4,5 +4,6 @@ namespace ImageHunt.Request
     {
       public int NodeId { get; set; }
       public int ChildrenId { get; set; }
+      public int AnswerId { get; set; }
     }
 }

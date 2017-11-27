@@ -113,5 +113,131 @@ namespace ImageHuntTest.Services
         Check.That(result).Equals(pictureNodes[4]);
       }
 
+      [Fact]
+      public void LinkAnswerToNode()
+      {
+        // Arrange
+        var answers = new List<Answer>()
+        {
+          new Answer(){Id = 1},
+          new Answer(){Id = 2},
+          new Answer(){Id = 3},
+        };
+      _context.Answers.AddRange(answers);
+      var nodes = new List<Node>()
+      {
+        new PictureNode(){Id = 1},
+        new PictureNode(){Id = 2},
+        new PictureNode(){Id = 3},
+        new PictureNode(){Id = 4},
+      };
+      _context.Nodes.AddRange(nodes);
+        _context.SaveChanges();
+        // Act
+        _target.LinkAnswerToNode(2, 3);
+        // Assert
+        Check.That(answers[0].Node).IsNull();
+        Check.That(answers[1].Node).Equals(nodes[2]);
+      }
+      [Fact]
+      public void LinkAnswerToNodeAnswerNotExist()
+      {
+        // Arrange
+        var answers = new List<Answer>()
+        {
+          new Answer(){Id = 1},
+          new Answer(){Id = 2},
+          new Answer(){Id = 3},
+        };
+      _context.Answers.AddRange(answers);
+      var nodes = new List<Node>()
+      {
+        new PictureNode(){Id = 1},
+        new PictureNode(){Id = 2},
+        new PictureNode(){Id = 3},
+        new PictureNode(){Id = 4},
+      };
+      _context.Nodes.AddRange(nodes);
+        _context.SaveChanges();
+        // Act
+        _target.LinkAnswerToNode(4, 3);
+        // Assert
+        Check.That(answers.Extracting("Node")).ContainsExactly<Node>(null, null, null);
+      }
+      [Fact]
+      public void LinkAnswerToNodeNodeNotExist()
+      {
+        // Arrange
+        var answers = new List<Answer>()
+        {
+          new Answer(){Id = 1},
+          new Answer(){Id = 2},
+          new Answer(){Id = 3},
+        };
+      _context.Answers.AddRange(answers);
+      var nodes = new List<Node>()
+      {
+        new PictureNode(){Id = 1},
+        new PictureNode(){Id = 2},
+        new PictureNode(){Id = 3},
+        new PictureNode(){Id = 4},
+      };
+      _context.Nodes.AddRange(nodes);
+        _context.SaveChanges();
+        // Act
+        _target.LinkAnswerToNode(2, 5);
+        // Assert
+        Check.That(answers[1].Node).IsNull();
+      }
+      [Fact]
+      public void UnLinkAnswerToNode()
+      {
+        // Arrange
+        var nodes = new List<Node>()
+        {
+          new PictureNode(){Id = 1},
+          new PictureNode(){Id = 2},
+          new PictureNode(){Id = 3},
+          new PictureNode(){Id = 4},
+        };
+        var answers = new List<Answer>()
+        {
+          new Answer(){Id = 1, Node = nodes[2]},
+          new Answer(){Id = 2},
+          new Answer(){Id = 3, Node = nodes[3]},
+        };
+        _context.Nodes.AddRange(nodes);
+        _context.Answers.AddRange(answers);
+        _context.SaveChanges();
+        // Act
+        _target.UnlinkAnswerToNode(3);
+        // Assert
+        Check.That(answers[2].Node).IsNull();
+      }
+      [Fact]
+      public void UnLinkAnswerToNodeAnswerNotExist()
+      {
+        // Arrange
+        var nodes = new List<Node>()
+        {
+          new PictureNode(){Id = 1},
+          new PictureNode(){Id = 2},
+          new PictureNode(){Id = 3},
+          new PictureNode(){Id = 4},
+        };
+        var answers = new List<Answer>()
+        {
+          new Answer(){Id = 1, Node = nodes[2]},
+          new Answer(){Id = 2},
+          new Answer(){Id = 3, Node = nodes[3]},
+        };
+        _context.Nodes.AddRange(nodes);
+        _context.Answers.AddRange(answers);
+        _context.SaveChanges();
+        // Act
+        Check.ThatCode(()=> _target.UnlinkAnswerToNode(4)).DoesNotThrow();
+        // Assert
+      }
+
   }
 }

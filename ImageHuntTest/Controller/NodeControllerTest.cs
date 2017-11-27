@@ -33,12 +33,12 @@ namespace ImageHuntTest.Controller
         _target.AddRelationToNode(relationRequest);
         // Assert
         A.CallTo(() => _nodeService.AddChildren(1, A<int>._)).MustHaveHappened(Repeated.Exactly.Once);
+        A.CallTo(() => _nodeService.LinkAnswerToNode(3, 2)).MustNotHaveHappened();
       }
 
-        [Fact]
+    [Fact]
         public void RemoveRelationToNode()
         {
-            // Arrange
             // Arrange
             var relationRequest = new NodeRelationRequest()
             {
@@ -50,5 +50,39 @@ namespace ImageHuntTest.Controller
             // Assert
             A.CallTo(() => _nodeService.RemoveChildren(1, A<int>._)).MustHaveHappened(Repeated.Exactly.Once);
         }
-    }
+
+      [Fact]
+      public void AddRelationWithAnswer()
+      {
+        // Arrange
+        var relationRequest = new NodeRelationRequest()
+        {
+          NodeId = 1,
+          ChildrenId = 2,
+          AnswerId = 3
+        };
+        // Act
+        _target.AddRelationToNode(relationRequest);
+      // Assert
+        A.CallTo(() => _nodeService.AddChildren(1, A<int>._)).MustHaveHappened(Repeated.Exactly.Once);
+        A.CallTo(() => _nodeService.LinkAnswerToNode(3, 2)).MustHaveHappened(Repeated.Exactly.Once);
+      }
+
+      [Fact]
+      public void RemoveRelationWithAnswer()
+      {
+        // Arrange
+        var relationRequest = new NodeRelationRequest()
+        {
+          NodeId = 1,
+          ChildrenId = 2,
+          AnswerId = 1
+        };
+        // Act
+        _target.RemoveRelationToNode(relationRequest);
+        // Assert
+        A.CallTo(() => _nodeService.RemoveChildren(1, A<int>._)).MustHaveHappened(Repeated.Exactly.Once);
+        A.CallTo(() => _nodeService.UnlinkAnswerToNode(1)).MustHaveHappened(Repeated.Exactly.Once);
+      }
+  }
 }

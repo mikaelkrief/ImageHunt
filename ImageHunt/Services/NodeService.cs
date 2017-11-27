@@ -54,6 +54,23 @@ namespace ImageHunt.Services
 
     }
 
+    public void LinkAnswerToNode(int answerId, int targetNodeId)
+    {
+      var answer = Context.Answers.SingleOrDefault(a => a.Id == answerId);
+      var childNode = Context.Nodes.SingleOrDefault(n => n.Id == targetNodeId);
+      if (answer == null || childNode == null) return;
+      answer.Node = childNode;
+      Context.SaveChanges();
+    }
+
+    public void UnlinkAnswerToNode(int answerId)
+    {
+      var answer = Context.Answers.SingleOrDefault(a => a.Id == answerId);
+      if (answer != null)
+        answer.Node = null;
+      Context.SaveChanges();
+    }
+
     public Node FindPictureNodeByLocation(int gameId, Picture pictureToFind)
     {
       var nodes = Context.Games.Include(g => g.Nodes).Single(g => g.Id == gameId).Nodes.Where(n => n is PictureNode);

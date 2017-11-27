@@ -24,12 +24,16 @@ namespace ImageHunt.Controllers
     public IActionResult AddRelationToNode([FromBody]NodeRelationRequest relationRequest)
     {
       _nodeService.AddChildren(relationRequest.NodeId, relationRequest.ChildrenId);
+      if (relationRequest.AnswerId != 0)
+        _nodeService.LinkAnswerToNode(relationRequest.AnswerId, relationRequest.ChildrenId);
       return Ok();
     }
     [HttpPost("RemoveRelationToNode")]
     public IActionResult RemoveRelationToNode([FromBody]NodeRelationRequest relationRequest)
     {
       _nodeService.RemoveChildren(relationRequest.NodeId, relationRequest.ChildrenId);
+      if (relationRequest.AnswerId != 0)
+        _nodeService.UnlinkAnswerToNode(relationRequest.AnswerId);
       return Ok();
     }
   }
