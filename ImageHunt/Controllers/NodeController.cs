@@ -36,5 +36,20 @@ namespace ImageHunt.Controllers
         _nodeService.UnlinkAnswerToNode(relationRequest.AnswerId);
       return Ok();
     }
+    [HttpPost("AddRelationsWithAnswers")]
+    public void AddRelationsWithAnswers([FromBody]IEnumerable<NodeRelationRequest> relationsRequest)
+    {
+      var groupsNode = relationsRequest.GroupBy(n => n.NodeId);
+      foreach (var gNode in groupsNode)
+      {
+        var questionNode = _nodeService.GetNode(gNode.Key);
+        _nodeService.RemoveAllChildren(questionNode);
+        foreach (var nodeRelationRequest in gNode)
+        {
+          _nodeService.AddChildren(questionNode.Id, nodeRelationRequest.ChildrenId);
+          _nodeService.LinkAnswerToNode(nodeRelationRequest.AnswerId, nodeRelationRequest.ChildrenId);
+        }
+      }
+    }
   }
 }

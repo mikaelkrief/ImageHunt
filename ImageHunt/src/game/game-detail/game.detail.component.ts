@@ -182,6 +182,7 @@ export class GameDetailComponent implements OnInit {
   }
   editNodeAnswers() {
     this.modalRef = this._modalService.show(QuestionNodeComponent, { ignoreBackdropClick: true });
+    this.modalRef.content.nodes = this.game.nodes;
     this.modalRef.content.gameId = this.game.id;
   }
   saveEditedRelations(editedRelations: EditedRelation[]) {
@@ -193,6 +194,6 @@ export class GameDetailComponent implements OnInit {
     this.currentZoom = zoom;
   }
   saveChanges(gameId: number) {
-    this.newRelations.forEach(r => Observable.forkJoin(this._gameService.addRelation(r.orgId, r.destId)).subscribe(() => this.getGame(gameId)));
+    this.newRelations.forEach(r => Observable.forkJoin(this._gameService.addRelation(r.orgId, r.destId, 0)).subscribe(() => this.getGame(gameId)));
   }
 }

@@ -5,6 +5,7 @@ import { BsModalRef } from "ngx-bootstrap";
 import { Observable } from "rxjs/Observable";
 import {QuestionNode} from "../../shared/QuestionNode";
 import {Answer} from "../../shared/answer";
+import {AlertService} from "../../shared/services/alert.service";
 
 @Component({
     selector: 'question-node',
@@ -17,23 +18,32 @@ export class QuestionNodeComponent implements OnInit
   _gameId:number;
   get gameId(): number { return this._gameId; }
 
-  set gameId(value: number) { this._gameId = value; this.loadNodes()}
+  set gameId(value: number) { this._gameId = value;
+    this.loadNodes();
+  }
   questionNodes: QuestionNode[];
   selectedNode: QuestionNode;
   selectedTargetNode: Node;
   selectedAnswer: Answer;
-  nodes: Node[];
+  _nodes: Node[];
+  get nodes(): Node[] {
+    return this._nodes;
+  }
+  @Input('nodes')
+  set nodes(value: Node[]) {
+    this._nodes = value;
+  }
   availableNodes: Node[];
   linkBtnEnabled: boolean;
   unlinkBtnEnabled: boolean;
-  answersNodeRelations: {answerId:number, nodeId:number}[] =[];
+  answersNodeRelations: { answerId: number, answerName:string, nodeId: number, nodeName:string}[] =[];
     /** QuestionNode ctor */
-  constructor(public bsModalRef: BsModalRef, private _gameService:GameService) { }
+  constructor(public bsModalRef: BsModalRef, private _gameService: GameService, private _alertService: AlertService) { }
 
     /** Called by Angular after QuestionNode component initialized */
   ngOnInit(): void { this.linkBtnEnabled = this.unlinkBtnEnabled = false; }
-    loadNodes() {
-      this._gameService.getQuestionNodesOfGame(this.gameId)
+  loadNodes() {
+       this._gameService.getQuestionNodesOfGame(this.gameId)
         .subscribe(res => this.questionNodes = res);
       this._gameService.getGameById(this.gameId)
         .subscribe(res => {
@@ -60,17 +70,14 @@ export class QuestionNodeComponent implements OnInit
       this.unlinkBtnEnabled = false;
     }
   }
-  //availableNodeSelected() {
-  //  if (this.selectedAnswer != null && this.selectedTargetNode != null) {
-  //    this.linkBtnEnabled = true;
-
-  //  } else {
-  //    this.linkBtnEnabled = false;
-  //  }
-  //}
   associateAnswerToNode() {
     if (this.selectedAnswer != null && this.selectedTargetNode != null) {
-      this.answersNodeRelations.push({ answerId: this.selectedAnswer.id, nodeId: this.selectedTargetNode.id });
+      this.answersNodeRelations.push({
+        answerId: this.selectedAnswer.id, answerName: this.selectedAnswer.response,
+        nodeId: this.selectedTargetNode.id, nodeName: this.selectedTargetNode.name
+      });
+      var orgNode = this.nodes.find(n => n.id == this.selectedNode.nodeId);
+      orgNode.children.push(this.selectedTargetNode);
       this.unlinkBtnEnabled = true;
       this.linkBtnEnabled = false;
     }
@@ -83,5 +90,15 @@ export class QuestionNodeComponent implements OnInit
       this.unlinkBtnEnabled = false;
       this.linkBtnEnabled = true;
     }
+  }
+  saveRelations() {
+    for (var item of this.answersNodeRelations) {
+      this._gameService.addRelation(this.selectedNode.nodeId, item.nodeId, item.answerId)
+        .subscribe(res => {
+          this._alertService
+            .sendAlert(`Le noeud ${item.nodeName} a été ajouté aux enfants de ${this.selectedNode.name}`, "success", 5000)
+          });
+    }
+    this.bsModalRef.hide();
   }
 }

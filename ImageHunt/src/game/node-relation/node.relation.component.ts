@@ -54,7 +54,7 @@ export class NodeRelationComponent implements OnInit {
       this.selectedParent.children.push(this.selectedAvailable);
       this.availableNodes.splice(this.availableNodes.indexOf(this.selectedAvailable), 1);
       this.addNodeDisabled = this.removeNodeDisabled = true;
-      this._gameService.addRelation(this.selectedParent.id, this.selectedAvailable.id)
+      this._gameService.addRelation(this.selectedParent.id, this.selectedAvailable.id, 0)
         .subscribe(res => this._alertService.sendAlert(`Le noeud ${this.selectedAvailable.name} a été ajouté aux enfants de ${this.selectedParent.name}`, "success", 5000))
         ;
     }

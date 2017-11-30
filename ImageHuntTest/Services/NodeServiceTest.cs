@@ -239,5 +239,32 @@ namespace ImageHuntTest.Services
         // Assert
       }
 
+      [Fact]
+      public void RemoveAllChildren()
+      {
+        // Arrange
+        var nodes = new List<Node>()
+        {
+          new TimerNode(),
+          new QuestionNode(),
+          new PictureNode(),
+          new PictureNode(),
+          new PictureNode(),
+        };
+      ((QuestionNode)nodes[1]).ChildrenRelation = new List<ParentChildren>()
+      {
+        new ParentChildren(){Parent = nodes[1], Children = nodes[3]}, 
+        new ParentChildren(){Parent = nodes[1], Children = nodes[4]}, 
+        
+      };
+      _context.Nodes.AddRange(nodes);
+        _context.SaveChanges();
+        Check.That(nodes[1].Children).HasSize(2);
+
+      // Act
+      _target.RemoveAllChildren(nodes[1]);
+        // Assert
+        Check.That(nodes[1].Children).HasSize(0);
+      }
   }
 }

@@ -71,6 +71,13 @@ namespace ImageHunt.Services
       Context.SaveChanges();
     }
 
+    public void RemoveAllChildren(Node node)
+    {
+      var theNode = Context.Nodes.Single(n => n.Id == node.Id);
+      theNode.ChildrenRelation.RemoveAll(n=>true);
+      Context.SaveChanges();
+    }
+
     public Node FindPictureNodeByLocation(int gameId, Picture pictureToFind)
     {
       var nodes = Context.Games.Include(g => g.Nodes).Single(g => g.Id == gameId).Nodes.Where(n => n is PictureNode);

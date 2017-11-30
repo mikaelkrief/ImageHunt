@@ -43,13 +43,14 @@ export class GameService {
      return this.jwtHttp.get(`api/game/NodesRelations/${gameId}`);
   }
 
-  addRelation(orgNodeId: number, destNodeId: number) {
+  addRelation(orgNodeId: number, destNodeId: number, answerId: number) {
 
-    return this.jwtHttp.post("api/node/AddRelationToNode", { nodeId: orgNodeId, childrenId: destNodeId });
+    return this.jwtHttp.post('api/node/AddRelationToNode', { nodeId: orgNodeId, childrenId: destNodeId, answerId: answerId });
+    //return this.jwtHttp.post('api/node/AddRelationToNode', null);
 
   }
   removeRelation(orgNodeId: number, destNodeId: number) {
-    return this.jwtHttp.post("api/node/RemoveRelationToNode", { nodeId: orgNodeId, childrenId: destNodeId });
+    return this.jwtHttp.post("api/node/RemoveRelationToNode", { nodeId: orgNodeId, childrenId: destNodeId, answerId: 0 });
   }
 
   setZoom(gameId: number, zoom: number) { return this.jwtHttp.patch(`api/game/UpdateZoom/${gameId}/${zoom}`, null); }

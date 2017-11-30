@@ -12,5 +12,6 @@ namespace ImageHunt.Services
     void RemoveChildren(int nodeId, int childrenNodeId);
     void LinkAnswerToNode(int answerId, int targetNodeId);
     void UnlinkAnswerToNode(int answerId);
+    void RemoveAllChildren(Node node);
   }
 }

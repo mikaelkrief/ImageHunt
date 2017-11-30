@@ -47,8 +47,11 @@
     </div>
   </div>
   <div class="modal-footer">
+    <button class="btn btn-danger" type="reset" aria-label="Cancel" (click)="bsModalRef.hide()">
+      Annuler
+    </button>
     <button class="btn btn-success pull-right" type="submit" aria-label="Close"
-            (click)="bsModalRef.hide()">
+            (click)="saveRelations()">
       Enregistrer
     </button>
   </div>

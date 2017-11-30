@@ -1,5 +1,4 @@
 import {Answer} from "./answer";
-
 export class QuestionNode {
   nodeId: number;
   name: string;

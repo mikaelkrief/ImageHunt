@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using FakeItEasy;
 using ImageHunt.Controllers;
+using ImageHunt.Model.Node;
 using ImageHunt.Request;
 using ImageHunt.Services;
 using Xunit;
@@ -52,20 +53,31 @@ namespace ImageHuntTest.Controller
         }
 
       [Fact]
-      public void AddRelationWithAnswer()
+      public void AddRelationsWithAnswer()
       {
         // Arrange
-        var relationRequest = new NodeRelationRequest()
+        var relationsRequest = new List<NodeRelationRequest>()
         {
-          NodeId = 1,
-          ChildrenId = 2,
-          AnswerId = 3
+          new NodeRelationRequest(){
+            NodeId = 1,
+            ChildrenId = 2,
+            AnswerId = 3
+          },
+          new NodeRelationRequest(){
+            NodeId = 1,
+            ChildrenId = 3,
+            AnswerId = 2
+          },
         };
-        // Act
-        _target.AddRelationToNode(relationRequest);
+        A.CallTo(() => _nodeService.GetNode(1)).Returns(new QuestionNode(){Children = { new TimerNode(), new QuestionNode(), new FirstNode()}});
+
+      // Act
+      _target.AddRelationsWithAnswers(relationsRequest);
       // Assert
-        A.CallTo(() => _nodeService.AddChildren(1, A<int>._)).MustHaveHappened(Repeated.Exactly.Once);
-        A.CallTo(() => _nodeService.LinkAnswerToNode(3, 2)).MustHaveHappened(Repeated.Exactly.Once);
+        A.CallTo(() => _nodeService.GetNode(1)).MustHaveHappened();
+        A.CallTo(() => _nodeService.RemoveAllChildren(A<Node>._)).MustHaveHappened(Repeated.Exactly.Once);
+        A.CallTo(() => _nodeService.AddChildren(A<int>._, A<int>._)).MustHaveHappened(Repeated.Exactly.Twice);
+        A.CallTo(() => _nodeService.LinkAnswerToNode(A<int>._, A<int>._)).MustHaveHappened(Repeated.Exactly.Twice);
       }
 
       [Fact]
