@@ -73,7 +73,7 @@ namespace ImageHunt.Services
 
     public void RemoveAllChildren(Node node)
     {
-      var theNode = Context.Nodes.Single(n => n.Id == node.Id);
+      var theNode = Context.Nodes.Include(n=>n.ChildrenRelation).Single(n => n.Id == node.Id);
       theNode.ChildrenRelation.RemoveAll(n=>true);
       Context.SaveChanges();
     }

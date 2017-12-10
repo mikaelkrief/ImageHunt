@@ -6,6 +6,7 @@ import { Observable } from "rxjs/Observable";
 import {QuestionNode} from "../../shared/QuestionNode";
 import {Answer} from "../../shared/answer";
 import {AlertService} from "../../shared/services/alert.service";
+import {QuestionNodeAnswerRelation} from "../../shared/QuestionNodeAnswerRelation";
 
 @Component({
     selector: 'question-node',
@@ -92,13 +93,12 @@ export class QuestionNodeComponent implements OnInit
     }
   }
   saveRelations() {
-    for (var item of this.answersNodeRelations) {
-      this._gameService.addRelation(this.selectedNode.nodeId, item.nodeId, item.answerId)
-        .subscribe(res => {
-          this._alertService
-            .sendAlert(`Le noeud ${item.nodeName} a été ajouté aux enfants de ${this.selectedNode.name}`, "success", 5000)
-          });
-    }
+    var relationAnswers = this.answersNodeRelations.map(a => new QuestionNodeAnswerRelation(this.selectedNode.nodeId, a.nodeId, a.answerId));
+    this._gameService.addRelationAnswers(relationAnswers)
+      .subscribe(res => {
+        this._alertService.sendAlert(`Les relations du noeud ${this.selectedNode.name} ont été sauvegardées`, "success", 5000);
+        this.answersNodeRelations = [];
+      });
     this.bsModalRef.hide();
   }
 }
