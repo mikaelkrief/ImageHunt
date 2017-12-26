@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ImageHunt.Model
 {
@@ -8,5 +9,7 @@ namespace ImageHunt.Model
     public Node.Node CurrentNode { get; set; }
     public DateTime? StartTime { get; set; }
     public string ChatLogin { get; set; }
+    [NotMapped]
+    public Team Team { get; set; }
   }
 }

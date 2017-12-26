@@ -60,5 +60,14 @@ namespace ImageHunt.Services
       {
         return Context.Teams.Include(t => t.Players).Single(t => t.Id == teamId);
       }
+
+      public Player GetPlayer(string playerLogin, int gameId)
+      {
+        var player = Context.Players.Single(p => p.ChatLogin == playerLogin);
+        var game = Context.Games.Include(g=>g.Teams).ThenInclude(team=>team.Players)
+                                .Single(g => g.Id == gameId);
+        player.Team = game.Teams.Single(t=>t.Players.Contains(player));
+        return player;
+      }
     }
 }

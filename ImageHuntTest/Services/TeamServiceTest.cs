@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Castle.Components.DictionaryAdapter;
 using ImageHunt.Model;
 using ImageHunt.Services;
 using NFluent;
@@ -130,5 +131,28 @@ namespace ImageHuntTest.Services
             // Assert
             Check.That(teams[0].Players).HasSize(2).And.ContainsExactly(teams[0].Players[0], teams[0].Players[1]);
         }
+
+      [Fact]
+      public void GetPlayer()
+      {
+        // Arrange
+        var players = new List<Player>(){new Player(){ChatLogin = "toto1"}, new Player(){ChatLogin = "toto2"}, new Player(){ChatLogin = "Toto3"}};
+      var teams = new List<Team>(){new Team()
+      {
+        Name = "Team1", Players = new List<Player>(){players[0], players[2]}
+      },
+        new Team(){Name = "Team2", Players = new List<Player>(){players[1]}}};
+        var games = new List<Game>() {new Game() {Name = "game1", Teams = new List<Team>(){teams[0]}}, new Game() {Name = "game2", Teams = new List<Team>(){teams[1]}}};
+      _context.Players.AddRange(players);
+      _context.Teams.AddRange(teams);
+      _context.Games.AddRange(games);
+        _context.SaveChanges();
+        // Act
+        int gameId;
+        var result = _target.GetPlayer(players[1].ChatLogin, games[1].Id);
+        // Assert;
+        Check.That(result).IsEqualTo(players[1]);
+        Check.That(result.Team).IsEqualTo(teams[1]);
+      }
     }
 }

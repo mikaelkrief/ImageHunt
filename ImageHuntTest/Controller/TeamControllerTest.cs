@@ -42,5 +42,19 @@ namespace ImageHuntTest.Controller
             // Assert
             A.CallTo(() => _teamService.AddMemberToTeam(team, A<List<Player>>._)).MustHaveHappened();
         }
+
+      [Fact]
+      public void GetPlayerDetails()
+      {
+        // Arrange
+        string playerLogin = "Toto";
+        var player = new Player(){};
+        int gameId = 1;
+        A.CallTo(() => _teamService.GetPlayer(playerLogin, gameId)).Returns(player);
+        // Act
+        _target.GetPlayer(gameId, playerLogin);
+        // Assert
+        A.CallTo(() => _teamService.GetPlayer(playerLogin, gameId)).MustHaveHappened();
+      }
     }
 }
