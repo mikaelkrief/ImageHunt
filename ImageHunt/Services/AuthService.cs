@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Linq;
-using ImageHunt.Data;
 using ImageHunt.Model;
+using ImageHuntCore.Data;
+using ImageHuntCore.Services;
 
 namespace ImageHunt.Services
 {

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHunt", "ImageHunt\ImageHunt.csproj", "{E421ECAC-1902-4191-B1EF-EA772422F9D7}"
 EndProject
@@ -10,7 +10,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntTest", "ImageHuntT
 		{E421ECAC-1902-4191-B1EF-EA772422F9D7} = {E421ECAC-1902-4191-B1EF-EA772422F9D7}
 	EndProjectSection
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "ImageHuntBot", "ImageHuntBot\ImageHuntBot.njsproj", "{B3F451C1-7C97-4DBF-9B6E-FE685D2D7870}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntBot", "ImageHuntBot\ImageHuntBot.csproj", "{FC1BE346-78E0-4FD7-AEDB-BFDFCEA00B02}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntCore", "ImageHuntCore\ImageHuntCore.csproj", "{1ADF9DFA-7AEB-465B-8857-33931E606EE8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntEngine", "ImageHuntEngine\ImageHuntEngine.csproj", "{6C3EA617-D9A5-4A97-A32F-2EAE00C73A31}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntEngineTest", "ImageHuntEngineTest\ImageHuntEngineTest.csproj", "{60E4F8B2-A6C4-4F39-AA8D-05986243D346}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtilities", "TestUtilities\TestUtilities.csproj", "{BE585CE7-3C60-4429-A697-8B9C53E531FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,10 +34,26 @@ Global
 		{FF5ABD78-BD1C-4445-AC23-6A533BF840E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF5ABD78-BD1C-4445-AC23-6A533BF840E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF5ABD78-BD1C-4445-AC23-6A533BF840E0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B3F451C1-7C97-4DBF-9B6E-FE685D2D7870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3F451C1-7C97-4DBF-9B6E-FE685D2D7870}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B3F451C1-7C97-4DBF-9B6E-FE685D2D7870}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3F451C1-7C97-4DBF-9B6E-FE685D2D7870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC1BE346-78E0-4FD7-AEDB-BFDFCEA00B02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC1BE346-78E0-4FD7-AEDB-BFDFCEA00B02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC1BE346-78E0-4FD7-AEDB-BFDFCEA00B02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC1BE346-78E0-4FD7-AEDB-BFDFCEA00B02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ADF9DFA-7AEB-465B-8857-33931E606EE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ADF9DFA-7AEB-465B-8857-33931E606EE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ADF9DFA-7AEB-465B-8857-33931E606EE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ADF9DFA-7AEB-465B-8857-33931E606EE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C3EA617-D9A5-4A97-A32F-2EAE00C73A31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C3EA617-D9A5-4A97-A32F-2EAE00C73A31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C3EA617-D9A5-4A97-A32F-2EAE00C73A31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C3EA617-D9A5-4A97-A32F-2EAE00C73A31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60E4F8B2-A6C4-4F39-AA8D-05986243D346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60E4F8B2-A6C4-4F39-AA8D-05986243D346}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60E4F8B2-A6C4-4F39-AA8D-05986243D346}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60E4F8B2-A6C4-4F39-AA8D-05986243D346}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE585CE7-3C60-4429-A697-8B9C53E531FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE585CE7-3C60-4429-A697-8B9C53E531FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE585CE7-3C60-4429-A697-8B9C53E531FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE585CE7-3C60-4429-A697-8B9C53E531FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

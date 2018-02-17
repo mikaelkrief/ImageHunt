@@ -8,6 +8,7 @@ using ImageHunt.Services;
 using Microsoft.CodeAnalysis;
 using NFluent;
 using SQLitePCL;
+using TestUtilities;
 using Xunit;
 
 namespace ImageHuntTest.Services

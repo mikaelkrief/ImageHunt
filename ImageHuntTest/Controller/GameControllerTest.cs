@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using NFluent;
+using TestUtilities;
 using Xunit;
 
 namespace ImageHuntTest.Controller
@@ -160,7 +161,7 @@ namespace ImageHuntTest.Controller
     public void AddImagesNodes()
     {
       // Arrange
-      var picture = GetImageFromResource("ImageHuntTest.TestData.IMG_20170920_180905.jpg");
+      var picture = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.IMG_20170920_180905.jpg");
       var file = A.Fake<IFormFile>();
       A.CallTo(() => file.OpenReadStream()).ReturnsNextFromSequence(new MemoryStream(picture), new MemoryStream(picture), new MemoryStream(picture));
       var images = new List<IFormFile>() { file, file, file };

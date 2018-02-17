@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="2.0.1" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.107" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ImageHuntCore\ImageHuntCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="NFluent">
+      <HintPath>..\..\..\Users\mandr\.nuget\packages\nfluent\2.2.0\lib\netstandard1.3\NFluent.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

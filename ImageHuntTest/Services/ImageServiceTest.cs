@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.StaticFiles;
 using NFluent;
+using TestUtilities;
 using Xunit;
 
 namespace ImageHuntTest.Services
@@ -46,7 +48,7 @@ namespace ImageHuntTest.Services
         public void ExtractLocationFromImage()
         {
             // Arrange
-            var picture = new Picture() { Image = GetImageFromResource("ImageHuntTest.TestData.IMG_20170920_180905.jpg") };
+            var picture = new Picture() { Image = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.IMG_20170920_180905.jpg") };
             // Act
             var result = ImageService.ExtractLocationFromImage(picture);
             // Assert
@@ -57,7 +59,7 @@ namespace ImageHuntTest.Services
         public void ExtractLocationFromImageWithoutGPSLocation()
         {
             // Arrange
-            var picture = new Picture() { Image = GetImageFromResource("ImageHuntTest.TestData.image1.jpg") };
+            var picture = new Picture() { Image = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.image1.jpg") };
             // Act
             var result = ImageService.ExtractLocationFromImage(picture);
             // Assert

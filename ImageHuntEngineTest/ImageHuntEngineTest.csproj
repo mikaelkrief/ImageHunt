@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FakeItEasy" Version="4.4.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ImageHuntEngine\ImageHuntEngine.csproj" />
+    <ProjectReference Include="..\TestUtilities\TestUtilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="FakeItEasy">
+      <HintPath>..\..\..\Users\mandr\.nuget\packages\fakeiteasy\4.4.0\lib\netstandard1.6\FakeItEasy.dll</HintPath>
+    </Reference>
+    <Reference Include="NFluent">
+      <HintPath>..\..\..\Users\mandr\.nuget\packages\nfluent\2.2.0\lib\netstandard1.3\NFluent.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

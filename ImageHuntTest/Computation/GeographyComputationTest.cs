@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ImageHunt.Computation;
 using NFluent;
+using TestUtilities;
 using Xunit;
 
 namespace ImageHuntTest.Computation

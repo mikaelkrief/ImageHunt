@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
@@ -10,6 +10,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using NFluent;
 using SQLitePCL;
+using TestUtilities;
 using Xunit;
 
 namespace ImageHuntTest.Services
@@ -106,7 +107,7 @@ namespace ImageHuntTest.Services
         var games = new List<Game>() { new Game(), new Game() { Nodes = pictureNodes } };
         _context.Games.AddRange(games);
         _context.SaveChanges();
-        var picture = new Picture() { Image = GetImageFromResource("ImageHuntTest.TestData.IMG_20170920_180905.jpg") };
+        var picture = new Picture() { Image = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.IMG_20170920_180905.jpg") };
         // Act
         var result = _target.FindPictureNodeByLocation(games[1].Id, picture);
         // Assert

@@ -6,6 +6,7 @@ using Castle.Components.DictionaryAdapter;
 using ImageHunt.Model;
 using ImageHunt.Services;
 using NFluent;
+using TestUtilities;
 using Xunit;
 
 namespace ImageHuntTest.Services

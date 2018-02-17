@@ -6,6 +6,7 @@ using ImageHunt.Model;
 using ImageHunt.Services;
 using NFluent;
 using SQLitePCL;
+using TestUtilities;
 using Xunit;
 
 namespace ImageHuntTest.Services
