@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace ImageHuntCore.Data
+namespace ImageHunt.Data
 {
     public class HuntContextDesignFactory : IDesignTimeDbContextFactory<HuntContext>
     {

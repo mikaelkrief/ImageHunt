@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ImageHunt.Data;
 using ImageHunt.Model;
-using ImageHuntCore.Data;
 using ImageHuntCore.Services;
 using Microsoft.EntityFrameworkCore;
 

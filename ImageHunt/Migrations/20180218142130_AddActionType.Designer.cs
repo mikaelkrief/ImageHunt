@@ -13,9 +13,10 @@ using System;
 namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
-    partial class HuntContextModelSnapshot : ModelSnapshot
+    [Migration("20180218142130_AddActionType")]
+    partial class AddActionType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,8 +201,6 @@ namespace ImageHunt.Migrations
 
                     b.Property<string>("ChatLogin");
 
-                    b.Property<int?>("CurrentGameId");
-
                     b.Property<int?>("CurrentNodeId");
 
                     b.Property<bool>("IsDeleted");
@@ -213,8 +212,6 @@ namespace ImageHunt.Migrations
                     b.Property<int?>("TeamId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CurrentGameId");
 
                     b.HasIndex("CurrentNodeId");
 
@@ -363,10 +360,6 @@ namespace ImageHunt.Migrations
 
             modelBuilder.Entity("ImageHunt.Model.Player", b =>
                 {
-                    b.HasOne("ImageHunt.Model.Game", "CurrentGame")
-                        .WithMany()
-                        .HasForeignKey("CurrentGameId");
-
                     b.HasOne("ImageHunt.Model.Node.Node", "CurrentNode")
                         .WithMany()
                         .HasForeignKey("CurrentNodeId");

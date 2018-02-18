@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using ImageHunt.Computation;
+using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
-using ImageHuntCore.Data;
 using ImageHuntCore.Services;
 using Microsoft.EntityFrameworkCore;
 

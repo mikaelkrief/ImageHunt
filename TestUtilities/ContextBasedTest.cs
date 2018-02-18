@@ -1,5 +1,5 @@
 using System;
-using ImageHuntCore.Data;
+using ImageHunt.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace TestUtilities
