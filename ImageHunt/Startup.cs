@@ -52,13 +52,13 @@ namespace ImageHunt
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env, HuntContext context)
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env, HuntContext dbContext)
     {
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
       }
-      context.Database.Migrate();
+      dbContext.Database.Migrate();
       app.Use(async (context, next) =>
       {
         await next();
