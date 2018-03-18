@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using System.Text;
 using FakeItEasy;
 using ImageHunt.Controllers;
@@ -34,6 +35,8 @@ namespace ImageHuntTest.Controller
             var result = _target.GetAllAdmins();
             // Assert
             A.CallTo(() => _adminService.GetAllAdmins()).MustHaveHappened();
+          A.CallTo(() => _logger.Log(A<LogLevel>._, A<EventId>._, A<object>._, A<Exception>._,
+            A<Func<object, Exception, string>>._)).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();
         }
 
