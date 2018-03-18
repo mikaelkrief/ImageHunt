@@ -24,6 +24,12 @@ namespace ImageHunt
           return WebHost.CreateDefaultBuilder(args)
             .UseConfiguration(configuration)
             .UseStartup<Startup>()
+            .ConfigureLogging((context, builder) =>
+              {
+                builder.AddConfiguration(context.Configuration.GetSection("Logging"));
+                builder.AddConsole();
+                builder.AddDebug();
+              })
             .Build();
         
         }

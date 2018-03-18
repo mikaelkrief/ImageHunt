@@ -2,6 +2,7 @@ using ImageHunt.Model;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHunt.Controllers
 {
@@ -9,15 +10,18 @@ namespace ImageHunt.Controllers
   public class AdminController : Microsoft.AspNetCore.Mvc.Controller
   {
     private readonly IAdminService _adminService;
+    private readonly ILogger _logger;
 
-    public AdminController(IAdminService adminService)
+    public AdminController(IAdminService adminService, ILogger<AdminController> logger)
     {
       _adminService = adminService;
+      _logger = logger;
     }
     [HttpGet("GetAllAdmins")]
     //[Authorize]
     public IActionResult GetAllAdmins()
     {
+      _logger.LogTrace($"GetAllAdmins");
       return Ok(_adminService.GetAllAdmins());
     }
     [HttpGet("ById/{adminId}")]

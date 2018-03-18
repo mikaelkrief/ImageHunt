@@ -6,6 +6,7 @@ using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using Xunit;
 
@@ -15,11 +16,13 @@ namespace ImageHuntTest.Controller
     {
         private IAdminService _adminService;
         private AdminController _target;
+      private ILogger<AdminController> _logger;
 
-        public AdminControllerTest()
+      public AdminControllerTest()
         {
             _adminService = A.Fake<IAdminService>();
-            _target = new AdminController(_adminService);
+            _logger = A.Fake<ILogger<AdminController>>();
+            _target = new AdminController(_adminService, _logger);
         }
 
         [Fact]
