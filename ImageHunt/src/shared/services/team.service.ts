@@ -9,16 +9,16 @@ import {Team} from "../team";
 export class TeamService {
   constructor(private http: JwtHttp) { }
   getTeams() {
-    return this.http.get('api/team');
+    return this.http.get('api/Team');
 
   }
   getTeam(teamId) {
-    return this.http.get('api/team/' + teamId);
+    return this.http.get('api/Team/' + teamId);
   }
   addMemberToTeam(teamId: number, player: Player) {
-    return this.http.put('api/team/' + teamId, player);
+    return this.http.put('api/Team/' + teamId, player);
   }
   createTeam(gameId: number, team: Team) {
-    return this.http.post('api/team/' + gameId, team);
+    return this.http.post('api/Team/' + gameId, team);
   }
 }

@@ -9,16 +9,16 @@ import { JwtHttp } from "ng2-ui-auth";
 export class AdminService {
   constructor(private http: JwtHttp) { }
   getAllAdmins() {
-    return this.http.get('api/admin')
+    return this.http.get('api/Admin/GetAllAdmins')
       .map(a => a.json());
   }
   createAdmin(newAdmin: Admin) {
-    return this.http.post('api/admin/', newAdmin);
+    return this.http.post('api/Admin/', newAdmin);
   }
   deleteAdmin(adminId: number) {
-    return this.http.delete('api/admin/' + adminId);
+    return this.http.delete('api/Admin/' + adminId);
   }
   getAdminByEmail(email: string) {
-    return this.http.get('api/admin/ByEmail/' + email);
+    return this.http.get('api/Admin/ByEmail/' + email);
   }
 }

@@ -12,16 +12,16 @@ export class GameService {
   constructor(private http: Http,
     private jwtHttp: JwtHttp) { }
   getGameForAdmin(adminId: number) {
-    return this.jwtHttp.get('api/game/ByAdminId/' + adminId);
+    return this.jwtHttp.get('api/Game/ByAdminId/' + adminId);
   }
   getGameById(gameId: number) {
-    return this.jwtHttp.get('api/game/byId/' + gameId).map(g => g.json());
+    return this.jwtHttp.get('api/Game/byId/' + gameId).map(g => g.json());
   }
   createGame(adminId: number, game: Game) {
-    return this.jwtHttp.post('api/game/' + adminId, game);
+    return this.jwtHttp.post('api/Game/' + adminId, game);
   }
   addNode(gameId: number, node: NodeRequest) {
-    return this.jwtHttp.post(`api/game/AddNode/${gameId}`, node);
+    return this.jwtHttp.post(`api/Game/AddNode/${gameId}`, node);
   }
   upload(files: File[], gameId) {
     let headers = new Headers();
@@ -32,33 +32,33 @@ export class GameService {
     }
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.put(`api/game/AddPictures/${gameId}`, formData, options);
+    return this.http.put(`api/Game/AddPictures/${gameId}`, formData, options);
   }
 
   centerMap(gameId: number) {
-    return this.jwtHttp.post(`api/game/CenterGameByNodes/${gameId}`, null);
+    return this.jwtHttp.post(`api/Game/CenterGameByNodes/${gameId}`, null);
 
   }
 
   getNodeRelations(gameId: number) {
-     return this.jwtHttp.get(`api/game/NodesRelations/${gameId}`);
+     return this.jwtHttp.get(`api/Game/NodesRelations/${gameId}`);
   }
 
   addRelation(orgNodeId: number, destNodeId: number, answerId: number) {
 
-    return this.jwtHttp.post('api/node/AddRelationToNode', { nodeId: orgNodeId, childrenId: destNodeId, answerId: answerId });
+    return this.jwtHttp.post('api/Node/AddRelationToNode', { nodeId: orgNodeId, childrenId: destNodeId, answerId: answerId });
     //return this.jwtHttp.post('api/node/AddRelationToNode', null);
 
   }
   removeRelation(orgNodeId: number, destNodeId: number) {
-    return this.jwtHttp.post("api/node/RemoveRelationToNode", { nodeId: orgNodeId, childrenId: destNodeId, answerId: 0 });
+    return this.jwtHttp.post("api/Node/RemoveRelationToNode", { nodeId: orgNodeId, childrenId: destNodeId, answerId: 0 });
   }
 
-  setZoom(gameId: number, zoom: number) { return this.jwtHttp.patch(`api/game/UpdateZoom/${gameId}/${zoom}`, null); }
+  setZoom(gameId: number, zoom: number) { return this.jwtHttp.patch(`api/Game/UpdateZoom/${gameId}/${zoom}`, null); }
   getQuestionNodesOfGame(gameId: number)  {
-    return this.jwtHttp.get(`api/game/GetQuestionNodeOfGame/${gameId}`).map(j=>j.json());
+    return this.jwtHttp.get(`api/Game/GetQuestionNodeOfGame/${gameId}`).map(j=>j.json());
   }
   addRelationAnswers(relations: QuestionNodeAnswerRelation[]) {
-    return this.jwtHttp.post(`api/node/AddRelationsWithAnswers`, relations);
+    return this.jwtHttp.post(`api/Node/AddRelationsWithAnswers`, relations);
   }
 }
