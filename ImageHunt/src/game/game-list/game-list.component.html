@@ -8,11 +8,12 @@
         <th>Active</th>
         <th>Teams</th>
         <th>Carte</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let game of games">
-        <td><span class="fa fa-gamepad"></span> <a [routerLink]="['/game', game.id]">{{game.name}}</a></td>
+        <td><span class="fa fa-gamepad"> </span> <a [routerLink]="['/game', game.id]">{{game.name}}</a></td>
         <td>{{game.startDate | date:'medium'}}</td>
         <td>
           <!--<span *ngClass="{'fa fa-eye':true, 'fa fa-eye-slash':false}"></span>-->
@@ -24,6 +25,7 @@
           </ul>
         </td>
         <td><map-thumbnail [CenterLat]="game.mapCenterLat" [CenterLng]="game.mapCenterLng"></map-thumbnail></td>
+        <td><button class="btn btn-danger" (click)="deleteGame(game.id)"><span class="fa fa-trash"></span></button></td>
       </tr>
     </tbody>
   </table>

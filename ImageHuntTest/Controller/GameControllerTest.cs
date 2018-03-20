@@ -288,5 +288,16 @@ namespace ImageHuntTest.Controller
           Check.That(nodesResponse.First().Answers.Extracting("NodeId")).ContainsExactly<int?>(101, null, 102);
           Check.That(nodesResponse.First().Answers.Extracting("Response")).ContainsExactly("A", "B", "C");
       }
+
+    [Fact]
+    public void DeleteGame()
+    {
+      // Arrange
+      
+      // Act
+      _target.DeleteGame(1);
+      // Assert
+      A.CallTo(() => _gameService.DeleteGame(1)).MustHaveHappened();
+    }
   }
 }

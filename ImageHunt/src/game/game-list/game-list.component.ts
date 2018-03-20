@@ -44,6 +44,9 @@ export class GameListComponent implements OnInit {
         form.resetForm();
       });
   }
+  deleteGame(gameId: number) {
+    //this.gameService.
+  }
   classForActive(active: boolean) {
     return active ? 'fa-eye' : 'fa-eye-slash';
   }

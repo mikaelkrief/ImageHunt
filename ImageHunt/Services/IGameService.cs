@@ -18,5 +18,6 @@ namespace ImageHunt.Services
     Game GetGameFromPlayerChatId(string playerChatUserName);
     IEnumerable<Game> GetGamesFromPosition(double lat, double lng);
     IEnumerable<QuestionNode> GetQuestionNodeOfGame(int gameId);
+    void DeleteGame(int gameId);
   }
 }

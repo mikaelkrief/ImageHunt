@@ -97,5 +97,10 @@ namespace ImageHunt.Services
         .Include(n=>n.ChildrenRelation)
         .Where(n=>game.Nodes.Contains(n));
     }
+
+    public void DeleteGame(int gameId)
+    {
+      throw new NotImplementedException();
+    }
   }
 }
