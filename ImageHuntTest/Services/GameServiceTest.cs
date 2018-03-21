@@ -37,6 +37,24 @@ namespace ImageHuntTest.Services
       Check.That(admins[1].Games).ContainsExactly(game);
     }
 
+    [Fact]
+    public void DeleteGame()
+    {
+      // Arrange
+      var games = new List<Game>()
+      {
+        new Game(),
+        new Game(),
+        new Game(),
+      };
+      _context.Games.AddRange(games);
+      _context.SaveChanges();
+      // Act
+      _target.DeleteGame(games[1].Id);
+      // Assert
+      Check.That(_context.Games).HasSize(2);
+    }
+
     //[Fact]
     //public void CreateGameFirstNodeNotInNodes()
     //{

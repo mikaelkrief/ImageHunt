@@ -45,7 +45,10 @@ export class GameListComponent implements OnInit {
       });
   }
   deleteGame(gameId: number) {
-    //this.gameService.
+    this.gameService.deleteGame(gameId)
+      .subscribe(null, null, () => {
+        this.getGames();
+      });
   }
   classForActive(active: boolean) {
     return active ? 'fa-eye' : 'fa-eye-slash';

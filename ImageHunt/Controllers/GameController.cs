@@ -132,7 +132,7 @@ namespace ImageHunt.Controllers
       var questionNodesResponse = questionNodeOfGame.Select(n => new QuestionNodeResponse(n));
       return Ok(questionNodesResponse);
     }
-
+    [HttpDelete("{gameId}")]
     public IActionResult DeleteGame(int gameId)
     {
       _gameService.DeleteGame(gameId);

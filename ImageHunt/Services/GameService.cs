@@ -100,7 +100,8 @@ namespace ImageHunt.Services
 
     public void DeleteGame(int gameId)
     {
-      throw new NotImplementedException();
+      Context.Games.Remove(Context.Games.Single(g => g.Id == gameId));
+      Context.SaveChanges();
     }
   }
 }

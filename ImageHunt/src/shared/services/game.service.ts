@@ -20,6 +20,9 @@ export class GameService {
   createGame(adminId: number, game: Game) {
     return this.jwtHttp.post('api/Game/' + adminId, game);
   }
+  deleteGame(gameId: number) {
+    return this.jwtHttp.delete('api/Game/' + gameId);
+  }
   addNode(gameId: number, node: NodeRequest) {
     return this.jwtHttp.post(`api/Game/AddNode/${gameId}`, node);
   }
