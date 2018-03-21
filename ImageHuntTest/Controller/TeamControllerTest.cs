@@ -20,6 +20,29 @@ namespace ImageHuntTest.Controller
             _target = new TeamController(_teamService);
         }
 
+      [Fact]
+      public void CreateTeam()
+      {
+        // Arrange
+        var team = new Team() {Name = "Team"};
+        
+        // Act
+        _target.CreateTeam(1, team);
+        // Assert
+        A.CallTo(() => _teamService.CreateTeam(1, team)).MustHaveHappened();
+      }
+
+      [Fact]
+      public void DeleteTeam()
+      {
+        // Arrange
+        
+        // Act
+        _target.DeleteTeam(1);
+        // Assert
+        A.CallTo(() => _teamService.GetTeamById(1)).MustHaveHappened();
+        A.CallTo(() => _teamService.DeleteTeam(A<Team>._)).MustHaveHappened();
+      }
         [Fact]
         public void Get()
         {

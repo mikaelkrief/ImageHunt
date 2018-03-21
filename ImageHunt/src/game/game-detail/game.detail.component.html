@@ -13,9 +13,20 @@
     </div>
     <div>
       <div heading="Equipes">
-        <ul class="list-group">
-          <li class="list-group-item" *ngFor="let team of game.teams"><span class="fa fa-users"></span> <a routerLink="/team/{{team.id}}">{{team.name}}</a></li>
-        </ul>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Nom de la team</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tr *ngFor="let team of game.teams">
+            <td>
+              <span class="fa fa-users"></span> <a routerLink="/team/{{team.id}}">{{team.name}}</a>
+            </td>
+            <td><button class="btn btn-danger" (click)="deleteTeam(team.id)"><span class="fa fa-trash"></span></button></td>
+          </tr>
+        </table>
 
         <h3>Création d'une équipe</h3>
         <form #form="ngForm" (submit)="createTeam(game.id, form)">

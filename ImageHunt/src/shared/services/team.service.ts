@@ -21,4 +21,7 @@ export class TeamService {
   createTeam(gameId: number, team: Team) {
     return this.http.post('api/Team/' + gameId, team);
   }
+  deleteTeam(teamId: number) {
+    return this.http.delete('api/Team/' + teamId);
+  }
 }

@@ -196,4 +196,8 @@ export class GameDetailComponent implements OnInit {
   saveChanges(gameId: number) {
     this.newRelations.forEach(r => Observable.forkJoin(this._gameService.addRelation(r.orgId, r.destId, 0)).subscribe(() => this.getGame(gameId)));
   }
+  deleteTeam(teamId: number) {
+    this._teamService.deleteTeam(teamId)
+      .subscribe(() => this.getGame(this.game.id));
+  }
 }
