@@ -103,5 +103,12 @@ namespace ImageHunt.Services
       Context.Games.Remove(Context.Games.Single(g => g.Id == gameId));
       Context.SaveChanges();
     }
+
+    public IEnumerable<GameAction> GetGameActionsForGame(int gameId)
+    {
+      return Context.GameActions
+        .Include(ga=>ga.Game).Include(ga=>ga.Player)
+        .Where(ga => ga.Game.Id == gameId);
+    }
   }
 }

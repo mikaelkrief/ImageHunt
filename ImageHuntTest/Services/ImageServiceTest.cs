@@ -50,7 +50,7 @@ namespace ImageHuntTest.Services
             // Arrange
             var picture = new Picture() { Image = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.IMG_20170920_180905.jpg") };
             // Act
-            var result = ImageService.ExtractLocationFromImage(picture);
+            var result = _service.ExtractLocationFromImage(picture);
             // Assert
             Check.That(Math.Abs(result.Item1 - 59.3278160094444)).IsStrictlyLessThan(0.001);
             Check.That(Math.Abs(result.Item2 - 18.0551338194444)).IsStrictlyLessThan(0.001);
@@ -61,10 +61,10 @@ namespace ImageHuntTest.Services
             // Arrange
             var picture = new Picture() { Image = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.image1.jpg") };
             // Act
-            var result = ImageService.ExtractLocationFromImage(picture);
+            var result = _service.ExtractLocationFromImage(picture);
             // Assert
-            Check.That(result.Item1 ).Equals(0d);
-            Check.That(result.Item2 ).Equals(0d);
+            Check.That(result.Item1 ).Equals(double.NaN);
+            Check.That(result.Item2 ).Equals(double.NaN);
         }
 
     }

@@ -109,7 +109,7 @@ namespace ImageHuntTest.Services
         _context.SaveChanges();
         var picture = new Picture() { Image = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.IMG_20170920_180905.jpg") };
         // Act
-        var result = _target.FindPictureNodeByLocation(games[1].Id, picture);
+        var result = _target.FindPictureNodeByLocation(games[1].Id, (59.327816, 18.055133));
         // Assert
         Check.That(result).Equals(pictureNodes[4]);
       }

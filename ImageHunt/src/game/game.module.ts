@@ -17,12 +17,13 @@ import {NodeRelationComponent} from "./node-relation/node.relation.component";
 import { BrowserModule } from "@angular/platform-browser";
 import {QuestionNodeComponent} from "./question-node/question.node.component";
 import { ContextMenuModule } from "primeng/primeng";
+import {GameActionListComponent} from "./game-action-list/game-action-list.component";
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
     MapModule, BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule, BrowserModule, ContextMenuModule],
-  declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent],
-  exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent],
+  declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent],
+  exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent],
   providers: [GameService, TeamService, AlertService]
 })
 export class GameModule

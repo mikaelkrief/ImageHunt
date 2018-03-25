@@ -299,5 +299,42 @@ namespace ImageHuntTest.Controller
       // Assert
       A.CallTo(() => _gameService.DeleteGame(1)).MustHaveHappened();
     }
+
+    [Fact]
+    public void GetGameActions()
+    {
+      // Arrange
+      
+      // Act
+      var result = _target.GetGameActions(1) as OkObjectResult;
+      // Assert
+      A.CallTo(() => _gameService.GetGameActionsForGame(1)).MustHaveHappened();
+      Check.That(result).IsNotNull();
+    }
+
+    [Fact]
+    public void UploadImage()
+    {
+      // Arrange
+      var image = new byte[10];
+      // Act
+      var result = _target.UploadImage(image);
+      // Assert
+      Check.That(result).IsInstanceOf<OkResult>();
+      A.CallTo(() => _imageService.AddPicture(A<Picture>._)).MustHaveHappened();
+    }
+    [Fact]
+    public void UploadImageWithoutGeoTag()
+    {
+      // Arrange
+      var image = new byte[10];
+      A.CallTo(() => _imageService.ExtractLocationFromImage(A<Picture>._))
+        .Returns((Double.NaN, Double.NaN));
+      // Act
+      var result = _target.UploadImage(image);
+      // Assert
+      Check.That(result).IsInstanceOf<BadRequestResult>();
+      A.CallTo(() => _imageService.ExtractLocationFromImage(A<Picture>._)).MustHaveHappened();
+    }
   }
 }

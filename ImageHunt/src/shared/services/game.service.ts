@@ -64,4 +64,7 @@ export class GameService {
   addRelationAnswers(relations: QuestionNodeAnswerRelation[]) {
     return this.jwtHttp.post(`api/Node/AddRelationsWithAnswers`, relations);
   }
+  getGameActionForGame(gameId: number) {
+    return this.jwtHttp.get(`api/Game/GetGameActions/` + gameId);
+  }
 }

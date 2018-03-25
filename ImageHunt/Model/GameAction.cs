@@ -22,5 +22,6 @@ namespace ImageHunt.Model
       public Picture Picture { get; set; }
       public Action Action { get; set; }
       public Node.Node Node { get; set; }
+      public bool IsValidated { get; set; }
     }
 }

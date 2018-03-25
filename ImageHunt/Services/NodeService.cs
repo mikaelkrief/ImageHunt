@@ -79,14 +79,12 @@ namespace ImageHunt.Services
       Context.SaveChanges();
     }
 
-    public Node FindPictureNodeByLocation(int gameId, Picture pictureToFind)
+    public Node FindPictureNodeByLocation(int gameId, (double, double) pictureCoordinates)
     {
       var nodes = Context.Games.Include(g => g.Nodes).Single(g => g.Id == gameId).Nodes.Where(n => n is PictureNode);
       if (!nodes.Any())
         return null;
-      var pictureCoordinates = ImageService.ExtractLocationFromImage(pictureToFind);
       var pictureNode = new PictureNode() { Latitude = pictureCoordinates.Item1, Longitude = pictureCoordinates.Item2 };
-      var distances = nodes.Select(n => n.Distance(pictureNode));
       var closestNode =
         nodes.FirstOrDefault(n => n.Distance(pictureNode) < 40);
       return closestNode as PictureNode;

@@ -8,5 +8,6 @@ namespace ImageHunt.Services
     {
         void AddPicture(Picture picture);
         Picture GetPictureById(int pictureId);
+      (double, double) ExtractLocationFromImage(Picture picture);
     }
 }

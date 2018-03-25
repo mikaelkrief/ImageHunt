@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ImageHunt.Model;
@@ -80,7 +81,7 @@ namespace ImageHunt.Controllers
           fileStream.Read(bytes, 0, (int)fileStream.Length);
           var picture = new Picture(){Image = bytes};
           //_imageService.AddPicture(picture);
-          var coordinates = ImageService.ExtractLocationFromImage(picture);
+          var coordinates = _imageService.ExtractLocationFromImage(picture);
           var node = new PictureNode
           {
             Image = picture,
@@ -136,6 +137,21 @@ namespace ImageHunt.Controllers
     public IActionResult DeleteGame(int gameId)
     {
       _gameService.DeleteGame(gameId);
+      return Ok();
+    }
+    [HttpGet("GetGameActions/{gameId}")]
+    public IActionResult GetGameActions(int gameId)
+    {
+      return Ok(_gameService.GetGameActionsForGame(gameId));
+    }
+
+    public IActionResult UploadImage(byte[] image)
+    {
+      var picture = new Picture(){Image = image};
+      var coordinates = _imageService.ExtractLocationFromImage(picture);
+      if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
+        return BadRequest();
+      _imageService.AddPicture(picture);
       return Ok();
     }
   }

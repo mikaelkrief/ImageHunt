@@ -10,6 +10,7 @@ using NFluent;
 using SQLitePCL;
 using TestUtilities;
 using Xunit;
+using Action = ImageHunt.Model.Action;
 
 namespace ImageHuntTest.Services
 {
@@ -237,6 +238,60 @@ namespace ImageHuntTest.Services
       var result = _target.GetGamesFromPosition(48.846906, 2.33773);
       // Assert
       Check.That(result).Contains(games[0], games[1], games[2]);
+    }
+
+    [Fact]
+    public void GetGameActionForGame()
+    {
+      // Arrange
+      var players = new List<Player> {new Player(), new Player()};
+      _context.Players.AddRange(players);
+      _context.SaveChanges();
+      var games = new List<Game> {new Game(), new Game()};
+      _context.AddRange(games);
+       _context.SaveChanges();
+     var nodes = new List<Node>(){new FirstNode(), new ObjectNode(), new LastNode()};
+      _context.Nodes.AddRange(nodes);
+      _context.SaveChanges();
+      var gameActions = new List<GameAction>()
+      {
+        new GameAction()
+        {
+          Game = games[1],
+          Action = Action.StartGame,
+          DateOccured = DateTime.Now,
+          Latitude = 10,
+          Longitude = 15,
+          Node = nodes[0],
+          Player = players[1]
+        },
+        new GameAction()
+        {
+          Game = games[1],
+          Action = Action.VisitWaypoint,
+          DateOccured = DateTime.Now,
+          Latitude = 11,
+          Longitude = 15.2,
+          Node = nodes[1],
+          Player = players[1]
+        },
+        new GameAction()
+        {
+          Game = games[0],
+          Action = Action.VisitWaypoint,
+          DateOccured = DateTime.Now,
+          Latitude = 11,
+          Longitude = 15.2,
+          Node = nodes[1],
+          Player = players[1]
+        },
+      };
+      _context.GameActions.AddRange(gameActions);
+      _context.SaveChanges();
+      // Act
+      var results = _target.GetGameActionsForGame(games[1].Id);
+      // Assert
+      Check.That(results).ContainsExactly(gameActions[0], gameActions[1]);
     }
   }
 }

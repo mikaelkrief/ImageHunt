@@ -28,7 +28,7 @@ namespace ImageHunt.Services
       return Queryable.Single<Picture>(Context.Pictures, p => p.Id == pictureId);
     }
 
-    public static (double, double) ExtractLocationFromImage(Picture picture)
+    public virtual (double, double) ExtractLocationFromImage(Picture picture)
     {
       using (var imageStream = new MemoryStream(picture.Image))
       {
@@ -36,7 +36,7 @@ namespace ImageHunt.Services
         {
           var exifProfile = image.GetExifProfile();
           if (exifProfile == null || exifProfile.Values.All(v => v.Tag != ExifTag.GPSLatitude))
-            return (0d, 0d);
+            return (double.NaN, double.NaN);
           var gpsLatitude = exifProfile.Values.First(v => v.Tag == ExifTag.GPSLatitude).Value as Rational[];
           var gpsLatitudeRef = exifProfile.Values.First(v => v.Tag == ExifTag.GPSLatitudeRef).Value as string;
           var gpsLongitude = exifProfile.Values.First(v => v.Tag == ExifTag.GPSLongitude).Value as Rational[];
