@@ -24,6 +24,7 @@ export class GoogleButtonComponent implements OnInit {
   ngOnInit(): void {
     var expirationDate = <number>(this.localStorageService.get('expiration-date'));
     this.authenticated = new Date().getTime() < expirationDate;
+    this.localStorageService.set('isAuthenticated', this.authenticated);
     if (this.authenticated)
       this.admin = <Admin>(this.localStorageService.get('connectedAdmin'));
     else
@@ -40,10 +41,13 @@ export class GoogleButtonComponent implements OnInit {
           var seconds = new Date().getSeconds() + data.expires_in;
           var expireDate = new Date().setSeconds(seconds);
           this.localStorageService.set('expiration-date', expireDate);
+
           this.userEmail = data.email;
         },
         complete: () => {
           this.authenticated = this.auth.isAuthenticated();
+          this.localStorageService.set('isAuthenticated', this.authenticated);
+
           this.adminService.getAdminByEmail(this.userEmail)
             .subscribe(value => {
               this.admin = value.json();
@@ -56,6 +60,14 @@ export class GoogleButtonComponent implements OnInit {
   }
   logout() {
     this.auth.logout()
-      .subscribe({complete:()=>this.authenticated = this.auth.isAuthenticated()});
+      .subscribe({
+        complete: () => {
+          this.authenticated = this.auth.isAuthenticated();
+          this.localStorageService.remove('isAuthenticated');
+          this.localStorageService.remove('connectedAdmin');
+          this.localStorageService.remove('expiration-date');
+          this.admin = null;
+        }
+      });
   }
 }
