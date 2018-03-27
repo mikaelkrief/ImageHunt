@@ -317,8 +317,10 @@ namespace ImageHuntTest.Controller
     {
       // Arrange
       var image = new byte[10];
+      var file = A.Fake<IFormFile>();
+
       // Act
-      var result = _target.UploadImage(image);
+      var result = _target.UploadImage(file);
       // Assert
       Check.That(result).IsInstanceOf<OkResult>();
       A.CallTo(() => _imageService.AddPicture(A<Picture>._)).MustHaveHappened();
@@ -328,13 +330,24 @@ namespace ImageHuntTest.Controller
     {
       // Arrange
       var image = new byte[10];
+      var file = A.Fake<IFormFile>();
+
       A.CallTo(() => _imageService.ExtractLocationFromImage(A<Picture>._))
         .Returns((Double.NaN, Double.NaN));
       // Act
-      var result = _target.UploadImage(image);
+      var result = _target.UploadImage(file);
       // Assert
       Check.That(result).IsInstanceOf<BadRequestResult>();
       A.CallTo(() => _imageService.ExtractLocationFromImage(A<Picture>._)).MustHaveHappened();
+    }
+    [Fact]
+    public void UploadImageImageNull()
+    {
+      // Arrange
+      // Act
+      var result = _target.UploadImage(null);
+      // Assert
+      Check.That(result).IsInstanceOf<BadRequestObjectResult>();
     }
   }
 }

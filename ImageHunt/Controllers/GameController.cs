@@ -144,15 +144,22 @@ namespace ImageHunt.Controllers
     {
       return Ok(_gameService.GetGameActionsForGame(gameId));
     }
-
-    public IActionResult UploadImage(byte[] image)
+    [HttpPost("UploadImage")]
+    public IActionResult UploadImage(IFormFile file)
     {
-      var picture = new Picture(){Image = image};
-      var coordinates = _imageService.ExtractLocationFromImage(picture);
-      if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
-        return BadRequest();
-      _imageService.AddPicture(picture);
-      return Ok();
+      if (file == null)
+        return BadRequest("Image is bad format or null");
+      using (var stream = file.OpenReadStream())
+      {
+        var image = new byte[stream.Length];
+        stream.Read(image, 0, (int) stream.Length);
+        var picture = new Picture() {Image = image };
+        var coordinates = _imageService.ExtractLocationFromImage(picture);
+        if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
+          return BadRequest();
+        _imageService.AddPicture(picture);
+        return Ok();
+      }
     }
   }
 }

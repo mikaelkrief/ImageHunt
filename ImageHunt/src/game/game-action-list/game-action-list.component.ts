@@ -1,4 +1,7 @@
-﻿import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {GameService} from "../../shared/services/game.service";
+import { ActivatedRoute } from "@angular/router";
+import {GameAction} from "../../shared/gameAction";
 
 @Component({
     selector: 'game-action-list',
@@ -6,9 +9,18 @@
     styleUrls: ['./game-action-list.component.scss']
 })
 /** GameActionList component*/
-export class GameActionListComponent {
-    /** GameActionList ctor */
-    constructor() {
+export class GameActionListComponent implements OnInit {
+  /** GameActionList ctor */
+    constructor(private gameService: GameService, private route: ActivatedRoute) {
 
-    }
+  }
+
+  ngOnInit(): void {
+    this.gameId = this.route.snapshot.params["gameId"];
+    this.gameService.getGameActionForGame(this.gameId)
+      .subscribe(next => this.gameActions = next.json());
+  }
+
+  gameId: number;
+  gameActions: GameAction[];
 }

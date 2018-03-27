@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
-import {CalendarModule} from "primeng/components/calendar/calendar";
+import {CalendarModule} from "primeng/calendar";
 import {GameCreateComponent} from "./game-create/game.create.component";
 import {GameService} from "../shared/services/game.service";
 import {MapModule} from "../map/map.module";
@@ -17,11 +17,14 @@ import {NodeRelationComponent} from "./node-relation/node.relation.component";
 import { BrowserModule } from "@angular/platform-browser";
 import {QuestionNodeComponent} from "./question-node/question.node.component";
 import { ContextMenuModule } from "primeng/primeng";
-import {GameActionListComponent} from "./game-action-list/game-action-list.component";
+import { TableModule } from "primeng/table";
+import { GameActionListComponent } from "./game-action-list/game-action-list.component";
 
-@NgModule({
+@
+NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
-    MapModule, BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule, BrowserModule, ContextMenuModule],
+    MapModule, BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule, BrowserModule,
+    ContextMenuModule, TableModule],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent],
   exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent],
   providers: [GameService, TeamService, AlertService]

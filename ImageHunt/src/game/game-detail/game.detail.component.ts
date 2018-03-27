@@ -19,7 +19,6 @@ import { GeoVector } from "../../shared/GeoVector";
 import {AlertService} from "../../shared/services/alert.service";
 import { Observable } from "rxjs/Observable";
 import { EditedRelation } from "../../shared/EditedRelation";
-import { ContextMenuComponent} from 'ngx-contextmenu';
 import {QuestionNodeComponent} from "../question-node/question.node.component";
 
 @Component({
@@ -31,7 +30,7 @@ import {QuestionNodeComponent} from "../question-node/question.node.component";
 export class GameDetailComponent implements OnInit {
   @ContentChildren('fileInput') fileInput;
   @ViewChild('mapComponent') mapComponent;
-  @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
+
 
   alerts: any = [];
   public uploadModalRef: BsModalRef;
