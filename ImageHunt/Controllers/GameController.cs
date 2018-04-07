@@ -161,5 +161,10 @@ namespace ImageHunt.Controllers
         return Ok();
       }
     }
+    [HttpGet("GetGameAction/{gameActionId}")]
+    public IActionResult GetGameAction(int gameActionId)
+    {
+      return Ok(_gameService.GetGameAction(gameActionId));
+    }
   }
 }

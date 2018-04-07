@@ -20,5 +20,6 @@ namespace ImageHunt.Services
     IEnumerable<QuestionNode> GetQuestionNodeOfGame(int gameId);
     void DeleteGame(int gameId);
     IEnumerable<GameAction> GetGameActionsForGame(int gameId);
+    GameAction GetGameAction(int gameActionId);
   }
 }

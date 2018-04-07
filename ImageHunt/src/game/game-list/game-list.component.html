@@ -9,6 +9,7 @@
         <th>Teams</th>
         <th>Carte</th>
         <th>Actions</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -25,6 +26,7 @@
           </ul>
         </td>
         <td><map-thumbnail [CenterLat]="game.mapCenterLat" [CenterLng]="game.mapCenterLng"></map-thumbnail></td>
+        <td><button class="btn btn-primary" [routerLink]="['/action/', game.id]"><span class="fa fa-map-signs"></span></button></td>
         <td><button class="btn btn-danger" (click)="deleteGame(game.id)"><span class="fa fa-trash"></span></button></td>
       </tr>
     </tbody>

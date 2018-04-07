@@ -349,5 +349,16 @@ namespace ImageHuntTest.Controller
       // Assert
       Check.That(result).IsInstanceOf<BadRequestObjectResult>();
     }
+
+    [Fact]
+    public void GetGameAction()
+    {
+      // Arrange
+      
+      // Act
+      var result = _target.GetGameAction(1) as OkObjectResult;
+      // Assert
+      A.CallTo(() => _gameService.GetGameAction(1)).MustHaveHappened();
+    }
   }
 }

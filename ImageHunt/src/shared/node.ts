@@ -8,4 +8,5 @@ export class Node {
   nodeType: string;
   duration: number;
   action: string;
+  delta: number;
 }

@@ -19,14 +19,15 @@ import {QuestionNodeComponent} from "./question-node/question.node.component";
 import { ContextMenuModule } from "primeng/primeng";
 import { TableModule } from "primeng/table";
 import { GameActionListComponent } from "./game-action-list/game-action-list.component";
+import {GameActionDetailComponent} from "./game-action-detail/game-action-detail.component";
 
 @
 NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
     MapModule, BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule, BrowserModule,
     ContextMenuModule, TableModule],
-  declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent],
-  exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent],
+  declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],
+  exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],
   providers: [GameService, TeamService, AlertService]
 })
 export class GameModule

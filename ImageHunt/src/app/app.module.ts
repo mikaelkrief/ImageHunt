@@ -33,6 +33,8 @@ import { ContextMenuModule } from "primeng/primeng";
 import {NodeRelationComponent} from "../game/node-relation/node.relation.component";
 import {NodeCreateComponent} from "../game/node-create/node.create.component";
 import { QuestionNodeComponent } from "../game/question-node/question.node.component";
+import {GameActionListComponent} from "../game/game-action-list/game-action-list.component";
+import {GameActionDetailComponent} from "../game/game-action-detail/game-action-detail.component";
 
 export class MyAuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': 'application/json' };
@@ -78,6 +80,8 @@ export class MyAuthConfig extends CustomConfig {
       { path: 'home', component: HomeComponent },
       { path: 'game', component: GameListComponent },
       { path: 'game/:gameId', component: GameDetailComponent },
+      { path: 'action/:gameId', component: GameActionListComponent},
+      { path: 'action/detail/:gameActionId', component: GameActionDetailComponent},
       { path: 'team/:teamId', component: TeamDetailComponent },
       { path: 'team', component: TeamListComponent },
       { path: 'map', component: MapDetailComponent },

@@ -67,4 +67,7 @@ export class GameService {
   getGameActionForGame(gameId: number) {
     return this.jwtHttp.get(`api/Game/GetGameActions/` + gameId);
   }
+  getGameAction(gameActionId: number) {
+    return this.jwtHttp.get(`api/Game/GetGameAction/` + gameActionId);
+  }
 }

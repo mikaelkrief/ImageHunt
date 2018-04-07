@@ -12,15 +12,16 @@ import {GameAction} from "../../shared/gameAction";
 export class GameActionListComponent implements OnInit {
   /** GameActionList ctor */
     constructor(private gameService: GameService, private route: ActivatedRoute) {
-
-  }
+    }
 
   ngOnInit(): void {
     this.gameId = this.route.snapshot.params["gameId"];
     this.gameService.getGameActionForGame(this.gameId)
       .subscribe(next => this.gameActions = next.json());
   }
-
+  public isNaN(value): boolean {
+    return "NaN" === value;
+  }
   gameId: number;
   gameActions: GameAction[];
 }

@@ -6,6 +6,7 @@ using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ImageHunt.Services
@@ -106,9 +107,29 @@ namespace ImageHunt.Services
 
     public IEnumerable<GameAction> GetGameActionsForGame(int gameId)
     {
-      return Context.GameActions
-        .Include(ga=>ga.Game).Include(ga=>ga.Player)
-        .Where(ga => ga.Game.Id == gameId);
+      var gameActions = Context.GameActions
+        .Include(ga=>ga.Game).Include(ga=>ga.Player).Include(ga=>ga.Node)
+        .Where(ga => ga.Game.Id == gameId)
+        ;
+      foreach (var gameAction in gameActions)
+      {
+        if (gameAction.Node != null)
+        {
+          gameAction.Delta = GeographyComputation.Distance(gameAction.Node.Latitude, gameAction.Node.Longitude, gameAction.Latitude, gameAction.Longitude);
+        }
+        else
+        {
+          gameAction.Delta = double.NaN;
+        }
+      }
+      return gameActions;
+    }
+    public GameAction GetGameAction(int gameActionId)
+    {
+      var gameActions = Context.GameActions
+          .Include(ga => ga.Game).Include(ga => ga.Player).Include(ga => ga.Node)
+          .Single(ga => ga.Id == gameActionId);
+      return gameActions;
     }
   }
 }
