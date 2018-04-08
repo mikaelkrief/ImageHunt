@@ -12,4 +12,5 @@ export class GameAction {
   action: string;
   node: Node;
   isValidated: boolean;
+  delta: number;
 }

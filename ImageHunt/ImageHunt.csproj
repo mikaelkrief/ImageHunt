@@ -11,6 +11,7 @@
     <None Remove="src\app\top-menu.config.ts" />
     <None Remove="src\shared\answer.ts" />
     <None Remove="src\shared\gameAction.ts" />
+    <None Remove="src\shared\gmapdefinitions.ts" />
     <None Remove="src\shared\GUINode.ts" />
     <None Remove="src\shared\player.ts" />
     <None Remove="src\shared\QuestionNodeAnswerRelation.ts" />
@@ -44,6 +45,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\shared\answer.ts" />
     <TypeScriptCompile Include="src\shared\gameAction.ts" />
+    <TypeScriptCompile Include="src\shared\gmapdefinitions.ts" />
     <TypeScriptCompile Include="src\shared\GUINode.ts" />
     <TypeScriptCompile Include="src\shared\player.ts" />
     <TypeScriptCompile Include="src\shared\QuestionNodeAnswerRelation.ts" />
