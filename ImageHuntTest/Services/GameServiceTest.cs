@@ -372,6 +372,7 @@ namespace ImageHuntTest.Services
       // Assert
       Check.That(result.Action).Equals(Action.VisitWaypoint);
       Check.That(result.Game.Name).Equals(games[1].Name);
+      Check.That(result.Delta).IsEqualsWithDelta(141447.769119081, 0.001);
     }
   }
 }
