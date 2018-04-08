@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AgmCoreModule } from '@agm/core';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { AppComponent } from './app.component';
-import { BsDatepickerModule, TimepickerModule, BsDropdownModule, ModalModule, TabsModule } from 'ngx-bootstrap';
+import { BsDropdownModule, ModalModule, TabsModule } from 'ngx-bootstrap';
 import {AlertModule } from 'ngx-bootstrap/alert';
 
 import { FormsModule } from '@angular/forms';
@@ -35,6 +35,10 @@ import {NodeCreateComponent} from "../game/node-create/node.create.component";
 import { QuestionNodeComponent } from "../game/question-node/question.node.component";
 import {GameActionListComponent} from "../game/game-action-list/game-action-list.component";
 import {GameActionDetailComponent} from "../game/game-action-detail/game-action-detail.component";
+import localeFr from '@angular/common/locales/fr';
+import { registerLocaleData } from "@angular/common";
+
+registerLocaleData(localeFr);
 
 export class MyAuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': 'application/json' };
@@ -70,7 +74,6 @@ export class MyAuthConfig extends CustomConfig {
     PageNotFoundModule,
     GoogleButtonModule,
     Ng2UiAuthModule.forRoot(MyAuthConfig),
-    BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
     AlertModule.forRoot(),
     TabsModule.forRoot(),
