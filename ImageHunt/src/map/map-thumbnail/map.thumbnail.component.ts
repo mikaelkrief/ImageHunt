@@ -15,5 +15,14 @@ export class MapThumbnailComponent implements OnInit
     constructor() { }
 
     /** Called by Angular after map-thumbnail component initialized */
-    ngOnInit(): void { }
+    ngOnInit(): void {
+      this.options = {
+        center: { lat: this.CenterLat, lng: this.CenterLng },
+        zoom: 12
+      };
+
+    }
+
+  options: any;
+
 }

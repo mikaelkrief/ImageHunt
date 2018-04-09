@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {GameService} from "../../shared/services/game.service";
 import { ActivatedRoute } from "@angular/router";
-import {GameAction} from "../../shared/gameAction";
+import { GameAction } from "../../shared/gameAction";
 
 @Component({
     selector: 'game-action-list',
@@ -22,6 +22,7 @@ export class GameActionListComponent implements OnInit {
   public isNaN(value): boolean {
     return "NaN" === value;
   }
+
   gameId: number;
   gameActions: GameAction[];
 }

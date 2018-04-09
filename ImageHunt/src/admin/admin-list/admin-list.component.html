@@ -13,7 +13,7 @@
   <tr *ngFor="let admin of admins">
     <td>{{admin.name}}</td>
     <td class="email">{{admin.email}}</td>
-    <td><button class="btn btn-danger" (click)="deleteAdmin(admin.id)"><span class="fa fa-minus-square"></span> Effacer</button></td>
+    <td><button class="btn btn-danger" (click)="deleteAdmin(admin.id)"><span class="fa fa-user-times"></span> Effacer</button></td>
     <td>
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let game of admin.games"><span class=" fa fa-gamepad"></span> <a [routerLink]="['/game', game.id]">{{game.name}}</a></li>
@@ -35,6 +35,6 @@
       <input type="email" class="form-control" ngModel name="email" required placeholder="Email de l'admin" id="email"/>
     </div>
   </div>
-  <button type="submit" class="btn btn-default"><span class="fa fa-plus-square"></span> Créer</button>
+  <button type="submit" class="btn btn-primary"><span class="fa fa-user-plus"></span> Créer</button>
 </form>
 

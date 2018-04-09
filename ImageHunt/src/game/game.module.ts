@@ -21,12 +21,13 @@ import { TableModule } from "primeng/table";
 import { GMapModule } from 'primeng/gmap';
 import { GameActionListComponent } from "./game-action-list/game-action-list.component";
 import {GameActionDetailComponent} from "./game-action-detail/game-action-detail.component";
+import {PipeModule} from "../shared/pipes/pipe.module";
 
 @
 NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
     MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule,
-    ContextMenuModule, TableModule, GMapModule],
+    ContextMenuModule, TableModule, GMapModule, PipeModule.forRoot()],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],
   exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],
   providers: [GameService, TeamService, AlertService]

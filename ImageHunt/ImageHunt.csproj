@@ -45,6 +45,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\shared\answer.ts" />
     <TypeScriptCompile Include="src\shared\gameAction.ts" />
+    <TypeScriptCompile Include="src\shared\pipes\gameActionTranslationPipe.ts" />
     <TypeScriptCompile Include="src\shared\gmapdefinitions.ts" />
     <TypeScriptCompile Include="src\shared\GUINode.ts" />
     <TypeScriptCompile Include="src\shared\player.ts" />

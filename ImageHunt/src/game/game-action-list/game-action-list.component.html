@@ -15,7 +15,7 @@
       <td>{{action.dateOccured|date:'HH:mm'}}</td>
       <td>{{isNaN(action.delta)?'-':action.delta | number:'1.0-2':'fr'}}</td>
       <td>{{action.player.name}}</td>
-      <td>{{action.action}}</td>
+      <td>{{action.action|gameActionTranslationPipe}}</td>
       <td>{{action.node===null?'Aucun':action.node.name}}</td>
       <td>
         <p-tableCheckbox [value]="action.isValidated"></p-tableCheckbox>
