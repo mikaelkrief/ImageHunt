@@ -23,14 +23,15 @@ import { GameActionListComponent } from "./game-action-list/game-action-list.com
 import {GameActionDetailComponent} from "./game-action-detail/game-action-detail.component";
 import {PipeModule} from "../shared/pipes/pipe.module";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
+import { ConfirmationService } from "primeng/api";
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
-    MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule,// ConfirmDialogModule,
+    MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule,
     ContextMenuModule, TableModule, GMapModule, PipeModule.forRoot()],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],
   exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],
-  providers: [GameService, TeamService, AlertService]
+  providers: [GameService, TeamService, AlertService, ConfirmationService]
 })
 export class GameModule
 {

@@ -21,7 +21,8 @@ export class GameListComponent implements OnInit {
   /** game ctor */
   constructor(private gameService: GameService,
     private localStorageService: LocalStorageService,
-    private _alertService: AlertService) { }
+    private _alertService: AlertService,
+    private _confirmationService: ConfirmationService) { }
 
   /** Called by Angular after game component initialized */
   ngOnInit(): void {
@@ -46,10 +47,13 @@ export class GameListComponent implements OnInit {
       });
   }
   deleteGame(gameId: number) {
-    this.gameService.deleteGame(gameId)
+    this._confirmationService.confirm({
+      message: "Voulez-vous vraiment effacer cette partie ?",
+      accept: () =>this.gameService.deleteGame(gameId)
       .subscribe(null, null, () => {
         this.getGames();
-      });
+      })
+    });
   }
   classForActive(active: boolean) {
     return active ? 'fa-eye' : 'fa-eye-slash';
