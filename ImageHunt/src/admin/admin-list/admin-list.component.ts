@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AdminService} from "../../shared/services/admin.service";
 import {Admin} from "../../shared/admin";
 import { NgForm } from "@angular/forms";
+import { ConfirmationService } from "primeng/api";
 
 @Component({
   selector: 'admin-list',
@@ -12,7 +13,7 @@ import { NgForm } from "@angular/forms";
 export class AdminListComponent implements OnInit {
   admins: Admin[];
   /** admin ctor */
-  constructor(private _adminService: AdminService) { }
+  constructor(private _adminService: AdminService, private _confirmationService: ConfirmationService) { }
 
   /** Called by Angular after admin component initialized */
   ngOnInit(): void {
@@ -24,8 +25,12 @@ export class AdminListComponent implements OnInit {
         err => console.error(err.status));
   }
   deleteAdmin(adminId: number) {
-    this._adminService.deleteAdmin(adminId)
-      .subscribe(null, null, () => this.getAdmins());
+    this._confirmationService.confirm({
+      message: "Etes-vous sur de vouloir supprimer cet administrateur ?",
+      accept: () => this._adminService.deleteAdmin(adminId)
+        .subscribe(null, null, () => this.getAdmins())
+    });
+
   }
   createAdmin(form: NgForm) {
     var admin: Admin = { id: 0, name: form.value.name, email: form.value.email, games: null };

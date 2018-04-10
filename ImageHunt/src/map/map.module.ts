@@ -6,13 +6,14 @@ import {MapDetailComponent} from "./map-detail/map-detail.component";
 import {environment} from "../environments/environment";
 import {MapThumbnailComponent} from "./map-thumbnail/map.thumbnail.component";
 import { GMapModule } from 'primeng/gmap';
+import {MapDetail2Component} from "./map-detail2/map-detail2.component";
 
 @NgModule({
   imports: [CommonModule,
     AgmCoreModule.forRoot({ apiKey: environment.GOOGLE_MAP_API_KEY }),
     FormsModule, GMapModule],
-  declarations: [MapDetailComponent, MapThumbnailComponent],
-  exports: [MapDetailComponent, MapThumbnailComponent]})
+  declarations: [MapDetailComponent, MapDetail2Component, MapThumbnailComponent],
+  exports: [MapDetailComponent, MapDetail2Component, MapThumbnailComponent]})
 export class MapModule
 {
 }
