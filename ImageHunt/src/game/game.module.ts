@@ -22,11 +22,11 @@ import { GMapModule } from 'primeng/gmap';
 import { GameActionListComponent } from "./game-action-list/game-action-list.component";
 import {GameActionDetailComponent} from "./game-action-detail/game-action-detail.component";
 import {PipeModule} from "../shared/pipes/pipe.module";
+import { ConfirmDialogModule } from "primeng/confirmdialog";
 
-@
-NgModule({
+@NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
-    MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule,
+    MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule,// ConfirmDialogModule,
     ContextMenuModule, TableModule, GMapModule, PipeModule.forRoot()],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],
   exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],

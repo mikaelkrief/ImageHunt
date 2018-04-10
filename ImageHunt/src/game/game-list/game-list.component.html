@@ -2,35 +2,36 @@
   <h2>Jeux existants</h2>
   <table class="table">
     <thead>
-      <tr>
-        <th>Nom</th>
-        <th>Date de la chasse</th>
-        <th>Active</th>
-        <th>Teams</th>
-        <th>Carte</th>
-        <th>Actions</th>
-        <th></th>
-      </tr>
+    <tr>
+      <th>Nom</th>
+      <th>Date de la chasse</th>
+      <th>Active</th>
+      <th>Teams</th>
+      <th>Carte</th>
+      <th>Actions</th>
+      <th></th>
+    </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let game of games">
-        <td><span class="fa fa-gamepad"> </span> <a [routerLink]="['/game', game.id]">{{game.name}}</a></td>
-        <td>{{game.startDate | date:'medium'}}</td>
-        <td>
-          <!--<span *ngClass="{'fa fa-eye':true, 'fa fa-eye-slash':false}"></span>-->
-          {{game.isActive}}
-        </td>
-        <td>
-          <ul class="list-group">
-            <li class="list-group-item" *ngFor="let team of game.teams"><span class="fa fa-users"> <a [routerLink]="['/team', team.id]">{{team.name}}</a></span></li>
-          </ul>
-        </td>
-        <td><map-thumbnail [CenterLat]="game.mapCenterLat" [CenterLng]="game.mapCenterLng"></map-thumbnail></td>
-        <td><button class="btn btn-primary" [routerLink]="['/action/', game.id]"><span class="fa fa-map-signs"></span></button></td>
-        <td><button class="btn btn-danger" (click)="deleteGame(game.id)"><span class="fa fa-trash"></span></button></td>
-      </tr>
+    <tr *ngFor="let game of games">
+      <td><span class="fa fa-gamepad fa-2x"> </span> <a [routerLink]="['/game', game.id]">{{game.name}}</a></td>
+      <td>{{game.startDate | date:'medium':'':'fr'}}</td>
+      <td>
+        <span class="fa fa-eye fa-lg" *ngIf="game.isActive"></span>
+        <span class="fa fa-eye-slash fa-lg" *ngIf="!game.isActive"></span>
+      </td>
+      <td>
+        <ul class="fa-ul">
+          <li class="fa-li" *ngFor="let team of game.teams"><i class="fa fa-users"></i> <a [routerLink]="['/team', team.id]">{{team.name}}</a></li>
+        </ul>
+      </td>
+      <td><map-thumbnail [CenterLat]="game.mapCenterLat" [CenterLng]="game.mapCenterLng"></map-thumbnail></td>
+      <td><button class="btn btn-primary" [routerLink]="['/action/', game.id]"><span class="fa fa-map-signs"></span></button></td>
+      <td><button class="btn btn-danger" (click)="deleteGame(game.id)"><span class="fa fa-trash"></span></button></td>
+    </tr>
     </tbody>
   </table>
+  <!--<p-confirmDialog></p-confirmDialog>-->
 
   <h2>Créer une nouvelle partie</h2>
   <form #form="ngForm" (submit)="createGame(form)">
