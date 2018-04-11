@@ -113,21 +113,21 @@ namespace ImageHunt.Services
         ;
       foreach (var gameAction in gameActions)
       {
-        ComputeDelta(gameAction);
+        gameAction.Delta = ComputeDelta(gameAction);
       }
       return gameActions;
     }
 
-    protected virtual void ComputeDelta(GameAction gameAction)
+    protected virtual double ComputeDelta(GameAction gameAction)
     {
       if (gameAction.Node != null)
       {
-        gameAction.Delta = GeographyComputation.Distance(gameAction.Node.Latitude, gameAction.Node.Longitude,
+        return GeographyComputation.Distance(gameAction.Node.Latitude, gameAction.Node.Longitude,
           gameAction.Latitude, gameAction.Longitude);
       }
       else
       {
-        gameAction.Delta = double.NaN;
+        return double.NaN;
       }
     }
 
@@ -136,7 +136,7 @@ namespace ImageHunt.Services
       var gameAction = Context.GameActions
           .Include(ga => ga.Game).Include(ga => ga.Player).Include(ga => ga.Node)
           .Single(ga => ga.Id == gameActionId);
-      ComputeDelta(gameAction);
+      gameAction.Delta = ComputeDelta(gameAction);
       return gameAction;
     }
   }
