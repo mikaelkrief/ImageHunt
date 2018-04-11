@@ -1,15 +1,14 @@
-﻿using System;
+using System;
 using System.Linq;
 using ImageHunt.Data;
 using ImageHunt.Exception;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
-using ImageHunt.Services;
 using ImageHuntCore.Services;
 using Action = ImageHunt.Model.Action;
 using Game = Telegram.Bot.Types.Game;
 
-namespace ImageHuntTest
+namespace ImageHunt.Services
 {
   public class PlayerService : AbstractService, IPlayerService
   {
@@ -28,7 +27,7 @@ namespace ImageHuntTest
 
     public Player JoinTeam(string gameName, string teamName, string playerName)
     {
-      var game = Context.Games.SingleOrDefault(g => g.Name == gameName);
+      var game = Queryable.SingleOrDefault<Model.Game>(Context.Games, g => g.Name == gameName);
       if (game == null)
         throw new ArgumentException($"Game {gameName} doesn't exist");
       var team = game.Teams.SingleOrDefault(t => t.Name == teamName);
@@ -46,7 +45,7 @@ namespace ImageHuntTest
 
     private Player GetPlayer(string playerName)
     {
-      var player = Context.Players.SingleOrDefault(p => p.Name == playerName);
+      var player = Queryable.SingleOrDefault<Player>(Context.Players, p => p.Name == playerName);
       if (player == null)
         throw new ArgumentException($"Player {playerName} doesn't exist");
 
@@ -59,7 +58,7 @@ namespace ImageHuntTest
       if (game.StartDate.Value.Date != DateTime.Today || !game.IsActive)
         throw new ArgumentException("There is no game active or today");
       player.StartTime = DateTime.Now;
-      player.CurrentNode = game.Nodes.FirstOrDefault(n => n is FirstNode);
+      player.CurrentNode = Enumerable.FirstOrDefault<Node>(game.Nodes, n => n is FirstNode);
       Context.SaveChanges();
     }
 
@@ -68,7 +67,7 @@ namespace ImageHuntTest
       var player = GetPlayer(playerName);
       if (player.CurrentGame == null || !player.CurrentGame.IsActive)
         throw new InvalidGameException();
-      var nextNode = player.CurrentNode.Children.First();
+      var nextNode = Enumerable.First<Node>(player.CurrentNode.Children);
       var gameAction = new GameAction()
       {
         DateOccured = DateTime.Now,
@@ -101,6 +100,11 @@ namespace ImageHuntTest
       };
       Context.GameActions.Add(gameAction);
       Context.SaveChanges();
+    }
+
+    public Player GetPlayerById(int playerId)
+    {
+      return Context.Players.Single(p => p.Id == playerId);
     }
   }
 }

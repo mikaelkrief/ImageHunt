@@ -10,5 +10,6 @@ namespace ImageHunt.Services
     void StartPlayer(string name);
     Node NextNodeForPlayer(string playerName, double playerLatitude, double playerLongitude);
     void UploadImage(string playerName, double latitude, double longitude, byte[] image);
+    Player GetPlayerById(int playerId);
   }
 }

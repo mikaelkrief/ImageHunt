@@ -5,6 +5,7 @@ using System.Reflection;
 using ImageHunt.Exception;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
+using ImageHunt.Services;
 using NFluent;
 using TestUtilities;
 using Xunit;
@@ -277,6 +278,19 @@ namespace ImageHuntTest
         Check.That(imageAction.Longitude).IsEqualsWithDelta(18.0551338194444, 0.001);
         Check.That(imageAction.Picture).IsNotNull();
         Check.That(imageAction.Action).Equals(Action.SubmitPicture);
+      }
+
+      [Fact]
+      public void GetPlayerById()
+      {
+        // Arrange
+        var players = new List<Player> {new Player(), new Player(), new Player()};
+        _context.Players.AddRange(players);
+        _context.SaveChanges();
+        // Act
+        var result = _target.GetPlayerById(players[1].Id);
+        // Assert
+        Check.That(result).Equals(players[1]);
       }
   }
 }

@@ -13,9 +13,10 @@ using System;
 namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
-    partial class HuntContextModelSnapshot : ModelSnapshot
+    [Migration("20180411195024_AddCorrectAnswer")]
+    partial class AddCorrectAnswer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,8 +99,6 @@ namespace ImageHunt.Migrations
 
                     b.Property<int?>("PlayerId");
 
-                    b.Property<int?>("SelectedAnswerId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("GameId");
@@ -109,8 +108,6 @@ namespace ImageHunt.Migrations
                     b.HasIndex("PictureId");
 
                     b.HasIndex("PlayerId");
-
-                    b.HasIndex("SelectedAnswerId");
 
                     b.ToTable("GameActions");
                 });
@@ -344,10 +341,6 @@ namespace ImageHunt.Migrations
                     b.HasOne("ImageHunt.Model.Player", "Player")
                         .WithMany()
                         .HasForeignKey("PlayerId");
-
-                    b.HasOne("ImageHunt.Model.Node.Answer", "SelectedAnswer")
-                        .WithMany()
-                        .HasForeignKey("SelectedAnswerId");
                 });
 
             modelBuilder.Entity("ImageHunt.Model.Node.Answer", b =>

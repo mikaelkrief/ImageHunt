@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using ImageHunt.Model.Node;
 
 namespace ImageHunt.Model
 {
@@ -24,6 +25,7 @@ namespace ImageHunt.Model
       public Action Action { get; set; }
       public Node.Node Node { get; set; }
       public bool IsValidated { get; set; }
+      public Answer SelectedAnswer { get; set; }
       [NotMapped]
       public double Delta { get; set; }
     }
