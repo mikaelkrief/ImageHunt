@@ -271,5 +271,18 @@ namespace ImageHuntTest.Services
         // Assert
         Check.That(nodes[1].Children).HasSize(0);
       }
+
+      [Fact]
+      public void GetAnswer()
+      {
+        // Arrange
+        var answers = new List<Answer> {new Answer(), new Answer(), new Answer()};
+        _context.Answers.AddRange(answers);
+        _context.SaveChanges();
+        // Act
+        var result = _target.GetAnswer(answers[1].Id);
+        // Assert
+        Check.That(result).Equals(answers[1]);
+      }
   }
 }

@@ -1,7 +1,9 @@
 ﻿
+using System.Collections.Generic;
 using FakeItEasy;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
+using ImageHunt.Model.Node;
 using ImageHunt.Request;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.Http;
@@ -19,6 +21,7 @@ namespace ImageHuntTest.Controller
       private IPlayerService _playerService;
       private IImageService _imageService;
       private IActionService _actionService;
+      private INodeService _nodeService;
 
       public ActionControllerTest()
       {
@@ -26,7 +29,8 @@ namespace ImageHuntTest.Controller
         _playerService = A.Fake<IPlayerService>();
         _imageService = A.Fake<IImageService>();
         _actionService = A.Fake<IActionService>();
-        _target = new ActionController(_gameService, _playerService, _imageService, _actionService);
+        _nodeService = A.Fake<INodeService>();
+        _target = new ActionController(_gameService, _playerService, _imageService, _actionService, _nodeService);
       }
       [Fact]
       public void AddGameAction_UploadPicture()
@@ -43,7 +47,7 @@ namespace ImageHuntTest.Controller
 
         };
         // Act
-        var result = _target.AddGameAction(gameActionRequest);
+      var result = _target.AddGameAction(gameActionRequest);
         // Assert
         Check.That(result).IsInstanceOf<OkResult>();
         A.CallTo(() => _playerService.GetPlayerById(gameActionRequest.PlayerId)).MustHaveHappened();
@@ -100,5 +104,40 @@ namespace ImageHuntTest.Controller
 
         return true;
       }
-  }
+
+      [Fact]
+      public void AddGameAction_ReplyQuestion()
+      {
+      // Arrange
+        var gameActionRequest = new GameActionRequest()
+        {
+          Action = 4,
+          Latitude = 1.2,
+          Longitude = 50.2,
+          NodeId = 2,
+          GameId = 2,
+          PlayerId = 5,
+          AnswerId = 3
+        };
+        var questionNode = new QuestionNode()
+        {
+          Answers = new List<Answer>() {new Answer(), new Answer() {Correct = true}, new Answer()}
+        };
+        A.CallTo(() => _nodeService.GetNode(A<int>._)).Returns(questionNode);
+        // Act
+        var result = _target.AddGameAction(gameActionRequest);
+        // Assert
+        A.CallTo(() => _nodeService.GetAnswer(A<int>._)).MustHaveHappened();
+        A.CallTo(() => _nodeService.GetNode(gameActionRequest.NodeId)).MustHaveHappened();
+        A.CallTo(() => _actionService.AddGameAction(A<GameAction>.That.Matches(ga => CheckGameActionWithAnswer(ga))))
+          .MustHaveHappened();
+      }
+
+      private bool CheckGameActionWithAnswer(GameAction ga)
+      {
+        Check.That(ga.SelectedAnswer).IsNotNull();
+        Check.That(ga.CorrectAnswer).IsNotNull();
+        return true;
+      }
+    }
 }

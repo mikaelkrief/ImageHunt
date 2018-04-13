@@ -51,13 +51,15 @@ namespace ImageHunt.Services
         return gameAction;
       }
 
-      public ActionService(HuntContext context, ILogger<ActionService> logger) : base(context, logger)
+      public ActionService(HuntContext context, ILogger<ActionService> logger)
+        : base(context, logger)
       {
       }
 
       public void AddGameAction(GameAction gameAction)
       {
-        throw new NotImplementedException();
+        Context.GameActions.Add(gameAction);
+        Context.SaveChanges();
       }
     }
 }

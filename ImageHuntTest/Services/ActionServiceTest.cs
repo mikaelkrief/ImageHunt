@@ -158,5 +158,19 @@ namespace ImageHuntTest.Services
       Check.That(result.Delta).IsEqualsWithDelta(141447.769119081, 0.001);
     }
 
+      [Fact]
+      public void AddGameAction()
+      {
+        // Arrange
+        var games = new List<Game> {new Game(), new Game()};
+        _context.Games.AddRange(games);
+        var players = new List<Player> {new Player(), new Player(), new Player()};
+        _context.SaveChanges();
+        var gameAction = new GameAction(){Game = games[1], Player = players[1]};
+        // Act
+        _target.AddGameAction(gameAction);
+        // Assert
+        Check.That(_context.GameActions).HasSize(1).And.Contains(gameAction);
+      }
   }
 }

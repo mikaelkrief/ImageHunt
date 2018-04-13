@@ -28,6 +28,7 @@ namespace ImageHunt.Model
       public Node.Node Node { get; set; }
       public bool IsValidated { get; set; }
       public Answer SelectedAnswer { get; set; }
+      public Answer CorrectAnswer { get; set; }
       [NotMapped]
       public double Delta { get; set; }
     }

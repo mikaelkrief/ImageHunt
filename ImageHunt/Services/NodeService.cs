@@ -24,7 +24,9 @@ namespace ImageHunt.Services
 
     public Node GetNode(int nodeId)
     {
-      return Context.Nodes.Single(n => n.Id == nodeId);
+      return Context.Nodes
+          .Include("Answers")
+        .SingleOrDefault(n => n.Id == nodeId);
     }
 
     public void AddChildren(int nodeId, int childrenNodeId)
@@ -78,6 +80,11 @@ namespace ImageHunt.Services
       var theNode = Context.Nodes.Include(n=>n.ChildrenRelation).Single(n => n.Id == node.Id);
       theNode.ChildrenRelation.RemoveAll(n=>true);
       Context.SaveChanges();
+    }
+
+    public Answer GetAnswer(int answerId)
+    {
+      return Context.Answers.Single(a => a.Id == answerId);
     }
 
     public Node FindPictureNodeByLocation(int gameId, (double, double) pictureCoordinates)

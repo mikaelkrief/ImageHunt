@@ -20,9 +20,18 @@ namespace ImageHunt
 
         public static IWebHost BuildWebHost(string[] args) 
         {
-          var configuration = new ConfigurationBuilder().AddCommandLine(args).Build();
+          //var configuration = new ConfigurationBuilder().AddCommandLine(args).Build();
           return WebHost.CreateDefaultBuilder(args)
-            .UseConfiguration(configuration)
+            .UseKestrel()
+            .UseContentRoot(Directory.GetCurrentDirectory())
+            .ConfigureAppConfiguration((context, builder) =>
+            {
+              var env = context.HostingEnvironment;
+              builder.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+              builder.AddEnvironmentVariables();
+            })
+            //.UseConfiguration(configuration)
             .ConfigureLogging((context, builder) =>
               {
                 builder.AddConfiguration(context.Configuration.GetSection("Logging"));
