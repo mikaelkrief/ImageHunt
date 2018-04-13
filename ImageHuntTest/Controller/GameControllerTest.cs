@@ -26,13 +26,15 @@ namespace ImageHuntTest.Controller
     private GameController _target;
     private INodeService _nodeService;
     private IImageService _imageService;
+    private IActionService _actionService;
 
     public GameControllerTest()
     {
       _gameService = A.Fake<IGameService>();
       _nodeService = A.Fake<INodeService>();
       _imageService = A.Fake<IImageService>();
-      _target = new GameController(_gameService, _imageService, _nodeService);
+      _actionService = A.Fake<IActionService>();
+      _target = new GameController(_gameService, _imageService, _nodeService, _actionService);
     }
 
     [Fact]
@@ -308,7 +310,7 @@ namespace ImageHuntTest.Controller
       // Act
       var result = _target.GetGameActions(1) as OkObjectResult;
       // Assert
-      A.CallTo(() => _gameService.GetGameActionsForGame(1)).MustHaveHappened();
+      A.CallTo(() => _actionService.GetGameActionsForGame(1)).MustHaveHappened();
       Check.That(result).IsNotNull();
     }
 
@@ -358,7 +360,7 @@ namespace ImageHuntTest.Controller
       // Act
       var result = _target.GetGameAction(1) as OkObjectResult;
       // Assert
-      A.CallTo(() => _gameService.GetGameAction(1)).MustHaveHappened();
+      A.CallTo(() => _actionService.GetGameAction(1)).MustHaveHappened();
     }
   }
 }

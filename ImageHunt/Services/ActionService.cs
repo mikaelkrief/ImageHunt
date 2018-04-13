@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using ImageHunt.Computation;
+using ImageHunt.Data;
+using ImageHunt.Model;
+using ImageHuntCore.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+
+namespace ImageHunt.Services
+{
+    public class ActionService : AbstractService, IActionService
+    {
+      public IEnumerable<GameAction> GetGameActionsForGame(int gameId)
+      {
+        var gameActions = Context.GameActions
+            .Include(ga => ga.Game).Include(ga => ga.Player).Include(ga => ga.Node)
+            .Where(ga => ga.Game.Id == gameId)
+          ;
+        foreach (var gameAction in gameActions)
+        {
+          gameAction.Delta = ComputeDelta(gameAction);
+        }
+        return gameActions;
+      }
+
+      protected virtual double ComputeDelta(GameAction gameAction)
+      {
+        if (gameAction.Node != null)
+        {
+          return GeographyComputation.Distance(gameAction.Node.Latitude, gameAction.Node.Longitude,
+            gameAction.Latitude, gameAction.Longitude);
+        }
+        else
+        {
+          return double.NaN;
+        }
+      }
+
+      public GameAction GetGameAction(int gameActionId)
+      {
+        var gameAction = Context.GameActions
+          .Include(ga => ga.Game).Include(ga => ga.Player).Include(ga => ga.Node)
+          .Single(ga => ga.Id == gameActionId);
+        gameAction.Delta = ComputeDelta(gameAction);
+        return gameAction;
+      }
+
+      public ActionService(HuntContext context, ILogger<ActionService> logger) : base(context, logger)
+      {
+      }
+
+      public void AddGameAction(GameAction gameAction)
+      {
+        throw new NotImplementedException();
+      }
+    }
+}

@@ -5,12 +5,13 @@ using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHuntCore.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHunt.Services
 {
   public class AdminService : AbstractService, IAdminService
   {
-    public AdminService(HuntContext context) : base(context)
+    public AdminService(HuntContext context, ILogger<AdminService> logger) : base(context, logger)
     {
     }
 

@@ -7,12 +7,13 @@ using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
 using ImageMagick;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHunt.Services
 {
   public class ImageService : AbstractService, IImageService
   {
-    public ImageService(HuntContext context) : base(context)
+    public ImageService(HuntContext context, ILogger<ImageService> logger) : base(context, logger)
     {
 
     }

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FakeItEasy;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using SQLitePCL;
 using TestUtilities;
@@ -14,10 +16,12 @@ namespace ImageHuntTest.Services
     public class AdminServiceTest : ContextBasedTest
     {
         private AdminService _target;
+      private ILogger<AdminService> _logger;
 
-        public AdminServiceTest()
-        {
-            _target = new AdminService(_context);
+      public AdminServiceTest()
+      {
+        _logger = A.Fake<ILogger<AdminService>>();
+            _target = new AdminService(_context, _logger);
         }
 
         [Fact]

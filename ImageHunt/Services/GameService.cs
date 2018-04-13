@@ -8,12 +8,13 @@ using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHunt.Services
 {
   public class GameService : AbstractService, IGameService
   {
-    public GameService(HuntContext context) : base(context)
+    public GameService(HuntContext context, ILogger<GameService> logger) : base(context, logger)
     {
     }
 
@@ -105,39 +106,5 @@ namespace ImageHunt.Services
       Context.SaveChanges();
     }
 
-    public IEnumerable<GameAction> GetGameActionsForGame(int gameId)
-    {
-      var gameActions = Context.GameActions
-        .Include(ga=>ga.Game).Include(ga=>ga.Player).Include(ga=>ga.Node)
-        .Where(ga => ga.Game.Id == gameId)
-        ;
-      foreach (var gameAction in gameActions)
-      {
-        gameAction.Delta = ComputeDelta(gameAction);
-      }
-      return gameActions;
-    }
-
-    protected virtual double ComputeDelta(GameAction gameAction)
-    {
-      if (gameAction.Node != null)
-      {
-        return GeographyComputation.Distance(gameAction.Node.Latitude, gameAction.Node.Longitude,
-          gameAction.Latitude, gameAction.Longitude);
-      }
-      else
-      {
-        return double.NaN;
-      }
-    }
-
-    public GameAction GetGameAction(int gameActionId)
-    {
-      var gameAction = Context.GameActions
-          .Include(ga => ga.Game).Include(ga => ga.Player).Include(ga => ga.Node)
-          .Single(ga => ga.Id == gameActionId);
-      gameAction.Delta = ComputeDelta(gameAction);
-      return gameAction;
-    }
   }
 }

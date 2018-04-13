@@ -18,12 +18,17 @@ namespace ImageHunt.Controllers
     private readonly IGameService _gameService;
     private readonly IImageService _imageService;
     private readonly INodeService _nodeService;
+    private readonly IActionService _actionService;
 
-    public GameController(IGameService gameService, IImageService imageService, INodeService nodeService)
+    public GameController(IGameService gameService,
+      IImageService imageService,
+      INodeService nodeService,
+      IActionService actionService)
     {
       _gameService = gameService;
       _imageService = imageService;
       _nodeService = nodeService;
+      _actionService = actionService;
     }
 
     [HttpGet("ById/{gameId}")]
@@ -142,7 +147,7 @@ namespace ImageHunt.Controllers
     [HttpGet("GetGameActions/{gameId}")]
     public IActionResult GetGameActions(int gameId)
     {
-      return Ok(_gameService.GetGameActionsForGame(gameId));
+      return Ok(_actionService.GetGameActionsForGame(gameId));
     }
     [HttpPost("UploadImage")]
     public IActionResult UploadImage(IFormFile file)
@@ -164,7 +169,7 @@ namespace ImageHunt.Controllers
     [HttpGet("GetGameAction/{gameActionId}")]
     public IActionResult GetGameAction(int gameActionId)
     {
-      return Ok(_gameService.GetGameAction(gameActionId));
+      return Ok(_actionService.GetGameAction(gameActionId));
     }
   }
 }

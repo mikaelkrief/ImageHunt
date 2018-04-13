@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using FakeItEasy;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
 using Xunit;
@@ -15,10 +17,12 @@ namespace ImageHuntTest.Services
     public class ImageServiceTest : ContextBasedTest
     {
         private ImageService _service;
+      private ILogger<ImageService> _logger;
 
-        public ImageServiceTest()
-        {
-            _service = new ImageService(_context);
+      public ImageServiceTest()
+      {
+        _logger = A.Fake<ILogger<ImageService>>();
+            _service = new ImageService(_context, _logger);
         }
         [Fact]
         public void AddPicture()

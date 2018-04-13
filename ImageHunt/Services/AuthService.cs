@@ -3,12 +3,13 @@ using System.Linq;
 using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHuntCore.Services;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHunt.Services
 {
     public class AuthService : AbstractService, IAuthService
     {
-        public AuthService(HuntContext context) : base(context)
+        public AuthService(HuntContext context, ILogger<AuthService> logger) : base(context, logger)
         {
         }
 

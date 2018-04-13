@@ -5,6 +5,7 @@ using ImageHunt.Exception;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
+using Microsoft.Extensions.Logging;
 using Action = ImageHunt.Model.Action;
 using Game = Telegram.Bot.Types.Game;
 
@@ -13,7 +14,7 @@ namespace ImageHunt.Services
   public class PlayerService : AbstractService, IPlayerService
   {
 
-    public PlayerService(HuntContext context) : base(context)
+    public PlayerService(HuntContext context, ILogger<PlayerService> logger) : base(context, logger)
     {
     }
 

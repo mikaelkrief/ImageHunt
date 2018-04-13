@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using FakeItEasy;
 using ImageHunt.Exception;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
 using Xunit;
@@ -16,10 +18,12 @@ namespace ImageHuntTest
     public class PlayerServiceTest : ContextBasedTest
     {
       private PlayerService _target;
+      private ILogger<PlayerService> _logger;
 
       public PlayerServiceTest()
       {
-        _target = new PlayerService(_context);
+        _logger = A.Fake<ILogger<PlayerService>>();
+        _target = new PlayerService(_context, _logger);
       }
       [Fact]
       public void CreatePlayerTest()

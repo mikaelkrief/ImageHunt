@@ -3,11 +3,13 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using FakeItEasy;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using SQLitePCL;
 using TestUtilities;
@@ -18,10 +20,12 @@ namespace ImageHuntTest.Services
     public class NodeServiceTest : ContextBasedTest
     {
         private NodeService _target;
+      private ILogger<NodeService> _logger;
 
-        public NodeServiceTest()
-        {
-            _target = new NodeService(_context);
+      public NodeServiceTest()
+      {
+        _logger = A.Fake<ILogger<NodeService>>();
+            _target = new NodeService(_context, _logger);
         }
         [Fact]
         public void AddNode()

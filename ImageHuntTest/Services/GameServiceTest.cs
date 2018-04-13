@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FakeItEasy;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using SQLitePCL;
 using TestUtilities;
@@ -18,10 +20,12 @@ namespace ImageHuntTest.Services
   public class GameServiceTest : ContextBasedTest
   {
     private GameService _target;
+    private ILogger<GameService> _logger;
 
     public GameServiceTest()
     {
-      _target = new GameService(_context);
+      _logger = A.Fake<ILogger<GameService>>();
+      _target = new GameService(_context, _logger);
     }
 
     [Fact]
@@ -241,138 +245,5 @@ namespace ImageHuntTest.Services
       Check.That(result).Contains(games[0], games[1], games[2]);
     }
 
-    [Fact]
-    public void GetGameActionForGame()
-    {
-      // Arrange
-      var players = new List<Player> {new Player(), new Player()};
-      _context.Players.AddRange(players);
-      _context.SaveChanges();
-      var games = new List<Game> {new Game(), new Game()};
-      _context.AddRange(games);
-       _context.SaveChanges();
-     var nodes = new List<Node>(){new FirstNode(){Latitude = 10.0001, Longitude = 15.0001},
-       new ObjectNode(){Latitude = 12, Longitude = 16}, new LastNode()};
-      _context.Nodes.AddRange(nodes);
-      _context.SaveChanges();
-      var gameActions = new List<GameAction>()
-      {
-        new GameAction()
-        {
-          Game = games[1],
-          Action = Action.StartGame,
-          DateOccured = DateTime.Now,
-          Latitude = 10,
-          Longitude = 15,
-          Node = nodes[0],
-          Player = players[1]
-        },
-        new GameAction()
-        {
-          Game = games[1],
-          Action = Action.VisitWaypoint,
-          DateOccured = DateTime.Now,
-          Latitude = 11,
-          Longitude = 15.2,
-          Node = nodes[1],
-          Player = players[1]
-        },
-        new GameAction()
-        {
-          Game = games[1],
-          Action = Action.VisitWaypoint,
-          DateOccured = DateTime.Now.AddMinutes(15),
-          Latitude = 11.3,
-          Longitude = 15.5,
-          Player = players[1]
-        },
-        new GameAction()
-        {
-          Game = games[0],
-          Action = Action.VisitWaypoint,
-          DateOccured = DateTime.Now,
-          Latitude = 11,
-          Longitude = 15.2,
-          Node = nodes[1],
-          Player = players[1]
-        },
-      };
-      _context.GameActions.AddRange(gameActions);
-      _context.SaveChanges();
-      // Act
-      var results = _target.GetGameActionsForGame(games[1].Id).ToList();
-      // Assert
-      Check.That(results).ContainsExactly(gameActions[0], gameActions[1], gameActions[2]);
-
-      Check.That(results[2].Node).IsNull();
-      Check.That(results[2].Delta).IsNaN();
-      Check.That(results[0].Delta).IsEqualsWithDelta(15.6238, 0.001);
-    }
-
-    [Fact]
-    public void GetGameAction()
-    {
-      // Arrange
-      var players = new List<Player> { new Player(), new Player() };
-      _context.Players.AddRange(players);
-      _context.SaveChanges();
-      var games = new List<Game> { new Game(), new Game(){Name = "Toto"} };
-      _context.AddRange(games);
-      _context.SaveChanges();
-      var nodes = new List<Node>(){new FirstNode(){Latitude = 10.0001, Longitude = 15.0001},
-        new ObjectNode(){Latitude = 12, Longitude = 16}, new LastNode()};
-      _context.Nodes.AddRange(nodes);
-      _context.SaveChanges();
-      var gameActions = new List<GameAction>()
-      {
-        new GameAction()
-        {
-          Game = games[1],
-          Action = Action.StartGame,
-          DateOccured = DateTime.Now,
-          Latitude = 10,
-          Longitude = 15,
-          Node = nodes[0],
-          Player = players[1]
-        },
-        new GameAction()
-        {
-          Game = games[1],
-          Action = Action.VisitWaypoint,
-          DateOccured = DateTime.Now,
-          Latitude = 11,
-          Longitude = 15.2,
-          Node = nodes[1],
-          Player = players[1]
-        },
-        new GameAction()
-        {
-          Game = games[1],
-          Action = Action.VisitWaypoint,
-          DateOccured = DateTime.Now.AddMinutes(15),
-          Latitude = 11.3,
-          Longitude = 15.5,
-          Player = players[1]
-        },
-        new GameAction()
-        {
-          Game = games[0],
-          Action = Action.VisitWaypoint,
-          DateOccured = DateTime.Now,
-          Latitude = 11,
-          Longitude = 15.2,
-          Node = nodes[1],
-          Player = players[1]
-        },
-      };
-      _context.GameActions.AddRange(gameActions);
-      _context.SaveChanges();
-      // Act
-      var result = _target.GetGameAction(gameActions[1].Id);
-      // Assert
-      Check.That(result.Action).Equals(Action.VisitWaypoint);
-      Check.That(result.Game.Name).Equals(games[1].Name);
-      Check.That(result.Delta).IsEqualsWithDelta(141447.769119081, 0.001);
-    }
   }
 }

@@ -49,7 +49,18 @@ namespace ImageHuntTest.Controller
         A.CallTo(() => _playerService.GetPlayerById(gameActionRequest.PlayerId)).MustHaveHappened();
         A.CallTo(() => _gameService.GetGameById(gameActionRequest.GameId)).MustHaveHappened();
         A.CallTo(() => _imageService.AddPicture(A<Picture>.That.Matches(p=>CheckPicture(p)))).MustHaveHappened();
-        A.CallTo(() => _actionService.AddGameAction(A<GameAction>._)).MustHaveHappened();
+        A.CallTo(() => _actionService.AddGameAction(A<GameAction>.That.Matches(ga=>CheckGameActionForImage(ga, gameActionRequest.Latitude, gameActionRequest.Longitude)))).MustHaveHappened();
+      }
+
+      private bool CheckGameActionForImage(GameAction ga, double expectedLatitude, double expectedLongitude)
+      {
+        Check.That(ga.Picture).IsNotNull();
+        Check.That(ga.Action).Equals(Action.SubmitPicture);
+        Check.That(ga.Game).IsNotNull();
+        Check.That(ga.Player).IsNotNull();
+        Check.That(ga.Latitude).Equals(expectedLatitude);
+        Check.That(ga.Longitude).Equals(expectedLongitude);
+        return true;
       }
 
       private bool CheckPicture(Picture picture)
@@ -74,6 +85,20 @@ namespace ImageHuntTest.Controller
       // Act
         var result = _target.AddGameAction(gameActionRequest);
         // Assert
+        Check.That(result).IsInstanceOf<OkResult>();
+        A.CallTo(() => _actionService.AddGameAction(A<GameAction>.That.Matches(ga => CheckGameActionForAction(ga, Action.StartGame, gameActionRequest.Latitude, gameActionRequest.Longitude))))
+          .MustHaveHappened();
+      }
+
+      private bool CheckGameActionForAction(GameAction ga, Action expectedAction, double expectedLatitude, double expectedLongitude)
+      {
+        Check.That(ga.Action).Equals(expectedAction);
+        Check.That(ga.Latitude).Equals(expectedLatitude);
+        Check.That(ga.Longitude).Equals(expectedLongitude);
+        Check.That(ga.Game).IsNotNull();
+        Check.That(ga.Player).IsNotNull();
+
+        return true;
       }
   }
 }

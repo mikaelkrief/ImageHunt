@@ -4,13 +4,14 @@ using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHuntCore.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHunt.Services
 {
   public class TeamService : AbstractService, ITeamService
   {
-    public TeamService(HuntContext context)
-        : base(context)
+    public TeamService(HuntContext context, ILogger<TeamService> logger)
+        : base(context, logger)
     {
 
     }

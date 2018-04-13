@@ -31,10 +31,12 @@ namespace ImageHunt.Controllers
       var gameAction = new GameAction();
       gameAction.Player = _playerService.GetPlayerById(gameActionRequest.PlayerId);
       gameAction.Game = _gameService.GetGameById(gameActionRequest.GameId);
+      gameAction.Latitude = gameActionRequest.Latitude;
+      gameAction.Longitude = gameActionRequest.Longitude;
+      gameAction.Action = (Action) gameActionRequest.Action;
       switch (gameActionRequest.Action)
       {
         case 2:
-          gameAction.Action = Action.SubmitPicture;
           var picture = new Picture();
           var bytes = Convert.FromBase64String(gameActionRequest.Picture);
           picture.Image = bytes;

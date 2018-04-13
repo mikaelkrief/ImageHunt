@@ -12,7 +12,9 @@ namespace ImageHunt.Model
     StartGame,
     EndGame,
     SubmitPicture,
-    VisitWaypoint
+    VisitWaypoint,
+    ReplyQuestion,
+    DoAction
   }
     public class GameAction : DbObject
     {

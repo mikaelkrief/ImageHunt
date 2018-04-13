@@ -6,13 +6,14 @@ using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHunt.Services
 {
   public class NodeService : AbstractService, INodeService
   {
 
-    public NodeService(HuntContext context) : base(context)
+    public NodeService(HuntContext context, ILogger<NodeService> logger) : base(context, logger)
     {
     }
     public void AddNode(Node node)
