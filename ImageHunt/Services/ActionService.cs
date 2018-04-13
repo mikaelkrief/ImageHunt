@@ -8,6 +8,7 @@ using ImageHunt.Model;
 using ImageHuntCore.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Game = Telegram.Bot.Types.Game;
 
 namespace ImageHunt.Services
 {
@@ -30,10 +31,12 @@ namespace ImageHunt.Services
       {
         if (gameAction.Node != null)
         {
-          return GeographyComputation.Distance(gameAction.Node.Latitude, gameAction.Node.Longitude,
+          var delta = GeographyComputation.Distance(gameAction.Node.Latitude, gameAction.Node.Longitude,
             gameAction.Latitude, gameAction.Longitude);
+          _logger.LogDebug($"Delta = {delta} for nodeId {gameAction.Node.Id}");
+          return delta;
         }
-        else
+      else
         {
           return double.NaN;
         }

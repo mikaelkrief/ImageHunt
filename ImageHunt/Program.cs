@@ -23,14 +23,14 @@ namespace ImageHunt
           var configuration = new ConfigurationBuilder().AddCommandLine(args).Build();
           return WebHost.CreateDefaultBuilder(args)
             .UseConfiguration(configuration)
-            .UseStartup<Startup>()
             .ConfigureLogging((context, builder) =>
               {
                 builder.AddConfiguration(context.Configuration.GetSection("Logging"));
                 builder.AddConsole();
                 builder.AddDebug();
               })
-            .Build();
+             .UseStartup<Startup>()
+           .Build();
         
         }
     }
