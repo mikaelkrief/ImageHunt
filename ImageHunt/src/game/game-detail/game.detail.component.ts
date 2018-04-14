@@ -20,6 +20,7 @@ import {AlertService} from "../../shared/services/alert.service";
 import { Observable } from "rxjs/Observable";
 import { EditedRelation } from "../../shared/EditedRelation";
 import {QuestionNodeComponent} from "../question-node/question.node.component";
+import {ConfirmationService} from "primeng/components/common/confirmationservice";
 
 @Component({
   selector: 'game-detail',
@@ -43,7 +44,8 @@ export class GameDetailComponent implements OnInit {
     private _gameService: GameService,
     private _teamService: TeamService,
     private _modalService: BsModalService,
-    private _alertService: AlertService) {
+    private _alertService: AlertService,
+    private _confirmationService: ConfirmationService) {
     this.game = new Game();
   }
 
@@ -196,7 +198,11 @@ export class GameDetailComponent implements OnInit {
     this.newRelations.forEach(r => Observable.forkJoin(this._gameService.addRelation(r.orgId, r.destId, 0)).subscribe(() => this.getGame(gameId)));
   }
   deleteTeam(teamId: number) {
-    this._teamService.deleteTeam(teamId)
-      .subscribe(() => this.getGame(this.game.id));
+    this._confirmationService.confirm({
+      message: "Voulez-vous vraiment effacer cette équipe ?",
+      accept: () => this._teamService.deleteTeam(teamId)
+      .subscribe(() => this.getGame(this.game.id))
+    });
+    
   }
 }

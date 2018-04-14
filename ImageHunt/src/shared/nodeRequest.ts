@@ -6,5 +6,5 @@ export class NodeRequest {
   duration: number;
   action: string;
   question: string;
-  answers: string[];
+  answers: {response:string, correct:boolean}[];
 }

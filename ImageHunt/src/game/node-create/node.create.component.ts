@@ -36,7 +36,7 @@ export class NodeCreateComponent implements OnInit
     if (form.value.nodeType === "QuestionNode") {
       node.answers = new Array();
       for (var i = 0; i < this.answers.length; i++) {
-        node.answers.push(this.answers[i]);
+        node.answers.push({ response:this.answers[i], correct:i === +this.correctAnswer});
       }
     }
     this.newNode.emit(node);
@@ -47,6 +47,6 @@ export class NodeCreateComponent implements OnInit
     this.answers.push(newAnswer.value.answer);
     newAnswer.reset();
   }
-
+  correctAnswer:number;
   answers : string[];
 }

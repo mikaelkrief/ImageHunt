@@ -15,6 +15,6 @@ namespace ImageHunt.Request
       public int Duration { get; set; }
       public string Action { get; set; }
       public string Question { get; set; }
-      public string[] Answers { get; set; }
+      public AnswerRequest[] Answers { get; set; }
     }
 }

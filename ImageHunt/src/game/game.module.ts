@@ -24,11 +24,12 @@ import {GameActionDetailComponent} from "./game-action-detail/game-action-detail
 import {PipeModule} from "../shared/pipes/pipe.module";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
     MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule,
-    ContextMenuModule, TableModule, GMapModule, PipeModule.forRoot()],
+    ContextMenuModule, TableModule, GMapModule, PipeModule.forRoot(), RadioButtonModule],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],
   exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],
   providers: [GameService, TeamService, AlertService, ConfirmationService]

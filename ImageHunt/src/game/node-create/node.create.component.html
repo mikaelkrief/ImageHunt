@@ -69,11 +69,22 @@
 
             </div>
             <br />
-            <ol class="col-sm-10">
-              <li *ngFor="let answer of answers; let i = index">
-                <span class="form-control">{{answer}}</span>
-              </li>
-            </ol>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>Réponse</th>
+                <th>Réponse correcte</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let answer of answers; let i = index">
+                <td>{{i + 1}}</td>
+                <td><span class="form-control">{{answer}}</span></td>
+                <td><p-radioButton name="groupAnswers" value="{{i}}" [(ngModel)]="correctAnswer"></p-radioButton></td>
+              </tr>
+              </tbody>
+            </table>
             <br />
             <form #newAnswer="ngForm">
               <div class="form-inline">

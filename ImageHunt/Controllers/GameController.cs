@@ -69,7 +69,7 @@ namespace ImageHunt.Controllers
         case "QuestionNode":
           var questionNode = node as QuestionNode;
           questionNode.Question = nodeRequest.Question;
-          questionNode.Answers = nodeRequest.Answers.Select(a => new Answer() {Response = a}).ToList();
+          questionNode.Answers = nodeRequest.Answers.Select(a => new Answer() {Response = a.Response, Correct = a.Correct}).ToList();
           break;
      }
       _gameService.AddNode(gameId, node);
