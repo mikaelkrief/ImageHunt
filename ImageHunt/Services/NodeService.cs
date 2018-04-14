@@ -24,9 +24,13 @@ namespace ImageHunt.Services
 
     public Node GetNode(int nodeId)
     {
-      return Context.Nodes
-          .Include("Answers")
+      var node = Context.Nodes
         .SingleOrDefault(n => n.Id == nodeId);
+      if (node.NodeType == "QuestionNode")
+      {
+        node = Context.QuestionNodes.Include(q => q.Answers).SingleOrDefault(n => n.Id == nodeId);
+      }
+      return node;
     }
 
     public void AddChildren(int nodeId, int childrenNodeId)

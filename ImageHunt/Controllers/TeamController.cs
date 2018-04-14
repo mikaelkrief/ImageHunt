@@ -61,5 +61,11 @@ namespace ImageHunt.Controllers
     {
       return Ok(_teamService.GetPlayer(playerLogin, gameId));
     }
+    [HttpDelete("Remove/{teamId}/{playerId}")]
+    public IActionResult RemovePlayer(int teamId, int playerId)
+    {
+      _teamService.RemovePlayer(teamId, playerId);
+      return Ok();
+    }
   }
 }

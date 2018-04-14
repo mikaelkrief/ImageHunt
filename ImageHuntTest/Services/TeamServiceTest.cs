@@ -153,11 +153,29 @@ namespace ImageHuntTest.Services
       _context.Games.AddRange(games);
       _context.SaveChanges();
       // Act
-      int gameId;
       var result = _target.GetPlayer(players[1].ChatLogin, games[1].Id);
       // Assert;
       Check.That(result).IsEqualTo(players[1]);
       Check.That(result.Team).IsEqualTo(teams[1]);
+    }
+
+    [Fact]
+    public void RemovePlayer()
+    {
+      // Arrange
+      var players = new List<Player>() { new Player() { ChatLogin = "toto1" }, new Player() { ChatLogin = "toto2" }, new Player() { ChatLogin = "Toto3" } };
+      var teams = new List<Team>(){new Team()
+        {
+          Name = "Team1", Players = new List<Player>(){players[0], players[2]}
+        },
+        new Team(){Name = "Team2", Players = new List<Player>(){players[1]}}};
+      _context.Players.AddRange(players);
+      _context.Teams.AddRange(teams);
+      _context.SaveChanges();
+      // Act
+      _target.RemovePlayer(teams[0].Id, teams[0].Players[1].Id);
+      // Assert
+      Check.That(teams[0].Players).HasSize(1);
     }
   }
 }

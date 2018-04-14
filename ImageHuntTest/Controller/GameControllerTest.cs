@@ -110,18 +110,18 @@ namespace ImageHuntTest.Controller
     public void AddNodeQuestionNode()
     {
       // Arrange
-      var node = new AddNodeRequest() { NodeType = "QuestionNode", Question = "Selfie", Answers = new[] { "Toto", "Tata" } };
+      var node = new AddNodeRequest() { NodeType = "QuestionNode", Question = "Selfie", Answers = new AnswerRequest[] { new AnswerRequest(){Response = "Toto"},  new AnswerRequest(){Response = "Tata" } } };
       // Act
       var result = _target.AddNode(1, node);
       // Assert
       A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckQuestionNode(n, node.Question, node.Answers)))).MustHaveHappened();
     }
 
-    private bool CheckQuestionNode(Node node, string expectedQuestion, string[] nodeAnswers)
+    private bool CheckQuestionNode(Node node, string expectedQuestion, AnswerRequest[] nodeAnswers)
     {
       var questionNode = node as QuestionNode;
       Check.That(questionNode.Question).Equals(expectedQuestion);
-      Check.That(questionNode.Answers.Extracting("Response")).ContainsExactly(nodeAnswers);
+      Check.That(questionNode.Answers.Extracting("Response")).ContainsExactly(nodeAnswers.Extracting("Response"));
       return true;
     }
 

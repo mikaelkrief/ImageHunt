@@ -18,6 +18,9 @@ export class TeamService {
   addMemberToTeam(teamId: number, player: Player) {
     return this.http.put('api/Team/' + teamId, player);
   }
+  removePlayerToTeam(teamId: number, player: Player) {
+    return this.http.delete('api/Team/Remove/' + teamId + '/' + player.id);
+  }
   createTeam(gameId: number, team: Team) {
     return this.http.post('api/Team/' + gameId, team);
   }

@@ -67,6 +67,16 @@ namespace ImageHuntTest.Controller
         }
 
       [Fact]
+      public void RemovePlayer()
+      {
+        // Arrange
+        
+        // Act
+        var result = _target.RemovePlayer(1, 1);
+        // Assert
+        A.CallTo(() => _teamService.RemovePlayer(1, 1)).MustHaveHappened();
+      }
+      [Fact]
       public void GetPlayerDetails()
       {
         // Arrange

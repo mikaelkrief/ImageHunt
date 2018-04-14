@@ -70,5 +70,13 @@ namespace ImageHunt.Services
       player.Team = game.Teams.Single(t => t.Players.Contains(player));
       return player;
     }
+
+    public void RemovePlayer(int teamId, int playerId)
+    {
+      var team = Context.Teams.Single(t => t.Id == teamId);
+      var player = Context.Players.Single(p => p.Id == playerId);
+      team.Players.Remove(player);
+      Context.SaveChanges();
+    }
   }
 }

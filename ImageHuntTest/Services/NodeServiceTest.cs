@@ -94,7 +94,29 @@ namespace ImageHuntTest.Services
             // Assert
             Check.That(resultNode).IsEqualTo(nodes.Single(n => n.Id == 2));
         }
+
       [Fact]
+      public void GetQuestionNodeFromId()
+      {
+      // Arrange
+        var answers = new List<Answer>(){new Answer(), new Answer()};
+        _context.Answers.AddRange(answers);
+        _context.SaveChanges();
+        var nodes = new List<Node>() { new TimerNode(), new QuestionNode() { Answers = answers}, new TimerNode() };
+        foreach (var answer in _context.Answers)
+        {
+          answer.Node = nodes[1];
+        }
+        _context.Nodes.AddRange(nodes);
+        _context.SaveChanges();
+        // Act
+        var resultNode = _target.GetNode(nodes[1].Id);
+
+        // Assert
+        Check.That(resultNode).IsInstanceOf<QuestionNode>();
+        Check.That(((QuestionNode) resultNode).Answers).HasSize(2);
+      }
+    [Fact]
       public void FindImageByLocation()
       {
         // Arrange

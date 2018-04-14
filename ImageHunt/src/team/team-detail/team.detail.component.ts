@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import {Team} from "../../shared/team";
 import { ActivatedRoute } from "@angular/router";
 import {Player} from "../../shared/player";
+import { ConfirmationService } from "primeng/api";
 
 @Component({
     selector: 'team-detail',
@@ -15,7 +16,7 @@ export class TeamDetailComponent implements OnInit
 {
   team: Team;
     /** team-detail ctor */
-  constructor(private _route: ActivatedRoute, private _teamService: TeamService) {
+  constructor(private _route: ActivatedRoute, private _teamService: TeamService, private _confirmationService: ConfirmationService) {
     this.team = new Team();
   }
 
@@ -35,5 +36,12 @@ export class TeamDetailComponent implements OnInit
           this.getTeam(this.team.id);
           form.resetForm();
         });
-    }
+  }
+  deletePlayer(teamId:number, player: Player) {
+    this._confirmationService.confirm({
+      message: "Vouslez-vous vraiment retirer ce joueur de sa team ?",
+      accept: () => this._teamService.removePlayerToTeam(teamId, player)
+        .subscribe(() => this.getTeam(this.team.id))
+    });
+  }
 }

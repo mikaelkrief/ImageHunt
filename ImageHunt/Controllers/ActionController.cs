@@ -41,6 +41,7 @@ namespace ImageHunt.Controllers
       gameAction.Node = _nodeService.GetNode(gameActionRequest.NodeId);
       switch (gameAction.Action)
       {
+        case Action.DoAction:
         case Action.SubmitPicture:
           var picture = new Picture();
           var bytes = Convert.FromBase64String(gameActionRequest.Picture);
