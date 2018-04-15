@@ -139,5 +139,18 @@ namespace ImageHuntTest.Controller
         Check.That(ga.CorrectAnswer).IsNotNull();
         return true;
       }
+
+      [Fact]
+      public void Validate()
+      {
+        // Arrange
+        
+        // Act
+        var result = _target.Validate(1);
+
+        // Assert
+        Check.That(result).IsInstanceOf<OkResult>();
+        A.CallTo(() => _actionService.Validate(1)).MustHaveHappened();
+      }
     }
 }

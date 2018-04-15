@@ -70,4 +70,7 @@ export class GameService {
   getGameAction(gameActionId: number) {
     return this.jwtHttp.get(`api/Game/GetGameAction/` + gameActionId);
   }
+  validateGameAction(gameActionId: number) {
+    return this.http.put(`api/Action/Validate/` + gameActionId, null);
+  }
 }

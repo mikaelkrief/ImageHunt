@@ -25,11 +25,13 @@ import {PipeModule} from "../shared/pipes/pipe.module";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
 import { RadioButtonModule } from 'primeng/radiobutton';
+import {GeocoordinateModule} from "../shared/geocoordinate/geocoordinate.module";
+import { ToggleButtonModule } from "primeng/togglebutton";
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
-    MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule,
-    ContextMenuModule, TableModule, GMapModule, PipeModule.forRoot(), RadioButtonModule],
+    MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule, ToggleButtonModule,
+    ContextMenuModule, TableModule, GMapModule, PipeModule.forRoot(), RadioButtonModule, GeocoordinateModule],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],
   exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],
   providers: [GameService, TeamService, AlertService, ConfirmationService]

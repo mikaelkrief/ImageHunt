@@ -21,6 +21,7 @@ namespace ImageHunt.Model.Node
     // Node that are children of the current node.
     //The application will follow up one of this node to the player if he complies with the current node
     public List<ParentChildren> ChildrenRelation { get; set; }
+    public int Points { get; set; }
     [NotMapped]
     public string NodeType => GetType().Name;
 

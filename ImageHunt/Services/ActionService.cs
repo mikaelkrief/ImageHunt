@@ -51,6 +51,13 @@ namespace ImageHunt.Services
         return gameAction;
       }
 
+      public void Validate(int gameActionId)
+      {
+        var gameAction = Context.GameActions.Single(ga => ga.Id == gameActionId);
+        gameAction.IsValidated = !gameAction.IsValidated;
+        Context.SaveChanges();
+      }
+
       public ActionService(HuntContext context, ILogger<ActionService> logger)
         : base(context, logger)
       {
