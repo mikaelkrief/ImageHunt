@@ -70,4 +70,7 @@ export class GameActionDetailComponent implements OnInit {
     }
 
   }
+  validate(gameActionId: number) {
+    this.gameService.validateGameAction(gameActionId).subscribe();
+  }
 }

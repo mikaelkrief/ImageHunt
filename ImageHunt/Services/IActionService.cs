@@ -9,5 +9,6 @@ namespace ImageHunt.Services
     void AddGameAction(GameAction gameAction);
     IEnumerable<GameAction> GetGameActionsForGame(int gameId);
     GameAction GetGameAction(int gameActionId);
+    void Validate(int gameActionId);
   }
 }

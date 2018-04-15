@@ -172,5 +172,30 @@ namespace ImageHuntTest.Services
         // Assert
         Check.That(_context.GameActions).HasSize(1).And.Contains(gameAction);
       }
+
+      [Fact]
+      public void Validate_Validate()
+      {
+        // Arrange
+        var gameActions = new List<GameAction> {new GameAction(), new GameAction() {IsValidated = false}};
+        _context.GameActions.AddRange(gameActions);
+        _context.SaveChanges();
+        // Act
+        _target.Validate(gameActions[1].Id);
+        // Assert
+        Check.That(gameActions.Extracting("IsValidated")).Contains(false, true);
+      }
+      [Fact]
+      public void Validate_InValidate()
+      {
+        // Arrange
+        var gameActions = new List<GameAction> {new GameAction(), new GameAction() {IsValidated = true}};
+        _context.GameActions.AddRange(gameActions);
+        _context.SaveChanges();
+        // Act
+        _target.Validate(gameActions[1].Id);
+        // Assert
+        Check.That(gameActions.Extracting("IsValidated")).Contains(false, false);
+      }
   }
 }
