@@ -30,6 +30,7 @@ export class NodeCreateComponent implements OnInit
       duration: form.value.duration === "" ? 0 : form.value.duration,
       action: form.value.action,
       question: form.value.question,
+      points: form.value.nbPoints,
       answers: null
     };
     // Add answers

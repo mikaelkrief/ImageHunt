@@ -93,7 +93,7 @@ namespace ImageHuntTest.Controller
     public void AddNodeObjectNode()
     {
       // Arrange
-      var node = new AddNodeRequest() { NodeType = "ObjectNode", Action = "Selfie" };
+      var node = new AddNodeRequest() { NodeType = "ObjectNode", Action = "Selfie", Points = 15};
       // Act
       var result = _target.AddNode(1, node);
       // Assert
@@ -104,6 +104,7 @@ namespace ImageHuntTest.Controller
     {
       var objectNode = node as ObjectNode;
       Check.That(objectNode.Action).Equals(expectedAction);
+      Check.That(objectNode.Points).Equals(15);
       return true;
     }
     [Fact]

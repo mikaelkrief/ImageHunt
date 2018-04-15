@@ -56,6 +56,7 @@ namespace ImageHunt.Controllers
       node.Name = nodeRequest.Name;
       node.Latitude = nodeRequest.Latitude;
       node.Longitude = nodeRequest.Longitude;
+      node.Points = nodeRequest.Points;
       switch (nodeRequest.NodeType)
       {
         case "TimerNode":

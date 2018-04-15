@@ -8,5 +8,6 @@ export class Node {
   nodeType: string;
   duration: number;
   action: string;
+  points: number;
   delta: number;
 }
