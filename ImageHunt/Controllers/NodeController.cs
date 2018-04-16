@@ -20,7 +20,7 @@ namespace ImageHunt.Controllers
       _nodeService = nodeService;
     }
 
-    [HttpPost("AddRelationToNode")]
+    [HttpPut("AddRelationToNode")]
     public IActionResult AddRelationToNode([FromBody]NodeRelationRequest relationRequest)
     {
       _nodeService.AddChildren(relationRequest.NodeId, relationRequest.ChildrenId);
@@ -28,7 +28,7 @@ namespace ImageHunt.Controllers
         _nodeService.LinkAnswerToNode(relationRequest.AnswerId, relationRequest.ChildrenId);
       return Ok();
     }
-    [HttpPost("RemoveRelationToNode")]
+    [HttpDelete("RemoveRelationToNode")]
     public IActionResult RemoveRelationToNode([FromBody]NodeRelationRequest relationRequest)
     {
       _nodeService.RemoveChildren(relationRequest.NodeId, relationRequest.ChildrenId);
@@ -36,7 +36,7 @@ namespace ImageHunt.Controllers
         _nodeService.UnlinkAnswerToNode(relationRequest.AnswerId);
       return Ok();
     }
-    [HttpPost("AddRelationsWithAnswers")]
+    [HttpPut("AddRelationsWithAnswers")]
     public void AddRelationsWithAnswers([FromBody]IEnumerable<NodeRelationRequest> relationsRequest)
     {
       var groupsNode = relationsRequest.GroupBy(n => n.NodeId);

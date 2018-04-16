@@ -57,9 +57,9 @@ namespace ImageHunt.Controllers
           break;
       }
       _actionService.AddGameAction(gameAction);
-      return Ok();
+      return CreatedAtAction("AddGameAction", gameAction);
     }
-
+    
     [HttpPut("Validate/{gameActionId}")]
     public IActionResult Validate(int gameActionId)
     {

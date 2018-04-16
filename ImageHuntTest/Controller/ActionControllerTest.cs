@@ -49,7 +49,7 @@ namespace ImageHuntTest.Controller
         // Act
       var result = _target.AddGameAction(gameActionRequest);
         // Assert
-        Check.That(result).IsInstanceOf<OkResult>();
+        Check.That(result).IsInstanceOf<CreatedAtActionResult>();
         A.CallTo(() => _playerService.GetPlayerById(gameActionRequest.PlayerId)).MustHaveHappened();
         A.CallTo(() => _gameService.GetGameById(gameActionRequest.GameId)).MustHaveHappened();
         A.CallTo(() => _imageService.AddPicture(A<Picture>.That.Matches(p=>CheckPicture(p)))).MustHaveHappened();
@@ -89,7 +89,7 @@ namespace ImageHuntTest.Controller
       // Act
         var result = _target.AddGameAction(gameActionRequest);
         // Assert
-        Check.That(result).IsInstanceOf<OkResult>();
+        Check.That(result).IsInstanceOf<CreatedAtActionResult>();
         A.CallTo(() => _actionService.AddGameAction(A<GameAction>.That.Matches(ga => CheckGameActionForAction(ga, Action.StartGame, gameActionRequest.Latitude, gameActionRequest.Longitude))))
           .MustHaveHappened();
       }

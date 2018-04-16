@@ -45,7 +45,7 @@ namespace ImageHunt.Controllers
     [HttpPost("{adminId}")]
     public IActionResult CreateGame(int adminId, [FromBody] Game newGame)
     {
-      return Ok(_gameService.CreateGame(adminId, newGame));
+      return CreatedAtAction("CreateGame", _gameService.CreateGame(adminId, newGame));
     }
     [HttpPost("AddNode/{gameId}")]
     public IActionResult AddNode(int gameId, [FromBody] AddNodeRequest nodeRequest)
@@ -74,7 +74,7 @@ namespace ImageHunt.Controllers
           break;
      }
       _gameService.AddNode(gameId, node);
-      return Ok();
+      return CreatedAtAction("AddNode", node);
     }
     [HttpPut("AddPictures/{gameId}")]
     public IActionResult AddImageNodes(int gameId, List<IFormFile> files)
@@ -99,7 +99,7 @@ namespace ImageHunt.Controllers
       }
       return Ok();
     }
-    [HttpPost("CenterGameByNodes/{gameId}")]
+    [HttpPut("CenterGameByNodes/{gameId}")]
     public void SetCenterOfGameByNodes(int gameId)
     {
       _gameService.SetCenterOfGameByNodes(gameId);
@@ -164,7 +164,7 @@ namespace ImageHunt.Controllers
         if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
           return BadRequest();
         _imageService.AddPicture(picture);
-        return Ok();
+        return CreatedAtAction("UploadImage", image);
       }
     }
     [HttpGet("GetGameAction/{gameActionId}")]

@@ -38,11 +38,11 @@ namespace ImageHunt.Controllers
     public IActionResult CreateTeam(int gameId, [FromBody]Team team)
     {
       _teamService.CreateTeam(gameId, team);
-      return Ok(team);
+      return CreatedAtAction("CreateTeam", team);
     }
 
     // PUT api/team/5
-    [HttpPut("{teamId}")]
+    [HttpPost("AddPlayer/{teamId}")]
     public void AddPlayer(int teamId, [FromBody]Player player)
     {
       var team = _teamService.GetTeamById(teamId);

@@ -74,9 +74,9 @@ namespace ImageHuntTest.Controller
             // Arrange
             var admin = new Admin();
             // Act
-            var result = _target.InsertAdmin(admin) as OkResult;
+            var result = _target.InsertAdmin(admin);
             // Assert
-            Check.That(result).IsNotNull();
+            Check.That(result).IsInstanceOf<CreatedAtActionResult>();
             A.CallTo(() => _adminService.InsertAdmin(admin)).MustHaveHappened();
         }
 

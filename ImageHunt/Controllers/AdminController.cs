@@ -38,7 +38,7 @@ namespace ImageHunt.Controllers
     public IActionResult InsertAdmin([FromBody] Admin admin)
     {
       _adminService.InsertAdmin(admin);
-      return Ok();
+      return CreatedAtAction("InsertAdmin", admin);
     }
     [HttpDelete("{adminId}")]
     public IActionResult DeleteAdmin(int adminId)
