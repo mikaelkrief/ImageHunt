@@ -54,7 +54,7 @@ export class GameService {
 
   }
   removeRelation(orgNodeId: number, destNodeId: number) {
-    return this.jwtHttp.delete("api/Node/RemoveRelationToNode", { nodeId: orgNodeId, childrenId: destNodeId, answerId: 0 });
+    return this.jwtHttp.put("api/Node/RemoveRelationToNode", { nodeId: orgNodeId, childrenId: destNodeId, answerId: 0 });
   }
 
   setZoom(gameId: number, zoom: number) { return this.jwtHttp.patch(`api/Game/UpdateZoom/${gameId}/${zoom}`, null); }
