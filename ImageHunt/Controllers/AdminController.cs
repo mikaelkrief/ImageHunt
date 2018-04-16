@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 namespace ImageHunt.Controllers
 {
   [Route("api/[Controller]")]
+  [Authorize]
   public class AdminController : Microsoft.AspNetCore.Mvc.Controller
   {
     private readonly IAdminService _adminService;
@@ -18,7 +19,6 @@ namespace ImageHunt.Controllers
       _logger = logger;
     }
     [HttpGet("GetAllAdmins")]
-    //[Authorize]
     public IActionResult GetAllAdmins()
     {
       _logger.LogTrace($"GetAllAdmins");

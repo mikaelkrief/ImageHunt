@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ImageHunt.Controllers
 {
   [Route("api/[controller]")]
+  [Authorize]
   public class TeamController : Controller
   {
     private readonly ITeamService _teamService;

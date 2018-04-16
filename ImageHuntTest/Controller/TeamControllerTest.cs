@@ -5,6 +5,8 @@ using FakeItEasy;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using Microsoft.AspNetCore.Mvc;
+using NFluent;
 using Xunit;
 
 namespace ImageHuntTest.Controller
@@ -42,6 +44,19 @@ namespace ImageHuntTest.Controller
         // Assert
         A.CallTo(() => _teamService.GetTeamById(1)).MustHaveHappened();
         A.CallTo(() => _teamService.DeleteTeam(A<Team>._)).MustHaveHappened();
+      }
+
+      [Fact]
+      public void GetTeams()
+      {
+        // Arrange
+        
+        // Act
+        var result = _target.GetTeams(1);
+
+        // Assert
+        Check.That(result).IsInstanceOf<OkObjectResult>();
+        A.CallTo(() => _teamService.GetTeams(1)).MustHaveHappened();
       }
         [Fact]
         public void Get()
