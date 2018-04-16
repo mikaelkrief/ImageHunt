@@ -1,10 +1,12 @@
 using System;
 using ImageHunt.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ImageHunt.Controllers
 {
     [Route("api/[controller]")]
+  [Authorize]
     public class PlayerController : Controller
     {
       private readonly IPlayerService _playerService;

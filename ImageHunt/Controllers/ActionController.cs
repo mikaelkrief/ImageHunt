@@ -4,6 +4,7 @@ using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Request;
 using ImageHunt.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Action = ImageHunt.Model.Action;
@@ -11,6 +12,7 @@ using Action = ImageHunt.Model.Action;
 namespace ImageHunt.Controllers
 {
   [Route("api/[Controller]")]
+  [Authorize]
   public class ActionController : Microsoft.AspNetCore.Mvc.Controller
   {
     private readonly IGameService _gameService;
