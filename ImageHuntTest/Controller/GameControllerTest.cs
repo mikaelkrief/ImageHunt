@@ -325,7 +325,7 @@ namespace ImageHuntTest.Controller
       // Act
       var result = _target.UploadImage(file);
       // Assert
-      Check.That(result).IsInstanceOf<OkResult>();
+      Check.That(result).IsInstanceOf<CreatedAtActionResult>();
       A.CallTo(() => _imageService.AddPicture(A<Picture>._)).MustHaveHappened();
     }
     [Fact]
