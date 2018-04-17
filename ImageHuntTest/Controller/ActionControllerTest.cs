@@ -1,6 +1,8 @@
 ﻿
 using System.Collections.Generic;
+using AutoMapper;
 using FakeItEasy;
+using ImageHunt;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
@@ -22,6 +24,11 @@ namespace ImageHuntTest.Controller
       private IImageService _imageService;
       private IActionService _actionService;
       private INodeService _nodeService;
+      static ActionControllerTest()
+      {
+        Startup.ConfigureMappings();
+
+      }
 
       public ActionControllerTest()
       {
@@ -30,6 +37,7 @@ namespace ImageHuntTest.Controller
         _imageService = A.Fake<IImageService>();
         _actionService = A.Fake<IActionService>();
         _nodeService = A.Fake<INodeService>();
+
         _target = new ActionController(_gameService, _playerService, _imageService, _actionService, _nodeService);
       }
       [Fact]

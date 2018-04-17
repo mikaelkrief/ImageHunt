@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using AutoMapper;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Request;
@@ -34,12 +35,13 @@ namespace ImageHunt.Controllers
     [HttpPost("AddGameAction")]
     public IActionResult AddGameAction(GameActionRequest gameActionRequest)
     {
-      var gameAction = new GameAction();
+      var gameAction = Mapper.Map<GameAction>(gameActionRequest);
+
       gameAction.Player = _playerService.GetPlayerById(gameActionRequest.PlayerId);
       gameAction.Game = _gameService.GetGameById(gameActionRequest.GameId);
-      gameAction.Latitude = gameActionRequest.Latitude;
-      gameAction.Longitude = gameActionRequest.Longitude;
-      gameAction.Action = (Action) gameActionRequest.Action;
+      //gameAction.Latitude = gameActionRequest.Latitude;
+      //gameAction.Longitude = gameActionRequest.Longitude;
+      //gameAction.Action = (Action) gameActionRequest.Action;
       gameAction.Node = _nodeService.GetNode(gameActionRequest.NodeId);
       switch (gameAction.Action)
       {

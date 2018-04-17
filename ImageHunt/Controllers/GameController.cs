@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Request;
@@ -54,11 +55,7 @@ namespace ImageHunt.Controllers
     {
       if (nodeRequest == null)
         return BadRequest("Node is missing");
-      var node = NodeFactory.CreateNode(nodeRequest.NodeType);
-      node.Name = nodeRequest.Name;
-      node.Latitude = nodeRequest.Latitude;
-      node.Longitude = nodeRequest.Longitude;
-      node.Points = nodeRequest.Points;
+      var node = Mapper.Map<Node>(nodeRequest);
       switch (nodeRequest.NodeType)
       {
         case "TimerNode":

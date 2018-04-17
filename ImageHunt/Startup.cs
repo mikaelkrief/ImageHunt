@@ -1,8 +1,12 @@
 using System;
 using System.IO;
 using System.Net.Http;
+using AutoMapper;
 using ImageHunt.Controllers;
 using ImageHunt.Data;
+using ImageHunt.Model;
+using ImageHunt.Model.Node;
+using ImageHunt.Request;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -77,6 +81,17 @@ namespace ImageHunt
       app.UseDefaultFiles();
       app.UseStaticFiles();
       app.UseMvc();
+      ConfigureMappings();
+    }
+
+    public static void ConfigureMappings()
+    {
+      Mapper.Initialize(config =>
+      {
+        config.CreateMap<AddNodeRequest, Node>().ConstructUsing(r=>NodeFactory.CreateNode(r.NodeType));
+        config.CreateMap<GameActionRequest, GameAction>().ForMember(x => x.Picture, opt => opt.Ignore());
+
+      });
     }
   }
 }

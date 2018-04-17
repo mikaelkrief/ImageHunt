@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using AutoMapper;
 using FakeItEasy;
+using ImageHunt;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
@@ -27,6 +29,11 @@ namespace ImageHuntTest.Controller
     private INodeService _nodeService;
     private IImageService _imageService;
     private IActionService _actionService;
+
+    static GameControllerTest()
+    {
+      Startup.ConfigureMappings();      
+    }
 
     public GameControllerTest()
     {
