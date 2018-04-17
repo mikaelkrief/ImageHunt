@@ -86,6 +86,7 @@ namespace ImageHunt
 
     public static void ConfigureMappings()
     {
+      Mapper.Reset();
       Mapper.Initialize(config =>
       {
         config.CreateMap<AddNodeRequest, Node>().ConstructUsing(r=>NodeFactory.CreateNode(r.NodeType));
