@@ -35,7 +35,7 @@ namespace ImageHunt.Controllers
       return Ok(_adminService.GetAdminByEmail(email));
     }
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public IActionResult InsertAdmin([FromBody] Admin admin)
     {
       _adminService.InsertAdmin(admin);
