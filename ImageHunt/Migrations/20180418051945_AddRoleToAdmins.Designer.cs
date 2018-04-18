@@ -13,9 +13,10 @@ using System;
 namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
-    partial class HuntContextModelSnapshot : ModelSnapshot
+    [Migration("20180418051945_AddRoleToAdmins")]
+    partial class AddRoleToAdmins
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,8 +106,6 @@ namespace ImageHunt.Migrations
                     b.Property<int?>("PictureId");
 
                     b.Property<int?>("PlayerId");
-
-                    b.Property<int>("PointsEarned");
 
                     b.Property<int?>("ReviewerId");
 

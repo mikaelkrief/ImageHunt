@@ -23,7 +23,7 @@ namespace ImageHunt.Model
   {
     Admin,
     Validator,
-    Player,
+    GameMaster,
     Reader
   }
 }

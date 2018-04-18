@@ -5,4 +5,5 @@ export class Admin {
   name: string;
   email: string;
   games: Game[];
+  role:any;
 }

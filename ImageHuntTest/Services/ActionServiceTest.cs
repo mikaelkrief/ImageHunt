@@ -190,6 +190,23 @@ namespace ImageHuntTest.Services
         Check.That(gameActions.Extracting("IsValidated")).Contains(false, true);
         Check.That(gameActions.Extracting("IsReviewed")).Contains(false, true);
       }
+
+      [Fact]
+      public void Validate_With_Node()
+      {
+        // Arrange
+        var nodes = new List<Node> {new TimerNode() {Points = 15}, new ObjectNode(){Points = 20}};
+        _context.Nodes.AddRange(nodes);
+        var gameActions = new List<GameAction> { new GameAction(), new GameAction() { Node = nodes[1]} };
+        _context.GameActions.AddRange(gameActions);
+        var admins = new List<Admin> { new Admin(), new Admin(){Role = Role.Validator} };
+        _context.Admins.AddRange(admins);
+        _context.SaveChanges();
+        // Act
+        _target.Validate(gameActions[1].Id, admins[1].Id);
+        // Assert
+        Check.That(gameActions.Extracting("PointsEarned")).Contains(0, 20);
+      }
       [Fact]
       public void Validate_InValidate()
       {

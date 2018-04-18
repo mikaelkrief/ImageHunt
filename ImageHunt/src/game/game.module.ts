@@ -21,17 +21,17 @@ import { TableModule } from "primeng/table";
 import { GMapModule } from 'primeng/gmap';
 import { GameActionListComponent } from "./game-action-list/game-action-list.component";
 import {GameActionDetailComponent} from "./game-action-detail/game-action-detail.component";
-import {PipeModule} from "../shared/pipes/pipe.module";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
 import { RadioButtonModule } from 'primeng/radiobutton';
-import {GeocoordinateModule} from "../shared/geocoordinate/geocoordinate.module";
 import { ToggleButtonModule } from "primeng/togglebutton";
+import { DropdownModule } from "primeng/dropdown";
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
-    MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule, ToggleButtonModule,
-    ContextMenuModule, TableModule, GMapModule, PipeModule.forRoot(), RadioButtonModule, GeocoordinateModule],
+    MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule, ToggleButtonModule, DropdownModule,
+    ContextMenuModule, TableModule, GMapModule, SharedModule, RadioButtonModule],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],
   exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],
   providers: [GameService, TeamService, AlertService, ConfirmationService]

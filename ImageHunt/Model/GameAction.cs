@@ -32,6 +32,7 @@ namespace ImageHunt.Model
       public bool IsReviewed { get; set; }
       public Admin Reviewer { get; set; }
       public DateTime DateReviewed { get; set; }
+      public int PointsEarned { get; set; }
       [NotMapped]
       public double Delta { get; set; }
     }

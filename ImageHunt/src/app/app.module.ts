@@ -23,7 +23,6 @@ import {AdminListComponent} from "../admin/admin-list/admin-list.component";
 import {GameModule} from "../game/game.module";
 import {GameListComponent} from "../game/game-list/game-list.component";
 import {GameDetailComponent} from "../game/game-detail/game.detail.component";
-import {GoogleButtonModule} from "../shared/google-button/google.button.module";
 import {environment} from "../environments/environment";
 import {Globals} from "../shared/globals";
 import { TeamDetailComponent } from "../team/team-detail/team.detail.component";
@@ -37,6 +36,7 @@ import {GameActionListComponent} from "../game/game-action-list/game-action-list
 import {GameActionDetailComponent} from "../game/game-action-detail/game-action-detail.component";
 import localeFr from '@angular/common/locales/fr';
 import { registerLocaleData } from "@angular/common";
+import {SharedModule} from "../shared/shared.module";
 
 registerLocaleData(localeFr);
 
@@ -72,7 +72,7 @@ export class MyAuthConfig extends CustomConfig {
     ContextMenuModule,
     NavmenuModule,
     PageNotFoundModule,
-    GoogleButtonModule,
+    SharedModule,
     Ng2UiAuthModule.forRoot(MyAuthConfig),
     BsDropdownModule.forRoot(),
     AlertModule.forRoot(),

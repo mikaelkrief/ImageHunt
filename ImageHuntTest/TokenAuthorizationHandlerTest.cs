@@ -64,6 +64,7 @@ namespace ImageHuntTest
         [Fact]
         public void HandleAsync_DenyAccess()
         {
+
             var target = new TokenAuthorizationHandler(_context);
 
             var httpContext = new DefaultHttpContext() { Request = { Headers = { { "Authorization", "Bearer toto" } } } };

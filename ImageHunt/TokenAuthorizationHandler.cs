@@ -26,12 +26,12 @@ namespace ImageHunt
                 return Task.CompletedTask;
             }
             var access_token = requestHeader.First().Split(' ')[1];
-            var authenticated = Queryable.Any<Admin>(_context.Admins, a => a.Token == access_token && a.ExpirationTokenDate > DateTime.Now);
+            var user = _context.Admins.SingleOrDefault(a=>a.Token == access_token && a.ExpirationTokenDate > DateTime.Now);
             var request = ((AuthorizationFilterContext)context.Resource).HttpContext.Request;
 
             foreach (var authorizationRequirement in context.Requirements)
             {
-                if (authenticated)
+                if (user !=null)
                 {
                     context.Succeed(authorizationRequirement);
                 }

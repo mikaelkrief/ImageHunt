@@ -13,7 +13,9 @@ import { ConfirmationService } from "primeng/api";
 export class AdminListComponent implements OnInit {
   admins: Admin[];
   /** admin ctor */
-  constructor(private _adminService: AdminService, private _confirmationService: ConfirmationService) { }
+  constructor(private _adminService: AdminService, private _confirmationService: ConfirmationService) {
+
+  }
 
   /** Called by Angular after admin component initialized */
   ngOnInit(): void {
@@ -33,7 +35,7 @@ export class AdminListComponent implements OnInit {
 
   }
   createAdmin(form: NgForm) {
-    var admin: Admin = { id: 0, name: form.value.name, email: form.value.email, games: null };
+    var admin: Admin = { id: 0, name: form.value.name, email: form.value.email, games: null, role:form.value.role };
     this._adminService.createAdmin(admin)
       .subscribe(null, null, () => {
         this.getAdmins();
