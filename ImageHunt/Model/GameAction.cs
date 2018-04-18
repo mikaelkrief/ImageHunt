@@ -29,6 +29,9 @@ namespace ImageHunt.Model
       public bool IsValidated { get; set; }
       public Answer SelectedAnswer { get; set; }
       public Answer CorrectAnswer { get; set; }
+      public bool IsReviewed { get; set; }
+      public Admin Reviewer { get; set; }
+      public DateTime DateReviewed { get; set; }
       [NotMapped]
       public double Delta { get; set; }
     }

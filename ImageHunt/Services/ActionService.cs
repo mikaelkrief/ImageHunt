@@ -51,9 +51,13 @@ namespace ImageHunt.Services
         return gameAction;
       }
 
-      public void Validate(int gameActionId)
+      public void Validate(int actionId, int validatorId)
       {
-        var gameAction = Context.GameActions.Single(ga => ga.Id == gameActionId);
+        var gameAction = Context.GameActions.Single(ga => ga.Id == actionId);
+        var validator = Context.Admins.Single(a => a.Id == validatorId);
+        gameAction.Reviewer = validator;
+        gameAction.IsReviewed = true;
+        gameAction.DateReviewed = DateTime.Now;
         gameAction.IsValidated = !gameAction.IsValidated;
         Context.SaveChanges();
       }

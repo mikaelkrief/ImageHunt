@@ -16,5 +16,14 @@ namespace ImageHunt.Model
       public string Token { get; set; }
       public DateTime? ExpirationTokenDate { get; set; }
       public List<Game> Games { get; set; }
+      public Role Role { get; set; }
     }
+
+  public enum Role
+  {
+    Admin,
+    Validator,
+    Player,
+    Reader
+  }
 }

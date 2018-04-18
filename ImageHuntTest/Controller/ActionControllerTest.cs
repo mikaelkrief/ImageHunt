@@ -154,11 +154,11 @@ namespace ImageHuntTest.Controller
         // Arrange
         
         // Act
-        var result = _target.Validate(1);
+        var result = _target.Validate(1, 2);
 
         // Assert
         Check.That(result).IsInstanceOf<OkResult>();
-        A.CallTo(() => _actionService.Validate(1)).MustHaveHappened();
+        A.CallTo(() => _actionService.Validate(1, 2)).MustHaveHappened();
       }
     }
 }

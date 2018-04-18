@@ -7,6 +7,7 @@ using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using NFluent;
 using TestUtilities;
 using Xunit;
@@ -180,10 +181,14 @@ namespace ImageHuntTest.Services
         var gameActions = new List<GameAction> {new GameAction(), new GameAction() {IsValidated = false}};
         _context.GameActions.AddRange(gameActions);
         _context.SaveChanges();
+        var admins = new List<Admin> {new Admin(), new Admin()};
+        _context.Admins.AddRange(admins);
+        _context.SaveChanges();
         // Act
-        _target.Validate(gameActions[1].Id);
+        _target.Validate(gameActions[1].Id, admins[1].Id);
         // Assert
         Check.That(gameActions.Extracting("IsValidated")).Contains(false, true);
+        Check.That(gameActions.Extracting("IsReviewed")).Contains(false, true);
       }
       [Fact]
       public void Validate_InValidate()
@@ -192,10 +197,26 @@ namespace ImageHuntTest.Services
         var gameActions = new List<GameAction> {new GameAction(), new GameAction() {IsValidated = true}};
         _context.GameActions.AddRange(gameActions);
         _context.SaveChanges();
+      var admins = new List<Admin> { new Admin(), new Admin() };
+        _context.Admins.AddRange(admins);
+        _context.SaveChanges();
         // Act
-        _target.Validate(gameActions[1].Id);
+      _target.Validate(gameActions[1].Id, admins[1].Id);
         // Assert
         Check.That(gameActions.Extracting("IsValidated")).Contains(false, false);
+        Check.That(gameActions.Extracting("IsReviewed")).Contains(false, true);
+      }
+
+    [Fact]
+      public void Validate_without_Reviewer()
+      {
+      // Arrange
+        var gameActions = new List<GameAction> { new GameAction(), new GameAction() { IsValidated = false } };
+        _context.GameActions.AddRange(gameActions);
+        _context.SaveChanges();
+        // Act
+        Check.ThatCode(()=> _target.Validate(gameActions[1].Id, 0)).Throws<InvalidOperationException>();
+        // Assert
       }
   }
 }
