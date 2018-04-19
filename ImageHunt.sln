@@ -10,9 +10,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntTest", "ImageHuntT
 		{E421ECAC-1902-4191-B1EF-EA772422F9D7} = {E421ECAC-1902-4191-B1EF-EA772422F9D7}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntBot", "ImageHuntBot\ImageHuntBot.csproj", "{FC1BE346-78E0-4FD7-AEDB-BFDFCEA00B02}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtilities", "TestUtilities\TestUtilities.csproj", "{BE585CE7-3C60-4429-A697-8B9C53E531FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestUtilities", "TestUtilities\TestUtilities.csproj", "{BE585CE7-3C60-4429-A697-8B9C53E531FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +26,6 @@ Global
 		{FF5ABD78-BD1C-4445-AC23-6A533BF840E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF5ABD78-BD1C-4445-AC23-6A533BF840E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF5ABD78-BD1C-4445-AC23-6A533BF840E0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FC1BE346-78E0-4FD7-AEDB-BFDFCEA00B02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC1BE346-78E0-4FD7-AEDB-BFDFCEA00B02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC1BE346-78E0-4FD7-AEDB-BFDFCEA00B02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC1BE346-78E0-4FD7-AEDB-BFDFCEA00B02}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BE585CE7-3C60-4429-A697-8B9C53E531FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BE585CE7-3C60-4429-A697-8B9C53E531FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE585CE7-3C60-4429-A697-8B9C53E531FB}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -10,5 +10,6 @@ namespace ImageHunt.Model.Node
     /// </summary>
     public class FirstNode : Node
     {
+      public string Password { get; set; }
     }
 }
