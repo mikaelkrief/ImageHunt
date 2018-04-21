@@ -26,13 +26,10 @@ namespace ImageHunt.Services
       return player;
     }
 
-    public Player JoinTeam(string gameName, string teamName, string playerName)
+    public Player JoinTeam(int teamId, int playerId)
     {
-      var game = Context.Games.Single(g => g.Name == gameName);
-      var team = game.Teams.SingleOrDefault(t => t.Name == teamName);
-      if (team == null)
-        throw new ArgumentException($"Team {teamName} doesn't exist");
-      var player = GetPlayer(playerName);
+      var team = Context.Teams.Single(t => t.Id == teamId);
+      var player = GetPlayerById(playerId);
       if (team !=null && player != null)
       {
         team.TeamPlayers.Add(new TeamPlayer(){Team = team, Player = player});

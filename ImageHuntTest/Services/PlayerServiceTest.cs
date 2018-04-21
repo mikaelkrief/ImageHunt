@@ -54,7 +54,7 @@ namespace ImageHuntTest
         _context.Players.AddRange(players);
         _context.SaveChanges();
         // Act
-        _target.JoinTeam("game2", "Team2", "Toto");
+        _target.JoinTeam(teams[1].Id, players[0].Id);
         // Assert
         Check.That(teams[1].Players).ContainsExactly(players[0]);
       }
@@ -70,7 +70,7 @@ namespace ImageHuntTest
         _context.Players.AddRange(players);
         _context.SaveChanges();
         // Act
-        Check.ThatCode(()=>_target.JoinTeam("game2", "Team3", "Toto")).Throws<ArgumentException>();
+        Check.ThatCode(()=>_target.JoinTeam(-1, players[0].Id)).Throws<InvalidOperationException>();
         // Assert
       }
       [Fact]
@@ -85,23 +85,7 @@ namespace ImageHuntTest
         _context.Players.AddRange(players);
         _context.SaveChanges();
         // Act
-        Check.ThatCode(()=> _target.JoinTeam("game2", "Team2", "Toto2")).Throws<ArgumentException>();
-        // Assert
-        Check.That(teams[1].Players).HasSize(0);
-      }
-      [Fact]
-      public void JoinTeam_GameDoesntExist()
-      {
-        // Arrange
-        var teams = new List<Team>(){new Team(){Name = "Team1"}, new Team(){Name = "Team2"}};
-        _context.Teams.AddRange(teams);
-        var games = new List<Game>() {new Game() {Name = "game1"}, new Game() {Name = "game2", Teams = new List<Team>(){ teams[1]}}};
-        _context.Games.AddRange(games);
-        var players = new List<Player>() {new Player() {Name = "Toto"}, new Player() {Name = "Titi"}};
-        _context.Players.AddRange(players);
-        _context.SaveChanges();
-        // Act
-        Check.ThatCode(()=> _target.JoinTeam("game3", "Team2", "Toto2")).Throws<InvalidOperationException>();
+        Check.ThatCode(()=> _target.JoinTeam(players[1].Id, -1)).Throws<InvalidOperationException>();
         // Assert
         Check.That(teams[1].Players).HasSize(0);
       }

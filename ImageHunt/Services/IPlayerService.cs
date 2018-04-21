@@ -6,7 +6,7 @@ namespace ImageHunt.Services
   public interface IPlayerService
   {
     Player CreatePlayer(string name, string chatLogin);
-    Player JoinTeam(string game2, string name, string teamName);
+    Player JoinTeam(int teamId, int playerId);
     void StartPlayer(string name);
     Node NextNodeForPlayer(string playerName, double playerLatitude, double playerLongitude);
     void UploadImage(string playerName, double latitude, double longitude, byte[] image);

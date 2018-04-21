@@ -20,10 +20,10 @@ namespace ImageHunt.Controllers
       {
         return Ok(_playerService.CreatePlayer(name, chatLogin));
       }
-
-      public IActionResult JoinTeam(string gameName, string name, string team)
+    [HttpPut("JoinTeam/{teamId}/{playerId}")]
+      public IActionResult JoinTeam(int teamId, int playerId)
       {
-        return Ok(_playerService.JoinTeam(gameName, team, name ));
+        return Ok(_playerService.JoinTeam(teamId, playerId ));
       }
 
       public IActionResult StartPlayer(string playername)

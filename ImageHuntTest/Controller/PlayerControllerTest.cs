@@ -35,10 +35,10 @@ namespace ImageHuntTest
         // Arrange
         
         // Act
-        var result = _target.JoinTeam("game","Toto", "Team");
+        var result = _target.JoinTeam(1, 1);
         // Assert
         Check.That(result).IsInstanceOf<OkObjectResult>();
-        A.CallTo(() => _playerService.JoinTeam(A<string>._, A<string>._, A<string>._)).MustHaveHappened();
+        A.CallTo(() => _playerService.JoinTeam(1,1)).MustHaveHappened();
       }
 
       [Fact]
