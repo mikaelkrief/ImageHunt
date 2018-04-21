@@ -76,11 +76,24 @@ namespace ImageHuntTest.Controller
             // Arrange
             var team = new Team();
             A.CallTo(() => _teamService.GetTeamById(A<int>._)).Returns(team);
+          A.CallTo(() => _playerService.GetPlayerByChatId(A<string>._)).Throws<InvalidOperationException>();
             var player = new Player(){Name = "toto", ChatLogin = "Toro"};
             // Act
             _target.AddPlayer(1, player);
             // Assert
             A.CallTo(() => _teamService.AddMemberToTeam(team, A<List<Player>>._)).MustHaveHappened();
+        }
+        [Fact]
+        public void AddPlayer_PlayerAlreadyExist()
+        {
+            // Arrange
+            var team = new Team();
+            A.CallTo(() => _teamService.GetTeamById(A<int>._)).Returns(team);
+            var player = new Player(){Name = "toto", ChatLogin = "Toro"};
+            // Act
+            _target.AddPlayer(1, player);
+            // Assert
+            A.CallTo(() => _playerService.JoinTeam(1, A<int>._)).MustHaveHappened();
         }
 
       [Fact]

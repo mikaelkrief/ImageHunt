@@ -50,7 +50,16 @@ namespace ImageHunt.Controllers
     public void AddPlayer(int teamId, [FromBody]Player player)
     {
       var team = _teamService.GetTeamById(teamId);
-      _teamService.AddMemberToTeam(team, new List<Player>() { player });
+      Player dbPlayer = null;
+      try
+      {
+        dbPlayer = _playerService.GetPlayerByChatId(player.ChatLogin);
+        _playerService.JoinTeam(teamId, dbPlayer.Id);
+      }
+      catch (InvalidOperationException )
+      {
+        _teamService.AddMemberToTeam(team, new List<Player>() { player });
+      }
     }
 
     // DELETE api/Team/5
