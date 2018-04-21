@@ -50,20 +50,6 @@ namespace ImageHuntTest.Services
       // Assert
       Check.That(_context.Teams).ContainsExactly(teams[0], teams[2]);
     }
-    // TODO Find a way to enable cascading delete in SQLite. Use foreign keys=true
-    [Fact(Skip = "SQLite doesn't cascade delete")]
-    public void DeleteTeamWithMembers()
-    {
-      // Arrange
-      var teams = new List<Team>() { new Team(), new Team() { Players = new List<Player>() { new Player(), new Player() } }, new Team() };
-      _context.Teams.AddRange(teams);
-      _context.SaveChanges();
-      // Act
-      _target.DeleteTeam(teams[1]);
-      // Assert
-      Check.That(_context.Teams).ContainsExactly(teams[0], teams[2]);
-      Check.That(_context.Players).HasSize(0);
-    }
 
     [Fact]
     public void GetTeams()
@@ -123,41 +109,25 @@ namespace ImageHuntTest.Services
     public void DelMemberToTeam()
     {
       // Arrange
-      var teams = new List<Team>()
+      var players = new List<Player>(){new Player(), new Player(), new Player()};
+      _context.Players.AddRange(players);
+       var teams = new List<Team>()
             {
-                new Team(){Players = new List<Player>(){new Player(), new Player(), new Player()}},
+                new Team(),
                 new Team(),
                 new Team()
             };
       _context.Teams.AddRange(teams);
+      var teamPlayers = players.Select(p => new TeamPlayer() {Team = teams[0], Player = p});
+      teams[0].TeamPlayers = teamPlayers.ToList();
+
       _context.SaveChanges();
       // Act
-      _target.DelMemberToTeam(teams[0], teams[0].Players[1]);
+      _target.DelMemberToTeam(teams[0], players[1]);
       // Assert
-      Check.That(teams[0].Players).HasSize(2).And.ContainsExactly(teams[0].Players[0], teams[0].Players[1]);
+      Check.That(teams[0].TeamPlayers).HasSize(2);
     }
 
-    [Fact]
-    public void GetPlayer()
-    {
-      // Arrange
-      var players = new List<Player>() { new Player() { ChatLogin = "toto1" }, new Player() { ChatLogin = "toto2" }, new Player() { ChatLogin = "Toto3" } };
-      var teams = new List<Team>(){new Team()
-      {
-        Name = "Team1", Players = new List<Player>(){players[0], players[2]}
-      },
-        new Team(){Name = "Team2", Players = new List<Player>(){players[1]}}};
-      var games = new List<Game>() { new Game() { Name = "game1", Teams = new List<Team>() { teams[0] } }, new Game() { Name = "game2", Teams = new List<Team>() { teams[1] } } };
-      _context.Players.AddRange(players);
-      _context.Teams.AddRange(teams);
-      _context.Games.AddRange(games);
-      _context.SaveChanges();
-      // Act
-      var result = _target.GetPlayer(players[1].ChatLogin, games[1].Id);
-      // Assert;
-      Check.That(result).IsEqualTo(players[1]);
-      Check.That(result.Team).IsEqualTo(teams[1]);
-    }
 
     [Fact]
     public void RemovePlayer()
@@ -166,14 +136,28 @@ namespace ImageHuntTest.Services
       var players = new List<Player>() { new Player() { ChatLogin = "toto1" }, new Player() { ChatLogin = "toto2" }, new Player() { ChatLogin = "Toto3" } };
       var teams = new List<Team>(){new Team()
         {
-          Name = "Team1", Players = new List<Player>(){players[0], players[2]}
+          Name = "Team1"
         },
-        new Team(){Name = "Team2", Players = new List<Player>(){players[1]}}};
+
+        new Team(){Name = "Team2"}
+
+      };
+
       _context.Players.AddRange(players);
       _context.Teams.AddRange(teams);
+
+      var teamPlayers = new List<TeamPlayer>
+      {
+        new TeamPlayer() {Team = teams[0], Player = players[0]},
+        new TeamPlayer() {Team = teams[0], Player = players[2]},
+        new TeamPlayer() {Team = teams[1], Player = players[1]},
+
+      };
+      teams[0].TeamPlayers = new List<TeamPlayer>(){ teamPlayers[0] , teamPlayers[1] };
+      teams[1].TeamPlayers = new List<TeamPlayer>(){ teamPlayers[2] };
       _context.SaveChanges();
       // Act
-      _target.RemovePlayer(teams[0].Id, teams[0].Players[1].Id);
+      _target.DelMemberToTeam(teams[0], players[2]);
       // Assert
       Check.That(teams[0].Players).HasSize(1);
     }
@@ -182,15 +166,33 @@ namespace ImageHuntTest.Services
     public void GetTeamsForPlayer()
     {
       // Arrange
-      var players = new List<Player> {new Player(), new Player(), new Player(), new Player()};
+      var players = new List<Player>() { new Player() { ChatLogin = "toto1" }, new Player() { ChatLogin = "toto2" }, new Player() { ChatLogin = "Toto3" } };
+      var teams = new List<Team>(){new Team()
+        {
+          Name = "Team1"
+        },
+
+        new Team(){Name = "Team2"}
+
+      };
+
       _context.Players.AddRange(players);
-      var teams = new List<Team> {new Team() {Players = {players[0], players[1]}}};
       _context.Teams.AddRange(teams);
+
+      var teamPlayers = new List<TeamPlayer>
+      {
+        new TeamPlayer() {Team = teams[0], Player = players[0]},
+        new TeamPlayer() {Team = teams[0], Player = players[2]},
+        new TeamPlayer() {Team = teams[1], Player = players[1]},
+
+      };
+      teams[0].TeamPlayers = new List<TeamPlayer>() { teamPlayers[0], teamPlayers[1] };
+      teams[1].TeamPlayers = new List<TeamPlayer>() { teamPlayers[2] };
       _context.SaveChanges();
       // Act
       var result = _target.GetTeamsForPlayer(players[1]);
       // Assert
-      Check.That(result).Contains(teams[0]);
+      Check.That(result).Contains(teams[1]);
     }
   }
 }

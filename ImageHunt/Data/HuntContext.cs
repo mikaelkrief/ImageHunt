@@ -28,6 +28,7 @@ namespace ImageHunt.Data
     public DbSet<Picture> Pictures { get; set; }
     public DbSet<ParentChildren> ParentChildren { get; set; }
     public DbSet<GameAction> GameActions { get; set; }
+    //public DbSet<TeamPlayer> TeamPlayers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -63,6 +64,8 @@ namespace ImageHunt.Data
         .Property<bool>("IsDeleted");
       modelBuilder.Entity<GameAction>()
         .Property<bool>("IsDeleted");
+      modelBuilder.Entity<TeamPlayer>()
+        .Property<bool>("IsDeleted");
       // Filter entities
       modelBuilder.Entity<Game>()
         .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
@@ -84,10 +87,17 @@ namespace ImageHunt.Data
         .HasOne(n => n.Parent)
         .WithMany(n => n.ChildrenRelation)
         .HasForeignKey(pc => pc.ParentId);
-      //modelBuilder.Entity<ParentChildren>()
-      //  .HasOne(pc => pc.Children)
-      //  .WithMany(n => n.ChildrenRelation)
-      //  .HasForeignKey(pc => pc.ChildrenId);
+      modelBuilder.Entity<TeamPlayer>()
+        .HasKey(tp => new {tp.TeamId, tp.PlayerId});
+      modelBuilder.Entity<TeamPlayer>()
+        .HasOne(tp => tp.Team)
+        .WithMany(t => t.TeamPlayers)
+        .HasForeignKey(tp => tp.TeamId);
+      modelBuilder.Entity<TeamPlayer>()
+        .HasOne(tp => tp.Player)
+        .WithMany(t => t.TeamPlayers)
+        .HasForeignKey(tp => tp.PlayerId);
+
     }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)

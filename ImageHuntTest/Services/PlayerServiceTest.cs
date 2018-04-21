@@ -101,7 +101,7 @@ namespace ImageHuntTest
         _context.Players.AddRange(players);
         _context.SaveChanges();
         // Act
-        Check.ThatCode(()=> _target.JoinTeam("game3", "Team2", "Toto2")).Throws<ArgumentException>();
+        Check.ThatCode(()=> _target.JoinTeam("game3", "Team2", "Toto2")).Throws<InvalidOperationException>();
         // Assert
         Check.That(teams[1].Players).HasSize(0);
       }
@@ -135,7 +135,9 @@ namespace ImageHuntTest
         // Arrange
         var players = new List<Player>() {new Player() {Name = "Toto"}};
         _context.Players.AddRange(players);
-        var teams = new List<Team>() {new Team() { Players = players}};
+        var teams = new List<Team>() {new Team()};
+        var teamPlayers = players.Select(p => new TeamPlayer() {Player = p, Team = teams[0]});
+        teams[0].TeamPlayers = teamPlayers.ToList();
         var nodes = new List<Node>() {new FirstNode() {Latitude = 10, Longitude = 12}};
         var games = new List<Game>() {new Game() {Teams = teams, IsActive = true, Name = "Game1", StartDate = DateTime.Now, Nodes = nodes}};
         players[0].CurrentGame = games[0];
@@ -155,7 +157,9 @@ namespace ImageHuntTest
         // Arrange
         var players = new List<Player>() {new Player() {Name = "Toto"}};
         _context.Players.AddRange(players);
-        var teams = new List<Team>() {new Team() { Players = players}};
+        var teams = new List<Team>() {new Team()};
+        var teamPlayers = players.Select(p => new TeamPlayer() { Player = p, Team = teams[0] });
+        teams[0].TeamPlayers = teamPlayers.ToList();
         var nodes = new List<Node>() {new FirstNode() {Latitude = 10, Longitude = 12}};
         var games = new List<Game>() {new Game() {Teams = teams, IsActive = false, Name = "Game1", StartDate = DateTime.Now, Nodes = nodes}};
         players[0].CurrentGame = games[0];

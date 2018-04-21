@@ -60,15 +60,17 @@ namespace ImageHunt.Controllers
       var team = _teamService.GetTeamById(id);
       _teamService.DeleteTeam(team);
     }
-    [HttpGet("Player/{gameId}/{playerLogin}")]
-    public IActionResult GetPlayer(int gameId, string playerLogin)
+    [HttpGet("Player/{playerLogin}")]
+    public IActionResult GetPlayer(string playerLogin)
     {
-      return Ok(_teamService.GetPlayer(playerLogin, gameId));
+      return Ok(_playerService.GetPlayerByChatId(playerLogin));
     }
     [HttpDelete("Remove/{teamId}/{playerId}")]
     public IActionResult RemovePlayer(int teamId, int playerId)
     {
-      _teamService.RemovePlayer(teamId, playerId);
+      var team = _teamService.GetTeamById(teamId);
+      var player = _playerService.GetPlayerById(playerId);
+      _teamService.DelMemberToTeam(team, player);
       return Ok();
     }
     [HttpGet("GetTeamsOfPlayer/{playerChatId}")]

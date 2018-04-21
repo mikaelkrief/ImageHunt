@@ -12,7 +12,7 @@
     <tbody>
     <tr *ngFor="let player of team.players">
       <td>{{player.name}}</td>
-      <td>{{player.chatId}}</td>
+      <td>{{player.chatLogin}}</td>
       <td><button class="btn btn-danger" (click)="deletePlayer(team.id, player)"><span class="fa fa-trash"></span></button></td>
 
     </tr>

@@ -13,8 +13,6 @@ namespace ImageHunt.Services
       void DelMemberToTeam(Team team, Player playerToDelete);
       Team GetTeamByName(string teamName);
       Team GetTeamById(int teamId);
-      Player GetPlayer(string playerLogin, int gameId);
-      void RemovePlayer(int teamId, int playerId);
       IEnumerable<Team> GetTeamsForPlayer(Player player);
     }
 }

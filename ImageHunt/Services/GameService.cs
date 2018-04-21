@@ -73,7 +73,7 @@ namespace ImageHunt.Services
 
     public Game GetGameFromPlayerChatId(string playerChatUserName)
     {
-      return Context.Games.Include(g => g.Teams).ThenInclude(t => t.Players)
+      return Context.Games.Include(g => g.Teams).ThenInclude(t => t.TeamPlayers)
         .Include(g => g.Nodes)
         .Single(g => g.Teams.Any(t => t.Players.Any(p => p.ChatLogin == playerChatUserName)));
     }

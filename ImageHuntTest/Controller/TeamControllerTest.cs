@@ -91,7 +91,7 @@ namespace ImageHuntTest.Controller
         // Act
         var result = _target.RemovePlayer(1, 1);
         // Assert
-        A.CallTo(() => _teamService.RemovePlayer(1, 1)).MustHaveHappened();
+        A.CallTo(() => _teamService.DelMemberToTeam(A<Team>._, A<Player>._)).MustHaveHappened();
       }
       [Fact]
       public void GetPlayerDetails()
@@ -99,12 +99,11 @@ namespace ImageHuntTest.Controller
         // Arrange
         string playerLogin = "Toto";
         var player = new Player(){};
-        int gameId = 1;
-        A.CallTo(() => _teamService.GetPlayer(playerLogin, gameId)).Returns(player);
+        A.CallTo(() => _playerService.GetPlayerByChatId(playerLogin)).Returns(player);
         // Act
-        _target.GetPlayer(gameId, playerLogin);
+        _target.GetPlayer(playerLogin);
         // Assert
-        A.CallTo(() => _teamService.GetPlayer(playerLogin, gameId)).MustHaveHappened();
+        A.CallTo(() => _playerService.GetPlayerByChatId(playerLogin)).MustHaveHappened();
       }
 
       [Fact]

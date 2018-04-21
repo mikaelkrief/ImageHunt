@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,9 +10,11 @@ namespace ImageHunt.Model
   {
     public Team()
     {
-      Players = new List<Player>();
+      TeamPlayers = new List<TeamPlayer>();
     }
     public string Name { get; set; }
-    public List<Player> Players { get; set; }
+    public List<TeamPlayer> TeamPlayers { get; set; }
+    [NotMapped]
+    public IEnumerable<Player> Players => TeamPlayers.Select(tp => tp.Player);
   }
 }

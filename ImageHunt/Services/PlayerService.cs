@@ -28,16 +28,14 @@ namespace ImageHunt.Services
 
     public Player JoinTeam(string gameName, string teamName, string playerName)
     {
-      var game = Queryable.SingleOrDefault<Model.Game>(Context.Games, g => g.Name == gameName);
-      if (game == null)
-        throw new ArgumentException($"Game {gameName} doesn't exist");
+      var game = Context.Games.Single(g => g.Name == gameName);
       var team = game.Teams.SingleOrDefault(t => t.Name == teamName);
       if (team == null)
         throw new ArgumentException($"Team {teamName} doesn't exist");
       var player = GetPlayer(playerName);
       if (team !=null && player != null)
       {
-        team.Players.Add(player);
+        team.TeamPlayers.Add(new TeamPlayer(){Team = team, Player = player});
         Context.SaveChanges();
       }
 
@@ -46,7 +44,7 @@ namespace ImageHunt.Services
 
     private Player GetPlayer(string playerName)
     {
-      var player = Queryable.SingleOrDefault<Player>(Context.Players, p => p.Name == playerName);
+      var player = Context.Players.SingleOrDefault(p => p.Name == playerName);
       if (player == null)
         throw new ArgumentException($"Player {playerName} doesn't exist");
 

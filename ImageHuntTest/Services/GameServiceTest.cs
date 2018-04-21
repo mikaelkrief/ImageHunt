@@ -209,13 +209,15 @@ namespace ImageHuntTest.Services
     public void GetGameFromChatId()
     {
       // Arrange
-      var users = new List<Player>()
+      var players = new List<Player>()
         {
           new Player() {ChatLogin = "toto"},
           new Player() {ChatLogin = "Titi"},
           new Player() {ChatLogin = "tata"}
         };
-      var teams = new List<Team>() { new Team(), new Team() { Players = users } };
+      var teams = new List<Team>() { new Team(), new Team()};
+      var teamPlayers = players.Select(p => new TeamPlayer() {Team = teams[1], Player = p});
+      teams[1].TeamPlayers = teamPlayers.ToList();
       var games = new List<Game>() { new Game(), new Game() { Teams = teams } };
       _context.Games.AddRange(games);
       _context.SaveChanges();
