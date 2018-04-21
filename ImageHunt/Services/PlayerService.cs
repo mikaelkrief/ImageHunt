@@ -107,5 +107,10 @@ namespace ImageHunt.Services
     {
       return Context.Players.Single(p => p.Id == playerId);
     }
+
+    public Player GetPlayerByChatId(string chatId)
+    {
+      return Context.Players.Single(p => p.ChatLogin == chatId);
+    }
   }
 }

@@ -82,6 +82,18 @@ namespace ImageHuntTest
         A.CallTo(() => _playerService.UploadImage(A<string>._, A<double>._, A<double>._, A<byte[]>._))
           .MustHaveHappened();
       }
+
+      [Fact]
+      public void PlayerByChatId()
+      {
+        // Arrange
+        
+        // Act
+        var result = _target.PlayerByChatId("toto");
+        // Assert
+        Check.That(result).IsInstanceOf<OkObjectResult>();
+        A.CallTo(() => _playerService.GetPlayerByChatId("toto")).MustHaveHappened();
+      }
   }
 
 }

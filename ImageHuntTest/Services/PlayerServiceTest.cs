@@ -296,5 +296,19 @@ namespace ImageHuntTest
         // Assert
         Check.That(result).Equals(players[1]);
       }
+
+      [Fact]
+      public void GetPlayerByChatId()
+      {
+      // Arrange
+        var players = new List<Player> { new Player(){ChatLogin = "toto"}, new Player(){ChatLogin = "tata"}, new Player(){ChatLogin = "tutu"} };
+        _context.Players.AddRange(players);
+        _context.SaveChanges();
+        // Act
+        var result = _target.GetPlayerByChatId(players[1].ChatLogin);
+
+        // Assert
+        Check.That(result).Equals(players[1]);
+      }
   }
 }

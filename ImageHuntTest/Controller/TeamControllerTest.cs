@@ -15,11 +15,13 @@ namespace ImageHuntTest.Controller
     {
         private ITeamService _teamService;
         private TeamController _target;
+      private IPlayerService _playerService;
 
-        public TeamControllerTest()
+      public TeamControllerTest()
         {
             _teamService = A.Fake<ITeamService>();
-            _target = new TeamController(_teamService);
+          _playerService = A.Fake<IPlayerService>();
+            _target = new TeamController(_teamService, _playerService);
         }
 
       [Fact]
@@ -103,6 +105,18 @@ namespace ImageHuntTest.Controller
         _target.GetPlayer(gameId, playerLogin);
         // Assert
         A.CallTo(() => _teamService.GetPlayer(playerLogin, gameId)).MustHaveHappened();
+      }
+
+      [Fact]
+      public void GetTeamOfPlayer()
+      {
+        // Arrange
+        // Act
+        var result = _target.GetTeamsOfPlayer("toto");
+        // Assert
+        Check.That(result).IsInstanceOf<OkObjectResult>();
+        A.CallTo(() => _playerService.GetPlayerByChatId("toto")).MustHaveHappened();
+        A.CallTo(() => _teamService.GetTeamsForPlayer(A<Player>._)).MustHaveHappened();
       }
     }
 }

@@ -15,5 +15,6 @@ namespace ImageHunt.Services
       Team GetTeamById(int teamId);
       Player GetPlayer(string playerLogin, int gameId);
       void RemovePlayer(int teamId, int playerId);
+      IEnumerable<Team> GetTeamsForPlayer(Player player);
     }
 }

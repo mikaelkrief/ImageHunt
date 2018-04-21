@@ -78,5 +78,10 @@ namespace ImageHunt.Services
       team.Players.Remove(player);
       Context.SaveChanges();
     }
+
+    public IEnumerable<Team> GetTeamsForPlayer(Player player)
+    {
+      return Context.Teams.Include(t => t.Players).Where(t => t.Players.Any(p=>p.Id==player.Id));
+    }
   }
 }

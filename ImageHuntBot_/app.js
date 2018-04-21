@@ -18,6 +18,4 @@ server.post('/api/messages', connector.listen());
 
 var bot = new builder.UniversalBot(connector,
   session =>
-    session.beginDialog('welcomeDialog'));
-
-bot.dialog('welcomeDialog', require('./welcomeDialog'));
+  session.send("You said: %s", session.message.text));

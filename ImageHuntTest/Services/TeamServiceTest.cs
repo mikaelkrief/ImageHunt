@@ -177,5 +177,20 @@ namespace ImageHuntTest.Services
       // Assert
       Check.That(teams[0].Players).HasSize(1);
     }
+
+    [Fact]
+    public void GetTeamsForPlayer()
+    {
+      // Arrange
+      var players = new List<Player> {new Player(), new Player(), new Player(), new Player()};
+      _context.Players.AddRange(players);
+      var teams = new List<Team> {new Team() {Players = {players[0], players[1]}}};
+      _context.Teams.AddRange(teams);
+      _context.SaveChanges();
+      // Act
+      var result = _target.GetTeamsForPlayer(players[1]);
+      // Assert
+      Check.That(result).Contains(teams[0]);
+    }
   }
 }

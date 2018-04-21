@@ -1,18 +1,13 @@
 {
-  "name": "imagehuntbot",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "imagehunt-bot",
+  "version": "0.0.0",
+  "description": "ImageHuntBot",
+  "main": "app.js",
+  "author": {
+    "name": "nimbusparis"
+  },
   "dependencies": {
     "botbuilder": "^3.14.1",
-    "dotenv-extended": "^2.0.2",
-    "restify": "^7.1.1",
-    "typescript": "^2.8.1"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+    "restify": "^7.1.1"
+  }
 }

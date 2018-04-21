@@ -16,10 +16,12 @@ namespace ImageHunt.Controllers
   public class TeamController : Controller
   {
     private readonly ITeamService _teamService;
+    private readonly IPlayerService _playerService;
 
-    public TeamController(ITeamService teamService)
+    public TeamController(ITeamService teamService, IPlayerService playerService)
     {
       _teamService = teamService;
+      _playerService = playerService;
     }
     // GET: api/Team
     [HttpGet("ByGame/{gameId}")]
@@ -68,6 +70,12 @@ namespace ImageHunt.Controllers
     {
       _teamService.RemovePlayer(teamId, playerId);
       return Ok();
+    }
+    [HttpGet("GetTeamsOfPlayer/{playerChatId}")]
+    public IActionResult GetTeamsOfPlayer(string playerChatId)
+    {
+      var player = _playerService.GetPlayerByChatId(playerChatId);
+      return Ok(_teamService.GetTeamsForPlayer(player));
     }
   }
 }

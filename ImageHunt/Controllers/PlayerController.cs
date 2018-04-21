@@ -43,5 +43,10 @@ namespace ImageHunt.Controllers
         _playerService.UploadImage(playername, latitude, longitude, image);
         return Ok();
       }
+      [HttpGet("PlayerByChatId/{chatId}")]
+      public IActionResult PlayerByChatId(string chatId)
+      {
+        return Ok(_playerService.GetPlayerByChatId(chatId));
+      }
     }
 }
