@@ -14,6 +14,7 @@ import { Ng2UiAuthModule, CustomConfig } from 'ng2-ui-auth';
 import { HomeModule } from "../home/home.module";
 import { PageNotFoundModule } from "../page-not-found/page.not.found.module";
 import { TeamModule } from "../team/team.module";
+import { PlayerModule } from "../player/player.module";
 import { TeamListComponent } from "../team/team-list/team-list.component";
 import { HomeComponent } from "../home/home.component";
 import { PageNotFoundComponent } from "../page-not-found/page.not.found.component";
@@ -68,6 +69,7 @@ export class MyAuthConfig extends CustomConfig {
     GameModule,
     TeamModule,
     MapModule,
+    PlayerModule,
     AdminListModule,
     ContextMenuModule,
     NavmenuModule,
