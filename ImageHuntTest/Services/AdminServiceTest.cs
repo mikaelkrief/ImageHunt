@@ -128,5 +128,22 @@ namespace ImageHuntTest.Services
             var result = _target.GetAdminByEmail("Tato@titi.com");
             // Assert
         }
+        [Fact]
+        public void GetAdminByEmailSomeEmailAreNull()
+        {
+            // Arrange
+            var admins = new List<Admin>()
+            {
+                new Admin(){Email = "Toto@titi.com"},
+                new Admin(){Email = "Tato@titi.com"},
+                new Admin()
+            };
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
+            // Act
+            var result = _target.GetAdminByEmail("Tato@titi.com");
+            // Assert
+        }
+
     }
 }

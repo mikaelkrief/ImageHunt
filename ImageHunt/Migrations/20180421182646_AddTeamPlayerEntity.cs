@@ -8,26 +8,14 @@ namespace ImageHunt.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Players_Teams_TeamId",
-                table: "Players");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Teams_Players_PlayerId",
-                table: "Teams");
-
+                name:"FK_Players_Teams_TeamId", 
+                table:"Players");
             migrationBuilder.DropIndex(
-                name: "IX_Teams_PlayerId",
-                table: "Teams");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Players_TeamId",
-                table: "Players");
-
-            migrationBuilder.DropColumn(
-                name: "PlayerId",
-                table: "Teams");
-
+                name:"IX_Players_TeamId",
+                table:"Players"
+            );                
             migrationBuilder.DropColumn(
                 name: "TeamId",
                 table: "Players");
@@ -68,41 +56,14 @@ namespace ImageHunt.Migrations
             migrationBuilder.DropTable(
                 name: "TeamPlayer");
 
-            migrationBuilder.AddColumn<int>(
-                name: "PlayerId",
-                table: "Teams",
-                nullable: true);
 
             migrationBuilder.AddColumn<int>(
                 name: "TeamId",
                 table: "Players",
                 nullable: true);
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Teams_PlayerId",
-                table: "Teams",
-                column: "PlayerId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Players_TeamId",
-                table: "Players",
-                column: "TeamId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Players_Teams_TeamId",
-                table: "Players",
-                column: "TeamId",
-                principalTable: "Teams",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Teams_Players_PlayerId",
-                table: "Teams",
-                column: "PlayerId",
-                principalTable: "Players",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
     }
 }

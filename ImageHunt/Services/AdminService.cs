@@ -39,7 +39,7 @@ namespace ImageHunt.Services
 
     public Admin GetAdminByEmail(string email)
     {
-      return Context.Admins.Include(g => g.Games).Single(a => a.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
+      return Context.Admins.Include(g => g.Games).Single(a => string.Equals(a.Email, email, StringComparison.InvariantCultureIgnoreCase));
     }
   }
 }
