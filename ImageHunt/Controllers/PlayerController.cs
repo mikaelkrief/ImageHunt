@@ -15,7 +15,7 @@ namespace ImageHunt.Controllers
       {
         _playerService = playerService;
       }
-
+      [HttpPost("CreatePlayer/{name}/{chatLogin}")]
       public IActionResult CreatePlayer(string name, string chatLogin)
       {
         return Ok(_playerService.CreatePlayer(name, chatLogin));
