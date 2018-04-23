@@ -1,0 +1,1065 @@
+{
+	"info": {
+		"_postman_id": "e65dd824-9aa6-41a8-8cd7-a515914bad03",
+		"name": "ImageHunt",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Admins",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Postman PostmanToken"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "localhost:{{API Port}}/api/Admin/GetAllAdmins",
+							"host": [
+								"localhost"
+							],
+							"port": "{{API Port}}",
+							"path": [
+								"api",
+								"Admin",
+								"GetAllAdmins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Admin by Id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Postman PostmanToken"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "localhost:{{API Port}}/api/Admin/ById/1",
+							"host": [
+								"localhost"
+							],
+							"port": "{{API Port}}",
+							"path": [
+								"api",
+								"Admin",
+								"ById",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Admin by Email",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Postman PostmanToken"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "localhost:{{API Port}}/api/Admin/ByEmail/mandrillon@gmail.com",
+							"host": [
+								"localhost"
+							],
+							"port": "{{API Port}}",
+							"path": [
+								"api",
+								"Admin",
+								"ByEmail",
+								"mandrillon@gmail.com"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SampleGame",
+			"description": "",
+			"item": [
+				{
+					"name": "Create Game",
+					"description": "",
+					"item": [
+						{
+							"name": "Create Game",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9e40b6d3-17f1-403d-8181-6ba2fd15bc00",
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"gameId\", jsonData.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 0,\r\n  \"name\": \"Sample\",\r\n  \"startDate\": \"2018-04-24T15:36:30.000Z\",\r\n  \"isActive\": true,\r\n  \"mapCenterLat\": 0,\r\n  \"mapCenterLng\": 0,\r\n  \"mapZoom\": 12,\r\n  \"nodes\": null,\r\n  \"teams\": null\r\n}"
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Game/1",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Game",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Create Team 1",
+					"description": "",
+					"item": [
+						{
+							"name": "Create Team 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "93cbd151-55c9-48b9-beee-37a4e0521f09",
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"team1\", jsonData.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 0,\r\n  \"name\": \"Team 1\",\r\n  \"players\": null\r\n}"
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Team/{{gameId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Team",
+										"{{gameId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create User 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4212188e-10bc-4e49-bd62-f2e0ad18dba8",
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"player1\", jsonData.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Player/CreatePlayer/player1/player1",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Player",
+										"CreatePlayer",
+										"player1",
+										"player1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create User 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "90eb81c7-fed7-4995-a0ad-ffc7c76819f5",
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"player2\", jsonData.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Player/CreatePlayer/player2/player2",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Player",
+										"CreatePlayer",
+										"player2",
+										"player2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Join Team 1 #1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3fd4bfc3-3ccb-4431-8ad9-cd175cd502de",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Player/JoinTeam/{{team1}}/{{player1}}",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Player",
+										"JoinTeam",
+										"{{team1}}",
+										"{{player1}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Join Team 1 #2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3fd4bfc3-3ccb-4431-8ad9-cd175cd502de",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Player/JoinTeam/{{team1}}/{{player2}}",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Player",
+										"JoinTeam",
+										"{{team1}}",
+										"{{player2}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Create Team 2",
+					"description": "",
+					"item": [
+						{
+							"name": "Create Team 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0796e742-2c54-4274-ade1-946312588d49",
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"team2\", jsonData.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 0,\r\n  \"name\": \"Team 2\",\r\n  \"players\": null\r\n}"
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Team/{{gameId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Team",
+										"{{gameId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create User 3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "79b17414-9538-47a6-8395-3e5b87b7cd18",
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"player3\", jsonData.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Player/CreatePlayer/player3/player3",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Player",
+										"CreatePlayer",
+										"player3",
+										"player3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create User 4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "36bd9bd4-f4ba-470a-bf23-e3fc2ddf9674",
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"player4\", jsonData.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Player/CreatePlayer/player4/player4",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Player",
+										"CreatePlayer",
+										"player4",
+										"player4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Join Team 2 #1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3fd4bfc3-3ccb-4431-8ad9-cd175cd502de",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Player/JoinTeam/{{team2}}/{{player3}}",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Player",
+										"JoinTeam",
+										"{{team2}}",
+										"{{player3}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Join Team 2 #2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3fd4bfc3-3ccb-4431-8ad9-cd175cd502de",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Player/JoinTeam/{{team2}}/{{player4}}",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Player",
+										"JoinTeam",
+										"{{team2}}",
+										"{{player4}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Nodes",
+					"description": "",
+					"item": [
+						{
+							"name": "Create First Node",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "312d622f-6d09-4fd5-87d5-b7918deaf7ea",
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"Node1\", jsonData.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nodeType\": \"FirstNode\",\r\n  \"name\": \"Départ\",\r\n  \"latitude\": 48.84747652677411,\r\n  \"longitude\": 2.3371929489076138,\r\n  \"duration\": 0,\r\n  \"action\": \"\",\r\n  \"question\": \"\",\r\n  \"points\": 10,\r\n  \"answers\": null\r\n}"
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Game/AddNode/{{gameId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Game",
+										"AddNode",
+										"{{gameId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Question 1 Node",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b86b9cb4-d8e8-4bac-94c7-3c38a755f49c",
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"Node2\", jsonData.id);",
+											"postman.setEnvironmentVariable(\"Answer1\", jsonData.answers[0].id);",
+											"postman.setEnvironmentVariable(\"Answer2\", jsonData.answers[1].id);",
+											"postman.setEnvironmentVariable(\"Answer3\", jsonData.answers[2].id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nodeType\": \"QuestionNode\",\r\n  \"name\": \"Question 1\",\r\n  \"latitude\": 48.84744475550526,\r\n  \"longitude\": 2.3372822999954224,\r\n  \"duration\": 0,\r\n  \"action\": \"\",\r\n  \"question\": \"Intitulé de la question 1\",\r\n  \"points\": 50,\r\n  \"answers\": [\r\n    {\r\n      \"response\": \"Réponse 1\",\r\n      \"correct\": false\r\n    },\r\n    {\r\n      \"response\": \"Réponse 2\",\r\n      \"correct\": true\r\n    },\r\n    {\r\n      \"response\": \"Réponse 3\",\r\n      \"correct\": false\r\n    }\r\n  ]\r\n}"
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Game/AddNode/{{gameId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Game",
+										"AddNode",
+										"{{gameId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Timer Node",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e540988b-1bb3-41e6-98bb-28b663059287",
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"Node3\", jsonData.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nodeType\": \"TimerNode\",\r\n  \"name\": \"Timer 1\",\r\n  \"latitude\": 48.84785248525827,\r\n  \"longitude\": 2.3362308740615845,\r\n  \"duration\": 30,\r\n  \"action\": \"\",\r\n  \"question\": \"\",\r\n  \"points\": 4,\r\n  \"answers\": null\r\n}"
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Game/AddNode/{{gameId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Game",
+										"AddNode",
+										"{{gameId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Object Node",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "83ecc563-62b7-4d00-b563-af6331cd95f7",
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"Node4\", jsonData.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nodeType\": \"ObjectNode\",\r\n  \"name\": \"Object 1\",\r\n  \"latitude\": 48.847040552603076,\r\n  \"longitude\": 2.3361825942993164,\r\n  \"duration\": 0,\r\n  \"action\": \"Faire un selfie\",\r\n  \"question\": \"\",\r\n  \"points\": 40,\r\n  \"answers\": null\r\n}"
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Game/AddNode/{{gameId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Game",
+										"AddNode",
+										"{{gameId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Last Node",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d6aaef21-3123-4101-ad18-f34d065eb411",
+										"type": "text/javascript",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"Node5\", jsonData.id);"
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nodeType\": \"LastNode\",\r\n  \"name\": \"Arrivée\",\r\n  \"latitude\": 48.84627096949899,\r\n  \"longitude\": 2.3366814851760864,\r\n  \"duration\": 0,\r\n  \"action\": \"\",\r\n  \"question\": \"\",\r\n  \"points\": 100,\r\n  \"answers\": null\r\n}"
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Game/AddNode/{{gameId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Game",
+										"AddNode",
+										"{{gameId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Link Node 1 - 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d4d5f942-5de5-48d4-80b4-49962538f356",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nodeId\": {{Node1}},\r\n  \"childrenId\": {{Node2}},\r\n  \"answerId\": 0\r\n}"
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Node/AddRelationToNode",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Node",
+										"AddRelationToNode"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Link Node 3 - 5",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d4d5f942-5de5-48d4-80b4-49962538f356",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nodeId\": {{Node3}},\r\n  \"childrenId\": {{Node5}},\r\n  \"answerId\": 0\r\n}"
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Node/AddRelationToNode",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Node",
+										"AddRelationToNode"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Link Node 4 - 5",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d4d5f942-5de5-48d4-80b4-49962538f356",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nodeId\": {{Node4}},\r\n  \"childrenId\": {{Node5}},\r\n  \"answerId\": 0\r\n}"
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Node/AddRelationToNode",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Node",
+										"AddRelationToNode"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Link Node 2 - 3,4,5",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d4d5f942-5de5-48d4-80b4-49962538f356",
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Postman PostmanToken"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"nodeId\": {{Node2}},\r\n    \"childrenId\": {{Node3}},\r\n    \"answerId\": {{Answer1}}\r\n  },\r\n  {\r\n    \"nodeId\": {{Node2}},\r\n    \"childrenId\": {{Node4}},\r\n    \"answerId\": {{Answer2}}\r\n  },\r\n  {\r\n    \"nodeId\": {{Node2}},\r\n    \"childrenId\": {{Node5}},\r\n    \"answerId\": {{Answer3}}\r\n  }\r\n]\r\n"
+								},
+								"url": {
+									"raw": "localhost:{{API Port}}/api/Node/AddRelationsWithAnswers",
+									"host": [
+										"localhost"
+									],
+									"port": "{{API Port}}",
+									"path": [
+										"api",
+										"Node",
+										"AddRelationsWithAnswers"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		}
+	]
+}
