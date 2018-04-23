@@ -23,7 +23,7 @@ namespace ImageHunt
           //var configuration = new ConfigurationBuilder().AddCommandLine(args).Build();
           return WebHost.CreateDefaultBuilder(args)
             .UseKestrel()
-            .UseContentRoot(Directory.GetCurrentDirectory())
+            //.UseContentRoot(Directory.GetCurrentDirectory())
             .ConfigureAppConfiguration((context, builder) =>
             {
               var env = context.HostingEnvironment;
