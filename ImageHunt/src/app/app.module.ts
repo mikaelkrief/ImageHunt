@@ -11,33 +11,33 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import { Ng2UiAuthModule, CustomConfig } from 'ng2-ui-auth';
-import { HomeModule } from "../home/home.module";
-import { PageNotFoundModule } from "../page-not-found/page.not.found.module";
-import { TeamModule } from "../team/team.module";
-import { PlayerModule } from "../player/player.module";
-import { TeamListComponent } from "../team/team-list/team-list.component";
-import { HomeComponent } from "../home/home.component";
-import { PageNotFoundComponent } from "../page-not-found/page.not.found.component";
-import { NavmenuModule } from "../navmenu/navmenu.module";
-import {AdminListModule} from "../admin/admin-list/admin-list.module";
-import {AdminListComponent} from "../admin/admin-list/admin-list.component";
-import {GameModule} from "../game/game.module";
-import {GameListComponent} from "../game/game-list/game-list.component";
-import {GameDetailComponent} from "../game/game-detail/game.detail.component";
-import {environment} from "../environments/environment";
-import {Globals} from "../shared/globals";
-import { TeamDetailComponent } from "../team/team-detail/team.detail.component";
-import {MapModule} from "../map/map.module";
-import {MapDetailComponent} from "../map/map-detail/map-detail.component";
-import { ContextMenuModule } from "primeng/primeng";
-import {NodeRelationComponent} from "../game/node-relation/node.relation.component";
-import {NodeCreateComponent} from "../game/node-create/node.create.component";
-import { QuestionNodeComponent } from "../game/question-node/question.node.component";
-import {GameActionListComponent} from "../game/game-action-list/game-action-list.component";
-import {GameActionDetailComponent} from "../game/game-action-detail/game-action-detail.component";
+import { HomeModule } from '../home/home.module';
+import { PageNotFoundModule } from '../page-not-found/page.not.found.module';
+import { TeamModule } from '../team/team.module';
+import { PlayerModule } from '../player/player.module';
+import { TeamListComponent } from '../team/team-list/team-list.component';
+import { HomeComponent } from '../home/home.component';
+import { PageNotFoundComponent } from '../page-not-found/page.not.found.component';
+import { NavmenuModule } from '../navmenu/navmenu.module';
+import {AdminListModule} from '../admin/admin-list/admin-list.module';
+import {AdminListComponent} from '../admin/admin-list/admin-list.component';
+import {GameModule} from '../game/game.module';
+import {GameListComponent} from '../game/game-list/game-list.component';
+import {GameDetailComponent} from '../game/game-detail/game.detail.component';
+import {environment} from '../environments/environment';
+import {Globals} from '../shared/globals';
+import { TeamDetailComponent } from '../team/team-detail/team.detail.component';
+import {MapModule} from '../map/map.module';
+import {MapDetailComponent} from '../map/map-detail/map-detail.component';
+import { ContextMenuModule } from 'primeng/primeng';
+import {NodeRelationComponent} from '../game/node-relation/node.relation.component';
+import {NodeCreateComponent} from '../game/node-create/node.create.component';
+import { QuestionNodeComponent } from '../game/question-node/question.node.component';
+import {GameActionListComponent} from '../game/game-action-list/game-action-list.component';
+import {GameActionDetailComponent} from '../game/game-action-detail/game-action-detail.component';
 import localeFr from '@angular/common/locales/fr';
-import { registerLocaleData } from "@angular/common";
-import {SharedModule} from "../shared/shared.module";
+import { registerLocaleData } from '@angular/common';
+import {SharedModule} from '../shared/shared.module';
 
 registerLocaleData(localeFr);
 
@@ -62,7 +62,7 @@ export class MyAuthConfig extends CustomConfig {
       prefix: 'Img-Hunt',
       storageType: 'localStorage'
     }),
-    AgmCoreModule.forRoot({apiKey:environment.GOOGLE_MAP_API_KEY}),
+    AgmCoreModule.forRoot({apiKey: environment.GOOGLE_MAP_API_KEY}),
     FormsModule,
     HttpModule,
     HomeModule,
@@ -80,7 +80,7 @@ export class MyAuthConfig extends CustomConfig {
     AlertModule.forRoot(),
     TabsModule.forRoot(),
     ModalModule.forRoot(),
-    //TimepickerModule.forRoot(),
+    // TimepickerModule.forRoot(),
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent },
       { path: 'game', component: GameListComponent },
@@ -99,4 +99,4 @@ export class MyAuthConfig extends CustomConfig {
 
 })
 export class AppModule {
-} 
+}
