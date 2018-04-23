@@ -15,7 +15,7 @@ namespace ImageHunt.Services
 
         public Admin RefreshToken(string email, string token, DateTime expirationTime)
         {
-            var admin = Queryable.Single<Admin>(Context.Admins, a => a.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
+            var admin = Context.Admins.Single(a => string.Equals(a.Email, email, StringComparison.InvariantCultureIgnoreCase));
             admin.Token = token;
             admin.ExpirationTokenDate = expirationTime;
             Context.SaveChanges();
