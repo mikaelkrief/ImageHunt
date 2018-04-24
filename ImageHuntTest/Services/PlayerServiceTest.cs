@@ -98,7 +98,7 @@ namespace ImageHuntTest
         _context.Players.AddRange(players);
         _context.SaveChanges();
         // Act
-        Check.ThatCode(() => _target.StartPlayer("Titi")).Throws<ArgumentException>();
+        Check.ThatCode(() => _target.StartPlayer(1, 0)).Throws<ArgumentException>();
         // Assert
       }
       //[Fact]
@@ -130,7 +130,7 @@ namespace ImageHuntTest
         _context.Games.AddRange(games);
         _context.SaveChanges();
         // Act
-        _target.StartPlayer("Toto");
+        _target.StartPlayer(1, players[0].Id);
         // Assert
         Check.That(players[0].StartTime.Value.Date).Equals(DateTime.Today);
         Check.That(players[0].CurrentNode).Equals(nodes[0]);
@@ -152,7 +152,7 @@ namespace ImageHuntTest
         _context.Games.AddRange(games);
         _context.SaveChanges();
         // Act
-        Check.ThatCode(() => _target.StartPlayer("Toto")).Throws<ArgumentException>();
+        Check.ThatCode(() => _target.StartPlayer(games[0].Id, players[0].Id)).Throws<ArgumentException>();
         // Assert
       }
 
@@ -181,7 +181,7 @@ namespace ImageHuntTest
 
         _context.SaveChanges();
         // Act
-        var result = _target.NextNodeForPlayer("Toto", 15, 16);
+        var result = _target.NextNodeForPlayer(players[0].Id, 15, 16);
         // Assert
         Check.That(players[0].CurrentNode).Equals(nodes[1]);
         Check.That(result).Equals(nodes[1]);
@@ -217,7 +217,7 @@ namespace ImageHuntTest
 
         _context.SaveChanges();
         // Act
-        Check.ThatCode(() => _target.NextNodeForPlayer("Toto", 0, 0)).Throws<InvalidGameException>();
+        Check.ThatCode(() => _target.NextNodeForPlayer(players[0].Id, 0, 0)).Throws<InvalidGameException>();
         // Assert
       }
 

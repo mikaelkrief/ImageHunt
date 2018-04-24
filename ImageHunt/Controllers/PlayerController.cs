@@ -25,17 +25,17 @@ namespace ImageHunt.Controllers
       {
         return Ok(_playerService.JoinTeam(teamId, playerId ));
       }
-
-      public IActionResult StartPlayer(string playername)
+[HttpPut("StartPlayer/{gameId}/{playerId}")]
+      public IActionResult StartPlayer(int gameId, int playerId)
       {
-        _playerService.StartPlayer(playername);
-        var nextNode = _playerService.NextNodeForPlayer(playername, 0,0);
+        _playerService.StartPlayer(gameId, playerId);
+        var nextNode = _playerService.NextNodeForPlayer(playerId, 0,0);
         return Ok(nextNode);
       }
 
-      public IActionResult NextNodeForPlayer(string playername)
+      public IActionResult NextNodeForPlayer(int playerId)
       {
-        return Ok(_playerService.NextNodeForPlayer(playername,0,0));
+        return Ok(_playerService.NextNodeForPlayer(playerId,0,0));
       }
 
       public IActionResult UploadImage(string playername, int latitude, int longitude, byte[] image)

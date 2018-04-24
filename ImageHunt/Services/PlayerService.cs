@@ -47,9 +47,17 @@ namespace ImageHunt.Services
 
       return player;
     }
-    public void StartPlayer(string name)
+    private Player GetPlayer(int playerId)
     {
-      var player = GetPlayer(name);
+      var player = Context.Players.SingleOrDefault(p => p.Id == playerId);
+      if (player == null)
+        throw new ArgumentException($"Player {playerId} doesn't exist");
+
+      return player;
+    }
+    public void StartPlayer(int gameId, int playerId)
+    {
+      var player = GetPlayer(playerId);
       var game = player.CurrentGame;
       if (game.StartDate.Value.Date != DateTime.Today || !game.IsActive)
         throw new ArgumentException("There is no game active or today");
@@ -58,9 +66,9 @@ namespace ImageHunt.Services
       Context.SaveChanges();
     }
 
-    public Node NextNodeForPlayer(string playerName, double playerLatitude, double playerLongitude)
+    public Node NextNodeForPlayer(int playerId, double playerLatitude, double playerLongitude)
     {
-      var player = GetPlayer(playerName);
+      var player = GetPlayer(playerId);
       if (player.CurrentGame == null || !player.CurrentGame.IsActive)
         throw new InvalidGameException();
       var nextNode = Enumerable.First<Node>(player.CurrentNode.Children);

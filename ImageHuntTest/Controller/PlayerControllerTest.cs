@@ -46,13 +46,13 @@ namespace ImageHuntTest
       {
         // Arrange
         // Act
-        var result = _target.StartPlayer("playerName");
+        var result = _target.StartPlayer(1, 1);
         // Assert
         Check.That(result).IsInstanceOf<OkObjectResult>();
         var nextNode = ((OkObjectResult) result).Value;
         Check.That(nextNode).InheritsFrom<Node>();
-        A.CallTo(() => _playerService.StartPlayer(A<string>._)).MustHaveHappened();
-        A.CallTo(() => _playerService.NextNodeForPlayer(A<string>._, A<double>._, A<double>._)).MustHaveHappened();
+        A.CallTo(() => _playerService.StartPlayer(A<int>._, A<int>._)).MustHaveHappened();
+        A.CallTo(() => _playerService.NextNodeForPlayer(A<int>._, A<double>._, A<double>._)).MustHaveHappened();
       }
 
       [Fact]
@@ -61,13 +61,13 @@ namespace ImageHuntTest
         // Arrange
         
         // Act
-        var result = _target.NextNodeForPlayer("playerName");
+        var result = _target.NextNodeForPlayer(1);
         // Assert
         Check.That(result).InheritsFrom<IActionResult>();
         var nextNode = ((OkObjectResult)result).Value;
         Check.That(nextNode).InheritsFrom<Node>();
 
-        A.CallTo(() => _playerService.NextNodeForPlayer("playerName", A<double>._, A<double>._)).MustHaveHappened();
+        A.CallTo(() => _playerService.NextNodeForPlayer(1, A<double>._, A<double>._)).MustHaveHappened();
       }
 
       [Fact]
