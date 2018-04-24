@@ -10,10 +10,11 @@ import {NodeRequest} from '../../shared/nodeRequest';
     styleUrls: ['./node.create.component.scss']
 })
 /** node-create component*/
-export class NodeCreateComponent implements OnInit
-{
+export class NodeCreateComponent implements OnInit {
   public latitude: number;
   public longitude: number;
+  correctAnswer: number;
+  answers: string[];
   @Output() newNode = new EventEmitter<NodeRequest>();
     /** node-create ctor */
   constructor(public bsModalRef: BsModalRef) { }
@@ -49,6 +50,4 @@ export class NodeCreateComponent implements OnInit
     this.answers.push(newAnswer.value.answer);
     newAnswer.reset();
   }
-  correctAnswer: number;
-  answers: string[];
 }
