@@ -1,26 +1,26 @@
 import { Component, OnInit, TemplateRef, ViewChild, ContentChild, ContentChildren } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Game } from "../../shared/game";
-import { GameService } from "../../shared/services/game.service";
-import { NgForm } from "@angular/forms";
-import { TeamService } from "../../shared/services/team.service";
-import { Team } from "../../shared/team";
+import { Game } from '../../shared/game';
+import { GameService } from '../../shared/services/game.service';
+import { NgForm } from '@angular/forms';
+import { TeamService } from '../../shared/services/team.service';
+import { Team } from '../../shared/team';
 import 'rxjs/Rx';
-import { BsModalService, BsModalRef, TabsetComponent } from "ngx-bootstrap";
-import { NodeRelation } from "../../shared/NodeRelation";
-import { Node } from "../../shared/node";
-import { NodeCreateComponent } from "../node-create/node.create.component";
-import { NodeRelationComponent } from "../node-relation/node.relation.component";
-import { NodeListComponent } from "../node-list/node.list.component";
-import { NodeRequest } from "../../shared/nodeRequest";
-import { GeoPoint } from "../../shared/GeoPoint";
-import { GeoVector } from "../../shared/GeoVector";
-import {AlertService} from "../../shared/services/alert.service";
-import { Observable } from "rxjs/Observable";
-import { EditedRelation } from "../../shared/EditedRelation";
-import {QuestionNodeComponent} from "../question-node/question.node.component";
-import {ConfirmationService} from "primeng/components/common/confirmationservice";
+import { BsModalService, BsModalRef, TabsetComponent } from 'ngx-bootstrap';
+import { NodeRelation } from '../../shared/NodeRelation';
+import { Node } from '../../shared/node';
+import { NodeCreateComponent } from '../node-create/node.create.component';
+import { NodeRelationComponent } from '../node-relation/node.relation.component';
+import { NodeListComponent } from '../node-list/node.list.component';
+import { NodeRequest } from '../../shared/nodeRequest';
+import { GeoPoint } from '../../shared/GeoPoint';
+import { GeoVector } from '../../shared/GeoVector';
+import {AlertService} from '../../shared/services/alert.service';
+import { Observable } from 'rxjs/Observable';
+import { EditedRelation } from '../../shared/EditedRelation';
+import {QuestionNodeComponent} from '../question-node/question.node.component';
+import {ConfirmationService} from 'primeng/components/common/confirmationservice';
 
 @Component({
   selector: 'game-detail',
@@ -51,7 +51,7 @@ export class GameDetailComponent implements OnInit {
 
   /** Called by Angular after gameDetail component initialized */
   ngOnInit(): void {
-    let gameId = this._route.snapshot.params["gameId"];
+    let gameId = this._route.snapshot.params['gameId'];
     this.game.id = gameId;
     this.getGame(gameId);
   }
@@ -70,7 +70,7 @@ export class GameDetailComponent implements OnInit {
       this.game = res;
       this.getNodeRelations(gameId);
     },
-      err => console.error("getGame raise error: " + err));
+      err => console.error('getGame raise error: ' + err));
   }
   getNodeRelations(gameId: number) {
     this._gameService.getNodeRelations(gameId)
@@ -81,11 +81,11 @@ export class GameDetailComponent implements OnInit {
       });
   }
   buildRelations() {
-    let nodes = this.game.nodes;
-    for (var relation of this.nodeRelations) {
+    const nodes = this.game.nodes;
+    for (const relation of this.nodeRelations) {
       // Find the origin node
-      var orgNode = nodes.find(n => n.id === relation.nodeId);
-      for (var childId of relation.childNodeId) {
+      const orgNode = nodes.find(n => n.id === relation.nodeId);
+      for (const childId of relation.childNodeId) {
         orgNode.children.push(nodes.find(n => n.id === childId));
       }
     }
@@ -115,9 +115,8 @@ export class GameDetailComponent implements OnInit {
 
   mapClicked(event) {
 
-    var coordinates = event.coords;
-    this.currentLatitude = coordinates.lat;
-    this.currentLongitude = coordinates.lng;
+    this.currentLatitude = event.latLng.lat();
+    this.currentLongitude = event.latLng.lng();
     this.modalRef = this._modalService.show(NodeCreateComponent, { ignoreBackdropClick: true });
     this.modalRef.content.latitude = this.currentLatitude;
     this.modalRef.content.longitude = this.currentLongitude;
@@ -132,23 +131,23 @@ export class GameDetailComponent implements OnInit {
   }
   nodeClicked(node: Node) {
     if (node == this.mapComponent.firstNode) {
-      if (node.nodeType === "LastNode") {
+      if (node.nodeType === 'LastNode') {
         this.mapComponent.resetNodeClick();
-        this._alertService.sendAlert(`Le noeud ${node.name} ne peut pas accepter d'enfant`, "danger", 5000);
+        this._alertService.sendAlert(`Le noeud ${node.name} ne peut pas accepter d'enfant`, 'danger', 5000);
         return;
       }
-      if (node.nodeType === "QuestionNode") {
+      if (node.nodeType === 'QuestionNode') {
         this.mapComponent.resetNodeClick();
-        this._alertService.sendAlert(`Editez les relations des noeuds Question dans le module d'édition des réponses aux questions`, "danger", 5000);
+        this._alertService.sendAlert(`Editez les relations des noeuds Question dans le module d'édition des réponses aux questions`, 'danger', 5000);
         return;
       }
-      if ((node.nodeType === "FirstNode" ||
-          node.nodeType === "TimerNode" ||
-          node.nodeType === "ImageNode" ||
-          node.nodeType === "ObjectNode") &&
+      if ((node.nodeType === 'FirstNode' ||
+          node.nodeType === 'TimerNode' ||
+          node.nodeType === 'ImageNode' ||
+          node.nodeType === 'ObjectNode') &&
         node.children.length > 0) {
         this.mapComponent.resetNodeClick();
-        this._alertService.sendAlert(`Le noeud ${node.name} ne peut pas accepter d'avantage d'enfants`, "danger", 5000);
+        this._alertService.sendAlert(`Le noeud ${node.name} ne peut pas accepter d'avantage d'enfants`, 'danger', 5000);
 
       }
       
@@ -157,11 +156,11 @@ export class GameDetailComponent implements OnInit {
   newRelation(nodeRelation: NodeRelation) {
     var parentNode = this.game.nodes.find(n => n.id === nodeRelation.nodeId);
     var childNode = this.game.nodes.find(n => n.id === nodeRelation.childNodeId[0]);
-    if (childNode.nodeType === "FirstNode") {
-      this._alertService.sendAlert(`Le noeud ${childNode.name} ne peut pas être un enfant.`, "danger", 10000);
+    if (childNode.nodeType === 'FirstNode') {
+      this._alertService.sendAlert(`Le noeud ${childNode.name} ne peut pas être un enfant.`, 'danger', 10000);
       return;
     }
-    if (parentNode.nodeType === "QuestionNode" || parentNode.children.length === 0) {
+    if (parentNode.nodeType === 'QuestionNode' || parentNode.children.length === 0) {
       if (this.newRelations == null)
         this.newRelations = new Array<GeoVector>();
       this.newRelations.push({
@@ -170,9 +169,9 @@ export class GameDetailComponent implements OnInit {
         destId: childNode.id,
         dest: { latitude: childNode.latitude, longitude: childNode.longitude }
       });
-      this._alertService.sendAlert(`Liaison de ${parentNode.name} vers ${childNode.name} réussie`, "success", 5000);
+      this._alertService.sendAlert(`Liaison de ${parentNode.name} vers ${childNode.name} réussie`, 'success', 5000);
     } else if (parentNode.children.length !== 0) {
-      this._alertService.sendAlert(`Le noeud ${parentNode.name} ne peut plus accepter d'enfant.`, "danger", 10000);
+      this._alertService.sendAlert(`Le noeud ${parentNode.name} ne peut plus accepter d'enfant.`, 'danger', 10000);
       return;
     }
   }
@@ -199,7 +198,7 @@ export class GameDetailComponent implements OnInit {
   }
   deleteTeam(teamId: number) {
     this._confirmationService.confirm({
-      message: "Voulez-vous vraiment effacer cette équipe ?",
+      message: 'Voulez-vous vraiment effacer cette équipe ?',
       accept: () => this._teamService.deleteTeam(teamId)
       .subscribe(() => this.getGame(this.game.id))
     });

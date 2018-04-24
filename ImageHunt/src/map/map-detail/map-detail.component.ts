@@ -30,7 +30,8 @@ export class MapDetailComponent implements OnInit {
   @Output() newRelation = new EventEmitter<NodeRelation>();
   @Output() zoomChange = new EventEmitter<number>();
   /** map ctor */
-  constructor(private _gameService: GameService, private _modalService: BsModalService) { }
+  constructor(private _gameService: GameService,
+              private _modalService: BsModalService) { }
   /** Called by Angular after map component initialized */
   ngOnInit(): void {
     this.getGameData(this.gameId);
@@ -39,7 +40,6 @@ export class MapDetailComponent implements OnInit {
         navigator.geolocation.getCurrentPosition(position => {
           this.CenterLat = position.coords.latitude;
           this.CenterLng = position.coords.longitude;
-          
         },
           err => { console.error(err); this.CenterLat = 51.4872846;
             this.CenterLng = -0.1197003;

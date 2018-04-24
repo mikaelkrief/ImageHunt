@@ -12,7 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace ImageHunt.Controllers
 {
   [Route("api/[controller]")]
+  #if !DEBUG
   [Authorize]
+  #endif
   public class NodeController : Controller
   {
     private INodeService _nodeService;

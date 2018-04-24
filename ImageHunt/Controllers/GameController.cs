@@ -15,7 +15,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace ImageHunt.Controllers
 {
   [Route("api/[Controller]")]
+  #if !DEBUG
   [Authorize]
+  #endif
   public class GameController : Controller
   {
     private readonly IGameService _gameService;

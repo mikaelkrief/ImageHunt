@@ -1,3 +1,7 @@
-<p-gmap [options]="options" [style]="{'width':'150px','height':'100px'}">
-
-</p-gmap>
+<p-gmap [options]="options" 
+        [overlays]="overlays"
+        [style]="{'width':'100%','height':'500px'}"
+        (onMapClick)="onMapClick($event)"
+        (onOverlayClick)="onOverlayClick($event)"
+>
+</p-gmap>   
