@@ -1,4 +1,4 @@
 export class NodeRelation {
   nodeId: number;
-  childNodeId: number[];
+  childNodeId: number;
 }

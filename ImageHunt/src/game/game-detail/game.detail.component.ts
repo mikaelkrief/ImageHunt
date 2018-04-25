@@ -21,6 +21,7 @@ import { Observable } from 'rxjs/Observable';
 import { EditedRelation } from '../../shared/EditedRelation';
 import {QuestionNodeComponent} from '../question-node/question.node.component';
 import {ConfirmationService} from 'primeng/components/common/confirmationservice';
+import {NodeClicked} from "../../shared/NodeClicked";
 
 @Component({
   selector: 'game-detail',
@@ -85,9 +86,8 @@ export class GameDetailComponent implements OnInit {
     for (const relation of this.nodeRelations) {
       // Find the origin node
       const orgNode = nodes.find(n => n.id === relation.nodeId);
-      for (const childId of relation.childNodeId) {
-        orgNode.children.push(nodes.find(n => n.id === childId));
-      }
+      const destNode = nodes.find(n => n.id === relation.childNodeId);
+      orgNode.children.push(destNode);
     }
     this.mapComponent.nodes = this.game.nodes;
   }
@@ -129,25 +129,26 @@ export class GameDetailComponent implements OnInit {
       .subscribe(() => this.getGame(this.game.id));
 
   }
-  nodeClicked(node: Node) {
-    if (node == this.mapComponent.firstNode) {
-      if (node.nodeType === 'LastNode') {
+  
+  nodeClicked(nodeClicked: NodeClicked) {
+    if (nodeClicked.numberClicked === 1) {
+      if (nodeClicked.node.nodeType === 'LastNode') {
         this.mapComponent.resetNodeClick();
-        this._alertService.sendAlert(`Le noeud ${node.name} ne peut pas accepter d'enfant`, 'danger', 5000);
+        this._alertService.sendAlert(`Le noeud ${nodeClicked.node.name} ne peut pas accepter d'enfant`, 'danger', 5000);
         return;
       }
-      if (node.nodeType === 'QuestionNode') {
+      if (nodeClicked.node.nodeType === 'QuestionNode') {
         this.mapComponent.resetNodeClick();
         this._alertService.sendAlert(`Editez les relations des noeuds Question dans le module d'édition des réponses aux questions`, 'danger', 5000);
         return;
       }
-      if ((node.nodeType === 'FirstNode' ||
-          node.nodeType === 'TimerNode' ||
-          node.nodeType === 'ImageNode' ||
-          node.nodeType === 'ObjectNode') &&
-        node.children.length > 0) {
+      if ((nodeClicked.node.nodeType === 'FirstNode' ||
+          nodeClicked.node.nodeType === 'TimerNode' ||
+          nodeClicked.node.nodeType === 'ImageNode' ||
+          nodeClicked.node.nodeType === 'ObjectNode') &&
+        nodeClicked.node.children.length > 0) {
         this.mapComponent.resetNodeClick();
-        this._alertService.sendAlert(`Le noeud ${node.name} ne peut pas accepter d'avantage d'enfants`, 'danger', 5000);
+        this._alertService.sendAlert(`Le noeud ${nodeClicked.node.name} ne peut pas accepter d'avantage d'enfants`, 'danger', 5000);
 
       }
       
@@ -155,7 +156,7 @@ export class GameDetailComponent implements OnInit {
   }
   newRelation(nodeRelation: NodeRelation) {
     var parentNode = this.game.nodes.find(n => n.id === nodeRelation.nodeId);
-    var childNode = this.game.nodes.find(n => n.id === nodeRelation.childNodeId[0]);
+    var childNode = this.game.nodes.find(n => n.id === nodeRelation.childNodeId);
     if (childNode.nodeType === 'FirstNode') {
       this._alertService.sendAlert(`Le noeud ${childNode.name} ne peut pas être un enfant.`, 'danger', 10000);
       return;

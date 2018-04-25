@@ -41,11 +41,9 @@
       <div class="container" heading="Noeuds">
         <div class="row">
           <div class="col-sm-9" style="width: 850px">
-            {{game.mapCenterLat}}, {{game.mapCenterLng}}
             <map-detail2 #mapComponent
-                        
-                        [gameId]="game.id"
                         [nodes]="game.nodes"
+                        [gameId]="game.id"
                         [nodesRelation]="nodeRelations"
                         [newNodesRelation]="newRelations"
                         (mapClicked)="mapClicked($event)"

@@ -13,12 +13,11 @@ namespace ImageHunt.Response
         NodeId = node.Id;
         Name = node.Name;
         NodeType = node.NodeType;
-        ChildNodeId = node.ChildrenRelation.Select(ch => ch.Children.Id).ToArray();
       }
 
       public string NodeType { get; set; }
       public string Name { get; set; }
       public int NodeId { get; set; }
-      public int[] ChildNodeId { get; set; }  
+      public int ChildNodeId { get; set; }  
     }
 }

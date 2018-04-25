@@ -5,6 +5,7 @@ import {GeoPoint} from '../../shared/GeoPoint';
 import { GameService } from '../../shared/services/game.service';
 import { Game } from '../../shared/game';
 import { ActivatedRoute } from '@angular/router';
+import {NodeClicked} from "../../shared/NodeClicked";
 
 @Component({
     selector: 'map-detail2',
@@ -17,6 +18,7 @@ export class MapDetail2Component implements OnInit, OnChanges {
   overlays: any[];
   game: Game;
   nodeRelations: NodeRelation[];
+  isFirstClick: boolean = true;
 
   @Input() gameId: number;
   @Input() nodes: Node[];
@@ -25,7 +27,7 @@ export class MapDetail2Component implements OnInit, OnChanges {
   @Input() nodeMode: string;
   @Input() filterNode: string[];
   @Output() mapClicked = new EventEmitter();
-  @Output() nodeClicked = new EventEmitter<Node>();
+  @Output() nodeClicked = new EventEmitter<NodeClicked>();
   @Output() newRelation = new EventEmitter<NodeRelation>();
   @Output() zoomChange = new EventEmitter<number>();
 
@@ -43,7 +45,10 @@ export class MapDetail2Component implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.updateMap();
   }
-
+  map: google.maps.Map;
+  setMap(event) {
+    this.map = event.map;
+  }
   updateMap() {
 
     this._gameService.getGameById(this.gameId)
@@ -53,11 +58,14 @@ export class MapDetail2Component implements OnInit, OnChanges {
           center: { lat: this.game.mapCenterLat, lng: this.game.mapCenterLng },
           zoom: this.game.mapZoom
         };
+        this.map.setCenter(this.options.center);
+        this.map.setZoom(this.options.zoom);
         if (this.game != null) {
 
           this.overlays = [];
           this.createMarkers();
           this.createRelations();
+          this.createNewRelations();
         }
       });
   }
@@ -98,17 +106,57 @@ createRelations() {
     });
   }
 }
+createNewRelations() {
+  const arrowSymbol = {
+    path: google.maps.SymbolPath.FORWARD_OPEN_ARROW
+  };
+  if (this.newRelation !== undefined) {
+    this.newRelation.forEach(relation => {
+      const firstNode = this.nodes.find(n => n.id === relation.nodeId);
+      const secondNode = this.nodes.find(n => n.id === relation.childNodeId);
+      const polyline = new google.maps.Polyline(
+        {
+          strokeColor: 'Red',
+          strokeWeight: 2,
+          path: [
+            { lat: firstNode.latitude, lng: firstNode.longitude },
+            { lat: secondNode.latitude, lng: secondNode.longitude }
+          ],
+          icons: [{ icon: arrowSymbol, offset: '50%' }]
+        });
+      this.overlays.push(polyline);
+    });
+  }
+}
+
 
   onMapClick(event) {
     this.mapClicked.emit(event);
   }
-
+  isFirstClicked: boolean = true;
+  firstNode: Node;
+  secondNode: Node;
+  resetNodeClick() {
+    this.firstNode = null;
+    this.isFirstClick = true;
+  }
   onOverlayClick(event) {
     const isMarker = event.overlay.getTitle != undefined;
     if (isMarker) {
-      const node = this.nodes.find(n => n.id === event.overlay.id);
+      let node = this.nodes.find(n => n.id === event.overlay.id);
+      let nClicked: NodeClicked;
+      if (this.isFirstClick) {
+        this.firstNode = node;
+        this.isFirstClick = false;
+        nClicked = new NodeClicked(node, 1);
+      } else {
+        this.secondNode = node;
+        this.isFirstClick = true;
+        nClicked = new NodeClicked(node, 2);
+        this.newRelation.emit({ nodeId: this.firstNode.id, childNodeId: this.secondNode.id });
+      }
       
-      this.nodeClicked.emit(node);
+      this.nodeClicked.emit(nClicked);
     }
   }
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -7,10 +6,8 @@ using ImageHunt.Model.Node;
 using ImageHunt.Request;
 using ImageHunt.Response;
 using ImageHunt.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ImageHunt.Controllers
 {
@@ -112,8 +109,13 @@ namespace ImageHunt.Controllers
       var resNodes = new List<NodeResponse>();
       foreach (var node in nodes)
       {
-        var resNode = new NodeResponse(node);
-        resNodes.Add(resNode);
+        foreach (var nodeChild in node.Children)
+        {
+           var resNode = new NodeResponse(node);
+          resNode.ChildNodeId = nodeChild.Id;
+           resNodes.Add(resNode);
+         
+        }
       }
       return Ok(resNodes);
     }

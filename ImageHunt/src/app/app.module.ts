@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AgmCoreModule } from '@agm/core';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { AppComponent } from './app.component';
 import { BsDropdownModule, ModalModule, TabsModule } from 'ngx-bootstrap';
@@ -28,7 +27,7 @@ import {environment} from '../environments/environment';
 import {Globals} from '../shared/globals';
 import { TeamDetailComponent } from '../team/team-detail/team.detail.component';
 import {MapModule} from '../map/map.module';
-import {MapDetailComponent} from '../map/map-detail/map-detail.component';
+import {MapDetail2Component} from '../map/map-detail2/map-detail2.component';
 import { ContextMenuModule } from 'primeng/primeng';
 import {NodeRelationComponent} from '../game/node-relation/node.relation.component';
 import {NodeCreateComponent} from '../game/node-create/node.create.component';
@@ -62,7 +61,6 @@ export class MyAuthConfig extends CustomConfig {
       prefix: 'Img-Hunt',
       storageType: 'localStorage'
     }),
-    AgmCoreModule.forRoot({apiKey: environment.GOOGLE_MAP_API_KEY}),
     FormsModule,
     HttpModule,
     HomeModule,
@@ -89,7 +87,7 @@ export class MyAuthConfig extends CustomConfig {
       { path: 'action/detail/:gameActionId', component: GameActionDetailComponent},
       { path: 'team/:teamId', component: TeamDetailComponent },
       { path: 'team', component: TeamListComponent },
-      { path: 'map', component: MapDetailComponent },
+      { path: 'map', component: MapDetail2Component },
       { path: 'admin', component: AdminListComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', component: PageNotFoundComponent }])
