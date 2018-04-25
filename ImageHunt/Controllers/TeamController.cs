@@ -12,7 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace ImageHunt.Controllers
 {
   [Route("api/[controller]")]
+  #if !DEBUG
   [Authorize]
+  #endif
   public class TeamController : Controller
   {
     private readonly ITeamService _teamService;

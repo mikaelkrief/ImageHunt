@@ -164,8 +164,9 @@ namespace ImageHuntTest.Controller
       A.CallTo(() => _gameService.GetNodes(1)).MustHaveHappened();
       var resNodes = result.Value as List<NodeResponse>;
       // Check that only first level nodes are populated
-      Check.That(resNodes[0].NodeId).Equals(1);
-      Check.That(resNodes[0].ChildNodeId).HasSize(1).And.ContainsExactly(2);
+      Check.That(resNodes).HasSize(1);
+      Check.That(resNodes[0].NodeId).Equals(nodes[0].Id);
+      Check.That(resNodes[0].ChildNodeId).Equals(nodes[0].Children[0].Id);
     }
     [Fact]
     public void AddImagesNodes()

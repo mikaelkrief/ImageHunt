@@ -13,7 +13,9 @@ using Action = ImageHunt.Model.Action;
 namespace ImageHunt.Controllers
 {
   [Route("api/[Controller]")]
+  #if !DEBUG
   [Authorize]
+  #endif
   public class ActionController : Microsoft.AspNetCore.Mvc.Controller
   {
     private readonly IGameService _gameService;

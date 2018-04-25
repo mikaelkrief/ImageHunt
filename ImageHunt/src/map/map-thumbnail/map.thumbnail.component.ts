@@ -6,8 +6,8 @@ import { Component, OnInit, Input } from '@angular/core';
     styleUrls: ['./map.thumbnail.component.scss']
 })
 /** map-thumbnail component*/
-export class MapThumbnailComponent implements OnInit
-{
+export class MapThumbnailComponent implements OnInit {
+  options: any;
   @Input() public CenterLat: number;
   @Input() public CenterLng: number;
 
@@ -23,6 +23,5 @@ export class MapThumbnailComponent implements OnInit
 
     }
 
-  options: any;
 
 }

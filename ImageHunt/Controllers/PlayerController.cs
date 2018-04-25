@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace ImageHunt.Controllers
 {
     [Route("api/[controller]")]
-  [Authorize]
+  #if !DEBUG
+    [Authorize]
+    #endif
     public class PlayerController : Controller
     {
       private readonly IPlayerService _playerService;

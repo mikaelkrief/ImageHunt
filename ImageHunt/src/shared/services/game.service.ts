@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
-import { JwtHttp } from "ng2-ui-auth";
-import { Game } from "../game";
-import { Node } from "../node";
-import { Http, RequestOptions, Headers } from "@angular/http";
-import {NodeRequest} from "../nodeRequest";
-import { Observable } from "rxjs/Observable";
-import {QuestionNodeAnswerRelation} from "../QuestionNodeAnswerRelation";
+import { Injectable } from '@angular/core';
+import { JwtHttp } from 'ng2-ui-auth';
+import { Game } from '../game';
+import { Node } from '../node';
+import { Http, RequestOptions, Headers } from '@angular/http';
+import {NodeRequest} from '../nodeRequest';
+import { Observable } from 'rxjs/Observable';
+import {QuestionNodeAnswerRelation} from '../QuestionNodeAnswerRelation';
 
 @Injectable()
 export class GameService {
@@ -31,7 +31,7 @@ export class GameService {
     headers.delete('Content-Type');
     const formData = new FormData();
     for (var file of files) {
-      formData.append("files", file);
+      formData.append('files', file);
     }
     let options = new RequestOptions({ headers: headers });
 
@@ -54,7 +54,7 @@ export class GameService {
 
   }
   removeRelation(orgNodeId: number, destNodeId: number) {
-    return this.jwtHttp.put("api/Node/RemoveRelationToNode", { nodeId: orgNodeId, childrenId: destNodeId, answerId: 0 });
+    return this.jwtHttp.put('api/Node/RemoveRelationToNode', { nodeId: orgNodeId, childrenId: destNodeId, answerId: 0 });
   }
 
   setZoom(gameId: number, zoom: number) { return this.jwtHttp.patch(`api/Game/UpdateZoom/${gameId}/${zoom}`, null); }

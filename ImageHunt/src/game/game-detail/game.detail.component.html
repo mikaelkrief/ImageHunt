@@ -41,9 +41,7 @@
       <div class="container" heading="Noeuds">
         <div class="row">
           <div class="col-sm-9" style="width: 850px">
-            <map-detail #mapComponent
-                        [CenterLat]="game.mapCenterLat"
-                        [CenterLng]="game.mapCenterLng"
+            <map-detail2 #mapComponent
                         [nodes]="game.nodes"
                         [gameId]="game.id"
                         [nodesRelation]="nodeRelations"
@@ -51,9 +49,8 @@
                         (mapClicked)="mapClicked($event)"
                         (nodeClicked)="nodeClicked($event)"
                         (newRelation)="newRelation($event)"
-                        [zoom]="game.mapZoom"
                         (zoomChange)="mapZoomChange($event)">
-            </map-detail>
+            </map-detail2>
           </div>
           <div class="col-sm-3 ml-1">
             <h4>Actions</h4>

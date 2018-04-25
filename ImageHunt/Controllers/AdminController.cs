@@ -7,7 +7,9 @@ using Microsoft.Extensions.Logging;
 namespace ImageHunt.Controllers
 {
   [Route("api/[Controller]")]
+  #if !DEBUG
   [Authorize]
+  #endif
   public class AdminController : Microsoft.AspNetCore.Mvc.Controller
   {
     private readonly IAdminService _adminService;
