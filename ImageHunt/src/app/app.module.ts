@@ -6,7 +6,7 @@ import { AppComponent } from "./app.component";
 import { BsDropdownModule, ModalModule, TabsModule } from "ngx-bootstrap";
 import { AlertModule } from "ngx-bootstrap/alert";
 
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpModule } from "@angular/http";
 import { Ng2UiAuthModule, CustomConfig } from "ng2-ui-auth";
@@ -28,7 +28,7 @@ import { Globals } from "../shared/globals";
 import { TeamDetailComponent } from "../team/team-detail/team.detail.component";
 import { MapModule } from "../map/map.module";
 import { MapDetail2Component } from "../map/map-detail2/map-detail2.component";
-import { ContextMenuModule } from "primeng/primeng";
+import { ContextMenuModule, InputTextModule } from "primeng/primeng";
 import { NodeRelationComponent } from "../game/node-relation/node.relation.component";
 import { NodeCreateComponent } from "../game/node-create/node.create.component";
 import { QuestionNodeComponent } from "../game/question-node/question.node.component";
@@ -70,10 +70,12 @@ export class MyAuthConfig extends CustomConfig {
     MapModule,
     PlayerModule,
     AdminListModule,
+    ReactiveFormsModule,
     ContextMenuModule,
     NavmenuModule,
     PageNotFoundModule,
     SharedModule,
+    InputTextModule,
     Ng2UiAuthModule.forRoot(MyAuthConfig),
     BsDropdownModule.forRoot(),
     AlertModule.forRoot(),

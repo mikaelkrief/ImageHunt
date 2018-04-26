@@ -1,23 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {Team} from "../../shared/team";
 import {TeamService} from "../../shared/services/team.service";
+import { ConfirmationService } from "primeng/api";
 //import 'rxjs/add/operator/subscribe';
 
 @Component({
-  selector: 'team',
+  selector: 'team-list',
   templateUrl: './team-list.component.html',
   styleUrls: ['./team-list.component.scss']
 })
 /** team component*/
 export class TeamListComponent implements OnInit {
-  teams: Team[];
+  @Input() teams: Team[];
   /** team ctor */
-  constructor(private _teamService: TeamService) { }
+  constructor(private teamService: TeamService, private confirmationService: ConfirmationService) { }
 
   /** Called by Angular after team component initialized */
   ngOnInit(): void {
-    this._teamService.getTeams()
-      .subscribe(next => this.teams = next.json(),
-      err => console.error(err.status));
+  }
+
+  deleteTeam(teamId: number) {
+    this.confirmationService.confirm({
+      message: 'Voulez-vous vraiment effacer cette équipe ?',
+      accept: () => {
+        this.teamService.deleteTeam(teamId)
+          .subscribe(() => this.teams.splice(this.teams.indexOf(this.teams.find(t => t.id === teamId)), 1));
+      }
+  });
   }
 }

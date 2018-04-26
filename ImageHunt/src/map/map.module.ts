@@ -7,8 +7,7 @@ import { GMapModule } from 'primeng/gmap';
 import {MapDetail2Component} from "./map-detail2/map-detail2.component";
 
 @NgModule({
-  imports: [CommonModule,
-    FormsModule, GMapModule],
+  imports: [CommonModule, FormsModule, GMapModule],
   declarations: [MapDetail2Component, MapThumbnailComponent],
   exports: [MapDetail2Component, MapThumbnailComponent]})
 export class MapModule

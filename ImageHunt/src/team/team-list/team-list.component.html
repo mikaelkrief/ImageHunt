@@ -1,15 +1,24 @@
-<h2>Team existantes</h2>
+<div>
 
-<table class="table">
-  <thead>
-  <tr>
-    <th>Nom</th>
-    <th>Joueurs</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let team of teams">
-    <td>{{team.name}}</td>
-  </tr>
-  </tbody>
-</table>
+  <h2>Team existantes</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nom de la team</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let team of teams">
+        <td><span class="fa fa-users"> <a routerLink="/team/{{team.id}}">{{team.name}}</a></span></td>
+        <td>
+          <button class="btn btn-danger" (click)="deleteTeam(team.id)"><i class="fa fa-trash"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p-confirmDialog  header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+
