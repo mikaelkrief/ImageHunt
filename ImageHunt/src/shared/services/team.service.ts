@@ -8,8 +8,8 @@ import {Team} from "../team";
 @Injectable()
 export class TeamService {
   constructor(private http: JwtHttp) { }
-  getTeams() {
-    return this.http.get('api/Team');
+  getTeams(gameId: number) {
+    return this.http.get('api/Team/ByGame/' + gameId);
 
   }
   getTeam(teamId) {
