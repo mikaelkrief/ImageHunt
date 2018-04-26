@@ -31,7 +31,11 @@
     </tr>
     </tbody>
   </table>
-  <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+  <p-confirmDialog id="deleteGameConfirm"
+                   header="Confirmation"
+                   appendTo="body"
+                   icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
   <h2>Créer une nouvelle partie</h2>
   <form #form="ngForm" (submit)="createGame(form)">
     <div class="form-inline">

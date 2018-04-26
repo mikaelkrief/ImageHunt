@@ -13,19 +13,20 @@ import { ConfirmationService } from "primeng/api";
 export class TeamListComponent implements OnInit {
   @Input() teams: Team[];
   /** team ctor */
-  constructor(private teamService: TeamService, private confirmationService: ConfirmationService) { }
+  constructor(private teamService: TeamService,
+    private confirmationService: ConfirmationService) { }
 
   /** Called by Angular after team component initialized */
   ngOnInit(): void {
   }
 
   deleteTeam(teamId: number) {
+    console.log("deleteTeam");
     this.confirmationService.confirm({
       message: 'Voulez-vous vraiment effacer cette équipe ?',
-      accept: () => {
+      accept: () => 
         this.teamService.deleteTeam(teamId)
-          .subscribe(() => this.teams.splice(this.teams.indexOf(this.teams.find(t => t.id === teamId)), 1));
-      }
-  });
+          .subscribe(() => this.teams.splice(this.teams.indexOf(this.teams.find(t => t.id === teamId)), 1))
+    });
   }
 }
