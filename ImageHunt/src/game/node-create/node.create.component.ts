@@ -32,7 +32,8 @@ export class NodeCreateComponent implements OnInit {
       action: form.value.action,
       question: form.value.question,
       points: form.value.nbPoints === '' ? 0 : form.value.nbPoints,
-      answers: null
+      answers: null,
+      password: form.value.password 
     };
     // Add answers
     if (form.value.nodeType === 'QuestionNode') {

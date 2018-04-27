@@ -57,6 +57,10 @@ namespace ImageHunt.Controllers
       var node = Mapper.Map<Node>(nodeRequest);
       switch (nodeRequest.NodeType)
       {
+        case "FirstNode":
+          var firstNode = node as FirstNode;
+          firstNode.Password = nodeRequest.Password;
+          break;
         case "TimerNode":
           var timerNode = node as TimerNode;
           timerNode.Delay = nodeRequest.Duration;
