@@ -88,6 +88,24 @@ namespace ImageHuntTest.Controller
       // Assert
       A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckTimerNode(n, node.Duration)))).MustHaveHappened();
     }
+    [Fact]
+    public void AddNodeFirstNode()
+    {
+      // Arrange
+      var node = new AddNodeRequest() { NodeType = "FirstNode", Password = "toto"};
+      // Act
+      var result = _target.AddNode(1, node);
+      // Assert
+      A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckFirstNode(n, node.Password)))).MustHaveHappened();
+    }
+
+    private bool CheckFirstNode(Node node, string nodePassword)
+    {
+      var firstNode = node as FirstNode;
+      Check.That(firstNode.Password).Equals(nodePassword);
+      return true;
+
+    }
 
     private bool CheckTimerNode(Node node, int expectedDuration)
     {
