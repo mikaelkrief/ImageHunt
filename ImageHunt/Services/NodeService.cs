@@ -102,5 +102,18 @@ namespace ImageHunt.Services
       return closestNode as PictureNode;
     }
 
+    public void RemoveNode(Node nodeToRemove)
+    {
+      // remove all children of the node to remove
+      nodeToRemove.ChildrenRelation.Clear();
+      // Retrieve relations of node to remove
+      var parentsOfNode = Context.ParentChildren.Where(pc => pc.Children == nodeToRemove);
+      foreach (var parentChildren in parentsOfNode)
+      {
+        parentChildren.Parent.ChildrenRelation.Remove(parentChildren);
+      }
+      Context.Nodes.Remove(nodeToRemove);
+      Context.SaveChanges();
+    }
   }
 }

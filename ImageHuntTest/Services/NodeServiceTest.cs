@@ -306,5 +306,37 @@ namespace ImageHuntTest.Services
         // Assert
         Check.That(result).Equals(answers[1]);
       }
+
+      [Fact]
+      public void RemoveNode()
+      {
+        // Arrange
+        var nodes = new List<Node>
+        {
+          new FirstNode(),
+          new QuestionNode(),
+          new TimerNode(),
+          new ObjectNode(),
+          new LastNode()
+        };
+        _context.Nodes.AddRange(nodes);
+        nodes[0].ChildrenRelation = new List<ParentChildren>(){new ParentChildren(){Parent = nodes[0], Children = nodes[1]}};
+        nodes[1].ChildrenRelation = new List<ParentChildren>()
+        {
+          new ParentChildren(){Parent = nodes[1], Children = nodes[2]},
+          new ParentChildren(){Parent = nodes[1], Children = nodes[3]},
+          new ParentChildren(){Parent = nodes[1], Children = nodes[4]}
+        };
+        nodes[2].ChildrenRelation = new List<ParentChildren>(){new ParentChildren(){Parent = nodes[2], Children = nodes[4]}};
+        nodes[3].ChildrenRelation = new List<ParentChildren>(){new ParentChildren(){Parent = nodes[3], Children = nodes[4]}};
+        _context.SaveChanges();
+        // Act
+        _target.RemoveNode(nodes[1]);
+        // Assert
+        Check.That(_context.Nodes).Not.Contains(nodes[1]);
+        Check.That(nodes[0].Children).HasSize(0);
+        Check.That(nodes[1].Children).HasSize(0);
+        Check.That(_context.ParentChildren).HasSize(2);
+      }
   }
 }

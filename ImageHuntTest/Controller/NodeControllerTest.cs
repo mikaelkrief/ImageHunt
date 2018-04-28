@@ -6,6 +6,9 @@ using ImageHunt.Controllers;
 using ImageHunt.Model.Node;
 using ImageHunt.Request;
 using ImageHunt.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
+using NFluent;
 using Xunit;
 
 namespace ImageHuntTest.Controller
@@ -95,6 +98,19 @@ namespace ImageHuntTest.Controller
         // Assert
         A.CallTo(() => _nodeService.RemoveChildren(1, A<int>._)).MustHaveHappened(Repeated.Exactly.Once);
         A.CallTo(() => _nodeService.UnlinkAnswerToNode(1)).MustHaveHappened(Repeated.Exactly.Once);
+      }
+
+      [Fact]
+      public void RemoveNode()
+      {
+        // Arrange
+        
+        // Act
+        var result = _target.RemoveNode(2);
+        // Assert
+        Check.That(result).IsInstanceOf<OkResult>();
+        A.CallTo(()=>_nodeService.GetNode(2)).MustHaveHappened();
+        A.CallTo(()=>_nodeService.RemoveNode(A<Node>._)).MustHaveHappened();
       }
   }
 }
