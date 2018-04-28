@@ -61,15 +61,6 @@ namespace ImageHuntTest.Services
       Check.That(_context.Games).HasSize(2);
     }
 
-    //[Fact]
-    //public void CreateGameFirstNodeNotInNodes()
-    //{
-    //    // Arrange
-    //    var nodes = new List<Node>() { new TimerNode(), new TimerNode(), new TimerNode(), new QuestionNode() };
-    //    // Act
-    //    Check.ThatCode(() => _target.CreateGame("TheGame", DateTime.Today, nodes)).Throws<ArgumentException>();
-    //    // Assert
-    //}
 
     [Fact]
     public void GetGameFromId()
@@ -172,7 +163,7 @@ namespace ImageHuntTest.Services
           new TimerNode(){Latitude = 48.851291, Longitude = 2.3318698},
           new QuestionNode(){Latitude = 48.8537828, Longitude = 2.3310879}
         };
-      var games = new List<Game>() { new Game(), new Game() { Nodes = nodes } };
+      var games = new List<Game>() { new Game(), new Game() { Nodes = nodes, MapZoom = 10} };
       _context.Games.AddRange(games);
       _context.SaveChanges();
       // Act
@@ -180,6 +171,7 @@ namespace ImageHuntTest.Services
       // Assert
       Check.That(games[1].MapCenterLat.Value).IsEqualsWithDelta(48.8517267806692, 0.0001);
       Check.That(games[1].MapCenterLng.Value).IsEqualsWithDelta(2.33022653262665, 0.0001);
+      Check.That(_context.Games.Last().MapZoom).Equals(10);
     }
 
     [Fact]

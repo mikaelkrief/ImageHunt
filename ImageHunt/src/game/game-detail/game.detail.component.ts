@@ -69,6 +69,7 @@ export class GameDetailComponent implements OnInit {
   getGame(gameId: number) {
     this._gameService.getGameById(gameId).subscribe(res => {
       this.game = res;
+        this.currentZoom = this.game.mapZoom;
       this.getNodeRelations(gameId);
     },
       err => console.error('getGame raise error: ' + err));
@@ -102,7 +103,7 @@ export class GameDetailComponent implements OnInit {
   centerMap(gameId: number) {
     this._gameService.centerMap(gameId).subscribe(null, null,
       () => {
-        this._gameService.setZoom(gameId, this.currentZoom)
+        this._gameService.setZoom(gameId, this.currentZoom == undefined || this.currentZoom === 0 ? this.game.mapZoom : this.currentZoom)
           .subscribe(() => this.getGame(gameId));
       });
     
@@ -195,7 +196,10 @@ export class GameDetailComponent implements OnInit {
     this.currentZoom = zoom;
   }
   saveChanges(gameId: number) {
-    this.newRelations.forEach(r => Observable.forkJoin(this._gameService.addRelation(r.orgId, r.destId, 0)).subscribe(() => this.getGame(gameId)));
+    if (this.newRelations !== null) {
+      this.newRelations.forEach(r => Observable.forkJoin(this._gameService.addRelation(r.orgId, r.destId, 0))
+        .subscribe(() => this.getGame(gameId)));
+    }
   }
   teamsUpdated() {
     this._teamService.getTeams(this.game.id)
