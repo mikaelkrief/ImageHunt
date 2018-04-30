@@ -105,8 +105,7 @@ namespace ImageHunt.Services
     public void RemoveNode(Node nodeToRemove)
     {
       // Remove answers if node is QuestionNode
-      var questionNode = nodeToRemove as QuestionNode;
-      if (questionNode !=null && questionNode.Answers != null)
+      if (nodeToRemove is QuestionNode questionNode && questionNode.Answers != null)
       {
         Context.Answers.RemoveRange(questionNode.Answers);
         questionNode.Answers.Clear();
@@ -122,13 +121,14 @@ namespace ImageHunt.Services
 
     public void RemoveRelation(Node orgNode, Node destNode)
     {
-      var questionNode = orgNode as QuestionNode;
-      if (questionNode != null && questionNode.Answers != null)
+      // Remove answers for QuestionNode
+      if (orgNode is QuestionNode questionNode && questionNode.Answers != null)
       {
         var answerToRemove = questionNode.Answers.Single(a => a.Node == destNode);
         questionNode.Answers.Remove(answerToRemove);
         Context.Answers.Remove(answerToRemove);
       }
+      // Remove relation
       var relationToRemove = orgNode.ChildrenRelation.Single(pc => pc.Children == destNode);
       orgNode.ChildrenRelation.Remove(relationToRemove);
       Context.SaveChanges();
