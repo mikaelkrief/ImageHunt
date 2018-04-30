@@ -21,6 +21,7 @@
     <None Remove="src\shared\gmapdefinitions.ts" />
     <None Remove="src\shared\GUINode.ts" />
     <None Remove="src\shared\NodeClicked.ts" />
+    <None Remove="src\shared\RelationClicked.ts" />
     <None Remove="src\shared\player.ts" />
     <None Remove="src\shared\QuestionNodeAnswerRelation.ts" />
     <None Remove="src\shared\team.ts" />
@@ -54,6 +55,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\shared\answer.ts" />
     <TypeScriptCompile Include="src\shared\gameAction.ts" />
+    <TypeScriptCompile Include="src\shared\RelationClicked.ts" />
     <TypeScriptCompile Include="src\shared\NodeClicked.ts" />
     <TypeScriptCompile Include="src\shared\pipes\gameActionTranslationPipe.ts" />
     <TypeScriptCompile Include="src\shared\gmapdefinitions.ts" />
