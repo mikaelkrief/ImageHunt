@@ -26,6 +26,9 @@ export class GameService {
   addNode(gameId: number, node: NodeRequest) {
     return this.jwtHttp.post(`api/Game/AddNode/${gameId}`, node);
   }
+  deleteNode(nodeId: number) {
+    return this.jwtHttp.delete(`api/Node/RemoveNode/${nodeId}`);
+  }
   upload(files: File[], gameId) {
     let headers = new Headers();
     headers.delete('Content-Type');

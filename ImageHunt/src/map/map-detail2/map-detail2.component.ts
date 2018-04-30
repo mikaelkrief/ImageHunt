@@ -6,6 +6,7 @@ import { GameService } from '../../shared/services/game.service';
 import { Game } from '../../shared/game';
 import { ActivatedRoute } from '@angular/router';
 import {NodeClicked} from "../../shared/NodeClicked";
+import {RelationClicked} from "../../shared/RelationClicked";
 
 @Component({
     selector: 'map-detail2',
@@ -28,19 +29,20 @@ export class MapDetail2Component implements OnInit, OnChanges {
   @Input() filterNode: string[];
   @Output() mapClicked = new EventEmitter();
   @Output() nodeClicked = new EventEmitter<NodeClicked>();
+  @Output() nodeRightClicked = new EventEmitter<NodeClicked>();
+  @Output() relationRightClicked = new EventEmitter<RelationClicked>();
   @Output() newRelation = new EventEmitter<NodeRelation>();
   @Output() zoomChange = new EventEmitter<number>();
 
     /** map-detail2 ctor */
   constructor(private _gameService: GameService) {
     this.options = {
-      center: { lat: 48.848253151521625, lng: 2.336956914514303 },
+      center: { lat: 0, lng: 0 },
       zoom: 12
     };
 
   }
   ngOnInit(): void {
-    //this.updateMap();
   }
   ngOnChanges(changes: SimpleChanges): void {
     this.updateMap();
@@ -61,16 +63,23 @@ export class MapDetail2Component implements OnInit, OnChanges {
         this.map.setCenter(this.options.center);
         this.map.setZoom(this.options.zoom);
         if (this.game != null) {
-
           this.overlays = [];
+          const center = new google.maps.Marker({
+            position: this.options.center,
+            title:'center'
+          });
+          google.maps.event.addListener(center, 'rightclick', event => this.markerRightClick(event, center, this));
+          this.overlays.push(center);
           this.createMarkers();
           this.createRelations();
           this.createNewRelations();
+          this.createContextMenu();
         }
       });
   }
 
-createMarkers() {
+
+  createMarkers() {
   this.game.nodes.forEach(node => {
     const marker = new google.maps.Marker({
       position: { lat: node.latitude, lng: node.longitude },
@@ -78,10 +87,10 @@ createMarkers() {
       icon: this.getIconForNodeType(node.nodeType),
     });
     marker.set('id', node.id);
+    google.maps.event.addListener(marker, 'rightclick', event=>this.markerRightClick(event, marker, this));
     this.overlays.push(marker);
   });
 }
-
 createRelations() {
   const arrowSymbol = {
     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
@@ -100,7 +109,12 @@ createRelations() {
               ],
               icons: [{ icon: arrowSymbol, offset: '50%' }]
             });
+          polyline.set('node1Id', node.id);
+          polyline.set('node2Id', children.id);
           this.overlays.push(polyline);
+          google.maps.event.addListener(polyline,
+            'rightclick',
+            event => this.relationRightClick(event, polyline, this));
         });
       }
     });
@@ -148,18 +162,22 @@ createNewRelations() {
       if (this.isFirstClick) {
         this.firstNode = node;
         this.isFirstClick = false;
-        nClicked = new NodeClicked(node, 1);
+        nClicked = new NodeClicked(node, 1, null);
       } else {
         this.secondNode = node;
         this.isFirstClick = true;
-        nClicked = new NodeClicked(node, 2);
+        nClicked = new NodeClicked(node, 2, null);
         this.newRelation.emit({ nodeId: this.firstNode.id, childNodeId: this.secondNode.id });
       }
       
       this.nodeClicked.emit(nClicked);
     }
   }
-
+  markerRightClick(event, marker: any, component: MapDetail2Component) {
+    let node = component.nodes.find(n => n.id === marker.id);
+    const nClicked = new NodeClicked(node, 0, event.Ia);
+    this.nodeRightClicked.emit(nClicked);
+  }
   getIconForNodeType(nodeType: string): string {
     switch (nodeType) {
       case 'TimerNode':
@@ -179,4 +197,10 @@ createNewRelations() {
     }
   }
 
+  createContextMenu() {
+  }
+
+  relationRightClick(event, polyline: google.maps.Polyline, component: this) {
+
+  }
 }

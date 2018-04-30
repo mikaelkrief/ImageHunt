@@ -334,8 +334,7 @@ namespace ImageHuntTest.Services
         _target.RemoveNode(nodes[1]);
         // Assert
         Check.That(_context.Nodes).Not.Contains(nodes[1]);
-        Check.That(nodes[0].Children).HasSize(0);
-        Check.That(nodes[1].Children).HasSize(0);
+
         Check.That(_context.ParentChildren).HasSize(2);
       }
   }

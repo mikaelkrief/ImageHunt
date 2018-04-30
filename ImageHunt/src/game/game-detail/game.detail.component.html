@@ -24,9 +24,10 @@
                         [nodes]="game.nodes"
                         [gameId]="game.id"
                         [nodesRelation]="nodeRelations"
-                        [newNodesRelation]="newRelations"
+                         [newNodesRelation]="newRelations"
                         (mapClicked)="mapClicked($event)"
-                        (nodeClicked)="nodeClicked($event)"
+                         (nodeClicked)="nodeClicked($event)"
+                         (nodeRightClicked)="nodeRightClicked($event)"
                         (newRelation)="newRelation($event)"
                         (zoomChange)="mapZoomChange($event)">
             </map-detail2>
@@ -63,7 +64,8 @@
   </div>
 
 </div>
-
+<p-contextMenu #markerContextMenu id="markerContextMenu" [model]="nodeMenuItems">
+</p-contextMenu>
 <ng-template #uploadImagesTemplate>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Téléchargement de noeuds images</h4>

@@ -108,10 +108,7 @@ namespace ImageHunt.Services
       nodeToRemove.ChildrenRelation.Clear();
       // Retrieve relations of node to remove
       var parentsOfNode = Context.ParentChildren.Where(pc => pc.Children == nodeToRemove);
-      foreach (var parentChildren in parentsOfNode)
-      {
-        parentChildren.Parent.ChildrenRelation.Remove(parentChildren);
-      }
+      Context.ParentChildren.RemoveRange(parentsOfNode);
       Context.Nodes.Remove(nodeToRemove);
       Context.SaveChanges();
     }

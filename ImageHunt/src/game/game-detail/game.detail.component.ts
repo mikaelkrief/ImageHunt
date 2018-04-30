@@ -22,6 +22,7 @@ import { EditedRelation } from '../../shared/EditedRelation';
 import {QuestionNodeComponent} from '../question-node/question.node.component';
 import {ConfirmationService} from 'primeng/components/common/confirmationservice';
 import { NodeClicked } from "../../shared/NodeClicked";
+import { MenuItem } from "primeng/api";
 
 @Component({
   selector: 'game-detail',
@@ -32,6 +33,7 @@ import { NodeClicked } from "../../shared/NodeClicked";
 export class GameDetailComponent implements OnInit {
   @ContentChildren('fileInput') fileInput;
   @ViewChild('mapComponent') mapComponent;
+  @ViewChild('markerContextMenu') markerContextMenu;
 
 
   alerts: any = [];
@@ -40,6 +42,7 @@ export class GameDetailComponent implements OnInit {
   nodeRelations: NodeRelation[];
   newRelations: GeoVector[];
   currentZoom: number;
+  nodeMenuItems: MenuItem[];
   /** gameDetail ctor */
   constructor(private _route: ActivatedRoute,
     private _gameService: GameService,
@@ -155,6 +158,21 @@ export class GameDetailComponent implements OnInit {
       
     }
   }
+
+  nodeRightClicked(nodeClicked: NodeClicked) {
+    this.nodeMenuItems = [
+      { label: 'Modifier', icon: 'fa-edit', disabled:true },
+      { label: 'Effacer', icon: 'fa-trash', automationId: nodeClicked.node.id, command:event=>this.deleteNode(event) },
+    ];
+    if (nodeClicked.node.nodeType === 'QuestionNode') {
+      this.nodeMenuItems.push({
+        label: 'Editer les relations',
+        automationId: nodeClicked.node.id,
+        command: event => this.editNodeAnswers()
+      });
+    }
+    this.markerContextMenu.show(nodeClicked.mouseEvent);
+  }
   newRelation(nodeRelation: NodeRelation) {
     var parentNode = this.game.nodes.find(n => n.id === nodeRelation.nodeId);
     var childNode = this.game.nodes.find(n => n.id === nodeRelation.childNodeId);
@@ -204,5 +222,10 @@ export class GameDetailComponent implements OnInit {
   teamsUpdated() {
     this._teamService.getTeams(this.game.id)
       .subscribe(res => this.game.teams = res.json());
+  }
+
+  deleteNode(event): void {
+    this._gameService.deleteNode(event.item.automationId)
+      .subscribe(() => this.getGame(this.game.id));
   }
 }

@@ -55,7 +55,7 @@ namespace ImageHunt.Controllers
         }
       }
     }
-
+    [HttpDelete("RemoveNode/{nodeId}")]
     public IActionResult RemoveNode(int nodeId)
     {
       var node = _nodeService.GetNode(nodeId);
