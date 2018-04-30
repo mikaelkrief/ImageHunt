@@ -104,12 +104,33 @@ namespace ImageHunt.Services
 
     public void RemoveNode(Node nodeToRemove)
     {
+      // Remove answers if node is QuestionNode
+      var questionNode = nodeToRemove as QuestionNode;
+      if (questionNode !=null && questionNode.Answers != null)
+      {
+        Context.Answers.RemoveRange(questionNode.Answers);
+        questionNode.Answers.Clear();
+      }
       // remove all children of the node to remove
       nodeToRemove.ChildrenRelation.Clear();
       // Retrieve relations of node to remove
       var parentsOfNode = Context.ParentChildren.Where(pc => pc.Children == nodeToRemove);
       Context.ParentChildren.RemoveRange(parentsOfNode);
       Context.Nodes.Remove(nodeToRemove);
+      Context.SaveChanges();
+    }
+
+    public void RemoveRelation(Node orgNode, Node destNode)
+    {
+      var questionNode = orgNode as QuestionNode;
+      if (questionNode != null && questionNode.Answers != null)
+      {
+        var answerToRemove = questionNode.Answers.Single(a => a.Node == destNode);
+        questionNode.Answers.Remove(answerToRemove);
+        Context.Answers.Remove(answerToRemove);
+      }
+      var relationToRemove = orgNode.ChildrenRelation.Single(pc => pc.Children == destNode);
+      orgNode.ChildrenRelation.Remove(relationToRemove);
       Context.SaveChanges();
     }
   }

@@ -23,6 +23,7 @@ import {QuestionNodeComponent} from '../question-node/question.node.component';
 import {ConfirmationService} from 'primeng/components/common/confirmationservice';
 import { NodeClicked } from "../../shared/NodeClicked";
 import { MenuItem } from "primeng/api";
+import {RelationClicked} from "../../shared/RelationClicked";
 
 @Component({
   selector: 'game-detail',
@@ -172,6 +173,9 @@ export class GameDetailComponent implements OnInit {
       });
     }
     this.markerContextMenu.show(nodeClicked.mouseEvent);
+  }
+  relationRightClicked(relationClicked: RelationClicked) {
+
   }
   newRelation(nodeRelation: NodeRelation) {
     var parentNode = this.game.nodes.find(n => n.id === nodeRelation.nodeId);

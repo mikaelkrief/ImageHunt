@@ -337,5 +337,74 @@ namespace ImageHuntTest.Services
 
         Check.That(_context.ParentChildren).HasSize(2);
       }
+
+      [Fact]
+      public void RemoveQuestionNode()
+      {
+        // Arrange
+        var answers = new List<Answer>() {new Answer(), new Answer(), new Answer()};
+        var nodes = new List<Node>
+        {
+          new FirstNode(),
+          new QuestionNode(){Answers = answers},
+          new TimerNode(),
+          new ObjectNode(),
+          new LastNode(),
+          new QuestionNode(){Answers = new List<Answer>(){new Answer()}}
+        };
+        _context.Nodes.AddRange(nodes);
+        nodes[0].ChildrenRelation = new List<ParentChildren>() { new ParentChildren() { Parent = nodes[0], Children = nodes[1] } };
+        nodes[2].ChildrenRelation = new List<ParentChildren>() { new ParentChildren() { Parent = nodes[2], Children = nodes[4] } };
+        nodes[3].ChildrenRelation = new List<ParentChildren>() { new ParentChildren() { Parent = nodes[3], Children = nodes[4] } };
+        _context.SaveChanges();
+        _target.LinkAnswerToNode(answers[0].Id, nodes[2].Id);
+        _target.LinkAnswerToNode(answers[1].Id, nodes[3].Id);
+        _target.LinkAnswerToNode(answers[2].Id, nodes[4].Id);
+        // Act
+        _target.RemoveNode(nodes[1]);
+        // Assert
+        Check.That(_context.Nodes).Not.Contains(nodes[1]);
+
+        Check.That(_context.ParentChildren).HasSize(2);
+        Check.That(((QuestionNode)nodes[1]).Answers).HasSize(0);
+        Check.That(_context.Answers).HasSize(1);
+      }
+
+      [Fact]
+      public void RemoveRelation()
+      {
+        // Arrange
+        var nodes = new List<Node> {new FirstNode(), new TimerNode(), new LastNode()};
+        nodes[0].ChildrenRelation.Add(new ParentChildren(){Parent = nodes[0], Children = nodes[1]});
+        nodes[1].ChildrenRelation.Add(new ParentChildren(){Parent = nodes[1], Children = nodes[2]});
+        _context.Nodes.AddRange(nodes);
+        _context.SaveChanges();
+        // Act
+        _target.RemoveRelation(nodes[1], nodes[2]);
+        // Assert
+        Check.That(_context.ParentChildren).HasSize(1);
+        Check.That(nodes[1].Children).HasSize(0);
+      }
+
+      [Fact]
+      public void RemoveRelationQuestionNode()
+      {
+        // Arrange
+        var answers = new List<Answer> {new Answer(), new Answer()};
+        var nodes = new List<Node> { new FirstNode(), new QuestionNode(){Answers = answers}, new TimerNode(), new LastNode() };
+        nodes[0].ChildrenRelation.Add(new ParentChildren() { Parent = nodes[0], Children = nodes[1] });
+        _context.Nodes.AddRange(nodes);
+        _context.SaveChanges();
+      _target.AddChildren(nodes[1], nodes[2]);
+      _target.AddChildren(nodes[1], nodes[3]);
+      _target.LinkAnswerToNode(answers[0].Id, nodes[2].Id);
+        _target.LinkAnswerToNode(answers[1].Id, nodes[3].Id);
+        // Act
+        _target.RemoveRelation(nodes[1], nodes[2]);
+        // Assert
+        Check.That(_context.ParentChildren).HasSize(2);
+        Check.That(nodes[1].Children).HasSize(1);
+        Check.That(_context.Answers).HasSize(1);
+      }
   }
 }

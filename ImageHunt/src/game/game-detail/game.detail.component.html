@@ -28,7 +28,8 @@
                         (mapClicked)="mapClicked($event)"
                          (nodeClicked)="nodeClicked($event)"
                          (nodeRightClicked)="nodeRightClicked($event)"
-                        (newRelation)="newRelation($event)"
+                         (newRelation)="newRelation($event)"
+                         (relationRightClicked)="relationRightClicked($event)"
                         (zoomChange)="mapZoomChange($event)">
             </map-detail2>
           </div>
@@ -64,8 +65,8 @@
   </div>
 
 </div>
-<p-contextMenu #markerContextMenu id="markerContextMenu" [model]="nodeMenuItems">
-</p-contextMenu>
+<p-contextMenu #markerContextMenu id="markerContextMenu" [model]="nodeMenuItems"></p-contextMenu>
+<p-contextMenu #relationContextMenu id="relationContextMenu" [model]="relationMenuItems"></p-contextMenu>
 <ng-template #uploadImagesTemplate>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Téléchargement de noeuds images</h4>

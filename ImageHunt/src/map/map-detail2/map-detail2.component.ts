@@ -201,6 +201,9 @@ createNewRelations() {
   }
 
   relationRightClick(event, polyline: google.maps.Polyline, component: this) {
-
+    let node1 = component.nodes.find(n => n.id === event.node1Id);
+    let node2 = component.nodes.find(n => n.id === event.node2Id);
+    const rClicked = new RelationClicked(node1, node2, event.Ia);
+    this.relationRightClicked.emit(rClicked);
   }
 }
