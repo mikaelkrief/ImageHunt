@@ -23,9 +23,11 @@ export class MapDetail2Component implements OnInit, OnChanges {
   game: Game;
   nodeRelations: NodeRelation[];
   isFirstClick: boolean = true;
+  mapMenuItems: MenuItem[];
   nodeMenuItems: MenuItem[];
   relationMenuItems: MenuItem[];
 
+  @ViewChild('mapContextMenu') mapContextMenu;
   @ViewChild('markerContextMenu') markerContextMenu;
   @ViewChild('relationContextMenu') relationContextMenu;
 
@@ -60,6 +62,7 @@ export class MapDetail2Component implements OnInit, OnChanges {
   map: google.maps.Map;
   setMap(event) {
     this.map = event.map;
+    google.maps.event.addListener(this.map, 'rightclick', event => this.mapRightClick(event));
   }
 
   buildRelations() {
@@ -251,4 +254,20 @@ createNewRelations() {
   deleteRelation(node1Id: number, node2Id: number): void {
     this._gameService.removeRelation(node1Id, node2Id).subscribe(() => this.updateMap());
   }
+
+  mapRightClick(event) {
+    this.mapMenuItems = [
+      { label: 'Nouveau noeud', icon: 'fa-map-pin' },
+      { label: 'Centrer la carte sur les noeuds', command: event=>this.centerMapOnNodes()},
+      { label: 'Enregistrer le zoom', icon:'fa-save', command: event=>this.saveZoom()}
+    ];
+    this.mapContextMenu.show(event.Ia);
+  }
+
+  saveZoom(): void {
+    const currentZoom = this.map.getZoom();
+    this._gameService.setZoom(this.gameId, currentZoom).subscribe();
+  }
+
+  centerMapOnNodes(): void { this._gameService.centerMap(this.gameId).subscribe(() => this.updateMap()); }
 }
