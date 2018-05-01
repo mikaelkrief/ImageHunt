@@ -22,6 +22,8 @@ import { EditedRelation } from '../../shared/EditedRelation';
 import {QuestionNodeComponent} from '../question-node/question.node.component';
 import {ConfirmationService} from 'primeng/components/common/confirmationservice';
 import { NodeClicked } from "../../shared/NodeClicked";
+import { MenuItem } from "primeng/api";
+import {RelationClicked} from "../../shared/RelationClicked";
 
 @Component({
   selector: 'game-detail',
@@ -70,28 +72,28 @@ export class GameDetailComponent implements OnInit {
     this._gameService.getGameById(gameId).subscribe(res => {
       this.game = res;
         this.currentZoom = this.game.mapZoom;
-      this.getNodeRelations(gameId);
+      //this.getNodeRelations(gameId);
     },
       err => console.error('getGame raise error: ' + err));
   }
-  getNodeRelations(gameId: number) {
-    this._gameService.getNodeRelations(gameId)
-      .subscribe(res => {
-        this.nodeRelations = res.json();
-        this.buildRelations();
-        this.newRelations = null;
-      });
-  }
-  buildRelations() {
-    const nodes = this.game.nodes;
-    for (const relation of this.nodeRelations) {
-      // Find the origin node
-      const orgNode = nodes.find(n => n.id === relation.nodeId);
-      const destNode = nodes.find(n => n.id === relation.childNodeId);
-      orgNode.children.push(destNode);
-    }
-    this.mapComponent.nodes = this.game.nodes;
-  }
+  //getNodeRelations(gameId: number) {
+  //  this._gameService.getNodeRelations(gameId)
+  //    .subscribe(res => {
+  //      this.nodeRelations = res.json();
+  //      this.buildRelations();
+  //      this.newRelations = null;
+  //    });
+  //}
+  //buildRelations() {
+  //  const nodes = this.game.nodes;
+  //  for (const relation of this.nodeRelations) {
+  //    // Find the origin node
+  //    const orgNode = nodes.find(n => n.id === relation.nodeId);
+  //    const destNode = nodes.find(n => n.id === relation.childNodeId);
+  //    orgNode.children.push(destNode);
+  //  }
+  //  this.mapComponent.nodes = this.game.nodes;
+  //}
   createTeam(gameId: number, form: NgForm) {
     var team: Team = { id: 0, name: form.value.name, players: null };
     this._teamService.createTeam(gameId, team)
@@ -155,6 +157,12 @@ export class GameDetailComponent implements OnInit {
       
     }
   }
+
+  nodeRightClicked(nodeClicked: NodeClicked) {
+  }
+  relationRightClicked(relationClicked: RelationClicked) {
+
+  }
   newRelation(nodeRelation: NodeRelation) {
     var parentNode = this.game.nodes.find(n => n.id === nodeRelation.nodeId);
     var childNode = this.game.nodes.find(n => n.id === nodeRelation.childNodeId);
@@ -205,4 +213,5 @@ export class GameDetailComponent implements OnInit {
     this._teamService.getTeams(this.game.id)
       .subscribe(res => this.game.teams = res.json());
   }
+
 }

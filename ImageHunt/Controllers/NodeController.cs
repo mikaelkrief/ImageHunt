@@ -55,5 +55,20 @@ namespace ImageHunt.Controllers
         }
       }
     }
+    [HttpDelete("RemoveNode/{nodeId}")]
+    public IActionResult RemoveNode(int nodeId)
+    {
+      var node = _nodeService.GetNode(nodeId);
+      _nodeService.RemoveNode(node);
+      return Ok();
+    }
+    [HttpDelete("RemoveRelation/{orgNodeId}/{destNodeId}")]
+    public IActionResult RemoveRelation(int orgNodeId, int destNodeId)
+    {
+      var orgNode = _nodeService.GetNode(orgNodeId);
+      var destNode = _nodeService.GetNode(destNodeId);
+      _nodeService.RemoveRelation(orgNode, destNode);
+      return Ok();
+    }
   }
 }

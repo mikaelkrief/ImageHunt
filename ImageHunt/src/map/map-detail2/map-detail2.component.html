@@ -6,4 +6,6 @@
         (onOverlayClick)="onOverlayClick($event)"
         (onMapReady)="setMap($event)"
 >
-</p-gmap>   
+</p-gmap>
+<p-contextMenu #markerContextMenu id="markerContextMenu" appendTo="body" [model]="nodeMenuItems"></p-contextMenu>
+<p-contextMenu #relationContextMenu id="relationContextMenu" appendTo="body" [model]="relationMenuItems"></p-contextMenu>

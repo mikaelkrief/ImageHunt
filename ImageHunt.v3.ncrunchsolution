@@ -1,6 +1,12 @@
 ﻿<SolutionConfiguration>
   <Settings>
     <AllowParallelTestExecution>False</AllowParallelTestExecution>
+    <MetricsExclusionList>
+      <Value>ImageHunt\ImageHunt.csproj\Migrations</Value>
+      <Value>Program.cs:ImageHunt\ImageHunt.csproj</Value>
+      <Value>Startup.cs:ImageHunt\ImageHunt.csproj</Value>
+      <Value>Data\HuntContextDesignFactory.cs:ImageHunt\ImageHunt.csproj</Value>
+    </MetricsExclusionList>
     <SolutionConfigured>True</SolutionConfigured>
   </Settings>
 </SolutionConfiguration>

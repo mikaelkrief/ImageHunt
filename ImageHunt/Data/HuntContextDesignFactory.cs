@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -5,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace ImageHunt.Data
 {
-    public class HuntContextDesignFactory : IDesignTimeDbContextFactory<HuntContext>
+  public class HuntContextDesignFactory : IDesignTimeDbContextFactory<HuntContext>
     {
         public HuntContext CreateDbContext(string[] args)
         {

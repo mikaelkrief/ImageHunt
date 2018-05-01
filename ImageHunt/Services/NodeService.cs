@@ -102,5 +102,39 @@ namespace ImageHunt.Services
       return closestNode as PictureNode;
     }
 
+    public void RemoveNode(Node nodeToRemove)
+    {
+      // Remove answers if node is QuestionNode
+      if (nodeToRemove is QuestionNode questionNode && questionNode.Answers != null)
+      {
+        Context.Answers.RemoveRange(questionNode.Answers);
+        questionNode.Answers.Clear();
+      }
+      // remove all children of the node to remove
+      nodeToRemove.ChildrenRelation.Clear();
+      // Retrieve relations of node to remove
+      var parentsOfNode = Context.ParentChildren.Where(pc => pc.Children == nodeToRemove);
+      Context.ParentChildren.RemoveRange(parentsOfNode);
+      Context.Nodes.Remove(nodeToRemove);
+      Context.SaveChanges();
+    }
+
+    public void RemoveRelation(Node orgNode, Node destNode)
+    {
+      orgNode = Context.Nodes.Include(n => n.ChildrenRelation)
+        .Single(n => n == orgNode);
+      // Remove answers for QuestionNode
+      if (orgNode is QuestionNode questionNode)
+      {
+        questionNode = Context.QuestionNodes.Include(n => n.Answers).Single(n => n == questionNode);
+        var answerToRemove = questionNode.Answers.Single(a => a.Node == destNode);
+        questionNode.Answers.Remove(answerToRemove);
+        Context.Answers.Remove(answerToRemove);
+      }
+      // Remove relation
+      var relationToRemove = orgNode.ChildrenRelation.Single(pc => pc.Children == destNode);
+      orgNode.ChildrenRelation.Remove(relationToRemove);
+      Context.SaveChanges();
+    }
   }
 }

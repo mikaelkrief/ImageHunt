@@ -26,6 +26,9 @@ export class GameService {
   addNode(gameId: number, node: NodeRequest) {
     return this.jwtHttp.post(`api/Game/AddNode/${gameId}`, node);
   }
+  deleteNode(nodeId: number) {
+    return this.jwtHttp.delete(`api/Node/RemoveNode/${nodeId}`);
+  }
   upload(files: File[], gameId) {
     let headers = new Headers();
     headers.delete('Content-Type');
@@ -44,7 +47,7 @@ export class GameService {
   }
 
   getNodeRelations(gameId: number) {
-     return this.jwtHttp.get(`api/Game/NodesRelations/${gameId}`);
+     return this.jwtHttp.get(`api/Game/NodesRelations/${gameId}`).map(r=>r.json());
   }
 
   addRelation(orgNodeId: number, destNodeId: number, answerId: number) {
@@ -54,7 +57,7 @@ export class GameService {
 
   }
   removeRelation(orgNodeId: number, destNodeId: number) {
-    return this.jwtHttp.put('api/Node/RemoveRelationToNode', { nodeId: orgNodeId, childrenId: destNodeId, answerId: 0 });
+    return this.jwtHttp.delete(`api/Node/RemoveRelation/${orgNodeId}/${destNodeId}`);
   }
 
   setZoom(gameId: number, zoom: number) { return this.jwtHttp.patch(`api/Game/UpdateZoom/${gameId}/${zoom}`, null); }
