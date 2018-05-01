@@ -121,9 +121,12 @@ namespace ImageHunt.Services
 
     public void RemoveRelation(Node orgNode, Node destNode)
     {
+      orgNode = Context.Nodes.Include(n => n.ChildrenRelation)
+        .Single(n => n == orgNode);
       // Remove answers for QuestionNode
-      if (orgNode is QuestionNode questionNode && questionNode.Answers != null)
+      if (orgNode is QuestionNode questionNode)
       {
+        questionNode = Context.QuestionNodes.Include(n => n.Answers).Single(n => n == questionNode);
         var answerToRemove = questionNode.Answers.Single(a => a.Node == destNode);
         questionNode.Answers.Remove(answerToRemove);
         Context.Answers.Remove(answerToRemove);

@@ -34,7 +34,6 @@ import {RelationClicked} from "../../shared/RelationClicked";
 export class GameDetailComponent implements OnInit {
   @ContentChildren('fileInput') fileInput;
   @ViewChild('mapComponent') mapComponent;
-  @ViewChild('markerContextMenu') markerContextMenu;
 
 
   alerts: any = [];
@@ -43,7 +42,6 @@ export class GameDetailComponent implements OnInit {
   nodeRelations: NodeRelation[];
   newRelations: GeoVector[];
   currentZoom: number;
-  nodeMenuItems: MenuItem[];
   /** gameDetail ctor */
   constructor(private _route: ActivatedRoute,
     private _gameService: GameService,
@@ -74,28 +72,28 @@ export class GameDetailComponent implements OnInit {
     this._gameService.getGameById(gameId).subscribe(res => {
       this.game = res;
         this.currentZoom = this.game.mapZoom;
-      this.getNodeRelations(gameId);
+      //this.getNodeRelations(gameId);
     },
       err => console.error('getGame raise error: ' + err));
   }
-  getNodeRelations(gameId: number) {
-    this._gameService.getNodeRelations(gameId)
-      .subscribe(res => {
-        this.nodeRelations = res.json();
-        this.buildRelations();
-        this.newRelations = null;
-      });
-  }
-  buildRelations() {
-    const nodes = this.game.nodes;
-    for (const relation of this.nodeRelations) {
-      // Find the origin node
-      const orgNode = nodes.find(n => n.id === relation.nodeId);
-      const destNode = nodes.find(n => n.id === relation.childNodeId);
-      orgNode.children.push(destNode);
-    }
-    this.mapComponent.nodes = this.game.nodes;
-  }
+  //getNodeRelations(gameId: number) {
+  //  this._gameService.getNodeRelations(gameId)
+  //    .subscribe(res => {
+  //      this.nodeRelations = res.json();
+  //      this.buildRelations();
+  //      this.newRelations = null;
+  //    });
+  //}
+  //buildRelations() {
+  //  const nodes = this.game.nodes;
+  //  for (const relation of this.nodeRelations) {
+  //    // Find the origin node
+  //    const orgNode = nodes.find(n => n.id === relation.nodeId);
+  //    const destNode = nodes.find(n => n.id === relation.childNodeId);
+  //    orgNode.children.push(destNode);
+  //  }
+  //  this.mapComponent.nodes = this.game.nodes;
+  //}
   createTeam(gameId: number, form: NgForm) {
     var team: Team = { id: 0, name: form.value.name, players: null };
     this._teamService.createTeam(gameId, team)
@@ -161,18 +159,6 @@ export class GameDetailComponent implements OnInit {
   }
 
   nodeRightClicked(nodeClicked: NodeClicked) {
-    this.nodeMenuItems = [
-      { label: 'Modifier', icon: 'fa-edit', disabled:true },
-      { label: 'Effacer', icon: 'fa-trash', automationId: nodeClicked.node.id, command:event=>this.deleteNode(event) },
-    ];
-    if (nodeClicked.node.nodeType === 'QuestionNode') {
-      this.nodeMenuItems.push({
-        label: 'Editer les relations',
-        automationId: nodeClicked.node.id,
-        command: event => this.editNodeAnswers()
-      });
-    }
-    this.markerContextMenu.show(nodeClicked.mouseEvent);
   }
   relationRightClicked(relationClicked: RelationClicked) {
 
@@ -228,8 +214,4 @@ export class GameDetailComponent implements OnInit {
       .subscribe(res => this.game.teams = res.json());
   }
 
-  deleteNode(event): void {
-    this._gameService.deleteNode(event.item.automationId)
-      .subscribe(() => this.getGame(this.game.id));
-  }
 }

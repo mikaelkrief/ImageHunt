@@ -112,5 +112,18 @@ namespace ImageHuntTest.Controller
         A.CallTo(()=>_nodeService.GetNode(2)).MustHaveHappened();
         A.CallTo(()=>_nodeService.RemoveNode(A<Node>._)).MustHaveHappened();
       }
+
+      [Fact]
+      public void RemoveRelation()
+      {
+        // Arrange
+        
+        // Act
+        var result = _target.RemoveRelation(1, 2);
+        // Assert
+        Check.That(result).IsInstanceOf<OkResult>();
+        A.CallTo(() => _nodeService.GetNode(A<int>._)).MustHaveHappened(Repeated.Exactly.Twice);
+        A.CallTo(() => _nodeService.RemoveRelation(A<Node>._, A<Node>._)).MustHaveHappened();
+      }
   }
 }

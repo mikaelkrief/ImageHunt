@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import {Node} from '../../shared/node';
 import {NodeRelation} from '../../shared/NodeRelation';
 import {GeoPoint} from '../../shared/GeoPoint';
@@ -7,6 +7,8 @@ import { Game } from '../../shared/game';
 import { ActivatedRoute } from '@angular/router';
 import {NodeClicked} from "../../shared/NodeClicked";
 import {RelationClicked} from "../../shared/RelationClicked";
+import { MenuItem } from "primeng/api";
+import { Observable } from "rxjs/Rx";
 
 @Component({
     selector: 'map-detail2',
@@ -20,10 +22,17 @@ export class MapDetail2Component implements OnInit, OnChanges {
   game: Game;
   nodeRelations: NodeRelation[];
   isFirstClick: boolean = true;
+  nodeMenuItems: MenuItem[];
+  relationMenuItems: MenuItem[];
+
+  @ViewChild('markerContextMenu') markerContextMenu;
+  @ViewChild('relationContextMenu') relationContextMenu;
 
   @Input() gameId: number;
-  @Input() nodes: Node[];
-  @Input() nodesRelation: NodeRelation[];
+  nodes: Node[];
+  nodesRelation: NodeRelation[];
+  newRelations: GeoVector[];
+
   @Input() newNodesRelation: GeoPoint[];
   @Input() nodeMode: string;
   @Input() filterNode: string[];
@@ -51,11 +60,28 @@ export class MapDetail2Component implements OnInit, OnChanges {
   setMap(event) {
     this.map = event.map;
   }
+
+  buildRelations() {
+    const nodes = this.game.nodes;
+    for (const relation of this.nodeRelations) {
+      // Find the origin node
+      const orgNode = nodes.find(n => n.id === relation.nodeId);
+      const destNode = nodes.find(n => n.id === relation.childNodeId);
+      orgNode.children.push(destNode);
+    }
+    this.nodes = this.game.nodes;
+  }
+
   updateMap() {
 
-    this._gameService.getGameById(this.gameId)
-      .subscribe(res => {
-        this.game = res;
+    Observable.forkJoin(
+        this._gameService.getGameById(this.gameId),
+        this._gameService.getNodeRelations(this.gameId))
+    
+      .subscribe(([game, relations]) => {
+        this.game = game;
+        this.nodeRelations = relations;
+        this.buildRelations();
         this.options = {
           center: { lat: this.game.mapCenterLat, lng: this.game.mapCenterLng },
           zoom: this.game.mapZoom
@@ -64,12 +90,6 @@ export class MapDetail2Component implements OnInit, OnChanges {
         this.map.setZoom(this.options.zoom);
         if (this.game != null) {
           this.overlays = [];
-          const center = new google.maps.Marker({
-            position: this.options.center,
-            title:'center'
-          });
-          google.maps.event.addListener(center, 'rightclick', event => this.markerRightClick(event, center, this));
-          this.overlays.push(center);
           this.createMarkers();
           this.createRelations();
           this.createNewRelations();
@@ -111,10 +131,10 @@ createRelations() {
             });
           polyline.set('node1Id', node.id);
           polyline.set('node2Id', children.id);
-          this.overlays.push(polyline);
           google.maps.event.addListener(polyline,
             'rightclick',
             event => this.relationRightClick(event, polyline, this));
+          this.overlays.push(polyline);
         });
       }
     });
@@ -175,9 +195,25 @@ createNewRelations() {
   }
   markerRightClick(event, marker: any, component: MapDetail2Component) {
     let node = component.nodes.find(n => n.id === marker.id);
-    const nClicked = new NodeClicked(node, 0, event.Ia);
-    this.nodeRightClicked.emit(nClicked);
+    this.nodeMenuItems = [
+      { label: 'Modifier', icon: 'fa-edit', disabled: true },
+      { label: 'Effacer', icon: 'fa-trash', command: event => this.deleteNode(node.id) },
+    ];
+    if (node.nodeType === 'QuestionNode') {
+      this.nodeMenuItems.push({
+        label: 'Editer les relations',
+        automationId: node.id,
+        //command: event => this.editNodeAnswers()
+      });
+    }
+    this.markerContextMenu.show(event.Ia);
+    this.nodeRightClicked.emit(new NodeClicked(node, 0, event.Ia));
   }
+  deleteNode(nodeId:number): void {
+    this._gameService.deleteNode(nodeId)
+      .subscribe(() => this.updateMap());
+  }
+
   getIconForNodeType(nodeType: string): string {
     switch (nodeType) {
       case 'TimerNode':
@@ -200,10 +236,18 @@ createNewRelations() {
   createContextMenu() {
   }
 
-  relationRightClick(event, polyline: google.maps.Polyline, component: this) {
-    let node1 = component.nodes.find(n => n.id === event.node1Id);
-    let node2 = component.nodes.find(n => n.id === event.node2Id);
+  relationRightClick(event, polyline: any, component: this) {
+    let node1 = component.nodes.find(n => n.id === polyline.node1Id);
+    let node2 = component.nodes.find(n => n.id === polyline.node2Id);
     const rClicked = new RelationClicked(node1, node2, event.Ia);
     this.relationRightClicked.emit(rClicked);
+    this.relationMenuItems = [
+      { label: 'Effacer', icon: 'fa-unlink', command: event => this.deleteRelation(node1.id, node2.id) }
+    ];
+    this.relationContextMenu.show(event.Ia);
+  }
+
+  deleteRelation(node1Id: number, node2Id: number): void {
+    this._gameService.removeRelation(node1Id, node2Id).subscribe(() => this.updateMap());
   }
 }
