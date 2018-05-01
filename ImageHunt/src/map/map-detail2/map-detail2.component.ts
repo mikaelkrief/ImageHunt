@@ -9,6 +9,7 @@ import {NodeClicked} from "../../shared/NodeClicked";
 import {RelationClicked} from "../../shared/RelationClicked";
 import { MenuItem } from "primeng/api";
 import { Observable } from "rxjs/Rx";
+import {GeoVector} from "../../shared/GeoVector";
 
 @Component({
     selector: 'map-detail2',
