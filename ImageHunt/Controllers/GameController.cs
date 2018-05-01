@@ -179,5 +179,16 @@ namespace ImageHunt.Controllers
     {
       return Ok(_actionService.GetGameAction(gameActionId));
     }
+    [HttpGet("ValidateGame/{gameId}")]
+    public IActionResult ValidateGame(int gameId)
+    {
+      var game = _gameService.GetGameById(gameId);
+      var errors = _gameService.ValidateGame(game);
+      if (errors.Any())
+      {
+        return Ok(errors);
+      }
+      return Ok();
+    }
   }
 }

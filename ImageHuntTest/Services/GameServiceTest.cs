@@ -239,5 +239,128 @@ namespace ImageHuntTest.Services
       Check.That(result).Contains(games[0], games[1], games[2]);
     }
 
+    [Fact(Skip = "To be finished")]
+    public void ValidateGame_NoError()
+    {
+      // Arrange
+      var nodes = new List<Node>
+      {
+        new FirstNode(),
+        new TimerNode(),
+        new QuestionNode(),
+        new ObjectNode(),
+        new PictureNode(),
+        new LastNode()
+      };
+      
+      _context.Nodes.AddRange(nodes);
+      nodes[0].ChildrenRelation.Add(new ParentChildren(){Parent = nodes[0], Children = nodes[1]});
+      nodes[1].ChildrenRelation.Add(new ParentChildren(){Parent = nodes[1], Children = nodes[2]});
+      nodes[2].ChildrenRelation.Add(new ParentChildren(){Parent = nodes[2], Children = nodes[3]});
+      nodes[2].ChildrenRelation.Add(new ParentChildren(){Parent = nodes[2], Children = nodes[4]});
+      nodes[2].ChildrenRelation.Add(new ParentChildren(){Parent = nodes[2], Children = nodes[5]});
+      var games = new List<Game> {new Game(){Nodes = nodes}};
+      _context.Games.AddRange(games);
+      _context.SaveChanges();
+      // Act
+      var result = _target.ValidateGame(games[0]);
+      // Assert
+      Check.That(result).HasSize(0);
+    }
+    [Fact(Skip = "To be finished")]
+    public void ValidateGame_NoNodeError()
+    {
+      // Arrange
+      var games = new List<Game> {new Game()};
+      _context.Games.AddRange(games);
+      _context.SaveChanges();
+      // Act
+      var result = _target.ValidateGame(games[0]);
+      // Assert
+      Check.That(result).Not.HasSize(0);
+    }
+    [Fact(Skip = "To be finished")]
+    public void ValidateGame_NoFirstNode()
+    {
+      // Arrange
+      var nodes = new List<Node>
+      {
+        new TimerNode(),
+        new TimerNode(),
+        new QuestionNode(),
+        new ObjectNode(),
+        new PictureNode(),
+        new LastNode()
+      };
+
+      _context.Nodes.AddRange(nodes);
+      nodes[0].ChildrenRelation.Add(new ParentChildren() { Parent = nodes[0], Children = nodes[1] });
+      nodes[1].ChildrenRelation.Add(new ParentChildren() { Parent = nodes[1], Children = nodes[2] });
+      nodes[2].ChildrenRelation.Add(new ParentChildren() { Parent = nodes[2], Children = nodes[3] });
+      nodes[2].ChildrenRelation.Add(new ParentChildren() { Parent = nodes[2], Children = nodes[4] });
+      nodes[2].ChildrenRelation.Add(new ParentChildren() { Parent = nodes[2], Children = nodes[5] });
+      var games = new List<Game> { new Game() { Nodes = nodes } };
+      _context.Games.AddRange(games);
+      _context.SaveChanges();
+      // Act
+      var result = _target.ValidateGame(games[0]);
+      // Assert
+      Check.That(result).HasSize(1);
+    }
+    [Fact(Skip = "To be finished")]
+    public void ValidateGame_NoLastNode()
+    {
+      // Arrange
+      var nodes = new List<Node>
+      {
+        new FirstNode(),
+        new TimerNode(),
+        new QuestionNode(),
+        new ObjectNode(),
+        new PictureNode(),
+      };
+
+      _context.Nodes.AddRange(nodes);
+      nodes[0].ChildrenRelation.Add(new ParentChildren() { Parent = nodes[0], Children = nodes[1] });
+      nodes[1].ChildrenRelation.Add(new ParentChildren() { Parent = nodes[1], Children = nodes[2] });
+      nodes[2].ChildrenRelation.Add(new ParentChildren() { Parent = nodes[2], Children = nodes[3] });
+      nodes[2].ChildrenRelation.Add(new ParentChildren() { Parent = nodes[2], Children = nodes[4] });
+      var games = new List<Game> { new Game() { Nodes = nodes } };
+      _context.Games.AddRange(games);
+      _context.SaveChanges();
+      // Act
+      var result = _target.ValidateGame(games[0]);
+      // Assert
+      Check.That(result).HasSize(1);
+    }
+
+    [Fact(Skip = "To be finished")]
+    public void ValidateGame_SomeNodeOphran()
+    {
+      // Arrange
+      var nodes = new List<Node>
+      {
+        new FirstNode(),
+        new TimerNode(),
+        new QuestionNode(),
+        new ObjectNode(),
+        new PictureNode(),
+        new LastNode()
+      };
+
+      _context.Nodes.AddRange(nodes);
+      nodes[0].ChildrenRelation.Add(new ParentChildren() { Parent = nodes[0], Children = nodes[1] });
+      nodes[1].ChildrenRelation.Add(new ParentChildren() { Parent = nodes[1], Children = nodes[2] });
+      nodes[2].ChildrenRelation.Add(new ParentChildren() { Parent = nodes[2], Children = nodes[3] });
+      nodes[2].ChildrenRelation.Add(new ParentChildren() { Parent = nodes[2], Children = nodes[5] });
+      var games = new List<Game> { new Game() { Nodes = nodes } };
+      _context.Games.AddRange(games);
+      _context.SaveChanges();
+      // Act
+      var result = _target.ValidateGame(games[0]);
+      // Assert
+      Check.That(result).HasSize(1);
+    }
+
   }
 }

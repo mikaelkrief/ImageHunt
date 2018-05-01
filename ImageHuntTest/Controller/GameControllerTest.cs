@@ -389,5 +389,33 @@ namespace ImageHuntTest.Controller
       // Assert
       A.CallTo(() => _actionService.GetGameAction(1)).MustHaveHappened();
     }
+
+    [Fact]
+    public void ValidateGame_NoError()
+    {
+      // Arrange
+      
+      // Act
+      int gameId = 1;
+      IActionResult result = _target.ValidateGame(gameId);
+      // Assert
+      A.CallTo(() => _gameService.GetGameById(gameId)).MustHaveHappened();
+      A.CallTo(() => _gameService.ValidateGame(A<Game>._)).MustHaveHappened();
+      Check.That(result).IsInstanceOf<OkResult>();
+    }
+    [Fact]
+    public void ValidateGame_Error()
+    {
+      // Arrange
+      A.CallTo(() => _gameService.ValidateGame(A<Game>._)).Returns(new[] {new Error(null, null, null)});
+      // Act
+      int gameId = 1;
+      IActionResult result = _target.ValidateGame(gameId);
+      // Assert
+      A.CallTo(() => _gameService.GetGameById(gameId)).MustHaveHappened();
+      A.CallTo(() => _gameService.ValidateGame(A<Game>._)).MustHaveHappened();
+      Check.That(result).IsInstanceOf<OkObjectResult>();
+
+    }
   }
 }

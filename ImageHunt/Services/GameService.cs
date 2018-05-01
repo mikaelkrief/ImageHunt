@@ -106,5 +106,32 @@ namespace ImageHunt.Services
       Context.SaveChanges();
     }
 
+    public IEnumerable<Error> ValidateGame(Game game)
+    {
+      var errors = new List<Error>();
+      game = Context.Games.Include(g => g.Nodes).Single(g => g == game);
+      // Check is there any nodes
+      if (!game.Nodes.Any())
+      {
+        errors.Add(new Error(game, null, $"Game {game.Name} has no Nodes!"));
+      }
+      // Check if there a FirstNode
+      if (game.Nodes.All(n => n.NodeType != "FirstNode"))
+      {
+        errors.Add(new Error(game, null, $"Game {game.Name} has no FirstNode"));
+      }
+      // Check if there a FirstNode
+      if (game.Nodes.All(n => n.NodeType != "LastNode"))
+      {
+        errors.Add(new Error(game, null, $"Game {game.Name} has no LastNode"));
+      }
+      // Check all node are bound
+      var gameNodes = game.Nodes;
+      var nodesInRelation =
+        Context.ParentChildren.Where(pc => gameNodes.Contains(pc.Parent)).Select(pc=>pc.Parent).ToList();
+      nodesInRelation.AddRange(Context.ParentChildren.Where(pc => gameNodes.Contains(pc.Children)).Select(pc=>pc.Children).ToList());
+
+      return errors;
+    }
   }
 }
