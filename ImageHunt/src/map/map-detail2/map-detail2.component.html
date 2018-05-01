@@ -7,5 +7,6 @@
         (onMapReady)="setMap($event)"
 >
 </p-gmap>
+<p-contextMenu #mapContextMenu id="mapContextMenu" appendTo="body" [model]="mapMenuItems"></p-contextMenu>
 <p-contextMenu #markerContextMenu id="markerContextMenu" appendTo="body" [model]="nodeMenuItems"></p-contextMenu>
 <p-contextMenu #relationContextMenu id="relationContextMenu" appendTo="body" [model]="relationMenuItems"></p-contextMenu>
