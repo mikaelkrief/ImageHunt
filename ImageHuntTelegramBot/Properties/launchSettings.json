@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ImageHuntTelegramBot": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

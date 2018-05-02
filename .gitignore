@@ -267,3 +267,4 @@ appsettings.Production.json
 environment.ts
 environment.prod.ts
 /ImageHunt/wwwroot
+/ImagehuntBot/ngrok.exe
