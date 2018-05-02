@@ -29,8 +29,8 @@ namespace ImageHuntTest.Services
     public void GetGameActionForGame()
     {
       // Arrange
-      var players = new List<Player> { new Player(), new Player() };
-      _context.Players.AddRange(players);
+      var teams = new List<Team> {new Team(), new Team(), new Team()};
+      _context.Teams.AddRange(teams);
       _context.SaveChanges();
       var games = new List<Game> { new Game(), new Game() };
       _context.AddRange(games);
@@ -49,7 +49,7 @@ namespace ImageHuntTest.Services
           Latitude = 10,
           Longitude = 15,
           Node = nodes[0],
-          Player = players[1]
+          Team = teams[1]
         },
         new GameAction()
         {
@@ -59,7 +59,7 @@ namespace ImageHuntTest.Services
           Latitude = 11,
           Longitude = 15.2,
           Node = nodes[1],
-          Player = players[1]
+          Team = teams[1]
         },
         new GameAction()
         {
@@ -68,7 +68,7 @@ namespace ImageHuntTest.Services
           DateOccured = DateTime.Now.AddMinutes(15),
           Latitude = 11.3,
           Longitude = 15.5,
-          Player = players[1]
+          Team = teams[1]
         },
         new GameAction()
         {
@@ -78,7 +78,7 @@ namespace ImageHuntTest.Services
           Latitude = 11,
           Longitude = 15.2,
           Node = nodes[1],
-          Player = players[1]
+          Team = teams[1]
         },
       };
       _context.GameActions.AddRange(gameActions);
@@ -97,8 +97,8 @@ namespace ImageHuntTest.Services
     public void GetGameAction()
     {
       // Arrange
-      var players = new List<Player> { new Player(), new Player() };
-      _context.Players.AddRange(players);
+      var teams = new List<Team> { new Team(), new Team(), new Team() };
+      _context.Teams.AddRange(teams);
       _context.SaveChanges();
       var games = new List<Game> { new Game(), new Game() { Name = "Toto" } };
       _context.AddRange(games);
@@ -117,7 +117,7 @@ namespace ImageHuntTest.Services
           Latitude = 10,
           Longitude = 15,
           Node = nodes[0],
-          Player = players[1]
+          Team = teams[1]
         },
         new GameAction()
         {
@@ -127,7 +127,7 @@ namespace ImageHuntTest.Services
           Latitude = 11,
           Longitude = 15.2,
           Node = nodes[1],
-          Player = players[1]
+          Team = teams[1]
         },
         new GameAction()
         {
@@ -136,7 +136,7 @@ namespace ImageHuntTest.Services
           DateOccured = DateTime.Now.AddMinutes(15),
           Latitude = 11.3,
           Longitude = 15.5,
-          Player = players[1]
+          Team = teams[1]
         },
         new GameAction()
         {
@@ -146,7 +146,7 @@ namespace ImageHuntTest.Services
           Latitude = 11,
           Longitude = 15.2,
           Node = nodes[1],
-          Player = players[1]
+          Team = teams[1]
         },
       };
       _context.GameActions.AddRange(gameActions);
@@ -165,9 +165,10 @@ namespace ImageHuntTest.Services
         // Arrange
         var games = new List<Game> {new Game(), new Game()};
         _context.Games.AddRange(games);
-        var players = new List<Player> {new Player(), new Player(), new Player()};
+        var teams = new List<Team> { new Team(), new Team(), new Team() };
+        _context.Teams.AddRange(teams);
         _context.SaveChanges();
-        var gameAction = new GameAction(){Game = games[1], Player = players[1]};
+        var gameAction = new GameAction(){Game = games[1], Team = teams[1]};
         // Act
         _target.AddGameAction(gameAction);
         // Assert

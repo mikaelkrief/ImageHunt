@@ -18,5 +18,6 @@ namespace ImageHunt.Model
     public IEnumerable<Player> Players => TeamPlayers.Select(tp => tp.Player);
 
     public string ChatId { get; set; }
+    public Node.Node CurrentNode { get; set; }
   }
 }

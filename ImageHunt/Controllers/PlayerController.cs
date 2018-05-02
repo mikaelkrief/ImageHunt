@@ -27,24 +27,6 @@ namespace ImageHunt.Controllers
       {
         return Ok(_playerService.JoinTeam(teamId, playerId ));
       }
-[HttpPut("StartPlayer/{gameId}/{playerId}")]
-      public IActionResult StartPlayer(int gameId, int playerId)
-      {
-        _playerService.StartPlayer(gameId, playerId);
-        var nextNode = _playerService.NextNodeForPlayer(playerId, 0,0);
-        return Ok(nextNode);
-      }
-
-      public IActionResult NextNodeForPlayer(int playerId)
-      {
-        return Ok(_playerService.NextNodeForPlayer(playerId,0,0));
-      }
-
-      public IActionResult UploadImage(string playername, int latitude, int longitude, byte[] image)
-      {
-        _playerService.UploadImage(playername, latitude, longitude, image);
-        return Ok();
-      }
       [HttpGet("PlayerByChatId/{chatId}")]
       public IActionResult PlayerByChatId(string chatId)
       {

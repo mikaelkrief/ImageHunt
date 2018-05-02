@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Castle.Components.DictionaryAdapter;
 using FakeItEasy;
+using ImageHunt.Exception;
 using ImageHunt.Model;
+using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
 using Xunit;
+using Action = ImageHunt.Model.Action;
 
 namespace ImageHuntTest.Services
 {
@@ -194,5 +198,192 @@ namespace ImageHuntTest.Services
       // Assert
       Check.That(result).Contains(teams[1]);
     }
+    [Fact]
+    public void StartPlayer_PlayerDoesntExist()
+    {
+      // Arrange
+      var teams = new List<Team>() { new Team() { Name = "Toto" } };
+      _context.Teams.AddRange(teams);
+      _context.SaveChanges();
+      // Act
+      Check.ThatCode(() => _target.StartGame(1, 0)).Throws<InvalidOperationException>();
+      // Assert
+    }
+    //[Fact]
+    //public void StartPlayer_PlayerNotInTeam()
+    //{
+    //  // Arrange
+    //  var players = new List<Player>() {new Player() {Name = "Toto"}};
+    //  _context.Players.AddRange(players);
+    //  var teams = new List<Team>() {new Team() { }};
+    //  _context.SaveChanges();
+    //  // Act
+    //  Check.ThatCode(() => _target.StartPlayer("Toto")).Throws<ArgumentException>();
+    //  // Assert
+    //}
+    [Fact]
+    public void StartTeam()
+    {
+      // Arrange
+      var players = new List<Player>() { new Player() { Name = "Toto" } };
+      _context.Players.AddRange(players);
+      var teams = new List<Team>() { new Team() };
+      var teamPlayers = players.Select(p => new TeamPlayer() { Player = p, Team = teams[0] });
+      teams[0].TeamPlayers = teamPlayers.ToList();
+      var nodes = new List<Node>() { new FirstNode() { Latitude = 10, Longitude = 12 } };
+      var games = new List<Game>() { new Game() { Teams = teams, IsActive = true, Name = "Game1", StartDate = DateTime.Now, Nodes = nodes } };
+      players[0].CurrentGame = games[0];
+      _context.Nodes.AddRange(nodes);
+      _context.Teams.AddRange(teams);
+      _context.Games.AddRange(games);
+      _context.SaveChanges();
+      // Act
+      _target.StartGame(1, teams[0].Id);
+      // Assert
+      Check.That(teams[0].CurrentNode).Equals(nodes[0]);
+    }
+    [Fact]
+    public void StartPlayer_GameNotActive()
+    {
+      // Arrange
+      var players = new List<Player>() { new Player() { Name = "Toto" } };
+      _context.Players.AddRange(players);
+      var teams = new List<Team>() { new Team() };
+      var teamPlayers = players.Select(p => new TeamPlayer() { Player = p, Team = teams[0] });
+      teams[0].TeamPlayers = teamPlayers.ToList();
+      var nodes = new List<Node>() { new FirstNode() { Latitude = 10, Longitude = 12 } };
+      var games = new List<Game>() { new Game() { Teams = teams, IsActive = false, Name = "Game1", StartDate = DateTime.Now, Nodes = nodes } };
+      players[0].CurrentGame = games[0];
+      _context.Nodes.AddRange(nodes);
+      _context.Teams.AddRange(teams);
+      _context.Games.AddRange(games);
+      _context.SaveChanges();
+      // Act
+      Check.ThatCode(() => _target.StartGame(games[0].Id, teams[0].Id)).Throws<ArgumentException>();
+      // Assert
+    }
+
+    [Fact]
+    public void NextNodeForPlayer()
+    {
+      // Arrange
+      var nodes = new List<Node>() { new FirstNode() { Latitude = 10, Longitude = 11 }, new ObjectNode(), new PictureNode() };
+      var childrenRelations = new List<ParentChildren>()
+        {
+          new ParentChildren(){Parent = nodes[0], Children = nodes[1]}
+        };
+      _context.ParentChildren.AddRange(childrenRelations);
+      nodes[0].ChildrenRelation = childrenRelations;
+      _context.Nodes.AddRange(nodes);
+      var games = new List<Game>()
+        {
+          new Game() {Nodes = nodes, IsActive = true}
+        };
+      _context.Games.AddRange(games);
+      var players = new List<Player>()
+        {
+          new Player() { Name = "Toto", CurrentGame = games[0], CurrentNode = nodes[0]}
+        };
+      _context.Players.AddRange(players);
+      var teams = new List<Team> {new Team(){CurrentNode = nodes[0]}, new Team()};
+      _context.Teams.AddRange(teams);
+      games[0].Teams = teams;
+      _context.SaveChanges();
+      // Act
+      var result = _target.NextNodeForTeam(teams[0].Id, 15, 16);
+      // Assert
+      Check.That(teams[0].CurrentNode).Equals(nodes[1]);
+      Check.That(result).Equals(nodes[1]);
+      Check.That(_context.GameActions).HasSize(1);
+      Check.That(_context.GameActions.Extracting("Game")).Contains(games[0]);
+      Check.That(_context.GameActions.Extracting("Team")).Contains(teams[0]);
+      Check.That(_context.GameActions.Extracting("Latitude")).Contains(15);
+      Check.That(_context.GameActions.Extracting("Longitude")).Contains(16);
+      Check.That(_context.GameActions.Extracting("Node")).Contains(nodes[0]);
+    }
+    [Fact]
+    public void NextNodeForPlayer_GameNotStarted()
+    {
+      // Arrange
+      var nodes = new List<Node>() { new FirstNode(), new ObjectNode(), new PictureNode() };
+      var childrenRelations = new List<ParentChildren>()
+        {
+          new ParentChildren(){Parent = nodes[0], Children = nodes[1]}
+        };
+      _context.ParentChildren.AddRange(childrenRelations);
+      nodes[0].ChildrenRelation = childrenRelations;
+      _context.Nodes.AddRange(nodes);
+      var games = new List<Game>()
+        {
+          new Game() {Nodes = nodes}
+        };
+      _context.Games.AddRange(games);
+      var players = new List<Player>()
+        {
+          new Player() { Name = "Toto", CurrentGame = games[0]}
+        };
+      _context.Players.AddRange(players);
+      var teams = new List<Team> { new Team(), new Team() };
+      _context.Teams.AddRange(teams);
+      games[0].Teams = teams;
+      _context.SaveChanges();
+      // Act
+      Check.ThatCode(() => _target.NextNodeForTeam(teams[0].Id, 0, 0)).Throws<InvalidGameException>();
+      // Assert
+    }
+
+    [Fact]
+    public void UploadImage_PlayerDoesntExist()
+    {
+      // Arrange
+
+      // Act
+      Check.ThatCode(() => _target.UploadImage(1, 10, 10, null)).Throws<ArgumentException>();
+      // Assert
+    }
+
+    [Fact]
+    public void UploadImage_NoImageProvided()
+    {
+      // Arrange
+      var players = new List<Player>() { new Player() { Name = "Toto" } };
+      _context.Players.AddRange(players);
+      _context.SaveChanges();
+      // Act
+      Check.ThatCode(() => _target.UploadImage(1, 10, 10, null)).Throws<ArgumentException>();
+      // Assert
+    }
+
+    [Fact]
+    public void UploadImage()
+    {
+      // Arrange
+      var players = new List<Player>() { new Player() { Name = "Toto" } };
+      var teams = new List<Team> {new Team(), new Team()};
+      _context.Teams.AddRange(teams);
+      var image1 = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.IMG_20170920_180905.jpg");
+      var image2 = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.ingress_20180128_130017_1.jpg");
+      var nodes = new List<Node>()
+        {
+          new PictureNode(){Image = new Picture(){Image = image1 } },
+          new PictureNode(){Image = new Picture(){Image = image2}}
+        };
+      _context.Nodes.AddRange(nodes);
+      var games = new List<Game>() { new Game() { Nodes = nodes, Teams = teams} };
+      players[0].CurrentGame = games[0];
+      _context.Players.AddRange(players);
+      _context.SaveChanges();
+      // Act
+      _target.UploadImage(teams[0].Id, 59.3278160094444, 18.0551338194444, image1);
+      // Assert
+      var imageAction = _context.GameActions.First();
+      Check.That(imageAction.Game).Equals(games[0]);
+      Check.That(imageAction.Team).Equals(teams[0]);
+      Check.That(imageAction.Latitude).IsEqualsWithDelta(59.3278160094444, 0.001);
+      Check.That(imageAction.Longitude).IsEqualsWithDelta(18.0551338194444, 0.001);
+      Check.That(imageAction.Picture).IsNotNull();
+      Check.That(imageAction.Action).Equals(Action.SubmitPicture);
+    }
+
   }
 }

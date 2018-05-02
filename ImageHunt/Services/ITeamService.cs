@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ImageHunt.Model;
+using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
 
 namespace ImageHunt.Services
@@ -14,5 +15,9 @@ namespace ImageHunt.Services
       Team GetTeamByName(string teamName);
       Team GetTeamById(int teamId);
       IEnumerable<Team> GetTeamsForPlayer(Player player);
+      Node NextNodeForTeam(int teamId, double playerLatitude, double playerLongitude);
+      void StartGame(int gameId, int teamId);
+
+      void UploadImage(int teamId, double latitude, double longitude, byte[] image);
     }
 }

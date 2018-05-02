@@ -23,23 +23,28 @@ namespace ImageHunt.Controllers
     private readonly IImageService _imageService;
     private readonly IActionService _actionService;
     private readonly INodeService _nodeService;
+    private readonly ITeamService _teamService;
 
     public ActionController(IGameService gameService,
       IPlayerService playerService,
-      IImageService imageService, IActionService actionService, INodeService nodeService)
+      IImageService imageService,
+      IActionService actionService,
+      INodeService nodeService,
+      ITeamService teamService)
     {
       _gameService = gameService;
       _playerService = playerService;
       _imageService = imageService;
       _actionService = actionService;
       _nodeService = nodeService;
+      _teamService = teamService;
     }
     [HttpPost("AddGameAction")]
     public IActionResult AddGameAction(GameActionRequest gameActionRequest)
     {
       var gameAction = Mapper.Map<GameAction>(gameActionRequest);
 
-      gameAction.Player = _playerService.GetPlayerById(gameActionRequest.PlayerId);
+      gameAction.Team = _teamService.GetTeamById(gameActionRequest.TeamId);
       gameAction.Game = _gameService.GetGameById(gameActionRequest.GameId);
       //gameAction.Latitude = gameActionRequest.Latitude;
       //gameAction.Longitude = gameActionRequest.Longitude;

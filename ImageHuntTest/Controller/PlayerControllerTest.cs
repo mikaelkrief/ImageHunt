@@ -41,47 +41,6 @@ namespace ImageHuntTest
         A.CallTo(() => _playerService.JoinTeam(1,1)).MustHaveHappened();
       }
 
-      [Fact]
-      public void StartPlayer()
-      {
-        // Arrange
-        // Act
-        var result = _target.StartPlayer(1, 1);
-        // Assert
-        Check.That(result).IsInstanceOf<OkObjectResult>();
-        var nextNode = ((OkObjectResult) result).Value;
-        Check.That(nextNode).InheritsFrom<Node>();
-        A.CallTo(() => _playerService.StartPlayer(A<int>._, A<int>._)).MustHaveHappened();
-        A.CallTo(() => _playerService.NextNodeForPlayer(A<int>._, A<double>._, A<double>._)).MustHaveHappened();
-      }
-
-      [Fact]
-      public void NextNodeForPlayer()
-      {
-        // Arrange
-        
-        // Act
-        var result = _target.NextNodeForPlayer(1);
-        // Assert
-        Check.That(result).InheritsFrom<IActionResult>();
-        var nextNode = ((OkObjectResult)result).Value;
-        Check.That(nextNode).InheritsFrom<Node>();
-
-        A.CallTo(() => _playerService.NextNodeForPlayer(1, A<double>._, A<double>._)).MustHaveHappened();
-      }
-
-      [Fact]
-      public void UploadImage()
-      {
-        // Arrange
-        
-        // Act
-        var result = _target.UploadImage("playerName", 15, 12, new byte[10]);
-        // Assert
-        Check.That(result).InheritsFrom<IActionResult>();
-        A.CallTo(() => _playerService.UploadImage(A<string>._, A<double>._, A<double>._, A<byte[]>._))
-          .MustHaveHappened();
-      }
 
       [Fact]
       public void PlayerByChatId()

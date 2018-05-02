@@ -4,6 +4,7 @@ using System.Text;
 using FakeItEasy;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
+using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.Mvc;
 using NFluent;
@@ -130,5 +131,47 @@ namespace ImageHuntTest.Controller
         A.CallTo(() => _playerService.GetPlayerByChatId("toto")).MustHaveHappened();
         A.CallTo(() => _teamService.GetTeamsForPlayer(A<Player>._)).MustHaveHappened();
       }
-    }
+      [Fact]
+      public void StartPlayer()
+      {
+        // Arrange
+        // Act
+        var result = _target.StartPlayer(1, 1);
+        // Assert
+        Check.That(result).IsInstanceOf<OkObjectResult>();
+        var nextNode = ((OkObjectResult)result).Value;
+        Check.That(nextNode).InheritsFrom<Node>();
+        A.CallTo(() => _teamService.StartGame(A<int>._, A<int>._)).MustHaveHappened();
+        A.CallTo(() => _teamService.NextNodeForTeam(A<int>._, A<double>._, A<double>._)).MustHaveHappened();
+      }
+
+      [Fact]
+      public void NextNodeForPlayer()
+      {
+        // Arrange
+
+        // Act
+        var result = _target.NextNodeForPlayer(1);
+        // Assert
+        Check.That(result).InheritsFrom<IActionResult>();
+        var nextNode = ((OkObjectResult)result).Value;
+        Check.That(nextNode).InheritsFrom<Node>();
+
+        A.CallTo(() => _teamService.NextNodeForTeam(1, A<double>._, A<double>._)).MustHaveHappened();
+      }
+
+      [Fact]
+      public void UploadImage()
+      {
+        // Arrange
+
+        // Act
+        var result = _target.UploadImage(1, 15, 12, new byte[10]);
+        // Assert
+        Check.That(result).InheritsFrom<IActionResult>();
+        A.CallTo(() => _teamService.UploadImage(A<int>._, A<double>._, A<double>._, A<byte[]>._))
+          .MustHaveHappened();
+      }
+
+  }
 }

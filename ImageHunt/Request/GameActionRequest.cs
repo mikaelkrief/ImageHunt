@@ -6,7 +6,7 @@ namespace ImageHunt.Request
     public double Latitude { get; set; }
     public double Longitude { get; set; }
     public string Picture { get; set; }
-    public int PlayerId { get; set; }
+    public int TeamId { get; set; }
     public int GameId { get; set; }
     public int NodeId { get; set; }
     public int AnswerId { get; set; }

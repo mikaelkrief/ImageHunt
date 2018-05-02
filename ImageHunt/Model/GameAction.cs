@@ -22,7 +22,7 @@ namespace ImageHunt.Model
       public double Latitude { get; set; }
       public double Longitude { get; set; }
       public Game Game { get; set; }
-      public Player Player { get; set; }
+      public Team Team { get; set; }
       public Picture Picture { get; set; }
       public Action Action { get; set; }
       public Node.Node Node { get; set; }
