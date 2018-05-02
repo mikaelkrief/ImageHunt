@@ -16,5 +16,7 @@ namespace ImageHunt.Model
     public List<TeamPlayer> TeamPlayers { get; set; }
     [NotMapped]
     public IEnumerable<Player> Players => TeamPlayers.Select(tp => tp.Player);
+
+    public string ChatId { get; set; }
   }
 }
