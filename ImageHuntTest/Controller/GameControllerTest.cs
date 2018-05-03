@@ -22,6 +22,7 @@ using Xunit;
 
 namespace ImageHuntTest.Controller
 {
+  [Collection("AutomapperFixture")]
   public class GameControllerTest : BaseTest
   {
     private IGameService _gameService;
@@ -29,11 +30,6 @@ namespace ImageHuntTest.Controller
     private INodeService _nodeService;
     private IImageService _imageService;
     private IActionService _actionService;
-
-    static GameControllerTest()
-    {
-      Startup.ConfigureMappings();      
-    }
 
     public GameControllerTest()
     {

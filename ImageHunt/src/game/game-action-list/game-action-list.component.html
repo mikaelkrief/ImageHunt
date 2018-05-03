@@ -3,7 +3,7 @@
     <tr>
       <th>Heure</th>
       <th>Delta</th>
-      <th>Joueur</th>
+      <th>Equipe</th>
       <th>Action</th>
       <th>Noeud</th>
       <th>Validé</th>
@@ -14,7 +14,7 @@
     <tr>
       <td>{{action.dateOccured|date:'HH:mm'}}</td>
       <td>{{isNaN(action.delta)?'-':action.delta | number:'1.0-2':'fr'}}</td>
-      <td>{{action.player.name}}</td>
+      <td>{{action.team.name}}</td>
       <td>{{action.action|gameActionTranslationPipe}}</td>
       <td>{{action.node===null?'Aucun':action.node.name}}</td>
       <td>

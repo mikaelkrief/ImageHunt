@@ -1,10 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ImageHunt.Data;
+using ImageHunt.Exception;
 using ImageHunt.Model;
+using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Action = ImageHunt.Model.Action;
 
 namespace ImageHunt.Services
 {
@@ -70,5 +74,63 @@ namespace ImageHunt.Services
       return Context.Teams.Include(t => t.TeamPlayers).ThenInclude(t=>t.Team)
         .Where(t => t.Players.Any(p=>p.Id == player.Id));
     }
+    public Node NextNodeForTeam(int teamId, double playerLatitude, double playerLongitude)
+    {
+      var team = GetTeamById(teamId);
+      var currentGame = GetCurrentGameForTeam(team);
+      if (currentGame == null || !currentGame.IsActive)
+        throw new InvalidGameException();
+      var nextNode = team.CurrentNode.Children.First();
+      var gameAction = new GameAction()
+      {
+        DateOccured = DateTime.Now,
+        Team = team,
+        Game = currentGame,
+        Longitude = playerLongitude,
+        Latitude = playerLatitude,
+        Node = team.CurrentNode
+      };
+      team.CurrentNode = nextNode;
+      Context.GameActions.Add(gameAction);
+      Context.SaveChanges();
+      return nextNode;
+    }
+
+    public void UploadImage(int teamId, double latitude, double longitude, byte[] image)
+    {
+      if (image == null)
+        throw new ArgumentException("Parameter image is not provided");
+      var team = GetTeamById(teamId);
+      var currentGame = GetCurrentGameForTeam(team);
+      var gameAction = new GameAction()
+      {
+        DateOccured = DateTime.Now,
+        Game = currentGame,
+        Team = team,
+        Latitude = latitude,
+        Longitude = longitude,
+        Picture = new Picture() { Image = image },
+        Action = Action.SubmitPicture
+      };
+      Context.GameActions.Add(gameAction);
+      Context.SaveChanges();
+    }
+
+    private Game GetCurrentGameForTeam(Team team)
+    {
+      var currentGame = Context.Games.Include(g => g.Teams).Single(g => g.Teams.Any(gt=>gt == team));
+      return currentGame;
+    }
+
+    public void StartGame(int gameId, int teamId)
+    {
+      var team = GetTeamById(teamId);
+      var game = GetCurrentGameForTeam(team);
+      if (game.StartDate.Value.Date != DateTime.Today || !game.IsActive)
+        throw new ArgumentException("There is no game active or today");
+      team.CurrentNode = Enumerable.FirstOrDefault<Node>(game.Nodes, n => n is FirstNode);
+      Context.SaveChanges();
+    }
+
   }
 }

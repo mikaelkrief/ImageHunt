@@ -13,7 +13,8 @@ using Xunit;
 
 namespace ImageHuntTest.Controller
 {
-    public class NodeControllerTest
+  [Collection("AutomapperFixture")]
+  public class NodeControllerTest
     {
       private NodeController _target;
       private INodeService _nodeService;

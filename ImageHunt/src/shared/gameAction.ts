@@ -1,6 +1,6 @@
 import {Game} from "./game";
-import {Player} from "./player";
 import {Node} from "./node";
+import {Team} from "./team";
 
 export class GameAction {
   id: number;
@@ -8,7 +8,7 @@ export class GameAction {
   latitude: number;
   longitude: number;
   game: Game;
-  player: Player;
+  team: Team;
   action: string;
   node: Node;
   isValidated: boolean;

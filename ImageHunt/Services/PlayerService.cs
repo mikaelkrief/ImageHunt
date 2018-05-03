@@ -55,56 +55,7 @@ namespace ImageHunt.Services
 
       return player;
     }
-    public void StartPlayer(int gameId, int playerId)
-    {
-      var player = GetPlayer(playerId);
-      var game = player.CurrentGame;
-      if (game.StartDate.Value.Date != DateTime.Today || !game.IsActive)
-        throw new ArgumentException("There is no game active or today");
-      player.StartTime = DateTime.Now;
-      player.CurrentNode = Enumerable.FirstOrDefault<Node>(game.Nodes, n => n is FirstNode);
-      Context.SaveChanges();
-    }
 
-    public Node NextNodeForPlayer(int playerId, double playerLatitude, double playerLongitude)
-    {
-      var player = GetPlayer(playerId);
-      if (player.CurrentGame == null || !player.CurrentGame.IsActive)
-        throw new InvalidGameException();
-      var nextNode = Enumerable.First<Node>(player.CurrentNode.Children);
-      var gameAction = new GameAction()
-      {
-        DateOccured = DateTime.Now,
-        Player = player,
-        Game = player.CurrentGame,
-        Longitude = playerLongitude,
-        Latitude = playerLatitude,
-        Node = player.CurrentNode
-      };
-      player.CurrentNode = nextNode;
-      Context.GameActions.Add(gameAction);
-      Context.SaveChanges();
-      return nextNode;
-    }
-
-    public void UploadImage(string playerName, double latitude, double longitude, byte[] image)
-    {
-      if (image == null)
-        throw new ArgumentException("Parameter image is not provided");
-      var player = GetPlayer(playerName);
-      var gameAction = new GameAction()
-      {
-        DateOccured = DateTime.Now,
-        Game = player.CurrentGame,
-        Player = player,
-        Latitude = latitude,
-        Longitude = longitude,
-        Picture = new Picture() { Image = image},
-        Action = Action.SubmitPicture
-      };
-      Context.GameActions.Add(gameAction);
-      Context.SaveChanges();
-    }
 
     public Player GetPlayerById(int playerId)
     {

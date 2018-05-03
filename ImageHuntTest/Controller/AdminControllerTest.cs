@@ -13,7 +13,8 @@ using Xunit;
 
 namespace ImageHuntTest.Controller
 {
-    public class AdminControllerTest
+  [Collection("AutomapperFixture")]
+  public class AdminControllerTest
     {
         private IAdminService _adminService;
         private AdminController _target;
