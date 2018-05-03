@@ -13,8 +13,8 @@ using System;
 namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
-    [Migration("20180502211915_TeamReplacePlayerForGameAction")]
-    partial class TeamReplacePlayerForGameAction
+    [Migration("20180503174306_AddTeamInGameAction")]
+    partial class AddTeamInGameAction
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,6 +105,8 @@ namespace ImageHunt.Migrations
 
                     b.Property<int?>("PictureId");
 
+                    b.Property<int?>("PlayerId");
+
                     b.Property<int>("PointsEarned");
 
                     b.Property<int?>("ReviewerId");
@@ -122,6 +124,8 @@ namespace ImageHunt.Migrations
                     b.HasIndex("NodeId");
 
                     b.HasIndex("PictureId");
+
+                    b.HasIndex("PlayerId");
 
                     b.HasIndex("ReviewerId");
 
@@ -381,6 +385,10 @@ namespace ImageHunt.Migrations
                     b.HasOne("ImageHunt.Model.Picture", "Picture")
                         .WithMany()
                         .HasForeignKey("PictureId");
+
+                    b.HasOne("ImageHunt.Model.Player", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerId");
 
                     b.HasOne("ImageHunt.Model.Admin", "Reviewer")
                         .WithMany()

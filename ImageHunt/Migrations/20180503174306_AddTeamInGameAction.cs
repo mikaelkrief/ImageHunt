@@ -4,33 +4,29 @@ using System.Collections.Generic;
 
 namespace ImageHunt.Migrations
 {
-    public partial class TeamReplacePlayerForGameAction : Migration
+    public partial class AddTeamInGameAction : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_GameActions_Players_PlayerId",
-                table: "GameActions");
-
-            migrationBuilder.RenameColumn(
-                name: "PlayerId",
-                table: "GameActions",
-                newName: "TeamId");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_GameActions_PlayerId",
-                table: "GameActions",
-                newName: "IX_GameActions_TeamId");
-
             migrationBuilder.AddColumn<int>(
                 name: "CurrentNodeId",
                 table: "Teams",
+                nullable: true);
+
+            migrationBuilder.AddColumn<int>(
+                name: "TeamId",
+                table: "GameActions",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Teams_CurrentNodeId",
                 table: "Teams",
                 column: "CurrentNodeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GameActions_TeamId",
+                table: "GameActions",
+                column: "TeamId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_GameActions_Teams_TeamId",
@@ -63,27 +59,17 @@ namespace ImageHunt.Migrations
                 name: "IX_Teams_CurrentNodeId",
                 table: "Teams");
 
+            migrationBuilder.DropIndex(
+                name: "IX_GameActions_TeamId",
+                table: "GameActions");
+
             migrationBuilder.DropColumn(
                 name: "CurrentNodeId",
                 table: "Teams");
 
-            migrationBuilder.RenameColumn(
+            migrationBuilder.DropColumn(
                 name: "TeamId",
-                table: "GameActions",
-                newName: "PlayerId");
-
-            migrationBuilder.RenameIndex(
-                name: "IX_GameActions_TeamId",
-                table: "GameActions",
-                newName: "IX_GameActions_PlayerId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_GameActions_Players_PlayerId",
-                table: "GameActions",
-                column: "PlayerId",
-                principalTable: "Players",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                table: "GameActions");
         }
     }
 }

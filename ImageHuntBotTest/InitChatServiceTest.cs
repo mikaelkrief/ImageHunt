@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FakeItEasy;
 using ImageHuntTelegramBot.Services;
+using ImageHuntTelegramBot.WebServices;
 using NFluent;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -17,11 +18,13 @@ namespace ImageHuntBotTest
     {
       private InitChatService _target;
       private ITelegramBotClient _client;
+      private IGameWebService _gameWebService;
 
       public InitChatServiceTest()
       {
         _client = A.Fake<ITelegramBotClient>();
-        _target = new InitChatService(_client);
+        _gameWebService = A.Fake<IGameWebService>();
+        _target = new InitChatService(_client, _gameWebService);
       }
       [Fact]
       public async Task Update()
@@ -41,6 +44,7 @@ namespace ImageHuntBotTest
       A.CallTo(() =>
           _client.SendTextMessageAsync(A<ChatId>._, "", ParseMode.Default, false, false, 0, null,
             CancellationToken.None)).WithAnyArguments().MustHaveHappened(Repeated.Exactly.Times(3));
+        A.CallTo(() => _gameWebService.GetGameById(15)).MustHaveHappened();
         Check.That(_target.GameId).Equals(15);
         Check.That(_target.TeamId).Equals(16);
       }

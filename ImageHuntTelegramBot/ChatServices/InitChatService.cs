@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using ImageHuntTelegramBot.WebServices;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -11,11 +12,13 @@ namespace ImageHuntTelegramBot.Services
     public class InitChatService : AbstractChatService, IInitChatService
     {
       private readonly ITelegramBotClient _client;
+      private readonly IGameWebService _gameWebService;
 
-      public InitChatService(ITelegramBotClient client)
+      public InitChatService(ITelegramBotClient client, IGameWebService gameWebService)
       {
         _client = client;
-      Listen = true;
+        _gameWebService = gameWebService;
+        Listen = true;
       }
 
       protected override async Task HandleMessage(Message message)
@@ -28,7 +31,8 @@ namespace ImageHuntTelegramBot.Services
           return;
         case var s when s.StartsWith("/game"):
           GameId = Convert.ToInt32(s.Substring("/game=".Length));
-          await _client.SendTextMessageAsync(Chat.Id, $"Vous participez à la partie {GameId}. Merci de m'indiquer l'id de l'équipe : /team=id");
+          var game = await _gameWebService.GetGameById(GameId);
+          await _client.SendTextMessageAsync(Chat.Id, $"Vous participez à la partie {game.Name} qui débutera {game.StartDate}. Merci de m'indiquer l'id de l'équipe : /team=id");
           return;
         case var s when s.StartsWith("/team"):
           TeamId = Convert.ToInt32(s.Substring("/team=".Length));
