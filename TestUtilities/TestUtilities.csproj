@@ -16,9 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="NFluent">
-      <HintPath>..\..\..\Users\mandr\.nuget\packages\nfluent\2.2.0\lib\netstandard1.3\NFluent.dll</HintPath>
-    </Reference>
+    <PackageReference Include="FakeItEasy" Version="4.5.1" />
+    <PackageReference Include="NFluent" Version="2.2.0" />
   </ItemGroup>
 
 </Project>
