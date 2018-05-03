@@ -8,7 +8,8 @@ using Xunit;
 
 namespace ImageHuntTest
 {
-    public class PlayerControllerTest
+  [Collection("AutomapperFixture")]
+  public class PlayerControllerTest
     {
       private IPlayerService _playerService;
       private PlayerController _target;

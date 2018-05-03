@@ -12,7 +12,8 @@ using Xunit;
 
 namespace ImageHuntTest.Controller
 {
-    public class AuthControllerTest
+  [Collection("AutomapperFixture")]
+  public class AuthControllerTest
     {
         private AuthController _target;
         private HttpMessageHandler _fakeTokenMessageHandler;

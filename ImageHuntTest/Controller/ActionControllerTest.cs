@@ -16,7 +16,8 @@ using Xunit;
 
 namespace ImageHuntTest.Controller
 {
-    public class ActionControllerTest
+  [Collection("AutomapperFixture")]
+  public class ActionControllerTest
     {
       private ActionController _target;
       private IGameService _gameService;
@@ -25,12 +26,6 @@ namespace ImageHuntTest.Controller
       private IActionService _actionService;
       private INodeService _nodeService;
       private ITeamService _teamService;
-
-      static ActionControllerTest()
-      {
-        Startup.ConfigureMappings();
-
-      }
 
       public ActionControllerTest()
       {
@@ -61,7 +56,7 @@ namespace ImageHuntTest.Controller
       var result = _target.AddGameAction(gameActionRequest);
         // Assert
         Check.That(result).IsInstanceOf<CreatedAtActionResult>();
-        A.CallTo(() => _playerService.GetPlayerById(gameActionRequest.TeamId)).MustHaveHappened();
+        A.CallTo(() => _teamService.GetTeamById(gameActionRequest.TeamId)).MustHaveHappened();
         A.CallTo(() => _gameService.GetGameById(gameActionRequest.GameId)).MustHaveHappened();
         A.CallTo(() => _imageService.AddPicture(A<Picture>.That.Matches(p=>CheckPicture(p)))).MustHaveHappened();
         A.CallTo(() => _actionService.AddGameAction(A<GameAction>.That.Matches(ga=>CheckGameActionForImage(ga, gameActionRequest.Latitude, gameActionRequest.Longitude)))).MustHaveHappened();

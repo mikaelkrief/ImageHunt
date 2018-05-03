@@ -12,7 +12,8 @@ using Xunit;
 
 namespace ImageHuntTest.Controller
 {
-    public class TeamControllerTest
+  [Collection("AutomapperFixture")]
+  public class TeamControllerTest
     {
         private ITeamService _teamService;
         private TeamController _target;
