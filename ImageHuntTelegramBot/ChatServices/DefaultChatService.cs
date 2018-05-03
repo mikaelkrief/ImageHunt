@@ -11,7 +11,7 @@ namespace ImageHuntTelegramBot.Services
     {
       private readonly ITelegramBotClient _telegramClient;
 
-      public DefaultChatService(ITelegramBotClient telegramClient)
+      public DefaultChatService(ITelegramBotClient telegramClient) : base(telegramClient)
       {
         _telegramClient = telegramClient;
       }

@@ -4,6 +4,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
+using ImageHuntTelegramBot.ChatServices;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -53,6 +54,8 @@ namespace ImageHuntTelegramBot.Services
         {
         case "/init":
           return _container.Resolve<IInitChatService>();
+        case "/start":
+          return _container.Resolve<IStartChatService>();
         default:
           return _container.Resolve<IDefaultChatService>();
         }

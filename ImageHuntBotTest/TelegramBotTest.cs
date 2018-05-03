@@ -3,7 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
+using ImageHuntBotTest.ChatServices;
 using ImageHuntTelegramBot;
+using ImageHuntTelegramBot.ChatServices;
 using ImageHuntTelegramBot.Services;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
@@ -22,6 +24,7 @@ namespace ImageHuntBotTest
       private IUpdateHub _target;
       private IDefaultChatService _defaultChatService;
       private IInitChatService _initChatService;
+      private IStartChatService _startChatService;
 
       public TelegramBotTest()
       {
@@ -36,6 +39,8 @@ namespace ImageHuntBotTest
         _containerBuilder.RegisterInstance(_defaultChatService);
         _initChatService = A.Fake<IInitChatService>();
         _containerBuilder.RegisterInstance(_initChatService);
+        _startChatService = A.Fake<IStartChatService>();
+        _containerBuilder.RegisterInstance(_startChatService);
 
 
         var container = _containerBuilder.Build();
@@ -64,6 +69,18 @@ namespace ImageHuntBotTest
         await _target.Switch(update);
         // Assert
         A.CallTo(() => _initChatService.Update(update)).MustHaveHappened();
+      }
+      [Fact]
+      public async Task StartMessage_Received()
+      {
+      // Arrange
+        var update = new Update() { Message = new Message() { Text = "/start", Chat = new Chat() { Id = 15 } } };
+        A.CallTo(() => _startChatService.Listen).Returns(true);
+        UpdateHub.ClearRegisteredListener();
+        // Act
+        await _target.Switch(update);
+        // Assert
+        A.CallTo(() => _startChatService.Update(update)).MustHaveHappened();
       }
 
       [Fact]

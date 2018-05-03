@@ -1,4 +1,4 @@
-﻿namespace ImageHuntBotTest.WebServices
+﻿namespace ImageHuntTelegramBot.WebServices
 {
   public interface ITeamWebService
   {

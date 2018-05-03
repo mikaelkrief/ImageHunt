@@ -48,5 +48,28 @@ namespace ImageHuntBotTest
         Check.That(_target.GameId).Equals(15);
         Check.That(_target.TeamId).Equals(16);
       }
+
+      [Fact]
+      public async Task Update_with_breaks()
+      {
+      // Arrange
+        var update1 = new Update() { Message = new Message() { Text = "/init", Chat = new Chat() { Id = 15 } } };
+        var update2 = new Update() { Message = new Message() { Text = "toto", Chat = new Chat() { Id = 15 } } };
+        A.CallTo(() => _client.SendTextMessageAsync(A<ChatId>._, A<string>._, ParseMode.Default, false, false, 0, null,
+          CancellationToken.None)).Returns(new Message() {Chat = new Chat() {Id = 15}, Text = "Merci de m'indiquer l'id de la partie : /game=id" });
+      // Act
+        await _target.Update(update1);
+        await _target.Update(update2);
+
+      // Assert
+        A.CallTo(() =>
+          _client.SendTextMessageAsync(A<ChatId>._, "Je n'ai pas compris votre dernière entrée, veuillez-recommencer :", 
+            ParseMode.Default, false, false, 0, null,
+            CancellationToken.None)).MustHaveHappened();
+        A.CallTo(() =>
+          _client.SendTextMessageAsync(A<ChatId>._, "Merci de m'indiquer l'id de la partie : /game=id", 
+            ParseMode.Default, false, false, 0, null,
+            CancellationToken.None)).MustHaveHappened(Repeated.Exactly.Twice);
     }
+  }
 }
