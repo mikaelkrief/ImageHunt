@@ -11,9 +11,9 @@ namespace ImageHuntTelegramBot.Controllers
   [Route("api/[controller]")]
     public class UpdateController : Controller
     {
-      private readonly IUpdateService _updateService;
+      private readonly IUpdateHub _updateService;
 
-      public UpdateController(IUpdateService updateService)
+      public UpdateController(IUpdateHub updateService)
       {
         _updateService = updateService;
       }
@@ -26,7 +26,7 @@ namespace ImageHuntTelegramBot.Controllers
     [HttpPost]
       public async Task<IActionResult> Post([FromBody] Update update)
       {
-        await _updateService.Root(update);
+        await _updateService.Switch(update);
         return Ok();
       }
     }

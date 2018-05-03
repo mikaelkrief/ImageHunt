@@ -6,8 +6,8 @@ using Telegram.Bot.Types;
 
 namespace ImageHuntTelegramBot.Services
 {
-  public interface IUpdateService
+  public interface IUpdateHub
     {
-      Task Root(Update update);
+      Task Switch(Update update);
     }
 }

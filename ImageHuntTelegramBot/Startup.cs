@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Autofac;
 using ImageHuntTelegramBot.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +23,14 @@ namespace ImageHuntTelegramBot
     {
       services.AddMvc();
 
-      services.AddScoped<IUpdateService, UpdateService>();
+      services.AddScoped<IUpdateHub, UpdateHub>();
+      var containerBuilder = new ContainerBuilder();
+      containerBuilder.RegisterType<DefaultChatService>().As<IDefaultChatService>();
+      containerBuilder.RegisterType<InitChatService>().As<IInitChatService>();
+      var botToken = Configuration.GetSection("BotConfiguration:BotToken").Value;
+      containerBuilder.RegisterInstance(new TelegramBotClient(botToken)).As<ITelegramBotClient>();
+      services.AddSingleton<IContainer>(containerBuilder.Build());
+      services.AddSingleton(Configuration);
       services.Configure<BotConfiguration>(Configuration.GetSection("BotConfiguration"));
 
     }
