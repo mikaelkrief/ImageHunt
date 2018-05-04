@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
@@ -38,5 +39,22 @@ namespace ImageHuntBotTest
         Check.That(response.Id).Equals(1);
         Check.That(response.Name).Equals("Paris");
       }
-    }
+
+      [Fact]
+      public async Task StartGame()
+      {
+      // Arrange
+        A.CallTo(_fakeHttpMessageHandler)
+          .Where(x => x.Method.Name == "SendAsync")
+          .WithReturnType<Task<HttpResponseMessage>>()
+          .Returns(new HttpResponseMessage(HttpStatusCode.OK));
+        // Act
+      await _target.StartGameForTeam(1, 2);
+      // Assert
+        A.CallTo(_fakeHttpMessageHandler)
+          .Where(x => x.Method.Name == "SendAsync")
+          .WithReturnType<Task<HttpResponseMessage>>()
+          .MustHaveHappened();
+      }
+  }
 }

@@ -54,7 +54,7 @@ namespace ImageHuntTelegramBot.Services
         {
         case "/init":
           return _container.Resolve<IInitChatService>();
-        case "/start":
+        case "/startgame":
           return _container.Resolve<IStartChatService>();
         default:
           return _container.Resolve<IDefaultChatService>();

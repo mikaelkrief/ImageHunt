@@ -74,7 +74,7 @@ namespace ImageHuntBotTest
       public async Task StartMessage_Received()
       {
       // Arrange
-        var update = new Update() { Message = new Message() { Text = "/start", Chat = new Chat() { Id = 15 } } };
+        var update = new Update() { Message = new Message() { Text = "/startgame", Chat = new Chat() { Id = 15 } } };
         A.CallTo(() => _startChatService.Listen).Returns(true);
         UpdateHub.ClearRegisteredListener();
         // Act

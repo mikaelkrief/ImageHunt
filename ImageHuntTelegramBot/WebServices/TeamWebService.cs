@@ -16,5 +16,6 @@ namespace ImageHuntTelegramBot.WebServices
     {
       return await GetAsync<TeamResponse>($"{_httpClient.BaseAddress}api/Team/{teamId}");
     }
-  }
+
+}
 }

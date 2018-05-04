@@ -13,12 +13,14 @@ namespace ImageHuntTelegramBot.Services
 {
     public abstract class AbstractChatService : IChatService, IDisposable
     {
-      protected static Dictionary<long, ChatProperties> _chatPropertiesForChatId = new Dictionary<long, ChatProperties>();
+      protected static Dictionary<long, ChatProperties> _chatPropertiesForChatId;
       protected ITelegramBotClient _client;
 
-    public AbstractChatService(ITelegramBotClient client)
+    public AbstractChatService(ITelegramBotClient client, 
+      Dictionary<long, ChatProperties> chatPropertiesForChatId)
     {
       _client = client;
+      _chatPropertiesForChatId = chatPropertiesForChatId;
     }
 
     public ChatProperties this[long index]
@@ -37,12 +39,15 @@ namespace ImageHuntTelegramBot.Services
         }
       }
       public bool Listen { get; set; }
+      public Chat Chat { get; set; }
+      public ChatProperties CurrentChatProperties => this[Chat.Id];
 
       public async Task Update(Update update)
       {
         if (update.Type != UpdateType.MessageUpdate)
           return;
         var message = update.Message;
+        Chat = message.Chat;
         var chatId = message.Chat.Id;
         if (!_chatPropertiesForChatId.ContainsKey(chatId))
           _chatPropertiesForChatId.Add(chatId, new ChatProperties(chatId));
@@ -69,6 +74,26 @@ namespace ImageHuntTelegramBot.Services
 
       public void Dispose()
       {
+      }
+
+      protected async Task UnknownMessage()
+      {
+        await _client.SendTextMessageAsync(Chat.Id, "Je n'ai pas compris votre dernière entrée, veuillez-recommencer :");
+        await ResendMessage(Chat.Id);
+      }
+
+      protected async Task<int> ExtractInt(string command, string text)
+      {
+        try
+        {
+          return Convert.ToInt32(text.Substring($"/{command}=".Length));
+        }
+        catch (FormatException e)
+        {
+          await UnknownMessage();
+        }
+
+        return 0;
       }
     }
 }

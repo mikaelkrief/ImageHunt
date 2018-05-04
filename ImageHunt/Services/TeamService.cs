@@ -80,7 +80,11 @@ namespace ImageHunt.Services
       var currentGame = GetCurrentGameForTeam(team);
       if (currentGame == null || !currentGame.IsActive)
         throw new InvalidGameException();
-      var nextNode = team.CurrentNode.Children.First();
+      Node nextNode;
+      if (team.CurrentNode == null)
+          nextNode = currentGame.Nodes.Single(n=>n.NodeType == "FirstNode");
+      else
+        nextNode = team.CurrentNode.Children.First();
       var gameAction = new GameAction()
       {
         DateOccured = DateTime.Now,
@@ -126,8 +130,8 @@ namespace ImageHunt.Services
     {
       var team = GetTeamById(teamId);
       var game = GetCurrentGameForTeam(team);
-      if (game.StartDate.Value.Date != DateTime.Today || !game.IsActive)
-        throw new ArgumentException("There is no game active or today");
+      if (!game.IsActive)
+        throw new ArgumentException("There is no game active");
       team.CurrentNode = Enumerable.FirstOrDefault<Node>(game.Nodes, n => n is FirstNode);
       Context.SaveChanges();
     }

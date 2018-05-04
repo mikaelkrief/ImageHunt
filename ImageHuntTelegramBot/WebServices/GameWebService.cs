@@ -14,5 +14,10 @@ namespace ImageHuntTelegramBot.WebServices
     public GameWebService(HttpClient httpClient) : base(httpClient)
     {
     }
+
+    public async Task StartGameForTeam(int gameId, int teamId)
+    {
+      await PutAsync($"{_httpClient.BaseAddress}api/Team/StartTeam/{gameId}/{teamId}");
+    }
   }
 }

@@ -25,5 +25,15 @@ namespace ImageHuntTelegramBot.WebServices
       }
       return null;
     }
+
+    protected async Task PostAsync(string request)
+    {
+      var result = await _httpClient.PostAsync(request, null);
+    }
+
+    protected async Task PutAsync(string request)
+    {
+      var result = await _httpClient.PutAsync(request, null);
+    }
   }
 }

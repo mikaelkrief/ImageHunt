@@ -315,7 +315,7 @@ namespace ImageHuntTest.Services
       _context.Nodes.AddRange(nodes);
       var games = new List<Game>()
         {
-          new Game() {Nodes = nodes}
+          new Game() {Nodes = nodes, IsActive = false}
         };
       _context.Games.AddRange(games);
       var players = new List<Player>()
@@ -330,6 +330,37 @@ namespace ImageHuntTest.Services
       // Act
       Check.ThatCode(() => _target.NextNodeForTeam(teams[0].Id, 0, 0)).Throws<InvalidGameException>();
       // Assert
+    }
+    [Fact]
+    public void NextNodeForPlayer_FirstNode()
+    {
+      // Arrange
+      var nodes = new List<Node>() { new FirstNode(), new ObjectNode(), new PictureNode() };
+      var childrenRelations = new List<ParentChildren>()
+      {
+        new ParentChildren(){Parent = nodes[0], Children = nodes[1]}
+      };
+      _context.ParentChildren.AddRange(childrenRelations);
+      nodes[0].ChildrenRelation = childrenRelations;
+      _context.Nodes.AddRange(nodes);
+      var games = new List<Game>()
+      {
+        new Game() {Nodes = nodes, IsActive = true}
+      };
+      _context.Games.AddRange(games);
+      var players = new List<Player>()
+      {
+        new Player() { Name = "Toto", CurrentGame = games[0]}
+      };
+      _context.Players.AddRange(players);
+      var teams = new List<Team> { new Team(), new Team() };
+      _context.Teams.AddRange(teams);
+      games[0].Teams = teams;
+      _context.SaveChanges();
+      // Act
+      var nextNode = _target.NextNodeForTeam(teams[0].Id, 0, 0);
+      // Assert
+      Check.That(nextNode).Equals(nodes[0]);
     }
 
     [Fact]

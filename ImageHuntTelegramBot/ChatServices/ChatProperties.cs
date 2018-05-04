@@ -13,5 +13,8 @@ namespace ImageHuntTelegramBot.ChatServices
       }
       public ChatId ChatId { get; set; }
       public Message CurrentMessage { get; set; }
+
+      public int GameId { get; set; }
+      public int TeamId { get; set; }
     }
 }

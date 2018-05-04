@@ -25,10 +25,13 @@ namespace ImageHuntBotTest.WebServices
       FakeResponse("ImageHuntBotTest.Data.TeamById1.json");
 
       // Act
-      var response = await _target.GetTeamById(1);
+      var response = await _target.GetTeamById(3);
       // Assert
-      Check.That(response.Id).Equals(1);
+      Check.That(response.Id).Equals(3);
       Check.That(response.Name).Equals("Team 1");
+      Check.That(response.Players.Extracting("Id")).Contains(1, 2);
+      Check.That(response.Players.Extracting("Name")).Contains("player1", "player2");
+      Check.That(response.Players.Extracting("ChatLogin")).Contains("player1", "player2");
     }
   }
 }

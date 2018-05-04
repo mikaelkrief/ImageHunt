@@ -1,52 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using FakeItEasy;
 using ImageHuntTelegramBot.ChatServices;
-using ImageHuntTelegramBot.Services;
+using ImageHuntTelegramBot.WebServices;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using TestUtilities;
 using Xunit;
 
 namespace ImageHuntBotTest.ChatServices
 {
-    public class StartChatServiceTest : BaseTest
+    public class StartChatServiceTest : ChatServiceBaseTest
     {
       private StartChatService _target;
       private ITelegramBotClient _client;
+      private ITeamWebService _teamWebService;
+      private IGameWebService _gameWebService;
 
       public StartChatServiceTest()
       {
         _client = A.Fake<ITelegramBotClient>();
-
-      _target = new StartChatService(_client);
+        _teamWebService = A.Fake<ITeamWebService>();
+        _gameWebService = A.Fake<IGameWebService>();
+      _target = new StartChatService(_client, _gameWebService, _teamWebService, ChatPropertiesForChatId);
       }
 
       [Fact]
-      public void Update()
+      public async Task Update()
       {
         // Arrange
-        
+        var update = new Update(){Message = new Message(){Chat = new Chat(){Id = 15}, Text = "/startgame"}};
         // Act
-
+        await _target.Update(update);
         // Assert
+        A.CallTo(() => _gameWebService.StartGameForTeam(A<int>._, A<int>._)).MustHaveHappened();
       }
     }
-
-  public class StartChatService : AbstractChatService, IStartChatService
-  {
-    private ITelegramBotClient _client;
-
-    public StartChatService(ITelegramBotClient client) : base(client)
-    {
-      _client = client;
-    }
-
-    protected override Task HandleMessage(Message message)
-    {
-      throw new NotImplementedException();
-    }
-  }
 }
