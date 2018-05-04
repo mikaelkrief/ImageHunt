@@ -42,17 +42,21 @@ namespace ImageHuntTelegramBot.Services
       public Chat Chat { get; set; }
       public ChatProperties CurrentChatProperties => this[Chat.Id];
 
-      public async Task Update(Update update)
+      public async Task Message(Message message)
       {
-        if (update.Type != UpdateType.MessageUpdate)
-          return;
-        var message = update.Message;
-        Chat = message.Chat;
-        var chatId = message.Chat.Id;
-        if (!_chatPropertiesForChatId.ContainsKey(chatId))
-          _chatPropertiesForChatId.Add(chatId, new ChatProperties(chatId));
-        await HandleMessage(message);
+          Chat = message.Chat;
+          var chatId = message.Chat.Id;
+          if (!_chatPropertiesForChatId.ContainsKey(chatId))
+            _chatPropertiesForChatId.Add(chatId, new ChatProperties(chatId));
+          await HandleMessage(message);
       }
+
+      public async Task CallbackQuery(CallbackQuery callbackQuery)
+      {
+        Chat = callbackQuery.Message.Chat;
+        await HandleCallbackQuery(callbackQuery);
+      }
+
 
       protected async Task<Message> SendTextMessageAsync(ChatId chatId, string text, ParseMode parseMode = ParseMode.Default,
         bool disableWebPagePreview = false, bool disableNotification = false, int replyToMessageId = 0,
@@ -61,16 +65,25 @@ namespace ImageHuntTelegramBot.Services
         var message = await _client.SendTextMessageAsync(chatId, text, parseMode,
           disableWebPagePreview, disableNotification, replyToMessageId,
           replyMarkup, cancellationToken);
+        
         this[chatId.Identifier].CurrentMessage = message;
         return message;
       }
 
+      //protected async Task<Message> SendChoice(ChatId chatId, string text, ParseMode parseMode = ParseMode.Default,
+      //  bool disableWebPagePreview = false, bool disableNotification = false, int replyToMessageId = 0,
+      //  IReplyMarkup replyMarkup = null, CancellationToken cancellationToken = default(CancellationToken))
+      //{
+
+      //}
       protected async Task ResendMessage(ChatId chatId)
       {
         var currentMessage = this[chatId.Identifier].CurrentMessage;
         await _client.SendTextMessageAsync(currentMessage.Chat.Id, currentMessage.Text);
       }
       protected abstract Task HandleMessage(Message message);
+      protected abstract Task HandleCallbackQuery(CallbackQuery callbackQuery);
+
 
       public void Dispose()
       {

@@ -9,6 +9,7 @@ namespace ImageHuntTelegramBot.Services
     public interface IChatService
     {
       bool Listen { get; set; }
-      Task Update(Update update);
+      Task Message(Message message);
+      Task CallbackQuery(CallbackQuery callbackQuery);
     }
 }

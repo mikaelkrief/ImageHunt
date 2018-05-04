@@ -38,15 +38,17 @@ namespace ImageHuntTelegramBot.Services
         case var s when s.StartsWith("/game"):
           GameId = await ExtractInt("game", s);
           this[Chat.Id].GameId = GameId;
-          var game = await _gameWebService.GetGameById(GameId);
+          var game = this[Chat.Id].Game = await _gameWebService.GetGameById(GameId);
           await SendTextMessageAsync(Chat.Id, $"Vous participez à la partie {game.Name} qui débutera {game.StartDate}. Merci de m'indiquer l'id de l'équipe : /team=id");
           return;
         case var s when s.StartsWith("/team"):
           TeamId = await ExtractInt("team", s);
           this[Chat.Id].TeamId = TeamId;
 
-          var team = await _teamWebService.GetTeamById(TeamId);
+          var team = this[Chat.Id].Team = await _teamWebService.GetTeamById(TeamId);
           await SendTextMessageAsync(Chat.Id, $"Ce chat est celui de l'équipe {team.Name}. Merci, le chat est prêt, bonne partie!");
+          await _client.SetChatTitleAsync(Chat.Id,
+            $"Groupe de l'équipe {team.Name} pour la chasse {this[Chat.Id].Game.Name}");
           // Stop listen the chat
           Listen = false;
           return;
@@ -57,5 +59,10 @@ namespace ImageHuntTelegramBot.Services
       }
 
     }
+
+      protected override Task HandleCallbackQuery(CallbackQuery callbackQuery)
+      {
+        throw new NotImplementedException();
+      }
     }
 }

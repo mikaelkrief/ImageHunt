@@ -20,10 +20,15 @@ namespace ImageHuntTelegramBot.WebServices
       var response = await _httpClient.GetAsync(url);
       if (response.IsSuccessStatusCode)
       {
-        var responseAsString = await response.Content.ReadAsStringAsync();
-        return JsonConvert.DeserializeObject<T>(responseAsString);
+        return await ConvertToObject<T>(response);
       }
       return null;
+    }
+
+    private async Task<T> ConvertToObject<T>(HttpResponseMessage response) where T : class
+    {
+      var responseAsString = await response.Content.ReadAsStringAsync();
+      return JsonConvert.DeserializeObject<T>(responseAsString);
     }
 
     protected async Task PostAsync(string request)
@@ -34,6 +39,17 @@ namespace ImageHuntTelegramBot.WebServices
     protected async Task PutAsync(string request)
     {
       var result = await _httpClient.PutAsync(request, null);
+    }
+
+    protected async Task<T> PutAsync<T>(string request) where T : class
+    {
+      var response = await _httpClient.PutAsync(request, null);
+      if (response.IsSuccessStatusCode)
+      {
+        return await ConvertToObject<T>(response);
+      }
+
+      return null;
     }
   }
 }

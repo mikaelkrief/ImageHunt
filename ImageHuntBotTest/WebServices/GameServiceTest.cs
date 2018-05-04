@@ -44,17 +44,16 @@ namespace ImageHuntBotTest
       public async Task StartGame()
       {
       // Arrange
-        A.CallTo(_fakeHttpMessageHandler)
-          .Where(x => x.Method.Name == "SendAsync")
-          .WithReturnType<Task<HttpResponseMessage>>()
-          .Returns(new HttpResponseMessage(HttpStatusCode.OK));
+        FakeResponse("ImageHuntBotTest.Data.StartTeamFirstNode.json");
         // Act
-      await _target.StartGameForTeam(1, 2);
+       var result = await _target.StartGameForTeam(1, 2);
       // Assert
         A.CallTo(_fakeHttpMessageHandler)
           .Where(x => x.Method.Name == "SendAsync")
           .WithReturnType<Task<HttpResponseMessage>>()
           .MustHaveHappened();
+        Check.That(result.Id).Equals(1);
+        Check.That(result.Name).Equals("Départ");
       }
   }
 }

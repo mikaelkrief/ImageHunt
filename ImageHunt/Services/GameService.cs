@@ -106,5 +106,11 @@ namespace ImageHunt.Services
       Context.SaveChanges();
     }
 
+    public IEnumerable<PictureNode> GetPictureNode(int gameId)
+    {
+      var game = Context.Games.Include(g => g.Nodes).Single(g => g.Id == gameId);
+      var pictureNodes = game.Nodes.Where(n => n is PictureNode);
+      return Context.PictureNodes.Include(p => p.Image).Where(p => pictureNodes.Any(pn => pn.Id == p.Id));
+    }
   }
 }

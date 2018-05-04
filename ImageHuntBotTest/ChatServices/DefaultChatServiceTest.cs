@@ -28,9 +28,9 @@ namespace ImageHuntBotTest
       public async Task Update()
       {
         // Arrange
-        var update = new Update(){Message = new Message(){Chat = new Chat(){Id = 15}}};
+        var message = new Message(){Chat = new Chat(){Id = 15}};
         // Act
-        await _target.Update(update);
+        await _target.Message(message);
         // Assert
         Check.That(_target.Listen).IsFalse();
         A.CallTo(() => _telegramClient.SendTextMessageAsync(A<ChatId>._, "", ParseMode.Default, false, false, 0, null,

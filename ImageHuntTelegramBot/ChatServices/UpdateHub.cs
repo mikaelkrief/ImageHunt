@@ -12,53 +12,75 @@ using Telegram.Bot.Types.Enums;
 
 namespace ImageHuntTelegramBot.Services
 {
-    public class UpdateHub : IUpdateHub
+  public class UpdateHub : IUpdateHub
+  {
+    private readonly BotConfiguration _config;
+    private readonly IContainer _container;
+    private static Dictionary<long, IChatService> _registeredChatServices = new Dictionary<long, IChatService>();
+
+    public UpdateHub(IOptions<BotConfiguration> config, IContainer container)
     {
-      private readonly BotConfiguration _config;
-      private readonly IContainer _container;
-      private static Dictionary<long, IChatService> _registeredChatServices = new Dictionary<long, IChatService>();
+      _config = config.Value;
+      _container = container;
+    }
+    public async Task Switch(Update update)
+    {
+      IChatService chatService;
+      switch (update.Type)
+      {
+        case UpdateType.MessageUpdate:
+          {
+            var message = update.Message;
+            var chatId = message.Chat.Id;
+            chatService = GetChatService(chatId, message);
 
-      public UpdateHub(IOptions<BotConfiguration> config, IContainer container)
-      {
-        _config = config.Value;
-        _container = container;
+            await chatService.Message(message);
+            if (!chatService.Listen)
+              _registeredChatServices.Remove(chatId);
+          }
+          break;
+        case UpdateType.CallbackQueryUpdate:
+          {
+            var query = update.CallbackQuery;
+            var message = query.Message;
+            var chatId = message.Chat.Id;
+            chatService = GetChatService(chatId, message);
+            await chatService.CallbackQuery(query);
+          }
+          break;
       }
-      public async Task Switch(Update update)
+    }
+
+    private IChatService GetChatService(long chatId, Message message)
+    {
+      IChatService chatService;
+      try
       {
-        if (update.Type != UpdateType.MessageUpdate)
-          return;
-        var message = update.Message;
-        IChatService chatService;
-        var chatId = message.Chat.Id;
-        try
-        {
-          chatService = _registeredChatServices[chatId];
- 
-        }
-      catch (KeyNotFoundException )
-        {
-          _registeredChatServices.Add(chatId, chatService = SwitchChatService(message.Text));
-        }
-           await chatService.Update(update);
-        if (!chatService.Listen)
-          _registeredChatServices.Remove(chatId);
+        chatService = _registeredChatServices[chatId];
+      }
+      catch (KeyNotFoundException)
+      {
+        _registeredChatServices.Add(chatId, chatService = SwitchChatService(message.Text));
       }
 
-      public static void ClearRegisteredListener()
+      return chatService;
+    }
+
+    public static void ClearRegisteredListener()
+    {
+      _registeredChatServices.Clear();
+    }
+    private IChatService SwitchChatService(string messageText)
+    {
+      switch (messageText)
       {
-        _registeredChatServices.Clear();
-      }
-      private IChatService SwitchChatService(string messageText)
-      {
-        switch (messageText)
-        {
-        case "/init":
+        case var s when s.StartsWith("/init"):
           return _container.Resolve<IInitChatService>();
-        case "/startgame":
+        case var s when s.StartsWith("/startgame"):
           return _container.Resolve<IStartChatService>();
         default:
           return _container.Resolve<IDefaultChatService>();
-        }
       }
     }
+  }
 }

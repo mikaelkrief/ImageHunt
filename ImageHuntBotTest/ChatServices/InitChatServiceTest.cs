@@ -33,15 +33,15 @@ namespace ImageHuntBotTest
       public async Task Update()
       {
         // Arrange
-        var update1 = new Update() {Message = new Message() {Text = "/init", Chat = new Chat() {Id = 15}}};
-        var update2 = new Update() {Message = new Message() {Text = "/game=15", Chat = new Chat() {Id = 15}}};
-        var update3 = new Update() {Message = new Message() {Text = "/team=16", Chat = new Chat() {Id = 15}}};
+        var message1 = new Message() {Text = "/init", Chat = new Chat() {Id = 15}};
+        var message2 = new Message() {Text = "/game=15", Chat = new Chat() {Id = 15}};
+        var message3 = new Message() {Text = "/team=16", Chat = new Chat() {Id = 15}};
         // Act
-        await _target.Update(update1);
+        await _target.Message(message1);
         Check.That(_target.Listen).IsTrue();
-        await _target.Update(update2);
+        await _target.Message(message2);
         Check.That(_target.Listen).IsTrue();
-        await _target.Update(update3);
+        await _target.Message(message3);
         Check.That(_target.Listen).IsFalse();
       // Assert
       A.CallTo(() =>
@@ -58,13 +58,13 @@ namespace ImageHuntBotTest
       public async Task Update_with_breaks()
       {
       // Arrange
-        var update1 = new Update() { Message = new Message() { Text = "/init", Chat = new Chat() { Id = 15 } } };
-        var update2 = new Update() { Message = new Message() { Text = "toto", Chat = new Chat() { Id = 15 } } };
+        var message1 = new Message() { Text = "/init", Chat = new Chat() { Id = 15 } };
+        var message2 = new Message() { Text = "toto", Chat = new Chat() { Id = 15 } };
         A.CallTo(() => _client.SendTextMessageAsync(A<ChatId>._, A<string>._, ParseMode.Default, false, false, 0, null,
           CancellationToken.None)).Returns(new Message() {Chat = new Chat() {Id = 15}, Text = "Merci de m'indiquer l'id de la partie : /game=id" });
       // Act
-        await _target.Update(update1);
-        await _target.Update(update2);
+        await _target.Message(message1);
+        await _target.Message(message2);
 
       // Assert
         A.CallTo(() =>
@@ -81,13 +81,13 @@ namespace ImageHuntBotTest
       public async Task Update_with_number_bad_format()
       {
       // Arrange
-        var update1 = new Update() { Message = new Message() { Text = "/init", Chat = new Chat() { Id = 15 } } };
-        var update2 = new Update() { Message = new Message() { Text = "/game=jghg", Chat = new Chat() { Id = 15 } } };
+        var message1 = new Message() { Text = "/init", Chat = new Chat() { Id = 15 } } ;
+        var message2 = new Message() { Text = "/game=jghg", Chat = new Chat() { Id = 15 } };
         A.CallTo(() => _client.SendTextMessageAsync(A<ChatId>._, A<string>._, ParseMode.Default, false, false, 0, null,
           CancellationToken.None)).Returns(new Message() { Chat = new Chat() { Id = 15 }, Text = "Merci de m'indiquer l'id de la partie : /game=id" });
       // Act
-      await _target.Update(update1);
-        await _target.Update(update2);
+      await _target.Message(message1);
+        await _target.Message(message2);
       // Assert
         A.CallTo(() =>
           _client.SendTextMessageAsync(A<ChatId>._, "Je n'ai pas compris votre dernière entrée, veuillez-recommencer :",

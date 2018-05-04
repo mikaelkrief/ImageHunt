@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ImageHuntTelegramBot.Responses;
 using Telegram.Bot.Types;
 
 namespace ImageHuntTelegramBot.ChatServices
@@ -15,6 +16,8 @@ namespace ImageHuntTelegramBot.ChatServices
       public Message CurrentMessage { get; set; }
 
       public int GameId { get; set; }
+      public GameResponse Game { get; set; }
       public int TeamId { get; set; }
+      public TeamResponse Team { get; set; }
     }
 }

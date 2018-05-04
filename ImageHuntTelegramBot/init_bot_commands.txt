@@ -2,3 +2,4 @@
 
 init - Init the Chat and the game
 startgame - Start the game for the team in chat
+images - Get the images to hunt

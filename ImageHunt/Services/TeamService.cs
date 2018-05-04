@@ -122,18 +122,22 @@ namespace ImageHunt.Services
 
     private Game GetCurrentGameForTeam(Team team)
     {
-      var currentGame = Context.Games.Include(g => g.Teams).Single(g => g.Teams.Any(gt=>gt == team));
+      var currentGame = Context.Games
+        .Include(g => g.Teams)
+        .Include(g=>g.Nodes)
+        .Single(g => g.Teams.Any(gt=>gt == team));
       return currentGame;
     }
 
-    public void StartGame(int gameId, int teamId)
+    public Node StartGame(int gameId, int teamId)
     {
       var team = GetTeamById(teamId);
       var game = GetCurrentGameForTeam(team);
       if (!game.IsActive)
         throw new ArgumentException("There is no game active");
-      team.CurrentNode = Enumerable.FirstOrDefault<Node>(game.Nodes, n => n is FirstNode);
+      team.CurrentNode = game.Nodes.FirstOrDefault(n => n is FirstNode);
       Context.SaveChanges();
+      return team.CurrentNode;
     }
 
   }

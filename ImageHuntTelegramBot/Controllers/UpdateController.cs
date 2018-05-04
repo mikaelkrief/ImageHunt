@@ -18,11 +18,6 @@ namespace ImageHuntTelegramBot.Controllers
         _updateService = updateService;
       }
 
-      [HttpGet]
-      public IActionResult Get()
-      {
-        return Ok("Toto");
-      }
     [HttpPost]
       public async Task<IActionResult> Post([FromBody] Update update)
       {

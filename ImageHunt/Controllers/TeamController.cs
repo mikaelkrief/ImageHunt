@@ -93,8 +93,7 @@ namespace ImageHunt.Controllers
     [HttpPut("StartTeam/{gameId}/{teamId}")]
     public IActionResult StartTeam(int gameId, int teamId)
     {
-      _teamService.StartGame(gameId, teamId);
-      var nextNode = _teamService.NextNodeForTeam(teamId, 0, 0);
+      var nextNode = _teamService.StartGame(gameId, teamId);
       return Ok(nextNode);
     }
 

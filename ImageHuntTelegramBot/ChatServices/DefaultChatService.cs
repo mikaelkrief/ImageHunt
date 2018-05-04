@@ -23,5 +23,10 @@ namespace ImageHuntTelegramBot.Services
         await SendTextMessageAsync(message.Chat.Id,
           "Je n'ai pas compris votre demande, veuillez vous en tenir aux commandes standard");
       }
+
+      protected override Task HandleCallbackQuery(CallbackQuery callbackQuery)
+      {
+        throw new NotImplementedException();
+      }
     }
 }
