@@ -143,7 +143,6 @@ namespace ImageHuntTest.Controller
         var nextNode = ((OkObjectResult)result).Value;
         Check.That(nextNode).InheritsFrom<Node>();
         A.CallTo(() => _teamService.StartGame(A<int>._, A<int>._)).MustHaveHappened();
-        A.CallTo(() => _teamService.NextNodeForTeam(A<int>._, A<double>._, A<double>._)).MustHaveHappened();
       }
 
       [Fact]
