@@ -122,6 +122,8 @@ namespace ImageHuntBotTest
       var update1 = new Update() { Message = new Message() { Text = "/init", Chat = new Chat() { Id = 15 } } };
       var update2 = new Update() { CallbackQuery = new CallbackQuery() { Message = new Message() { Chat = new Chat() { Id = 15 } } } };
       A.CallTo(() => _initChatService.Listen).ReturnsNextFromSequence(new[] { true, false });
+      UpdateHub.ClearRegisteredListener();
+
       // Act
       // Call with text to get a chatService
       await _target.Switch(update1);
