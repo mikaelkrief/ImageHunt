@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using ImageHuntTelegramBot.Responses;
 
@@ -13,6 +14,12 @@ namespace ImageHuntTelegramBot.WebServices
 
     public GameWebService(HttpClient httpClient) : base(httpClient)
     {
+    }
+
+    public async Task<NodeResponse> StartGameForTeam(int gameId, int teamId)
+    {
+      var result = await PutAsync<NodeResponse>($"{_httpClient.BaseAddress}api/Team/StartTeam/{gameId}/{teamId}");
+      return result;
     }
   }
 }

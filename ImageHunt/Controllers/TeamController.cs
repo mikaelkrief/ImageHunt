@@ -90,11 +90,10 @@ namespace ImageHunt.Controllers
       var player = _playerService.GetPlayerByChatId(playerChatId);
       return Ok(_teamService.GetTeamsForPlayer(player));
     }
-    [HttpPut("StartPlayer/{gameId}/{teamId}")]
-    public IActionResult StartPlayer(int gameId, int teamId)
+    [HttpPut("StartTeam/{gameId}/{teamId}")]
+    public IActionResult StartTeam(int gameId, int teamId)
     {
-      _teamService.StartGame(gameId, teamId);
-      var nextNode = _teamService.NextNodeForTeam(teamId, 0, 0);
+      var nextNode = _teamService.StartGame(gameId, teamId);
       return Ok(nextNode);
     }
 

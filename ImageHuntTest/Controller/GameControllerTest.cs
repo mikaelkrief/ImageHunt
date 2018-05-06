@@ -385,5 +385,28 @@ namespace ImageHuntTest.Controller
       // Assert
       A.CallTo(() => _actionService.GetGameAction(1)).MustHaveHappened();
     }
+
+    [Fact]
+    public void GetImagesForGame()
+    {
+      // Arrange
+      
+      // Act
+      var result = _target.GetImagesForGame(1);
+      // Assert
+      A.CallTo(() => _gameService.GetPictureNode(1)).MustHaveHappened();
+    }
+    [Fact]
+    public void GetImagesForGame_Error()
+    {
+      // Arrange
+      A.CallTo(() => _gameService.GetPictureNode(1)).Throws<InvalidOperationException>();
+
+      // Act
+      var result = _target.GetImagesForGame(1);
+      // Assert
+      A.CallTo(() => _gameService.GetPictureNode(1)).MustHaveHappened();
+      Check.That(result).IsInstanceOf<BadRequestObjectResult>();
+    }
   }
 }

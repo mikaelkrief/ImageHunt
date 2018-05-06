@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -178,6 +179,18 @@ namespace ImageHunt.Controllers
     public IActionResult GetGameAction(int gameActionId)
     {
       return Ok(_actionService.GetGameAction(gameActionId));
+    }
+    [HttpGet("GetImages/{gameId}")]
+    public IActionResult GetImagesForGame(int gameId)
+    {
+      try
+      {
+        return Ok(_gameService.GetPictureNode(gameId).Select(p=>p.Image));
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest($"The {gameId} is not in the system or there are no images associated");
+      }
     }
   }
 }

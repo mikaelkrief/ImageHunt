@@ -16,7 +16,7 @@ namespace ImageHunt.Services
       Team GetTeamById(int teamId);
       IEnumerable<Team> GetTeamsForPlayer(Player player);
       Node NextNodeForTeam(int teamId, double playerLatitude, double playerLongitude);
-      void StartGame(int gameId, int teamId);
+      Node StartGame(int gameId, int teamId);
 
       void UploadImage(int teamId, double latitude, double longitude, byte[] image);
     }

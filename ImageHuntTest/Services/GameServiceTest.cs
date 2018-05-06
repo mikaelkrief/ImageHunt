@@ -239,5 +239,25 @@ namespace ImageHuntTest.Services
       Check.That(result).Contains(games[0], games[1], games[2]);
     }
 
+    [Fact]
+    public void GetImagesForGame()
+    {
+      // Arrange
+      var nodes = new List<Node>
+      {
+        new FirstNode(),
+        new PictureNode(),
+        new ObjectNode(),
+        new PictureNode(),
+        new QuestionNode()
+      };
+      var games = new List<Game> {new Game(), new Game(){Nodes = nodes}, new Game()};
+      _context.Games.AddRange(games);
+      _context.SaveChanges();
+      // Act
+      var result = _target.GetPictureNode(games[1].Id);
+      // Assert
+      Check.That(result).Contains(nodes[1], nodes[3]);
+    }
   }
 }

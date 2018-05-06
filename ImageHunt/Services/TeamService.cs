@@ -80,7 +80,11 @@ namespace ImageHunt.Services
       var currentGame = GetCurrentGameForTeam(team);
       if (currentGame == null || !currentGame.IsActive)
         throw new InvalidGameException();
-      var nextNode = team.CurrentNode.Children.First();
+      Node nextNode;
+      if (team.CurrentNode == null)
+          nextNode = currentGame.Nodes.Single(n=>n.NodeType == "FirstNode");
+      else
+        nextNode = team.CurrentNode.Children.First();
       var gameAction = new GameAction()
       {
         DateOccured = DateTime.Now,
@@ -118,18 +122,22 @@ namespace ImageHunt.Services
 
     private Game GetCurrentGameForTeam(Team team)
     {
-      var currentGame = Context.Games.Include(g => g.Teams).Single(g => g.Teams.Any(gt=>gt == team));
+      var currentGame = Context.Games
+        .Include(g => g.Teams)
+        .Include(g=>g.Nodes)
+        .Single(g => g.Teams.Any(gt=>gt == team));
       return currentGame;
     }
 
-    public void StartGame(int gameId, int teamId)
+    public Node StartGame(int gameId, int teamId)
     {
       var team = GetTeamById(teamId);
       var game = GetCurrentGameForTeam(team);
-      if (game.StartDate.Value.Date != DateTime.Today || !game.IsActive)
-        throw new ArgumentException("There is no game active or today");
-      team.CurrentNode = Enumerable.FirstOrDefault<Node>(game.Nodes, n => n is FirstNode);
+      if (!game.IsActive)
+        throw new ArgumentException("There is no game active");
+      team.CurrentNode = game.Nodes.FirstOrDefault(n => n is FirstNode);
       Context.SaveChanges();
+      return team.CurrentNode;
     }
 
   }

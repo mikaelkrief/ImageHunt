@@ -137,13 +137,12 @@ namespace ImageHuntTest.Controller
       {
         // Arrange
         // Act
-        var result = _target.StartPlayer(1, 1);
+        var result = _target.StartTeam(1, 1);
         // Assert
         Check.That(result).IsInstanceOf<OkObjectResult>();
         var nextNode = ((OkObjectResult)result).Value;
         Check.That(nextNode).InheritsFrom<Node>();
         A.CallTo(() => _teamService.StartGame(A<int>._, A<int>._)).MustHaveHappened();
-        A.CallTo(() => _teamService.NextNodeForTeam(A<int>._, A<double>._, A<double>._)).MustHaveHappened();
       }
 
       [Fact]

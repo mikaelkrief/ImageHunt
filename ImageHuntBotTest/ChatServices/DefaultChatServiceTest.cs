@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FakeItEasy;
+using ImageHuntBotTest.ChatServices;
 using ImageHuntTelegramBot.Services;
 using NFluent;
 using Telegram.Bot;
@@ -13,7 +14,7 @@ using Xunit;
 
 namespace ImageHuntBotTest
 {
-    public class DefaultChatServiceTest
+    public class DefaultChatServiceTest : ChatServiceBaseTest
     {
       private DefaultChatService _target;
       private ITelegramBotClient _telegramClient;
@@ -21,15 +22,15 @@ namespace ImageHuntBotTest
       public DefaultChatServiceTest()
       {
         _telegramClient = A.Fake<ITelegramBotClient>();
-        _target = new DefaultChatService(_telegramClient);
+        _target = new DefaultChatService(_telegramClient, ChatPropertiesForChatId);
       }
       [Fact]
       public async Task Update()
       {
         // Arrange
-        var update = new Update(){Message = new Message(){Chat = new Chat(){Id = 15}}};
+        var message = new Message(){Chat = new Chat(){Id = 15}};
         // Act
-        await _target.Update(update);
+        await _target.Message(message);
         // Assert
         Check.That(_target.Listen).IsFalse();
         A.CallTo(() => _telegramClient.SendTextMessageAsync(A<ChatId>._, "", ParseMode.Default, false, false, 0, null,
