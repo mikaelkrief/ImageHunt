@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ImageHuntTelegramBot.Services;
-using ImageHuntTelegramBot.WebServices;
+using ImageHuntWebServiceClient.WebServices;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;

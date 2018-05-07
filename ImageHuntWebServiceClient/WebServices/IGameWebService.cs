@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using ImageHuntTelegramBot.Responses;
+using ImageHuntWebServiceClient.Responses;
 
-namespace ImageHuntTelegramBot.WebServices
+namespace ImageHuntWebServiceClient.WebServices
 {
   public interface IGameWebService
   {

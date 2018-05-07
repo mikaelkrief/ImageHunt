@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using FakeItEasy;
-using ImageHuntTelegramBot.WebServices;
+using ImageHuntWebServiceClient.WebServices;
 using NFluent;
 using TestUtilities;
 using Xunit;
@@ -22,7 +22,7 @@ namespace ImageHuntBotTest.WebServices
     public async Task GetTeamById()
     {
       // Arrange
-      FakeResponse("ImageHuntBotTest.Data.TeamById1.json");
+      FakeResponse("ImageHuntWebServiceClientTest.Data.TeamById1.json");
 
       // Act
       var response = await _target.GetTeamById(3);

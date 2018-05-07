@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ImageHuntTelegramBot.Responses
+namespace ImageHuntWebServiceClient.Responses
 {
   public class GameResponse
   {

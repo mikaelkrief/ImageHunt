@@ -12,9 +12,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntTest", "ImageHuntT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestUtilities", "TestUtilities\TestUtilities.csproj", "{BE585CE7-3C60-4429-A697-8B9C53E531FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntTelegramBot", "ImageHuntTelegramBot\ImageHuntTelegramBot.csproj", "{84B659AF-726C-497B-B09F-80BBD4F59E88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntTelegramBot", "ImageHuntTelegramBot\ImageHuntTelegramBot.csproj", "{84B659AF-726C-497B-B09F-80BBD4F59E88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntBotTest", "ImageHuntBotTest\ImageHuntBotTest.csproj", "{9E52ECC8-520C-4221-B058-AE9BF69DC09C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntBotTest", "ImageHuntBotTest\ImageHuntBotTest.csproj", "{9E52ECC8-520C-4221-B058-AE9BF69DC09C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntWebServiceClient", "ImageHuntWebServiceClient\ImageHuntWebServiceClient.csproj", "{3A221E1A-1DFB-4409-AD7C-E5B16348BC22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntWebServiceClientTest", "ImageHuntWebServiceClientTest\ImageHuntWebServiceClientTest.csproj", "{C42E1757-6214-4079-A98C-501D40A39A86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +46,14 @@ Global
 		{9E52ECC8-520C-4221-B058-AE9BF69DC09C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E52ECC8-520C-4221-B058-AE9BF69DC09C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E52ECC8-520C-4221-B058-AE9BF69DC09C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A221E1A-1DFB-4409-AD7C-E5B16348BC22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A221E1A-1DFB-4409-AD7C-E5B16348BC22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A221E1A-1DFB-4409-AD7C-E5B16348BC22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A221E1A-1DFB-4409-AD7C-E5B16348BC22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C42E1757-6214-4079-A98C-501D40A39A86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C42E1757-6214-4079-A98C-501D40A39A86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C42E1757-6214-4079-A98C-501D40A39A86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C42E1757-6214-4079-A98C-501D40A39A86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

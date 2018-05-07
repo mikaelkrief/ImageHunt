@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FakeItEasy;
 using ImageHuntBotTest.ChatServices;
 using ImageHuntTelegramBot.Services;
-using ImageHuntTelegramBot.WebServices;
+using ImageHuntWebServiceClient.WebServices;
 using NFluent;
 using Telegram.Bot;
 using Telegram.Bot.Types;

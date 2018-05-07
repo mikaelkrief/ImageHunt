@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ImageHuntTelegramBot.Responses;
+using ImageHuntWebServiceClient.Responses;
 using Telegram.Bot.Types;
 
 namespace ImageHuntTelegramBot.ChatServices

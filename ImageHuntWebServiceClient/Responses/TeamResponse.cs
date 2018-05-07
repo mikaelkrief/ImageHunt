@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
-
-namespace ImageHuntTelegramBot.Responses
+﻿
+namespace ImageHuntWebServiceClient.Responses
 {
   public class TeamResponse
   {

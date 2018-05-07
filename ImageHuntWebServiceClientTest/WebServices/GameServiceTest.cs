@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FakeItEasy;
 using ImageHuntBotTest.WebServices;
-using ImageHuntTelegramBot.WebServices;
+using ImageHuntWebServiceClient.WebServices;
 using NFluent;
 using TestUtilities;
 using Xunit;
@@ -26,7 +26,7 @@ namespace ImageHuntBotTest
       public async Task GetGameById()
       {
       // Arrange
-        FakeResponse("ImageHuntBotTest.Data.GameById1.json");
+        FakeResponse("ImageHuntWebServiceClientTest.Data.GameById1.json");
 
       
         // Act
@@ -44,7 +44,7 @@ namespace ImageHuntBotTest
       public async Task StartGame()
       {
       // Arrange
-        FakeResponse("ImageHuntBotTest.Data.StartTeamFirstNode.json");
+        FakeResponse("ImageHuntWebServiceClientTest.Data.StartTeamFirstNode.json");
         // Act
        var result = await _target.StartGameForTeam(1, 2);
       // Assert

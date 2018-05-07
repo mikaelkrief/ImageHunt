@@ -1,9 +1,8 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace ImageHuntTelegramBot.WebServices
+namespace ImageHuntWebServiceClient.WebServices
 {
   public abstract class AbstractWebService
   {

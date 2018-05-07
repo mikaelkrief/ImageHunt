@@ -1,0 +1,159 @@
+﻿{
+  "isActive": true,
+  "name": "Paris",
+  "startDate": "2018-03-19T21:20:38",
+  "nodes": [
+    {
+      "password": null,
+      "longitude": 2.3352119699120522,
+      "latitude": 48.8481825497696,
+      "name": "Départ",
+      "childrenRelation": [],
+      "points": 0,
+      "nodeType": "FirstNode",
+      "children": [],
+      "id": 1
+    },
+    {
+      "question": "Couleur du cheval blanc d'henry 4",
+      "answers": null,
+      "longitude": 2.336714006960392,
+      "latitude": 48.8483096328516,
+      "name": "Question 1",
+      "childrenRelation": [],
+      "points": 0,
+      "nodeType": "QuestionNode",
+      "children": [],
+      "id": 2
+    },
+    {
+      "action": "Selfie",
+      "longitude": 2.3366496339440346,
+      "latitude": 48.847349441577769,
+      "name": "Action 1",
+      "childrenRelation": [],
+      "points": 0,
+      "nodeType": "ObjectNode",
+      "children": [],
+      "id": 3
+    },
+    {
+      "longitude": 2.3384520784020424,
+      "latitude": 48.847617732169574,
+      "name": "Arrivée",
+      "childrenRelation": [],
+      "points": 0,
+      "nodeType": "LastNode",
+      "children": [],
+      "id": 4
+    },
+    {
+      "image": null,
+      "longitude": 2.3345253244042397,
+      "latitude": 48.847349441577769,
+      "name": "Photo 1",
+      "childrenRelation": [],
+      "points": 0,
+      "nodeType": "PictureNode",
+      "children": [],
+      "id": 5
+    },
+    {
+      "image": null,
+      "longitude": 2.3360722884535789,
+      "latitude": 48.846657527628246,
+      "name": "Photo 2",
+      "childrenRelation": [],
+      "points": 0,
+      "nodeType": "PictureNode",
+      "children": [],
+      "id": 6
+    },
+    {
+      "delay": 30,
+      "longitude": 2.3380893096327782,
+      "latitude": 48.846516319525115,
+      "name": "Timer 1",
+      "childrenRelation": [],
+      "points": 0,
+      "nodeType": "TimerNode",
+      "children": [],
+      "id": 7
+    },
+    {
+      "question": "Ta mère en short",
+      "answers": null,
+      "longitude": 2.3357075080275536,
+      "latitude": 48.845626699319169,
+      "name": "Question 2",
+      "childrenRelation": [],
+      "points": 0,
+      "nodeType": "QuestionNode",
+      "children": [],
+      "id": 8
+    },
+    {
+      "image": null,
+      "longitude": 2.3343342170119286,
+      "latitude": 48.846643406835838,
+      "name": "Poto 7",
+      "childrenRelation": [],
+      "points": 0,
+      "nodeType": "PictureNode",
+      "children": [],
+      "id": 21
+    },
+    {
+      "question": "sdsd",
+      "answers": null,
+      "longitude": 2.3339630663394928,
+      "latitude": 48.845170115903485,
+      "name": "qsdqsd",
+      "childrenRelation": [],
+      "points": 23,
+      "nodeType": "QuestionNode",
+      "children": [],
+      "id": 22
+    },
+    {
+      "delay": 56,
+      "longitude": 2.3362161219120026,
+      "latitude": 48.8449441760366,
+      "name": "",
+      "childrenRelation": [],
+      "points": 45,
+      "nodeType": "TimerNode",
+      "children": [],
+      "id": 23
+    },
+    {
+      "action": "sdsdfsd",
+      "longitude": 2.3394012451171875,
+      "latitude": 48.84513245904251,
+      "name": "sdsd",
+      "childrenRelation": [],
+      "points": 45,
+      "nodeType": "ObjectNode",
+      "children": [],
+      "id": 24
+    }
+  ],
+  "teams": [
+    {
+      "name": "Team 1",
+      "teamPlayers": [],
+      "players": [],
+      "id": 1
+    },
+    {
+      "name": "Team 2",
+      "teamPlayers": [],
+      "players": [],
+      "id": 2
+    }
+  ],
+  "mapCenterLat": 48.847201174934234,
+  "mapCenterLng": 2.3364277651978194,
+  "mapZoom": 16,
+  "id": 1
+}

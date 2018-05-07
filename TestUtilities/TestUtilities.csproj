@@ -20,4 +20,10 @@
     <PackageReference Include="NFluent" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\..\..\Users\mandr\.nuget\packages\autofac\4.8.0\lib\netstandard1.1\Autofac.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

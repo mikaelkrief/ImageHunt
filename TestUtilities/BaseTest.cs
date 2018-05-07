@@ -1,11 +1,18 @@
 ﻿using System.IO;
 using System.Reflection;
+using Autofac;
 
 namespace TestUtilities
 {
     public class BaseTest
     {
-        protected byte[] GetImageFromResource(Assembly assembly, string resourceName)
+      protected ContainerBuilder _testContainerBuilder;
+      protected IContainer _container;
+      public BaseTest()
+      {
+        _testContainerBuilder = new ContainerBuilder();
+      }
+    protected byte[] GetImageFromResource(Assembly assembly, string resourceName)
         {
           using (var stream = assembly.GetManifestResourceStream(resourceName))
           {

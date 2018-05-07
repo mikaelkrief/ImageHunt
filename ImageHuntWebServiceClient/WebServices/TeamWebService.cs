@@ -1,8 +1,8 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
-using ImageHuntTelegramBot.Responses;
+using ImageHuntWebServiceClient.Responses;
 
-namespace ImageHuntTelegramBot.WebServices
+namespace ImageHuntWebServiceClient.WebServices
 {
   public class TeamWebService : AbstractWebService, ITeamWebService
   {

@@ -1,4 +1,4 @@
-﻿namespace ImageHuntTelegramBot.Responses
+﻿namespace ImageHuntWebServiceClient.Responses
 {
   public class NodeResponse
   {
