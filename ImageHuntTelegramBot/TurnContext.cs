@@ -1,17 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ImageHuntTelegramBot
 {
   public class TurnContext : ITurnContext
   {
-    public IActivity Activity { get; set; }
-    public string ChatId { get; set; }
-    public bool Replied { get; private set; }
-    public IDialog CurrentDialog { get; set; }
+    private readonly IAdapter _adapter;
+    public virtual IActivity Activity { get; set; }
+    public virtual long ChatId { get; set; }
+    public virtual bool Replied { get; private set; }
+    public virtual IDialog CurrentDialog { get; private set; }
 
-    private static readonly Dictionary<string, object> ConversationStates = new Dictionary<string, object>();
-    public T GetConversationState<T>() where T : class, new()
+    public TurnContext(IAdapter adapter)
+    {
+      _adapter = adapter;
+    }
+    private static readonly Dictionary<long, object> ConversationStates = new Dictionary<long, object>();
+    public virtual T GetConversationState<T>() where T : class, new()
     {
       if (!ConversationStates.ContainsKey(ChatId))
       {
@@ -21,23 +27,32 @@ namespace ImageHuntTelegramBot
       return (T)ConversationStates[ChatId];
     }
 
-    public async Task Continue()
+    public virtual async Task Continue()
     {
       if (CurrentDialog != null)
         await CurrentDialog.Continue(this);
     }
 
-    public async Task End()
+    public virtual async Task End()
     {
+      EndCalled?.Invoke(this, new EventArgs());
       CurrentDialog = null;
     }
 
-    public async Task ReplyActivity(IActivity activity)
+    public virtual async Task ReplyActivity(IActivity activity)
     {
       Replied = true;
+      await _adapter.SendActivity(activity);
     }
 
-    public async Task Begin(IDialog dialog)
+    public virtual async Task SendActivity(IActivity activity)
+    {
+      await _adapter.SendActivity(activity);
+    }
+
+    public event EventHandler EndCalled;
+
+    public virtual async Task Begin(IDialog dialog)
     {
       CurrentDialog = dialog;
       await CurrentDialog.Begin(this);

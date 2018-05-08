@@ -18,10 +18,10 @@ namespace ImageHuntTelegramBot
       await context.Continue();
       if (!context.Replied)
       {
-        if (_dialogs.Any())
+        if (context.CurrentDialog == null && _dialogs.Any(d=>d.Key == context.Activity.Text))
         {
           var dialog = _dialogs[context.Activity.Text];
-          await dialog.Begin(context);
+          await context.Begin(dialog);
         }
       }
     }

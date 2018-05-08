@@ -1,7 +1,9 @@
-﻿using Autofac;
+﻿using System.Threading.Tasks;
+using Autofac;
 using FakeItEasy;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
+using ImageHuntTelegramBot.Dialogs.Prompts;
 using TestUtilities;
 using Xunit;
 
@@ -18,19 +20,15 @@ namespace ImageHuntBotTest
         _target = _container.Resolve<IInitDialog>();
       }
       [Fact]
-      public void Begin_Call_Sub_Dialogs()
+      public async Task Begin_Call_Sub_Dialogs()
       {
         // Arrange
-        var subDialog = new[] {A.Fake<IDialog>(), A.Fake<IDialog>()};
         var context = A.Fake<ITurnContext>();
-        foreach (var dialog in subDialog)
-        {
-          _target.AddChildren(dialog);
-        }
         // Act
-        _target.Begin(context);
+        await _target.Begin(context);
         // Assert
-        A.CallTo(() => subDialog[0].Begin(context)).MustHaveHappened();
+        A.CallTo(() => context.Begin(A<NumberPrompt<int>>._)).MustHaveHappened();
       }
-    }
+
+  }
 }

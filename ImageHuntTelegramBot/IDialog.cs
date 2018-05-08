@@ -6,7 +6,6 @@ namespace ImageHuntTelegramBot
   {
     Task Begin(ITurnContext turnContext);
     Task Continue(ITurnContext turnContext);
-    Task OnTurn(ITurnContext turnContext);
     void AddChildren(IDialog childrenDialog);
     Task Reply(ITurnContext turnContext);
   }

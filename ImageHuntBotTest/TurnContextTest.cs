@@ -18,10 +18,13 @@ namespace ImageHuntBotTest
     public class TurnContextTest : BaseTest
     {
       private TurnContext _target;
+      private IAdapter _adapter;
 
       public TurnContextTest()
       {
         _testContainerBuilder.RegisterType<TurnContext>();
+        _adapter = A.Fake<IAdapter>();
+        _testContainerBuilder.RegisterInstance(_adapter).As<IAdapter>();
 
         _container = _testContainerBuilder.Build();
         _target = _container.Resolve<TurnContext>();
@@ -31,7 +34,7 @@ namespace ImageHuntBotTest
       public void GetConversationState()
       {
         // Arrange
-        _target.ChatId = "15";
+        _target.ChatId = 15;
         // Act
         var result = _target.GetConversationState<DummyState>();
         // Assert
@@ -63,7 +66,7 @@ namespace ImageHuntBotTest
       public async Task Continue_DialogPending()
       {
         // Arrange
-        _target.CurrentDialog = A.Fake<IDialog>();
+        _target.Begin(A.Fake<IDialog>());
         // Act
         await _target.Continue();
         // Assert
@@ -74,12 +77,34 @@ namespace ImageHuntBotTest
       public async Task End()
       {
         // Arrange
-        _target.CurrentDialog = A.Fake<IDialog>();
+        _target.Begin(A.Fake<IDialog>());
         // Act
         await _target.End();
         // Assert
         Check.That(_target.CurrentDialog).IsNull();
       }
-      
-    }
+
+      [Fact]
+      public async Task ReplyActivity()
+      {
+        // Arrange
+        var activity = new Activity();
+        // Act
+        await _target.ReplyActivity(activity);
+        // Assert
+        A.CallTo(() => _adapter.SendActivity(activity)).MustHaveHappened();
+        Check.That(_target.Replied).IsTrue();
+      }
+
+      [Fact]
+      public async Task SendActivity()
+      {
+      // Arrange
+        var activity = new Activity();
+        // Act
+        await _target.SendActivity(activity);
+        // Assert
+        A.CallTo(() => _adapter.SendActivity(activity)).MustHaveHappened();
+      }
+  }
 }

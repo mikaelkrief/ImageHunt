@@ -34,16 +34,15 @@ namespace ImageHuntBotTest
       {
         // Arrange
         var turnContext = A.Fake<ITurnContext>();
-        var activity = A.Fake<IActivity>();
-        A.CallTo(() => activity.ActivityType).Returns(ActivityType.Message);
-        A.CallTo(() => activity.Text).Returns("/init");
+        var activity = new Activity(){ActivityType = ActivityType.Message, Text = "/init", ChatId = 15};
         A.CallTo(() => turnContext.Activity).Returns(activity);
+        A.CallTo(() => turnContext.CurrentDialog).Returns(null);
         var initDialog = A.Fake<IDialog>();
         _target.AddDialog("/init", initDialog);
         // Act
         await _target.OnTurn(turnContext);
       // Assert
-        A.CallTo(() => initDialog.Begin(turnContext)).MustHaveHappened();
+        A.CallTo(() => turnContext.Begin(initDialog)).MustHaveHappened();
         A.CallTo(() => turnContext.Continue()).MustHaveHappened();
 
     }
@@ -52,9 +51,7 @@ namespace ImageHuntBotTest
       {
         // Arrange
         var turnContext = A.Fake<ITurnContext>();
-        var activity = A.Fake<IActivity>();
-        A.CallTo(() => activity.ActivityType).Returns(ActivityType.Message);
-        A.CallTo(() => activity.Text).Returns("/init");
+        var activity = new Activity(){ActivityType = ActivityType.Message, Text = "15"};
         A.CallTo(() => turnContext.Activity).Returns(activity);
         A.CallTo(() => turnContext.Replied).Returns(true);
         var initDialog = A.Fake<IDialog>();

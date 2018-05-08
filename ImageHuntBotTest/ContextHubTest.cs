@@ -33,7 +33,7 @@ namespace ImageHuntBotTest
         var context = _target.GetContext(update);
         // Assert
         Check.That(context).Equals(_turnContext);
-        Check.That(context.ChatId).Equals("15");
+        Check.That(context.ChatId).Equals(15);
         Check.That(context.Activity).IsNotNull();
         Check.That(context.Activity.Text).Equals(update.Message.Text);
         Check.That(context.Activity.ActivityType).Equals(ActivityType.Message);
@@ -47,7 +47,7 @@ namespace ImageHuntBotTest
         var context = _target.GetContext(update);
         // Assert
         Check.That(context).Equals(_turnContext);
-        Check.That(context.ChatId).Equals("15");
+        Check.That(context.ChatId).Equals(15);
       }
     }
 }
