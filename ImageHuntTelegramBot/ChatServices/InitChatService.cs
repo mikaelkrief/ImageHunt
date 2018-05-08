@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using ImageHuntTelegramBot.ChatServices;
 using ImageHuntWebServiceClient.WebServices;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 namespace ImageHuntTelegramBot.Services
 {

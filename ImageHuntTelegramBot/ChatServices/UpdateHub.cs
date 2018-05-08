@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autofac;
 using ImageHuntTelegramBot.ChatServices;
 using Microsoft.Extensions.Options;
-using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 

@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace ImageHuntTelegramBot.Dialogs
+﻿namespace ImageHuntTelegramBot.Dialogs
 {
   public class InitDialog : AbstractDialog, IInitDialog
   {

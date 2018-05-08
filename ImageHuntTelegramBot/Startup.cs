@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using Autofac;
-using ImageHuntTelegramBot.ChatServices;
+﻿using Autofac;
 using ImageHuntTelegramBot.Controllers;
 using ImageHuntTelegramBot.Dialogs;
-using ImageHuntTelegramBot.Services;
-using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Telegram.Bot;
 
 namespace ImageHuntTelegramBot
 {
