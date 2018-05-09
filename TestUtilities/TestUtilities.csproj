@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="2.0.2" />
     <PackageReference Include="NFluent" Version="2.2.0" />
@@ -20,10 +21,5 @@
     <PackageReference Include="NFluent" Version="2.2.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Autofac">
-      <HintPath>..\..\..\Users\mandr\.nuget\packages\autofac\4.8.0\lib\netstandard1.1\Autofac.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 
 </Project>
