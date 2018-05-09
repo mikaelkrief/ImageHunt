@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -8,19 +10,28 @@ namespace ImageHuntWebServiceClient.WebServices
   {
     protected readonly HttpClient _httpClient;
 
-    public AbstractWebService(HttpClient httpClient)
+    protected AbstractWebService(HttpClient httpClient)
     {
       _httpClient = httpClient;
       _httpClient.DefaultRequestHeaders.Clear();
     }
 
-    protected async Task<T> GetAsync<T>(string url) where T : class
+    protected async Task<T> GetAsync<T>(string url, CancellationToken cancellationToken = default(CancellationToken)) where T : class
     {
-      var response = await _httpClient.GetAsync(url);
-      if (response.IsSuccessStatusCode)
+      try
       {
-        return await ConvertToObject<T>(response);
+        var response = await _httpClient.GetAsync(url, cancellationToken);
+        if (response.IsSuccessStatusCode)
+        {
+          return await ConvertToObject<T>(response);
+        }
+
       }
+      catch (Exception e)
+      {
+        return null;
+      }
+
       return null;
     }
 
@@ -30,19 +41,20 @@ namespace ImageHuntWebServiceClient.WebServices
       return JsonConvert.DeserializeObject<T>(responseAsString);
     }
 
-    protected async Task PostAsync(string request)
+    protected async Task PostAsync<T>(string request, CancellationToken cancellationToken = default (CancellationToken))
     {
-      var result = await _httpClient.PostAsync(request, null);
+      var result = await _httpClient.PostAsync(request, null, cancellationToken);
     }
 
-    protected async Task PutAsync(string request)
+    protected async Task PutAsync(string request, CancellationToken cancellationToken = default (CancellationToken))
     {
-      var result = await _httpClient.PutAsync(request, null);
+      var result = await _httpClient.PutAsync(request, null, cancellationToken);
     }
 
-    protected async Task<T> PutAsync<T>(string request) where T : class
+    protected async Task<T> PutAsync<T>(string request, 
+      CancellationToken cancellationToken = default(CancellationToken) ) where T : class
     {
-      var response = await _httpClient.PutAsync(request, null);
+      var response = await _httpClient.PutAsync(request, null, cancellationToken);
       if (response.IsSuccessStatusCode)
       {
         return await ConvertToObject<T>(response);

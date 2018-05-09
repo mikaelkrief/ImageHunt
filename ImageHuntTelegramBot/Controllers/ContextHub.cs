@@ -35,12 +35,14 @@ namespace ImageHuntTelegramBot.Controllers
       if (!_turnContexts.ContainsKey(chatId))
       {
         var turnContext = _lifetimeScope.Resolve<ITurnContext>();
-        turnContext.ChatId = chatId;
-        turnContext.Activity = new Activity(){Text = text, ActivityType = activityType};
         _turnContexts.Add(chatId, turnContext);
       }
 
-      return _turnContexts[chatId];
+      var tc = _turnContexts[chatId];
+      tc.ChatId = chatId;
+      tc.Activity = new Activity() { Text = text, ActivityType = activityType };
+
+      return tc;
     }
   }
 }

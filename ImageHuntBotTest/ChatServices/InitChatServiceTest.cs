@@ -47,7 +47,7 @@ namespace ImageHuntBotTest
       A.CallTo(() =>
           _client.SendTextMessageAsync(A<ChatId>._, "", ParseMode.Default, false, false, 0, null,
             CancellationToken.None)).WithAnyArguments().MustHaveHappened(Repeated.Exactly.Times(3));
-        A.CallTo(() => _gameWebService.GetGameById(15)).MustHaveHappened();
+        A.CallTo(() => _gameWebService.GetGameById(15, A<CancellationToken>._)).MustHaveHappened();
         A.CallTo(() => _teamWebService.GetTeamById(16)).MustHaveHappened();
         Check.That(_target.GameId).Equals(15);
         Check.That(_target.TeamId).Equals(16);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntTelegramBot.Dialogs.Prompts;
 using ImageHuntWebServiceClient.WebServices;
@@ -31,6 +32,10 @@ namespace ImageHuntTelegramBot.Dialogs
     {
       var state = context.GetConversationState<ImageHuntState>();
       state.GameId = (int) result;
+      using (var cancellationTokenSource = new CancellationTokenSource(100000))
+      {
+        state.Game = await _gameWebService.GetGameById(state.GameId, cancellationTokenSource.Token);
+      }
     }
   }
 }

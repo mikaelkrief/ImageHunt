@@ -38,22 +38,7 @@ namespace ImageHuntTelegramBot
 
       containerBuilder.Populate(services);
 
-      //services.AddScoped<IUpdateHub, UpdateHub>();
-      
-
-      //services.AddSingleton<ITelegramBotClient, TelegramBotClient>(provider=>
-      //  new TelegramBotClient(botToken, new HttpClient()
-      //  {
-      //    BaseAddress = new Uri(Configuration.GetValue<string>("ImageHuntApi:Url"))
-      //  }));
-      //containerBuilder.RegisterType<Dictionary<long, ChatProperties>>().SingleInstance();
-      //containerBuilder.RegisterType<DefaultChatService>().As<IDefaultChatService>();
-      //containerBuilder.RegisterType<InitChatService>().As<IInitChatService>();
-      //containerBuilder.RegisterType<StartChatService>().As<IStartChatService>();
       var container = containerBuilder.Build();
-      services.AddSingleton<ContextHub>(provider => new ContextHub(container));
-      //services.AddSingleton<IContainer>(containerBuilder.Build());
-      //services.AddSingleton(Configuration);
 
       services.Configure<BotConfiguration>(Configuration.GetSection("BotConfiguration"));
       return new AutofacServiceProvider(container);

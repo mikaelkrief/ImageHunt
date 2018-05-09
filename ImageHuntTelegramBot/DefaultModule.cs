@@ -24,7 +24,7 @@ namespace ImageHuntTelegramBot
         }).As<IBot>();
         builder.RegisterType<TelegramAdapter>().As<IAdapter>();
         builder.RegisterType<TurnContext>().As<ITurnContext>();
-        builder.RegisterType<ContextHub>();
+        builder.RegisterType<ContextHub>().SingleInstance();
       }
   }
 }

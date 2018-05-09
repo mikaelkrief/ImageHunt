@@ -60,7 +60,7 @@ namespace ImageHuntBotTest.ChatServices
       await _target.Message(message);
       await _target.CallbackQuery(callbackQuery);
       // Assert
-      A.CallTo(() => _gameWebService.StartGameForTeam(A<int>._, A<int>._)).MustHaveHappened();
+      A.CallTo(() => _gameWebService.StartGameForTeam(A<int>._, A<int>._, A<CancellationToken>._)).MustHaveHappened();
     }
     [Fact]
     public async Task CallbackQuery_UserReplied_Yes()
@@ -69,13 +69,13 @@ namespace ImageHuntBotTest.ChatServices
       var message = new Message() { Chat = new Chat() { Id = 15 }, Text = "/startgame" };
       var callbackQuery = new CallbackQuery() { Data = "Yes", Message = message };
       var nodeResponse = new NodeResponse(){Latitude = 15.5, Longitude = 14.6, Name = "Départ"};
-      A.CallTo(() => _gameWebService.StartGameForTeam(A<int>._, A<int>._))
+      A.CallTo(() => _gameWebService.StartGameForTeam(A<int>._, A<int>._, A<CancellationToken>._))
         .Returns(Task.FromResult(nodeResponse));
       // Act
       await _target.Message(message);
       await _target.CallbackQuery(callbackQuery);
       // Assert
-      A.CallTo(() => _gameWebService.StartGameForTeam(A<int>._, A<int>._)).MustHaveHappened();
+      A.CallTo(() => _gameWebService.StartGameForTeam(A<int>._, A<int>._, A<CancellationToken>._)).MustHaveHappened();
       A.CallTo(() => _client.SendLocationAsync(A<ChatId>._, (float) nodeResponse.Latitude,
           (float) nodeResponse.Longitude, A<int>._, A<bool>._, A<int>._, A<IReplyMarkup>._, A<CancellationToken>._))
         .MustHaveHappened();
@@ -90,7 +90,7 @@ namespace ImageHuntBotTest.ChatServices
       await _target.Message(message);
       await _target.CallbackQuery(callbackQuery);
       // Assert
-      A.CallTo(() => _gameWebService.StartGameForTeam(A<int>._, A<int>._)).MustNotHaveHappened();
+      A.CallTo(() => _gameWebService.StartGameForTeam(A<int>._, A<int>._, A<CancellationToken>._)).MustNotHaveHappened();
     }
   }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntTelegramBot.ChatServices;
 using ImageHuntWebServiceClient.WebServices;
@@ -12,6 +13,7 @@ namespace ImageHuntTelegramBot.Services
     {
       private readonly IGameWebService _gameWebService;
       private readonly ITeamWebService _teamWebService;
+      private const int _webServiceTimeout = 10000;
       public int TeamId { get; set; }
 
       public int GameId { get; set; }
@@ -36,8 +38,13 @@ namespace ImageHuntTelegramBot.Services
         case var s when s.StartsWith("/game"):
           GameId = await ExtractInt("game", s);
           this[Chat.Id].GameId = GameId;
-          var game = this[Chat.Id].Game = await _gameWebService.GetGameById(GameId);
-          await SendTextMessageAsync(Chat.Id, $"Vous participez à la partie {game.Name} qui débutera {game.StartDate}. Merci de m'indiquer l'id de l'équipe : /team=id");
+          using (var cancellationTokenSource = new CancellationTokenSource(_webServiceTimeout))
+          {
+            var game = this[Chat.Id].Game = await _gameWebService.GetGameById(GameId, cancellationTokenSource.Token);
+            await SendTextMessageAsync(Chat.Id,
+              $"Vous participez à la partie {game.Name} qui débutera {game.StartDate}. Merci de m'indiquer l'id de l'équipe : /team=id");
+          }
+
           return;
         case var s when s.StartsWith("/team"):
           TeamId = await ExtractInt("team", s);

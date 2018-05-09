@@ -24,9 +24,4 @@ namespace ImageHuntTelegramBot.Controllers
         return Ok();
       }
     }
-
-  public interface IBot
-  {
-    Task OnTurn(ITurnContext context);
-  }
 }

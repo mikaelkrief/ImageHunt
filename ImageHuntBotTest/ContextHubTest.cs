@@ -38,7 +38,21 @@ namespace ImageHuntBotTest
         Check.That(context.Activity.Text).Equals(update.Message.Text);
         Check.That(context.Activity.ActivityType).Equals(ActivityType.Message);
       }
+
       [Fact]
+      public void GetContext_second_message()
+      {
+      // Arrange
+        var update1 = new Update() { Message = new Message() { Text = "toto", Chat = new Chat() { Id = 15 } } };
+        var update2 = new Update() { Message = new Message() { Text = "tata", Chat = new Chat() { Id = 15 } } };
+        // Act
+        var context1 = _target.GetContext(update1);
+        var context2 = _target.GetContext(update2);
+        // Assert
+        Check.That(context1).Equals(context2);
+        Check.That(context2.Activity.Text).Equals(update2.Message.Text);
+      }
+    [Fact]
       public void GetContext_CallbackQuery()
       {
         // Arrange
