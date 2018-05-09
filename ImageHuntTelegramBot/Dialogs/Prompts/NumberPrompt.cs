@@ -7,13 +7,15 @@ namespace ImageHuntTelegramBot.Dialogs.Prompts
   {
     private string _replyUser;
 
-    public NumberPrompt(string promptMessage) : base(promptMessage)
+    public NumberPrompt(string promptMessage, PromptResult promptResult) 
+      : base(promptMessage, promptResult)
     {
     }
 
     public override Task Continue(ITurnContext turnContext)
     {
       _replyUser = turnContext.Activity.Text;
+      _prompResult?.Invoke(turnContext, Value);
       return base.Continue(turnContext);
     }
 
@@ -29,7 +31,6 @@ namespace ImageHuntTelegramBot.Dialogs.Prompts
           case TypeCode.Double:
             return (T) (object) Convert.ToDouble(_replyUser);
         }
-
         return default(T);
       }
     }

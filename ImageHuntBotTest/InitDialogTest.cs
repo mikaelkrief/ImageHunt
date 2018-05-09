@@ -4,6 +4,7 @@ using FakeItEasy;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
 using ImageHuntTelegramBot.Dialogs.Prompts;
+using ImageHuntWebServiceClient.WebServices;
 using TestUtilities;
 using Xunit;
 
@@ -12,10 +13,16 @@ namespace ImageHuntBotTest
     public class InitDialogTest : BaseTest
     {
       private IInitDialog _target;
+      private IGameWebService _gameWebService;
+      private ITeamWebService _teamWebService;
 
       public InitDialogTest()
       {
         _testContainerBuilder.RegisterType<InitDialog>().As<IInitDialog>();
+        _gameWebService = A.Fake<IGameWebService>();
+        _testContainerBuilder.RegisterInstance(_gameWebService);
+        _teamWebService = A.Fake<ITeamWebService>();
+        _testContainerBuilder.RegisterInstance(_teamWebService);
         _container = _testContainerBuilder.Build();
         _target = _container.Resolve<IInitDialog>();
       }

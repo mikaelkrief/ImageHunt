@@ -55,6 +55,11 @@ namespace ImageHuntBotTest
         A.CallTo(() => context.Begin(childrenDialog)).MustHaveHappened();
         A.CallTo(() => childrenDialog.Continue(context)).MustHaveHappened();
       }
+
+      async Task DummyPrompt(ITurnContext context, object result)
+      {
+
+      }
     [Fact]
       public async Task AddChildren_And_Begin_And_Continue_on_multiple_subDialog()
       {
@@ -62,12 +67,12 @@ namespace ImageHuntBotTest
         _target = A.Fake<AbstractDialog>(options=>options.CallsBaseMethods());
 
       var childrenDialog1 = A.Fake<NumberPrompt<int>>(op=>op.CallsBaseMethods()
-                                                            .WithArgumentsForConstructor(new [] {""}));
+                                                            .WithArgumentsForConstructor(new object[] {"",null}));
         _target.AddChildren(childrenDialog1);
       //A.CallTo(() => childrenDialog1.Begin(A<ITurnContext>._))
       //  .Invokes(async (ITurnContext turnContext) => { await turnContext.Continue(); });
       var childrenDialog2 = A.Fake<NumberPrompt<int>>(op => op.CallsBaseMethods()
-                                                              .WithArgumentsForConstructor(new[] { "" }));
+                                                              .WithArgumentsForConstructor(new[] { "", null }));
       _target.AddChildren(childrenDialog2);
         var context = A.Fake<TurnContext>(op=>op.CallsBaseMethods());
         var activity1 = A.Fake<IActivity>();
@@ -117,10 +122,10 @@ namespace ImageHuntBotTest
         // Arrange
         _target = A.Fake<AbstractDialog>(op=>op.CallsBaseMethods());
         var childrenDialog1 = A.Fake<NumberPrompt<int>>(op=>op.CallsBaseMethods()
-                                                              .WithArgumentsForConstructor(new []{ "First Prompt" }) );
+                                                              .WithArgumentsForConstructor(new []{ "First Prompt", null }) );
         _target.AddChildren(childrenDialog1);
         var childrenDialog2 = A.Fake<NumberPrompt<int>>(op => op.CallsBaseMethods()
-          .WithArgumentsForConstructor(new[] { "Second Prompt" }));
+          .WithArgumentsForConstructor(new[] { "Second Prompt", null }));
         _target.AddChildren(childrenDialog2);
         var context = A.Fake<TurnContext>(op=>op.CallsBaseMethods());
 
@@ -136,12 +141,12 @@ namespace ImageHuntBotTest
         A.CallTo(() => context.ReplyActivity(A<Activity>.That.Matches(a=>a.Text == "Second Prompt"))).MustHaveHappened(Repeated.Exactly.Once);
       }
       [Fact]
-      public async Task Only1SubDuialog()
+      public async Task Only1SubDialog()
       {
         // Arrange
         _target = A.Fake<AbstractDialog>(op=>op.CallsBaseMethods());
         var childrenDialog1 = A.Fake<NumberPrompt<int>>(op=>op.CallsBaseMethods()
-                                                              .WithArgumentsForConstructor(new []{ "First Prompt" }) );
+                                                              .WithArgumentsForConstructor(new []{ "First Prompt", null }) );
         _target.AddChildren(childrenDialog1);
         var context = A.Fake<TurnContext>(op=>op.CallsBaseMethods());
         //A.CallTo(() => context.End()).Invokes(() => context.EndCalled+= Raise.With(context, new EventArgs()) );

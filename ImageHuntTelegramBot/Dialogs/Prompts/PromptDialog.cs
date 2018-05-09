@@ -5,10 +5,14 @@ namespace ImageHuntTelegramBot.Dialogs.Prompts
   public abstract class PromptDialog : AbstractDialog
   {
     private readonly string _promptMessage;
+    protected readonly PromptResult _prompResult;
 
-    protected PromptDialog(string promptMessage)
+    public delegate Task PromptResult(ITurnContext context, object result);
+
+    protected PromptDialog(string promptMessage, PromptResult prompResult)
     {
       _promptMessage = promptMessage;
+      _prompResult = prompResult;
     }
 
     public override async Task Begin(ITurnContext turnContext)

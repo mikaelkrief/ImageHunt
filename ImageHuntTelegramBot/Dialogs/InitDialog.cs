@@ -1,16 +1,36 @@
-﻿using ImageHuntTelegramBot.Dialogs.Prompts;
+﻿using System;
+using System.Threading.Tasks;
+using ImageHuntTelegramBot.Dialogs.Prompts;
+using ImageHuntWebServiceClient.WebServices;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ImageHuntTelegramBot.Dialogs
 {
   public class InitDialog : AbstractDialog, IInitDialog
   {
-    public InitDialog()
+    private readonly IGameWebService _gameWebService;
+    private readonly ITeamWebService _teamWebService;
+
+    public InitDialog(IGameWebService gameWebService, ITeamWebService teamWebService)
     {
-      var firstStep = new NumberPrompt<int>("Merci de m'indiquer l'id de la partie");
+      _gameWebService = gameWebService;
+      _teamWebService = teamWebService;
+      var firstStep = new NumberPrompt<int>("Merci de m'indiquer l'id de la partie", PromptGameId);
       AddChildren(firstStep);
-      var secondStep = new NumberPrompt<int>("Merci de m'indiquer l'id de l'équipe");
+      var secondStep = new NumberPrompt<int>("Merci de m'indiquer l'id de l'équipe", PromptTeamNumber);
       AddChildren(secondStep);
+    }
+
+    private async Task PromptTeamNumber(ITurnContext context, object result)
+    {
+      var state = context.GetConversationState<ImageHuntState>();
+      state.TeamId = (int) result;
+    }
+
+    private async Task PromptGameId(ITurnContext context, object result)
+    {
+      var state = context.GetConversationState<ImageHuntState>();
+      state.GameId = (int) result;
     }
   }
 }

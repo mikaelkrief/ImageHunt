@@ -18,11 +18,6 @@ namespace ImageHuntTelegramBot.Dialogs
         _currentDialog = _childenDialogs.First();
         await turnContext.Begin(_currentDialog);
       }
-      else
-      {
-        _currentDialog = this;
-        await _currentDialog.Begin(turnContext);
-      }
     }
 
     private async void TurnContextOnEndCalled(object sender, EventArgs eventArgs)
@@ -47,7 +42,9 @@ namespace ImageHuntTelegramBot.Dialogs
 
     public virtual async Task Continue(ITurnContext turnContext)
     {
-         await _currentDialog.Continue(turnContext);
+      // continue only if the current dialog is not self (to avoid infinite loop)
+      if (_currentDialog != this)
+        await _currentDialog.Continue(turnContext);
     }
 
 

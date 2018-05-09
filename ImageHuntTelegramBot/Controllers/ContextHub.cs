@@ -7,12 +7,12 @@ namespace ImageHuntTelegramBot.Controllers
 {
   public class ContextHub
   {
-    private readonly IContainer _container;
+    private readonly ILifetimeScope _lifetimeScope;
     private Dictionary<long, ITurnContext> _turnContexts = new Dictionary<long, ITurnContext>();
 
-    public ContextHub(IContainer container)
+    public ContextHub(ILifetimeScope lifetimeScope)
     {
-      _container = container;
+      _lifetimeScope = lifetimeScope;
     }
     public virtual ITurnContext GetContext(Update update)
     {
@@ -34,7 +34,7 @@ namespace ImageHuntTelegramBot.Controllers
 
       if (!_turnContexts.ContainsKey(chatId))
       {
-        var turnContext = _container.Resolve<ITurnContext>();
+        var turnContext = _lifetimeScope.Resolve<ITurnContext>();
         turnContext.ChatId = chatId;
         turnContext.Activity = new Activity(){Text = text, ActivityType = activityType};
         _turnContexts.Add(chatId, turnContext);
