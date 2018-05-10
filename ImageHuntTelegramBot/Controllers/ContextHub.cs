@@ -9,7 +9,7 @@ namespace ImageHuntTelegramBot.Controllers
   {
     private readonly ILifetimeScope _lifetimeScope;
     private Dictionary<long, ITurnContext> _turnContexts = new Dictionary<long, ITurnContext>();
-
+    private static readonly object padlock = new object();
     public ContextHub(ILifetimeScope lifetimeScope)
     {
       _lifetimeScope = lifetimeScope;
@@ -32,17 +32,20 @@ namespace ImageHuntTelegramBot.Controllers
           break;
       }
 
-      if (!_turnContexts.ContainsKey(chatId))
+      lock (padlock)
       {
-        var turnContext = _lifetimeScope.Resolve<ITurnContext>();
-        _turnContexts.Add(chatId, turnContext);
+        if (!_turnContexts.ContainsKey(chatId))
+        {
+          var turnContext = _lifetimeScope.Resolve<ITurnContext>();
+          _turnContexts.Add(chatId, turnContext);
+        }
+        var tc = _turnContexts[chatId];
+        tc.ChatId = chatId;
+        tc.Activity = new Activity() { Text = text, ActivityType = activityType };
+
+        return tc;
       }
 
-      var tc = _turnContexts[chatId];
-      tc.ChatId = chatId;
-      tc.Activity = new Activity() { Text = text, ActivityType = activityType };
-
-      return tc;
     }
   }
 }
