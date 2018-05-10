@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace ImageHuntTelegramBot
 {
@@ -27,6 +29,32 @@ namespace ImageHuntTelegramBot
         default:
           throw new ArgumentOutOfRangeException();
       }
+    }
+
+    public async Task<Activity> CreateActivityFromUpdate(Update update)
+    {
+      long chatId = 0;
+      string text = null;
+      ActivityType activityType = ActivityType.None;
+
+      switch (update.Type)
+      {
+        case UpdateType.MessageUpdate:
+          chatId = update.Message.Chat.Id;
+          text = update.Message.Text;
+          activityType = ActivityType.Message;
+          break;
+        case UpdateType.CallbackQueryUpdate:
+          chatId = update.CallbackQuery.Message.Chat.Id;
+          activityType = ActivityType.CallbackQuery;
+          text = update.CallbackQuery.Message.Text;
+          break;
+      }
+      var activity = new Activity();
+      activity.ActivityType = activityType;
+      activity.ChatId = chatId;
+      activity.Text = text;
+      return activity;
     }
 
     private async Task SendMessage(IActivity activity)

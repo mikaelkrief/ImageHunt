@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
 using ImageHuntTelegramBot;
@@ -16,21 +17,25 @@ namespace ImageHuntBotTest
     {
       private ContextHub _target;
       private ITurnContext _turnContext;
+      private IAdapter _adapter;
 
       public ContextHubTest()
       {
         _turnContext = A.Fake<ITurnContext>();
-        _testContainerBuilder.RegisterInstance(_turnContext);
+        _adapter = A.Fake<TelegramAdapter>();
+        _testContainerBuilder.RegisterInstance(_adapter).As<IAdapter>();
+        _testContainerBuilder.RegisterInstance(_turnContext).As<ITurnContext>();
+        _testContainerBuilder.RegisterType<ContextHub>().SingleInstance();
         _container = _testContainerBuilder.Build();
-        _target = new ContextHub(_container);
+        _target = _container.Resolve<ContextHub>();
       }
       [Fact]
-      public void GetContext_Message()
+      public async Task GetContext_Message()
       {
         // Arrange
         var update = new Update() {Message = new Message() {Text = "toto", Chat = new Chat() {Id = 15}}};
         // Act
-        var context = _target.GetContext(update);
+        var context = await _target.GetContext(update);
         // Assert
         Check.That(context).Equals(_turnContext);
         Check.That(context.ChatId).Equals(15);
@@ -40,25 +45,25 @@ namespace ImageHuntBotTest
       }
 
       [Fact]
-      public void GetContext_second_message()
+      public async Task GetContext_second_message()
       {
       // Arrange
         var update1 = new Update() { Message = new Message() { Text = "toto", Chat = new Chat() { Id = 15 } } };
         var update2 = new Update() { Message = new Message() { Text = "tata", Chat = new Chat() { Id = 15 } } };
         // Act
-        var context1 = _target.GetContext(update1);
-        var context2 = _target.GetContext(update2);
+        var context1 = await _target.GetContext(update1);
+        var context2 = await _target.GetContext(update2);
         // Assert
         Check.That(context1).Equals(context2);
         Check.That(context2.Activity.Text).Equals(update2.Message.Text);
       }
     [Fact]
-      public void GetContext_CallbackQuery()
+      public async Task GetContext_CallbackQuery()
       {
         // Arrange
         var update = new Update() {CallbackQuery = new CallbackQuery(){Message = new Message(){Chat = new Chat(){Id = 15}}}};
         // Act
-        var context = _target.GetContext(update);
+        var context = await _target.GetContext(update);
         // Assert
         Check.That(context).Equals(_turnContext);
         Check.That(context.ChatId).Equals(15);

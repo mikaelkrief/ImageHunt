@@ -1,18 +1,12 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
-using ImageHuntBotTest.ChatServices;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.ChatServices;
 using ImageHuntTelegramBot.Services;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 using Telegram.Bot;
-using Telegram.Bot.Args;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
 
 namespace ImageHuntBotTest

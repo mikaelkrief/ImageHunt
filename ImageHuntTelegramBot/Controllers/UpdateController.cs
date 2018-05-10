@@ -19,7 +19,7 @@ namespace ImageHuntTelegramBot.Controllers
     [HttpPost]
       public async Task<IActionResult> Post([FromBody] Update update)
       {
-        var context = _contextHub.GetContext(update);
+        var context = await _contextHub.GetContext(update);
         await _bot.OnTurn(context);
         return Ok();
       }
