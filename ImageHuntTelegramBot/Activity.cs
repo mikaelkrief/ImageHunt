@@ -1,10 +1,13 @@
-﻿namespace ImageHuntTelegramBot
+﻿using System;
+
+namespace ImageHuntTelegramBot
 {
     public class Activity : IActivity
     {
       public ActivityType ActivityType { get; set; }
       public string Text { get; set; }
       public long ChatId { get; set; }
+      public Uri Picture { get; set; }
     }
 
   public enum ActivityType
