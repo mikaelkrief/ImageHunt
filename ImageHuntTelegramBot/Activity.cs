@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Telegram.Bot.Types;
 
 namespace ImageHuntTelegramBot
@@ -10,6 +11,15 @@ namespace ImageHuntTelegramBot
       public long ChatId { get; set; }
       public PhotoSize[] Pictures { get; set; }
       public Location Location { get; set; }
+
+      public string Command
+      {
+        get
+        {
+          var regex = new Regex(@"\/\w*");
+          return regex.Match(Text).Value;
+        }
+      }
     }
 
   public enum ActivityType
@@ -27,5 +37,7 @@ namespace ImageHuntTelegramBot
     string Text { get; set; }
     long ChatId { get; set; }
     PhotoSize[] Pictures { get; set; }
+    Location Location { get; set; }
+    string Command { get; }
   }
 }

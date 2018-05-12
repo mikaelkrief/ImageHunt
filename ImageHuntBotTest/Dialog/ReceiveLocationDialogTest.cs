@@ -6,6 +6,8 @@ using Autofac;
 using FakeItEasy;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
+using NFluent;
+using Telegram.Bot.Types;
 using TestUtilities;
 using Xunit;
 
@@ -26,22 +28,22 @@ namespace ImageHuntBotTest.Dialog
       public async Task Begin()
       {
         // Arrange
+        var activity = new Activity()
+        {
+          ActivityType = ActivityType.Message,
+          ChatId = 15,
+          Location = new Location() {Latitude = 15.6f, Longitude = 4.2f}
+        };
         var turnContext = A.Fake<ITurnContext>();
-        // Act
-        await _target.Begin(turnContext);
+        A.CallTo(() => turnContext.Activity).Returns(activity);
+        var imageHuntState = new ImageHuntState();
+        A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(imageHuntState);
+      // Act
+      await _target.Begin(turnContext);
         // Assert
+        A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).MustHaveHappened();
+        Check.That(imageHuntState.CurrentLatitude).Equals(15.6f);
+        Check.That(imageHuntState.CurrentLongitude).Equals(4.2f);
       }
     }
-
-  public class ReceiveLocationDialog : AbstractDialog, IReceiveLocationDialog
-  {
-    public override Task Begin(ITurnContext turnContext)
-    {
-      return base.Begin(turnContext);
-    }
-  }
-
-  public interface IReceiveLocationDialog : IDialog
-  {
-  }
 }

@@ -38,24 +38,25 @@ namespace ImageHuntTelegramBot
       ActivityType activityType = ActivityType.None;
       PhotoSize[] photoSizes = null;
      Location location = null;
+      Message message = null;
       switch (update.Type)
       {
         case UpdateType.Message:
-          chatId = update.Message.Chat.Id;
-          text = update.Message.Text;
-          if (update.Message.Photo != null)
+        case UpdateType.EditedMessage:
+          message = update.Message == null ? update.EditedMessage : update.Message;
+          chatId = message.Chat.Id;
+          text = message.Text;
+          if (message.Photo != null)
           {
             text = "/uploadphoto";
-            photoSizes = update.Message.Photo;
+            photoSizes = message.Photo;
           }
 
-        {
-          if (update.Message.Location != null)
+          if (message.Location != null)
           {
             text = "/location";
-            location = update.Message.Location;
+            location = message.Location;
           }
-        }
 
           activityType = ActivityType.Message;
 
