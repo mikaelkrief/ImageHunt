@@ -92,5 +92,31 @@ namespace ImageHuntBotTest
       Check.That(activity.ChatId).Equals(update.Message.Chat.Id);
       Check.That(activity.Text).Equals("/uploadphoto");
     }
+
+    [Fact]
+    public async Task CreateActivityFromUpdate_Message_Location()
+    {
+      // Arrange
+      var update = new Update()
+      {
+        Message = new Message()
+        {
+          Chat = new Chat()
+          {
+            Id = 15
+          },
+          Location = new Location() {Latitude = 15.2f, Longitude = 25.2f}
+        }
+      };
+      // Act
+      var activity = await _target.CreateActivityFromUpdate(update);
+      // Assert
+      Check.That(activity.ActivityType).Equals(ActivityType.Message);
+      Check.That(activity.ChatId).Equals(update.Message.Chat.Id);
+      Check.That(activity.Text).Equals("/location");
+      Check.That(activity.Location).IsNotNull();
+      Check.That(activity.Location.Latitude).Equals(15.2f);
+      Check.That(activity.Location.Longitude).Equals(25.2f);
+    }
   }
 }

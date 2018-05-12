@@ -55,19 +55,7 @@ namespace ImageHuntTelegramBot.Dialogs
           Latitude = state.CurrentLatitude,
           Longitude = state.CurrentLongitude
         };
-        //var fileContent = new ByteArrayContent(imageBytes);
-        //fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-        //{
-        //  FileName = "image.jpg"
-        //};
-
-        uploadRequest.FormFile = new FormFile(stream, 0, stream.Length, "formFile", "image.jpg")
-        {
-          //Headers = new FrameRequestHeaders(),
-          //ContentDisposition = "form-data; name=\"formFile\"; filename=\"image.jpg\""
-        };
-        //uploadRequest.FormFile.Headers.Add("Content-Disposition", "form-data; name=\"formFile\"; filename=\"image.jpg\"");
-        //uploadRequest.FormFile.Headers.Add("Content-Type", "image/jpeg");
+        uploadRequest.FormFile = new FormFile(stream, 0, stream.Length, "formFile", "image.jpg");
         await _teamWebService.UploadImage(uploadRequest);
       }
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntTelegramBot.Controllers;
 
@@ -8,21 +9,37 @@ namespace ImageHuntTelegramBot
   public class TelegramBot : IBot
   {
     private Dictionary<string, IDialog> _dialogs = new Dictionary<string, IDialog>();
+    private static readonly SemaphoreSlim Padlock = new SemaphoreSlim(1,1);
 
     public void AddDialog(string dialogInitText, IDialog dialog)
     {
       _dialogs.Add(dialogInitText, dialog);
     }
+
     public async Task OnTurn(ITurnContext context)
     {
-      await context.Continue();
-      if (!context.Replied)
+      await Padlock.WaitAsync();
+      // Start critical section
+      try
       {
-        if (context.CurrentDialog == null && _dialogs.Any(d=>d.Key == context.Activity.Text))
+        await context.Continue();
+        IDialog dialog = null;
+        if (!context.Replied)
         {
-          var dialog = _dialogs[context.Activity.Text];
+          if (context.CurrentDialog == null && _dialogs.Any(d => context.Activity.Command == d.Key))
+          {
+            dialog = _dialogs[context.Activity.Command];
+          }
+        }
+        if (dialog != null)
+        {
           await context.Begin(dialog);
         }
+      }
+      finally
+      {
+        // End critical section
+        Padlock.Release();
       }
     }
   }
