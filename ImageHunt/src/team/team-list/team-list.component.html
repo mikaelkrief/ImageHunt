@@ -6,12 +6,21 @@
     <thead>
       <tr>
         <th>Nom de la team</th>
+        <th>Init group chat</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let team of teams">
         <td><span class="fa fa-users"> <a routerLink="/team/{{team.id}}">{{team.name}}</a></span></td>
+        <td>
+          <ul>
+            <li>/init gameid={{gameId}} teamid={{team.id}}</li>
+            <li><qr-code [value]="'/init gameid=' + gameId + ' teamid=' + team.id" [size]="50"></qr-code></li>
+          </ul>
+          <br/>
+
+        </td>
         <td>
           <button class="btn btn-danger" (click)="deleteTeam(team.id)"><i class="fa fa-trash"></i></button>
         </td>

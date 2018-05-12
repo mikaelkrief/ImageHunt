@@ -1,25 +1,30 @@
-<h2>Détails de la team</h2>
-<div class="col-sm-10">
-  Nom de la team : {{team.name}}
-  <table class="table" *ngIf="team.players != null">
-    <thead>
-    <tr>
-      <th>Nom du joueur</th>
-      <th>Pseudo de chat</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let player of team.players">
-      <td>{{player.name}}</td>
-      <td>{{player.chatLogin}}</td>
-      <td><button class="btn btn-danger" (click)="deletePlayer(team.id, player)"><span class="fa fa-trash"></span></button></td>
+<div class="row">
+  <div class="col-sm-10">
+    <h2>Détails de la team</h2>
+    <h2>Nom de la team : {{team.name}}</h2>
+    <table class="table" *ngIf="team.players != null">
+      <thead>
+      <tr>
+        <th>Nom du joueur</th>
+        <th>Pseudo de chat</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let player of team.players">
+        <td>{{player.name}}</td>
+        <td>{{player.chatLogin}}</td>
+        <td><button class="btn btn-danger" (click)="deletePlayer(team.id, player)"><span class="fa fa-trash"></span></button></td>
 
-    </tr>
+      </tr>
 
-    </tbody>
-  </table>
-  <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-2">
+  </div>
+</div>
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
 
   <form #form="ngForm" (submit)="addPlayer(team.id, form)">
     <div class="form-inline">
@@ -35,4 +40,4 @@
     </div>
     <button  type="submit" class="btn btn-default">Ajouter un joueur</button>
   </form>
-</div>
+
