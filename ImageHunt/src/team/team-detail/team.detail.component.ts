@@ -9,14 +9,17 @@ import { ConfirmationService } from "primeng/api";
 @Component({
     selector: 'team-detail',
     templateUrl: './team.detail.component.html',
-    styleUrls: ['./team.detail.component.scss']
+  styleUrls: ['./team.detail.component.scss']
+    
 })
 /** team-detail component*/
 export class TeamDetailComponent implements OnInit
 {
   team: Team;
     /** team-detail ctor */
-  constructor(private _route: ActivatedRoute, private _teamService: TeamService, private _confirmationService: ConfirmationService) {
+  constructor(private _route: ActivatedRoute,
+    private _teamService: TeamService,
+    private _confirmationService: ConfirmationService) {
     this.team = new Team();
   }
 

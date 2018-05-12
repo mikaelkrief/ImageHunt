@@ -37,6 +37,7 @@ import { GameActionDetailComponent } from "../game/game-action-detail/game-actio
 import localeFr from "@angular/common/locales/fr";
 import { registerLocaleData } from "@angular/common";
 import { SharedModule } from "../shared/shared.module";
+import { QRCodeModule } from "angular2-qrcode";
 
 registerLocaleData(localeFr);
 

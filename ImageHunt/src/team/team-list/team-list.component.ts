@@ -12,6 +12,8 @@ import { ConfirmationService } from "primeng/api";
 /** team component*/
 export class TeamListComponent implements OnInit {
   @Input() teams: Team[];
+  @Input() gameId: number;
+
   /** team ctor */
   constructor(private teamService: TeamService,
     private confirmationService: ConfirmationService) { }
