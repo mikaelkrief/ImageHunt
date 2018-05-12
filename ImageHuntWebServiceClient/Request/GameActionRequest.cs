@@ -1,4 +1,4 @@
-namespace ImageHunt.Request
+namespace ImageHuntWebServiceClient.Request
 {
   public class GameActionRequest
   {

@@ -62,5 +62,35 @@ namespace ImageHuntBotTest
       Check.That(activity.Text).Equals(update.CallbackQuery.Message.Text);
       Check.That(activity.ChatId).Equals(update.CallbackQuery.Message.Chat.Id);
     }
+
+    [Fact]
+    public async Task CreateActivityFromUpdate_Message_Photo()
+    {
+      // Arrange
+      var photoSize1 = new PhotoSize(){FileId = "fileId1", FileSize = 15};
+      var photoSize2 = new PhotoSize(){FileId = "fileId2", FileSize = 150};
+      var photoSize3 = new PhotoSize(){FileId = "fileId3", FileSize = 1500};
+      var update = new Update()
+      {
+        Message = new Message()
+        {
+          Chat = new Chat()
+          {
+            Id = 15
+          },
+          Photo = new []
+          {
+            photoSize1, photoSize2, photoSize3
+          }
+        }
+      };
+      // Act                                                                                       
+      var activity = await _target.CreateActivityFromUpdate(update);
+      // Assert
+      Check.That(activity.ActivityType).Equals(ActivityType.Message);
+      Check.That(activity.Pictures).HasSize(3).And.Contains(update.Message.Photo);
+      Check.That(activity.ChatId).Equals(update.Message.Chat.Id);
+      Check.That(activity.Text).Equals("/uploadphoto");
+    }
   }
 }

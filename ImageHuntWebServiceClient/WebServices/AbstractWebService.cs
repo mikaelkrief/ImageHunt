@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -41,9 +43,18 @@ namespace ImageHuntWebServiceClient.WebServices
       return JsonConvert.DeserializeObject<T>(responseAsString);
     }
 
-    protected async Task PostAsync<T>(string request, CancellationToken cancellationToken = default (CancellationToken))
+    protected async Task<T> PostAsync<T>(string request, 
+                                         HttpContent content, 
+                                         CancellationToken cancellationToken = default (CancellationToken)) 
+      where T : class
     {
-      var result = await _httpClient.PostAsync(request, null, cancellationToken);
+      var result = await _httpClient.PostAsync(request, content, cancellationToken);
+      if (result.IsSuccessStatusCode)
+      {
+        return await ConvertToObject<T>(result);
+      }
+
+      return null;
     }
 
     protected async Task PutAsync(string request, CancellationToken cancellationToken = default (CancellationToken))

@@ -6,6 +6,8 @@ using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using ImageHuntWebServiceClient.Request;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NFluent;
 using Xunit;
@@ -18,12 +20,14 @@ namespace ImageHuntTest.Controller
         private ITeamService _teamService;
         private TeamController _target;
       private IPlayerService _playerService;
+      private IImageService _imageService;
 
       public TeamControllerTest()
         {
             _teamService = A.Fake<ITeamService>();
           _playerService = A.Fake<IPlayerService>();
-            _target = new TeamController(_teamService, _playerService);
+          _imageService = A.Fake<IImageService>();
+            _target = new TeamController(_teamService, _playerService, _imageService);
         }
 
       [Fact]
@@ -164,12 +168,14 @@ namespace ImageHuntTest.Controller
       public void UploadImage()
       {
         // Arrange
+        var formFile = A.Fake<IFormFile>();
+        var uploadImageRequest = new UploadImageRequest(){FormFile = formFile, GameId = 1, TeamId = 1, Longitude = 15, Latitude = 15};
 
         // Act
-        var result = _target.UploadImage(1, 15, 12, new byte[10]);
+        var result = _target.UploadImage(uploadImageRequest);
         // Assert
         Check.That(result).InheritsFrom<IActionResult>();
-        A.CallTo(() => _teamService.UploadImage(A<int>._, A<double>._, A<double>._, A<byte[]>._))
+        A.CallTo(() => _teamService.UploadImage(A<int>._, A<int>._, A<double>._, A<double>._, A<byte[]>._))
           .MustHaveHappened();
       }
 

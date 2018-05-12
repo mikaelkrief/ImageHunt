@@ -36,6 +36,7 @@ namespace ImageHuntTelegramBot
     public virtual async Task End()
     {
       EndCalled?.Invoke(this, new EventArgs());
+      Replied = false;
       CurrentDialog = null;
     }
 
@@ -43,6 +44,13 @@ namespace ImageHuntTelegramBot
     {
       Replied = true;
       await _adapter.SendActivity(activity);
+    }
+
+    public virtual async Task ReplyActivity(string text)
+    {
+      var activity = new Activity(){ActivityType = ActivityType.Message, ChatId = this.ChatId, Text = text};
+
+      await ReplyActivity(activity);
     }
 
     public virtual async Task SendActivity(IActivity activity)

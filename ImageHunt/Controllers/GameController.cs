@@ -4,9 +4,9 @@ using System.Linq;
 using AutoMapper;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
-using ImageHunt.Request;
 using ImageHunt.Response;
 using ImageHunt.Services;
+using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

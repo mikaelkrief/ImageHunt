@@ -53,6 +53,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ImageHuntWebServiceClient\ImageHuntWebServiceClient.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <TypeScriptCompile Include="src\shared\answer.ts" />
     <TypeScriptCompile Include="src\shared\gameAction.ts" />
     <TypeScriptCompile Include="src\shared\RelationClicked.ts" />

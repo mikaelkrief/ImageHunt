@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -19,11 +21,15 @@ namespace ImageHunt.Controllers
   {
     private readonly ITeamService _teamService;
     private readonly IPlayerService _playerService;
+    private readonly IImageService _imageService;
 
-    public TeamController(ITeamService teamService, IPlayerService playerService)
+    public TeamController(ITeamService teamService,
+                          IPlayerService playerService,
+                          IImageService imageService)
     {
       _teamService = teamService;
       _playerService = playerService;
+      _imageService = imageService;
     }
     // GET: api/Team
     [HttpGet("ByGame/{gameId}")]
@@ -102,11 +108,20 @@ namespace ImageHunt.Controllers
       return Ok(_teamService.NextNodeForTeam(teamId, 0, 0));
     }
 
-    public IActionResult UploadImage(int teamId, int latitude, int longitude, byte[] image)
+    [HttpPost("UploadImage/")]
+    [Consumes("multipart/form-data")]
+    public IActionResult UploadImage(UploadImageRequest uploadRequest)
     {
-      _teamService.UploadImage(teamId, latitude, longitude, image);
-      return Ok();
-    }
+      if (uploadRequest.FormFile == null)
+        return BadRequest("Image is bad format or null");
+      using (var stream = uploadRequest.FormFile.OpenReadStream())
+      {
+        var image = new byte[stream.Length];
+        stream.Read(image, 0, (int) stream.Length);
+        _teamService.UploadImage(uploadRequest.GameId, uploadRequest.TeamId, uploadRequest.Latitude, uploadRequest.Longitude, image);
+        return Ok();
+     }
+   }
 
   }
 }
