@@ -35,6 +35,8 @@ namespace ImageHuntTelegramBot.Dialogs
       {
         await turnContext.ReplyActivity(
           $"La chasse n'a pas été correctement initalisée ou je ne sais pas où vous êtes, veuillez demander de l'assistance à l'orga");
+        await turnContext.End();
+        return;
       }
       byte[] imageBytes = null;
       var photoSizes = turnContext.Activity.Pictures;
