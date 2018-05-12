@@ -36,24 +36,29 @@ namespace ImageHuntTelegramBot
       long chatId = 0;
       string text = null;
       ActivityType activityType = ActivityType.None;
-
+      PhotoSize[] photoSizes = null;
       switch (update.Type)
       {
-        case UpdateType.MessageUpdate:
+        case UpdateType.Message:
           chatId = update.Message.Chat.Id;
           text = update.Message.Text;
+          if (update.Message.Photo != null)
+            text = "/uploadphoto";
+          photoSizes = update.Message.Photo;
           activityType = ActivityType.Message;
           break;
-        case UpdateType.CallbackQueryUpdate:
+        case UpdateType.CallbackQuery:
           chatId = update.CallbackQuery.Message.Chat.Id;
           activityType = ActivityType.CallbackQuery;
           text = update.CallbackQuery.Message.Text;
+
           break;
       }
       var activity = new Activity();
       activity.ActivityType = activityType;
       activity.ChatId = chatId;
       activity.Text = text;
+      activity.Pictures = photoSizes;
       return activity;
     }
 

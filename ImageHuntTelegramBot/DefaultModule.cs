@@ -15,11 +15,14 @@ namespace ImageHuntTelegramBot
         builder.RegisterType<GameWebService>().As<IGameWebService>();
         builder.RegisterType<TeamWebService>().As<ITeamWebService>();
         builder.RegisterType<InitDialog>().As<IInitDialog>();
+        builder.RegisterType<ReceiveImageDialog>().As<IReceiveImageDialog>();
         builder.Register(t =>
         {
           var bot = new TelegramBot();
           var initDialog = t.Resolve<IInitDialog>();
           bot.AddDialog("/init", initDialog);
+          var receiveImageDialog = t.Resolve<IReceiveImageDialog>();
+          bot.AddDialog("/uploadphoto", receiveImageDialog);
           return bot;
         }).As<IBot>();
         builder.RegisterType<TelegramAdapter>().As<IAdapter>();

@@ -100,12 +100,14 @@ namespace ImageHunt.Services
       return nextNode;
     }
 
-    public void UploadImage(int teamId, double latitude, double longitude, byte[] image)
+    public void UploadImage(int gameId, int teamId, double latitude, double longitude, byte[] image)
     {
       if (image == null)
         throw new ArgumentException("Parameter image is not provided");
       var team = GetTeamById(teamId);
-      var currentGame = GetCurrentGameForTeam(team);
+      var currentGame = Context.Games.Single(g=>g.Id == gameId);
+      // Get image coordinates
+
       var gameAction = new GameAction()
       {
         DateOccured = DateTime.Now,

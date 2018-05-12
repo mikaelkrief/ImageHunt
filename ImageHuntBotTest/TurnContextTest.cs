@@ -77,11 +77,13 @@ namespace ImageHuntBotTest
       public async Task End()
       {
         // Arrange
-        _target.Begin(A.Fake<IDialog>());
+        await _target.Begin(A.Fake<IDialog>());
+        await _target.ReplyActivity(A.Fake<IActivity>());
         // Act
         await _target.End();
         // Assert
         Check.That(_target.CurrentDialog).IsNull();
+        Check.That(_target.Replied).IsFalse();
       }
 
       [Fact]
@@ -93,6 +95,16 @@ namespace ImageHuntBotTest
         await _target.ReplyActivity(activity);
         // Assert
         A.CallTo(() => _adapter.SendActivity(activity)).MustHaveHappened();
+        Check.That(_target.Replied).IsTrue();
+      }
+      [Fact]
+      public async Task ReplyActivityText()
+      {
+        // Arrange
+        // Act
+        await _target.ReplyActivity("toto");
+        // Assert
+        A.CallTo(() => _adapter.SendActivity(A<Activity>.That.Matches(a=>a.Text == "toto"))).MustHaveHappened();
         Check.That(_target.Replied).IsTrue();
       }
 

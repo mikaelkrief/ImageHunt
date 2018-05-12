@@ -1,4 +1,5 @@
 ﻿using System;
+using Telegram.Bot.Types;
 
 namespace ImageHuntTelegramBot
 {
@@ -7,7 +8,7 @@ namespace ImageHuntTelegramBot
       public ActivityType ActivityType { get; set; }
       public string Text { get; set; }
       public long ChatId { get; set; }
-      public Uri Picture { get; set; }
+      public PhotoSize[] Pictures { get; set; }
     }
 
   public enum ActivityType
@@ -24,5 +25,6 @@ namespace ImageHuntTelegramBot
     ActivityType ActivityType { get; set; }
     string Text { get; set; }
     long ChatId { get; set; }
+    PhotoSize[] Pictures { get; set; }
   }
 }

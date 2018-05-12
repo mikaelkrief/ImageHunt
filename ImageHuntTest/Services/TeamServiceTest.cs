@@ -369,7 +369,7 @@ namespace ImageHuntTest.Services
       // Arrange
 
       // Act
-      Check.ThatCode(() => _target.UploadImage(1, 10, 10, null)).Throws<ArgumentException>();
+      Check.ThatCode(() => _target.UploadImage(1, 1, 15,15,  null)).Throws<ArgumentException>();
       // Assert
     }
 
@@ -381,7 +381,7 @@ namespace ImageHuntTest.Services
       _context.Players.AddRange(players);
       _context.SaveChanges();
       // Act
-      Check.ThatCode(() => _target.UploadImage(1, 10, 10, null)).Throws<ArgumentException>();
+      Check.ThatCode(() => _target.UploadImage(1, 1, 5,5, null)).Throws<ArgumentException>();
       // Assert
     }
 
@@ -405,7 +405,7 @@ namespace ImageHuntTest.Services
       _context.Players.AddRange(players);
       _context.SaveChanges();
       // Act
-      _target.UploadImage(teams[0].Id, 59.3278160094444, 18.0551338194444, image1);
+      _target.UploadImage(games[0].Id, teams[0].Id, 59.3278160094444, 18.0551338194444, image1);
       // Assert
       var imageAction = _context.GameActions.First();
       Check.That(imageAction.Game).Equals(games[0]);

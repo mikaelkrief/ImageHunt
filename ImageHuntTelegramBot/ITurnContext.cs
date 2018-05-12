@@ -14,6 +14,7 @@ namespace ImageHuntTelegramBot
       Task Continue();
       Task End();
       Task ReplyActivity(IActivity activity);
+      Task ReplyActivity(string text);
       Task SendActivity(IActivity activity);
       event EventHandler EndCalled;
       T GetConversationState<T>() where T : class, new();

@@ -46,6 +46,23 @@ namespace ImageHuntBotTest
         A.CallTo(() => turnContext.Continue()).MustHaveHappened();
 
     }
+      [Fact]
+      public async Task OnTurn_Uploadphoto()
+      {
+        // Arrange
+        var turnContext = A.Fake<ITurnContext>();
+        var activity = new Activity(){ActivityType = ActivityType.Message, Text = "/uploadphoto", ChatId = 15};
+        A.CallTo(() => turnContext.Activity).Returns(activity);
+        A.CallTo(() => turnContext.CurrentDialog).Returns(null);
+        var uploadPhotoDialog = A.Fake<IDialog>();
+        _target.AddDialog("/uploadphoto", uploadPhotoDialog);
+        // Act
+        await _target.OnTurn(turnContext);
+      // Assert
+        A.CallTo(() => turnContext.Begin(uploadPhotoDialog)).MustHaveHappened();
+        A.CallTo(() => turnContext.Continue()).MustHaveHappened();
+
+    }
     [Fact]
       public async Task OnTurn_DialogPending()
       {

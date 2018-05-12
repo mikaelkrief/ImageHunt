@@ -8,5 +8,7 @@ namespace ImageHuntTelegramBot.Dialogs
     public GameResponse Game { get; set; }
     public int TeamId { get; set; }
     public TeamResponse Team { get; set; }
+    public double CurrentLongitude { get; set; }
+    public double CurrentLatitude { get; set; }
   }
 }
