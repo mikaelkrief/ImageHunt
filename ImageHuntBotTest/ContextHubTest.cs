@@ -68,5 +68,6 @@ namespace ImageHuntBotTest
         Check.That(context).Equals(_turnContext);
         Check.That(context.ChatId).Equals(15);
       }
+
     }
 }

@@ -37,15 +37,28 @@ namespace ImageHuntTelegramBot
       string text = null;
       ActivityType activityType = ActivityType.None;
       PhotoSize[] photoSizes = null;
+     Location location = null;
       switch (update.Type)
       {
         case UpdateType.Message:
           chatId = update.Message.Chat.Id;
           text = update.Message.Text;
           if (update.Message.Photo != null)
+          {
             text = "/uploadphoto";
-          photoSizes = update.Message.Photo;
+            photoSizes = update.Message.Photo;
+          }
+
+        {
+          if (update.Message.Location != null)
+          {
+            text = "/location";
+            location = update.Message.Location;
+          }
+        }
+
           activityType = ActivityType.Message;
+
           break;
         case UpdateType.CallbackQuery:
           chatId = update.CallbackQuery.Message.Chat.Id;
@@ -59,6 +72,7 @@ namespace ImageHuntTelegramBot
       activity.ChatId = chatId;
       activity.Text = text;
       activity.Pictures = photoSizes;
+      activity.Location = location;
       return activity;
     }
 

@@ -9,6 +9,7 @@ namespace ImageHuntTelegramBot
       public string Text { get; set; }
       public long ChatId { get; set; }
       public PhotoSize[] Pictures { get; set; }
+      public Location Location { get; set; }
     }
 
   public enum ActivityType
