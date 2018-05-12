@@ -27,6 +27,7 @@ namespace ImageHuntTelegramBot.Dialogs
       {
         await turnContext.ReplyActivity("Le groupe à déjà été initialisé!");
         await turnContext.End();
+        return;
       }
       var regEx = new Regex(@"(?i)\/init gameid=(\d*) teamid=(\d*)");
       var activityText = turnContext.Activity.Text;

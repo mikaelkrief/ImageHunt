@@ -29,7 +29,7 @@ namespace ImageHuntBotTest
         _target = _container.Resolve<IInitDialog>();
       }
       [Fact]
-      public async Task Begin_Call_Sub_Dialogs()
+      public async Task Begin()
       {
         // Arrange
         var context = A.Fake<ITurnContext>();
@@ -40,11 +40,25 @@ namespace ImageHuntBotTest
         // Act
         await _target.Begin(context);
         // Assert
-        //A.CallTo(() => context.Begin(A<NumberPrompt<int>>._)).MustHaveHappened();
         Check.That(state.GameId).Equals(2);
         Check.That(state.TeamId).Equals(6);
         A.CallTo(() => _gameWebService.GetGameById(2, A<CancellationToken>._)).MustHaveHappened();
         A.CallTo(() => _teamWebService.GetTeamById(6)).MustHaveHappened();
+      }
+      [Fact]
+      public async Task Begin_Already_Initalized()
+      {
+        // Arrange
+        var context = A.Fake<ITurnContext>();
+        var state = new ImageHuntState(){GameId = 15, TeamId = 15};
+        var activity = new Activity(){Text = "/init gameid=2 teamid=6"};
+        A.CallTo(() => context.GetConversationState<ImageHuntState>()).Returns(state);
+        A.CallTo(() => context.Activity).Returns(activity);
+        // Act
+        await _target.Begin(context);
+        // Assert
+        A.CallTo(() => context.ReplyActivity(A<string>._)).MustHaveHappened();
+        A.CallTo(() => _teamWebService.GetTeamById(6)).MustNotHaveHappened();
       }
 
   }
