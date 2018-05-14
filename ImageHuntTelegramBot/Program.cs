@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHuntTelegramBot
 {
@@ -12,6 +14,21 @@ namespace ImageHuntTelegramBot
 
       public static IWebHost BuildWebHost(string[] args) =>
         WebHost.CreateDefaultBuilder(args)
+            .UseKestrel()
+            .ConfigureAppConfiguration((context, builder) =>
+            {
+                var env = context.HostingEnvironment;
+                builder.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                builder.AddEnvironmentVariables();
+            })
+            .ConfigureLogging((context, builder) =>
+            {
+                builder.AddConfiguration(context.Configuration.GetSection("Logging"));
+                builder.AddConsole();
+                builder.AddDebug();
+            })
+
           .UseStartup<Startup>()
           .Build();
     
