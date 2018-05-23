@@ -19,12 +19,15 @@ namespace ImageHuntBotTest
     {
       private TurnContext _target;
       private IAdapter _adapter;
+      private IStorage _storage;
 
       public TurnContextTest()
       {
         _testContainerBuilder.RegisterType<TurnContext>();
         _adapter = A.Fake<IAdapter>();
+        _storage = A.Fake<IStorage>();
         _testContainerBuilder.RegisterInstance(_adapter).As<IAdapter>();
+        _testContainerBuilder.RegisterInstance(_storage).As<IStorage>();
 
         _container = _testContainerBuilder.Build();
         _target = _container.Resolve<TurnContext>();
@@ -34,7 +37,7 @@ namespace ImageHuntBotTest
       public void GetConversationState()
       {
         // Arrange
-        _target.ChatId = 15;
+        _target.ChatId = 156;
         // Act
         var result = _target.GetConversationState<DummyState>();
         // Assert
@@ -117,6 +120,48 @@ namespace ImageHuntBotTest
         await _target.SendActivity(activity);
         // Assert
         A.CallTo(() => _adapter.SendActivity(activity)).MustHaveHappened();
+      }
+
+      [Fact]
+      public async Task StorageIsRestoredWhenTurnBegin()
+      {
+      // Arrange
+        var dialog = A.Fake<IDialog>();
+        _target.ChatId = 15;
+        A.CallTo(() => _storage.Read(A<string[]>._))
+          .Returns(new[] {new KeyValuePair<string, object>("15", new DummyState()),});
+        // Act
+        await _target.Begin(dialog);
+        // Assert
+        A.CallTo(() => _storage.Read(A<string[]>._)).MustHaveHappened();
+      }
+      [Fact]
+      public async Task StorageIsRestoredWhenTurnBeginNoStateAvailable()
+      {
+      // Arrange
+        var dialog = A.Fake<IDialog>();
+        _target.ChatId = 19;
+        A.CallTo(() => _storage.Read(A<string[]>._))
+          .Returns(new KeyValuePair<string, object>[] {});
+        // Act
+        await _target.Begin(dialog);
+        // Assert
+        A.CallTo(() => _storage.Read(A<string[]>._)).MustHaveHappened();
+      }
+    [Fact]
+      public async Task StorageIsSavedWhenTurnEnd()
+      {
+      // Arrange
+        var dialog = A.Fake<IDialog>();
+        _target.ChatId = 15;
+        A.CallTo(() => _storage.Read(A<string[]>._))
+          .Returns(new[] { new KeyValuePair<string, object>("15", new DummyState()), });
+
+        // Act
+        await _target.Begin(dialog);
+        await _target.End();
+        // Assert
+        A.CallTo(() => _storage.Write(A< IEnumerable<KeyValuePair<string, object>>>._)).MustHaveHappened();
       }
   }
 }
