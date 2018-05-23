@@ -43,7 +43,7 @@ namespace ImageHuntTelegramBot.Dialogs
     public virtual async Task Continue(ITurnContext turnContext)
     {
       // continue only if the current dialog is not self (to avoid infinite loop)
-      if (_currentDialog != this)
+      if (_currentDialog != this && _currentDialog!= null)
         await _currentDialog.Continue(turnContext);
     }
 

@@ -33,6 +33,8 @@ namespace ImageHuntTelegramBot
       {
         BaseAddress = new Uri(Configuration.GetValue<string>("ImageHuntApi:Url"))
       });
+      containerBuilder.RegisterInstance(
+        new FileStorage(Configuration.GetValue<string>("BotConfiguration:StorageFolder"))).As<IStorage>();
       var botToken = Configuration.GetSection("BotConfiguration:BotToken").Value;
       containerBuilder.RegisterInstance(new TelegramBotClient(botToken)).As<ITelegramBotClient>();
 
