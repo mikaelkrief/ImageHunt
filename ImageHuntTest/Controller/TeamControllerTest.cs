@@ -175,9 +175,24 @@ namespace ImageHuntTest.Controller
         var result = _target.UploadImage(uploadImageRequest);
         // Assert
         Check.That(result).InheritsFrom<IActionResult>();
-        A.CallTo(() => _teamService.UploadImage(A<int>._, A<int>._, A<double>._, A<double>._, A<byte[]>._))
+        A.CallTo(() => _teamService.UploadImage(A<int>._, A<int>._, A<double>._, A<double>._, A<byte[]>._, A<string>._))
+          .MustHaveHappened();
+      }
+      [Fact]
+      public void UploadImageWithTitle()
+      {
+        // Arrange
+        var formFile = A.Fake<IFormFile>();
+        var uploadImageRequest = new UploadImageRequest(){FormFile = formFile, GameId = 1, TeamId = 1, Longitude = 15, Latitude = 15, ImageName = "3"};
+
+        // Act
+        var result = _target.UploadImage(uploadImageRequest);
+        // Assert
+        Check.That(result).InheritsFrom<IActionResult>();
+        A.CallTo(() => _teamService.UploadImage(uploadImageRequest.GameId, uploadImageRequest.TeamId, uploadImageRequest.Latitude, uploadImageRequest.Longitude, A<byte[]>._, uploadImageRequest.ImageName))
           .MustHaveHappened();
       }
 
   }
+
 }

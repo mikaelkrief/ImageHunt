@@ -118,7 +118,7 @@ namespace ImageHunt.Controllers
       {
         var image = new byte[stream.Length];
         stream.Read(image, 0, (int) stream.Length);
-        _teamService.UploadImage(uploadRequest.GameId, uploadRequest.TeamId, uploadRequest.Latitude, uploadRequest.Longitude, image);
+        _teamService.UploadImage(uploadRequest.GameId, uploadRequest.TeamId, uploadRequest.Latitude, uploadRequest.Longitude, image, uploadRequest.ImageName);
         return Ok();
      }
    }

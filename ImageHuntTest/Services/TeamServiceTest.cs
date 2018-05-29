@@ -396,7 +396,7 @@ namespace ImageHuntTest.Services
       var image2 = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.ingress_20180128_130017_1.jpg");
       var nodes = new List<Node>()
         {
-          new PictureNode(){Image = new Picture(){Image = image1 } },
+          new PictureNode(){Image = new Picture(){Image = image1 }, Latitude = 59.3278160094000, Longitude = 18.0551338194444},
           new PictureNode(){Image = new Picture(){Image = image2}}
         };
       _context.Nodes.AddRange(nodes);
@@ -414,6 +414,7 @@ namespace ImageHuntTest.Services
       Check.That(imageAction.Longitude).IsEqualsWithDelta(18.0551338194444, 0.001);
       Check.That(imageAction.Picture).IsNotNull();
       Check.That(imageAction.Action).Equals(Action.SubmitPicture);
+      Check.That(imageAction.Node).Equals(nodes[0]);
     }
 
   }

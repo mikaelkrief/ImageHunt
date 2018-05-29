@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Exception;
 using ImageHunt.Model;
@@ -100,13 +101,17 @@ namespace ImageHunt.Services
       return nextNode;
     }
 
-    public void UploadImage(int gameId, int teamId, double latitude, double longitude, byte[] image)
+    public void UploadImage(int gameId, int teamId, double latitude, double longitude, byte[] image,
+      string imageName = null)
     {
       if (image == null)
         throw new ArgumentException("Parameter image is not provided");
       var team = GetTeamById(teamId);
       var currentGame = Context.Games.Single(g=>g.Id == gameId);
-      // Get image coordinates
+      var closestNode =
+        Context.Nodes
+          .OrderBy(n => GeographyComputation.Distance(n.Latitude, n.Longitude, latitude, longitude))
+        .FirstOrDefault();
 
       var gameAction = new GameAction()
       {
@@ -116,7 +121,8 @@ namespace ImageHunt.Services
         Latitude = latitude,
         Longitude = longitude,
         Picture = new Picture() { Image = image },
-        Action = Action.SubmitPicture
+        Action = Action.SubmitPicture,
+        Node = closestNode
       };
       Context.GameActions.Add(gameAction);
       Context.SaveChanges();
