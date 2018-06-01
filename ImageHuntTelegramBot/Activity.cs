@@ -20,6 +20,8 @@ namespace ImageHuntTelegramBot
           return regex.Match(Text).Value;
         }
       }
+
+      public Document Document { get; set; }
     }
 
   public enum ActivityType
@@ -39,5 +41,6 @@ namespace ImageHuntTelegramBot
     PhotoSize[] Pictures { get; set; }
     Location Location { get; set; }
     string Command { get; }
+    Document Document { get; set; }
   }
 }
