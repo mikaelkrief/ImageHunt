@@ -117,8 +117,15 @@ namespace ImageHunt.Controllers
       using (var stream = uploadRequest.FormFile.OpenReadStream())
       {
         var image = new byte[stream.Length];
+        var picture = new Picture(){Image = image};
+        var location = _imageService.ExtractLocationFromImage(picture);
+        if (location.Item1 != double.NaN && location.Item2 != double.NaN)
+        {
+          uploadRequest.Latitude = location.Item1;
+          uploadRequest.Longitude = location.Item2;
+        }
         stream.Read(image, 0, (int) stream.Length);
-        _teamService.UploadImage(uploadRequest.GameId, uploadRequest.TeamId, uploadRequest.Latitude, uploadRequest.Longitude, image);
+        _teamService.UploadImage(uploadRequest.GameId, uploadRequest.TeamId, uploadRequest.Latitude, uploadRequest.Longitude, image, uploadRequest.ImageName);
         return Ok();
      }
    }

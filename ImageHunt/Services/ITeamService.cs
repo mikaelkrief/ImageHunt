@@ -18,6 +18,6 @@ namespace ImageHunt.Services
       Node NextNodeForTeam(int teamId, double playerLatitude, double playerLongitude);
       Node StartGame(int gameId, int teamId);
 
-      void UploadImage(int gameId, int teamId, double latitude, double longitude, byte[] image);
+      void UploadImage(int gameId, int teamId, double latitude, double longitude, byte[] image, string imageName=null);
     }
 }

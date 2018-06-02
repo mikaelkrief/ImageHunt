@@ -53,7 +53,8 @@ namespace ImageHuntTelegramBot.Dialogs
           GameId = state.GameId,
           TeamId = state.TeamId,
           Latitude = state.CurrentLatitude,
-          Longitude = state.CurrentLongitude
+          Longitude = state.CurrentLongitude,
+          ImageName = turnContext.Activity.Text
         };
         uploadRequest.FormFile = new FormFile(stream, 0, stream.Length, "formFile", "image.jpg");
         await _teamWebService.UploadImage(uploadRequest);

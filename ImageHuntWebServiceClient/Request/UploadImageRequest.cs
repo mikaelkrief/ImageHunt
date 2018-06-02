@@ -12,5 +12,6 @@ namespace ImageHuntWebServiceClient.Request
     public double Latitude { get; set; }
     public double Longitude { get; set; }
     public IFormFile FormFile { get; set; }
+    public string ImageName { get; set; }
   }
 }

@@ -16,6 +16,7 @@ namespace ImageHuntTelegramBot
         builder.RegisterType<TeamWebService>().As<ITeamWebService>();
         builder.RegisterType<InitDialog>().As<IInitDialog>();
         builder.RegisterType<ReceiveImageDialog>().As<IReceiveImageDialog>();
+        builder.RegisterType<ReceiveDocumentDialog>().As<IReceiveDocumentDialog>();
         builder.RegisterType<ReceiveLocationDialog>().As<IReceiveLocationDialog>();
         builder.Register(t =>
         {
@@ -24,6 +25,8 @@ namespace ImageHuntTelegramBot
           bot.AddDialog("/init", initDialog);
           var receiveImageDialog = t.Resolve<IReceiveImageDialog>();
           bot.AddDialog("/uploadphoto", receiveImageDialog);
+          var receiveDocumentDialog = t.Resolve<IReceiveDocumentDialog>();
+          bot.AddDialog("/uploaddocument", receiveDocumentDialog);
           var receiveLocationDialog = t.Resolve<IReceiveLocationDialog>();
           bot.AddDialog("/location", receiveLocationDialog);
           return bot;

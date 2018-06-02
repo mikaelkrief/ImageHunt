@@ -37,6 +37,7 @@ namespace ImageHuntTelegramBot
       string text = null;
       ActivityType activityType = ActivityType.None;
       PhotoSize[] photoSizes = null;
+      Document document = null;
      Location location = null;
       Message message = null;
       switch (update.Type)
@@ -50,6 +51,12 @@ namespace ImageHuntTelegramBot
           {
             text = "/uploadphoto";
             photoSizes = message.Photo;
+          }
+
+          if (message.Document != null)
+          {
+            text = "/uploaddocument";
+            document = message.Document;
           }
 
           if (message.Location != null)
@@ -73,6 +80,7 @@ namespace ImageHuntTelegramBot
       activity.ChatId = chatId;
       activity.Text = text;
       activity.Pictures = photoSizes;
+      activity.Document = document;
       activity.Location = location;
       return activity;
     }

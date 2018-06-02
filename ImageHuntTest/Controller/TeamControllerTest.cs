@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using FakeItEasy;
 using ImageHunt.Controllers;
@@ -175,9 +176,42 @@ namespace ImageHuntTest.Controller
         var result = _target.UploadImage(uploadImageRequest);
         // Assert
         Check.That(result).InheritsFrom<IActionResult>();
-        A.CallTo(() => _teamService.UploadImage(A<int>._, A<int>._, A<double>._, A<double>._, A<byte[]>._))
+        A.CallTo(() => _teamService.UploadImage(A<int>._, A<int>._, A<double>._, A<double>._, A<byte[]>._, A<string>._))
+          .MustHaveHappened();
+      }
+      [Fact]
+      public void UploadImageWithTitle()
+      {
+        // Arrange
+        var formFile = A.Fake<IFormFile>();
+        var uploadImageRequest = new UploadImageRequest(){FormFile = formFile, GameId = 1, TeamId = 1, Longitude = 15, Latitude = 15, ImageName = "3"};
+
+        // Act
+        var result = _target.UploadImage(uploadImageRequest);
+        // Assert
+        Check.That(result).InheritsFrom<IActionResult>();
+        A.CallTo(() => _teamService.UploadImage(uploadImageRequest.GameId, uploadImageRequest.TeamId, uploadImageRequest.Latitude, uploadImageRequest.Longitude, A<byte[]>._, uploadImageRequest.ImageName))
+          .MustHaveHappened();
+      }
+      [Fact]
+      public void UploadImageGeoTagged()
+      {
+        // Arrange
+        var formFile = A.Fake<IFormFile>();
+        var resourcseStream = Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream("ImageHuntTest.TestData.IMG_20170920_180905.jpg");
+        A.CallTo(() => formFile.OpenReadStream()).Returns(resourcseStream);
+        A.CallTo(() => _imageService.ExtractLocationFromImage(A<Picture>._)).Returns((15.6, 85.1));
+        var uploadImageRequest = new UploadImageRequest(){FormFile = formFile, GameId = 1, TeamId = 1, Longitude = 0, Latitude = 0, ImageName = "3"};
+
+        // Act
+        var result = _target.UploadImage(uploadImageRequest);
+        // Assert
+        Check.That(result).InheritsFrom<IActionResult>();
+        A.CallTo(() => _teamService.UploadImage(uploadImageRequest.GameId, uploadImageRequest.TeamId, 15.6, 85.1, A<byte[]>._, uploadImageRequest.ImageName))
           .MustHaveHappened();
       }
 
   }
+
 }

@@ -6,6 +6,7 @@ using Autofac;
 using ImageHuntTelegramBot.Dialogs.Prompts;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Telegram.Bot;
 
 namespace ImageHuntTelegramBot.Dialogs
 {

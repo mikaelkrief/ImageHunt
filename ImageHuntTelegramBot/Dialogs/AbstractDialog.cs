@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Telegram.Bot;
 
 namespace ImageHuntTelegramBot.Dialogs
 {
@@ -9,6 +10,7 @@ namespace ImageHuntTelegramBot.Dialogs
   {
     protected List<IDialog> _childenDialogs = new List<IDialog>();
     protected IDialog _currentDialog;
+
 
     public virtual async Task Begin(ITurnContext turnContext)
     {

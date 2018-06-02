@@ -16,9 +16,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntTelegramBot", "Ima
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntBotTest", "ImageHuntBotTest\ImageHuntBotTest.csproj", "{9E52ECC8-520C-4221-B058-AE9BF69DC09C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntWebServiceClient", "ImageHuntWebServiceClient\ImageHuntWebServiceClient.csproj", "{3A221E1A-1DFB-4409-AD7C-E5B16348BC22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntWebServiceClient", "ImageHuntWebServiceClient\ImageHuntWebServiceClient.csproj", "{3A221E1A-1DFB-4409-AD7C-E5B16348BC22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntWebServiceClientTest", "ImageHuntWebServiceClientTest\ImageHuntWebServiceClientTest.csproj", "{C42E1757-6214-4079-A98C-501D40A39A86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntWebServiceClientTest", "ImageHuntWebServiceClientTest\ImageHuntWebServiceClientTest.csproj", "{C42E1757-6214-4079-A98C-501D40A39A86}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3177C873-82BA-46F9-9808-43B74B779EA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FF5ABD78-BD1C-4445-AC23-6A533BF840E0} = {3177C873-82BA-46F9-9808-43B74B779EA9}
+		{BE585CE7-3C60-4429-A697-8B9C53E531FB} = {3177C873-82BA-46F9-9808-43B74B779EA9}
+		{9E52ECC8-520C-4221-B058-AE9BF69DC09C} = {3177C873-82BA-46F9-9808-43B74B779EA9}
+		{C42E1757-6214-4079-A98C-501D40A39A86} = {3177C873-82BA-46F9-9808-43B74B779EA9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0297E424-721E-40D4-A9E0-FD08A2B054D1}
