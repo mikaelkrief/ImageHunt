@@ -37,11 +37,6 @@
     <ProjectReference Include="..\ImageHuntWebServiceClient\ImageHuntWebServiceClient.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Magick.NET-Q8-AnyCPU">
-      <HintPath>..\..\..\Users\mandr\.nuget\packages\magick.net-q8-anycpu\7.4.5\lib\netstandard20\Magick.NET-Q8-AnyCPU.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 
   <ItemGroup>
     <None Update="appsettings.json">

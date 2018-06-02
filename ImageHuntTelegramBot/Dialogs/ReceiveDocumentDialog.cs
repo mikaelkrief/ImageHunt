@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
-using ImageMagick;
 using Microsoft.AspNetCore.Http.Internal;
 using Telegram.Bot;
 
