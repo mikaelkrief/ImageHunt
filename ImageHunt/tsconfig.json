@@ -15,5 +15,6 @@
       "es2017",
       "dom"
     ]
-  }
+  },
+  "include": [ "src/**/*.ts", "typings/*.d.ts" ]
 }
