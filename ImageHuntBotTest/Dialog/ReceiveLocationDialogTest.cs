@@ -6,6 +6,7 @@ using Autofac;
 using FakeItEasy;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using Telegram.Bot.Types;
 using TestUtilities;
@@ -16,11 +17,15 @@ namespace ImageHuntBotTest.Dialog
     public class ReceiveLocationDialogTest : BaseTest
     {
       private IReceiveLocationDialog _target;
+      private ILogger _logger;
 
       public ReceiveLocationDialogTest()
       {
         _testContainerBuilder.RegisterType<ReceiveLocationDialog>().As<IReceiveLocationDialog>();
-        _container = _testContainerBuilder.Build();
+        _logger = A.Fake<ILogger>();
+        _testContainerBuilder.RegisterInstance(_logger);
+
+      _container = _testContainerBuilder.Build();
         _target = _container.Resolve<IReceiveLocationDialog>();
       }
 
@@ -44,6 +49,10 @@ namespace ImageHuntBotTest.Dialog
         A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).MustHaveHappened();
         Check.That(imageHuntState.CurrentLatitude).Equals(15.6f);
         Check.That(imageHuntState.CurrentLongitude).Equals(4.2f);
+        A.CallTo(() => _logger.Log(A<LogLevel>._, A<EventId>._, A<object>._, A<Exception>._,
+            A<Func<object, Exception, string>>._))
+          .WithAnyArguments()
+          .MustHaveHappened();
       }
-    }
+  }
 }

@@ -7,6 +7,7 @@ using FakeItEasy;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
 using ImageHuntTelegramBot.Dialogs.Prompts;
+using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
 
@@ -67,12 +68,12 @@ namespace ImageHuntBotTest
         _target = A.Fake<AbstractDialog>(options=>options.CallsBaseMethods());
 
       var childrenDialog1 = A.Fake<NumberPrompt<int>>(op=>op.CallsBaseMethods()
-                                                            .WithArgumentsForConstructor(new object[] {"",null}));
+                                                            .WithArgumentsForConstructor(new object[] {"",null, null}));
         _target.AddChildren(childrenDialog1);
       //A.CallTo(() => childrenDialog1.Begin(A<ITurnContext>._))
       //  .Invokes(async (ITurnContext turnContext) => { await turnContext.Continue(); });
       var childrenDialog2 = A.Fake<NumberPrompt<int>>(op => op.CallsBaseMethods()
-                                                              .WithArgumentsForConstructor(new[] { "", null }));
+                                                              .WithArgumentsForConstructor(new[] { "", null, null }));
       _target.AddChildren(childrenDialog2);
         var context = A.Fake<TurnContext>(op=>op.CallsBaseMethods());
         var activity1 = A.Fake<IActivity>();
@@ -102,7 +103,11 @@ namespace ImageHuntBotTest
           var activity = A.Fake<IActivity>();
           await turnContext.ReplyActivity(activity);
         }
-    }
+
+        public DummyDialog(ILogger logger) : base(logger)
+        {
+        }
+      }
 
       [Fact]
       public void NoChildren_Begin_Should_Reply()
@@ -122,10 +127,10 @@ namespace ImageHuntBotTest
         // Arrange
         _target = A.Fake<AbstractDialog>(op=>op.CallsBaseMethods());
         var childrenDialog1 = A.Fake<NumberPrompt<int>>(op=>op.CallsBaseMethods()
-                                                              .WithArgumentsForConstructor(new []{ "First Prompt", null }) );
+                                                              .WithArgumentsForConstructor(new []{ "First Prompt", null, null }) );
         _target.AddChildren(childrenDialog1);
         var childrenDialog2 = A.Fake<NumberPrompt<int>>(op => op.CallsBaseMethods()
-          .WithArgumentsForConstructor(new[] { "Second Prompt", null }));
+          .WithArgumentsForConstructor(new[] { "Second Prompt", null, null }));
         _target.AddChildren(childrenDialog2);
         var context = A.Fake<TurnContext>(op=>op.CallsBaseMethods());
 
@@ -146,7 +151,7 @@ namespace ImageHuntBotTest
         // Arrange
         _target = A.Fake<AbstractDialog>(op=>op.CallsBaseMethods());
         var childrenDialog1 = A.Fake<NumberPrompt<int>>(op=>op.CallsBaseMethods()
-                                                              .WithArgumentsForConstructor(new []{ "First Prompt", null }) );
+                                                              .WithArgumentsForConstructor(new []{ "First Prompt", null, null }) );
         _target.AddChildren(childrenDialog1);
         var context = A.Fake<TurnContext>(op=>op.CallsBaseMethods());
         //A.CallTo(() => context.End()).Invokes(() => context.EndCalled+= Raise.With(context, new EventArgs()) );
@@ -166,5 +171,8 @@ namespace ImageHuntBotTest
 
   public class DummyDialog2 : AbstractDialog
   {
+    public DummyDialog2(ILogger logger) : base(logger)
+    {
+    }
   }
 }

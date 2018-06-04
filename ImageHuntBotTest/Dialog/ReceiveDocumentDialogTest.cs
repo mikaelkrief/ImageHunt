@@ -9,6 +9,7 @@ using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -23,10 +24,13 @@ namespace ImageHuntBotTest
     private ReceiveDocumentDialog _target;
     private ITeamWebService _teamWebService;
     private ITelegramBotClient _telegramBotClient;
+    private ILogger _logger;
 
     public ReceiveDocumentDialogTest()
     {
       _testContainerBuilder.RegisterType<ReceiveDocumentDialog>();
+      _logger = A.Fake<ILogger>();
+      _testContainerBuilder.RegisterInstance(_logger);
       _teamWebService = A.Fake<ITeamWebService>();
       _telegramBotClient = A.Fake<ITelegramBotClient>();
       _testContainerBuilder.RegisterInstance(_telegramBotClient).As<ITelegramBotClient>();

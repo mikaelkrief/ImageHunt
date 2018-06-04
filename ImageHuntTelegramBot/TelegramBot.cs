@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntTelegramBot.Controllers;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHuntTelegramBot
 {

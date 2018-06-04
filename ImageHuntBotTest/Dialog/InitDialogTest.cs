@@ -6,6 +6,7 @@ using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
 using ImageHuntTelegramBot.Dialogs.Prompts;
 using ImageHuntWebServiceClient.WebServices;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
 using Xunit;
@@ -17,9 +18,12 @@ namespace ImageHuntBotTest
       private IInitDialog _target;
       private IGameWebService _gameWebService;
       private ITeamWebService _teamWebService;
+      private ILogger _logger;
 
       public InitDialogTest()
       {
+        _logger = A.Fake<ILogger>();
+        _testContainerBuilder.RegisterInstance(_logger);
         _testContainerBuilder.RegisterType<InitDialog>().As<IInitDialog>();
         _gameWebService = A.Fake<IGameWebService>();
         _testContainerBuilder.RegisterInstance(_gameWebService);

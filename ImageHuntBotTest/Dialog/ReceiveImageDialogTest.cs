@@ -8,6 +8,7 @@ using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -22,10 +23,13 @@ namespace ImageHuntBotTest
     private ReceiveImageDialog _target;
     private ITeamWebService _teamWebService;
     private ITelegramBotClient _telegramBotClient;
+    private ILogger _logger;
 
     public ReceiveImageDialogTest()
     {
       _testContainerBuilder.RegisterType<ReceiveImageDialog>();
+      _logger = A.Fake<ILogger>();
+      _testContainerBuilder.RegisterInstance(_logger);
       _teamWebService = A.Fake<ITeamWebService>();
       _telegramBotClient = A.Fake<ITelegramBotClient>();
       _testContainerBuilder.RegisterInstance(_telegramBotClient).As<ITelegramBotClient>();
@@ -65,6 +69,10 @@ namespace ImageHuntBotTest
       A.CallTo(() => _teamWebService.UploadImage(A<ImageHuntWebServiceClient.Request.UploadImageRequest>._)).MustHaveHappened();
       A.CallTo(() => turnContext.ReplyActivity(A<Activity>._)).MustHaveHappened();
       A.CallTo(() => turnContext.End()).MustHaveHappened();
+      A.CallTo(() => _logger.Log(A<LogLevel>._, A<EventId>._, A<object>._, A<Exception>._,
+        A<Func<object, Exception, string>>._))
+        .WithAnyArguments()
+        .MustHaveHappened();
     }
     [Fact]
     public async Task Begin_With_ImageName()
