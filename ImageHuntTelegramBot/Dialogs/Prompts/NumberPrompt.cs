@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHuntTelegramBot.Dialogs.Prompts
 {
@@ -7,8 +8,8 @@ namespace ImageHuntTelegramBot.Dialogs.Prompts
   {
     private string _replyUser;
 
-    public NumberPrompt(string promptMessage, PromptResult promptResult) 
-      : base(promptMessage, promptResult)
+    public NumberPrompt(string promptMessage, PromptResult promptResult, ILogger logger) 
+      : base(promptMessage, promptResult, logger)
     {
     }
 

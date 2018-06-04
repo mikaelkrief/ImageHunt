@@ -2,14 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 
 namespace ImageHuntTelegramBot.Dialogs
 {
   public abstract class AbstractDialog : IDialog
   {
+    protected readonly ILogger _logger;
     protected List<IDialog> _childenDialogs = new List<IDialog>();
     protected IDialog _currentDialog;
+
+    protected AbstractDialog(ILogger logger)
+    {
+      _logger = logger;
+    }
 
 
     public virtual async Task Begin(ITurnContext turnContext)

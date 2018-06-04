@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 
 namespace ImageHuntTelegramBot.Dialogs
@@ -19,7 +20,7 @@ namespace ImageHuntTelegramBot.Dialogs
     private readonly ITeamWebService _teamWebService;
     private readonly ITelegramBotClient _telegramBotClient;
 
-    public ReceiveImageDialog(ITeamWebService teamWebService, ITelegramBotClient telegramBotClient)
+    public ReceiveImageDialog(ITeamWebService teamWebService, ITelegramBotClient telegramBotClient, ILogger logger) : base(logger)
     {
       _teamWebService = teamWebService;
       _telegramBotClient = telegramBotClient;
@@ -33,8 +34,9 @@ namespace ImageHuntTelegramBot.Dialogs
           state.CurrentLatitude == 0.0 ||
           state.CurrentLongitude == 0.0)
       {
-        await turnContext.ReplyActivity(
-          $"La chasse n'a pas été correctement initalisée ou je ne sais pas où vous êtes, veuillez demander de l'assistance à l'orga");
+        var errorMessage = $"La chasse n'a pas été correctement initalisée ou je ne sais pas où vous êtes, veuillez demander de l'assistance à l'orga";
+        await turnContext.ReplyActivity(errorMessage);
+        _logger.LogWarning(errorMessage);
         await turnContext.End();
         return;
       }
@@ -58,6 +60,7 @@ namespace ImageHuntTelegramBot.Dialogs
         };
         uploadRequest.FormFile = new FormFile(stream, 0, stream.Length, "formFile", "image.jpg");
         await _teamWebService.UploadImage(uploadRequest);
+        _logger.LogInformation($"Image {turnContext.Activity.Pictures.First().FileId} had been uploaded");
       }
 
       await base.Begin(turnContext);

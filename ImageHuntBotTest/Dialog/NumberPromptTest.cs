@@ -20,8 +20,8 @@ namespace ImageHuntBotTest
       public async Task ContinueGetValue()
       {
       // Arrange
-        var target1 = new NumberPrompt<int>("", null);
-        var target2 = new NumberPrompt<double>("", null);
+        var target1 = new NumberPrompt<int>("", null, null);
+        var target2 = new NumberPrompt<double>("", null, null);
       var context = A.Fake<ITurnContext>();
         var activity = new Activity(){ActivityType = ActivityType.Message, Text = "15"};
         A.CallTo(() => context.Activity).Returns(activity);
@@ -38,7 +38,7 @@ namespace ImageHuntBotTest
       public async Task ContinueCallPromptResult()
       {
       // Arrange
-        var target1 = new NumberPrompt<int>("", async (turnContext, o) => Check.That(o).Equals(15));
+        var target1 = new NumberPrompt<int>("", async (turnContext, o) => Check.That(o).Equals(15), null);
       var context = A.Fake<ITurnContext>();
         var activity = new Activity() { ActivityType = ActivityType.Message, Text = "15" };
         A.CallTo(() => context.Activity).Returns(activity);

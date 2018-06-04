@@ -6,6 +6,7 @@ using Autofac;
 using ImageHuntTelegramBot.Dialogs.Prompts;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 
 namespace ImageHuntTelegramBot.Dialogs
@@ -15,7 +16,7 @@ namespace ImageHuntTelegramBot.Dialogs
     private readonly IGameWebService _gameWebService;
     private readonly ITeamWebService _teamWebService;
 
-    public InitDialog(IGameWebService gameWebService, ITeamWebService teamWebService)
+    public InitDialog(IGameWebService gameWebService, ITeamWebService teamWebService, ILogger logger) : base(logger)
     {
       _gameWebService = gameWebService;
       _teamWebService = teamWebService;
@@ -26,7 +27,9 @@ namespace ImageHuntTelegramBot.Dialogs
       var state = turnContext.GetConversationState<ImageHuntState>();
       if (state.GameId != 0 && state.TeamId != 0)
       {
-        await turnContext.ReplyActivity("Le groupe à déjà été initialisé!");
+        var warningMessage = $"Le groupe {turnContext.ChatId} à déjà été initialisé!";
+        await turnContext.ReplyActivity(warningMessage);
+        _logger.LogWarning(warningMessage);
         await turnContext.End();
         return;
       }
@@ -39,7 +42,7 @@ namespace ImageHuntTelegramBot.Dialogs
         state.TeamId = Convert.ToInt32(groups[0].Groups[2].Value);
         state.Game = await _gameWebService.GetGameById(state.GameId);
         state.Team = await _teamWebService.GetTeamById(state.TeamId);
-        
+        _logger.LogInformation($"Init game for gameId: {state.GameId}, teamId: {state.TeamId}");
         
       }
       await base.Begin(turnContext);

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 
 namespace ImageHuntTelegramBot.Dialogs
@@ -13,7 +14,7 @@ namespace ImageHuntTelegramBot.Dialogs
     private readonly ITeamWebService _teamWebService;
     private readonly ITelegramBotClient _telegramBotClient;
 
-    public ReceiveDocumentDialog(ITeamWebService teamWebService, ITelegramBotClient telegramBotClient)
+    public ReceiveDocumentDialog(ITeamWebService teamWebService, ITelegramBotClient telegramBotClient, ILogger logger) : base(logger)
     {
       _teamWebService = teamWebService;
       _telegramBotClient = telegramBotClient;

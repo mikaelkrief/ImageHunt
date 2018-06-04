@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
 using ImageHuntTelegramBot;
+using Microsoft.Extensions.Logging;
+using NFluent;
 using TestUtilities;
 using Xunit;
 
@@ -12,9 +14,12 @@ namespace ImageHuntBotTest
     public class BotTest : BaseTest
     {
       private TelegramBot _target;
+      private ILogger _logger;
 
       public BotTest()
       {
+        _logger = A.Fake<ILogger>();
+        _testContainerBuilder.RegisterInstance(_logger);
         _testContainerBuilder.RegisterType<TelegramBot>();
         _container = _testContainerBuilder.Build();
         _target = _container.Resolve<TelegramBot>();
@@ -78,6 +83,22 @@ namespace ImageHuntBotTest
       // Assert
         A.CallTo(() => turnContext.Begin(uploadDocumentDialog)).MustHaveHappened();
         A.CallTo(() => turnContext.Continue()).MustHaveHappened();
+
+    }
+      [Fact]
+      public async Task OnTurn_ErrorOccured()
+      {
+        // Arrange
+        var turnContext = A.Fake<ITurnContext>();
+        var activity = new Activity(){ActivityType = ActivityType.Message, Text = "/uploaddocument", ChatId = 15};
+        A.CallTo(() => turnContext.Activity).Returns(activity);
+        A.CallTo(() => turnContext.CurrentDialog).Returns(null);
+        A.CallTo(() => turnContext.Begin(A<IDialog>._)).Throws<Exception>();
+        var uploadDocumentDialog = A.Fake<IDialog>();
+       _target.AddDialog("/uploaddocument", uploadDocumentDialog);
+        // Act
+        Check.ThatAsyncCode(()=> _target.OnTurn(turnContext)).Throws<Exception>();
+      // Assert
 
     }
     [Fact]
