@@ -29,8 +29,8 @@ namespace ImageHuntBotTest
     public ReceiveDocumentDialogTest()
     {
       _testContainerBuilder.RegisterType<ReceiveDocumentDialog>();
-      _logger = A.Fake<ILogger>();
-      _testContainerBuilder.RegisterInstance(_logger);
+      _logger = A.Fake<ILogger<ReceiveDocumentDialog>>();
+      _testContainerBuilder.RegisterInstance(_logger).As<ILogger<ReceiveDocumentDialog>>();
       _teamWebService = A.Fake<ITeamWebService>();
       _telegramBotClient = A.Fake<ITelegramBotClient>();
       _testContainerBuilder.RegisterInstance(_telegramBotClient).As<ITelegramBotClient>();

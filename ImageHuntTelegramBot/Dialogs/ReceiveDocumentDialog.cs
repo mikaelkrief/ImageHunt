@@ -14,7 +14,7 @@ namespace ImageHuntTelegramBot.Dialogs
     private readonly ITeamWebService _teamWebService;
     private readonly ITelegramBotClient _telegramBotClient;
 
-    public ReceiveDocumentDialog(ITeamWebService teamWebService, ITelegramBotClient telegramBotClient, ILogger logger) : base(logger)
+    public ReceiveDocumentDialog(ITeamWebService teamWebService, ITelegramBotClient telegramBotClient, ILogger<ReceiveDocumentDialog> logger) : base(logger)
     {
       _teamWebService = teamWebService;
       _telegramBotClient = telegramBotClient;

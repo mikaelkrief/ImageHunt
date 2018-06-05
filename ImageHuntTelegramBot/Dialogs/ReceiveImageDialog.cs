@@ -20,7 +20,7 @@ namespace ImageHuntTelegramBot.Dialogs
     private readonly ITeamWebService _teamWebService;
     private readonly ITelegramBotClient _telegramBotClient;
 
-    public ReceiveImageDialog(ITeamWebService teamWebService, ITelegramBotClient telegramBotClient, ILogger logger) : base(logger)
+    public ReceiveImageDialog(ITeamWebService teamWebService, ITelegramBotClient telegramBotClient, ILogger<ReceiveImageDialog> logger) : base(logger)
     {
       _teamWebService = teamWebService;
       _telegramBotClient = telegramBotClient;

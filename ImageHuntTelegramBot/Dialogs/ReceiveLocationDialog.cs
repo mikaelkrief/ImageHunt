@@ -17,7 +17,7 @@ namespace ImageHuntTelegramBot.Dialogs
       await turnContext.End();
     }
 
-    public ReceiveLocationDialog(ILogger logger) : base(logger)
+    public ReceiveLocationDialog(ILogger<ReceiveLocationDialog> logger) : base(logger)
     {
     }
   }
