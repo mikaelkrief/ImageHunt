@@ -16,7 +16,7 @@ namespace ImageHuntTelegramBot.Dialogs
     private readonly IGameWebService _gameWebService;
     private readonly ITeamWebService _teamWebService;
 
-    public InitDialog(IGameWebService gameWebService, ITeamWebService teamWebService, ILogger logger) : base(logger)
+    public InitDialog(IGameWebService gameWebService, ITeamWebService teamWebService, ILogger<InitDialog> logger) : base(logger)
     {
       _gameWebService = gameWebService;
       _teamWebService = teamWebService;
@@ -27,7 +27,7 @@ namespace ImageHuntTelegramBot.Dialogs
       var state = turnContext.GetConversationState<ImageHuntState>();
       if (state.GameId != 0 && state.TeamId != 0)
       {
-        var warningMessage = $"Le groupe {turnContext.ChatId} à déjà été initialisé!";
+        var warningMessage = $"Le groupe {turnContext.ChatId} a déjà été initialisé!";
         await turnContext.ReplyActivity(warningMessage);
         _logger.LogWarning(warningMessage);
         await turnContext.End();

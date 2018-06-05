@@ -8,14 +8,18 @@ using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 
 namespace ImageHuntTelegramBot
 {
   public class Startup
   {
-    public Startup(IConfiguration configuration)
+    private ILogger<Startup> Logger { get; }
+
+    public Startup(IConfiguration configuration, ILogger<Startup> logger)
     {
+      Logger = logger;
       Configuration = configuration;
     }
 
@@ -39,7 +43,7 @@ namespace ImageHuntTelegramBot
       containerBuilder.RegisterInstance(new TelegramBotClient(botToken)).As<ITelegramBotClient>();
 
       containerBuilder.Populate(services);
-
+      
       var container = containerBuilder.Build();
 
       services.Configure<BotConfiguration>(Configuration.GetSection("BotConfiguration"));

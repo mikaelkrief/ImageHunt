@@ -21,12 +21,12 @@ namespace ImageHuntBotTest.Dialog
 
       public ReceiveLocationDialogTest()
       {
-        _testContainerBuilder.RegisterType<ReceiveLocationDialog>().As<IReceiveLocationDialog>();
-        _logger = A.Fake<ILogger>();
-        _testContainerBuilder.RegisterInstance(_logger);
+        _testContainerBuilder.RegisterType<ReceiveLocationDialog>();
+        _logger = A.Fake<ILogger<ReceiveLocationDialog>>();
+        _testContainerBuilder.RegisterInstance(_logger).As<ILogger<ReceiveLocationDialog>>();
 
       _container = _testContainerBuilder.Build();
-        _target = _container.Resolve<IReceiveLocationDialog>();
+        _target = _container.Resolve<ReceiveLocationDialog>();
       }
 
       [Fact]

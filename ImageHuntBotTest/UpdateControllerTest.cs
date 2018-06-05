@@ -26,8 +26,8 @@ namespace ImageHuntBotTest
       {
         _testContainerBuilder.RegisterType<UpdateController>();
         _bot = A.Fake<IBot>();
-        _logger = A.Fake<ILogger>();
-        _testContainerBuilder.RegisterInstance(_logger);
+        _logger = A.Fake<ILogger<UpdateController>>();
+        _testContainerBuilder.RegisterInstance(_logger).As<ILogger<UpdateController>>();
         _testContainerBuilder.RegisterInstance(_bot);
         _contextHub = A.Fake<ContextHub>();
         _testContainerBuilder.RegisterInstance(_contextHub).SingleInstance();

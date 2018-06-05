@@ -22,8 +22,8 @@ namespace ImageHuntBotTest
 
       public InitDialogTest()
       {
-        _logger = A.Fake<ILogger>();
-        _testContainerBuilder.RegisterInstance(_logger);
+        _logger = A.Fake<ILogger<InitDialog>>();
+        _testContainerBuilder.RegisterInstance(_logger).As<ILogger<InitDialog>>();
         _testContainerBuilder.RegisterType<InitDialog>().As<IInitDialog>();
         _gameWebService = A.Fake<IGameWebService>();
         _testContainerBuilder.RegisterInstance(_gameWebService);

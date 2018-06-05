@@ -13,7 +13,7 @@ namespace ImageHuntTelegramBot.Controllers
     private readonly IBot _bot;
     private readonly ILogger _logger;
 
-    public UpdateController(ContextHub contextHub, IBot bot, ILogger logger)
+    public UpdateController(ContextHub contextHub, IBot bot, ILogger<UpdateController> logger)
     {
       _contextHub = contextHub;
       _bot = bot;
