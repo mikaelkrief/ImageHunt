@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NetEscapades.Extensions.Logging.RollingFile;
 
 namespace ImageHuntTelegramBot
 {
@@ -25,8 +27,10 @@ namespace ImageHuntTelegramBot
             .ConfigureLogging((context, builder) =>
             {
                 builder.AddConfiguration(context.Configuration.GetSection("Logging"));
-                builder.AddConsole();
-                builder.AddDebug();
+                //builder.AddConsole();
+                //builder.AddDebug();
+              builder.AddFile(options => options.LogDirectory = context.Configuration["Logging:LogDirectory"]);
+                //builder.Services.AddSingleton<ILoggerProvider, FileLoggerProvider>();
             })
 
           .UseStartup<Startup>()
