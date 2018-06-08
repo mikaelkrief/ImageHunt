@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -9,10 +10,12 @@ namespace ImageHuntTelegramBot
   public class TelegramAdapter : IAdapter
   {
     private readonly ITelegramBotClient _client;
+    private readonly ILogger<TelegramAdapter> _logger;
 
-    public TelegramAdapter(ITelegramBotClient client)
+    public TelegramAdapter(ITelegramBotClient client, ILogger<TelegramAdapter> logger)
     {
       _client = client;
+      _logger = logger;
     }
     public async Task SendActivity(IActivity activity)
     {
@@ -87,7 +90,15 @@ namespace ImageHuntTelegramBot
 
     private async Task SendMessage(IActivity activity)
     {
-      await _client.SendTextMessageAsync(activity.ChatId, activity.Text);
+      try
+      {
+        await _client.SendTextMessageAsync(activity.ChatId, activity.Text);
+
+      }
+      catch (Exception e)
+      {
+        _logger.LogError(e, $"Error while sending message to {activity.ChatId}");
+      }
     }
   }
 }

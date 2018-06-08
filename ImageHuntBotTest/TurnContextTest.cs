@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
 using ImageHuntTelegramBot;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
 using Xunit;
@@ -20,10 +22,13 @@ namespace ImageHuntBotTest
       private TurnContext _target;
       private IAdapter _adapter;
       private IStorage _storage;
+      private ILogger<TurnContext> _logger;
 
       public TurnContextTest()
       {
         _testContainerBuilder.RegisterType<TurnContext>();
+        _logger = A.Fake<ILogger<TurnContext>>();
+        _testContainerBuilder.RegisterInstance(_logger);
         _adapter = A.Fake<IAdapter>();
         _storage = A.Fake<IStorage>();
         _testContainerBuilder.RegisterInstance(_adapter).As<IAdapter>();
@@ -54,6 +59,19 @@ namespace ImageHuntBotTest
         await _target.Begin(dialog);
         // Assert
         A.CallTo(() => dialog.Begin(A<ITurnContext>._)).MustHaveHappened();
+      }
+      [Fact]
+      public async Task Begin_errorInDialog()
+      {
+      // Arrange
+        var dialog = A.Fake<IDialog>();
+        A.CallTo(() => dialog.Begin(A<ITurnContext>._)).Throws<Exception>();
+        
+        // Act
+        await _target.Begin(dialog);
+        // Assert
+        A.CallTo(() => dialog.Begin(A<ITurnContext>._)).MustHaveHappened();
+        //A.CallTo(() => _logger.Log())
       }
       [Fact]
       public async Task Continue_Nothing_ToContinue()
@@ -128,6 +146,7 @@ namespace ImageHuntBotTest
       // Arrange
         var dialog = A.Fake<IDialog>();
         _target.ChatId = 15;
+        TurnContext.ResetConversationStates();
         A.CallTo(() => _storage.Read(A<string[]>._))
           .Returns(new[] {new KeyValuePair<string, object>("15", new DummyState()),});
         // Act

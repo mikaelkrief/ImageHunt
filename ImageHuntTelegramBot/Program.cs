@@ -27,10 +27,13 @@ namespace ImageHuntTelegramBot
             .ConfigureLogging((context, builder) =>
             {
                 builder.AddConfiguration(context.Configuration.GetSection("Logging"));
-                //builder.AddConsole();
-                //builder.AddDebug();
-              builder.AddFile(options => options.LogDirectory = context.Configuration["Logging:LogDirectory"]);
-                //builder.Services.AddSingleton<ILoggerProvider, FileLoggerProvider>();
+              builder.AddConsole();
+              builder.AddDebug();
+              builder.AddFile(options =>
+              {
+                options.LogDirectory = context.Configuration["Logging:LogDirectory"];
+                options.FileName = "ImageHuntBot";
+              });
             })
 
           .UseStartup<Startup>()

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
 using ImageHuntTelegramBot;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -17,10 +18,13 @@ namespace ImageHuntBotTest
   {
     private IAdapter _target;
     private ITelegramBotClient _telegramClient;
+    private ILogger<TelegramAdapter> _logger;
 
     public TelegramAdapterTest()
     {
       _testContainerBuilder.RegisterType<TelegramAdapter>().As<IAdapter>();
+      _logger = A.Fake<ILogger<TelegramAdapter>>();
+      _testContainerBuilder.RegisterInstance(_logger);
       _telegramClient = A.Fake<ITelegramBotClient>();
       _testContainerBuilder.RegisterInstance(_telegramClient);
       _container = _testContainerBuilder.Build();
