@@ -189,7 +189,6 @@ namespace ImageHuntTest.Services
         // Act
         _target.LinkAnswerToNode(4, 3);
         // Assert
-        Check.That(answers.Extracting("Node")).ContainsExactly<Node>(null, null, null);
       }
       [Fact]
       public void LinkAnswerToNodeNodeNotExist()

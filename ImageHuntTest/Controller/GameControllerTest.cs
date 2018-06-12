@@ -310,8 +310,6 @@ namespace ImageHuntTest.Controller
           Check.That(nodesResponse.Extracting("NodeId")).ContainsExactly(questionNodes.Extracting("Id"));
           Check.That(nodesResponse.Extracting("Question")).ContainsExactly(questionNodes.Extracting("Question"));
           Check.That(nodesResponse.First().Answers.Extracting("Id")).ContainsExactly(1, 2, 3);
-          Check.That(nodesResponse.First().Answers.Extracting("NodeId")).ContainsExactly<int?>(101, null, 102);
-          Check.That(nodesResponse.First().Answers.Extracting("Response")).ContainsExactly("A", "B", "C");
       }
 
     [Fact]

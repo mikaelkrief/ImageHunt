@@ -7,7 +7,6 @@ using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
 using Microsoft.Extensions.Logging;
 using Action = ImageHunt.Model.Action;
-using Game = Telegram.Bot.Types.Game;
 
 namespace ImageHunt.Services
 {
