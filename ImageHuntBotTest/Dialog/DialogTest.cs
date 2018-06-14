@@ -57,10 +57,7 @@ namespace ImageHuntBotTest
         A.CallTo(() => childrenDialog.Continue(context)).MustHaveHappened();
       }
 
-      async Task DummyPrompt(ITurnContext context, object result)
-      {
 
-      }
     [Fact]
       public async Task AddChildren_And_Begin_And_Continue_on_multiple_subDialog()
       {

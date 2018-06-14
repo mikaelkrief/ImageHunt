@@ -40,9 +40,16 @@ namespace ImageHuntTelegramBot.Dialogs
         var groups = regEx.Matches(activityText);
         state.GameId = Convert.ToInt32(groups[0].Groups[1].Value);
         state.TeamId = Convert.ToInt32(groups[0].Groups[2].Value);
+        _logger.LogInformation($"Init game for gameId: {state.GameId}, teamId: {state.TeamId}");
         state.Game = await _gameWebService.GetGameById(state.GameId);
         state.Team = await _teamWebService.GetTeamById(state.TeamId);
-        _logger.LogInformation($"Init game for gameId: {state.GameId}, teamId: {state.TeamId}");
+        if (state.Game == null || state.Team == null)
+        {
+          _logger.LogError($"Unable to find game for {state.GameId} or team for {state.TeamId}");
+          await turnContext.ReplyActivity($"Impossible de trouver la partie pour l'Id={state.GameId} ou l'équipe pour l'Id={state.TeamId}");
+          await turnContext.End();
+          return;
+        }
         
       }
       await base.Begin(turnContext);

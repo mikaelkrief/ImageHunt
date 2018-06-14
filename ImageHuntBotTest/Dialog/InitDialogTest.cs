@@ -5,11 +5,14 @@ using FakeItEasy;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
 using ImageHuntTelegramBot.Dialogs.Prompts;
+
+using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
 using Xunit;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ImageHuntBotTest
 {
@@ -64,6 +67,21 @@ namespace ImageHuntBotTest
         A.CallTo(() => context.ReplyActivity(A<string>._)).MustHaveHappened();
         A.CallTo(() => _teamWebService.GetTeamById(6)).MustNotHaveHappened();
       }
-
+      [Fact]
+      public async Task Begin_Game_Or_Team_Doesnt_Exist()
+      {
+        // Arrange
+        var context = A.Fake<ITurnContext>();
+        var state = new ImageHuntState(){GameId = 15, TeamId = 15};
+        var activity = new Activity(){Text = "/init gameid=2 teamid=6"};
+        A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._)).Returns(new GameResponse());
+        A.CallTo(() => _teamWebService.GetTeamById(A<int>._)).Returns(new TeamResponse());
+        A.CallTo(() => context.Activity).Returns(activity);
+        // Act
+        await _target.Begin(context);
+        // Assert
+        A.CallTo(() => context.ReplyActivity(A<string>._)).MustHaveHappened();
+        A.CallTo(() => context.End()).MustHaveHappened();        
+      }
   }
 }
