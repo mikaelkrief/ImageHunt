@@ -37,7 +37,8 @@
     "ngx-bootstrap": "^2.0.2",
     "primeng": "^5.2.0",
     "rxjs": "^5.4.2",
-    "zone.js": "^0.8.14"
+    "zone.js": "^0.8.14"    
+    
   },
   "devDependencies": {
     "@angular/cli": "^1.7.4",
@@ -59,6 +60,7 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.3.2",
-    "typescript": "^2.4.2"
-  }
-}
+   },
+  "deDependevcies": {
+   "typescript": "^2.4.2",
+    "typings":"^2.1.1"

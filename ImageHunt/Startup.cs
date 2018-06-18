@@ -78,7 +78,7 @@ namespace ImageHunt
       });
 
       app.UseMvcWithDefaultRoute();
-      //app.UseDefaultFiles();
+      app.UseDefaultFiles();
       app.UseStaticFiles();
       app.UseMvc();
       ConfigureMappings();

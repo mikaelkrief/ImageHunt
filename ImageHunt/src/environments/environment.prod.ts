@@ -5,7 +5,7 @@
 
 export const environment = {
   production: true,
-  GOOGLE_CLIENT_ID: "GOOGLEAPI_CLIENT_ID",
+  GOOGLE_CLIENT_ID: "663482349038-jregj38js8hr7fm104jpnoisrgegorh8.apps.googleusercontent.com",
   API_ENDPOINT: "api",
-  GOOGLE_MAP_API_KEY: "GOOGLE_API_MAP_KEY",
+  GOOGLE_MAP_API_KEY: "AIzaSyDUSbkcEn2M-0Ux5DwqUbxbpk03e3Bwcag",
 };

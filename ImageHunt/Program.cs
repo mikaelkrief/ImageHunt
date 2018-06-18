@@ -37,6 +37,7 @@ namespace ImageHunt
                 builder.AddDebug();
               })
              .UseStartup<Startup>()
+             
            .Build();
         
         }
