@@ -1,19 +1,22 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-3">
+    <div class="col-lg-3">
+      <div heading="Details">
       <h2>Detail d'une partie</h2>
         <div class="form-inline">
           <div class="form-control">
             <label>Nom de la partie :</label>
             <span>{{game.name}}</span>
           </div>
+          <br/>
           <div class="form-control">
             <label>Date de début :</label>
             <span>{{game.startDate | date:'medium':'':'fr'}}</span>
           </div>
         </div>
+      </div>
     </div>
-    <div class="col-9">
+    <div class="col-lg-9">
       <div heading="Equipes">
         <team-list [teams]="game.teams" [gameId]="game.id"></team-list>
         <team-create [gameId]="game.id" (teamCreated)="teamsUpdated()"></team-create>
@@ -21,7 +24,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-9">
+    <div class="col-lg-9">
       <map-detail2 #mapComponent
                    [gameId]="game.id"
                    [newNodesRelation]="newRelations"
@@ -33,31 +36,33 @@
                    (zoomChange)="mapZoomChange($event)">
       </map-detail2>
     </div>
-    <div class="col-3">
+    <div class="col-lg-3">
+      <div heading="Actions">
       <h4>Actions</h4>
-      <div class="btn-group-vertical" role="group">
-        <div class="btn-group">
-          <button class="btn btn-default" (click)="uploadImages(uploadImagesTemplate)">Ajouter les photos mystères</button>
-        </div>
-        <div class="btn-group">
-          <button class="btn btn-default" (click)="centerMap(game.id)">Centrer la carte sur les n&oelig;uds</button>
-        </div>
-        <div class="btn-group">
-          <button class="btn btn-primary" (click)="editNodeRelations()"><span class="fa fa-link"> Editer les relations</span></button>
-        </div>
-        <div class="btn-group">
-          <button class="btn btn-primary" (click)="editNodeAnswers()"><span class="fa fa-question"> Editer les réponses aux questions</span></button>
-        </div>
-        <div class="btn-group">
-          <button class="btn btn-danger" (click)="saveChanges(game.id)"><span class="fa fa-floppy-o"> Enregistrer les changements</span></button>
-        </div>
-        <h4>Filtres</h4>
         <div class="btn-group-vertical" role="group">
           <div class="btn-group">
-            <button class="btn btn-default" btnCheckbox>Filtrer les noeuds images</button>
+            <button class="btn btn-default" (click)="uploadImages(uploadImagesTemplate)">Ajouter les photos mystères</button>
           </div>
-        </div>
+          <div class="btn-group">
+            <button class="btn btn-default" (click)="centerMap(game.id)">Centrer la carte sur les n&oelig;uds</button>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-primary" (click)="editNodeRelations()"><span class="fa fa-link"> Editer les relations</span></button>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-primary" (click)="editNodeAnswers()"><span class="fa fa-question"> Editer les réponses aux questions</span></button>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-danger" (click)="saveChanges(game.id)"><span class="fa fa-floppy-o"> Enregistrer les changements</span></button>
+          </div>
+          <h4>Filtres</h4>
+          <div class="btn-group-vertical" role="group">
+            <div class="btn-group">
+              <button class="btn btn-default" btnCheckbox>Filtrer les noeuds images</button>
+            </div>
+          </div>
 
+        </div>
       </div>
     </div>
   </div>

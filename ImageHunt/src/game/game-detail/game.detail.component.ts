@@ -73,8 +73,11 @@ export class GameDetailComponent implements OnInit {
       this.game = res;
         this.currentZoom = this.game.mapZoom;
       //this.getNodeRelations(gameId);
-    },
-      err => console.error('getGame raise error: ' + err));
+      this.mapComponent.game = this.game;
+        this.mapComponent.updateMap();
+      },
+      err => console.error('getGame raise error: ' + err)
+    );
   }
   //getNodeRelations(gameId: number) {
   //  this._gameService.getNodeRelations(gameId)
@@ -105,6 +108,7 @@ export class GameDetailComponent implements OnInit {
   centerMap(gameId: number) {
     this._gameService.centerMap(gameId).subscribe(null, null,
       () => {
+        this._alertService.sendAlert("Centrage de la map effectué", "success", 1000);
         this._gameService.setZoom(gameId, this.currentZoom == undefined || this.currentZoom === 0 ? this.game.mapZoom : this.currentZoom)
           .subscribe(() => this.getGame(gameId));
       });
@@ -129,7 +133,10 @@ export class GameDetailComponent implements OnInit {
 
   createNode(node: NodeRequest) {
     this._gameService.addNode(this.game.id, node)
-      .subscribe(() => this.getGame(this.game.id));
+      .subscribe(() => {
+        this.getGame(this.game.id);
+        this._alertService.sendAlert(`Le noeud ${node.name} à bien été ajouté à la partie`, 'success', 5000);
+      });
 
   }
   
@@ -206,7 +213,12 @@ export class GameDetailComponent implements OnInit {
   saveChanges(gameId: number) {
     if (this.newRelations !== null) {
       this.newRelations.forEach(r => Observable.forkJoin(this._gameService.addRelation(r.orgId, r.destId, 0))
-        .subscribe(() => this.getGame(gameId)));
+        .subscribe(
+          
+        () => {
+          this._alertService.sendAlert("Enregistrement des changements effectué", "success", 1000);
+          this.getGame(gameId);
+        }));
     }
   }
   teamsUpdated() {

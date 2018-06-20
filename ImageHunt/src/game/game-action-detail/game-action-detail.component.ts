@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {GameService} from "../../shared/services/game.service";
 import {ActivatedRoute} from "@angular/router";
 import {GameAction} from "../../shared/gameAction";
-declare const google: any;
+
 @Component({
     selector: 'game-action-detail',
     templateUrl: './game-action-detail.component.html',

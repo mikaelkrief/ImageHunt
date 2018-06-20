@@ -269,3 +269,4 @@ environment.prod.ts
 /ImageHunt/wwwroot
 /ImagehuntBot/ngrok.exe
 /ImageHuntTelegramBot/ngrok.exe
+/ngrok.exe

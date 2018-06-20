@@ -7,6 +7,7 @@ import { GMapModule } from 'primeng/gmap';
 import {MapDetail2Component} from "./map-detail2/map-detail2.component";
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { MenuItem } from 'primeng/api';
+import {} from "@types/googlemaps";
 
 @NgModule({
   imports: [CommonModule, FormsModule, GMapModule, ContextMenuModule],
