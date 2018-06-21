@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
+using ImageHunt.Computation;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Response;
@@ -22,16 +24,19 @@ namespace ImageHunt.Controllers
     private readonly IImageService _imageService;
     private readonly INodeService _nodeService;
     private readonly IActionService _actionService;
+    private readonly IImageTransformation _imageTransformation;
 
     public GameController(IGameService gameService,
       IImageService imageService,
       INodeService nodeService,
-      IActionService actionService)
+      IActionService actionService,
+      IImageTransformation imageTransformation)
     {
       _gameService = gameService;
       _imageService = imageService;
       _nodeService = nodeService;
       _actionService = actionService;
+      _imageTransformation = imageTransformation;
     }
 
     [HttpGet("ById/{gameId}")]
@@ -154,9 +159,14 @@ namespace ImageHunt.Controllers
       return Ok();
     }
     [HttpGet("GetGameActions/{gameId}")]
-    public IActionResult GetGameActions(int gameId)
+    public async Task<IActionResult> GetGameActions(int gameId)
     {
-      return Ok(_actionService.GetGameActionsForGame(gameId));
+      var gameActions = _actionService.GetGameActionsForGame(gameId);
+      foreach (var gameAction in gameActions)
+      {
+        gameAction.Picture.Image = _imageTransformation.Thumbnail(gameAction.Picture.Image, 150, 150);
+      }
+      return Ok(gameActions);
     }
     [HttpPost("UploadImage")]
     public IActionResult UploadImage(IFormFile file)

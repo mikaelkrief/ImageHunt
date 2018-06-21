@@ -1,6 +1,7 @@
 import {Game} from "./game";
 import {Node} from "./node";
-import {Team} from "./team";
+import { Team } from "./team";
+import { Picture } from "./picture";
 
 export class GameAction {
   id: number;
@@ -13,4 +14,5 @@ export class GameAction {
   node: Node;
   isValidated: boolean;
   delta: number;
+  picture: Picture;
 }

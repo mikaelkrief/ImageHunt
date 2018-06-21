@@ -6,6 +6,8 @@ using ImageHuntTelegramBot.Controllers;
 using ImageHuntTelegramBot.Dialogs;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -16,6 +18,7 @@ namespace ImageHuntTelegramBot
   public class Startup
   {
     private ILogger<Startup> Logger { get; }
+    public IConfiguration Configuration { get; }
 
     public Startup(IConfiguration configuration, ILogger<Startup> logger)
     {
@@ -23,11 +26,10 @@ namespace ImageHuntTelegramBot
       Configuration = configuration;
     }
 
-    public IConfiguration Configuration { get; }
 
     public IServiceProvider ConfigureServices(IServiceCollection services)
     {
-      services.AddMvc();
+      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
       // Add Autofac as dependency injection
       var containerBuilder = new ContainerBuilder();
@@ -50,9 +52,20 @@ namespace ImageHuntTelegramBot
       return new AutofacServiceProvider(container);
     }
 
-    public void Configure(IApplicationBuilder app)
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     {
-      app.UseMvc();
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+
+            app.UseMvc();
     }
   }
 }

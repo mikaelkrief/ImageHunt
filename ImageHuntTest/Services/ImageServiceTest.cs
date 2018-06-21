@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using FakeItEasy;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
@@ -28,6 +29,7 @@ namespace ImageHuntTest.Services
         public void AddPicture()
         {
             // Arrange
+
             var picture = new Picture(){Image = new byte[]{1,5,6}};
             // Act
             _service.AddPicture(picture);
@@ -36,14 +38,14 @@ namespace ImageHuntTest.Services
         }
 
         [Fact]
-        public void GetPictureById()
+        public async Task GetPictureById()
         {
             // Arrange
             var pictures = new List<Picture>(){new Picture(), new Picture(), new Picture()};
             _context.Pictures.AddRange(pictures);
             _context.SaveChanges();
             // Act
-            var result = _service.GetPictureById(pictures[1].Id);
+            var result = await _service.GetPictureById(pictures[1].Id);
             // Assert
             Check.That(result).Equals(pictures[1]);
         }

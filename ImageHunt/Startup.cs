@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Net.Http;
 using AutoMapper;
+using ImageHunt.Computation;
 using ImageHunt.Controllers;
 using ImageHunt.Data;
 using ImageHunt.Model;
@@ -55,6 +56,7 @@ namespace ImageHunt
       services.AddTransient<INodeService, NodeService>();
       services.AddTransient<IPlayerService, PlayerService>();
       services.AddTransient<IActionService, ActionService>();
+      services.AddTransient<IImageTransformation, ImageTransformation>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

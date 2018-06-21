@@ -17,7 +17,12 @@ export class GameActionListComponent implements OnInit {
   ngOnInit(): void {
     this.gameId = this.route.snapshot.params["gameId"];
     this.gameService.getGameActionForGame(this.gameId)
-      .subscribe(next => this.gameActions = next.json());
+      .subscribe(next => {
+        this.gameActions = next.json();
+        this.gameActions.map(ga => {
+          if (ga.picture !== null) ga.picture.imageData = 'data:image/png;base64,' + ga.picture.image;
+        });
+      });
   }
   public isNaN(value): boolean {
     return "NaN" === value;

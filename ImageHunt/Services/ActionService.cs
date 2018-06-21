@@ -16,7 +16,10 @@ namespace ImageHunt.Services
       public IEnumerable<GameAction> GetGameActionsForGame(int gameId)
       {
         var gameActions = Context.GameActions
-            .Include(ga => ga.Game).Include(ga => ga.Team).Include(ga => ga.Node)
+            .Include(ga => ga.Game)
+            .Include(ga => ga.Team)
+            .Include(ga => ga.Node)
+            .Include(ga => ga.Picture)
             .Where(ga => ga.Game.Id == gameId)
           ;
         foreach (var gameAction in gameActions)
@@ -44,7 +47,10 @@ namespace ImageHunt.Services
       public GameAction GetGameAction(int gameActionId)
       {
         var gameAction = Context.GameActions
-          .Include(ga => ga.Game).Include(ga => ga.Team).Include(ga => ga.Node)
+          .Include(ga => ga.Game)
+          .Include(ga => ga.Team)
+          .Include(ga => ga.Node)
+          .Include(ga => ga.Picture)
           .Single(ga => ga.Id == gameActionId);
         gameAction.Delta = ComputeDelta(gameAction);
         return gameAction;

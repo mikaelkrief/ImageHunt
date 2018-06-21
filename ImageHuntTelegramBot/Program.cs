@@ -16,7 +16,7 @@ namespace ImageHuntTelegramBot
 
       public static IWebHost BuildWebHost(string[] args) =>
         WebHost.CreateDefaultBuilder(args)
-            .UseKestrel()
+            //.UseKestrel()
             .ConfigureAppConfiguration((context, builder) =>
             {
                 var env = context.HostingEnvironment;

@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using FakeItEasy;
 using ImageHunt;
+using ImageHunt.Computation;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
@@ -30,14 +32,16 @@ namespace ImageHuntTest.Controller
     private INodeService _nodeService;
     private IImageService _imageService;
     private IActionService _actionService;
+      private IImageTransformation _imageTransformation;
 
-    public GameControllerTest()
+      public GameControllerTest()
     {
       _gameService = A.Fake<IGameService>();
       _nodeService = A.Fake<INodeService>();
       _imageService = A.Fake<IImageService>();
       _actionService = A.Fake<IActionService>();
-      _target = new GameController(_gameService, _imageService, _nodeService, _actionService);
+        _imageTransformation = A.Fake<IImageTransformation>();
+      _target = new GameController(_gameService, _imageService, _nodeService, _actionService, _imageTransformation);
     }
 
     [Fact]
@@ -324,12 +328,12 @@ namespace ImageHuntTest.Controller
     }
 
     [Fact]
-    public void GetGameActions()
+    public async Task GetGameActions()
     {
       // Arrange
       
       // Act
-      var result = _target.GetGameActions(1) as OkObjectResult;
+      var result = await _target.GetGameActions(1) as OkObjectResult;
       // Assert
       A.CallTo(() => _actionService.GetGameActionsForGame(1)).MustHaveHappened();
       Check.That(result).IsNotNull();
