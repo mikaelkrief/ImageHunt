@@ -1,4 +1,10 @@
-<p-table class="table" [value]="gameActions" [paginator]="true" [rows]="10">
+<p-table class="table"
+         [value]="gameActions"
+         [paginator]="true"
+         [rows]="10"
+         [lazy]="true"
+         (onLazyLoad)="loadData($event)"
+         [totalRecords]="totalRecords">
   <ng-template pTemplate="header">
     <tr>
       <th>Heure</th>

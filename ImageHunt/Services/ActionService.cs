@@ -20,9 +20,7 @@ namespace ImageHunt.Services
             .Include(ga => ga.Team)
             .Include(ga => ga.Node)
             .Include(ga => ga.Picture)
-            .Where(ga => ga.Game.Id == gameId)
-            
-          ;
+            .Where(ga => ga.Game.Id == gameId);
         foreach (var gameAction in gameActions)
         {
           gameAction.Delta = ComputeDelta(gameAction);
@@ -78,6 +76,11 @@ namespace ImageHunt.Services
       {
         Context.GameActions.Add(gameAction);
         Context.SaveChanges();
+      }
+
+      public int GetGameActionCountForGame(int gameId)
+      {
+        return Context.GameActions.Count(ga => ga.Game.Id == gameId);
       }
     }
 }

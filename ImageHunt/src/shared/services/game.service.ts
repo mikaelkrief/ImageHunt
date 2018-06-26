@@ -3,6 +3,7 @@ import { JwtHttp } from 'ng2-ui-auth';
 import { Game } from '../game';
 import { Node } from '../node';
 import { Http, RequestOptions, Headers } from '@angular/http';
+import { HttpParams } from '@angular/common/http';
 import {NodeRequest} from '../nodeRequest';
 import { Observable } from 'rxjs/Observable';
 import {QuestionNodeAnswerRelation} from '../QuestionNodeAnswerRelation';
@@ -67,13 +68,21 @@ export class GameService {
   addRelationAnswers(relations: QuestionNodeAnswerRelation[]) {
     return this.jwtHttp.put(`api/Node/AddRelationsWithAnswers`, relations);
   }
-  getGameActionForGame(gameId: number) {
-    return this.jwtHttp.get(`api/Game/GetGameActions/` + gameId);
+  getGameActionCountForGame(gameId: number) {
+    return this.jwtHttp.get(`api/Game/GetGameActionCount/${gameId}`);
+  }
+  getGameActionForGame(gameId: number, pageIndex: number, pageSize: number) {
+    var gameActionListRequest = {
+      gameId: gameId,
+      pageSize: pageSize,
+      pageIndex: pageIndex
+    }
+    return this.jwtHttp.get(`api/Game/GetGameActions/`, { params: gameActionListRequest});
   }
   getGameAction(gameActionId: number) {
-    return this.jwtHttp.get(`api/Game/GetGameAction/` + gameActionId);
+    return this.jwtHttp.get(`api/Game/GetGameAction/${gameActionId}`);
   }
   validateGameAction(gameActionId: number) {
-    return this.http.put(`api/Action/Validate/` + gameActionId, null);
+    return this.http.put(`api/Action/Validate/${gameActionId}`, null);
   }
 }

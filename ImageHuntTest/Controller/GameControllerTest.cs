@@ -334,13 +334,13 @@ namespace ImageHuntTest.Controller
         var gameActionListRequest = new GameActionListRequest()
         {
             GameId = 1,
-            Take = 10,
+            PageSize = 10,
             PageIndex = 0,
         };
       // Act
       var result = await _target.GetGameActions(gameActionListRequest) as OkObjectResult;
       // Assert
-      A.CallTo(() => _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.Take)).MustHaveHappened();
+      A.CallTo(() => _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize)).MustHaveHappened();
       Check.That(result).IsNotNull();
     }
 
@@ -392,6 +392,17 @@ namespace ImageHuntTest.Controller
       // Assert
       A.CallTo(() => _actionService.GetGameAction(1)).MustHaveHappened();
     }
+
+      [Fact]
+      public void GetGameActionCountForGame()
+      {
+          // Arrange
+          A.CallTo(() => _actionService.GetGameActionCountForGame(A<int>._)).Returns(12);
+          // Act
+          var result = _target.GetGameActionCountForGame(1) as OkObjectResult;
+          // Assert
+          Check.That(result.Value).Equals(12);
+      }
 
     [Fact]
     public void GetImagesForGame()

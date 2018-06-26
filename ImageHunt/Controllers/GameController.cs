@@ -158,10 +158,10 @@ namespace ImageHunt.Controllers
       _gameService.DeleteGame(gameId);
       return Ok();
     }
-    [HttpGet("GetGameActions/{gameId}")]
+    [HttpGet("GetGameActions")]
     public async Task<IActionResult> GetGameActions(GameActionListRequest gameActionListRequest)
     {
-      var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.Take);
+      var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize);
       foreach (var gameAction in gameActions)
       {
         gameAction.Picture.Image = _imageTransformation.Thumbnail(gameAction.Picture.Image, 150, 150);
@@ -201,6 +201,11 @@ namespace ImageHunt.Controllers
       {
         return BadRequest($"The {gameId} is not in the system or there are no images associated");
       }
+    }
+    [HttpGet("GetGameActionCount/{gameId}")]
+    public IActionResult GetGameActionCountForGame(int gameId)
+    {
+      return Ok(_actionService.GetGameActionCountForGame(gameId));
     }
   }
 }
