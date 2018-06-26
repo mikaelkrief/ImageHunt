@@ -13,7 +13,7 @@ namespace ImageHunt.Services
 {
     public class ActionService : AbstractService, IActionService
     {
-      public IEnumerable<GameAction> GetGameActionsForGame(int gameId)
+      public async Task<PaginatedList<GameAction>> GetGameActionsForGame(int gameId, int pageIndex, int pageSize)
       {
         var gameActions = Context.GameActions
             .Include(ga => ga.Game)
@@ -21,12 +21,13 @@ namespace ImageHunt.Services
             .Include(ga => ga.Node)
             .Include(ga => ga.Picture)
             .Where(ga => ga.Game.Id == gameId)
+            
           ;
         foreach (var gameAction in gameActions)
         {
           gameAction.Delta = ComputeDelta(gameAction);
         }
-        return gameActions;
+        return await PaginatedList<GameAction>.CreateAsync(gameActions, pageIndex, pageSize);
       }
 
       protected virtual double ComputeDelta(GameAction gameAction)

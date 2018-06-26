@@ -159,9 +159,9 @@ namespace ImageHunt.Controllers
       return Ok();
     }
     [HttpGet("GetGameActions/{gameId}")]
-    public async Task<IActionResult> GetGameActions(int gameId)
+    public async Task<IActionResult> GetGameActions(GameActionListRequest gameActionListRequest)
     {
-      var gameActions = _actionService.GetGameActionsForGame(gameId);
+      var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.Take);
       foreach (var gameAction in gameActions)
       {
         gameAction.Picture.Image = _imageTransformation.Thumbnail(gameAction.Picture.Image, 150, 150);

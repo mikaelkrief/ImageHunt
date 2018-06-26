@@ -331,11 +331,16 @@ namespace ImageHuntTest.Controller
     public async Task GetGameActions()
     {
       // Arrange
-      
+        var gameActionListRequest = new GameActionListRequest()
+        {
+            GameId = 1,
+            Take = 10,
+            PageIndex = 0,
+        };
       // Act
-      var result = await _target.GetGameActions(1) as OkObjectResult;
+      var result = await _target.GetGameActions(gameActionListRequest) as OkObjectResult;
       // Assert
-      A.CallTo(() => _actionService.GetGameActionsForGame(1)).MustHaveHappened();
+      A.CallTo(() => _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.Take)).MustHaveHappened();
       Check.That(result).IsNotNull();
     }
 
