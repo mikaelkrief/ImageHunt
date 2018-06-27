@@ -20,6 +20,7 @@ namespace ImageHunt.Controllers
       _adminService = adminService;
       _logger = logger;
     }
+    [Authorize]
     [HttpGet("GetAllAdmins")]
     public IActionResult GetAllAdmins()
     {
