@@ -66,6 +66,10 @@ export class GameDetailComponent implements OnInit {
     this._gameService.upload(files, this.game.id).subscribe(res => {
       this.uploadModalRef.hide();
       this.getGame(this.game.id);
+    }, error => {
+      this.uploadModalRef.hide();
+      let errdata = error.json();
+      this._alertService.sendAlert(`Une des images n'a pu être téléchargée ${errdata.filename}`, "danger", 5000);
     });
   }
   getGame(gameId: number) {
