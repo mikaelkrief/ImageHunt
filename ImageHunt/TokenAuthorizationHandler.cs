@@ -32,10 +32,10 @@ namespace ImageHunt
 
             foreach (var authorizationRequirement in context.Requirements)
             {
-              var emailClaim = new Claim("useremail", user.Email);
-              var idClaim = new Claim("userId", user.Id.ToString());
                 if (user !=null)
                 {
+                  var emailClaim = new Claim("useremail", user.Email);
+                  var idClaim = new Claim("userId", user.Id.ToString());
                   context.User.AddIdentity(new ClaimsIdentity(new []
                   {
                     emailClaim,
