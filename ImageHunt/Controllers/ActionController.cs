@@ -16,7 +16,7 @@ namespace ImageHunt.Controllers
   #if !DEBUG
   [Authorize]
   #endif
-  public class ActionController : Microsoft.AspNetCore.Mvc.Controller
+  public class ActionController : BaseController
   {
     private readonly IGameService _gameService;
     private readonly IPlayerService _playerService;
@@ -72,8 +72,9 @@ namespace ImageHunt.Controllers
     }
     
     [HttpPut("Validate/{gameActionId}")]
-    public IActionResult Validate(int gameActionId, int validatorId)
+    public IActionResult Validate(int gameActionId)
     {
+      var validatorId = UserId;
       _actionService.Validate(gameActionId, validatorId);
       return Ok();
     }

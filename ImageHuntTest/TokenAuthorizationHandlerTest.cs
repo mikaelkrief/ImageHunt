@@ -44,7 +44,7 @@ namespace ImageHuntTest
         [Fact]
         public void HandleAsync_GrantAccess()
         {
-            _context.Admins.Add(new Admin() { Token = "toto", ExpirationTokenDate = DateTime.Now.AddHours(1) });
+            _context.Admins.Add(new Admin() { Token = "toto", Email = "toto@titi.com", ExpirationTokenDate = DateTime.Now.AddHours(1) });
             _context.SaveChanges();
             var target = new TokenAuthorizationHandler(_context);
 
@@ -59,7 +59,8 @@ namespace ImageHuntTest
             var context = new AuthorizationHandlerContext(new[] { authorizationRequirement }, user, authorizationFilterContext);
             var result = target.HandleAsync(context);
             Check.That(context.HasSucceeded).IsTrue();
-            //Check.That(context.User).IsNotNull();
+            Check.That(context.User).IsNotNull();
+            Check.That(context.User.Claims.Extracting("Value")).Contains("toto@titi.com");
         }
         [Fact]
         public void HandleAsync_DenyAccess()
