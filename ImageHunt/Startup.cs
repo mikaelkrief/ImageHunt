@@ -9,12 +9,15 @@ using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
 namespace ImageHunt
@@ -34,6 +37,17 @@ namespace ImageHunt
       services.AddMvc()
         .AddJsonOptions(options=>options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
       services.AddAuthorization();
+      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options=>
+        {
+          options.RequireHttpsMetadata = false;
+          options.SaveToken = true;
+          //options.TokenValidationParameters = new TokenValidationParameters()
+          //{
+
+          //};
+        });
+      services.AddTransient<IAuthenticationHandler, TokenAuthenticationHandler>();
       services.AddTransient<IAuthorizationHandler, TokenAuthorizationHandler>();
       services.AddDbContext<HuntContext>(options =>
           options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));

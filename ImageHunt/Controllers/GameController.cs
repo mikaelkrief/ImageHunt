@@ -18,7 +18,7 @@ namespace ImageHunt.Controllers
   #if !DEBUG
   [Authorize]
   #endif
-  public class GameController : Controller
+  public class GameController : BaseController
   {
     private readonly IGameService _gameService;
     private readonly IImageService _imageService;

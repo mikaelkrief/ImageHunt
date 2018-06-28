@@ -10,7 +10,7 @@ namespace ImageHunt.Controllers
   #if !DEBUG
   [Authorize]
   #endif
-  public class AdminController : Microsoft.AspNetCore.Mvc.Controller
+  public class AdminController : BaseController
   {
     private readonly IAdminService _adminService;
     private readonly ILogger _logger;
@@ -20,6 +20,7 @@ namespace ImageHunt.Controllers
       _adminService = adminService;
       _logger = logger;
     }
+    [Authorize]
     [HttpGet("GetAllAdmins")]
     public IActionResult GetAllAdmins()
     {
