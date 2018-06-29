@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using ImageHunt.Data;
 using ImageHunt.Model;
@@ -33,6 +34,13 @@ namespace ImageHunt
             {
                 if (user !=null)
                 {
+                  var emailClaim = new Claim("useremail", user.Email);
+                  var idClaim = new Claim("userId", user.Id.ToString());
+                  context.User.AddIdentity(new ClaimsIdentity(new []
+                  {
+                    emailClaim,
+                    idClaim,
+                  }));
                     context.Succeed(authorizationRequirement);
                 }
                 else

@@ -11,6 +11,8 @@ using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHunt.Controllers
 {
@@ -18,24 +20,27 @@ namespace ImageHunt.Controllers
   #if !DEBUG
   [Authorize]
   #endif
-  public class GameController : Controller
+  public class GameController : BaseController
   {
     private readonly IGameService _gameService;
     private readonly IImageService _imageService;
     private readonly INodeService _nodeService;
     private readonly IActionService _actionService;
+    private readonly ILogger<GameController> _logger;
     private readonly IImageTransformation _imageTransformation;
 
     public GameController(IGameService gameService,
       IImageService imageService,
       INodeService nodeService,
       IActionService actionService,
+      ILogger<GameController> logger,
       IImageTransformation imageTransformation)
     {
       _gameService = gameService;
       _imageService = imageService;
       _nodeService = nodeService;
       _actionService = actionService;
+      _logger = logger;
       _imageTransformation = imageTransformation;
     }
 
@@ -96,6 +101,13 @@ namespace ImageHunt.Controllers
           var picture = new Picture(){Image = bytes};
           //_imageService.AddPicture(picture);
           var coordinates = _imageService.ExtractLocationFromImage(picture);
+          // Drop the images without coordinates
+          if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
+          {
+            _logger.LogWarning($"The image {file.Name} is not geotagged");
+            return new BadRequestObjectResult(new {message=$"The image {file.FileName}", filename=file.FileName});
+          }
+
           var node = new PictureNode
           {
             Image = picture,

@@ -18,6 +18,7 @@ using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
 using Xunit;
@@ -32,6 +33,7 @@ namespace ImageHuntTest.Controller
     private INodeService _nodeService;
     private IImageService _imageService;
     private IActionService _actionService;
+      private ILogger<GameController> _logger;
       private IImageTransformation _imageTransformation;
 
       public GameControllerTest()
@@ -40,8 +42,9 @@ namespace ImageHuntTest.Controller
       _nodeService = A.Fake<INodeService>();
       _imageService = A.Fake<IImageService>();
       _actionService = A.Fake<IActionService>();
+        _logger = A.Fake<ILogger<GameController>>();
         _imageTransformation = A.Fake<IImageTransformation>();
-      _target = new GameController(_gameService, _imageService, _nodeService, _actionService, _imageTransformation);
+      _target = new GameController(_gameService, _imageService, _nodeService, _actionService, _logger, _imageTransformation);
     }
 
     [Fact]
@@ -199,7 +202,20 @@ namespace ImageHuntTest.Controller
       // Assert
       A.CallTo(() => _gameService.AddNode(1, A<Node>._)).MustHaveHappened(Repeated.Exactly.Times(3));
     }
-
+      [Fact]
+      public void AddImagesNodes_without_Geotag()
+      {
+          // Arrange
+          var picture = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.IMG_20170920_180905.jpg");
+          var file = A.Fake<IFormFile>();
+          A.CallTo(() => file.OpenReadStream()).ReturnsNextFromSequence(new MemoryStream(picture), new MemoryStream(picture), new MemoryStream(picture));
+          A.CallTo(() => _imageService.ExtractLocationFromImage(A<Picture>._)).Returns((double.NaN, double.NaN));
+          var images = new List<IFormFile>() { file, file, file };
+          // Act
+          _target.AddImageNodes(1, images);
+          // Assert
+          A.CallTo(() => _gameService.AddNode(1, A<Node>._)).MustNotHaveHappened();
+      }
     [Fact]
     public void SetCenterOfGameByNodes()
     {
