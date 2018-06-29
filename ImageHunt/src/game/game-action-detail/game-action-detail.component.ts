@@ -15,6 +15,7 @@ export class GameActionDetailComponent implements OnInit {
     this.gameService.getGameAction(this.actionId)
       .subscribe(next => {
         this.gameAction = next.json();
+        this.gameAction.picture.imageData = 'data:image/png;base64,' + this.gameAction.picture.image;
         this.setMap();
       });
     

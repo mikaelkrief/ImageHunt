@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using FakeItEasy;
 using ImageHunt;
+using ImageHunt.Computation;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
@@ -32,6 +34,7 @@ namespace ImageHuntTest.Controller
     private IImageService _imageService;
     private IActionService _actionService;
       private ILogger<GameController> _logger;
+      private IImageTransformation _imageTransformation;
 
       public GameControllerTest()
     {
@@ -40,7 +43,8 @@ namespace ImageHuntTest.Controller
       _imageService = A.Fake<IImageService>();
       _actionService = A.Fake<IActionService>();
         _logger = A.Fake<ILogger<GameController>>();
-      _target = new GameController(_gameService, _imageService, _nodeService, _actionService, _logger);
+        _imageTransformation = A.Fake<IImageTransformation>();
+      _target = new GameController(_gameService, _imageService, _nodeService, _actionService, _logger, _imageTransformation);
     }
 
     [Fact]
@@ -340,14 +344,19 @@ namespace ImageHuntTest.Controller
     }
 
     [Fact]
-    public void GetGameActions()
+    public async Task GetGameActions()
     {
       // Arrange
-      
+        var gameActionListRequest = new GameActionListRequest()
+        {
+            GameId = 1,
+            PageSize = 10,
+            PageIndex = 0,
+        };
       // Act
-      var result = _target.GetGameActions(1) as OkObjectResult;
+      var result = await _target.GetGameActions(gameActionListRequest) as OkObjectResult;
       // Assert
-      A.CallTo(() => _actionService.GetGameActionsForGame(1)).MustHaveHappened();
+      A.CallTo(() => _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize)).MustHaveHappened();
       Check.That(result).IsNotNull();
     }
 
@@ -399,6 +408,17 @@ namespace ImageHuntTest.Controller
       // Assert
       A.CallTo(() => _actionService.GetGameAction(1)).MustHaveHappened();
     }
+
+      [Fact]
+      public void GetGameActionCountForGame()
+      {
+          // Arrange
+          A.CallTo(() => _actionService.GetGameActionCountForGame(A<int>._)).Returns(12);
+          // Act
+          var result = _target.GetGameActionCountForGame(1) as OkObjectResult;
+          // Assert
+          Check.That(result.Value).Equals(12);
+      }
 
     [Fact]
     public void GetImagesForGame()

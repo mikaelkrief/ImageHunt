@@ -7,7 +7,8 @@ using Telegram.Bot.Types;
 namespace ImageHuntTelegramBot.Controllers
 {
   [Route("api/[controller]")]
-  public class UpdateController : Controller
+  [ApiController]
+  public class UpdateController : ControllerBase
   {
     private readonly ContextHub _contextHub;
     private readonly IBot _bot;
@@ -21,7 +22,7 @@ namespace ImageHuntTelegramBot.Controllers
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] Update update)
+    public async Task<IActionResult> Post([FromBody] dynamic update)
     {
       _logger.LogInformation(
         $"UpdateController::Post: ChatId: {update.Message.Chat.Id}, Text: {update.Message.Text}, Type: {update.Type}");

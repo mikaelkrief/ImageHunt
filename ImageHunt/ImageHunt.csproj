@@ -22,6 +22,7 @@
     <None Remove="src\shared\gmapdefinitions.ts" />
     <None Remove="src\shared\GUINode.ts" />
     <None Remove="src\shared\NodeClicked.ts" />
+    <None Remove="src\shared\picture.ts" />
     <None Remove="src\shared\RelationClicked.ts" />
     <None Remove="src\shared\player.ts" />
     <None Remove="src\shared\QuestionNodeAnswerRelation.ts" />
@@ -35,10 +36,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="7.0.0" />
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="7.4.6" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="2.1.0" />
@@ -59,6 +59,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\shared\answer.ts" />
     <TypeScriptCompile Include="src\shared\gameAction.ts" />
+    <TypeScriptCompile Include="src\shared\picture.ts" />
     <TypeScriptCompile Include="src\shared\RelationClicked.ts" />
     <TypeScriptCompile Include="src\shared\NodeClicked.ts" />
     <TypeScriptCompile Include="src\shared\pipes\gameActionTranslationPipe.ts" />

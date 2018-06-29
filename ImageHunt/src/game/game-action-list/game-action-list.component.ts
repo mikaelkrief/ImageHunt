@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {GameService} from "../../shared/services/game.service";
 import { ActivatedRoute } from "@angular/router";
 import { GameAction } from "../../shared/gameAction";
+import { LazyLoadEvent } from 'primeng/api';
 
 @Component({
     selector: 'game-action-list',
@@ -16,8 +17,46 @@ export class GameActionListComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameId = this.route.snapshot.params["gameId"];
-    this.gameService.getGameActionForGame(this.gameId)
-      .subscribe(next => this.gameActions = next.json());
+
+    this.gameService.getGameActionCountForGame(this.gameId)
+      .subscribe(next => {
+        this.totalRecords = next.json();
+      });
+  }
+  loadData(event: LazyLoadEvent) {  
+    this.gameService.getGameActionForGame(this.gameId, (event.first / event.rows) + 1, event.rows)
+      .subscribe(next => {
+        this.gameActions = next.json();
+        this.totalRecords = 15;
+        this.gameActions.map(ga => {
+          if (ga.picture !== null) ga.picture.imageData = 'data:image/png;base64,' + ga.picture.image;
+        });
+      });
+  }
+  validatedBtnClass(action: GameAction) {
+    if (action.isValidated === null)
+      return "btn";
+    if (action.isValidated)
+      return "btn btn-success";
+    else
+      return "btn btn-danger";
+  }
+  validatedSpanClass(action: GameAction) {
+    if (action.isValidated === null || !action.isValidated)
+      return "fa fa-square";
+    if (action.isValidated)
+      return "fa fa-check-square";
+  }
+  reviewedSpanClass(action: GameAction) {
+    if (action.isReviewed === null || !action.isReviewed)
+      return "fa fa-square";
+    if (action.isReviewed)
+      return "fa fa-check-square";
+  }
+  validateGameAction(action: GameAction) {
+    this.gameService.validateGameAction(action.id).subscribe(next => { action.isValidated = !action.isValidated;
+      action.isReviewed = true;
+    });
   }
   public isNaN(value): boolean {
     return "NaN" === value;
@@ -25,4 +64,5 @@ export class GameActionListComponent implements OnInit {
 
   gameId: number;
   gameActions: GameAction[];
+  totalRecords: number;
 }

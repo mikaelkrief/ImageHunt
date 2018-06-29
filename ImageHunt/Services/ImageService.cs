@@ -1,5 +1,6 @@
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Model;
@@ -24,7 +25,7 @@ namespace ImageHunt.Services
       Context.SaveChanges();
     }
 
-    public Picture GetPictureById(int pictureId)
+    public async Task<Picture> GetPictureById(int pictureId)
     {
       return Queryable.Single<Picture>(Context.Pictures, p => p.Id == pictureId);
     }

@@ -117,9 +117,10 @@ namespace ImageHunt.Controllers
       using (var stream = uploadRequest.FormFile.OpenReadStream())
       {
         var image = new byte[stream.Length];
+        stream.Read(image, 0, (int)stream.Length);
         var picture = new Picture(){Image = image};
         var location = _imageService.ExtractLocationFromImage(picture);
-        if (location.Item1 != double.NaN && location.Item2 != double.NaN)
+        if (!double.IsNaN(location.Item1) || !double.IsNaN(location.Item2))
         {
           uploadRequest.Latitude = location.Item1;
           uploadRequest.Longitude = location.Item2;

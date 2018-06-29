@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
+using ImageHunt.Computation;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Response;
@@ -25,18 +27,21 @@ namespace ImageHunt.Controllers
     private readonly INodeService _nodeService;
     private readonly IActionService _actionService;
     private readonly ILogger<GameController> _logger;
+    private readonly IImageTransformation _imageTransformation;
 
     public GameController(IGameService gameService,
       IImageService imageService,
       INodeService nodeService,
       IActionService actionService,
-      ILogger<GameController> logger)
+      ILogger<GameController> logger,
+      IImageTransformation imageTransformation)
     {
       _gameService = gameService;
       _imageService = imageService;
       _nodeService = nodeService;
       _actionService = actionService;
       _logger = logger;
+      _imageTransformation = imageTransformation;
     }
 
     [HttpGet("ById/{gameId}")]
@@ -165,10 +170,15 @@ namespace ImageHunt.Controllers
       _gameService.DeleteGame(gameId);
       return Ok();
     }
-    [HttpGet("GetGameActions/{gameId}")]
-    public IActionResult GetGameActions(int gameId)
+    [HttpGet("GetGameActions")]
+    public async Task<IActionResult> GetGameActions(GameActionListRequest gameActionListRequest)
     {
-      return Ok(_actionService.GetGameActionsForGame(gameId));
+      var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize);
+      foreach (var gameAction in gameActions)
+      {
+        gameAction.Picture.Image = _imageTransformation.Thumbnail(gameAction.Picture.Image, 150, 150);
+      }
+      return Ok(gameActions);
     }
     [HttpPost("UploadImage")]
     public IActionResult UploadImage(IFormFile file)
@@ -203,6 +213,11 @@ namespace ImageHunt.Controllers
       {
         return BadRequest($"The {gameId} is not in the system or there are no images associated");
       }
+    }
+    [HttpGet("GetGameActionCount/{gameId}")]
+    public IActionResult GetGameActionCountForGame(int gameId)
+    {
+      return Ok(_actionService.GetGameActionCountForGame(gameId));
     }
   }
 }

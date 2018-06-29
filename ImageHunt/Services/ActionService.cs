@@ -13,17 +13,19 @@ namespace ImageHunt.Services
 {
     public class ActionService : AbstractService, IActionService
     {
-      public IEnumerable<GameAction> GetGameActionsForGame(int gameId)
+      public async Task<PaginatedList<GameAction>> GetGameActionsForGame(int gameId, int pageIndex, int pageSize)
       {
         var gameActions = Context.GameActions
-            .Include(ga => ga.Game).Include(ga => ga.Team).Include(ga => ga.Node)
-            .Where(ga => ga.Game.Id == gameId)
-          ;
+            .Include(ga => ga.Game)
+            .Include(ga => ga.Team)
+            .Include(ga => ga.Node)
+            .Include(ga => ga.Picture)
+            .Where(ga => ga.Game.Id == gameId);
         foreach (var gameAction in gameActions)
         {
           gameAction.Delta = ComputeDelta(gameAction);
         }
-        return gameActions;
+        return await PaginatedList<GameAction>.CreateAsync(gameActions, pageIndex, pageSize);
       }
 
       protected virtual double ComputeDelta(GameAction gameAction)
@@ -44,7 +46,10 @@ namespace ImageHunt.Services
       public GameAction GetGameAction(int gameActionId)
       {
         var gameAction = Context.GameActions
-          .Include(ga => ga.Game).Include(ga => ga.Team).Include(ga => ga.Node)
+          .Include(ga => ga.Game)
+          .Include(ga => ga.Team)
+          .Include(ga => ga.Node)
+          .Include(ga => ga.Picture)
           .Single(ga => ga.Id == gameActionId);
         gameAction.Delta = ComputeDelta(gameAction);
         return gameAction;
@@ -71,6 +76,11 @@ namespace ImageHunt.Services
       {
         Context.GameActions.Add(gameAction);
         Context.SaveChanges();
+      }
+
+      public int GetGameActionCountForGame(int gameId)
+      {
+        return Context.GameActions.Count(ga => ga.Game.Id == gameId);
       }
     }
 }
