@@ -83,6 +83,6 @@ export class GameService {
     return this.jwtHttp.get(`api/Game/GetGameAction/${gameActionId}`);
   }
   validateGameAction(gameActionId: number) {
-    return this.http.put(`api/Action/Validate/${gameActionId}`, null);
+    return this.jwtHttp.put(`api/Action/Validate/${gameActionId}`, null);
   }
 }

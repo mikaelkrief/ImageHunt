@@ -33,6 +33,31 @@ export class GameActionListComponent implements OnInit {
         });
       });
   }
+  validatedBtnClass(action: GameAction) {
+    if (action.isValidated === null)
+      return "btn";
+    if (action.isValidated)
+      return "btn btn-success";
+    else
+      return "btn btn-danger";
+  }
+  validatedSpanClass(action: GameAction) {
+    if (action.isValidated === null || !action.isValidated)
+      return "fa fa-square";
+    if (action.isValidated)
+      return "fa fa-check-square";
+  }
+  reviewedSpanClass(action: GameAction) {
+    if (action.isReviewed === null || !action.isReviewed)
+      return "fa fa-square";
+    if (action.isReviewed)
+      return "fa fa-check-square";
+  }
+  validateGameAction(action: GameAction) {
+    this.gameService.validateGameAction(action.id).subscribe(next => { action.isValidated = !action.isValidated;
+      action.isReviewed = true;
+    });
+  }
   public isNaN(value): boolean {
     return "NaN" === value;
   }

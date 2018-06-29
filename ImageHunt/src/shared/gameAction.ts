@@ -13,6 +13,7 @@ export class GameAction {
   action: string;
   node: Node;
   isValidated: boolean;
+  isReviewed: boolean;
   delta: number;
   picture: Picture;
 }
