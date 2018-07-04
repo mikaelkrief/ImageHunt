@@ -372,5 +372,26 @@ namespace ImageHuntTest.Services
         Check.ThatCode(()=> _target.Validate(gameActions[1].Id, 0)).Throws<InvalidOperationException>();
         // Assert
       }
+
+        [Fact]
+        public void GetValidatedGameActionForGame()
+        {
+            // Arrange
+            var gameActions = new List<GameAction>
+            {
+                new GameAction {Game = new Game {Id = 1}, IsValidated = true, PointsEarned = 15},
+                new GameAction {Game = new Game {Id = 2}, IsValidated = true, PointsEarned = 15},
+                new GameAction {Game = new Game {Id = 2}, IsValidated = true, PointsEarned = 15},
+                new GameAction {Game = new Game {Id = 2}, IsValidated = false, PointsEarned = 15},
+                new GameAction {Game = new Game {Id = 2}, IsValidated = true, PointsEarned = 15},
+                new GameAction {Game = new Game {Id = 2}, IsValidated = false, PointsEarned = 15},
+            };
+            _context.GameActions.AddRange(gameActions);
+            _context.SaveChanges();
+            // Act
+            var result = _target.GetValidatedGameActionForGame(gameActions[1].Game.Id);
+            // Assert
+            Check.That(result).ContainsExactly(gameActions[1], gameActions[2], gameActions[4]);
+        }
   }
 }

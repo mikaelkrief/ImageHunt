@@ -84,5 +84,10 @@ namespace ImageHunt.Services
       {
         return Context.GameActions.Count(ga => ga.Game.Id == gameId);
       }
+
+      public List<GameAction> GetValidatedGameActionForGame(int gameId)
+      {
+        return Context.GameActions.Where(ga => ga.Game.Id == gameId && ga.IsValidated).ToList();
+      }
     }
 }
