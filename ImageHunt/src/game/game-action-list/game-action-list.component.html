@@ -15,6 +15,7 @@
       <th>Photo associée</th>
       <th>Revu</th>
       <th>Validé</th>
+      <th>Points</th>
       <th></th>
     </tr>
   </ng-template>
@@ -33,6 +34,9 @@
         <button [class]="validatedBtnClass(action)" (click)="validateGameAction(action)">
           <span [class]="validatedSpanClass(action)"></span>
         </button>
+      </td>
+      <td>
+        {{action.pointsEarned}}
       </td>
       <td><button class="btn btn-success" [routerLink]="['/action/detail/', action.id]">
         <span class="fa fa-info-circle"></span>

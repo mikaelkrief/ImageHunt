@@ -54,8 +54,16 @@ export class GameActionListComponent implements OnInit {
       return "fa fa-check-square";
   }
   validateGameAction(action: GameAction) {
-    this.gameService.validateGameAction(action.id).subscribe(next => { action.isValidated = !action.isValidated;
-      action.isReviewed = true;
+    this.gameService.validateGameAction(action.id).subscribe(next => {
+      action.isValidated = !action.isValidated;
+      if (action.isValidated) {
+        action.isReviewed = true;
+        action.pointsEarned = action.node.points;
+      } else {
+        action.isReviewed = false;
+        action.pointsEarned = 0;
+
+      }
     });
   }
   public isNaN(value): boolean {

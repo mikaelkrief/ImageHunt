@@ -310,7 +310,8 @@ namespace ImageHuntTest.Services
       public void Validate_Validate()
       {
         // Arrange
-        var gameActions = new List<GameAction> {new GameAction(), new GameAction() {IsValidated = false}};
+        var gameActions = new List<GameAction> {new GameAction(),
+            new GameAction() {IsValidated = false, Node = new PictureNode{Points = 15}}};
         _context.GameActions.AddRange(gameActions);
         _context.SaveChanges();
         var admins = new List<Admin> {new Admin(), new Admin()};
@@ -321,6 +322,7 @@ namespace ImageHuntTest.Services
         // Assert
         Check.That(gameActions.Extracting("IsValidated")).Contains(false, true);
         Check.That(gameActions.Extracting("IsReviewed")).Contains(false, true);
+          Check.That(gameActions.Extracting("PointsEarned")).Contains(0, 15);
       }
 
       [Fact]
@@ -343,7 +345,9 @@ namespace ImageHuntTest.Services
       public void Validate_InValidate()
       {
         // Arrange
-        var gameActions = new List<GameAction> {new GameAction(), new GameAction() {IsValidated = true}};
+        var gameActions = new List<GameAction> {new GameAction(),
+            new GameAction() {IsValidated = true, PointsEarned = 15,
+                Node = new PictureNode(){Points = 15}}};
         _context.GameActions.AddRange(gameActions);
         _context.SaveChanges();
       var admins = new List<Admin> { new Admin(), new Admin() };
@@ -352,11 +356,12 @@ namespace ImageHuntTest.Services
         // Act
       _target.Validate(gameActions[1].Id, admins[1].Id);
         // Assert
-        Check.That(gameActions.Extracting("IsValidated")).Contains(false, false);
-        Check.That(gameActions.Extracting("IsReviewed")).Contains(false, true);
+        Check.That(gameActions.Extracting("IsValidated")).ContainsExactly(false, false);
+        Check.That(gameActions.Extracting("IsReviewed")).ContainsExactly(false, true);
+          Check.That(gameActions.Extracting("PointsEarned")).ContainsExactly(0, 0);
       }
 
-    [Fact]
+        [Fact]
       public void Validate_without_Reviewer()
       {
       // Arrange
