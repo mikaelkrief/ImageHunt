@@ -72,6 +72,7 @@ namespace ImageHunt.Controllers
     }
     
     [HttpPut("Validate/{gameActionId}")]
+    [Authorize]
     public IActionResult Validate(int gameActionId)
     {
       var validatorId = UserId;
