@@ -69,7 +69,7 @@ export class GameService {
     return this.jwtHttp.put(`api/Node/AddRelationsWithAnswers`, relations);
   }
   getGameActionCountForGame(gameId: number) {
-    return this.jwtHttp.get(`api/Game/GetGameActionCount/${gameId}`);
+    return this.jwtHttp.get(`api/Game/GameActionCount/${gameId}`);
   }
   getGameActionForGame(gameId: number, pageIndex: number, pageSize: number) {
     var gameActionListRequest = {
@@ -77,7 +77,7 @@ export class GameService {
       pageSize: pageSize,
       pageIndex: pageIndex
     }
-    return this.jwtHttp.get(`api/Game/GetGameActions/`, { params: gameActionListRequest});
+    return this.jwtHttp.get(`api/Game/GameActions/`, { params: gameActionListRequest});
   }
   getGameAction(gameActionId: number) {
     return this.jwtHttp.get(`api/Game/GetGameAction/${gameActionId}`);

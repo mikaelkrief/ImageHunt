@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Net;
 using AutoMapper;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
@@ -78,6 +79,11 @@ namespace ImageHunt.Controllers
       var validatorId = UserId;
       _actionService.Validate(gameActionId, validatorId);
       return Ok();
+    }
+    [HttpGet("GetValidatedGameActionForGame/{gameId}")]
+    public IActionResult GetValidatedGameActionForGame(int gameId)
+    {
+      return Ok(_actionService.GetValidatedGameActionForGame(gameId));
     }
   }
 }

@@ -38,6 +38,7 @@ import localeFr from "@angular/common/locales/fr";
 import { registerLocaleData } from "@angular/common";
 import { SharedModule } from "../shared/shared.module";
 import { QRCodeModule } from "angular2-qrcode";
+import { ScoreListComponent } from './score-list/score-list.component';
 
 registerLocaleData(localeFr);
 
@@ -53,7 +54,8 @@ export class MyAuthConfig extends CustomConfig {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ScoreListComponent
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -92,6 +94,7 @@ export class MyAuthConfig extends CustomConfig {
       { path: "team", component: TeamListComponent },
       { path: "map", component: MapDetail2Component },
       { path: "admin", component: AdminListComponent },
+      { path: "score", component: ScoreListComponent },
       { path: "", redirectTo: "home", pathMatch: "full" },
       { path: "**", component: PageNotFoundComponent }
     ])

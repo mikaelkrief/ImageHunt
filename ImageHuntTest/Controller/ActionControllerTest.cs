@@ -160,5 +160,17 @@ namespace ImageHuntTest.Controller
             Check.That(result).IsInstanceOf<OkResult>();
             A.CallTo(() => _actionService.Validate(1, 15)).MustHaveHappened();
         }
+
+        [Fact]
+        public void GetValidatedGameActionForGame()
+        {
+            // Arrange
+            
+            // Act
+            var result = _target.GetValidatedGameActionForGame(1);
+            // Assert
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+            A.CallTo(() => _actionService.GetValidatedGameActionForGame(1)).MustHaveHappened();
+        }
     }
 }

@@ -442,5 +442,17 @@ namespace ImageHuntTest.Controller
       A.CallTo(() => _gameService.GetPictureNode(1)).MustHaveHappened();
       Check.That(result).IsInstanceOf<BadRequestObjectResult>();
     }
+    [Fact]
+    public void GetGamesReviewed()
+    {
+    // Arrange
+    
+    // Act
+    var result = _target.GetGamesReviewed();
+    // Assert
+        Check.That(result).IsInstanceOf<OkObjectResult>();
+        A.CallTo(() => _gameService.GetGamesWithScore()).MustHaveHappened();
+    }
   }
+
 }
