@@ -87,7 +87,8 @@ namespace ImageHunt.Services
 
       public IEnumerable<Score> GetScoresForGame(int gameId)
       {
-        return Context.GameActions.Include(ga => ga.Game).Include(ga => ga.Team)
+        return Context.GameActions.Include(ga => ga.Game)
+          .Include(ga => ga.Team).ThenInclude(t=>t.TeamPlayers).ThenInclude(tp=>tp.Player)
           .Where(ga => ga.Game.Id == gameId && ga.IsValidated)
           .GroupBy(ga => ga.Team)
           .Select(g=>new Score(){Team = g.Key, Points = g.Sum(_=>_.PointsEarned)});
