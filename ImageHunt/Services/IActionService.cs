@@ -12,6 +12,6 @@ namespace ImageHunt.Services
     GameAction GetGameAction(int gameActionId);
     void Validate(int gameActionId, int validatorId);
     int GetGameActionCountForGame(int gameId);
-    List<GameAction> GetValidatedGameActionForGame(int gameId);
+    IEnumerable<Score> GetScoresForGame(int gameId);
   }
 }

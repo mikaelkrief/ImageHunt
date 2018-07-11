@@ -374,24 +374,36 @@ namespace ImageHuntTest.Services
       }
 
         [Fact]
-        public void GetValidatedGameActionForGame()
+        public void GetScoreForGame()
         {
             // Arrange
+            var games = new List<Game> {new Game()};
+            _context.Games.AddRange(games);
+            var teams = new List<Team> {new Team(), new Team()};
+            _context.Teams.AddRange(teams);
             var gameActions = new List<GameAction>
             {
-                new GameAction {Game = new Game {Id = 1}, IsValidated = true, PointsEarned = 15},
-                new GameAction {Game = new Game {Id = 2}, IsValidated = true, PointsEarned = 15},
-                new GameAction {Game = new Game {Id = 2}, IsValidated = true, PointsEarned = 15},
-                new GameAction {Game = new Game {Id = 2}, IsValidated = false, PointsEarned = 15},
-                new GameAction {Game = new Game {Id = 2}, IsValidated = true, PointsEarned = 15},
-                new GameAction {Game = new Game {Id = 2}, IsValidated = false, PointsEarned = 15},
+                new GameAction {Game = games[0], Team = teams[0], IsValidated = true, PointsEarned = 15},
+                new GameAction {Game = games[0], Team = teams[1], IsValidated = true, PointsEarned = 15},
+                new GameAction {Game = games[0], Team = teams[0], IsValidated = true, PointsEarned = 15},
+                new GameAction {Game = games[0], Team = teams[1], IsValidated = false, PointsEarned = 15},
+                new GameAction {Game = games[0], Team = teams[1], IsValidated = true, PointsEarned = 15},
+                new GameAction {Game = games[0], Team = teams[1], IsValidated = true, PointsEarned = 15},
+                new GameAction {Game = games[0], Team = teams[1], IsValidated = false, PointsEarned = 15},
             };
             _context.GameActions.AddRange(gameActions);
             _context.SaveChanges();
             // Act
-            var result = _target.GetValidatedGameActionForGame(gameActions[1].Game.Id);
+            var result = _target.GetScoresForGame(gameActions[1].Game.Id);
             // Assert
-            Check.That(result).ContainsExactly(gameActions[1], gameActions[2], gameActions[4]);
+            var expectedScores = new List<Score>
+            {
+                new Score(){Team = gameActions[0].Team, Points = 30},
+                new Score(){Team = gameActions[1].Team, Points = 45},
+            };
+            var list = result.ToList();
+            Check.That(result.Extracting("Points")).ContainsExactly(expectedScores.Extracting("Points"));
+            Check.That(result.Extracting("Team")).ContainsExactly(expectedScores.Extracting("Team"));
         }
   }
 }

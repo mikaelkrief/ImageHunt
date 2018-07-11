@@ -17,6 +17,7 @@
   <ItemGroup>
     <None Remove="src\app\app.ts" />
     <None Remove="src\app\top-menu.config.ts" />
+    <None Remove="src\score\score-list\score.module.ts" />
     <None Remove="src\shared\answer.ts" />
     <None Remove="src\shared\gameAction.ts" />
     <None Remove="src\shared\gmapdefinitions.ts" />
@@ -26,13 +27,13 @@
     <None Remove="src\shared\RelationClicked.ts" />
     <None Remove="src\shared\player.ts" />
     <None Remove="src\shared\QuestionNodeAnswerRelation.ts" />
+    <None Remove="src\shared\score.ts" />
     <None Remove="src\shared\team.ts" />
     <None Remove="src\team\team.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="src\score\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -58,6 +59,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="src\score\score.module.ts" />
     <TypeScriptCompile Include="src\shared\answer.ts" />
     <TypeScriptCompile Include="src\shared\gameAction.ts" />
     <TypeScriptCompile Include="src\shared\picture.ts" />
@@ -68,6 +70,7 @@
     <TypeScriptCompile Include="src\shared\GUINode.ts" />
     <TypeScriptCompile Include="src\shared\player.ts" />
     <TypeScriptCompile Include="src\shared\QuestionNodeAnswerRelation.ts" />
+    <TypeScriptCompile Include="src\shared\score.ts" />
     <TypeScriptCompile Include="src\shared\services\game.service.ts" />
     <TypeScriptCompile Include="src\shared\team.ts" />
     <TypeScriptCompile Include="src\shared\services\team.service.ts" />

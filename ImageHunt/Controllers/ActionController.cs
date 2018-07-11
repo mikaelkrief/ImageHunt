@@ -80,10 +80,5 @@ namespace ImageHunt.Controllers
       _actionService.Validate(gameActionId, validatorId);
       return Ok();
     }
-    [HttpGet("GetValidatedGameActionForGame/{gameId}")]
-    public IActionResult GetValidatedGameActionForGame(int gameId)
-    {
-      return Ok(_actionService.GetValidatedGameActionForGame(gameId));
-    }
   }
 }

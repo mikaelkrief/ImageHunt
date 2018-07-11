@@ -21,6 +21,7 @@ import { NavmenuModule } from "../navmenu/navmenu.module";
 import { AdminListModule } from "../admin/admin-list/admin-list.module";
 import { AdminListComponent } from "../admin/admin-list/admin-list.component";
 import { GameModule } from "../game/game.module";
+import { ScoreModule } from "../score/score.module";
 import { GameListComponent } from "../game/game-list/game-list.component";
 import { GameDetailComponent } from "../game/game-detail/game.detail.component";
 import { environment } from "../environments/environment";
@@ -38,7 +39,7 @@ import localeFr from "@angular/common/locales/fr";
 import { registerLocaleData } from "@angular/common";
 import { SharedModule } from "../shared/shared.module";
 import { QRCodeModule } from "angular2-qrcode";
-import { ScoreListComponent } from './score-list/score-list.component';
+import { ScoreListComponent } from '../score/score-list/score-list.component';
 
 registerLocaleData(localeFr);
 
@@ -54,8 +55,7 @@ export class MyAuthConfig extends CustomConfig {
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ScoreListComponent
+    AppComponent
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -70,6 +70,7 @@ export class MyAuthConfig extends CustomConfig {
     HomeModule,
     GameModule,
     TeamModule,
+    ScoreModule,
     MapModule,
     PlayerModule,
     AdminListModule,

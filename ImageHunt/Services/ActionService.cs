@@ -85,9 +85,12 @@ namespace ImageHunt.Services
         return Context.GameActions.Count(ga => ga.Game.Id == gameId);
       }
 
-      public List<GameAction> GetValidatedGameActionForGame(int gameId)
+      public IEnumerable<Score> GetScoresForGame(int gameId)
       {
-        return Context.GameActions.Where(ga => ga.Game.Id == gameId && ga.IsValidated).ToList();
+        return Context.GameActions.Include(ga => ga.Game).Include(ga => ga.Team)
+          .Where(ga => ga.Game.Id == gameId && ga.IsValidated)
+          .GroupBy(ga => ga.Team)
+          .Select(g=>new Score(){Team = g.Key, Points = g.Sum(_=>_.PointsEarned)});
       }
     }
 }

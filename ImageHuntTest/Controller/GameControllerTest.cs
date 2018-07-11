@@ -445,14 +445,26 @@ namespace ImageHuntTest.Controller
     [Fact]
     public void GetGamesReviewed()
     {
-    // Arrange
-    
-    // Act
-    var result = _target.GetGamesReviewed();
-    // Assert
+        // Arrange
+        
+        // Act
+        var result = _target.GetGamesReviewed();
+        // Assert
         Check.That(result).IsInstanceOf<OkObjectResult>();
         A.CallTo(() => _gameService.GetGamesWithScore()).MustHaveHappened();
     }
+
+      [Fact]
+      public void GetScoreForGame()
+      {
+          // Arrange
+          
+          // Act
+          var result = _target.GetScoreForGame(1);
+          // Assert
+          Check.That(result).IsInstanceOf<OkObjectResult>();
+          A.CallTo(() => _actionService.GetScoresForGame(1)).MustHaveHappened();
+      }
   }
 
 }

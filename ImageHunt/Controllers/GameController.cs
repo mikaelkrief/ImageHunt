@@ -224,5 +224,10 @@ namespace ImageHunt.Controllers
     {
       return Ok(_gameService.GetGamesWithScore());
     }
+    [HttpGet("Score/{gameId}")]
+    public IActionResult GetScoreForGame(int gameId)
+    {
+      return Ok(_actionService.GetScoresForGame(gameId));
+    }
   }
 }
