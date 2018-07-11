@@ -47,6 +47,7 @@ export class MyAuthConfig extends CustomConfig {
   defaultHeaders = { 'Content-Type': "application/json" };
   providers = {
     google: { clientId: environment.GOOGLE_CLIENT_ID },
+    github: { clientId: environment.GITHUB_CLIENT_ID },
   };
   tokenName = "accessToken";
   tokenPrefix = "";
