@@ -112,5 +112,16 @@ namespace ImageHunt.Services
       var pictureNodes = game.Nodes.Where(n => n is PictureNode);
       return Context.PictureNodes.Include(p => p.Image).Where(p => pictureNodes.Any(pn => pn.Id == p.Id));
     }
+
+    public IEnumerable<Game> GetGamesWithScore()
+    {
+      var games = Context.Games.Where(g => g.StartDate < DateTime.Now);
+      var gamesActionWithScore =
+        Context.GameActions.Include(g => g.Game)
+          .Where(ga => ga.IsReviewed)
+          .GroupBy(ga => ga.Game)
+          .Select(ga => ga.Key);
+      return games.Intersect(gamesActionWithScore);
+    }
   }
 }

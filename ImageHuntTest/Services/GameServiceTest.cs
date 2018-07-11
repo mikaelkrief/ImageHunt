@@ -259,5 +259,37 @@ namespace ImageHuntTest.Services
       // Assert
       Check.That(result).Contains(nodes[1], nodes[3]);
     }
+
+      [Fact]
+      public void GetGamesWithScore()
+      {
+          // Arrange
+          var games = new List<Game>
+          {
+              new Game() {StartDate = DateTime.Now.AddHours(-1)},
+              new Game() {StartDate = DateTime.Now.AddDays(-1)},
+              new Game() {StartDate = DateTime.Now.AddDays(1)},
+              new Game() {StartDate = DateTime.Now.AddDays(-1)},
+          };
+          _context.AddRange(games);
+          _context.SaveChanges();
+          var gameActions = new List<GameAction>
+          {
+              new GameAction() {Game = games[0], IsReviewed = true, PointsEarned = 15},
+              new GameAction() {Game = games[0], IsReviewed = true, PointsEarned = 6},
+              new GameAction() {Game = games[0], IsReviewed = true, PointsEarned = 0},
+              new GameAction() {Game = games[0], IsReviewed = true, PointsEarned = 15},
+              new GameAction() {Game = games[1], IsReviewed = true, PointsEarned = 155},
+              new GameAction() {Game = games[1], IsReviewed = true, PointsEarned = 115},
+              new GameAction() {Game = games[3], IsReviewed = false, PointsEarned = 155},
+              new GameAction() {Game = games[3], IsReviewed = false, PointsEarned = 115},
+          };
+          _context.GameActions.AddRange(gameActions);
+          _context.SaveChanges();
+          // Act
+          var results = _target.GetGamesWithScore();
+          // Assert
+          Check.That(results).ContainsExactly(games[0], games[1]);
+      }
   }
 }

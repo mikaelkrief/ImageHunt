@@ -160,5 +160,6 @@ namespace ImageHuntTest.Controller
             Check.That(result).IsInstanceOf<OkResult>();
             A.CallTo(() => _actionService.Validate(1, 15)).MustHaveHappened();
         }
+
     }
 }

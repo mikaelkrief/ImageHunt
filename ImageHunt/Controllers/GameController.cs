@@ -170,7 +170,7 @@ namespace ImageHunt.Controllers
       _gameService.DeleteGame(gameId);
       return Ok();
     }
-    [HttpGet("GetGameActions")]
+    [HttpGet("GameActions")]
     public async Task<IActionResult> GetGameActions(GameActionListRequest gameActionListRequest)
     {
       var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize);
@@ -214,10 +214,20 @@ namespace ImageHunt.Controllers
         return BadRequest($"The {gameId} is not in the system or there are no images associated");
       }
     }
-    [HttpGet("GetGameActionCount/{gameId}")]
+    [HttpGet("GameActionCount/{gameId}")]
     public IActionResult GetGameActionCountForGame(int gameId)
     {
       return Ok(_actionService.GetGameActionCountForGame(gameId));
+    }
+    [HttpGet("Reviewed")]
+    public IActionResult GetGamesReviewed()
+    {
+      return Ok(_gameService.GetGamesWithScore());
+    }
+    [HttpGet("Score/{gameId}")]
+    public IActionResult GetScoreForGame(int gameId)
+    {
+      return Ok(_actionService.GetScoresForGame(gameId));
     }
   }
 }

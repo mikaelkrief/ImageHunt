@@ -310,7 +310,8 @@ namespace ImageHuntTest.Services
       public void Validate_Validate()
       {
         // Arrange
-        var gameActions = new List<GameAction> {new GameAction(), new GameAction() {IsValidated = false}};
+        var gameActions = new List<GameAction> {new GameAction(),
+            new GameAction() {IsValidated = false, Node = new PictureNode{Points = 15}}};
         _context.GameActions.AddRange(gameActions);
         _context.SaveChanges();
         var admins = new List<Admin> {new Admin(), new Admin()};
@@ -321,6 +322,7 @@ namespace ImageHuntTest.Services
         // Assert
         Check.That(gameActions.Extracting("IsValidated")).Contains(false, true);
         Check.That(gameActions.Extracting("IsReviewed")).Contains(false, true);
+          Check.That(gameActions.Extracting("PointsEarned")).Contains(0, 15);
       }
 
       [Fact]
@@ -343,7 +345,9 @@ namespace ImageHuntTest.Services
       public void Validate_InValidate()
       {
         // Arrange
-        var gameActions = new List<GameAction> {new GameAction(), new GameAction() {IsValidated = true}};
+        var gameActions = new List<GameAction> {new GameAction(),
+            new GameAction() {IsValidated = true, PointsEarned = 15,
+                Node = new PictureNode(){Points = 15}}};
         _context.GameActions.AddRange(gameActions);
         _context.SaveChanges();
       var admins = new List<Admin> { new Admin(), new Admin() };
@@ -352,11 +356,12 @@ namespace ImageHuntTest.Services
         // Act
       _target.Validate(gameActions[1].Id, admins[1].Id);
         // Assert
-        Check.That(gameActions.Extracting("IsValidated")).Contains(false, false);
-        Check.That(gameActions.Extracting("IsReviewed")).Contains(false, true);
+        Check.That(gameActions.Extracting("IsValidated")).ContainsExactly(false, false);
+        Check.That(gameActions.Extracting("IsReviewed")).ContainsExactly(false, true);
+          Check.That(gameActions.Extracting("PointsEarned")).ContainsExactly(0, 0);
       }
 
-    [Fact]
+        [Fact]
       public void Validate_without_Reviewer()
       {
       // Arrange
@@ -367,5 +372,38 @@ namespace ImageHuntTest.Services
         Check.ThatCode(()=> _target.Validate(gameActions[1].Id, 0)).Throws<InvalidOperationException>();
         // Assert
       }
+
+        [Fact]
+        public void GetScoreForGame()
+        {
+            // Arrange
+            var games = new List<Game> {new Game()};
+            _context.Games.AddRange(games);
+            var teams = new List<Team> {new Team(), new Team()};
+            _context.Teams.AddRange(teams);
+            var gameActions = new List<GameAction>
+            {
+                new GameAction {Game = games[0], Team = teams[0], IsValidated = true, PointsEarned = 15},
+                new GameAction {Game = games[0], Team = teams[1], IsValidated = true, PointsEarned = 15},
+                new GameAction {Game = games[0], Team = teams[0], IsValidated = true, PointsEarned = 15},
+                new GameAction {Game = games[0], Team = teams[1], IsValidated = false, PointsEarned = 15},
+                new GameAction {Game = games[0], Team = teams[1], IsValidated = true, PointsEarned = 15},
+                new GameAction {Game = games[0], Team = teams[1], IsValidated = true, PointsEarned = 15},
+                new GameAction {Game = games[0], Team = teams[1], IsValidated = false, PointsEarned = 15},
+            };
+            _context.GameActions.AddRange(gameActions);
+            _context.SaveChanges();
+            // Act
+            var result = _target.GetScoresForGame(gameActions[1].Game.Id);
+            // Assert
+            var expectedScores = new List<Score>
+            {
+                new Score(){Team = gameActions[0].Team, Points = 30},
+                new Score(){Team = gameActions[1].Team, Points = 45},
+            };
+            var list = result.ToList();
+            Check.That(result.Extracting("Points")).ContainsExactly(expectedScores.Extracting("Points"));
+            Check.That(result.Extracting("Team")).ContainsExactly(expectedScores.Extracting("Team"));
+        }
   }
 }

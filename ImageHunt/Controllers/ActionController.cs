@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Net;
 using AutoMapper;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
@@ -72,6 +73,7 @@ namespace ImageHunt.Controllers
     }
     
     [HttpPut("Validate/{gameActionId}")]
+    [Authorize]
     public IActionResult Validate(int gameActionId)
     {
       var validatorId = UserId;

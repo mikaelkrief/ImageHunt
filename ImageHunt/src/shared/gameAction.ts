@@ -16,4 +16,5 @@ export class GameAction {
   isReviewed: boolean;
   delta: number;
   picture: Picture;
+  pointsEarned: number;
 }
