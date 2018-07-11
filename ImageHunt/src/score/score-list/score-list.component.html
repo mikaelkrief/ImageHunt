@@ -24,7 +24,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let score of scores; let i = index">
-        <td><i class="fa fa-star" [style.color]="colorFromRank(i)"></i>{{colorFromRank(i)}}</td>
+        <td><i class="fa fa-star" [style.color]="colorFromRank(i)"></i></td>
         <td>{{score.team.name}}</td>
         <td>{{score.points}}</td>
       </tr>
