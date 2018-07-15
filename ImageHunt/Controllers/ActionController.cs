@@ -80,5 +80,19 @@ namespace ImageHunt.Controllers
       _actionService.Validate(gameActionId, validatorId);
       return Ok();
     }
+    [HttpPost("LogPosition")]
+    public IActionResult LogPosition(LogPositionRequest logPositionRequest)
+    {
+      var gameAction = new GameAction()
+        {
+          Action = Action.SubmitPosition,
+          Game = _gameService.GetGameById(logPositionRequest.GameId),
+          Team = _teamService.GetTeamById(logPositionRequest.TeamId),
+          Longitude = logPositionRequest.Longitude,
+          Latitude = logPositionRequest.Latitude
+        };
+      _actionService.AddGameAction(gameAction);
+      return Ok();
+    }
   }
 }

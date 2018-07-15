@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
+using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using Telegram.Bot.Types;
@@ -18,14 +21,17 @@ namespace ImageHuntBotTest.Dialog
     {
       private IReceiveLocationDialog _target;
       private ILogger _logger;
+        private IActionWebService _actionWebService;
 
-      public ReceiveLocationDialogTest()
+        public ReceiveLocationDialogTest()
       {
         _testContainerBuilder.RegisterType<ReceiveLocationDialog>();
+          _actionWebService = A.Fake<IActionWebService>();
+          _testContainerBuilder.RegisterInstance(_actionWebService).As<IActionWebService>();
         _logger = A.Fake<ILogger<ReceiveLocationDialog>>();
         _testContainerBuilder.RegisterInstance(_logger).As<ILogger<ReceiveLocationDialog>>();
 
-      _container = _testContainerBuilder.Build();
+        _container = _testContainerBuilder.Build();
         _target = _container.Resolve<ReceiveLocationDialog>();
       }
 
@@ -47,6 +53,7 @@ namespace ImageHuntBotTest.Dialog
       await _target.Begin(turnContext);
         // Assert
         A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).MustHaveHappened();
+          A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._)).MustHaveHappened();
         Check.That(imageHuntState.CurrentLatitude).Equals(15.6f);
         Check.That(imageHuntState.CurrentLongitude).Equals(4.2f);
         A.CallTo(() => _logger.Log(A<LogLevel>._, A<EventId>._, A<object>._, A<Exception>._,

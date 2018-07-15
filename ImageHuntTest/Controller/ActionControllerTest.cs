@@ -161,5 +161,40 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _actionService.Validate(1, 15)).MustHaveHappened();
         }
 
+        [Fact]
+        public void LogPosition()
+        {
+            // Arrange
+            var logPositionRequest = new LogPositionRequest()
+            {
+                GameId = 5,
+                TeamId = 6,
+                Latitude = 45.36,
+                Longitude = 2.361,
+            };
+            A.CallTo(() => _gameService.GetGameById(logPositionRequest.GameId))
+                .Returns(new Game() {Id = logPositionRequest.GameId});
+            A.CallTo(() => _teamService.GetTeamById(logPositionRequest.TeamId))
+                .Returns(new Team() {Id = logPositionRequest.TeamId});
+            // Act
+            var result = _target.LogPosition(logPositionRequest);
+            // Assert
+            A.CallTo(() => _gameService.GetGameById(logPositionRequest.GameId)).MustHaveHappened();
+            A.CallTo(() => _teamService.GetTeamById(logPositionRequest.TeamId))
+                .MustHaveHappened();
+
+            A.CallTo(() => _actionService.AddGameAction(A<GameAction>.That.Matches(ga=>CheckGameActionLogPosition(ga, logPositionRequest)))).MustHaveHappened();
+            Check.That(result).IsInstanceOf<OkResult>();
+        }
+
+        private bool CheckGameActionLogPosition(GameAction ga, LogPositionRequest logPositionRequest)
+        {
+            Check.That(ga.Game.Id).Equals(logPositionRequest.GameId);
+            Check.That(ga.Team.Id).Equals(logPositionRequest.TeamId);
+            Check.That(ga.Action).Equals(Action.SubmitPosition);
+            Check.That(ga.Latitude).Equals(logPositionRequest.Latitude);
+            Check.That(ga.Longitude).Equals(logPositionRequest.Longitude);
+            return true;
+        }
     }
 }
