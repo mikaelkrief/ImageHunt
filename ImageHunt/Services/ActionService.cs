@@ -8,6 +8,7 @@ using ImageHunt.Model;
 using ImageHuntCore.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Action = ImageHunt.Model.Action;
 
 namespace ImageHunt.Services
 {
@@ -20,7 +21,9 @@ namespace ImageHunt.Services
             .Include(ga => ga.Team)
             .Include(ga => ga.Node)
             .Include(ga => ga.Picture)
+            .Where(ga=>ga.Action !=  Action.SubmitPosition)
             .Where(ga => ga.Game.Id == gameId);
+
         foreach (var gameAction in gameActions)
         {
           gameAction.Delta = ComputeDelta(gameAction);
