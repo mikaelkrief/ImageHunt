@@ -22,7 +22,7 @@ namespace ImageHuntTelegramBot.Controllers
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] Update update)
+    public async Task<IActionResult> Post(Update update)
     {
         _logger.LogDebug($"Received update {update}");
         var message = update.Message == null ? update.EditedMessage : update.Message;

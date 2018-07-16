@@ -80,7 +80,7 @@ namespace ImageHuntBotTest
         A.CallTo(() => _logger.Log<object>(A<LogLevel>._, A<EventId>._, 
             A<string>._, A<Exception>._, A<Func<object, Exception, string>>._))
           .WithAnyArguments()
-          .MustHaveHappened(Repeated.Exactly.Twice);
+          .MustHaveHappened(Repeated.Exactly.Times(3));
       }
     }
 }
