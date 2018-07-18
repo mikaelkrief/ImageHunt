@@ -14,6 +14,7 @@ namespace ImageHuntTelegramBot
       {
         builder.RegisterType<GameWebService>().As<IGameWebService>();
         builder.RegisterType<TeamWebService>().As<ITeamWebService>();
+        builder.RegisterType<ActionWebService>().As<IActionWebService>();
         builder.RegisterType<InitDialog>().As<IInitDialog>();
         builder.RegisterType<ReceiveImageDialog>().As<IReceiveImageDialog>();
         builder.RegisterType<ReceiveDocumentDialog>().As<IReceiveDocumentDialog>();
