@@ -39,14 +39,13 @@ namespace ImageHuntTelegramBot.Controllers
 
     }
 
-      public virtual async Task ResetContext(Update update)
-      {
-          if (update.Message.Text == "/reset" && _turnContexts.ContainsKey(update.Message.Chat.Id))
-          {
-              var context = await GetContext(update);
-              context.ResetConversationStates();
-              await context.End();
-          }
-      }
+      //public virtual async Task ResetContext(Update update)
+      //{
+      //    if (update.Message.Text == "/reset" && _turnContexts.ContainsKey(update.Message.Chat.Id))
+      //    {
+      //        var context = await GetContext(update);
+      //        await context.ResetConversationStates();
+      //    }
+      //}
   }
 }

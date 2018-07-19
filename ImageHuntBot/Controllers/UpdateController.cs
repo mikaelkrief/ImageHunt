@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using ImageHuntTelegramBot.Dialogs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot.Types;
@@ -30,13 +31,13 @@ namespace ImageHuntTelegramBot.Controllers
         $"Received update from {message.Chat.Id} of type {message.Type}");
       try
       {
+        var context = await _contextHub.GetContext(update);
         if (message.Text == "/reset")
         {
-            await _contextHub.ResetContext(update);
+            await context.ResetConversationStates<ImageHuntState>();
             
             return Ok();
         }
-        var context = await _contextHub.GetContext(update);
         await _bot.OnTurn(context);
 
       }

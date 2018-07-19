@@ -24,9 +24,10 @@ namespace ImageHuntTelegramBot
     }
     private static readonly Dictionary<long, object> ConversationStates = new Dictionary<long, object>();
 
-    public void ResetConversationStates()
-    {
-      ConversationStates.Remove(ChatId);
+    public async Task ResetConversationStates<T>() where T : class, new()
+        {
+        ConversationStates.Remove(ChatId);
+        await _storage.Write(new[] {new KeyValuePair<string, object>(ChatId.ToString(), new T())});
     }
     private readonly object padlock = new object();
     public virtual T GetConversationState<T>() where T : class, new()

@@ -69,18 +69,5 @@ namespace ImageHuntBotTest
         Check.That(context).Equals(_turnContext);
         Check.That(context.ChatId).Equals(15);
       }
-         [Fact]
-        public async Task ResetContext()
-        {
-            // Arrange
-            var update = new Update() { CallbackQuery = new CallbackQuery() { Message = new Message() { Chat = new Chat() { Id = 15 } } } };
-            var orgContext = await _target.GetContext(update);
-            update = new Update() {Message = new Message(){Text = "/reset", Chat = new Chat(){Id = 15}}};
-            // Act
-            await _target.ResetContext(update);
-            // Assert
-            var newContext = await _target.GetContext(update);
-            Check.That(newContext.Replied).IsFalse();
-        }
    }
 }
