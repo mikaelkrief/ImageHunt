@@ -146,7 +146,6 @@ namespace ImageHuntBotTest
       // Arrange
         var dialog = A.Fake<IDialog>();
         _target.ChatId = 15;
-        TurnContext.ResetConversationStates();
         A.CallTo(() => _storage.Read(A<string[]>._))
           .Returns(new[] {new KeyValuePair<string, object>("15", new DummyState()),});
         // Act

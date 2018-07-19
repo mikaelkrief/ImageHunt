@@ -43,8 +43,8 @@ namespace ImageHuntTelegramBot.Controllers
       {
           if (update.Message.Text == "/reset" && _turnContexts.ContainsKey(update.Message.Chat.Id))
           {
-              _turnContexts.Remove(update.Message.Chat.Id);
               var context = await GetContext(update);
+              context.ResetConversationStates();
               await context.End();
           }
       }
