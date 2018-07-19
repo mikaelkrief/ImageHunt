@@ -74,15 +74,13 @@ namespace ImageHuntBotTest
         {
             // Arrange
             var update = new Update() { CallbackQuery = new CallbackQuery() { Message = new Message() { Chat = new Chat() { Id = 15 } } } };
-            await _target.GetContext(update);
+            var orgContext = await _target.GetContext(update);
             update = new Update() {Message = new Message(){Text = "/reset", Chat = new Chat(){Id = 15}}};
             // Act
             await _target.ResetContext(update);
             // Assert
-            var fieldInfo = typeof(ContextHub).GetField("_turnContexts", BindingFlags.NonPublic|BindingFlags.Instance);
-            var value = fieldInfo.GetValue(_target) as Dictionary<long, ITurnContext>;
-
-            Check.That(value.ContainsKey(update.Message.Chat.Id)).IsFalse();
+            var newContext = await _target.GetContext(update);
+            Check.That(newContext.Replied).IsFalse();
         }
    }
 }
