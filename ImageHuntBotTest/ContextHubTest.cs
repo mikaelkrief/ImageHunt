@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
@@ -68,6 +69,20 @@ namespace ImageHuntBotTest
         Check.That(context).Equals(_turnContext);
         Check.That(context.ChatId).Equals(15);
       }
+         [Fact]
+        public async Task ResetContext()
+        {
+            // Arrange
+            var update = new Update() { CallbackQuery = new CallbackQuery() { Message = new Message() { Chat = new Chat() { Id = 15 } } } };
+            await _target.GetContext(update);
+            update = new Update() {Message = new Message(){Text = "/reset", Chat = new Chat(){Id = 15}}};
+            // Act
+            await _target.ResetContext(update);
+            // Assert
+            var fieldInfo = typeof(ContextHub).GetField("_turnContexts", BindingFlags.NonPublic|BindingFlags.Instance);
+            var value = fieldInfo.GetValue(_target) as Dictionary<long, ITurnContext>;
 
-    }
+            Check.That(value.ContainsKey(update.Message.Chat.Id)).IsFalse();
+        }
+   }
 }
