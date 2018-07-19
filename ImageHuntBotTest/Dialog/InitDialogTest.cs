@@ -72,16 +72,18 @@ namespace ImageHuntBotTest
       {
         // Arrange
         var context = A.Fake<ITurnContext>();
-        var state = new ImageHuntState(){GameId = 15, TeamId = 15};
+        var state = new ImageHuntState(){GameId = 0, TeamId = 0};
+          A.CallTo(() => context.GetConversationState<ImageHuntState>()).Returns(state);
         var activity = new Activity(){Text = "/init gameid=2 teamid=6"};
-        A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._)).Returns(new GameResponse());
+        A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._)).Returns<GameResponse>(null);
         A.CallTo(() => _teamWebService.GetTeamById(A<int>._)).Returns(new TeamResponse());
         A.CallTo(() => context.Activity).Returns(activity);
         // Act
         await _target.Begin(context);
         // Assert
         A.CallTo(() => context.ReplyActivity(A<string>._)).MustHaveHappened();
-        A.CallTo(() => context.End()).MustHaveHappened();        
+        A.CallTo(() => context.End()).MustHaveHappened();
+          Check.That(state.GameId).Equals(0);
       }
   }
 }

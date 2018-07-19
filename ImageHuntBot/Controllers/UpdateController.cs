@@ -32,12 +32,12 @@ namespace ImageHuntTelegramBot.Controllers
       try
       {
         var context = await _contextHub.GetContext(update);
-        if (message.Text == "/reset")
-        {
-            await context.ResetConversationStates<ImageHuntState>();
+        //if (message.Text == "/reset")
+        //{
+        //    await context.ResetConversationStates<ImageHuntState>();
             
-            return Ok();
-        }
+        //    return Ok();
+        //}
         await _bot.OnTurn(context);
 
       }
