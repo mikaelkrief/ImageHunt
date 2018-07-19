@@ -22,19 +22,6 @@ namespace ImageHuntTelegramBot.Controllers
       long chatId = 0;
       string text = null;
       var activity = await _adapter.CreateActivityFromUpdate(update);
-      //ActivityType activityType = ActivityType.None;
-      //switch (update.Type)
-      //{
-      //  case UpdateType.MessageUpdate:
-      //    chatId = update.Message.Chat.Id;
-      //    text = update.Message.Text;
-      //    activityType = ActivityType.Message;
-      //    break;
-      //  case UpdateType.CallbackQueryUpdate:
-      //    chatId = update.CallbackQuery.Message.Chat.Id;
-      //    activityType = ActivityType.CallbackQuery;
-      //    break;
-      //}
       chatId = activity.ChatId;
       lock (Padlock)
       {
@@ -51,5 +38,13 @@ namespace ImageHuntTelegramBot.Controllers
       }
 
     }
+
+      public virtual async Task ResetContext(Update update)
+      {
+          if (update.Message.Text == "/reset" && _turnContexts.ContainsKey(update.Message.Chat.Id))
+          {
+              _turnContexts.Remove(update.Message.Chat.Id);
+          }
+      }
   }
 }

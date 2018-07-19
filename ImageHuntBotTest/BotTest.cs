@@ -68,24 +68,42 @@ namespace ImageHuntBotTest
         A.CallTo(() => turnContext.Continue()).MustHaveHappened();
 
     }
-      [Fact]
-      public async Task OnTurn_UploadDocument()
-      {
-        // Arrange
-        var turnContext = A.Fake<ITurnContext>();
-        var activity = new Activity(){ActivityType = ActivityType.Message, Text = "/uploaddocument", ChatId = 15};
-        A.CallTo(() => turnContext.Activity).Returns(activity);
-        A.CallTo(() => turnContext.CurrentDialog).Returns(null);
-        var uploadDocumentDialog = A.Fake<IDialog>();
-        _target.AddDialog("/uploaddocument", uploadDocumentDialog);
-        // Act
-        await _target.OnTurn(turnContext);
-      // Assert
-        A.CallTo(() => turnContext.Begin(uploadDocumentDialog)).MustHaveHappened();
-        A.CallTo(() => turnContext.Continue()).MustHaveHappened();
+        [Fact]
+        public async Task OnTurn_UploadDocument()
+        {
+            // Arrange
+            var turnContext = A.Fake<ITurnContext>();
+            var activity = new Activity() { ActivityType = ActivityType.Message, Text = "/uploaddocument", ChatId = 15 };
+            A.CallTo(() => turnContext.Activity).Returns(activity);
+            A.CallTo(() => turnContext.CurrentDialog).Returns(null);
+            var uploadDocumentDialog = A.Fake<IDialog>();
+            _target.AddDialog("/uploaddocument", uploadDocumentDialog);
+            // Act
+            await _target.OnTurn(turnContext);
+            // Assert
+            A.CallTo(() => turnContext.Begin(uploadDocumentDialog)).MustHaveHappened();
+            A.CallTo(() => turnContext.Continue()).MustHaveHappened();
 
-    }
-      [Fact]
+        }
+        [Fact]
+        public async Task OnTurn_ResetBot()
+        {
+            // Arrange
+            var turnContext = A.Fake<ITurnContext>();
+            var activity = new Activity() { ActivityType = ActivityType.Message, Text = "/reset", ChatId = 15 };
+            A.CallTo(() => turnContext.Activity).Returns(activity);
+            A.CallTo(() => turnContext.CurrentDialog).Returns(null);
+            var resetDialog = A.Fake<IDialog>();
+            _target.AddDialog("/reset", resetDialog);
+            // Act
+            await _target.OnTurn(turnContext);
+            // Assert
+            A.CallTo(() => turnContext.Begin(resetDialog)).MustHaveHappened();
+            A.CallTo(() => turnContext.Continue()).MustHaveHappened();
+
+        }
+
+        [Fact]
       public async Task OnTurn_ErrorOccured()
       {
         // Arrange
@@ -117,5 +135,6 @@ namespace ImageHuntBotTest
         A.CallTo(() => initDialog.Begin(turnContext)).MustNotHaveHappened();
         A.CallTo(() => turnContext.Continue()).MustHaveHappened();
       }
+      
   }
 }

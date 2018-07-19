@@ -30,6 +30,10 @@ namespace ImageHuntTelegramBot.Controllers
         $"Received update from {message.Chat.Id} of type {message.Type}");
       try
       {
+        if (message.Text == "/reset")
+        {
+            await _contextHub.ResetContext(update);
+        }
         var context = await _contextHub.GetContext(update);
         await _bot.OnTurn(context);
 
