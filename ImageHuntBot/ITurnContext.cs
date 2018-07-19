@@ -18,6 +18,6 @@ namespace ImageHuntTelegramBot
       Task SendActivity(IActivity activity);
       event EventHandler EndCalled;
       T GetConversationState<T>() where T : class, new();
-        void ResetConversationStates();
+        Task ResetConversationStates<T>() where T : class, new();
     }
 }
