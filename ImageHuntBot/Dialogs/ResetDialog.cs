@@ -10,7 +10,7 @@ namespace ImageHuntBot.Dialogs
 {
     public class ResetDialog : AbstractDialog, IResetDialog
     {
-        protected ResetDialog(ILogger logger) : base(logger)
+        public ResetDialog(ILogger logger) : base(logger)
         {
         }
         public override async Task Begin(ITurnContext turnContext)
