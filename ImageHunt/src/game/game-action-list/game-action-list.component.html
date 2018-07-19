@@ -26,7 +26,7 @@
       <td>{{action.team.name}}</td>
       <td>{{action.action|gameActionTranslationPipe}}</td>
       <td>{{action.node===null?'Aucun':action.node.name}}</td>
-      <td><img [src]="action.picture.imageData" class="img-thumbnail"/></td>
+      <td><img *ngIf="action.picture !== null" [src]="action.picture.imageData" class="img-thumbnail"/></td>
       <td>
         <span [class]="reviewedSpanClass(action)"></span>
       </td>
