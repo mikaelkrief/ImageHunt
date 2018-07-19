@@ -33,7 +33,7 @@ namespace ImageHuntTelegramBot.Controllers
         if (message.Text == "/reset")
         {
             await _contextHub.ResetContext(update);
-
+            
             return Ok();
         }
         var context = await _contextHub.GetContext(update);
