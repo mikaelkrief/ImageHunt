@@ -176,7 +176,8 @@ namespace ImageHunt.Controllers
       var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize);
       foreach (var gameAction in gameActions)
       {
-        gameAction.Picture.Image = _imageTransformation.Thumbnail(gameAction.Picture.Image, 150, 150);
+        if (gameAction.Picture != null)
+          gameAction.Picture.Image = _imageTransformation.Thumbnail(gameAction.Picture.Image, 150, 150);
       }
       return Ok(gameActions);
     }

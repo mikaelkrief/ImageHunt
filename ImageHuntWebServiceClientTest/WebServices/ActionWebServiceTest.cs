@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
+using FakeItEasy;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using TestUtilities;
@@ -19,7 +21,22 @@ namespace ImageHuntWebServiceClientTest.WebServices
         public async Task LogPosition()
         {
             // Arrange
-            var logPositionRequest = new LogPositionRequest();
+            var logPositionRequest = new LogPositionRequest()
+            {
+                GameId = 1,
+                TeamId = 1,
+                Latitude = 45.26,
+                Longitude = 4.63
+            };
+            var httpResponse = new HttpResponseMessage()
+            {
+                Content = new StringContent("OK")
+            };
+
+            A.CallTo(_fakeHttpMessageHandler)
+                .Where(x => x.Method.Name == "SendAsync")
+                .WithReturnType<Task<HttpResponseMessage>>()
+                .Returns(httpResponse);
             // Act
             await _target.LogPosition(logPositionRequest);
             // Assert

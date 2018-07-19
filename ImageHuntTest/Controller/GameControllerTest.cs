@@ -359,6 +359,29 @@ namespace ImageHuntTest.Controller
       A.CallTo(() => _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize)).MustHaveHappened();
       Check.That(result).IsNotNull();
     }
+    [Fact]
+    public async Task GetGameActionsWithNoImage()
+    {
+      // Arrange
+        var gameActionListRequest = new GameActionListRequest()
+        {
+            GameId = 1,
+            PageSize = 10,
+            PageIndex = 0,
+        };
+        var gameActions = new List<GameAction>()
+        {
+            new GameAction(),
+            new GameAction()
+        };
+        A.CallTo(() => _actionService.GetGameActionsForGame(A<int>._, A<int>._, A<int>._))
+            .Returns(Task.FromResult(new PaginatedList<GameAction>(gameActions, 2, 10, 1)));
+      // Act
+      var result = await _target.GetGameActions(gameActionListRequest) as OkObjectResult;
+      // Assert
+      A.CallTo(() => _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize)).MustHaveHappened();
+      Check.That(result).IsNotNull();
+    }
 
     [Fact]
     public void UploadImage()
