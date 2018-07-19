@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Autofac;
+using ImageHuntBot.Dialogs;
 using ImageHuntTelegramBot.Controllers;
 using ImageHuntTelegramBot.Dialogs;
 using ImageHuntWebServiceClient.WebServices;
@@ -19,6 +20,7 @@ namespace ImageHuntTelegramBot
         builder.RegisterType<ReceiveImageDialog>().As<IReceiveImageDialog>();
         builder.RegisterType<ReceiveDocumentDialog>().As<IReceiveDocumentDialog>();
         builder.RegisterType<ReceiveLocationDialog>().As<IReceiveLocationDialog>();
+        builder.RegisterType<ResetDialog>().As<IResetDialog>();
         builder.Register(t =>
         {
           var bot = new TelegramBot();
@@ -30,6 +32,8 @@ namespace ImageHuntTelegramBot
           bot.AddDialog("/uploaddocument", receiveDocumentDialog);
           var receiveLocationDialog = t.Resolve<IReceiveLocationDialog>();
           bot.AddDialog("/location", receiveLocationDialog);
+          var resetDialog = t.Resolve<IResetDialog>();
+          bot.AddDialog("/reset", resetDialog);
           return bot;
         }).As<IBot>();
         builder.RegisterType<TelegramAdapter>().As<IAdapter>();

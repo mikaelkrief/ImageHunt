@@ -1,6 +1,8 @@
-﻿namespace ImageHuntBot.Dialogs
+﻿using ImageHuntTelegramBot;
+
+namespace ImageHuntBot.Dialogs
 {
-    internal interface IResetDialog
+    internal interface IResetDialog : IDialog
     {
     }
 }
