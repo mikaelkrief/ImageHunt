@@ -44,9 +44,11 @@ namespace ImageHuntTelegramBot.Controllers
       catch (Exception e)
       {
         _logger.LogError(e, $"An error while processing update {update.Id} for chat {update.Message.Chat.Id}");
+          var context = await _contextHub.GetContext(update);
+          await context.End();
       }
 
-      return Ok();
+            return Ok();
     }
   }
 }
