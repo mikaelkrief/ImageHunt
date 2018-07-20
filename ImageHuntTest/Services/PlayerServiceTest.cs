@@ -11,7 +11,6 @@ using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
 using Xunit;
-using Action = ImageHunt.Model.Action;
 
 namespace ImageHuntTest
 {

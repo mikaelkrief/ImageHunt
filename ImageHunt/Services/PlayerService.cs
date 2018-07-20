@@ -6,7 +6,7 @@ using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
 using Microsoft.Extensions.Logging;
-using Action = ImageHunt.Model.Action;
+using Action = ImageHuntWebServiceClient.Action;
 
 namespace ImageHunt.Services
 {
