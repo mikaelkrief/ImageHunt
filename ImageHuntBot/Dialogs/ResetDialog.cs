@@ -18,6 +18,7 @@ namespace ImageHuntBot.Dialogs
             _logger.LogInformation($"Reset the bot for chatId {turnContext.ChatId}");
             await turnContext.ResetConversationStates<ImageHuntState>();
             await turnContext.ReplyActivity($"Le groupe {turnContext.ChatId} vient d'être ré-initialisé");
+            await turnContext.End();
         }
     }
 }
