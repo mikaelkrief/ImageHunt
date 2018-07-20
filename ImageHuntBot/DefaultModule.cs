@@ -22,6 +22,7 @@ namespace ImageHuntTelegramBot
         builder.RegisterType<ReceiveLocationDialog>().As<IReceiveLocationDialog>();
         builder.RegisterType<ResetDialog>().As<IResetDialog>();
         builder.RegisterType<StartDialog>().As<IStartDialog>();
+        builder.RegisterType<EndDialog>().As<IEndDialog>();
         builder.Register(t =>
         {
           var bot = new TelegramBot();
@@ -37,6 +38,8 @@ namespace ImageHuntTelegramBot
           bot.AddDialog("/reset", resetDialog);
           var startDialog = t.Resolve<IStartDialog>();
           bot.AddDialog("/start", startDialog);
+          var endDialog = t.Resolve<IEndDialog>();
+          bot.AddDialog("/end", endDialog);
           return bot;
         }).As<IBot>();
         builder.RegisterType<TelegramAdapter>().As<IAdapter>();
