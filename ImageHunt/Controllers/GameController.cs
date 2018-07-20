@@ -174,11 +174,11 @@ namespace ImageHunt.Controllers
     public async Task<IActionResult> GetGameActions(GameActionListRequest gameActionListRequest)
     {
       var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize);
-      foreach (var gameAction in gameActions)
-      {
-        if (gameAction.Picture != null)
-          gameAction.Picture.Image = _imageTransformation.Thumbnail(gameAction.Picture.Image, 150, 150);
-      }
+      //foreach (var gameAction in gameActions)
+      //{
+      //  if (gameAction.Picture != null)
+      //    gameAction.Picture.Image = _imageTransformation.Thumbnail(gameAction.Picture.Image, 150, 150);
+      //}
       return Ok(gameActions);
     }
     [HttpPost("UploadImage")]

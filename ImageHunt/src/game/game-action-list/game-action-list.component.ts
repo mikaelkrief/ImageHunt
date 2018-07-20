@@ -14,7 +14,7 @@ export class GameActionListComponent implements OnInit {
   /** GameActionList ctor */
     constructor(private gameService: GameService, private route: ActivatedRoute) {
     }
-
+  images: any[][] = [];
   ngOnInit(): void {
     this.gameId = this.route.snapshot.params["gameId"];
 
@@ -73,4 +73,7 @@ export class GameActionListComponent implements OnInit {
   gameId: number;
   gameActions: GameAction[];
   totalRecords: number;
+  loadBigImage(pictureId) {
+
+  }
 }

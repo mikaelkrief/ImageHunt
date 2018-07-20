@@ -22,11 +22,16 @@
   <ng-template pTemplate="body" let-action let-rowData>
     <tr>
       <td>{{action.dateOccured|date:'HH:mm'}}</td>
-      <td>{{isNaN(action.delta)?'-':action.delta | number:'1.0-2':'fr'}}</td>
+      <td>{{isNaN(action.delta)?'-':action.delta | number:'1.0-2':'fr'}} m</td>
       <td>{{action.team.name}}</td>
       <td>{{action.action|gameActionTranslationPipe}}</td>
       <td>{{action.node===null?'Aucun':action.node.name}}</td>
-      <td><img *ngIf="action.picture !== null" [src]="action.picture.imageData" class="img-thumbnail"/></td>
+      <td>
+        <p-lightbox [images]="">
+        </p-lightbox>
+        <!--<img *ngIf="action.picture !== null" [src]="action.picture.imageData" class="img-thumbnail"
+           (click)="loadBigImage(action.picture.id)"/>-->
+      </td>
       <td>
         <span [class]="reviewedSpanClass(action)"></span>
       </td>
