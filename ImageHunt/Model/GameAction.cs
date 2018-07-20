@@ -4,20 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using ImageHunt.Model.Node;
+using Action = ImageHuntWebServiceClient.Action;
 
 namespace ImageHunt.Model
 {
-  public enum Action
-  {
-    StartGame,
-    EndGame,
-    SubmitPicture,
-    VisitWaypoint,
-    ReplyQuestion,
-    DoAction,
-    SubmitPosition
-  }
-    public class GameAction : DbObject
+  public class GameAction : DbObject
     {
       public DateTime DateOccured { get; set; }
       public double Latitude { get; set; }

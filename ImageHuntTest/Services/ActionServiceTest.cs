@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using NFluent;
 using TestUtilities;
 using Xunit;
-using Action = System.Action;
+using Action = ImageHuntWebServiceClient.Action;
 
 namespace ImageHuntTest.Services
 {
@@ -45,7 +45,7 @@ namespace ImageHuntTest.Services
         new GameAction()
         {
           Game = games[1],
-          Action = ImageHunt.Model.Action.StartGame,
+          Action = Action.StartGame,
           DateOccured = DateTime.Now,
           Latitude = 10,
           Longitude = 15,
@@ -55,7 +55,7 @@ namespace ImageHuntTest.Services
         new GameAction()
         {
           Game = games[1],
-          Action = ImageHunt.Model.Action.VisitWaypoint,
+          Action = Action.VisitWaypoint,
           DateOccured = DateTime.Now,
           Latitude = 11,
           Longitude = 15.2,
@@ -65,7 +65,7 @@ namespace ImageHuntTest.Services
         new GameAction()
         {
           Game = games[1],
-          Action = ImageHunt.Model.Action.VisitWaypoint,
+          Action = Action.VisitWaypoint,
           DateOccured = DateTime.Now.AddMinutes(15),
           Latitude = 11.3,
           Longitude = 15.5,
@@ -74,7 +74,7 @@ namespace ImageHuntTest.Services
         new GameAction()
         {
           Game = games[0],
-          Action = ImageHunt.Model.Action.VisitWaypoint,
+          Action = Action.VisitWaypoint,
           DateOccured = DateTime.Now,
           Latitude = 11,
           Longitude = 15.2,
@@ -112,7 +112,7 @@ namespace ImageHuntTest.Services
         new GameAction()
         {
           Game = games[1],
-          Action = ImageHunt.Model.Action.StartGame,
+          Action = Action.StartGame,
           DateOccured = DateTime.Now,
           Latitude = 10,
           Longitude = 15,
@@ -122,7 +122,7 @@ namespace ImageHuntTest.Services
         new GameAction()
         {
           Game = games[1],
-          Action = ImageHunt.Model.Action.VisitWaypoint,
+          Action = Action.VisitWaypoint,
           DateOccured = DateTime.Now,
           Latitude = 11,
           Longitude = 15.2,
@@ -132,7 +132,7 @@ namespace ImageHuntTest.Services
         new GameAction()
         {
           Game = games[1],
-          Action = ImageHunt.Model.Action.VisitWaypoint,
+          Action = Action.VisitWaypoint,
           DateOccured = DateTime.Now.AddMinutes(15),
           Latitude = 11.3,
           Longitude = 15.5,
@@ -141,7 +141,7 @@ namespace ImageHuntTest.Services
         new GameAction()
         {
           Game = games[0],
-          Action = ImageHunt.Model.Action.VisitWaypoint,
+          Action = Action.VisitWaypoint,
           DateOccured = DateTime.Now,
           Latitude = 11,
           Longitude = 15.2,
@@ -180,7 +180,7 @@ namespace ImageHuntTest.Services
                 new GameAction()
                 {
                     Game = games[1],
-                    Action = ImageHunt.Model.Action.StartGame,
+                    Action = Action.StartGame,
                     DateOccured = DateTime.Now,
                     Latitude = 10,
                     Longitude = 15,
@@ -190,7 +190,7 @@ namespace ImageHuntTest.Services
                 new GameAction()
                 {
                     Game = games[1],
-                    Action = ImageHunt.Model.Action.VisitWaypoint,
+                    Action = Action.VisitWaypoint,
                     DateOccured = DateTime.Now,
                     Latitude = 11,
                     Longitude = 15.2,
@@ -200,7 +200,7 @@ namespace ImageHuntTest.Services
                 new GameAction()
                 {
                     Game = games[1],
-                    Action = ImageHunt.Model.Action.VisitWaypoint,
+                    Action = Action.VisitWaypoint,
                     DateOccured = DateTime.Now.AddMinutes(15),
                     Latitude = 11.3,
                     Longitude = 15.5,
@@ -209,7 +209,7 @@ namespace ImageHuntTest.Services
                 new GameAction()
                 {
                     Game = games[0],
-                    Action = ImageHunt.Model.Action.VisitWaypoint,
+                    Action = Action.VisitWaypoint,
                     DateOccured = DateTime.Now,
                     Latitude = 11,
                     Longitude = 15.2,
@@ -243,7 +243,7 @@ namespace ImageHuntTest.Services
         new GameAction()
         {
           Game = games[1],
-          Action = ImageHunt.Model.Action.StartGame,
+          Action = Action.StartGame,
           DateOccured = DateTime.Now,
           Latitude = 10,
           Longitude = 15,
@@ -253,7 +253,7 @@ namespace ImageHuntTest.Services
         new GameAction()
         {
           Game = games[1],
-          Action = ImageHunt.Model.Action.VisitWaypoint,
+          Action = Action.VisitWaypoint,
           DateOccured = DateTime.Now,
           Latitude = 11,
           Longitude = 15.2,
@@ -263,7 +263,7 @@ namespace ImageHuntTest.Services
         new GameAction()
         {
           Game = games[1],
-          Action = ImageHunt.Model.Action.VisitWaypoint,
+          Action = Action.VisitWaypoint,
           DateOccured = DateTime.Now.AddMinutes(15),
           Latitude = 11.3,
           Longitude = 15.5,
@@ -272,7 +272,7 @@ namespace ImageHuntTest.Services
         new GameAction()
         {
           Game = games[0],
-          Action = ImageHunt.Model.Action.VisitWaypoint,
+          Action = Action.VisitWaypoint,
           DateOccured = DateTime.Now,
           Latitude = 11,
           Longitude = 15.2,
@@ -285,7 +285,7 @@ namespace ImageHuntTest.Services
       // Act
       var result = _target.GetGameAction(gameActions[1].Id);
       // Assert
-      Check.That(result.Action).Equals(ImageHunt.Model.Action.VisitWaypoint);
+      Check.That(result.Action).Equals(Action.VisitWaypoint);
       Check.That(result.Game.Name).Equals(games[1].Name);
       Check.That(result.Delta).IsEqualsWithDelta(141447.769119081, 0.001);
     }

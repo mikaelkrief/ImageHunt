@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
 using Xunit;
-using Action = ImageHunt.Model.Action;
+using Action = ImageHuntWebServiceClient.Action;
 
 namespace ImageHuntTest.Services
 {

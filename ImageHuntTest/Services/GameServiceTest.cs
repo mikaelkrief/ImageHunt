@@ -13,7 +13,6 @@ using NFluent;
 using SQLitePCL;
 using TestUtilities;
 using Xunit;
-using Action = ImageHunt.Model.Action;
 
 namespace ImageHuntTest.Services
 {

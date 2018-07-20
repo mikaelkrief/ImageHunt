@@ -5,11 +5,12 @@ using AutoMapper;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Action = ImageHunt.Model.Action;
+using Action = ImageHuntWebServiceClient.Action;
 
 namespace ImageHunt.Controllers
 {
