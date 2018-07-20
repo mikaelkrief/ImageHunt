@@ -2,7 +2,7 @@
 
 namespace ImageHuntBot.Dialogs
 {
-    internal interface IResetDialog : IDialog
+    public interface IResetDialog : IDialog
     {
     }
 }
