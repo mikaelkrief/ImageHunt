@@ -47,6 +47,33 @@ namespace ImageHuntBotTest.Dialog
         };
         var turnContext = A.Fake<ITurnContext>();
         A.CallTo(() => turnContext.Activity).Returns(activity);
+        var imageHuntState = new ImageHuntState(){Status = Status.Started };
+        A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(imageHuntState);
+      // Act
+      await _target.Begin(turnContext);
+        // Assert
+        A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).MustHaveHappened();
+          A.CallTo(() => turnContext.ReplyActivity(A<string>._)).MustHaveHappened();
+          A.CallTo(() => turnContext.End()).MustHaveHappened();
+          A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
+              .MustHaveHappened();
+        A.CallTo(() => _logger.Log(A<LogLevel>._, A<EventId>._, A<object>._, A<Exception>._,
+            A<Func<object, Exception, string>>._))
+          .WithAnyArguments()
+          .MustHaveHappened();
+          Check.That(imageHuntState.Status).Equals(Status.Ended);
+      }
+      [Fact]
+      public async Task Begin_GameNotStarted()
+      {
+        // Arrange
+        var activity = new Activity()
+        {
+          ActivityType = ActivityType.Message,
+          ChatId = 15,
+        };
+        var turnContext = A.Fake<ITurnContext>();
+        A.CallTo(() => turnContext.Activity).Returns(activity);
         var imageHuntState = new ImageHuntState();
         A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(imageHuntState);
       // Act
