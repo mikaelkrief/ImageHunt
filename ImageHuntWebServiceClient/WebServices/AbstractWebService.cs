@@ -39,7 +39,10 @@ namespace ImageHuntWebServiceClient.WebServices
 
     private async Task<T> ConvertToObject<T>(HttpResponseMessage response) where T : class
     {
-      var responseAsString = await response.Content.ReadAsStringAsync();
+        var responseContent = response.Content;
+        if (responseContent == null)
+            return null;
+        var responseAsString = await responseContent.ReadAsStringAsync();
       return JsonConvert.DeserializeObject<T>(responseAsString);
     }
 

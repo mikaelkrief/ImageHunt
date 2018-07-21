@@ -35,7 +35,7 @@ namespace ImageHuntWebServiceClientTest.WebServices
             };
 
             A.CallTo(_fakeHttpMessageHandler)
-                .Where(x => x.Method.Name == "SendAsync")
+                .Where(x => x.Method.Name == "PostAsync")
                 .WithReturnType<Task<HttpResponseMessage>>()
                 .Returns(httpResponse);
             // Act
@@ -54,13 +54,14 @@ namespace ImageHuntWebServiceClientTest.WebServices
                 Longitude = 4.63,
                 Action = (int)Action.StartGame.GetTypeCode()
             };
+
             var httpResponse = new HttpResponseMessage()
             {
                 Content = new StringContent("OK")
             };
 
             A.CallTo(_fakeHttpMessageHandler)
-                .Where(x => x.Method.Name == "SendAsync")
+                .Where(x => x.Method.Name == "PostAsync")
                 .WithReturnType<Task<HttpResponseMessage>>()
                 .Returns(httpResponse);
             // Act

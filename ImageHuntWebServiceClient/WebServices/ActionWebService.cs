@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ImageHuntWebServiceClient.WebServices
@@ -23,7 +24,7 @@ namespace ImageHuntWebServiceClient.WebServices
                 content.Add(new StringContent(logPositionRequest.TeamId.ToString()), "teamId");
                 content.Add(new StringContent(logPositionRequest.Latitude.ToString()), "latitude");
                 content.Add(new StringContent(logPositionRequest.Longitude.ToString()), "longitude");
-                var result = await PostAsync<IActionResult>($"{_httpClient.BaseAddress}api/Action/LogPosition/",
+                var result = await PostAsync<string>($"{_httpClient.BaseAddress}api/Action/LogPosition/",
                     content, cancellationToken);
             }
         }
@@ -38,7 +39,7 @@ namespace ImageHuntWebServiceClient.WebServices
                 content.Add(new StringContent(logActionRequest.Latitude.ToString()), "latitude");
                 content.Add(new StringContent(logActionRequest.Longitude.ToString()), "longitude");
                 content.Add(new StringContent(logActionRequest.Action.ToString()), "action");
-                var result = await PostAsync<IActionResult>($"{_httpClient.BaseAddress}api/Action/AddGameAction/",
+                var result = await PostAsync<string>($"{_httpClient.BaseAddress}api/Action/AddGameAction/",
                     content, cancellationToken);
             }
         }
