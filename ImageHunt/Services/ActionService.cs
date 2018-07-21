@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Model;
+using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -27,6 +28,13 @@ namespace ImageHunt.Services
         foreach (var gameAction in gameActions)
         {
           gameAction.Delta = ComputeDelta(gameAction);
+          if (gameAction.Node != null && gameAction.Node.NodeType == "PictureNode")
+          {
+            gameAction.Node = Context.PictureNodes.Include(p => p.Image)
+              .Single(p => p.Id == gameAction.Node.Id);
+            // Only send id of the picture
+          ((PictureNode)gameAction.Node).Image.Image = null;
+          }
         }
         return await PaginatedList<GameAction>.CreateAsync(gameActions, pageIndex, pageSize);
       }
