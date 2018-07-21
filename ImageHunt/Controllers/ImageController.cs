@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ImageHunt.Computation;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ImageHunt.Controllers
@@ -33,13 +34,22 @@ namespace ImageHunt.Controllers
             return new NotFoundObjectResult($"Image of id {imageId} not found");
           }
         }
-
-      public async Task<IActionResult> GetThumbailById(int pictureId, int width, int height)
+      [HttpGet("Thumbnail")]
+      public async Task<IActionResult> GetThumbailById([FromQuery]int pictureId, [FromQuery]int width, [FromQuery]int height)
       {
         var picture = await _imageService.GetPictureById(pictureId);
 
         var thumbnail = _imageTransformation.Thumbnail(picture.Image, width, height);
         return File(thumbnail, "image/jpeg");
       }
-    }
+    [HttpGet("SourceAndThumbnail")]
+      public async Task<IActionResult> GetImageAndthumbnailById([FromQuery]int pictureId, [FromQuery]int thumbnailWidth, [FromQuery]int thumbnailHeight)
+      {
+        var picture = await _imageService.GetPictureById(pictureId);
+
+        var thumbnail = _imageTransformation.Thumbnail(picture.Image, thumbnailWidth, thumbnailHeight);
+        return Ok(new [] {File(thumbnail, "image/jpeg", "thumnbnail"),
+          File(picture.Image, "image/jpeg", "source")});
+      }
+  }
 }

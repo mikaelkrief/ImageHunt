@@ -14,7 +14,7 @@ export class GameActionListComponent implements OnInit {
   /** GameActionList ctor */
     constructor(private gameService: GameService, private route: ActivatedRoute) {
     }
-
+  images: any[][] = [];
   ngOnInit(): void {
     this.gameId = this.route.snapshot.params["gameId"];
 
@@ -28,9 +28,6 @@ export class GameActionListComponent implements OnInit {
       .subscribe(next => {
         this.gameActions = next.json();
         this.totalRecords = 15;
-        this.gameActions.map(ga => {
-          if (ga.picture !== null) ga.picture.imageData = 'data:image/png;base64,' + ga.picture.image;
-        });
       });
   }
   validatedBtnClass(action: GameAction) {
@@ -73,4 +70,7 @@ export class GameActionListComponent implements OnInit {
   gameId: number;
   gameActions: GameAction[];
   totalRecords: number;
+  loadBigImage(pictureId) {
+
+  }
 }

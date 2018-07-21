@@ -9,6 +9,7 @@ using ImageHunt.Computation;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Mvc;
 using NFluent;
 using TestUtilities;
@@ -65,6 +66,20 @@ namespace ImageHuntTest.Controller
             var result = await _target.GetThumbailById(1, 150, 100) as FileContentResult;
             // Assert
             Check.That(result.FileContents).IsNotNull();
+        }
+
+        [Fact]
+        public async Task GetImageAndthumbnailById()
+        {
+            // Arrange
+            var testImage = GetImageFromResource(Assembly.GetExecutingAssembly(),
+                "ImageHuntTest.TestData.IMG_20170920_180905.jpg");
+            A.CallTo(() => _imageService.GetPictureById(A<int>._))
+                .Returns(new Picture() { Id = 1, Image = testImage });
+            // Act
+            var result = await _target.GetImageAndthumbnailById(1, 150, 100) as OkObjectResult;
+            // Assert
+            Check.That(result.Value).IsInstanceOf<FileContentResult[]>();
         }
     }
 }
