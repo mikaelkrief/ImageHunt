@@ -11,8 +11,8 @@
       <th>Delta</th>
       <th>Equipe</th>
       <th>Action</th>
-      <th>Noeud probable</th>
-      <th>Photo associée</th>
+      <th style="width: 180px;">Noeud probable</th>
+      <th style="width: 180px;">Photo associée</th>
       <th>Revu</th>
       <th>Validé</th>
       <th>Points</th>
@@ -25,9 +25,20 @@
       <td>{{isNaN(action.delta)?'-':action.delta | number:'1.0-2':'fr'}} m</td>
       <td>{{action.team.name}}</td>
       <td>{{action.action|gameActionTranslationPipe}}</td>
-      <td>{{action.node===null?'Aucun':action.node.name}}</td>
       <td>
-        <div *ngIf="action.picture !== null">
+        <span>{{action.node===null?'Aucun':action.node.name}}</span>
+        <div class="thumbnail" *ngIf="action.node.image != null">
+          <p-lightbox type="content">
+            <a class="group" href="#">
+              <img src="api/Image/Thumbnail?pictureId={{action.node.image.id}}&width=150&height=100" />
+            </a>
+
+            <img src="api/Image/{{action.node.image.id}}" width="500" />
+          </p-lightbox>
+        </div>
+      </td>
+      <td>
+        <div class="thumbnail" *ngIf="action.picture !== null">
           <p-lightbox type="content">
             <a class="group" href="#">
               <img src="api/Image/Thumbnail?pictureId={{action.picture.id}}&width=150&height=100" />
