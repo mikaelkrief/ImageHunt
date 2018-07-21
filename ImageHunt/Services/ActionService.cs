@@ -33,7 +33,9 @@ namespace ImageHunt.Services
             gameAction.Node = Context.PictureNodes.Include(p => p.Image)
               .Single(p => p.Id == gameAction.Node.Id);
             // Only send id of the picture
-          ((PictureNode)gameAction.Node).Image.Image = null;
+            var pictureNode = gameAction.Node as PictureNode;
+            if (pictureNode!= null && pictureNode.Image != null)
+              pictureNode.Image.Image = null;
           }
         }
         return await PaginatedList<GameAction>.CreateAsync(gameActions, pageIndex, pageSize);
