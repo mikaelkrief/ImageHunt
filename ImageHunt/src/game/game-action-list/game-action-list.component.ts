@@ -3,6 +3,8 @@ import {GameService} from "../../shared/services/game.service";
 import { ActivatedRoute } from "@angular/router";
 import { GameAction } from "../../shared/gameAction";
 import { LazyLoadEvent } from 'primeng/api';
+import { TeamService } from '../../shared/services/team.service';
+import { Team } from '../../shared/team';
 
 @Component({
     selector: 'game-action-list',
@@ -12,23 +14,28 @@ import { LazyLoadEvent } from 'primeng/api';
 /** GameActionList component*/
 export class GameActionListComponent implements OnInit {
   /** GameActionList ctor */
-    constructor(private gameService: GameService, private route: ActivatedRoute) {
+  constructor(private gameService: GameService,
+    private teamService: TeamService,
+    private route: ActivatedRoute) {
     }
-  images: any[][] = [];
+
   ngOnInit(): void {
     this.gameId = this.route.snapshot.params["gameId"];
 
+    this.teamService.getTeams(this.gameId)
+      .subscribe(next => this.teams = next.json());
+  }
+  loadData(event: LazyLoadEvent) {  
     this.gameService.getGameActionCountForGame(this.gameId)
       .subscribe(next => {
         this.totalRecords = next.json();
+        this.gameService.getGameActionForGame(this.gameId, (event.first / event.rows) + 1, event.rows)
+          .subscribe(next => {
+            this.gameActions = next.json();
+          });
+
       });
-  }
-  loadData(event: LazyLoadEvent) {  
-    this.gameService.getGameActionForGame(this.gameId, (event.first / event.rows) + 1, event.rows)
-      .subscribe(next => {
-        this.gameActions = next.json();
-        this.totalRecords = 15;
-      });
+
   }
   validatedBtnClass(action: GameAction) {
     if (action.isValidated === null)
@@ -70,7 +77,10 @@ export class GameActionListComponent implements OnInit {
   gameId: number;
   gameActions: GameAction[];
   totalRecords: number;
-  loadBigImage(pictureId) {
-
+  teamFilterChange(event) {
+    
   }
+
+  teams: Team[];
+  
 }

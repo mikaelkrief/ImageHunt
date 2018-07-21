@@ -1,4 +1,5 @@
-<p-table class="table"
+<p-table #dt
+  class="table"
          [value]="gameActions"
          [paginator]="true"
          [rows]="10"
@@ -17,6 +18,21 @@
       <th>Validé</th>
       <th>Points</th>
       <th></th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th><p-dropdown [options]="teams" optionLabel="name" optionValue="id"
+                      (onChange)="teamFilterChange($event.value)"></p-dropdown></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>
+        <p-checkbox value="Révisée"></p-checkbox>
+      </th>
+      <th>
+        <p-checkbox value="Validée"></p-checkbox>
+      </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-action let-rowData>

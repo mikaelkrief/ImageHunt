@@ -29,11 +29,12 @@ import { DropdownModule } from "primeng/dropdown";
 import {SharedModule} from "../shared/shared.module";
 import { TeamModule } from "../team/team.module";
 import { LightboxModule } from 'primeng/lightbox';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
     MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule, ToggleButtonModule, DropdownModule,
-    ContextMenuModule, TableModule, GMapModule, SharedModule, RadioButtonModule, TeamModule, LightboxModule],
+    ContextMenuModule, TableModule, GMapModule, SharedModule, RadioButtonModule, TeamModule, LightboxModule, CheckboxModule],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],
   exports: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent, GameActionDetailComponent],
   providers: [GameService, TeamService, AlertService, ConfirmationService]
