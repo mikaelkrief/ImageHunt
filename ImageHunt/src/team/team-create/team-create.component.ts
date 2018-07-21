@@ -18,7 +18,8 @@ export class TeamCreateComponent implements OnInit {
     }
   ngOnInit(): void {
     this.teamCreateForm = this.fb.group({
-      teamName: ['', [Validators.required, Validators.minLength(5)]]
+      teamName: ['', [Validators.required, Validators.minLength(5)]],
+      teamColor: ['']
     });
 
     }
@@ -29,6 +30,7 @@ export class TeamCreateComponent implements OnInit {
     let controlState = this.teamCreateForm.controls[field];
     return (controlState.dirty && controlState.errors) ? controlState.errors : null;
   }
+  teamColor: any;
   createTeam() {
     let teamName = this.teamCreateForm.value['teamName'];
     let team: Team = { id: 0, name: teamName, players: null };

@@ -1,19 +1,29 @@
 <form [formGroup]="teamCreateForm" class="ui-g" (submit)="createTeam()">
   <p-panel header="Création d'une Equipe" class="ui-g-12">
     <div class="ui-g">
-      <label for="teamName" class="ui-g-12 ui-md-2">Nom de l'équipe</label>
-      <input pInputText id="teamName" formControlName="teamName" placeholder="Nom de l'équipe"
-             class="ui-g-12 ui-md-5"/>
-      <div class="ui-g-12 ui-md-5">
-        <div class="ui-message ui-messages-error" *ngIf="fieldErrors('teamName')">
-          <i class="fa fa-close"></i>
-          <span *ngIf="fieldErrors('teamName').required">Le nom de l'équipe est requis</span>
-          <span *ngIf="fieldErrors('teamName').minlength">Le nom de l'équipe est trop court</span>
+      <div class="row">
+        <div class="col-lg-6">
+          <label for="teamName" class="ui-g-12 ui-md-2">Nom de l'équipe</label>
+          <input pInputText id="teamName" formControlName="teamName" placeholder="Nom de l'équipe"
+                 class="ui-g-12 ui-md-5"/>
+        </div>
+        <div class="col-lg-6">
+          <label for="teamColor">Couleur d'équipe</label>
+          <p-colorPicker class="ui-g-12 ui-md-5" formControlName="teamColor" [(ngModel)]="teamColor"></p-colorPicker>
+        </div>
+        <div class="ui-g-12 ui-md-5">
+          <div class="ui-message ui-messages-error" *ngIf="fieldErrors('teamName')">
+            <i class="fa fa-close"></i>
+            <span *ngIf="fieldErrors('teamName').required">Le nom de l'équipe est requis</span>
+            <span *ngIf="fieldErrors('teamName').minlength">Le nom de l'équipe est trop court</span>
+          </div>
         </div>
       </div>
-      <p-button class="ui-g ui-button-success" [disabled]="hasFormErrors()"
-                type="submit" icon="fa fa-users" iconPos="left"
-                label="Créer l'équipe"></p-button>
+      <div class="row">
+        <p-button class="ui-g ui-button-success" [disabled]="hasFormErrors()"
+                  type="submit" icon="fa fa-users" iconPos="left"
+                  label="Créer l'équipe"></p-button>
+      </div>
     </div>
   </p-panel>
 </form>

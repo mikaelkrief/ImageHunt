@@ -9,12 +9,13 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
 import {ConfirmationService} from "primeng/api";
 import { TeamCreateComponent } from "./team-create/team-create.component";
 import { PanelModule } from "primeng/panel";
-import {QRCodeModule } from "angular2-qrcode";
+import { QRCodeModule } from "angular2-qrcode";
+import { ColorPickerModule } from 'primeng/colorpicker';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, ConfirmDialogModule,
     PanelModule, QRCodeModule,
-    ReactiveFormsModule],
+    ReactiveFormsModule, ColorPickerModule],
   declarations: [TeamDetailComponent, TeamListComponent, TeamCreateComponent],
   exports: [TeamDetailComponent, TeamListComponent, TeamCreateComponent],
   providers: [TeamService, ConfirmationService]})
