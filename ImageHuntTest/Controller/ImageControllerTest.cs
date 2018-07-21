@@ -76,9 +76,8 @@ namespace ImageHuntTest.Controller
                 "ImageHuntTest.TestData.IMG_20170920_180905.jpg");
             A.CallTo(() => _imageService.GetPictureById(A<int>._))
                 .Returns(new Picture() { Id = 1, Image = testImage });
-            var imageRequest = new ImageRequest() {PictureId = "1", ThumbnailWidth = "150", ThumbnailHeight = "100"};
             // Act
-            var result = await _target.GetImageAndthumbnailById(imageRequest) as OkObjectResult;
+            var result = await _target.GetImageAndthumbnailById(1, 150, 100) as OkObjectResult;
             // Assert
             Check.That(result.Value).IsInstanceOf<FileContentResult[]>();
         }

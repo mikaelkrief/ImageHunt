@@ -28,9 +28,6 @@ export class GameActionListComponent implements OnInit {
       .subscribe(next => {
         this.gameActions = next.json();
         this.totalRecords = 15;
-        this.gameActions.map(ga => {
-          if (ga.picture !== null) ga.picture.imageData = 'data:image/png;base64,' + ga.picture.image;
-        });
       });
   }
   validatedBtnClass(action: GameAction) {

@@ -90,4 +90,5 @@ export class GameService {
   getScoreForGame(gameId) {
      return this.jwtHttp.get(`api/Game/Score/${gameId}`);
   }
+
 }

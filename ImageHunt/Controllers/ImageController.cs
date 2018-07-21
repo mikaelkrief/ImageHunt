@@ -34,8 +34,8 @@ namespace ImageHunt.Controllers
             return new NotFoundObjectResult($"Image of id {imageId} not found");
           }
         }
-
-      public async Task<IActionResult> GetThumbailById(int pictureId, int width, int height)
+      [HttpGet("Thumbnail")]
+      public async Task<IActionResult> GetThumbailById([FromQuery]int pictureId, [FromQuery]int width, [FromQuery]int height)
       {
         var picture = await _imageService.GetPictureById(pictureId);
 

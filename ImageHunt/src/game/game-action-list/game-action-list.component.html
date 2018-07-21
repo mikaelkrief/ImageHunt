@@ -27,10 +27,15 @@
       <td>{{action.action|gameActionTranslationPipe}}</td>
       <td>{{action.node===null?'Aucun':action.node.name}}</td>
       <td>
-        <p-lightbox [images]="">
-        </p-lightbox>
-        <!--<img *ngIf="action.picture !== null" [src]="action.picture.imageData" class="img-thumbnail"
-           (click)="loadBigImage(action.picture.id)"/>-->
+        <div *ngIf="action.picture !== null">
+          <p-lightbox type="content">
+            <a class="group" href="#">
+              <img src="api/Image/Thumbnail?pictureId={{action.picture.id}}&width=150&height=100" />
+            </a>
+
+            <img src="api/Image/{{action.picture.id}}" width="500" />
+          </p-lightbox>
+        </div>
       </td>
       <td>
         <span [class]="reviewedSpanClass(action)"></span>
