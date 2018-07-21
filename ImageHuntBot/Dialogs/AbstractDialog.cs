@@ -18,7 +18,11 @@ namespace ImageHuntTelegramBot.Dialogs
       _logger = logger;
     }
 
-
+      protected void LogInfo<T>(ITurnContext turnContext, string message) where T : class, new()
+        {
+          var state = turnContext.GetConversationState<T>();
+          _logger.LogInformation($"On {turnContext.ChatId}, State={state} : {message}");
+      }
     public virtual async Task Begin(ITurnContext turnContext)
     {
       turnContext.EndCalled += TurnContextOnEndCalled;

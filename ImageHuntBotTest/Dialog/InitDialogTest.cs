@@ -51,6 +51,7 @@ namespace ImageHuntBotTest
         Check.That(state.TeamId).Equals(6);
         A.CallTo(() => _gameWebService.GetGameById(2, A<CancellationToken>._)).MustHaveHappened();
         A.CallTo(() => _teamWebService.GetTeamById(6)).MustHaveHappened();
+        Check.That(state.Status).Equals(Status.Initialized);
       }
       [Fact]
       public async Task Begin_Already_Initalized()
@@ -72,7 +73,7 @@ namespace ImageHuntBotTest
       {
         // Arrange
         var context = A.Fake<ITurnContext>();
-        var state = new ImageHuntState(){GameId = 0, TeamId = 0};
+        var state = new ImageHuntState(){GameId = 0, TeamId = 0, Status = Status.None};
           A.CallTo(() => context.GetConversationState<ImageHuntState>()).Returns(state);
         var activity = new Activity(){Text = "/init gameid=2 teamid=6"};
         A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._)).Returns<GameResponse>(null);
@@ -84,6 +85,8 @@ namespace ImageHuntBotTest
         A.CallTo(() => context.ReplyActivity(A<string>._)).MustHaveHappened();
         A.CallTo(() => context.End()).MustHaveHappened();
           Check.That(state.GameId).Equals(0);
-      }
-  }
+          Check.That(state.Status).Equals(Status.None);
+
+        }
+    }
 }
