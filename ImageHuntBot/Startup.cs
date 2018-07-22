@@ -37,7 +37,7 @@ namespace ImageHuntBot
             containerBuilder.RegisterModule<DefaultModule>();
             containerBuilder.RegisterInstance(Configuration);
             var botToken = Configuration.GetSection("BotConfiguration:BotToken").Value;
-            containerBuilder.RegisterInstance(new HttpClient()
+            containerBuilder.Register(a => new HttpClient()
             {
                 BaseAddress = new Uri(Configuration.GetValue<string>("ImageHuntApi:Url")),
                 DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", "ImageHuntBotToken") }

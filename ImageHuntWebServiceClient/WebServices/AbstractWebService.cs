@@ -15,7 +15,7 @@ namespace ImageHuntWebServiceClient.WebServices
     protected AbstractWebService(HttpClient httpClient)
     {
       _httpClient = httpClient;
-      _httpClient.DefaultRequestHeaders.Clear();
+      //_httpClient.DefaultRequestHeaders.Clear();
     }
 
     protected async Task<T> GetAsync<T>(string url, CancellationToken cancellationToken = default(CancellationToken)) where T : class
