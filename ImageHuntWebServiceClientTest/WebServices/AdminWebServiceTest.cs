@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using ImageHuntWebServiceClient.WebServices;
+using NFluent;
 using TestUtilities;
 using Xunit;
 
@@ -17,20 +17,15 @@ namespace ImageHuntWebServiceClientTest.WebServices
             _target = new AdminWebService(_httpClient);
         }
         [Fact]
-        public void GetAllAdmins()
+        public async Task GetAllAdmins()
         {
             // Arrange
-            
+            FakeResponse("ImageHuntWebServiceClientTest.Data.GetAllAdmin.json");
             // Act
-
+            var results = await _target.GetAllAdmins();
             // Assert
-        }
-    }
-
-    public class AdminWebService : AbstractWebService, IAdminSebService
-    {
-        public AdminWebService(HttpClient httpClient) : base(httpClient)
-        {
+            Check.That(results).HasSize(2);
+            Check.That(results.Extracting("Name")).Contains("Toto", "ImageHuntBot");
         }
     }
 }

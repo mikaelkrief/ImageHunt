@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ImageHuntTelegramBot.Dialogs;
+using ImageHuntWebServiceClient.Responses;
+using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot.Types;
@@ -14,12 +18,16 @@ namespace ImageHuntTelegramBot.Controllers
     private readonly ContextHub _contextHub;
     private readonly IBot _bot;
     private readonly ILogger _logger;
+      private readonly IAdminWebService _adminWebService;
+      private List<AdminResponse> _admins;
 
-    public UpdateController(ContextHub contextHub, IBot bot, ILogger<UpdateController> logger)
+      public UpdateController(ContextHub contextHub, IBot bot, ILogger<UpdateController> logger, IAdminWebService adminWebService)
     {
       _contextHub = contextHub;
       _bot = bot;
       _logger = logger;
+        _adminWebService = adminWebService;
+       _adminWebService.GetAllAdmins().ContinueWith(w=>_admins = w.Result.ToList());
     }
 
     [HttpPost]
@@ -29,15 +37,17 @@ namespace ImageHuntTelegramBot.Controllers
         var message = update.Message == null ? update.EditedMessage : update.Message;
       _logger.LogInformation(
         $"Received update from {message.Chat.Id} of type {message.Type}");
+        if (!message.Text.StartsWith("/"))
+            return Ok();
+        if (!_admins.Any(a => a.Name.Equals(message.From.Username, StringComparison.InvariantCultureIgnoreCase)))
+        {
+            _logger.LogInformation($"In Chat {message.Chat.Id}, a non admin user attempt to send a command");
+            return Ok();
+        }
+
       try
       {
         var context = await _contextHub.GetContext(update);
-        //if (message.Text == "/reset")
-        //{
-        //    await context.ResetConversationStates<ImageHuntState>();
-            
-        //    return Ok();
-        //}
         await _bot.OnTurn(context);
 
       }
@@ -50,5 +60,10 @@ namespace ImageHuntTelegramBot.Controllers
 
             return Ok();
     }
+
+      public async Task UpdateAdmins()
+      {
+          _admins = (await _adminWebService.GetAllAdmins()).ToList();
+      }
   }
 }

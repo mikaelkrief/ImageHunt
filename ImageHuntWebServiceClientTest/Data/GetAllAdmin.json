@@ -1,0 +1,20 @@
+﻿[
+  {
+    "name": "Toto",
+    "email": "toto@gmail.com",
+    "token": "ya29.Gl0ABjhZKZAWXpqO4vTL1xrpc5XR7F1ieufZyeJaJmCSuTHGUnFYovNjsSSHJHQv8rVA-JsYOfcnAWzlGlhobVnr4IPSxOxNjOKF_YZIr7c1YM7SZ8QuX1RZ3nIDJg0",
+    "expirationTokenDate": "2018-07-22T09:59:31.371773",
+    "games": [],
+    "role": 0,
+    "id": 1
+  },
+  {
+    "name": "ImageHuntBot",
+    "email": "imagehuntbot@bot.com",
+    "token": "ImageHuntBotToken",
+    "expirationTokenDate": "3018-07-22T07:21:10.189",
+    "games": [],
+    "role": 4,
+    "id": 2
+  }
+]

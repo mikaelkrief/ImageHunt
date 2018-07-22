@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\GetAllAdmin.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="Data\GameById1.json" />
+    <EmbeddedResource Include="Data\GetAllAdmin.json" />
     <EmbeddedResource Include="Data\StartTeamFirstNode.json" />
     <EmbeddedResource Include="Data\TeamById1.json" />
   </ItemGroup>
