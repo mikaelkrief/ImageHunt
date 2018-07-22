@@ -75,7 +75,7 @@ namespace ImageHuntBotTest
         {
             Chat = new Chat() {Id = 15},
             Text = "/start",
-                From = new User() { Username = "admin" }
+            From = new User() { Username = "admin" }
         }
         };
         // Act
@@ -122,23 +122,6 @@ namespace ImageHuntBotTest
             A.CallTo(() => _adminService.GetAllAdmins()).MustHaveHappened(Repeated.Exactly.Twice);
         }
 
-        [Fact]
-        public async Task Ignore_Non_CommandMessage()
-        {
-            // Arrange
-            var update = new Update()
-            {
-                Message = new Message()
-                {
-                    Chat = new Chat() { Id = 15 },
-                    Text = "toto"
-                }
-            };
-            // Act
-            await _target.Post(update);
-            // Assert
-            A.CallTo(() => _bot.OnTurn(A<ITurnContext>._)).MustNotHaveHappened();
-        }
         [Fact]
         public async Task Update_CheckUser_ShouldBeAdmin()
         {

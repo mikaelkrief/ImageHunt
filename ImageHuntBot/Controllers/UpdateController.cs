@@ -37,14 +37,15 @@ namespace ImageHuntTelegramBot.Controllers
         var message = update.Message == null ? update.EditedMessage : update.Message;
       _logger.LogInformation(
         $"Received update from {message.Chat.Id} of type {message.Type}");
-        if (!message.Text.StartsWith("/"))
-            return Ok();
-        if (!_admins.Any(a => a.Name.Equals(message.From.Username, StringComparison.InvariantCultureIgnoreCase)))
+        if (message.Text.StartsWith("/"))
         {
-            _logger.LogInformation($"In Chat {message.Chat.Id}, a non admin user attempt to send a command");
-            return Ok();
+            if (!_admins.Any(a => a.Name.Equals(message.From.Username, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                _logger.LogInformation($"In Chat {message.Chat.Id}, a non admin user attempt to send a command");
+                return Ok();
+            }
+            
         }
-
       try
       {
         var context = await _contextHub.GetContext(update);
