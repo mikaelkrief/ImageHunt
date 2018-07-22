@@ -41,7 +41,7 @@ namespace ImageHuntBotTest
         // Arrange
         var context = A.Fake<ITurnContext>();
         var state = new ImageHuntState();
-        var activity = new Activity(){Text = "/init gameid=2 teamid=6"};
+        var activity = new Activity(){Text = "/init gameid=2 teamid=6", ChatId = 15};
         A.CallTo(() => context.GetConversationState<ImageHuntState>()).Returns(state);
         A.CallTo(() => context.Activity).Returns(activity);
         // Act
