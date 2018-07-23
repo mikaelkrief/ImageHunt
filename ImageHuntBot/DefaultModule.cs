@@ -25,6 +25,7 @@ namespace ImageHuntTelegramBot
         builder.RegisterType<StartDialog>().As<IStartDialog>();
         builder.RegisterType<EndDialog>().As<IEndDialog>();
         builder.RegisterType<HelpDialog>().As<IHelpDialog>();
+        builder.RegisterType<BroadcastDialog>().As<IBroadcastDialog>();
         builder.Register(t =>
         {
           var bot = new TelegramBot();
@@ -44,6 +45,8 @@ namespace ImageHuntTelegramBot
           bot.AddDialog("/end", endDialog);
           var helpDialog = t.Resolve<IHelpDialog>();
           bot.AddDialog("/help", helpDialog);
+          var broadcastDialog = t.Resolve<IBroadcastDialog>();
+          bot.AddDialog("/broadcast", broadcastDialog);
           return bot;
         }).As<IBot>();
         builder.RegisterType<TelegramAdapter>().As<IAdapter>();
