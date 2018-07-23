@@ -18,8 +18,14 @@ export class MapThumbnailComponent implements OnInit {
     ngOnInit(): void {
       this.options = {
         center: { lat: this.CenterLat, lng: this.CenterLng },
-        zoom: 12
-      };
+        zoom: 12,
+        fullscreenControl: false,
+        zoomControl: false,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        rotateControl: false
+    };
 
     }
 
