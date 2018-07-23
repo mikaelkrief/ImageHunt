@@ -153,6 +153,7 @@ namespace ImageHunt.Controllers
     {
       return Ok(_gameService.GetGameFromPlayerChatId(playerUserName));
     }
+    [HttpGet("FromLocation")]
     public IActionResult GetGamesFromLocation(double lat, double lng)
     {
       return Ok(_gameService.GetGamesFromPosition(lat, lng));
@@ -225,6 +226,11 @@ namespace ImageHunt.Controllers
     {
       return Ok(_gameService.GetGamesWithScore());
     }
+    /// <summary>
+    /// Returns score of a game
+    /// </summary>
+    /// <param name="gameId">The gameId to get score</param>
+    /// <returns>SScores ordered with teams and team's members</returns>
     [HttpGet("Score/{gameId}")]
     public IActionResult GetScoreForGame(int gameId)
     {

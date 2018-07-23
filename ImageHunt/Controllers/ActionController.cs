@@ -41,6 +41,10 @@ namespace ImageHunt.Controllers
       _nodeService = nodeService;
       _teamService = teamService;
     }
+    /// <summary>
+    /// Ad a game action from players to a game
+    /// </summary>
+    /// <param name="gameActionRequest"></param>
     [HttpPost("AddGameAction")]
     public IActionResult AddGameAction(GameActionRequest gameActionRequest)
     {
@@ -48,9 +52,9 @@ namespace ImageHunt.Controllers
 
       gameAction.Team = _teamService.GetTeamById(gameActionRequest.TeamId);
       gameAction.Game = _gameService.GetGameById(gameActionRequest.GameId);
-      //gameAction.Latitude = gameActionRequest.Latitude;
-      //gameAction.Longitude = gameActionRequest.Longitude;
-      //gameAction.Action = (Action) gameActionRequest.Action;
+      gameAction.Latitude = gameActionRequest.Latitude;
+      gameAction.Longitude = gameActionRequest.Longitude;
+      gameAction.Action = (Action)gameActionRequest.Action;
       gameAction.Node = _nodeService.GetNode(gameActionRequest.NodeId);
       switch (gameAction.Action)
       {
