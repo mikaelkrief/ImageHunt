@@ -23,6 +23,11 @@ namespace ImageHuntTelegramBot
     /// </summary>
     /// <param name="keys">keys of the storeItems to delete</param>
     Task Delete(params string[] keys);
+        /// <summary>
+        /// Read all StoreItem of a folder
+        /// </summary>
+        /// <returns></returns>
+      Task<IEnumerable<IEnumerable<KeyValuePair<string, object>>>> ReadAll();
   }
 
   public interface IStoreItem

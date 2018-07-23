@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -35,7 +36,19 @@ namespace ImageHuntTelegramBot
       return Task.CompletedTask;
     }
 
-    public async Task<IEnumerable<KeyValuePair<string, object>>> Read(string[] keys)
+      public async Task<IEnumerable<IEnumerable<KeyValuePair<string, object>>>> ReadAll()
+      {
+          var keys = ReadAllKeys();
+          var results = new List<IEnumerable<KeyValuePair<string, object>>>();
+          foreach (var key in keys)
+          {
+              results.Add(await Read(new []{key}));
+          }
+
+          return results;
+      }
+
+      public async Task<IEnumerable<KeyValuePair<string, object>>> Read(string[] keys)
     {
       var storeItems = new List<KeyValuePair<string, object>>(keys.Length);
 
@@ -51,6 +64,10 @@ namespace ImageHuntTelegramBot
       return storeItems;
     }
 
+      private IEnumerable<string> ReadAllKeys()
+      {
+          return Directory.EnumerateFiles(this.folder);
+      }
     private async Task<object> ReadIStoreItem(string key)
     {
       // The funky threading in here is due to concurrency and async methods. 

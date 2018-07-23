@@ -25,6 +25,7 @@ namespace ImageHuntTelegramBot.Dialogs
         public override async Task Begin(ITurnContext turnContext)
         {
             var state = turnContext.GetConversationState<ImageHuntState>();
+            
             if (state.GameId != 0 && state.TeamId != 0)
             {
                 var warningMessage = $"Le groupe {turnContext.ChatId} a déjà été initialisé!";
