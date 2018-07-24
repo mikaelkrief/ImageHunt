@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ImageHunt.Controllers
 {
   [Route("api/[controller]")]
+  [DisableRequestSizeLimit]
     public class ImageController : ControllerBase
     {
         private readonly IImageService _imageService;
