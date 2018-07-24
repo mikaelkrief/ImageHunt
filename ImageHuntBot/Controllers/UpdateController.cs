@@ -11,60 +11,69 @@ using Telegram.Bot.Types;
 
 namespace ImageHuntTelegramBot.Controllers
 {
-  [Route("api/[controller]")]
-  [ApiController]
-  public class UpdateController : ControllerBase
-  {
-    private readonly ContextHub _contextHub;
-    private readonly IBot _bot;
-    private readonly ILogger _logger;
-      private readonly IAdminWebService _adminWebService;
-      private List<AdminResponse> _admins;
-
-      public UpdateController(ContextHub contextHub, IBot bot, ILogger<UpdateController> logger, IAdminWebService adminWebService)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UpdateController : ControllerBase
     {
-      _contextHub = contextHub;
-      _bot = bot;
-      _logger = logger;
-        _adminWebService = adminWebService;
-       _adminWebService.GetAllAdmins().ContinueWith(w=>_admins = w.Result.ToList());
-    }
+        private readonly ContextHub _contextHub;
+        private readonly IBot _bot;
+        private readonly ILogger _logger;
+        private readonly IAdminWebService _adminWebService;
+        private List<AdminResponse> _admins;
 
-    [HttpPost]
-    public async Task<IActionResult> Post(Update update)
-    {
-        _logger.LogDebug($"Received update {update}");
-        var message = update.Message == null ? update.EditedMessage : update.Message;
-        _logger.LogInformation(
-        $"Received update from {message.Chat.Id} of type {message.Type}");
-        if (!string.IsNullOrEmpty(message.Text) && message.Text.StartsWith("/"))
+        public UpdateController(ContextHub contextHub, IBot bot, ILogger<UpdateController> logger, IAdminWebService adminWebService)
         {
-            if (!_admins.Any(a => a.Name.Equals(message.From.Username, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                _logger.LogInformation($"In Chat {message.Chat.Id}, a non admin user attempt to send a command");
-                return Ok();
-            }
-            
+            _contextHub = contextHub;
+            _bot = bot;
+            _logger = logger;
+            _adminWebService = adminWebService;
+            _adminWebService.GetAllAdmins().ContinueWith(w => _admins = w.Result.ToList());
         }
-      try
-      {
-        var context = await _contextHub.GetContext(update);
-        await _bot.OnTurn(context);
 
-      }
-      catch (Exception e)
-      {
-        _logger.LogError(e, $"An error while processing update {update.Id} for chat {update.Message.Chat.Id}");
-          var context = await _contextHub.GetContext(update);
-          await context.End();
-      }
+        [HttpPost]
+        public async Task<IActionResult> Post(Update update)
+        {
+            _logger.LogDebug($"Received update {update}");
+            var message = update.Message == null ? update.EditedMessage : update.Message;
+            _logger.LogInformation(
+            $"Received update from {message.Chat.Id} of type {message.Type}");
+            if (!string.IsNullOrEmpty(message.Text) && message.Text.StartsWith("/"))
+            {
+                try
+                {
+                    if (_admins != null)
+                    {
+                        if (!_admins.Any(a => a.Name.Equals(message.From.Username, StringComparison.InvariantCultureIgnoreCase)))
+                        {
+                            _logger.LogInformation($"In Chat {message.Chat.Id}, a non admin user attempt to send a command");
+                            return Ok();
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError($"Error while checking if User {message.From.Username} is admin");
+                }
+            }
+            try
+            {
+                var context = await _contextHub.GetContext(update);
+                await _bot.OnTurn(context);
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"An error while processing update {update.Id} for chat {update.Message.Chat.Id}");
+                var context = await _contextHub.GetContext(update);
+                await context.End();
+            }
 
             return Ok();
-    }
+        }
 
-      public async Task UpdateAdmins()
-      {
-          _admins = (await _adminWebService.GetAllAdmins()).ToList();
-      }
-  }
+        public async Task UpdateAdmins()
+        {
+            _admins = (await _adminWebService.GetAllAdmins()).ToList();
+        }
+    }
 }

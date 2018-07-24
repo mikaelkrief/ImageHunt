@@ -66,7 +66,7 @@ namespace ImageHuntTelegramBot
 
       private IEnumerable<string> ReadAllKeys()
       {
-          return Directory.EnumerateFiles(this.folder);
+          return Directory.EnumerateFiles(this.folder).Select(f=>Path.GetFileName(f));
       }
     private async Task<object> ReadIStoreItem(string key)
     {
