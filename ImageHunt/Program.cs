@@ -22,7 +22,10 @@ namespace ImageHunt
         public static IWebHost BuildWebHost(string[] args) 
         {
           return WebHost.CreateDefaultBuilder(args)
-            .UseKestrel()
+            .UseKestrel(options =>
+            {
+              options.Limits.MaxRequestBodySize = null;
+            })
             .ConfigureAppConfiguration((context, builder) =>
             {
               var env = context.HostingEnvironment;
