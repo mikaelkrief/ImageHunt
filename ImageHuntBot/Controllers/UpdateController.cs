@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntTelegramBot.Dialogs;
 using ImageHuntWebServiceClient.Responses;
@@ -19,7 +20,8 @@ namespace ImageHuntTelegramBot.Controllers
         private readonly IBot _bot;
         private readonly ILogger _logger;
         private readonly IAdminWebService _adminWebService;
-        private List<AdminResponse> _admins;
+        private static List<AdminResponse> _admins;
+        static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
         public UpdateController(ContextHub contextHub, IBot bot, ILogger<UpdateController> logger, IAdminWebService adminWebService)
         {
@@ -27,7 +29,6 @@ namespace ImageHuntTelegramBot.Controllers
             _bot = bot;
             _logger = logger;
             _adminWebService = adminWebService;
-            _adminWebService.GetAllAdmins().ContinueWith(w => _admins = w.Result.ToList());
         }
 
         [HttpPost]
@@ -41,14 +42,17 @@ namespace ImageHuntTelegramBot.Controllers
             {
                 try
                 {
-                    if (_admins != null)
+                    if (_admins == null)
                     {
-                        if (!_admins.Any(a => a.Name.Equals(message.From.Username, StringComparison.InvariantCultureIgnoreCase)))
-                        {
-                            _logger.LogInformation($"In Chat {message.Chat.Id}, a non admin user attempt to send a command");
-                            return Ok();
-                        }
+                        await UpdateAdmins();
                     }
+
+                    if (!_admins.Any(a => a.Name.Equals(message.From.Username, StringComparison.InvariantCultureIgnoreCase)))
+                    {
+                        _logger.LogInformation($"In Chat {message.Chat.Id}, a non admin user attempt to send a command");
+                        return Ok();
+                    }
+
                 }
                 catch (Exception e)
                 {
@@ -73,7 +77,17 @@ namespace ImageHuntTelegramBot.Controllers
 
         public async Task UpdateAdmins()
         {
-            _admins = (await _adminWebService.GetAllAdmins()).ToList();
+            await semaphoreSlim.WaitAsync();
+
+            try
+            {
+                _admins = (await _adminWebService.GetAllAdmins()).ToList();
+
+            }
+            finally
+            {
+                semaphoreSlim.Release();
+            }
         }
     }
 }

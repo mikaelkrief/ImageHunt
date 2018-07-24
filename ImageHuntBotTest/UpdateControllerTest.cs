@@ -119,7 +119,7 @@ namespace ImageHuntBotTest
             // Act
             await _target.UpdateAdmins();
             // Assert
-            A.CallTo(() => _adminService.GetAllAdmins()).MustHaveHappened(Repeated.Exactly.Twice);
+            A.CallTo(() => _adminService.GetAllAdmins()).MustHaveHappened(Repeated.Exactly.Once);
         }
 
         [Fact]
