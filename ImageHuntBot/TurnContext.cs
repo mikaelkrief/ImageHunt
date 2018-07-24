@@ -28,7 +28,7 @@ namespace ImageHuntTelegramBot
         public async Task ResetConversationStates<T>() where T : IBaseState, new()
         {
             ConversationStates.Remove(ChatId);
-            await _storage.Write(new[] { new KeyValuePair<string, object>(ChatId.ToString(), new T()) });
+            await _storage.Write(new[] { new KeyValuePair<string, object>(ChatId.ToString(), new T(){ChatId = ChatId}) });
         }
         private readonly object padlock = new object();
         public virtual T GetConversationState<T>() where T : IBaseState, new()
