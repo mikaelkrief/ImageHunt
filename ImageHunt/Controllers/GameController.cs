@@ -90,6 +90,7 @@ namespace ImageHunt.Controllers
       return CreatedAtAction("AddNode", node);
     }
     [HttpPut("AddPictures/{gameId}")]
+    [DisableRequestSizeLimit]
     public IActionResult AddImageNodes(int gameId, List<IFormFile> files)
     {
       foreach (var file in files)
