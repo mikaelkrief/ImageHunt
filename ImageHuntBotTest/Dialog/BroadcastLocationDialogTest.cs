@@ -14,16 +14,16 @@ namespace ImageHuntBotTest.Dialog
     public class BroadcastLocationDialogTest : BaseTest
     {
         private ILogger<BroadcastLocationDialog> _logger;
-        private BroadcastDialog _target;
+        private BroadcastLocationDialog _target;
 
         public BroadcastLocationDialogTest()
         {
-            _testContainerBuilder.RegisterType<BroadcastDialog>();
-            _logger = A.Fake<ILogger<BroadcastDialog>>();
-            _testContainerBuilder.RegisterInstance(_logger).As<ILogger<BroadcastDialog>>();
+            _testContainerBuilder.RegisterType<BroadcastLocationDialog>();
+            _logger = A.Fake<ILogger<BroadcastLocationDialog>>();
+            _testContainerBuilder.RegisterInstance(_logger).As<ILogger<BroadcastLocationDialog>>();
 
             _container = _testContainerBuilder.Build();
-            _target = _container.Resolve<BroadcastDialog>();
+            _target = _container.Resolve<BroadcastLocationDialog>();
 
         }
 
@@ -35,7 +35,7 @@ namespace ImageHuntBotTest.Dialog
             {
                 ActivityType = ActivityType.Message,
                 ChatId = 15,
-                Text = "/broadcast gameid=15 Toto!"
+                Text = "/broadcastLocation gameid=15 Lat=45.56 Lng=3.6515"
             };
             var turnContext = A.Fake<ITurnContext>();
             A.CallTo(() => turnContext.Activity).Returns(activity);
@@ -58,7 +58,7 @@ namespace ImageHuntBotTest.Dialog
             {
                 ActivityType = ActivityType.Message,
                 ChatId = 15,
-                Text = "/broadcast teamid=2 Toto!"
+                Text = "/broadcastLocation teamid=2  Lat=45.56 Lng=3.6515"
             };
             var turnContext = A.Fake<ITurnContext>();
             A.CallTo(() => turnContext.Activity).Returns(activity);
@@ -71,7 +71,7 @@ namespace ImageHuntBotTest.Dialog
             // Act
             await _target.Begin(turnContext);
             // Assert
-            A.CallTo(() => turnContext.SendActivity(A<IActivity>.That.Matches(a=>a.Text== "Toto!")))
+            A.CallTo(() => turnContext.SendActivity(A<IActivity>._))
                 .MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => turnContext.End()).MustHaveHappened(Repeated.Exactly.Once);
         }
