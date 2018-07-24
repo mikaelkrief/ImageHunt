@@ -237,5 +237,16 @@ namespace ImageHunt.Controllers
     {
       return Ok(_actionService.GetScoresForGame(gameId));
     }
+    [HttpGet("GetPictureNode/{gameId}")]
+    public IActionResult GetPictureNodes(int gameId)
+    {
+      var picturesNodes = _gameService.GetPictureNode(gameId);
+      foreach (var picturesNode in picturesNodes)
+      {
+        picturesNode.Image.Image = null;
+      }
+
+      return Ok(picturesNodes);
+    }
   }
 }

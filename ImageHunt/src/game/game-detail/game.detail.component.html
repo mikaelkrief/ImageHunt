@@ -55,6 +55,11 @@
           <div class="btn-group">
             <button class="btn btn-danger" (click)="saveChanges(game.id)"><span class="fa fa-floppy-o"> Enregistrer les changements</span></button>
           </div>
+          <div class="btn-group">
+            <button class="btn btn-default">
+              <span class="fa fa-edit"> <a [routerLink]="['/game', game.id]">Editer les n&oelig;uds image</a></span>
+            </button>
+          </div>
           <h4>Filtres</h4>
           <div class="btn-group-vertical" role="group">
             <div class="btn-group">
