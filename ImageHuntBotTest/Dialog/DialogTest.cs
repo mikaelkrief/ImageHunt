@@ -95,7 +95,9 @@ namespace ImageHuntBotTest
           await turnContext.ReplyActivity(activity);
         }
 
-        public override async Task Continue(ITurnContext turnContext)
+          public override string Command { get; }
+
+          public override async Task Continue(ITurnContext turnContext)
         {
           var activity = A.Fake<IActivity>();
           await turnContext.ReplyActivity(activity);
@@ -171,5 +173,7 @@ namespace ImageHuntBotTest
     public DummyDialog2(ILogger logger) : base(logger)
     {
     }
+
+      public override string Command { get; }
   }
 }

@@ -20,5 +20,7 @@ namespace ImageHuntBot.Dialogs
             await turnContext.ReplyActivity($"Le groupe {turnContext.ChatId} vient d'être ré-initialisé");
             await turnContext.End();
         }
+
+        public override string Command => "/reset";
     }
 }

@@ -49,5 +49,7 @@ namespace ImageHuntBot.Dialogs
                 await turnContext.End();
             }
         }
+
+        public override string Command => "/broadcast";
     }
 }

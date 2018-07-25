@@ -56,5 +56,6 @@ namespace ImageHuntBot.Dialogs
             }
         }
 
+        public override string Command => "/BroadcastLocation";
     }
 }

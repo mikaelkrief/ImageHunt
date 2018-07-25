@@ -41,5 +41,7 @@ namespace ImageHuntBot.Dialogs
             await turnContext.ReplyActivity($"La chasse commence maintenant! Bonne chance!");
             await turnContext.End();
         }
+
+        public override string Command => "/start";
     }
 }

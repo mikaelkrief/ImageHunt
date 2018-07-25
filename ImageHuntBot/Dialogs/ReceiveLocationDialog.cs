@@ -36,6 +36,8 @@ namespace ImageHuntTelegramBot.Dialogs
             await turnContext.End();
         }
 
+        public override string Command => "/location";
+
         public ReceiveLocationDialog(IActionWebService actionWebService, ILogger<ReceiveLocationDialog> logger) : base(logger)
         {
             _actionWebService = actionWebService;
