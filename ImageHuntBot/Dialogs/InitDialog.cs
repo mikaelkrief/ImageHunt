@@ -60,5 +60,7 @@ namespace ImageHuntTelegramBot.Dialogs
               $"Le groupe de l'équipe {state.Team.Name} pour la chasse {state.Game.Name} qui débute le {state.Game.StartDate} est prêt, bon jeu!");
             await turnContext.End();
         }
+
+        public override string Command => "/init";
     }
 }

@@ -8,5 +8,6 @@ namespace ImageHuntTelegramBot
     Task Continue(ITurnContext turnContext);
     void AddChildren(IDialog childrenDialog);
     Task Reply(ITurnContext turnContext);
+    string Command { get; }
   }
 }

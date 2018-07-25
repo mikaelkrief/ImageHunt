@@ -20,8 +20,10 @@ namespace ImageHuntTelegramBot.Dialogs.Prompts
       return base.Continue(turnContext);
     }
 
+      public override string Command { get; }
 
-    public T Value
+
+      public T Value
     {
       get
       {

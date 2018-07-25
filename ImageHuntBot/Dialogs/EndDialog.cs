@@ -40,5 +40,7 @@ namespace ImageHuntBot.Dialogs
                 $"La chasse vient de prendre fin, vos actions ont été enregistrée et un orga va les valider.");
             await turnContext.End();
         }
+
+        public override string Command => "/end";
     }
 }

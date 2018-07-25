@@ -20,5 +20,7 @@ Ensuite, vous pouvez envoyer les images que vous aurez deviné, je les enregistr
 Bon jeu!");
             await turnContext.End();
         }
+
+        public override string Command => "/help";
     }
 }

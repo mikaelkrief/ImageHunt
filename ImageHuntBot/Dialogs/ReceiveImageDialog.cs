@@ -81,5 +81,7 @@ namespace ImageHuntTelegramBot.Dialogs
             await turnContext.ReplyActivity(activity);
             await turnContext.End();
         }
+
+        public override string Command => "/uploadphoto";
     }
 }

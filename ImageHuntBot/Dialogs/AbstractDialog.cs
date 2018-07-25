@@ -70,5 +70,7 @@ namespace ImageHuntTelegramBot.Dialogs
     public virtual async Task Reply(ITurnContext turnContext)
     {
     }
+
+      public abstract string Command { get; }
   }
 }

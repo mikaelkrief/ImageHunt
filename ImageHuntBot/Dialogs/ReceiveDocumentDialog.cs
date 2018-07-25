@@ -103,5 +103,7 @@ namespace ImageHuntTelegramBot.Dialogs
             await turnContext.End();
 
         }
+
+        public override string Command => "/uploaddocument";
     }
 }
