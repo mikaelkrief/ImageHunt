@@ -51,5 +51,7 @@ namespace ImageHuntBotTest
       await turnContext.ReplyActivity(activity);
       await turnContext.End();
     }
+
+      public override string Command => "/diplay";
   }
 }

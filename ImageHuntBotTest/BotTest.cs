@@ -43,7 +43,8 @@ namespace ImageHuntBotTest
         A.CallTo(() => turnContext.Activity).Returns(activity);
         A.CallTo(() => turnContext.CurrentDialog).Returns(null);
         var initDialog = A.Fake<IDialog>();
-        _target.AddDialog("/init", initDialog);
+          A.CallTo(() => initDialog.Command).Returns("/init");
+        _target.AddDialog(initDialog);
         // Act
         await _target.OnTurn(turnContext);
       // Assert
@@ -60,7 +61,9 @@ namespace ImageHuntBotTest
         A.CallTo(() => turnContext.Activity).Returns(activity);
         A.CallTo(() => turnContext.CurrentDialog).Returns(null);
         var uploadPhotoDialog = A.Fake<IDialog>();
-        _target.AddDialog("/uploadphoto", uploadPhotoDialog);
+          A.CallTo(() => uploadPhotoDialog.Command).Returns("/uploadphoto");
+
+            _target.AddDialog(uploadPhotoDialog);
         // Act
         await _target.OnTurn(turnContext);
       // Assert
@@ -77,7 +80,8 @@ namespace ImageHuntBotTest
             A.CallTo(() => turnContext.Activity).Returns(activity);
             A.CallTo(() => turnContext.CurrentDialog).Returns(null);
             var uploadDocumentDialog = A.Fake<IDialog>();
-            _target.AddDialog("/uploaddocument", uploadDocumentDialog);
+            A.CallTo(() => uploadDocumentDialog.Command).Returns("/uploaddocument");
+            _target.AddDialog(uploadDocumentDialog);
             // Act
             await _target.OnTurn(turnContext);
             // Assert
@@ -94,7 +98,8 @@ namespace ImageHuntBotTest
             A.CallTo(() => turnContext.Activity).Returns(activity);
             A.CallTo(() => turnContext.CurrentDialog).Returns(null);
             var resetDialog = A.Fake<IDialog>();
-            _target.AddDialog("/reset", resetDialog);
+            A.CallTo(() => resetDialog.Command).Returns("/reset");
+            _target.AddDialog(resetDialog);
             // Act
             await _target.OnTurn(turnContext);
             // Assert
@@ -113,7 +118,8 @@ namespace ImageHuntBotTest
         A.CallTo(() => turnContext.CurrentDialog).Returns(null);
         A.CallTo(() => turnContext.Begin(A<IDialog>._)).Throws<Exception>();
         var uploadDocumentDialog = A.Fake<IDialog>();
-       _target.AddDialog("/uploaddocument", uploadDocumentDialog);
+          A.CallTo(() => uploadDocumentDialog.Command).Returns("/uploaddocument");
+       _target.AddDialog(uploadDocumentDialog);
         // Act
         Check.ThatAsyncCode(()=> _target.OnTurn(turnContext)).Throws<Exception>();
       // Assert
@@ -128,7 +134,8 @@ namespace ImageHuntBotTest
         A.CallTo(() => turnContext.Activity).Returns(activity);
         A.CallTo(() => turnContext.Replied).Returns(true);
         var initDialog = A.Fake<IDialog>();
-        _target.AddDialog("/init", initDialog);
+          A.CallTo(() => initDialog.Command).Returns("/init");
+        _target.AddDialog(initDialog);
         // Act
         await _target.OnTurn(turnContext);
         // Assert
