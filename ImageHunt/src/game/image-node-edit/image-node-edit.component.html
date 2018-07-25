@@ -1,0 +1,51 @@
+<div #imageNodeEdit>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edition de Noeud image</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true" class="fa fa-times"></span>
+
+    </button>
+  </div>
+  <form>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-lg-6 col-sm-6">
+          <div class="form-inline">
+            <div class="input-group">
+              <label for="name">Nom du N&oelig;ud</label>
+              <input id="name" type="text" class="form-control" ngModel name="name" placeholder="Entrez le nom du noeud" />
+            </div>
+            <div class="input-group">
+              <div class="input-group">
+
+                <label for="latitude">Latitude</label>
+                <input type="number" class="form-control" name="latitude" ngModel placeholder="Latitude" />
+              </div>
+              <div class="input-group">
+
+                <label for="longitude">Longitude</label>
+                <input type="number" class="form-control" name="longitude" ngModel placeholder="Longitude" />
+                <!-- <geocoordinate name="coordinates" Point="nodePosition"></geocoordinate>-->
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="points">Nombre de points</label>
+              <input type="number" class="form-control" name="points" ngModel placeholder="Nombre de points associés" />
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-sm-6">
+          <img src="http://via.placeholder.com/200x300" />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-success pull-right" type="submit" aria-label="Close"
+              (click)="bsModalRef.hide()">
+        <span class="fa fa-edit"></span> Modifier le Noeud
+      </button>
+      <button class="btn btn-danger pull-right" type="button" aria-label="Close"
+              (click)="bsModalRef.hide()">Annuler</button>
+    </div>
+  </form>
+</div>
