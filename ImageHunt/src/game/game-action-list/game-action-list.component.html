@@ -27,7 +27,7 @@
       <td>{{action.action|gameActionTranslationPipe}}</td>
       <td>
         <span>{{action.node===null?'Aucun':action.node.name}}</span>
-        <div class="thumbnail" *ngIf="action.node.image != null">
+        <div class="thumbnail" *ngIf="action.node != null && action.node.image != null">
           <p-lightbox type="content">
             <a class="group" href="#">
               <img src="api/Image/Thumbnail?pictureId={{action.node.image.id}}&width=150&height=100" />
