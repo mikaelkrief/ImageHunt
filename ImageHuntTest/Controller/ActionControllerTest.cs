@@ -62,6 +62,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _gameService.GetGameById(gameActionRequest.GameId)).MustHaveHappened();
             A.CallTo(() => _imageService.AddPicture(A<Picture>.That.Matches(p => CheckPicture(p)))).MustHaveHappened();
             A.CallTo(() => _actionService.AddGameAction(A<GameAction>.That.Matches(ga => CheckGameActionForImage(ga, gameActionRequest.Latitude, gameActionRequest.Longitude)))).MustHaveHappened();
+            A.CallTo(() => _nodeService.GetNode(A<int>._)).MustNotHaveHappened();
         }
 
         private bool CheckGameActionForImage(GameAction ga, double expectedLatitude, double expectedLongitude)
