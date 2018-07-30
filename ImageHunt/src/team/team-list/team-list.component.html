@@ -12,7 +12,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let team of teams">
-        <td><span class="fa fa-users"> <a routerLink="/team/{{team.id}}">{{team.name}}</a></span></td>
+        <td><a routerLink="/team/{{team.id}}"><span class="fa fa-users fa-2x"> {{team.name}}</span></a></td>
         <td>
           <ul>
             <li>/init gameid={{gameId}} teamid={{team.id}}</li>

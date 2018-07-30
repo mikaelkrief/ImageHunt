@@ -1,19 +1,27 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-lg-3">
-      <div heading="Details">
-      <h2>Detail d'une partie</h2>
-        <div class="form-inline">
-          <div class="form-control">
-            <label>Nom de la partie :</label>
-            <span>{{game.name}}</span>
-          </div>
-          <br/>
-          <div class="form-control">
-            <label>Date de début :</label>
-            <span>{{game.startDate | date:'medium':'':'fr'}}</span>
+      <div class="row">
+        <div heading="Details">
+          <h2>Detail d'une partie</h2>
+          <div class="form-inline">
+            <div class="form-control">
+              <label>Nom de la partie :</label>
+              <span>{{game.name}}</span>
+            </div>
+            <br/>
+            <div class="form-control">
+              <label>Date de début :</label>
+              <span>{{game.startDate | date:'medium':'':'fr'}}</span>
+            </div>
           </div>
         </div>
+      </div>
+      <br/>
+      <br/>
+      <br/>
+      <div class="row">
+        <button class="btn btn-primary" [routerLink]="['/action/', game.id]"><span class="fa fa-map-signs"> Actions</span></button>
       </div>
     </div>
     <div class="col-lg-9">
