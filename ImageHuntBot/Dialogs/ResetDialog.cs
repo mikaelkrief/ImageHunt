@@ -15,10 +15,12 @@ namespace ImageHuntBot.Dialogs
         }
         public override async Task Begin(ITurnContext turnContext)
         {
-            _logger.LogInformation($"Reset the bot for chatId {turnContext.ChatId}");
+            LogInfo<ImageHuntState>(turnContext, "Reset Game");
             await turnContext.ResetConversationStates<ImageHuntState>();
             await turnContext.ReplyActivity($"Le groupe {turnContext.ChatId} vient d'être ré-initialisé");
             await turnContext.End();
         }
+
+        public override string Command => "/reset";
     }
 }

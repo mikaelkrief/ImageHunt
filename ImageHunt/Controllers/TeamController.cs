@@ -102,7 +102,7 @@ namespace ImageHunt.Controllers
       var nextNode = _teamService.StartGame(gameId, teamId);
       return Ok(nextNode);
     }
-
+    [HttpGet("NextNodeForTeam/{teamId}")]
     public IActionResult NextNodeForPlayer(int teamId)
     {
       return Ok(_teamService.NextNodeForTeam(teamId, 0, 0));

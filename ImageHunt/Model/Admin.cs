@@ -24,6 +24,7 @@ namespace ImageHunt.Model
     Admin,
     Validator,
     GameMaster,
-    Reader
+    Reader,
+    Bot
   }
 }

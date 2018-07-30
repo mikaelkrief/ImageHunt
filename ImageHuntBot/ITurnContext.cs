@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using ImageHuntBot;
 
 namespace ImageHuntTelegramBot
 {
@@ -17,7 +19,8 @@ namespace ImageHuntTelegramBot
       Task ReplyActivity(string text);
       Task SendActivity(IActivity activity);
       event EventHandler EndCalled;
-      T GetConversationState<T>() where T : class, new();
-        Task ResetConversationStates<T>() where T : class, new();
+      T GetConversationState<T>() where T : IBaseState, new();
+        Task ResetConversationStates<T>() where T : IBaseState, new();
+        Task<IEnumerable<T>> GetAllConversationState<T>() where T : IBaseState, new();
     }
 }

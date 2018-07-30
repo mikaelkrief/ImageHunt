@@ -45,7 +45,7 @@ namespace ImageHuntBotTest
     {
       // Arrange
       var turnContext = A.Fake<ITurnContext>();
-      var imageHuntState = new ImageHuntState() { GameId = 15, TeamId = 16, CurrentLatitude = 15.2, CurrentLongitude = 56};
+      var imageHuntState = new ImageHuntState() { GameId = 15, TeamId = 16, CurrentLatitude = 15.2, CurrentLongitude = 56, Status = Status.Started};
       A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(imageHuntState);
       A.CallTo(() => _telegramBotClient.GetInfoAndDownloadFileAsync(A<string>._, A<Stream>._, A<CancellationToken>._))
         .Invokes((string fileId, Stream stream, CancellationToken cancellationToken) => { stream.Write(new byte[10], 0, 10);});
@@ -67,6 +67,31 @@ namespace ImageHuntBotTest
       A.CallTo(() => _telegramBotClient.GetInfoAndDownloadFileAsync(A<string>._, A<Stream>._, A<CancellationToken>._)).MustHaveHappened();
       A.CallTo(() => _teamWebService.UploadImage(A<UploadImageRequest>._)).MustHaveHappened();
       A.CallTo(() => turnContext.ReplyActivity(A<Activity>._)).MustHaveHappened();
+      A.CallTo(() => turnContext.End()).MustHaveHappened();
+    }
+    [Fact]
+    public async Task Begin_GameNotStarted()
+    {
+      // Arrange
+      var turnContext = A.Fake<ITurnContext>();
+      var imageHuntState = new ImageHuntState() { GameId = 15, TeamId = 16, CurrentLatitude = 15.2, CurrentLongitude = 56, Status = Status.None};
+      A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(imageHuntState);
+      var document1 = new Document(){FileSize = 15, FileId = "15", MimeType = "image/jpeg" };
+
+      var activity = new Activity()
+      {
+        ActivityType = ActivityType.Message,
+        ChatId = 15,
+        Document = document1
+      };
+
+      A.CallTo(() => turnContext.Activity).Returns(activity);
+
+      // Act
+      await _target.Begin(turnContext);
+      // Assert
+      A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).MustHaveHappened();
+      A.CallTo(() => turnContext.ReplyActivity(A<string>._)).MustHaveHappened();
       A.CallTo(() => turnContext.End()).MustHaveHappened();
     }
 

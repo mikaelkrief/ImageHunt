@@ -11,40 +11,29 @@ namespace ImageHuntTelegramBot
 {
     public class DefaultModule : Module
     {
-      protected override void Load(ContainerBuilder builder)
-      {
-        builder.RegisterType<GameWebService>().As<IGameWebService>();
-        builder.RegisterType<TeamWebService>().As<ITeamWebService>();
-        builder.RegisterType<ActionWebService>().As<IActionWebService>();
-        builder.RegisterType<InitDialog>().As<IInitDialog>();
-        builder.RegisterType<ReceiveImageDialog>().As<IReceiveImageDialog>();
-        builder.RegisterType<ReceiveDocumentDialog>().As<IReceiveDocumentDialog>();
-        builder.RegisterType<ReceiveLocationDialog>().As<IReceiveLocationDialog>();
-        builder.RegisterType<ResetDialog>().As<IResetDialog>();
-        builder.RegisterType<StartDialog>().As<IStartDialog>();
-        builder.RegisterType<EndDialog>().As<IEndDialog>();
-        builder.Register(t =>
+        protected override void Load(ContainerBuilder builder)
         {
-          var bot = new TelegramBot();
-          var initDialog = t.Resolve<IInitDialog>();
-          bot.AddDialog("/init", initDialog);
-          var receiveImageDialog = t.Resolve<IReceiveImageDialog>();
-          bot.AddDialog("/uploadphoto", receiveImageDialog);
-          var receiveDocumentDialog = t.Resolve<IReceiveDocumentDialog>();
-          bot.AddDialog("/uploaddocument", receiveDocumentDialog);
-          var receiveLocationDialog = t.Resolve<IReceiveLocationDialog>();
-          bot.AddDialog("/location", receiveLocationDialog);
-          var resetDialog = t.Resolve<IResetDialog>();
-          bot.AddDialog("/reset", resetDialog);
-          var startDialog = t.Resolve<IStartDialog>();
-          bot.AddDialog("/start", startDialog);
-          var endDialog = t.Resolve<IEndDialog>();
-          bot.AddDialog("/end", endDialog);
-          return bot;
-        }).As<IBot>();
-        builder.RegisterType<TelegramAdapter>().As<IAdapter>();
-        builder.RegisterType<TurnContext>().As<ITurnContext>();
-        builder.RegisterType<ContextHub>().SingleInstance();
-      }
-  }
+            builder.RegisterAssemblyTypes(this.ThisAssembly)
+                .PublicOnly()
+                .Where(t => t.Name.EndsWith("Dialog"))
+                .AsImplementedInterfaces();
+            builder.RegisterType<GameWebService>().As<IGameWebService>();
+            builder.RegisterType<TeamWebService>().As<ITeamWebService>();
+            builder.RegisterType<ActionWebService>().As<IActionWebService>();
+            builder.RegisterType<AdminWebService>().As<IAdminWebService>();
+            builder.Register(t =>
+            {
+                var bot = new TelegramBot();
+                var dialogs = t.Resolve<IEnumerable<IDialog>>();
+                foreach (var dialog in dialogs)
+                {
+                    bot.AddDialog(dialog);
+                }
+                return bot;
+            }).As<IBot>();
+            builder.RegisterType<TelegramAdapter>().As<IAdapter>();
+            builder.RegisterType<TurnContext>().As<ITurnContext>();
+            builder.RegisterType<ContextHub>().SingleInstance();
+        }
+    }
 }

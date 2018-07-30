@@ -25,11 +25,12 @@ namespace ImageHuntTelegramBot.Dialogs
         public override async Task Begin(ITurnContext turnContext)
         {
             var state = turnContext.GetConversationState<ImageHuntState>();
+            
             if (state.GameId != 0 && state.TeamId != 0)
             {
                 var warningMessage = $"Le groupe {turnContext.ChatId} a déjà été initialisé!";
                 await turnContext.ReplyActivity(warningMessage);
-                _logger.LogWarning(warningMessage);
+                LogInfo<ImageHuntState>(turnContext, warningMessage);
                 await turnContext.End();
                 return;
             }
@@ -40,23 +41,26 @@ namespace ImageHuntTelegramBot.Dialogs
                 var groups = regEx.Matches(activityText);
                 state.GameId = Convert.ToInt32(groups[0].Groups[1].Value);
                 state.TeamId = Convert.ToInt32(groups[0].Groups[2].Value);
-                _logger.LogInformation($"Init game for gameId: {state.GameId}, teamId: {state.TeamId}");
+                LogInfo<ImageHuntState>(turnContext, "Init");
                 state.Game = await _gameWebService.GetGameById(state.GameId);
                 state.Team = await _teamWebService.GetTeamById(state.TeamId);
                 if (state.Game == null || state.Team == null)
                 {
-                    _logger.LogError($"Unable to find game for {state.GameId} or team for {state.TeamId}");
+                    LogInfo<ImageHuntState>(turnContext, "Unable to find game");
                     await turnContext.ReplyActivity($"Impossible de trouver la partie pour l'Id={state.GameId} ou l'équipe pour l'Id={state.TeamId}");
                     state.GameId = state.TeamId = 0;
                     await turnContext.End();
                     return;
                 }
 
+                state.Status = Status.Initialized;
             }
             await base.Begin(turnContext);
             await turnContext.ReplyActivity(
               $"Le groupe de l'équipe {state.Team.Name} pour la chasse {state.Game.Name} qui débute le {state.Game.StartDate} est prêt, bon jeu!");
             await turnContext.End();
         }
+
+        public override string Command => "/init";
     }
 }

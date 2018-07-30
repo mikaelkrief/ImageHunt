@@ -12,9 +12,9 @@ namespace ImageHuntTelegramBot
     private Dictionary<string, IDialog> _dialogs = new Dictionary<string, IDialog>();
     private static readonly SemaphoreSlim Padlock = new SemaphoreSlim(1,1);
 
-    public void AddDialog(string dialogInitText, IDialog dialog)
+    public void AddDialog(IDialog dialog)
     {
-      _dialogs.Add(dialogInitText, dialog);
+      _dialogs.Add(dialog.Command.ToLowerInvariant(), dialog);
     }
 
     public async Task OnTurn(ITurnContext context)
@@ -29,7 +29,7 @@ namespace ImageHuntTelegramBot
         {
           if (context.CurrentDialog == null && _dialogs.Any(d => context.Activity.Command == d.Key))
           {
-            dialog = _dialogs[context.Activity.Command];
+            dialog = _dialogs[context.Activity.Command.ToLowerInvariant()];
           }
         }
         if (dialog != null)

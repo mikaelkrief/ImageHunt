@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ImageHuntBot;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 
@@ -18,7 +19,11 @@ namespace ImageHuntTelegramBot.Dialogs
       _logger = logger;
     }
 
-
+      protected void LogInfo<T>(ITurnContext turnContext, string message) where T : IBaseState, new()
+        {
+          var state = turnContext.GetConversationState<T>();
+          _logger.LogInformation($"On {turnContext.ChatId}, State={state} : {message}");
+      }
     public virtual async Task Begin(ITurnContext turnContext)
     {
       turnContext.EndCalled += TurnContextOnEndCalled;
@@ -65,5 +70,7 @@ namespace ImageHuntTelegramBot.Dialogs
     public virtual async Task Reply(ITurnContext turnContext)
     {
     }
+
+      public abstract string Command { get; }
   }
 }

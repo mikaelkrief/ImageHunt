@@ -50,7 +50,9 @@ export class MapDetail2Component implements OnInit, OnChanges {
   constructor(private _gameService: GameService) {
     this.options = {
       center: { lat: 0, lng: 0 },
-      zoom: 12
+      zoom: 12,
+      streetViewControl: false,
+      fullscreenControl: false,
     };
 
   }
