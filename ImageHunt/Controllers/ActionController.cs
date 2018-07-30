@@ -46,7 +46,7 @@ namespace ImageHunt.Controllers
     /// </summary>
     /// <param name="gameActionRequest"></param>
     [HttpPost("AddGameAction")]
-    public IActionResult AddGameAction(GameActionRequest gameActionRequest)
+    public IActionResult AddGameAction([FromBody]GameActionRequest gameActionRequest)
     {
       var gameAction = Mapper.Map<GameAction>(gameActionRequest);
 
@@ -55,7 +55,11 @@ namespace ImageHunt.Controllers
       gameAction.Latitude = gameActionRequest.Latitude;
       gameAction.Longitude = gameActionRequest.Longitude;
       gameAction.Action = (Action)gameActionRequest.Action;
-      gameAction.Node = _nodeService.GetNode(gameActionRequest.NodeId);
+      if (gameActionRequest.NodeId != 0)
+      {
+        gameAction.Node = _nodeService.GetNode(gameActionRequest.NodeId);
+      }
+
       switch (gameAction.Action)
       {
         case Action.DoAction:
