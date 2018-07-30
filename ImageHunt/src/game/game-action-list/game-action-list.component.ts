@@ -27,7 +27,6 @@ export class GameActionListComponent implements OnInit {
     this.gameService.getGameActionForGame(this.gameId, (event.first / event.rows) + 1, event.rows)
       .subscribe(next => {
         this.gameActions = next.json();
-        this.totalRecords = 15;
       });
   }
   validatedBtnClass(action: GameAction) {
