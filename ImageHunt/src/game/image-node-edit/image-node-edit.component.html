@@ -6,14 +6,17 @@
 
     </button>
   </div>
-  <form>
+  <form #form="ngForm" (submit)="saveChanges(form)">
     <div class="modal-body">
       <div class="row">
         <div class="col-lg-6 col-sm-6">
           <div class="form-inline">
             <div class="input-group">
               <label for="name">Nom du N&oelig;ud</label>
-              <input id="name" type="text" class="form-control" ngModel name="name" placeholder="Entrez le nom du noeud" />
+              <input id="name" type="text" class="form-control" [value]="_node!==undefined?_node.name:''"
+                     ngModel
+                     name="name"
+                     placeholder="Entrez le nom du noeud" />
             </div>
             <div class="input-group">
 
@@ -23,7 +26,7 @@
           </div>
         </div>
         <div class="col-lg-6 col-sm-6">
-          <img src="http://via.placeholder.com/200x300" />
+            <img class="img-thumbnail" *ngIf="_node!==undefined" src="api/Image/Thumbnail?pictureId={{_node.image.id}}&width=300&height=300" />
         </div>
       </div>
     </div>

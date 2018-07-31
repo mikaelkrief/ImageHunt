@@ -93,4 +93,7 @@ export class GameService {
   getPicturesNodes(gameId: number) {
     return this.jwtHttp.get(`api/Game/GetPictureNodes/${gameId}`);
   }
+  getNodeById(nodeId: number) {
+    return this.jwtHttp.get(`api/Node/${nodeId}`);
+  }
 }
