@@ -90,5 +90,13 @@ export class GameService {
   getScoreForGame(gameId) {
      return this.jwtHttp.get(`api/Game/Score/${gameId}`);
   }
-
+  getPicturesNodes(gameId: number) {
+    return this.jwtHttp.get(`api/Game/GetPictureNodes/${gameId}`);
+  }
+  getNodeById(nodeId: number) {
+    return this.jwtHttp.get(`api/Node/${nodeId}`);
+  }
+  updateNode(node: Node) {
+    return this.jwtHttp.patch(`api/Node/`, node);
+  }
 }

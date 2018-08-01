@@ -24,6 +24,7 @@ import {ConfirmationService} from 'primeng/components/common/confirmationservice
 import { NodeClicked } from "../../shared/NodeClicked";
 import { MenuItem } from "primeng/api";
 import {RelationClicked} from "../../shared/RelationClicked";
+import { ImageNodeEditComponent } from '../image-node-edit/image-node-edit.component';
 
 @Component({
   selector: 'game-detail',
@@ -145,6 +146,11 @@ export class GameDetailComponent implements OnInit {
   }
   
   nodeClicked(nodeClicked: NodeClicked) {
+    if (nodeClicked.node.nodeType === 'PictureNode') {
+      this.modalRef = this._modalService.show(ImageNodeEditComponent, { ignoreBackdropClick: true });
+      this.modalRef.content.node = nodeClicked.node;
+      return;
+    }
     if (nodeClicked.numberClicked === 1) {
       if (nodeClicked.node.nodeType === 'LastNode') {
         this.mapComponent.resetNodeClick();
