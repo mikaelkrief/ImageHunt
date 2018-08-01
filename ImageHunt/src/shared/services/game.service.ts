@@ -96,4 +96,7 @@ export class GameService {
   getNodeById(nodeId: number) {
     return this.jwtHttp.get(`api/Node/${nodeId}`);
   }
+  updateNode(node: Node) {
+    return this.jwtHttp.patch(`api/Node/`, node);
+  }
 }

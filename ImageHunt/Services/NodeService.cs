@@ -145,6 +145,9 @@ namespace ImageHunt.Services
       {
         var oldNode = Context.Nodes.Single(n => n.Id == node.Id);
         oldNode.Name = node.Name;
+        oldNode.Points = node.Points;
+        oldNode.Latitude = node.Latitude;
+        oldNode.Longitude = node.Longitude;
         Context.SaveChanges();
       }
     }

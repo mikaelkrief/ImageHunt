@@ -81,6 +81,9 @@ namespace ImageHunt.Controllers
     {
       var node = _nodeService.GetNode(nodeRequest.Id);
       node.Name = nodeRequest.Name;
+      node.Points = nodeRequest.Points;
+      node.Longitude = nodeRequest.Longitude;
+      node.Latitude = nodeRequest.Latitude;
       _nodeService.UpdateNode(node);
       return Ok();
     }

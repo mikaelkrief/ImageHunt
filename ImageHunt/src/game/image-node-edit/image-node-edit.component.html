@@ -21,14 +21,30 @@
             <div class="input-group">
 
               <label for="location">Position</label>
-              <img src="http://via.placeholder.com/300x200"/>
-          </div>
+              <img src="http://via.placeholder.com/300x200" />
+            </div>
           </div>
         </div>
         <div class="col-lg-6 col-sm-6">
-            <img class="img-thumbnail" *ngIf="_node!==undefined" src="api/Image/Thumbnail?pictureId={{_node.image.id}}&width=300&height=300" />
+          <div class="row">
+            <div class="form-inline">
+              <div class="input-group">
+                <label for="points">Nombre de points</label>
+                <input id="points" name="points" ngModel [value]="_node!==undefined?_node.points:0" type="number" class="form-control" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-inline">
+              <div class="input-group">
+                <label for="image">Image associée</label>
+                <img class="img-thumbnail" *ngIf="_node!==undefined" src="api/Image/Thumbnail?pictureId={{_node.image.id}}&width=300&height=300" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
     <div class="modal-footer">
       <button class="btn btn-success pull-right" type="submit" aria-label="Close"
@@ -36,7 +52,9 @@
         <span class="fa fa-edit"></span> Modifier le Noeud
       </button>
       <button class="btn btn-danger pull-right" type="button" aria-label="Close"
-              (click)="bsModalRef.hide()">Annuler</button>
+              (click)="bsModalRef.hide()">
+        Annuler
+      </button>
     </div>
   </form>
 </div>

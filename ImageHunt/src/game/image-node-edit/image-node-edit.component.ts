@@ -3,6 +3,7 @@ import { BsModalRef } from 'ngx-bootstrap';
 import { GeoPoint } from '../../shared/GeoPoint';
 import { Node } from '../../shared/node';
 import {GameService} from "../../shared/services/game.service";
+import { AlertService } from '../../shared/services/alert.service';
 
 @Component({
     selector: 'app-image-node-edit',
@@ -23,10 +24,15 @@ export class ImageNodeEditComponent implements OnInit{
     
   }
     /** imageNode-edit ctor */
-  constructor(public bsModalRef: BsModalRef, private _gameService: GameService) {
+  constructor(public bsModalRef: BsModalRef, private _gameService: GameService, private _alertService: AlertService) {
     this.nodePosition = new GeoPoint;
   }
   saveChanges(form) {
     this._node.name = form.form.value.name;
+    this._node.points = form.form.value.points;
+    this._gameService.updateNode(this._node)
+      .subscribe(() => this._alertService.sendAlert(`Le Noeud ${this._node.name} a bien été mis à jour`,
+        "success",
+        5000));
   }
 }

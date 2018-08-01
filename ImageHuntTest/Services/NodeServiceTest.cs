@@ -430,14 +430,17 @@ namespace ImageHuntTest.Services
         public void UpdateNode()
         {
             // Arrange
-            var nodes = new List<Node> {new FirstNode(), new PictureNode() {Name = "titi"}, new TimerNode()};
+            var nodes = new List<Node> {new FirstNode(), new PictureNode() {Name = "titi", Points = 9, Latitude = 45.6, Longitude = 8.3}, new TimerNode()};
             _context.Nodes.AddRange(nodes);
             _context.SaveChanges();
-            var updatedNode = new PictureNode(){Id = nodes[1].Id, Name = "toto"};
+            var updatedNode = new PictureNode(){Id = nodes[1].Id, Name = "toto", Points = 15, Latitude = 65.3, Longitude = 4.3};
             // Act
             _target.UpdateNode(updatedNode);
             // Assert
             Check.That(nodes[1].Name).Equals(updatedNode.Name);
+            Check.That(nodes[1].Points).Equals(updatedNode.Points);
+            Check.That(nodes[1].Latitude).Equals(updatedNode.Latitude);
+            Check.That(nodes[1].Longitude).Equals(updatedNode.Longitude);
         }
     }
 }
