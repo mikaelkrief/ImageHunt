@@ -35,12 +35,10 @@
             </div>
           </div>
           <div class="row">
-            <div class="form-inline">
-              <div class="input-group">
-                <label for="image">Image associée</label>
-                <img class="img-thumbnail" *ngIf="_node!==undefined" src="api/Image/Thumbnail?pictureId={{_node.image.id}}&width=300&height=300" />
-              </div>
-            </div>
+            <p class="label" style="color: black; font-weight: bold; font-size: 14px; padding: 0">Image associée</p>
+            <br/>
+                <img class="img-thumbnail" name="image" *ngIf="_node!==undefined"
+                     src="api/Image/Thumbnail?pictureId={{_node.image.id}}&width=300&height=300"/>
           </div>
         </div>
       </div>
