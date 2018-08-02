@@ -105,7 +105,7 @@ namespace ImageHunt
         app.UseDeveloperExceptionPage();
       }
       dbContext.Database.Migrate();
-      app.UseCors();
+      app.UseCors(builder=>builder.AllowAnyOrigin());
       app.Use(async (context, next) =>
       {
         await next();
