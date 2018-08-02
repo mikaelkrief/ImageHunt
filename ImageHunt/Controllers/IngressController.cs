@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace ImageHunt.Controllers
 {
   [Route("api/[controller]")]
-  [EnableCors]
   //[ApiController]
   public class IngressController : ControllerBase
   {
