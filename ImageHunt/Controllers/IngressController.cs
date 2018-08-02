@@ -35,6 +35,7 @@ namespace ImageHunt.Controllers
                     while ((line = reader.ReadLine()) != null)
                     {
                         var splittedLine = line.Split('\t');
+                        if (splittedLine.Length < 1) continue;
                         if (!actions.ContainsKey(splittedLine[3]))
                         {
                             actions.Add(splittedLine[3], new HashSet<LatLng>());
