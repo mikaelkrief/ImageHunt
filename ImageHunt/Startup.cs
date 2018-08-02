@@ -105,7 +105,7 @@ namespace ImageHunt
         app.UseDeveloperExceptionPage();
       }
       dbContext.Database.Migrate();
-      app.UseCors(builder => builder.WithOrigins("http://imagehunt.mandrillon.fr"));
+      app.UseCors();
       app.Use(async (context, next) =>
       {
         await next();
