@@ -105,7 +105,7 @@ namespace ImageHunt
         app.UseDeveloperExceptionPage();
       }
       dbContext.Database.Migrate();
-      app.UseCors();
+      app.UseCors(builder => builder.WithOrigins("http://imagehunt.mandrillon.fr"));
       app.Use(async (context, next) =>
       {
         await next();
@@ -135,7 +135,9 @@ namespace ImageHunt
       Mapper.Initialize(config =>
       {
         config.CreateMap<AddNodeRequest, Node>().ConstructUsing(r => NodeFactory.CreateNode(r.NodeType));
-        config.CreateMap<GameActionRequest, GameAction>().ForMember(x => x.Picture, opt => opt.Ignore());
+        config.CreateMap<GameActionRequest, GameAction>()
+          .ForMember(x => x.Picture, opt => opt.Ignore())
+          .ForAllOtherMembers(expression => );
         config.CreateMap<Node, Node>().ForSourceMember(x => x.Id, opt => opt.Ignore());
       });
     }
