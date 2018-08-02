@@ -40,6 +40,7 @@ import { registerLocaleData } from "@angular/common";
 import { SharedModule } from "../shared/shared.module";
 import { QRCodeModule } from "angular2-qrcode";
 import { ScoreListComponent } from '../score/score-list/score-list.component';
+import { ImageNodeEditComponent } from "../game/image-node-edit/image-node-edit.component";
 
 registerLocaleData(localeFr);
 
@@ -101,7 +102,7 @@ export class MyAuthConfig extends CustomConfig {
     ])
   ],
   providers: [Globals],
-  entryComponents: [NodeCreateComponent, NodeRelationComponent, QuestionNodeComponent]
+  entryComponents: [NodeCreateComponent, NodeRelationComponent, QuestionNodeComponent, ImageNodeEditComponent]
 
 })
 export class AppModule {

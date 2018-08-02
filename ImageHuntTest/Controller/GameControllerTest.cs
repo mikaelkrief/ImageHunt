@@ -501,6 +501,17 @@ namespace ImageHuntTest.Controller
       }
 
       [Fact]
+      public void GetPictureNode()
+      {
+          // Arrange
+          
+          // Act
+          _target.GetPictureNodes(1);
+          // Assert
+          A.CallTo(() => _gameService.GetPictureNode(1)).MustHaveHappened();
+      }
+
+      [Fact]
       public void GetGameActionsToValidate()
       {
           // Arrange

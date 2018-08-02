@@ -17,5 +17,6 @@ namespace ImageHunt.Services
     Answer GetAnswer(int answerId);
     void RemoveNode(Node nodeToRemove);
     void RemoveRelation(Node orgNode, Node destNode);
+    void UpdateNode(Node node);
   }
 }

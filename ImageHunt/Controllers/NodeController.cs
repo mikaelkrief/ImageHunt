@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Authorization;
@@ -68,6 +69,22 @@ namespace ImageHunt.Controllers
       var orgNode = _nodeService.GetNode(orgNodeId);
       var destNode = _nodeService.GetNode(destNodeId);
       _nodeService.RemoveRelation(orgNode, destNode);
+      return Ok();
+    }
+    [HttpGet("{nodeId}")]
+    public IActionResult GetNodeById(int nodeId)
+    {
+      return Ok(_nodeService.GetNode(nodeId));
+    }
+    [HttpPatch]
+    public IActionResult UpdateNode(NodeUpdateRequest nodeRequest)
+    {
+      var node = _nodeService.GetNode(nodeRequest.Id);
+      node.Name = nodeRequest.Name;
+      node.Points = nodeRequest.Points;
+      node.Longitude = nodeRequest.Longitude;
+      node.Latitude = nodeRequest.Latitude;
+      _nodeService.UpdateNode(node);
       return Ok();
     }
   }
