@@ -9,10 +9,12 @@ using ImageHunt.Model.Node;
 using ImageHunt.Response;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
+using NodeResponse = ImageHunt.Response.NodeResponse;
 
 namespace ImageHunt.Controllers
 {
@@ -247,6 +249,13 @@ namespace ImageHunt.Controllers
       }
 
       return Ok(picturesNodes);
+    }
+
+    public async Task<IActionResult> GetGameActionsToValidate(int gameId, int pageIndex, int take)
+    {
+      var gameActions = await _actionService.GetGameActionsForGame(gameId, pageIndex, take);
+      var gameActionsToValidate = new List<GameActionValidationResponse>();
+      return Ok(gameActionsToValidate);
     }
   }
 }

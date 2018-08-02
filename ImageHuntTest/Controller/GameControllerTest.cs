@@ -15,6 +15,7 @@ using ImageHunt.Model.Node;
 using ImageHunt.Response;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -22,6 +23,7 @@ using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
 using Xunit;
+using NodeResponse = ImageHunt.Response.NodeResponse;
 
 namespace ImageHuntTest.Controller
 {
@@ -500,16 +502,6 @@ namespace ImageHuntTest.Controller
           A.CallTo(() => _gameService.GetPictureNode(1)).MustHaveHappened();
       }
 
-      [Fact]
-      public void GetPictureNode()
-      {
-          // Arrange
-          
-          // Act
-          _target.GetPictureNodes(1);
-          // Assert
-          A.CallTo(() => _gameService.GetPictureNode(1)).MustHaveHappened();
-      }
 
       [Fact]
       public void GetGameActionsToValidate()
@@ -517,9 +509,9 @@ namespace ImageHuntTest.Controller
           // Arrange
           
           // Act
-          var result =_target.GetGameActionsToValidate(1);
+          var result =_target.GetGameActionsToValidate(1) as OkObjectResult;
           // Assert
+          Check.That(result.Value).IsInstanceOf<IEnumerable<GameActionValidationResponse>>();
       }
   }
-
 }
