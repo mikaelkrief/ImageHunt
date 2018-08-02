@@ -37,6 +37,7 @@ namespace ImageHunt
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddCors();
       services.AddMvc()
         .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
       //services.AddSwaggerGen(c =>
@@ -104,6 +105,7 @@ namespace ImageHunt
         app.UseDeveloperExceptionPage();
       }
       dbContext.Database.Migrate();
+      app.UseCors();
       app.Use(async (context, next) =>
       {
         await next();
