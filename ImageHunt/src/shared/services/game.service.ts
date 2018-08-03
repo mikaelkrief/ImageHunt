@@ -79,6 +79,15 @@ export class GameService {
     }
     return this.jwtHttp.get(`api/Game/GameActions/`, { params: gameActionListRequest});
   }
+  getGameActionsToValidateForGame(gameId: number, pageIndex: number, pageSize: number, nbProbableNode: number) {
+    var gameActionListRequest = {
+      gameId: gameId,
+      take: pageSize,
+      pageIndex: pageIndex,
+      nbPotential: nbProbableNode
+    }
+    return this.jwtHttp.get(`api/Game/GameActionsToValidate/`, { params: gameActionListRequest});
+  }
   getGameAction(gameActionId: number) {
     return this.jwtHttp.get(`api/Game/GetGameAction/${gameActionId}`);
   }

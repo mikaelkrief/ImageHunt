@@ -24,7 +24,7 @@ export class GameActionListComponent implements OnInit {
       });
   }
   loadData(event: LazyLoadEvent) {  
-    this.gameService.getGameActionForGame(this.gameId, (event.first / event.rows) + 1, event.rows)
+    this.gameService.getGameActionsToValidateForGame(this.gameId, (event.first / event.rows) + 1, event.rows, 3)
       .subscribe(next => {
         this.gameActions = next.json();
       });
