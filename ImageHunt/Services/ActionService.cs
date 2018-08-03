@@ -106,5 +106,6 @@ namespace ImageHunt.Services
           .GroupBy(ga => ga.Team)
           .Select(g=>new Score(){Team = g.Key, Points = g.Sum(_=>_.PointsEarned)});
       }
+
     }
 }

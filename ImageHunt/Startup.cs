@@ -132,9 +132,12 @@ namespace ImageHunt
       Mapper.Reset();
       Mapper.Initialize(config =>
       {
-        config.CreateMap<AddNodeRequest, Node>().ConstructUsing(r => NodeFactory.CreateNode(r.NodeType));
-        config.CreateMap<GameActionRequest, GameAction>().ForMember(x => x.Picture, opt => opt.Ignore());
+        config.CreateMap<AddNodeRequest, Node>()
+          .ConstructUsing(r => NodeFactory.CreateNode(r.NodeType));
+        config.CreateMap<GameActionRequest, GameAction>()
+          .ForMember(x=>x.Picture, expression => expression.Ignore());
         config.CreateMap<Node, Node>().ForSourceMember(x => x.Id, opt => opt.Ignore());
+        config.CreateMap<GameAction, GameActionToValidate>();
       });
     }
   }

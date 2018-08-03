@@ -73,5 +73,25 @@ namespace ImageHuntTest.Services
             Check.That(result.Item2 ).Equals(double.NaN);
         }
 
+        [Fact]
+        public void GetImageForNode()
+        {
+            // Arrange
+            var pictures = new List<Picture>(){new Picture(), new Picture(){Image = new byte[10]}, new Picture()};
+            _context.Pictures.AddRange(pictures);
+            var nodes = new List<Node>()
+            {
+                new PictureNode() {Image = pictures[1]},
+                new PictureNode() {Image = pictures[0]}
+            };
+            _context.Nodes.AddRange(nodes);
+            _context.SaveChanges();
+            // Act
+            var picture = _service.GetImageForNode(nodes[0]);
+            // Assert
+            Check.That(picture).Equals(pictures[1]);
+            Check.That(picture.Image).IsNull();
+
+        }
     }
 }

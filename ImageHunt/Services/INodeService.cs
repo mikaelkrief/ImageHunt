@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
@@ -18,5 +19,6 @@ namespace ImageHunt.Services
     void RemoveNode(Node nodeToRemove);
     void RemoveRelation(Node orgNode, Node destNode);
     void UpdateNode(Node node);
+    IEnumerable<Node> GetGameNodesOrderByPosition(int gameId, double latitude, double longitude);
   }
 }
