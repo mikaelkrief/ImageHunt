@@ -8,11 +8,12 @@ import {MapDetail2Component} from "./map-detail2/map-detail2.component";
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { MenuItem } from 'primeng/api';
 import {} from "@types/googlemaps";
+import { MapDetail3Component } from './map-detail3/map-detail3.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, GMapModule, ContextMenuModule],
-  declarations: [MapDetail2Component, MapThumbnailComponent],
-  exports: [MapDetail2Component, MapThumbnailComponent]})
+  declarations: [MapDetail2Component, MapThumbnailComponent, MapDetail3Component],
+  exports: [MapDetail2Component, MapThumbnailComponent, MapDetail3Component]})
 export class MapModule
 {
 }
