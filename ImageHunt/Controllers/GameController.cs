@@ -19,9 +19,9 @@ using NodeResponse = ImageHunt.Response.NodeResponse;
 namespace ImageHunt.Controllers
 {
   [Route("api/[Controller]")]
-  #if !DEBUG
+#if !DEBUG
   [Authorize]
-  #endif
+#endif
   public class GameController : BaseController
   {
     private readonly IGameService _gameService;
@@ -78,16 +78,16 @@ namespace ImageHunt.Controllers
           var timerNode = node as TimerNode;
           timerNode.Delay = nodeRequest.Duration;
           break;
-         case "ObjectNode":
+        case "ObjectNode":
           var objectNode = node as ObjectNode;
           objectNode.Action = nodeRequest.Action;
           break;
         case "QuestionNode":
           var questionNode = node as QuestionNode;
           questionNode.Question = nodeRequest.Question;
-          questionNode.Answers = nodeRequest.Answers.Select(a => new Answer() {Response = a.Response, Correct = a.Correct}).ToList();
+          questionNode.Answers = nodeRequest.Answers.Select(a => new Answer() { Response = a.Response, Correct = a.Correct }).ToList();
           break;
-     }
+      }
       _gameService.AddNode(gameId, node);
       return CreatedAtAction("AddNode", node);
     }
@@ -101,14 +101,14 @@ namespace ImageHunt.Controllers
         {
           byte[] bytes = new byte[fileStream.Length];
           fileStream.Read(bytes, 0, (int)fileStream.Length);
-          var picture = new Picture(){Image = bytes};
+          var picture = new Picture() { Image = bytes };
           //_imageService.AddPicture(picture);
           var coordinates = _imageService.ExtractLocationFromImage(picture);
           // Drop the images without coordinates
           if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
           {
             _logger.LogWarning($"The image {file.Name} is not geotagged");
-            return new BadRequestObjectResult(new {message=$"The image {file.FileName}", filename=file.FileName});
+            return new BadRequestObjectResult(new { message = $"The image {file.FileName}", filename = file.FileName });
           }
 
           var node = new PictureNode
@@ -136,10 +136,10 @@ namespace ImageHunt.Controllers
       {
         foreach (var nodeChild in node.Children)
         {
-           var resNode = new NodeResponse(node);
+          var resNode = new NodeResponse(node);
           resNode.ChildNodeId = nodeChild.Id;
-           resNodes.Add(resNode);
-         
+          resNodes.Add(resNode);
+
         }
       }
       return Ok(resNodes);
@@ -193,8 +193,8 @@ namespace ImageHunt.Controllers
       using (var stream = file.OpenReadStream())
       {
         var image = new byte[stream.Length];
-        stream.Read(image, 0, (int) stream.Length);
-        var picture = new Picture() {Image = image };
+        stream.Read(image, 0, (int)stream.Length);
+        var picture = new Picture() { Image = image };
         var coordinates = _imageService.ExtractLocationFromImage(picture);
         if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
           return BadRequest();
@@ -212,7 +212,7 @@ namespace ImageHunt.Controllers
     {
       try
       {
-        return Ok(_gameService.GetPictureNode(gameId).Select(p=>p.Image));
+        return Ok(_gameService.GetPictureNode(gameId).Select(p => p.Image));
       }
       catch (System.Exception e)
       {
@@ -262,7 +262,8 @@ namespace ImageHunt.Controllers
           .GetGameNodesOrderByPosition(gameId, gameAction.Latitude, gameAction.Longitude).Take(nbPotentiali);
         foreach (var probableNode in gameActionToValidate.ProbableNodes)
         {
-          ((PictureNode) probableNode).Image = _imageService.GetImageForNode(probableNode);
+          if (probableNode is PictureNode)
+            ((PictureNode)probableNode).Image = _imageService.GetImageForNode(probableNode);
         }
         gameActionsToValidate.Add(gameActionToValidate);
       }

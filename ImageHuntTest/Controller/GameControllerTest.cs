@@ -512,8 +512,9 @@ namespace ImageHuntTest.Controller
             {
                 new PictureNode() {Id = 1, Latitude = 40.0, Longitude = 5 },
                 new PictureNode() {Id = 2, Latitude = 40.00005, Longitude = 5.00004 } ,
-                new PictureNode() {Id = 2, Latitude = 40.00005, Longitude = 5.00004 } ,
-                new PictureNode() {Id = 2, Latitude = 40.00005, Longitude = 5.00004 } ,
+                new ObjectNode() {Id = 9, Latitude = 40.00005, Longitude = 5.00004},
+                new PictureNode() {Id = 2, Latitude = 40.0001, Longitude = 5.004 } ,
+                new PictureNode() {Id = 2, Latitude = 40.05, Longitude = 5.04 } ,
                 new PictureNode() {Id = 2, Latitude = 40.00005, Longitude = 5.00004 } ,
             };
             //A.CallTo(() => _nodeService.GetNode())
