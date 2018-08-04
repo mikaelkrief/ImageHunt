@@ -127,8 +127,8 @@ export class GameDetailComponent implements OnInit {
 
   mapClicked(event) {
 
-    this.currentLatitude = event.latLng.lat();
-    this.currentLongitude = event.latLng.lng();
+    this.currentLatitude = event.latlng.lat;
+    this.currentLongitude = event.latlng.lng;
     this.modalRef = this._modalService.show(NodeCreateComponent, { ignoreBackdropClick: true });
     this.modalRef.content.latitude = this.currentLatitude;
     this.modalRef.content.longitude = this.currentLongitude;
