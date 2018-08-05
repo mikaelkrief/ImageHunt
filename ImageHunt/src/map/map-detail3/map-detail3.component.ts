@@ -54,8 +54,8 @@ export class MapDetail3Component implements OnInit {
   updateMap() {
 
     Observable.forkJoin(
-        this._gameService.getGameById(this.gameId),
-        this._gameService.getNodeRelations(this.gameId))
+      this._gameService.getGameById(this.gameId),
+      this._gameService.getNodeRelations(this.gameId))
 
       .subscribe(([game, relations]) => {
         this.game = game;
@@ -82,22 +82,6 @@ export class MapDetail3Component implements OnInit {
     this.nodes = this.game.nodes;
   }
 
-  //markerRightClick(event, marker: any, component: MapDetail3Component) {
-  //  let node = component.nodes.find(n => n.id === marker.id);
-  //  this.nodeMenuItems = [
-  //    { label: 'Modifier', icon: 'fa-edit', disabled: true },
-  //    { label: 'Effacer', icon: 'fa-trash', command: event => this.deleteNode(node.id) },
-  //  ];
-  //  if (node.nodeType === 'QuestionNode') {
-  //    this.nodeMenuItems.push({
-  //      label: 'Editer les relations',
-  //      automationId: node.id,
-  //      //command: event => this.editNodeAnswers()
-  //    });
-  //  }
-  //  this.markerContextMenu.show(event.Ia);
-  //  this.nodeRightClicked.emit(new NodeClicked(node, 0, event.Ia));
-  //}
   createRelations() {
 
     if (this.nodes !== undefined) {
@@ -152,39 +136,89 @@ export class MapDetail3Component implements OnInit {
   createMarkers() {
     this.game.nodes.forEach(node => {
       const icon = L.icon({
-        iconUrl: this.getIconForNodeType(node.nodeType)
+        iconUrl: this.getIconForNodeType(node.nodeType),
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
       });
       const marker = new NodeMarker([node.latitude, node.longitude],
         { icon: icon, title: node.name, draggable: true });
       marker.node = node;
-      //var marker = L.marker([node.latitude, node.longitude], { icon: icon, title: node.name, draggable: true });
       marker.addTo(this.map);
       marker.on('click', event => this.onNodeClick(event));
+      marker.on('dragend', event => this.onNodeDragged(event));
 
-      //marker.addEventListener("contextmenu", event => this.markerRightClick(event.));
+      marker.on("contextmenu", event => this.markerRightClick(event));
       //marker.addEventListener("dragend")
       this.markers.push({ marker, node });
-      //google.maps.event.addListener(marker, 'rightclick', event => this.markerRightClick(event, marker, this));
     });
   }
   getIconForNodeType(nodeType: string): string {
     switch (nodeType) {
-    case 'TimerNode':
-      return 'assets/timerNode.png';
-    case 'PictureNode':
-      return 'assets/pictureNode.png';
-    case 'FirstNode':
-      return 'assets/startNode.png';
-    case 'LastNode':
-      return 'assets/endNode.png';
-    case 'QuestionNode':
-      return 'assets/questionNode.png';
-    case 'ObjectNode':
-      return 'assets/objectNode.png';
-    default:
-      return null;
+      case 'TimerNode':
+        return 'assets/timerNode.png';
+      case 'PictureNode':
+        return 'assets/pictureNode.png';
+      case 'FirstNode':
+        return 'assets/startNode.png';
+      case 'LastNode':
+        return 'assets/endNode.png';
+      case 'QuestionNode':
+        return 'assets/questionNode.png';
+      case 'ObjectNode':
+        return 'assets/objectNode.png';
+      default:
+        return null;
     }
   }
+  isFirstClick: boolean = true;
+  firstNode: Node;
+  secondNode: Node;
 
-  onNodeClick(leafletEvent: L.LeafletEvent): void { console.debug(leafletEvent); }
+  resetNodeClick() {
+    this.firstNode = null;
+    this.isFirstClick = true;
+  }
+
+  onNodeClick(leafletEvent: L.LeafletEvent): void {
+    let node = leafletEvent.target.node;
+    let nClicked: NodeClicked;
+    if (node.nodeType !== "PictureNode") {
+      if (this.isFirstClick) {
+        this.firstNode = node;
+        this.isFirstClick = false;
+        nClicked = new NodeClicked(node, 1, null);
+      } else {
+        this.secondNode = node;
+        this.isFirstClick = true;
+        nClicked = new NodeClicked(node, 2, null);
+        this.newRelation.emit({ nodeId: this.firstNode.id, childNodeId: this.secondNode.id });
+      }
+    } else {
+      nClicked = new NodeClicked(node, 1, null);
+    }
+    this.nodeClicked.emit(nClicked);
+  }
+
+
+  markerRightClick(leafletEvent: L.LeafletEvent): void {
+    let node = leafletEvent.target.node;
+    //  this.nodeMenuItems = [
+    //    { label: 'Modifier', icon: 'fa-edit', disabled: true },
+    //    { label: 'Effacer', icon: 'fa-trash', command: event => this.deleteNode(node.id) },
+    //  ];
+    //  if (node.nodeType === 'QuestionNode') {
+    //    this.nodeMenuItems.push({
+    //      label: 'Editer les relations',
+    //      automationId: node.id,
+    //      //command: event => this.editNodeAnswers()
+    //    });
+    //  }
+    //  this.markerContextMenu.show(event.Ia);
+    //  this.nodeRightClicked.emit(new NodeClicked(node, 0, event.Ia));
+
+  }
+
+  onNodeDragged(leafletEvent: L.LeafletEvent): void {
+
+  }
 }
