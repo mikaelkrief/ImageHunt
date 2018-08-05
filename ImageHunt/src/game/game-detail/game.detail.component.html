@@ -33,7 +33,7 @@
   </div>
   <div class="row">
     <div class="col-lg-9">
-      <map-detail2 #mapComponent
+      <map-detail3 #mapComponent
                    [gameId]="game.id"
                    [newNodesRelation]="newRelations"
                    (mapClicked)="mapClicked($event)"
@@ -41,8 +41,10 @@
                    (nodeRightClicked)="nodeRightClicked($event)"
                    (newRelation)="newRelation($event)"
                    (relationRightClicked)="relationRightClicked($event)"
-                   (zoomChange)="mapZoomChange($event)">
-      </map-detail2>
+                   (zoomChange)="mapZoomChange($event)"
+                   height="300px"
+                   width="100%">
+      </map-detail3>
     </div>
     <div class="col-lg-3">
       <div heading="Actions">
