@@ -7,7 +7,7 @@
       <th>Date de la chasse</th>
       <th>Active</th>
       <th>Teams</th>
-      <th>Carte</th>
+      <!--<th>Carte</th>-->
       <th>Actions</th>
       <th></th>
     </tr>
@@ -25,7 +25,7 @@
           <li class="fa-li" *ngFor="let team of game.teams"><i class="fa fa-users"></i> <a [routerLink]="['/team', team.id]">{{team.name}}</a></li>
         </ul>
       </td>
-      <td><map-thumbnail [CenterLat]="game.mapCenterLat" [CenterLng]="game.mapCenterLng"></map-thumbnail></td>
+      <!--<td><map-thumbnail [CenterLat]="game.mapCenterLat" [CenterLng]="game.mapCenterLng"></map-thumbnail></td>-->
       <td><button class="btn btn-primary" [routerLink]="['/action/', game.id]"><span class="fa fa-map-signs"></span></button></td>
       <td><button class="btn btn-danger" (click)="deleteGame(game.id)"><span class="fa fa-trash"></span></button></td>
     </tr>
