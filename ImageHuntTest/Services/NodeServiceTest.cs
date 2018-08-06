@@ -134,7 +134,7 @@ namespace ImageHuntTest.Services
             var resultNode = _target.GetNode(nodes[1].Id);
 
             // Assert
-            Check.That(((PictureNode) resultNode).Image).Equals(images[1]);
+            Check.That(((PictureNode)resultNode).Image).Equals(images[1]);
         }
         [Fact]
         public void FindImageByLocation()
@@ -430,10 +430,10 @@ namespace ImageHuntTest.Services
         public void UpdateNode()
         {
             // Arrange
-            var nodes = new List<Node> {new FirstNode(), new PictureNode() {Name = "titi", Points = 9, Latitude = 45.6, Longitude = 8.3}, new TimerNode()};
+            var nodes = new List<Node> { new FirstNode(), new PictureNode() { Name = "titi", Points = 9, Latitude = 45.6, Longitude = 8.3 }, new TimerNode() };
             _context.Nodes.AddRange(nodes);
             _context.SaveChanges();
-            var updatedNode = new PictureNode(){Id = nodes[1].Id, Name = "toto", Points = 15, Latitude = 65.3, Longitude = 4.3};
+            var updatedNode = new PictureNode() { Id = nodes[1].Id, Name = "toto", Points = 15, Latitude = 65.3, Longitude = 4.3 };
             // Act
             _target.UpdateNode(updatedNode);
             // Assert
@@ -441,6 +441,27 @@ namespace ImageHuntTest.Services
             Check.That(nodes[1].Points).Equals(updatedNode.Points);
             Check.That(nodes[1].Latitude).Equals(updatedNode.Latitude);
             Check.That(nodes[1].Longitude).Equals(updatedNode.Longitude);
+        }
+
+        [Fact]
+        public void GetNodesCloseToPosition()
+        {
+            // Arrange
+            var nodes = new List<Node>()
+            {
+                new ObjectNode(){Latitude = 40, Longitude = 5},
+                new ObjectNode() {Latitude = 40.0005, Longitude = 5.00008},
+                 new ObjectNode() {Latitude = 42.0007, Longitude = 5.0001},
+               new ObjectNode() {Latitude = 40.0007, Longitude = 5.0001},
+            };
+            _context.Nodes.AddRange(nodes);
+            var games = new List<Game>() { new Game() { Nodes = nodes } };
+            _context.Games.AddRange(games);
+            _context.SaveChanges();
+            // Act
+            var closeNodes = _target.GetGameNodesOrderByPosition(games[0].Id, 40.0, 5.0);
+            // Assert
+            Check.That(closeNodes).ContainsExactly(nodes[0], nodes[1], nodes[3], nodes[2]);
         }
     }
 }

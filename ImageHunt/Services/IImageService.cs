@@ -10,5 +10,6 @@ namespace ImageHunt.Services
         void AddPicture(Picture picture);
         Task<Picture> GetPictureById(int pictureId);
       (double, double) ExtractLocationFromImage(Picture picture);
+      Picture GetImageForNode(Node node, bool includePictureBytes = false);
     }
 }

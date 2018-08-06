@@ -59,5 +59,12 @@ namespace ImageHunt.Services
       }
     }
 
+    public Picture GetImageForNode(Node node, bool includePictureBytes = false)
+    {
+      var pictureNode = Context.PictureNodes.Include(p => p.Image).Single(p => p.Id == node.Id);
+      if (!includePictureBytes)
+        pictureNode.Image.Image = null;
+      return pictureNode.Image;
+    }
   }
 }

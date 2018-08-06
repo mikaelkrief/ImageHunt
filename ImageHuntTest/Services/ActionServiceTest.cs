@@ -475,5 +475,6 @@ namespace ImageHuntTest.Services
             Check.That(result.Extracting("Points")).ContainsExactly(expectedScores.Extracting("Points"));
             Check.That(result.Extracting("Team")).ContainsExactly(expectedScores.Extracting("Team"));
         }
+
   }
 }

@@ -23,7 +23,9 @@ namespace ImageHunt.Services
             .Include(ga => ga.Node)
             .Include(ga => ga.Picture)
             .Where(ga=>ga.Action !=  Action.SubmitPosition)
-            .Where(ga => ga.Game.Id == gameId);
+            .Where(ga => ga.Game.Id == gameId)
+            .Where(ga=>!ga.IsReviewed)
+          ;
 
         foreach (var gameAction in gameActions)
         {
@@ -106,5 +108,6 @@ namespace ImageHunt.Services
           .GroupBy(ga => ga.Team)
           .Select(g=>new Score(){Team = g.Key, Points = g.Sum(_=>_.PointsEarned)});
       }
+
     }
 }
