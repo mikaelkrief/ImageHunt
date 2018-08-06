@@ -11,6 +11,7 @@ import { LazyLoadEvent } from 'primeng/api';
 })
 /** GameActionList component*/
 export class GameActionListComponent implements OnInit {
+  selectedProbableNode: any;
   /** GameActionList ctor */
     constructor(private gameService: GameService, private route: ActivatedRoute) {
     }
@@ -28,6 +29,9 @@ export class GameActionListComponent implements OnInit {
       .subscribe(next => {
         this.gameActions = next.json();
       });
+  }
+  probableNodeChanged(event, action) {
+    action.node = event.value;
   }
   validatedBtnClass(action: GameAction) {
     if (action.isValidated === null)

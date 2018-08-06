@@ -33,8 +33,9 @@ import { ImageNodeEditComponent } from './image-node-edit/image-node-edit.compon
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
-    MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule, ToggleButtonModule, DropdownModule,
-    ContextMenuModule, TableModule, GMapModule, SharedModule, RadioButtonModule, TeamModule, LightboxModule],
+    MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule,
+    ToggleButtonModule, DropdownModule, ContextMenuModule, TableModule, GMapModule, SharedModule,
+    RadioButtonModule, TeamModule, LightboxModule],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent,
     NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent,
     GameActionDetailComponent, ImageNodeEditComponent],
