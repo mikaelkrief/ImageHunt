@@ -265,6 +265,8 @@ namespace ImageHunt.Controllers
           if (probableNode is PictureNode)
             ((PictureNode)probableNode).Image = _imageService.GetImageForNode(probableNode);
         }
+
+        gameActionToValidate.Node = gameActionToValidate.ProbableNodes.FirstOrDefault();
         gameActionsToValidate.Add(gameActionToValidate);
       }
       return Ok(gameActionsToValidate);
