@@ -26,20 +26,21 @@
       <td>{{action.team.name}}</td>
       <td>{{action.action|gameActionTranslationPipe}}</td>
       <td>
-        <!--<select >
-          <option *ngFor="let node of action.probableNodes">{{node.name}}</option>
-        </select>-->
-        <p-dropdown [options]="action.probableNodes" optionLabel="name" (onChange)="probableNodeChanged($event, action)">
-          <ng-template let-item pTemplate="selectedItem">
+        <p-dropdown [options]="action.probableNodes" optionLabel="name"
+                    (onChange)="probableNodeChanged($event, action)"
+                    autoWidth="false">
+          <ng-template let-item pTemplate="selectedItem" style="width: 100%">
+            <img *ngIf="action.node.image !== undefined" src="api/Image/Thumbnail?pictureId={{action.node.image.id}}&width=40&height=40" />
             <span style="vertical-align: middle">{{item.label}}</span>
           </ng-template>
           <ng-template let-item pTemplate="item">
-            <div class="ui-helper-clearfix" style="position: relative; height: 25px;">
-                <img *ngIf="item.value.image !== undefined" src="api/Image/Thumbnail?pictureId={{item.value.image.id}}&width=40&height=30"/>
-                <span style="font-size: 14px; float: right; margin-top: 4px">{{item.label}} {{item.value.points}}</span>
+            <!--<div class="ui-helper-clearfix" style="position: relative; height: 50px;">-->
+                <img *ngIf="item.value.image !== undefined" src="api/Image/Thumbnail?pictureId={{item.value.image.id}}&width=40&height=40"/>
+              <span style="font-size: 14px; float: right; margin-top: 4px">{{item.label}} </span>
+              <span style="color: green">{{item.value.points}}</span>
                 
 
-            </div>
+<!--            </div>-->
   </ng-template>
         </p-dropdown>
   
