@@ -534,6 +534,7 @@ namespace ImageHuntTest.Controller
             Check.That(gameActionToValidate[0].ProbableNodes).ContainsExactly(nodes.Take(3));
             Check.That(gameActionToValidate[0].ProbableNodes.Extracting("Image")).Contains(null);
             A.CallTo(() => _actionService.GetGameActionsForGame(A<int>._, A<int>._, A<int>._)).MustHaveHappened();
+            Check.That(gameActionToValidate.Extracting("Node")).IsNotNull();
         }
     } 
 }
