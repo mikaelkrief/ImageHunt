@@ -28,8 +28,8 @@ export class ImageNodeEditComponent implements OnInit{
     this.nodePosition = new GeoPoint;
   }
   saveChanges(form) {
-    this._node.name = form.form.value.name;
-    this._node.points = form.form.value.points;
+    this._node.name = form.form.value.name !== "" ? form.form.value.name:this._node.name;
+    this._node.points = form.form.value.points !== "" ? form.form.value.points : this._node.points;
     this._gameService.updateNode(this._node)
       .subscribe(() => this._alertService.sendAlert(`Le Noeud ${this._node.name} a bien été mis à jour`,
         "success",

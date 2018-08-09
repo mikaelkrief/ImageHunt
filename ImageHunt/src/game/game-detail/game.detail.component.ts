@@ -147,9 +147,13 @@ export class GameDetailComponent implements OnInit {
   
   nodeClicked(nodeClicked: NodeClicked) {
     if (nodeClicked.node.nodeType === 'PictureNode') {
+      this._modalService.onHide.subscribe(reason => this.getGame(this.game.id));
       this.modalRef = this._modalService.show(ImageNodeEditComponent, { ignoreBackdropClick: true });
       this.modalRef.content.node = nodeClicked.node;
+
+      
       return;
+
     }
     if (nodeClicked.numberClicked === 1) {
       if (nodeClicked.node.nodeType === 'LastNode') {

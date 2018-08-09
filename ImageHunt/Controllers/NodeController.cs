@@ -77,7 +77,7 @@ namespace ImageHunt.Controllers
       return Ok(_nodeService.GetNode(nodeId));
     }
     [HttpPatch]
-    public IActionResult UpdateNode(NodeUpdateRequest nodeRequest)
+    public IActionResult UpdateNode([FromBody]NodeUpdateRequest nodeRequest)
     {
       var node = _nodeService.GetNode(nodeRequest.Id);
       node.Name = nodeRequest.Name;
