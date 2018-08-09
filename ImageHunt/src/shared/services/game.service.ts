@@ -106,6 +106,13 @@ export class GameService {
     return this.jwtHttp.get(`api/Node/${nodeId}`);
   }
   updateNode(node: Node) {
-    return this.jwtHttp.patch(`api/Node/`, node);
+    const nodeRequest = {
+      id: node.id,
+      latitude: node.latitude,
+      longitude: node.longitude,
+      name: node.name,
+      points: node.points,
+    };
+    return this.jwtHttp.patch(`api/Node/`, nodeRequest);
   }
 }
