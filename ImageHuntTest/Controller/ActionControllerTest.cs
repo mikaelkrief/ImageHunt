@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using AutoMapper;
@@ -8,13 +9,13 @@ using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
-using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using NFluent;
 using Xunit;
+using Action = ImageHuntWebServiceClient.Action;
 
 namespace ImageHuntTest.Controller
 {
@@ -198,5 +199,6 @@ namespace ImageHuntTest.Controller
             Check.That(ga.Longitude).Equals(logPositionRequest.Longitude);
             return true;
         }
+
     }
 }

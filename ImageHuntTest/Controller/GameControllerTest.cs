@@ -37,11 +37,7 @@ namespace ImageHuntTest.Controller
         private IActionService _actionService;
         private ILogger<GameController> _logger;
         private IImageTransformation _imageTransformation;
-
-        static GameControllerTest()
-        {
-            Startup.ConfigureMappings();
-        }
+        
         public GameControllerTest()
         {
             _gameService = A.Fake<IGameService>();

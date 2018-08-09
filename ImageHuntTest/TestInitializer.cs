@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AutoMapper;
 using ImageHunt;
 using Xunit;
 
@@ -14,6 +15,7 @@ namespace ImageHuntTest
     }
     public void Dispose()
     {
+        Mapper.Reset();
     }
   }
   [CollectionDefinition("AutomapperFixture")]
