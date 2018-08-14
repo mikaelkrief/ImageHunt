@@ -25,6 +25,7 @@ import { NodeClicked } from "../../shared/NodeClicked";
 import { MenuItem } from "primeng/api";
 import {RelationClicked} from "../../shared/RelationClicked";
 import { ImageNodeEditComponent } from '../image-node-edit/image-node-edit.component';
+import { NodeDragged } from '../../shared/NodeDragged';
 
 @Component({
   selector: 'game-detail',
@@ -144,7 +145,11 @@ export class GameDetailComponent implements OnInit {
       });
 
   }
-  
+  nodeDragged(nodeDragged: NodeDragged) {
+    this._gameService.updateNode(nodeDragged.node)
+      .subscribe(() => this.getGame(this.game.id));
+  }
+
   nodeClicked(nodeClicked: NodeClicked) {
     if (nodeClicked.node.nodeType === 'PictureNode') {
       this._modalService.onHide.subscribe(reason => this.getGame(this.game.id));

@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/Observable';
 import { Game } from '../../shared/game';
 import { Node } from '../../shared/node';
 import { AlertService } from '../../shared/services/alert.service';
+import { NodeDragged } from "../../shared/NodeDragged";
 
 class NodeMarker extends L.Marker {
   node: Node;
@@ -29,6 +30,7 @@ export class MapDetail3Component implements OnInit {
   @Output() mapClicked = new EventEmitter();
   @Output() nodeClicked = new EventEmitter<NodeClicked>();
   @Output() nodeRightClicked = new EventEmitter<NodeClicked>();
+  @Output() nodeDragged = new EventEmitter<NodeDragged>();
   @Output() relationRightClicked = new EventEmitter<RelationClicked>();
   @Output() newRelation = new EventEmitter<NodeRelation>();
   @Output() zoomChange = new EventEmitter<number>();
@@ -37,6 +39,7 @@ export class MapDetail3Component implements OnInit {
   map: any;
   markers: any[] = [];
   nodes: Node[];
+  polylines: L.Polyline[] = [];
 
   ngOnInit(): void {
     this.map = L.map("MapDetail")
@@ -53,6 +56,8 @@ export class MapDetail3Component implements OnInit {
   }
   updateMap() {
 
+    this.nodes = [];
+    this.nodeRelations = [];
     Observable.forkJoin(
       this._gameService.getGameById(this.gameId),
       this._gameService.getNodeRelations(this.gameId))
@@ -82,6 +87,7 @@ export class MapDetail3Component implements OnInit {
     this.nodes = this.game.nodes;
   }
 
+
   createRelations() {
 
     if (this.nodes !== undefined) {
@@ -96,6 +102,7 @@ export class MapDetail3Component implements OnInit {
               { color: 'Blue', weight: 2 }
             );
             polyline.addTo(this.map);
+            this.polylines.push(polyline);
             //const symbol = L.Symbol.arrowHead({ pixelSize: 10, pathOptions: { fillOpacity: 1, weight: 0 } });
             //const decorator = L.polylineDecorator(polyline,
             //  {
@@ -219,6 +226,11 @@ export class MapDetail3Component implements OnInit {
   }
 
   onNodeDragged(leafletEvent: L.LeafletEvent): void {
-
+    var newPosition = leafletEvent.target.getLatLng();
+    var node = leafletEvent.target.node;
+    node.latitude = newPosition.lat;
+    node.longitude = newPosition.lng;
+    this.nodeDragged.emit({ node, newPosition});
   }
+
 }
