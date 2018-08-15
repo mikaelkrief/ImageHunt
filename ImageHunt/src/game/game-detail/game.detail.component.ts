@@ -75,6 +75,16 @@ export class GameDetailComponent implements OnInit {
     });
   }
   getGame(gameId: number) {
+    Observable.forkJoin(
+        this._gameService.getGameById(gameId),
+        this._gameService.getNodeRelations(gameId))
+      .subscribe(([game, relations]) => {
+        this.game = game;
+        this.currentZoom = this.game.mapZoom;
+        this.nodeRelations = relations;
+          this.buildRelations();
+        }
+      );
     this._gameService.getGameById(gameId).subscribe(res => {
       this.game = res;
         this.currentZoom = this.game.mapZoom;
@@ -85,6 +95,15 @@ export class GameDetailComponent implements OnInit {
       err => console.error('getGame raise error: ' + err)
     );
   }
+  buildRelations() {
+    for (const relation of this.nodeRelations) {
+      // Find the origin node
+      const orgNode = this.game.nodes.find(n => n.id === relation.nodeId);
+      const destNode = this.game.nodes.find(n => n.id === relation.childNodeId);
+      orgNode.children.push(destNode);
+    }
+  }
+
   //getNodeRelations(gameId: number) {
   //  this._gameService.getNodeRelations(gameId)
   //    .subscribe(res => {
