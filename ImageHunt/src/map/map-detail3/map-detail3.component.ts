@@ -68,7 +68,7 @@ export class MapDetail3Component implements OnInit, AfterViewInit {
   clearMap() {
     for (let i in this.map._layers) {
       if (this.map._layers[i] !== undefined) {
-        if (this.map._layers[i]._path != undefined) {
+        if (this.map._layers[i]._paths != undefined) {
           try {
             this.map.removeLayer(this.map._layers[i]);
             continue;
