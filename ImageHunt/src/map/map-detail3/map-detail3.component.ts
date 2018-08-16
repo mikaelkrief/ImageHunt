@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
+import 'leaflet-polylinedecorator';
 
 import { GameService } from '../../shared/services/game.service';
 import { GeoPoint } from '../../shared/GeoPoint';
@@ -108,23 +109,17 @@ export class MapDetail3Component implements OnInit, AfterViewInit {
               ],
               { color: 'Blue', weight: 2 }
             );
-            polyline.addTo(this.map);
+            //polyline.addTo(this.map);
             this.polylines.push(polyline);
-            //const symbol = L.Symbol.arrowHead({ pixelSize: 10, pathOptions: { fillOpacity: 1, weight: 0 } });
-            //const decorator = L.polylineDecorator(polyline,
-            //  {
-            //    patterns:
-            //      [
-            //        { offset: 0, repeat: 20, symbol: symbol }
-            //      ]
-            //  });
-            //decorator.addTo(this.map);
-            //polyline.set('node1Id', node.id);
-            //polyline.set('node2Id', children.id);
-            //google.maps.event.addListener(polyline,
-            //  'rightclick',
-            //  event => this.relationRightClick(event, polyline, this));
-            //this.overlays.push(polyline);
+            const symbol = L.Symbol.arrowHead({ pixelSize: 10, pathOptions: { fillOpacity: 1, weight: 0 } });
+            const decorator = L.polylineDecorator(polyline,
+              {
+                patterns:
+                  [
+                    { offset: 0, repeat: 20, symbol: symbol }
+                  ]
+              });
+            decorator.addTo(this.map);
           });
         }
       });

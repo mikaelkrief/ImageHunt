@@ -26,7 +26,10 @@
         "../node_modules/bootstrap/dist/css/bootstrap.css",
         "styles.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/leaflet/dist/leaflet.js",
+        "../node_modules/leaflet-polylinedecorator/dist/leaflet.polylineDecorator.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
