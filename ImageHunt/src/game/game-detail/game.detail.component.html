@@ -36,6 +36,11 @@
       <map-detail3 #mapComponent
                    [gameId]="game.id"
                    [newNodesRelation]="newRelations"
+                   [nodeRelations]="nodeRelations"
+                   [latCenter]="this.game.mapCenterLat"
+                   [lngCenter]="this.game.mapCenterLng"
+                   [zoom]="this.game.mapZoom"
+                   [nodes]="this.game.nodes"
                    (mapClicked)="mapClicked($event)"
                    (nodeClicked)="nodeClicked($event)"
                    (nodeRightClicked)="nodeRightClicked($event)"

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-polylinedecorator';
 
@@ -23,11 +23,17 @@ class NodeMarker extends L.Marker {
   styleUrls: ['./map-detail3.component.scss']
 })
 /** map-detail3 component*/
-export class MapDetail3Component implements OnInit {
+export class MapDetail3Component implements OnInit, AfterViewInit {
   @Input() gameId: number;
   @Input() newNodesRelation: GeoPoint[];
   @Input() nodeMode: string;
   @Input() filterNode: string[];
+  @Input() nodeRelations: NodeRelation[];
+  @Input() latCenter: number;
+  @Input() lngCenter: number;
+  @Input() zoom: number;
+  @Input() nodes: Node[];
+
   @Output() mapClicked = new EventEmitter();
   @Output() nodeClicked = new EventEmitter<NodeClicked>();
   @Output() nodeRightClicked = new EventEmitter<NodeClicked>();
@@ -35,11 +41,8 @@ export class MapDetail3Component implements OnInit {
   @Output() relationRightClicked = new EventEmitter<RelationClicked>();
   @Output() newRelation = new EventEmitter<NodeRelation>();
   @Output() zoomChange = new EventEmitter<number>();
-  game: Game;
-  nodeRelations: NodeRelation[];
   map: any;
   markers: any[] = [];
-  nodes: Node[];
   polylines: L.Polyline[] = [];
 
   ngOnInit(): void {
@@ -51,40 +54,45 @@ export class MapDetail3Component implements OnInit {
     }).addTo(this.map);
 
   }
+  ngAfterViewInit(): void {
+    this.updateMap();
+  }
+
   /** map-detail3 ctor */
-  constructor(private _gameService: GameService, private _alertService: AlertService) {
+  constructor() {
+    this.latCenter = 0;
+    this.lngCenter = 0;
+    this.zoom = 1;
+
+  }
+  clearMap() {
+    for (let i in this.map._layers) {
+      if (this.map._layers[i] !== undefined) {
+        if (this.map._layers[i]._path != undefined) {
+          try {
+            this.map.removeLayer(this.map._layers[i]);
+            continue;
+          } catch (e) {
+            console.log("problem with " + e + this.map._layers[i]);
+          }
+        }
+        if (this.map._layers[i].node !== undefined) {
+          this.map.removeLayer(this.map._layers[i]);
+          continue;
+        }
+      }
+    }
   }
   updateMap() {
 
-    this.nodes = [];
-    this.nodeRelations = [];
-    Observable.forkJoin(
-      this._gameService.getGameById(this.gameId),
-      this._gameService.getNodeRelations(this.gameId))
-
-      .subscribe(([game, relations]) => {
-        this.game = game;
-        this.nodeRelations = relations;
-        this.buildRelations();
-        this.map.setView([this.game.mapCenterLat, this.game.mapCenterLng], this.game.mapZoom);
-        this.map.on('click', event => this.mapClicked.emit(event));
-        if (this.game != null) {
-          this.createMarkers();
-          this.createRelations();
-          this.createNewRelations();
-          //this.createContextMenu();
-        }
-      });
-  }
-  buildRelations() {
-    const nodes = this.game.nodes;
-    for (const relation of this.nodeRelations) {
-      // Find the origin node
-      const orgNode = nodes.find(n => n.id === relation.nodeId);
-      const destNode = nodes.find(n => n.id === relation.childNodeId);
-      orgNode.children.push(destNode);
+    if (this.latCenter !== undefined) {
+      this.map.setView(new L.LatLng(this.latCenter, this.lngCenter), this.zoom);
+      this.map.on('click', event => this.mapClicked.emit(event));
+      this.createMarkers();
+      this.createRelations();
+      this.createNewRelations();
+      //this.createContextMenu();
     }
-    this.nodes = this.game.nodes;
   }
 
 
@@ -135,7 +143,7 @@ export class MapDetail3Component implements OnInit {
     }
   }
   createMarkers() {
-    this.game.nodes.forEach(node => {
+    this.nodes.forEach(node => {
       const icon = L.icon({
         iconUrl: this.getIconForNodeType(node.nodeType),
         iconSize: [32, 32],
@@ -224,6 +232,8 @@ export class MapDetail3Component implements OnInit {
     var node = leafletEvent.target.node;
     node.latitude = newPosition.lat;
     node.longitude = newPosition.lng;
+    this.clearMap();
+
     this.nodeDragged.emit({ node, newPosition});
   }
 
