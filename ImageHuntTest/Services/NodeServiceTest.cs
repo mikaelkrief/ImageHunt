@@ -22,12 +22,6 @@ namespace ImageHuntTest.Services
         {
             _logger = A.Fake<ILogger<NodeService>>();
             _target = new NodeService(_context, _logger);
-            Mapper.Reset();
-            Mapper.Initialize(config =>
-            {
-                config.CreateMap<Node, Node>().ForSourceMember(x => x.Id, opt => opt.Ignore());
-            });
-
         }
         [Fact]
         public void AddNode()
