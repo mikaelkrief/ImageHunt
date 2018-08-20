@@ -36,6 +36,7 @@
     <None Remove="src\shared\QuestionNodeAnswerRelation.ts" />
     <None Remove="src\shared\score.ts" />
     <None Remove="src\shared\team.ts" />
+    <None Remove="src\shared\teamPosition.ts" />
     <None Remove="src\team\team.service.ts" />
   </ItemGroup>
 
@@ -84,6 +85,7 @@
     <TypeScriptCompile Include="src\shared\services\game.service.ts" />
     <TypeScriptCompile Include="src\shared\team.ts" />
     <TypeScriptCompile Include="src\shared\services\team.service.ts" />
+    <TypeScriptCompile Include="src\shared\teamPosition.ts" />
   </ItemGroup>
 
 </Project>

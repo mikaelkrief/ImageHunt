@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using FakeItEasy;
 using ImageHunt;
@@ -13,6 +15,8 @@ using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using Xunit;
 using Action = ImageHuntWebServiceClient.Action;
@@ -29,6 +33,8 @@ namespace ImageHuntTest.Controller
         private IActionService _actionService;
         private INodeService _nodeService;
         private ITeamService _teamService;
+        private IHubContext<LocationHub> _hubContext;
+        private ILogger<ActionController> _logger;
 
         public ActionControllerTest()
         {
@@ -38,8 +44,10 @@ namespace ImageHuntTest.Controller
             _imageService = A.Fake<IImageService>();
             _actionService = A.Fake<IActionService>();
             _nodeService = A.Fake<INodeService>();
+            _hubContext = A.Fake<IHubContext<LocationHub>>();
+            _logger = A.Fake<ILogger<ActionController>>();
 
-            _target = new ActionController(_gameService, _playerService, _imageService, _actionService, _nodeService, _teamService);
+            _target = new ActionController(_gameService, _playerService, _imageService, _actionService, _nodeService, _teamService, _hubContext, _logger);
         }
         [Fact]
         public void AddGameAction_UploadPicture()
@@ -165,7 +173,7 @@ namespace ImageHuntTest.Controller
         }
 
         [Fact]
-        public void LogPosition()
+        public async Task LogPosition()
         {
             // Arrange
             var logPositionRequest = new LogPositionRequest()
@@ -180,7 +188,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _teamService.GetTeamById(logPositionRequest.TeamId))
                 .Returns(new Team() {Id = logPositionRequest.TeamId});
             // Act
-            var result = _target.LogPosition(logPositionRequest);
+            var result = await _target.LogPosition(logPositionRequest);
             // Assert
             A.CallTo(() => _gameService.GetGameById(logPositionRequest.GameId)).MustHaveHappened();
             A.CallTo(() => _teamService.GetTeamById(logPositionRequest.TeamId))
@@ -188,6 +196,7 @@ namespace ImageHuntTest.Controller
 
             A.CallTo(() => _actionService.AddGameAction(A<GameAction>.That.Matches(ga=>CheckGameActionLogPosition(ga, logPositionRequest)))).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkResult>();
+            A.CallTo(() => _hubContext.Clients.All.SendCoreAsync(A<string>._, A<object[]>._, A<CancellationToken>._)).MustHaveHappened();
         }
 
         private bool CheckGameActionLogPosition(GameAction ga, LogPositionRequest logPositionRequest)

@@ -41,6 +41,7 @@ import { SharedModule } from "../shared/shared.module";
 import { QRCodeModule } from "angular2-qrcode";
 import { ScoreListComponent } from '../score/score-list/score-list.component';
 import { ImageNodeEditComponent } from "../game/image-node-edit/image-node-edit.component";
+import { TeamFollowComponent } from "../team/team-follow/team-follow.component";
 
 registerLocaleData(localeFr);
 
@@ -97,6 +98,7 @@ export class MyAuthConfig extends CustomConfig {
       { path: "map", component: MapDetail2Component },
       { path: "admin", component: AdminListComponent },
       { path: "score", component: ScoreListComponent },
+      { path: "follow/:gameId", component: TeamFollowComponent },
       { path: "", redirectTo: "home", pathMatch: "full" },
       { path: "**", component: PageNotFoundComponent }
     ])

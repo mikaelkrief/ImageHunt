@@ -86,6 +86,7 @@ namespace ImageHunt
           sb.GetService<IAuthService>()
         );
       });
+      //services.AddTransient<ILocationHub, LocationHub>();
       services.AddTransient<ITeamService, TeamService>();
       services.AddTransient<IAdminService, AdminService>();
       services.AddTransient<IGameService, GameService>();
@@ -95,6 +96,7 @@ namespace ImageHunt
       services.AddTransient<IPlayerService, PlayerService>();
       services.AddTransient<IActionService, ActionService>();
       services.AddTransient<IImageTransformation, ImageTransformation>();
+      services.AddSignalR();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -126,6 +128,7 @@ namespace ImageHunt
       app.UseDefaultFiles();
       app.UseStaticFiles();
       app.UseMvc();
+      app.UseSignalR(routes => { routes.MapHub<LocationHub>("/locationHub"); });
       ConfigureMappings();
     }
 
