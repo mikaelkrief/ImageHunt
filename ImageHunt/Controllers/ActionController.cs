@@ -112,7 +112,7 @@ namespace ImageHunt.Controllers
           DateOccured = DateTime.Now
         };
       _actionService.AddGameAction(gameAction);
-      await _hubContext.Clients.All.SendAsync("PositionChanged", gameAction.Team, gameAction.DateOccured,
+      await _hubContext.Clients.All.SendAsync("PositionChanged",gameAction.Game, gameAction.Team, gameAction.DateOccured,
         new LatLng(gameAction.Latitude, gameAction.Longitude));
       return Ok();
     }
