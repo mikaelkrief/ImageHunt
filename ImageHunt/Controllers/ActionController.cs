@@ -116,5 +116,10 @@ namespace ImageHunt.Controllers
         new LatLng(gameAction.Latitude, gameAction.Longitude));
       return Ok();
     }
+    [HttpGet("Positions/{gameId}")]
+    public IActionResult GetGamePosition(int gameId)
+    {
+      return Ok(_actionService.GetGamePositionsForGame(gameId));
+    }
   }
 }

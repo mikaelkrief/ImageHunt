@@ -209,5 +209,16 @@ namespace ImageHuntTest.Controller
             return true;
         }
 
+        [Fact]
+        public void GetGamePositions()
+        {
+            // Arrange
+            
+            // Act
+            var result = _target.GetGamePosition(1);
+            // Assert
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+            A.CallTo(() => _actionService.GetGamePositionsForGame(A<int>._));
+        }
     }
 }
