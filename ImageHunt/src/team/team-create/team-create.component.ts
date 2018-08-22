@@ -31,7 +31,7 @@ export class TeamCreateComponent implements OnInit {
   }
   createTeam() {
     let teamName = this.teamCreateForm.value['teamName'];
-    let team: Team = { id: 0, name: teamName, players: null };
+    let team: Team = { id: 0, name: teamName, players: null, color:'' };
     this.teamService.createTeam(this.gameId, team)
       .subscribe(() => {
         this.teamCreated.emit();

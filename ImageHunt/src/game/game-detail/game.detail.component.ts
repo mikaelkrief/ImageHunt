@@ -123,7 +123,7 @@ export class GameDetailComponent implements OnInit {
   //  this.mapComponent.nodes = this.game.nodes;
   //}
   createTeam(gameId: number, form: NgForm) {
-    var team: Team = { id: 0, name: form.value.name, players: null };
+    var team: Team = { id: 0, name: form.value.name, players: null, color:'' };
     this._teamService.createTeam(gameId, team)
       .subscribe(null, null, () => {
         this._gameService.getGameById(gameId).subscribe(res => this.game = res);
