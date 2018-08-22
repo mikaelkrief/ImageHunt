@@ -74,6 +74,11 @@ namespace ImageHunt.Controllers
       {
         case Action.DoAction:
         case Action.SubmitPicture:
+          if (string.IsNullOrEmpty(gameActionRequest.Picture))
+          {
+            _logger.LogError("The picture Base64 string is empty, action is ignored");
+            return BadRequest(gameActionRequest);
+          }
           var picture = new Picture();
           var bytes = Convert.FromBase64String(gameActionRequest.Picture);
           picture.Image = bytes;
