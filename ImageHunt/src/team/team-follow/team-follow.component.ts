@@ -32,9 +32,11 @@ export class TeamFollowComponent implements OnInit {
     if (gameAction.game.id === this.gameId) {
       if (!this.positions.has(gameAction.team.id)) {
         this.positions.set(gameAction.team.id, new Array<GameAction>());
+        let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        gameAction.team.color = color;
         let polyline = new L.Polyline([[gameAction.latitude, gameAction.longitude], [gameAction.latitude, gameAction.longitude]],
-          { color: '#' + Math.floor(Math.random() * 16777215).toString(16) });
-        polyline.addTo(this.map);
+          { color: color });
+        polyline.addTo(this.pathLayer);
         this.paths.set(gameAction.team.id, polyline);
       }
       let pos = this.positions.get(gameAction.team.id);
@@ -74,28 +76,10 @@ export class TeamFollowComponent implements OnInit {
       });
 
       const marker = new L.Marker([gameAction.latitude, gameAction.longitude], { icon: icon, draggable: false });
-      marker.addTo(this.map);
+      marker.addTo(this.markersLayer);
     }
   }
 
-  getIconForNodeType(action): string {
-    switch (action) {
-    case 'TimerNode':
-      return 'assets/timerNode.png';
-    case 'PictureNode':
-      return 'assets/pictureNode.png';
-    case 'FirstNode':
-      return 'assets/startNode.png';
-    case 'LastNode':
-      return 'assets/endNode.png';
-    case 'QuestionNode':
-      return 'assets/questionNode.png';
-    case 'ObjectNode':
-      return 'assets/objectNode.png';
-    default:
-      return null;
-    }
-  }
 
   ngOnInit(): void {
     this.map = L.map("map").setView([0, 0], 12);
@@ -108,6 +92,11 @@ export class TeamFollowComponent implements OnInit {
     this._gameService.getGameById(this.gameId).subscribe(res => {
       this.game = res;
       this.map.setView([this.game.mapCenterLat, this.game.mapCenterLng], this.map.zoom);
+      this.pathLayer = new L.LayerGroup();
+      this.pathLayer.addTo(this.map);
+      this.markersLayer = new L.LayerGroup();
+      this.markersLayer.addTo(this.map);
+      L.control.layers(null, {"Trajets": this.pathLayer, "Actions":this.markersLayer}).addTo(this.map);
     });
   }
   retrievePositions(gameId: number) {
@@ -120,4 +109,6 @@ export class TeamFollowComponent implements OnInit {
   gameId: number;
   map: any;
   game: Game;
+  pathLayer: L.LayerGroup<any>;
+  markersLayer: L.LayerGroup<any>;
 }
