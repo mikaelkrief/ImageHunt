@@ -1,1 +1,1 @@
-dotnet run -g 1 -t 1 -T 3 -a 46.04139569600664 -n 4.066337343144121 -u http://localhost:55955 -i 1000
+dotnet run -g 1 -t 1 -T 3 -a 48.847164332195206 -n 2.33487253022847 -u http://localhost:55955 -i 1000

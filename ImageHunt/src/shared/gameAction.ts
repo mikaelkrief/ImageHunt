@@ -10,7 +10,7 @@ export class GameAction {
   longitude: number;
   game: Game;
   team: Team;
-  action: string;
+  action;
   node: Node;
   isValidated: boolean;
   isReviewed: boolean;

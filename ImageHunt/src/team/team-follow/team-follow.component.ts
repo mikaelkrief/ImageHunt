@@ -41,8 +41,62 @@ export class TeamFollowComponent implements OnInit {
       pos.push(gameAction);
       let poly = this.paths.get(gameAction.team.id);
       poly.addLatLng([gameAction.latitude, gameAction.longitude]);
+      this.createMarker(gameAction);
     }
   }
+  createMarker(gameAction: GameAction) {
+    let icon;
+    let iconUrl;
+    switch (gameAction.action) {
+    case 0:
+      iconUrl = 'assets/startNode.png';
+      break;
+      case 1:
+        iconUrl= 'assets/endNode.png';
+      break;
+      case 2:
+        iconUrl = 'assets/pictureNode.png';
+      break;
+      case 4:
+        iconUrl = 'assets/questionNode.png';
+      break;
+      case 5:
+        iconUrl = 'assets/objectNode.png';
+      break;
+      default:
+        break;
+    }
+    if (iconUrl !== undefined) {
+      icon = new L.Icon({
+        iconUrl: iconUrl,
+        iconSize: [32, 32],
+        iconAnchor: [16, 16]
+      });
+
+      const marker = new L.Marker([gameAction.latitude, gameAction.longitude], { icon: icon, draggable: false });
+      marker.addTo(this.map);
+    }
+  }
+
+  getIconForNodeType(action): string {
+    switch (action) {
+    case 'TimerNode':
+      return 'assets/timerNode.png';
+    case 'PictureNode':
+      return 'assets/pictureNode.png';
+    case 'FirstNode':
+      return 'assets/startNode.png';
+    case 'LastNode':
+      return 'assets/endNode.png';
+    case 'QuestionNode':
+      return 'assets/questionNode.png';
+    case 'ObjectNode':
+      return 'assets/objectNode.png';
+    default:
+      return null;
+    }
+  }
+
   ngOnInit(): void {
     this.map = L.map("map").setView([0, 0], 12);
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
