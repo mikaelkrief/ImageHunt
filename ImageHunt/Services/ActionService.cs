@@ -109,5 +109,12 @@ namespace ImageHunt.Services
           .Select(g=>new Score(){Team = g.Key, Points = g.Sum(_=>_.PointsEarned)});
       }
 
+    public IEnumerable<GameAction> GetGamePositionsForGame(int gameId)
+    {
+      return Context.GameActions
+        .Include(ga => ga.Game)
+        .Include(ga=>ga.Team)
+        .Where(ga => ga.Game.Id == gameId);
     }
+  }
 }

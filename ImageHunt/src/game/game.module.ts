@@ -30,6 +30,7 @@ import {SharedModule} from "../shared/shared.module";
 import { TeamModule } from "../team/team.module";
 import { LightboxModule } from 'primeng/lightbox';
 import { ImageNodeEditComponent } from './image-node-edit/image-node-edit.component';
+import { LiveService } from '../shared/services/live.service';
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
@@ -42,7 +43,7 @@ import { ImageNodeEditComponent } from './image-node-edit/image-node-edit.compon
   exports: [GameCreateComponent, GameDetailComponent, GameListComponent,
     NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent,
     GameActionListComponent, GameActionDetailComponent, ImageNodeEditComponent],
-  providers: [GameService, TeamService, AlertService, ConfirmationService]
+  providers: [GameService, TeamService, AlertService, ConfirmationService, LiveService]
 })
 export class GameModule
 {

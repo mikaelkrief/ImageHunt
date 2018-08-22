@@ -476,5 +476,30 @@ namespace ImageHuntTest.Services
             Check.That(result.Extracting("Team")).ContainsExactly(expectedScores.Extracting("Team"));
         }
 
+        [Fact]
+        public void GetPositionsForGame()
+        {
+            var games = new List<Game>(){new Game(), new Game()};
+            _context.Games.AddRange(games);
+            // Arrange
+            var gameActions = new List<GameAction>
+            {
+                new GameAction(){Action=Action.DoAction, Game = games[1]},
+                new GameAction(){Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Action=Action.SubmitPosition, Game = games[0]},
+                new GameAction(){Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Action=Action.SubmitPosition, Game = games[0]},
+                new GameAction(){Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Action=Action.SubmitPosition, Game = games[1]},
+            };
+            _context.GameActions.AddRange(gameActions);
+            _context.SaveChanges();
+            // Act
+            var results = _target.GetGamePositionsForGame(games[1].Id);
+            // Assert
+            Check.That(results).HasSize(7).And.Contains(gameActions[0], gameActions[1], gameActions[3], gameActions[4]);
+        }
   }
 }

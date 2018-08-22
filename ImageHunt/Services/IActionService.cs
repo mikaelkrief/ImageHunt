@@ -13,5 +13,6 @@ namespace ImageHunt.Services
     void Validate(int gameActionId, int validatorId);
     int GetGameActionCountForGame(int gameId);
     IEnumerable<Score> GetScoresForGame(int gameId);
+    IEnumerable<GameAction> GetGamePositionsForGame(int gameId);
   }
 }
