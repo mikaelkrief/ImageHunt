@@ -7,64 +7,68 @@ import * as L from 'leaflet';
 import { Game } from '../../shared/game';
 import { GameService } from '../../shared/services/game.service';
 import { GameAction } from '../../shared/gameAction';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
-    selector: 'team-follow',
-    templateUrl: './team-follow.component.html',
-    styleUrls: ['./team-follow.component.scss']
+  selector: 'team-follow',
+  templateUrl: './team-follow.component.html',
+  styleUrls: ['./team-follow.component.scss']
 })
 /** team-follow component*/
 export class TeamFollowComponent implements OnInit {
-    /** team-follow ctor */
+  /** team-follow ctor */
   constructor(private _liveService: LiveService, private _gameService: GameService, private route: ActivatedRoute) {
 
     this._liveService._connection.on("ActionSubmitted",
       (gameAction) => this.handleNewPosition(gameAction));
 
-    this._liveService._connection.start()
-      .then(() => {
-        console.log("Connection to SignalR successfull");
-        this._liveService._connection.send("InitConnection");
-      })
-      .catch(error => console.error(error));
+  }
+  getColorForTeam(team: Team) {
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
   }
   handleNewPosition(gameAction) {
     if (gameAction.game.id === this.gameId) {
-      if (!this.positions.has(gameAction.team.id)) {
-        this.positions.set(gameAction.team.id, new Array<GameAction>());
-        let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-        gameAction.team.color = color;
-        let polyline = new L.Polyline([[gameAction.latitude, gameAction.longitude], [gameAction.latitude, gameAction.longitude]],
-          { color: color });
-        polyline.addTo(this.pathLayer);
-        this.paths.set(gameAction.team.id, polyline);
-      }
-      let pos = this.positions.get(gameAction.team.id);
-      pos.push(gameAction);
-      let poly = this.paths.get(gameAction.team.id);
-      poly.addLatLng([gameAction.latitude, gameAction.longitude]);
-      this.createMarker(gameAction);
+      this.handleGameAction(gameAction);
     }
   }
+
+  handleGameAction(gameAction: GameAction) {
+    if (!this.positions.has(gameAction.team.id)) {
+      this.positions.set(gameAction.team.id, new Array<GameAction>());
+      let color = this.getColorForTeam(gameAction.team);
+      gameAction.team.color = color;
+      let polyline = new L.Polyline(
+        [[gameAction.latitude, gameAction.longitude], [gameAction.latitude, gameAction.longitude]],
+        { color: color });
+      polyline.addTo(this.pathLayer);
+      this.paths.set(gameAction.team.id, polyline);
+    }
+    let pos = this.positions.get(gameAction.team.id);
+    pos.push(gameAction);
+    let poly = this.paths.get(gameAction.team.id);
+    poly.addLatLng([gameAction.latitude, gameAction.longitude]);
+    this.createMarker(gameAction);
+  }
+
   createMarker(gameAction: GameAction) {
     let icon;
     let iconUrl;
     switch (gameAction.action) {
-    case 0:
-      iconUrl = 'assets/startNode.png';
-      break;
+      case 0:
+        iconUrl = 'assets/startNode.png';
+        break;
       case 1:
-        iconUrl= 'assets/endNode.png';
-      break;
+        iconUrl = 'assets/endNode.png';
+        break;
       case 2:
         iconUrl = 'assets/pictureNode.png';
-      break;
+        break;
       case 4:
         iconUrl = 'assets/questionNode.png';
-      break;
+        break;
       case 5:
         iconUrl = 'assets/objectNode.png';
-      break;
+        break;
       default:
         break;
     }
@@ -89,18 +93,32 @@ export class TeamFollowComponent implements OnInit {
 
 
     this.gameId = +this.route.snapshot.params["gameId"];
-    this._gameService.getGameById(this.gameId).subscribe(res => {
-      this.game = res;
-      this.map.setView([this.game.mapCenterLat, this.game.mapCenterLng], this.map.zoom);
-      this.pathLayer = new L.LayerGroup();
-      this.pathLayer.addTo(this.map);
-      this.markersLayer = new L.LayerGroup();
-      this.markersLayer.addTo(this.map);
-      L.control.layers(null, {"Trajets": this.pathLayer, "Actions":this.markersLayer}).addTo(this.map);
-    });
+    Observable.forkJoin(
+      this._gameService.getGameById(this.gameId),
+      this._gameService.getGameActionsForGame(this.gameId)
+    )
+      .subscribe(([game, gameActions]) => {
+        this.game = game;
+        this.map.setView([this.game.mapCenterLat, this.game.mapCenterLng], this.map.zoom);
+        this.pathLayer = new L.LayerGroup();
+        this.pathLayer.addTo(this.map);
+        this.markersLayer = new L.LayerGroup();
+        this.markersLayer.addTo(this.map);
+        L.control.layers(null, { "Trajets": this.pathLayer, "Actions": this.markersLayer }).addTo(this.map);
+        this.retrievePositions(gameActions.json());
+        this._liveService._connection.start()
+          .then(() => {
+            console.log("Connection to SignalR successfull");
+            this._liveService._connection.send("InitConnection");
+          })
+          .catch(error => console.error(error));
+
+      });
   }
-  retrievePositions(gameId: number) {
-    //this._gameService.getGameActionForGame()
+  retrievePositions(gameActions: GameAction[]) {
+    for (let gameAction of gameActions) {
+      this.handleGameAction(gameAction);
+    }
   }
   paths: Map<number, L.Polyline> = new Map<number, L.Polyline>();
 
