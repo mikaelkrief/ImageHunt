@@ -1,12 +1,1 @@
 <div id="map"></div>
-<div style="border: 1px solid red">
-  <ul>
-    <li *ngFor="let teamId of positions.keys()">{{teamId}}
-      <ul>
-        <li *ngFor="let position of positions.get(teamId)">
-          {{position.team.name}} {{position.dateOccured}} [lat: {{position.position.lat}}, {{position.position.lng}}]
-        </li>
-      </ul>
-    </li>
-  </ul>
-</div>

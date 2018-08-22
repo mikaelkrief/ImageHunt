@@ -499,7 +499,7 @@ namespace ImageHuntTest.Services
             // Act
             var results = _target.GetGamePositionsForGame(games[1].Id);
             // Assert
-            Check.That(results).HasSize(6).And.Contains(gameActions[1], gameActions[3], gameActions[4]);
+            Check.That(results).HasSize(7).And.Contains(gameActions[0], gameActions[1], gameActions[3], gameActions[4]);
         }
   }
 }

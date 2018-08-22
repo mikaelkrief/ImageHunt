@@ -55,7 +55,7 @@ namespace ImageHunt.Controllers
     /// </summary>
     /// <param name="gameActionRequest"></param>
     [HttpPost("AddGameAction")]
-    public IActionResult AddGameAction([FromBody]GameActionRequest gameActionRequest)
+    public async Task<IActionResult> AddGameAction(GameActionRequest gameActionRequest)
     {
       var gameAction = Mapper.Map<GameAction>(gameActionRequest);
 
@@ -68,7 +68,8 @@ namespace ImageHunt.Controllers
       {
         gameAction.Node = _nodeService.GetNode(gameActionRequest.NodeId);
       }
-
+      gameAction.DateOccured = DateTime.Now;
+      
       switch (gameAction.Action)
       {
         case Action.DoAction:
@@ -87,9 +88,16 @@ namespace ImageHunt.Controllers
           break;
       }
       _actionService.AddGameAction(gameAction);
+      await NotifyClientsForGameAction(gameAction);
+
       return CreatedAtAction("AddGameAction", gameAction);
     }
-    
+
+    private async Task NotifyClientsForGameAction(GameAction gameAction)
+    {
+      await _hubContext.Clients.All.SendAsync("ActionSubmitted", gameAction);
+    }
+
     [HttpPut("Validate/{gameActionId}")]
     [Authorize]
     public IActionResult Validate(int gameActionId)
@@ -112,12 +120,11 @@ namespace ImageHunt.Controllers
           DateOccured = DateTime.Now
         };
       _actionService.AddGameAction(gameAction);
-      await _hubContext.Clients.All.SendAsync("PositionChanged",gameAction.Game, gameAction.Team, gameAction.DateOccured,
-        new LatLng(gameAction.Latitude, gameAction.Longitude));
+      await NotifyClientsForGameAction(gameAction);
       return Ok();
     }
-    [HttpGet("Positions/{gameId}")]
-    public IActionResult GetGamePosition(int gameId)
+    [HttpGet("{gameId}")]
+    public IActionResult GetGameActionsForGameAction(int gameId)
     {
       return Ok(_actionService.GetGamePositionsForGame(gameId));
     }

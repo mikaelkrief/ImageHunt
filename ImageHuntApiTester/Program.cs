@@ -6,6 +6,7 @@ using CommandLine;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Newtonsoft.Json;
+using Action = ImageHuntWebServiceClient.Action;
 
 namespace ImageHuntApiTester
 {
@@ -25,6 +26,8 @@ namespace ImageHuntApiTester
             public double SeedLongitude { get; set; }
             [Option('u', "APIUrl", Required = true)]
             public string APIUrl { get; set; }
+            [Option('i', "Timer", Required = false, Default = 15000)]
+            public int TimerInterval { get; set; }
         }
         static HttpClient httpClient = new HttpClient();
         private static IActionWebService _actionWebService;
@@ -33,23 +36,33 @@ namespace ImageHuntApiTester
             RunAsync(args).GetAwaiter().GetResult();
         }
 
-        static async Task InsertRandomPosition(int gameId, int minTeamId, int maxTeamId, double latitude, double longitude)
+        static async Task InsertRandomPosition(int gameId, int minTeamId, int maxTeamId, double latitude, double longitude, int interval = 15000)
         {
             var random = new Random((int)DateTime.Now.Ticks);
-            var positionRequest = new LogPositionRequest()
+            var gameActionRequest = new GameActionRequest()
             {
                 GameId = gameId,
-                TeamId = minTeamId,
                 Latitude = latitude,
-                Longitude = longitude
+                Longitude = longitude,
             };
             do
             {
-                positionRequest.TeamId = random.Next(minTeamId, maxTeamId + 1);
-                positionRequest.Latitude += 0.001 * (random.NextDouble() - 0.5);
-                positionRequest.Longitude += 0.001 * (random.NextDouble() - 0.5);
-                await _actionWebService.LogPosition(positionRequest);
-                Thread.Sleep(10000);
+                gameActionRequest.Action = random.Next(0, 7);
+                gameActionRequest.TeamId = random.Next(minTeamId, maxTeamId + 1);
+                gameActionRequest.TeamId = random.Next(minTeamId, maxTeamId + 1);
+                gameActionRequest.Latitude += 0.001 * (random.NextDouble() - 0.5);
+                gameActionRequest.Longitude += 0.001 * (random.NextDouble() - 0.5);
+                try
+                {
+                    await _actionWebService.LogAction(gameActionRequest);
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+
+                Thread.Sleep(interval);
             } while (true);
         }
         static async Task RunAsync(string[] args)
@@ -62,7 +75,7 @@ namespace ImageHuntApiTester
 
                     try
                     {
-                        await InsertRandomPosition(o.GameId, o.MinTeamId, o.MaxTeamId, o.SeedLatitude, o.SeedLongitude);
+                        await InsertRandomPosition(o.GameId, o.MinTeamId, o.MaxTeamId, o.SeedLatitude, o.SeedLongitude, o.TimerInterval);
                     }
                     catch (Exception e)
                     {

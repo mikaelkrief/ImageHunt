@@ -50,7 +50,7 @@ namespace ImageHuntTest.Controller
             _target = new ActionController(_gameService, _playerService, _imageService, _actionService, _nodeService, _teamService, _hubContext, _logger);
         }
         [Fact]
-        public void AddGameAction_UploadPicture()
+        public async Task AddGameAction_UploadPicture()
         {
             // Arrange
             var gameActionRequest = new GameActionRequest()
@@ -64,7 +64,7 @@ namespace ImageHuntTest.Controller
 
             };
             // Act
-            var result = _target.AddGameAction(gameActionRequest);
+            var result = await _target.AddGameAction(gameActionRequest);
             // Assert
             Check.That(result).IsInstanceOf<CreatedAtActionResult>();
             A.CallTo(() => _teamService.GetTeamById(gameActionRequest.TeamId)).MustHaveHappened();
@@ -92,7 +92,7 @@ namespace ImageHuntTest.Controller
         }
 
         [Fact]
-        public void AddGameAction_StartGame()
+        public async Task AddGameAction_StartGame()
         {
             // Arrange
             var gameActionRequest = new GameActionRequest()
@@ -105,7 +105,7 @@ namespace ImageHuntTest.Controller
 
             };
             // Act
-            var result = _target.AddGameAction(gameActionRequest);
+            var result = await _target.AddGameAction(gameActionRequest);
             // Assert
             Check.That(result).IsInstanceOf<CreatedAtActionResult>();
             A.CallTo(() => _actionService.AddGameAction(A<GameAction>.That.Matches(ga => CheckGameActionForAction(ga, Action.StartGame, gameActionRequest.Latitude, gameActionRequest.Longitude))))
@@ -215,7 +215,7 @@ namespace ImageHuntTest.Controller
             // Arrange
             
             // Act
-            var result = _target.GetGamePosition(1);
+            var result = _target.GetGameActionsForGameAction(1);
             // Assert
             Check.That(result).IsInstanceOf<OkObjectResult>();
             A.CallTo(() => _actionService.GetGamePositionsForGame(A<int>._));

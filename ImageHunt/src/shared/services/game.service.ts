@@ -115,4 +115,7 @@ export class GameService {
     };
     return this.jwtHttp.patch(`api/Node/`, nodeRequest);
   }
+  getGameActionsForGame(gameId: number) {
+    return this.jwtHttp.get(`api/Action/${gameId}`);
+  }
 }
