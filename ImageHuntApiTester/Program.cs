@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,6 +34,7 @@ namespace ImageHuntApiTester
         private static IActionWebService _actionWebService;
         static void Main(string[] args)
         {
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
             RunAsync(args).GetAwaiter().GetResult();
         }
 
