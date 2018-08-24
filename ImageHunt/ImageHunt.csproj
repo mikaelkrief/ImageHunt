@@ -26,7 +26,6 @@
     <None Remove="src\score\score-list\score.module.ts" />
     <None Remove="src\shared\answer.ts" />
     <None Remove="src\shared\gameAction.ts" />
-    <None Remove="src\shared\gmapdefinitions.ts" />
     <None Remove="src\shared\GUINode.ts" />
     <None Remove="src\shared\NodeClicked.ts" />
     <None Remove="src\shared\NodeDragged.ts" />
@@ -77,7 +76,6 @@
     <TypeScriptCompile Include="src\shared\RelationClicked.ts" />
     <TypeScriptCompile Include="src\shared\NodeClicked.ts" />
     <TypeScriptCompile Include="src\shared\pipes\gameActionTranslationPipe.ts" />
-    <TypeScriptCompile Include="src\shared\gmapdefinitions.ts" />
     <TypeScriptCompile Include="src\shared\GUINode.ts" />
     <TypeScriptCompile Include="src\shared\player.ts" />
     <TypeScriptCompile Include="src\shared\QuestionNodeAnswerRelation.ts" />

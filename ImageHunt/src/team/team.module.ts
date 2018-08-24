@@ -12,11 +12,11 @@ import { PanelModule } from "primeng/panel";
 import {QRCodeModule } from "angular2-qrcode";
 import { LiveService } from '../shared/services/live.service';
 import { TeamFollowComponent } from './team-follow/team-follow.component';
+import { ColorPickerModule } from 'primeng/colorpicker';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, ConfirmDialogModule,
-    PanelModule, QRCodeModule,
-    ReactiveFormsModule],
+    PanelModule, QRCodeModule, ReactiveFormsModule, ColorPickerModule],
   declarations: [TeamDetailComponent, TeamListComponent, TeamCreateComponent, TeamFollowComponent],
   exports: [TeamDetailComponent, TeamListComponent, TeamCreateComponent, TeamFollowComponent],
   providers: [TeamService, ConfirmationService, LiveService]})

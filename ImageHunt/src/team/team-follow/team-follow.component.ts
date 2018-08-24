@@ -24,7 +24,10 @@ export class TeamFollowComponent implements OnInit {
 
   }
   getColorForTeam(team: Team) {
-    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+    if (team.color === '')
+      return '#' + Math.floor(Math.random() * 16777215).toString(16);
+    else
+      return team.color;
   }
   handleNewPosition(gameAction) {
     if (gameAction.game.id === this.gameId) {
