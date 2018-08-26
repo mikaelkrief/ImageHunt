@@ -17,7 +17,7 @@ import { NodeRequest } from '../../shared/nodeRequest';
 import { GeoPoint } from '../../shared/GeoPoint';
 import { GeoVector } from '../../shared/GeoVector';
 import {AlertService} from '../../shared/services/alert.service';
-import { Observable } from 'rxjs/Observable';
+import { forkJoin } from 'rxjs';
 import { EditedRelation } from '../../shared/EditedRelation';
 import {QuestionNodeComponent} from '../question-node/question.node.component';
 import {ConfirmationService} from 'primeng/components/common/confirmationservice';
@@ -75,7 +75,7 @@ export class GameDetailComponent implements OnInit {
     });
   }
   getGame(gameId: number) {
-    Observable.forkJoin(
+    forkJoin<Game, NodeRelation[]>(
         this._gameService.getGameById(gameId),
         this._gameService.getNodeRelations(gameId))
       .subscribe(([game, relations]) => {
@@ -250,7 +250,7 @@ export class GameDetailComponent implements OnInit {
   }
   saveChanges(gameId: number) {
     if (this.newRelations !== null) {
-      this.newRelations.forEach(r => Observable.forkJoin(this._gameService.addRelation(r.orgId, r.destId, 0))
+      this.newRelations.forEach(r => forkJoin(this._gameService.addRelation(r.orgId, r.destId, 0))
         .subscribe(
           
         () => {

@@ -36,7 +36,7 @@ export class GoogleButtonComponent implements OnInit {
       .subscribe(
       {
         next: (response) => {
-          let data = response.json();
+          let data = response;
           this.auth.setToken(data.access_token);
           var seconds = new Date().getSeconds() + data.expires_in;
           var expireDate = new Date().setSeconds(seconds);

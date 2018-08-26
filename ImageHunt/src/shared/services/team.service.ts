@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
-import { JwtHttp } from "ng2-ui-auth";
+
+
 import {Player} from "../player";
 import {Team} from "../team";
+import { Http } from '@angular/http';
 
 @Injectable()
 export class TeamService {
-  constructor(private http: JwtHttp) { }
+  constructor(private http: Http) { }
   getTeams(gameId: number) {
     return this.http.get('api/Team/ByGame/' + gameId);
 

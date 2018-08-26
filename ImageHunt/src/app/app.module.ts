@@ -9,7 +9,7 @@ import { AlertModule } from "ngx-bootstrap/alert";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpModule } from "@angular/http";
-import { Ng2UiAuthModule, CustomConfig } from "ng2-ui-auth";
+import { Ng2UiAuthModule } from "ng2-ui-auth";
 import { HomeModule } from "../home/home.module";
 import { PageNotFoundModule } from "../page-not-found/page.not.found.module";
 import { TeamModule } from "../team/team.module";
@@ -41,18 +41,20 @@ import { QRCodeModule } from "angular2-qrcode";
 import { ScoreListComponent } from '../score/score-list/score-list.component';
 import { ImageNodeEditComponent } from "../game/image-node-edit/image-node-edit.component";
 import { TeamFollowComponent } from "../team/team-follow/team-follow.component";
+import { IPartialConfigOptions, IProviders } from "ng2-ui-auth/lib/config-interfaces";
 
 registerLocaleData(localeFr);
 
-export class MyAuthConfig extends CustomConfig {
+export class MyAuthConfig implements IPartialConfigOptions {
   defaultHeaders = { 'Content-Type': "application/json" };
-  providers = {
+  providers: IProviders = {
     google: { clientId: environment.GOOGLE_CLIENT_ID },
   };
   tokenName = "accessToken";
   tokenPrefix = "";
   baseUrl = environment.API_ENDPOINT;
 }
+
 
 @NgModule({
   declarations: [
@@ -81,7 +83,11 @@ export class MyAuthConfig extends CustomConfig {
     PageNotFoundModule,
     SharedModule,
     InputTextModule,
-    Ng2UiAuthModule.forRoot(MyAuthConfig),
+    Ng2UiAuthModule.forRoot({
+      providers: { google: { clientId: environment.GOOGLE_CLIENT_ID } }, tokenName: "accessToken",
+      tokenPrefix: "",
+      baseUrl: environment.API_ENDPOINT
+    }),
     BsDropdownModule.forRoot(),
     AlertModule.forRoot(),
     TabsModule.forRoot(),

@@ -7,7 +7,7 @@ import { GeoPoint } from '../../shared/GeoPoint';
 import { NodeClicked } from '../../shared/NodeClicked';
 import { RelationClicked } from '../../shared/RelationClicked';
 import { NodeRelation } from '../../shared/NodeRelation';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Game } from '../../shared/game';
 import { Node } from '../../shared/node';
 import { AlertService } from '../../shared/services/alert.service';

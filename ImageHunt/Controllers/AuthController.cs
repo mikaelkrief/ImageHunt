@@ -42,12 +42,14 @@ namespace ImageHunt.Controllers
     [HttpPost("google")]
     public async Task<IActionResult> GoogleSignIn([FromBody]JObject bearer)
     {
+      var code = bearer["oauthData"]["code"];
+      var redirectUri = bearer["authorizationData"]["redirect_uri"];
       var content = new FormUrlEncodedContent(new[]
       {
-        new KeyValuePair<string, string>("code", bearer["code"].Value<string>()),
+        new KeyValuePair<string, string>("code", code.Value<string>()),
         new KeyValuePair<string, string>("client_id", _configuration["GoogleApi:ClientId"]),
         new KeyValuePair<string, string>("client_secret", _configuration["GoogleApi:ClientSecret"]),
-        new KeyValuePair<string, string>("redirect_uri", bearer["redirectUri"].Value<string>()),
+        new KeyValuePair<string, string>("redirect_uri", redirectUri.Value<string>()),
         new KeyValuePair<string, string>("grant_type", "authorization_code"),
 
 
