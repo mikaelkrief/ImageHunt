@@ -17,7 +17,7 @@ export class ImageNodeEditComponent implements OnInit{
   set node(value: Node) {
     //this._node = value;
     this._gameService.getNodeById(value.id)
-      .subscribe(data => this._node = data.json());
+      .subscribe((node:Node) => this._node = node);
   }
   _node: Node;
   ngOnInit(): void {

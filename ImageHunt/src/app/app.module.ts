@@ -1,14 +1,13 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { LocalStorageModule } from "angular-2-local-storage";
 import { AppComponent } from "./app.component";
 import { BsDropdownModule, ModalModule, TabsModule } from "ngx-bootstrap";
 import { AlertModule } from "ngx-bootstrap/alert";
+import '@angular/common';
 
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { HttpModule } from "@angular/http";
 import { Ng2UiAuthModule } from "ng2-ui-auth";
 import { HomeModule } from "../home/home.module";
 import { PageNotFoundModule } from "../page-not-found/page.not.found.module";
@@ -42,6 +41,8 @@ import { ScoreListComponent } from '../score/score-list/score-list.component';
 import { ImageNodeEditComponent } from "../game/image-node-edit/image-node-edit.component";
 import { TeamFollowComponent } from "../team/team-follow/team-follow.component";
 import { IPartialConfigOptions, IProviders } from "ng2-ui-auth/lib/config-interfaces";
+import { HttpClientModule } from "@angular/common/http";
+import { NgModule } from "@angular/core";
 
 registerLocaleData(localeFr);
 
@@ -69,7 +70,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
       storageType: "localStorage"
     }),
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     HomeModule,
     GameModule,
     TeamModule,

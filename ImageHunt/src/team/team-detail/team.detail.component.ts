@@ -30,7 +30,7 @@ export class TeamDetailComponent implements OnInit
   }
   getTeam(teamId: number) {
     this._teamService.getTeam(teamId)
-      .subscribe(next => this.team = next.json());
+      .subscribe((team:Team) => this.team = team);
   }
     addPlayer(teamId: number, form: NgForm): void {
       var player: Player = {id:0, name : form.value.name, chatLogin : form.value.chatId, startDate:null};

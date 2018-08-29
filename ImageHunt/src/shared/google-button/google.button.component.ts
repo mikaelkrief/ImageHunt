@@ -49,8 +49,8 @@ export class GoogleButtonComponent implements OnInit {
           this.localStorageService.set('isAuthenticated', this.authenticated);
 
           this.adminService.getAdminByEmail(this.userEmail)
-            .subscribe(value => {
-              this.admin = value.json();
+            .subscribe((admin: Admin) => {
+              this.admin = admin;
               this.localStorageService.set('connectedAdmin', this.admin);
             });
         }

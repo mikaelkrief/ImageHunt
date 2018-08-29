@@ -2,19 +2,20 @@ import { Injectable } from '@angular/core';
 import { Game } from '../game';
 import { Node } from '../node';
 import { Http, RequestOptions, Headers } from '@angular/http';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import {NodeRequest} from '../nodeRequest';
 import { Observable } from 'rxjs';
 import {QuestionNodeAnswerRelation} from '../QuestionNodeAnswerRelation';
+import { GameAction } from '../gameAction';
 
 @Injectable()
 export class GameService {
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
   getGameForAdmin(adminId: number) {
     return this.http.get('api/Game/ByAdminId/' + adminId);
   }
   getGameById(gameId: number) {
-    return this.http.get('api/Game/byId/' + gameId).map(g => g.json());
+    return this.http.get('api/Game/byId/' + gameId);
   }
   createGame(adminId: number, game: Game) {
     return this.http.post('api/Game/' + adminId, game);
@@ -29,13 +30,13 @@ export class GameService {
     return this.http.delete(`api/Node/RemoveNode/${nodeId}`);
   }
   upload(files: File[], gameId) {
-    let headers = new Headers();
+    let headers = new HttpHeaders();
     headers.delete('Content-Type');
     const formData = new FormData();
     for (var file of files) {
       formData.append('files', file);
     }
-    let options = new RequestOptions({ headers: headers });
+    let options = { headers: headers };
 
     return this.http.put(`api/Game/AddPictures/${gameId}`, formData, options);
   }
@@ -46,7 +47,7 @@ export class GameService {
   }
 
   getNodeRelations(gameId: number) {
-     return this.http.get(`api/Game/NodesRelations/${gameId}`).map(r=>r.json());
+     return this.http.get(`api/Game/NodesRelations/${gameId}`);
   }
 
   addRelation(orgNodeId: number, destNodeId: number, answerId: number) {
@@ -61,7 +62,7 @@ export class GameService {
 
   setZoom(gameId: number, zoom: number) { return this.http.patch(`api/Game/UpdateZoom/${gameId}/${zoom}`, null); }
   getQuestionNodesOfGame(gameId: number)  {
-    return this.http.get(`api/Game/GetQuestionNodeOfGame/${gameId}`).map(j=>j.json());
+    return this.http.get(`api/Game/GetQuestionNodeOfGame/${gameId}`);
   }
   addRelationAnswers(relations: QuestionNodeAnswerRelation[]) {
     return this.http.put(`api/Node/AddRelationsWithAnswers`, relations);
@@ -70,21 +71,11 @@ export class GameService {
     return this.http.get(`api/Game/GameActionCount/${gameId}`);
   }
   getGameActionForGame(gameId: number, pageIndex: number, pageSize: number) {
-    var gameActionListRequest = {
-      gameId: gameId,
-      pageSize: pageSize,
-      pageIndex: pageIndex
-    }
-    return this.http.get(`api/Game/GameActions/`, { params: gameActionListRequest});
+
+    return this.http.get<GameAction[]>(`api/Game/GameActions/${gameId}&pageIndex=${pageIndex}&pageSize=${pageSize}`);
   }
   getGameActionsToValidateForGame(gameId: number, pageIndex: number, pageSize: number, nbProbableNode: number) {
-    var gameActionListRequest = {
-      gameId: gameId,
-      take: pageSize,
-      pageIndex: pageIndex,
-      nbPotential: nbProbableNode
-    }
-    return this.http.get(`api/Game/GameActionsToValidate/`, { params: gameActionListRequest});
+    return this.http.get<GameAction[]>(`api/Game/GameActionsToValidate/${gameId}&pageIndex=${pageIndex}&pageSize=${pageSize}&nbPotential=${nbProbableNode}`);
   }
   getGameAction(gameActionId: number) {
     return this.http.get(`api/Game/GetGameAction/${gameActionId}`);

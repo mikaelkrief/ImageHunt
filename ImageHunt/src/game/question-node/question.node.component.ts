@@ -7,6 +7,7 @@ import {QuestionNode} from "../../shared/QuestionNode";
 import {Answer} from "../../shared/answer";
 import {AlertService} from "../../shared/services/alert.service";
 import {QuestionNodeAnswerRelation} from "../../shared/QuestionNodeAnswerRelation";
+import { Game } from '../../shared/game';
 
 @Component({
     selector: 'question-node',
@@ -45,11 +46,10 @@ export class QuestionNodeComponent implements OnInit
   ngOnInit(): void { this.linkBtnEnabled = this.unlinkBtnEnabled = false; }
   loadNodes() {
        this._gameService.getQuestionNodesOfGame(this.gameId)
-        .subscribe(res => this.questionNodes = res);
+        .subscribe((nodes: QuestionNode[]) => this.questionNodes = nodes);
       this._gameService.getGameById(this.gameId)
-        .subscribe(res => {
-          var n = res;
-          this.nodes = n.nodes;
+        .subscribe((game:Game) => {
+          this.nodes = game.nodes;
         });
     }
   nodeSelected(event) {

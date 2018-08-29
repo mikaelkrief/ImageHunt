@@ -85,8 +85,8 @@ export class GameDetailComponent implements OnInit {
           this.buildRelations();
         }
       );
-    this._gameService.getGameById(gameId).subscribe(res => {
-      this.game = res;
+    this._gameService.getGameById(gameId).subscribe((game:Game) => {
+      this.game = game;
         this.currentZoom = this.game.mapZoom;
       //this.getNodeRelations(gameId);
       this.mapComponent.game = this.game;
@@ -126,7 +126,7 @@ export class GameDetailComponent implements OnInit {
     var team: Team = { id: 0, name: form.value.name, players: null, color:'' };
     this._teamService.createTeam(gameId, team)
       .subscribe(null, null, () => {
-        this._gameService.getGameById(gameId).subscribe(res => this.game = res);
+        this._gameService.getGameById(gameId).subscribe((game:Game) => this.game = game);
         form.resetForm();
       });
   }
@@ -261,7 +261,7 @@ export class GameDetailComponent implements OnInit {
   }
   teamsUpdated() {
     this._teamService.getTeams(this.game.id)
-      .subscribe(res => this.game.teams = res.json());
+      .subscribe((teams:Team[]) => this.game.teams = teams);
   }
 
 }

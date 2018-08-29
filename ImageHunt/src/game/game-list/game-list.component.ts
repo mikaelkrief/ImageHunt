@@ -34,7 +34,7 @@ export class GameListComponent implements OnInit {
   getGames() {
     if (this.admin != null)
       this.gameService.getGameForAdmin(this.admin.id)
-        .subscribe(next => this.games = next.json(), err=> this._alertService.sendAlert("Erreur lors de la mise à jour de la liste des jeux", "danger", 10000));
+        .subscribe((games:Game[]) => this.games = games, err=> this._alertService.sendAlert("Erreur lors de la mise à jour de la liste des jeux", "danger", 10000));
   }
 
   createGame(form: NgForm) {

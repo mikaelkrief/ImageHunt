@@ -7,9 +7,9 @@ using Microsoft.Extensions.Logging;
 namespace ImageHunt.Controllers
 {
   [Route("api/[Controller]")]
-  #if !DEBUG
+  //#if !DEBUG
   [Authorize]
-  #endif
+  //#endif
   public class AdminController : BaseController
   {
     private readonly IAdminService _adminService;
