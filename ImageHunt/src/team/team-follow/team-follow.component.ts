@@ -7,7 +7,7 @@ import * as L from 'leaflet';
 import { Game } from '../../shared/game';
 import { GameService } from '../../shared/services/game.service';
 import { GameAction } from '../../shared/gameAction';
-import { Observable } from 'rxjs/Observable';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'team-follow',
@@ -96,7 +96,7 @@ export class TeamFollowComponent implements OnInit {
 
 
     this.gameId = +this.route.snapshot.params["gameId"];
-    Observable.forkJoin(
+    forkJoin<Game, GameAction[]>(
       this._gameService.getGameById(this.gameId),
       this._gameService.getGameActionsForGame(this.gameId)
     )
@@ -108,7 +108,7 @@ export class TeamFollowComponent implements OnInit {
         this.markersLayer = new L.LayerGroup();
         this.markersLayer.addTo(this.map);
         L.control.layers(null, { "Trajets": this.pathLayer, "Actions": this.markersLayer }).addTo(this.map);
-        this.retrievePositions(gameActions.json());
+        this.retrievePositions(gameActions);
         this._liveService._connection.start()
           .then(() => {
             console.log("Connection to SignalR successfull");

@@ -1,16 +1,15 @@
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import {Admin} from "../admin";
-import { JwtHttp } from "ng2-ui-auth";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class AdminService {
-  constructor(private http: JwtHttp) { }
+  constructor(private http: HttpClient) { }
   getAllAdmins() {
-    return this.http.get('api/Admin/GetAllAdmins')
-      .map(a => a.json());
+    return this.http.get('api/Admin/GetAllAdmins');
   }
   createAdmin(newAdmin: Admin) {
     return this.http.post('api/Admin/', newAdmin);

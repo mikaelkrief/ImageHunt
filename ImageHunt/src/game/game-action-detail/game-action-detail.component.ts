@@ -13,8 +13,8 @@ export class GameActionDetailComponent implements OnInit {
   ngOnInit(): void {
     this.actionId = this.route.snapshot.params["gameActionId"];
     this.gameService.getGameAction(this.actionId)
-      .subscribe(next => {
-        this.gameAction = next.json();
+      .subscribe((next: GameAction) => {
+        this.gameAction = next;
         this.gameAction.picture.imageData = 'data:image/png;base64,' + this.gameAction.picture.image;
         this.setMap();
       });

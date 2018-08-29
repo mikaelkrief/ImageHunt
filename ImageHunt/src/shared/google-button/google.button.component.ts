@@ -36,7 +36,7 @@ export class GoogleButtonComponent implements OnInit {
       .subscribe(
       {
         next: (response) => {
-          let data = response.json();
+          let data = response;
           this.auth.setToken(data.access_token);
           var seconds = new Date().getSeconds() + data.expires_in;
           var expireDate = new Date().setSeconds(seconds);
@@ -49,8 +49,8 @@ export class GoogleButtonComponent implements OnInit {
           this.localStorageService.set('isAuthenticated', this.authenticated);
 
           this.adminService.getAdminByEmail(this.userEmail)
-            .subscribe(value => {
-              this.admin = value.json();
+            .subscribe((admin: Admin) => {
+              this.admin = admin;
               this.localStorageService.set('connectedAdmin', this.admin);
             });
         }

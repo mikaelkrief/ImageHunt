@@ -17,7 +17,7 @@ import { NodeRequest } from '../../shared/nodeRequest';
 import { GeoPoint } from '../../shared/GeoPoint';
 import { GeoVector } from '../../shared/GeoVector';
 import {AlertService} from '../../shared/services/alert.service';
-import { Observable } from 'rxjs/Observable';
+import { forkJoin } from 'rxjs';
 import { EditedRelation } from '../../shared/EditedRelation';
 import {QuestionNodeComponent} from '../question-node/question.node.component';
 import {ConfirmationService} from 'primeng/components/common/confirmationservice';
@@ -75,7 +75,7 @@ export class GameDetailComponent implements OnInit {
     });
   }
   getGame(gameId: number) {
-    Observable.forkJoin(
+    forkJoin<Game, NodeRelation[]>(
         this._gameService.getGameById(gameId),
         this._gameService.getNodeRelations(gameId))
       .subscribe(([game, relations]) => {
@@ -85,8 +85,8 @@ export class GameDetailComponent implements OnInit {
           this.buildRelations();
         }
       );
-    this._gameService.getGameById(gameId).subscribe(res => {
-      this.game = res;
+    this._gameService.getGameById(gameId).subscribe((game:Game) => {
+      this.game = game;
         this.currentZoom = this.game.mapZoom;
       //this.getNodeRelations(gameId);
       this.mapComponent.game = this.game;
@@ -126,7 +126,7 @@ export class GameDetailComponent implements OnInit {
     var team: Team = { id: 0, name: form.value.name, players: null, color:'' };
     this._teamService.createTeam(gameId, team)
       .subscribe(null, null, () => {
-        this._gameService.getGameById(gameId).subscribe(res => this.game = res);
+        this._gameService.getGameById(gameId).subscribe((game:Game) => this.game = game);
         form.resetForm();
       });
   }
@@ -250,7 +250,7 @@ export class GameDetailComponent implements OnInit {
   }
   saveChanges(gameId: number) {
     if (this.newRelations !== null) {
-      this.newRelations.forEach(r => Observable.forkJoin(this._gameService.addRelation(r.orgId, r.destId, 0))
+      this.newRelations.forEach(r => forkJoin(this._gameService.addRelation(r.orgId, r.destId, 0))
         .subscribe(
           
         () => {
@@ -261,7 +261,7 @@ export class GameDetailComponent implements OnInit {
   }
   teamsUpdated() {
     this._teamService.getTeams(this.game.id)
-      .subscribe(res => this.game.teams = res.json());
+      .subscribe((teams:Team[]) => this.game.teams = teams);
   }
 
 }

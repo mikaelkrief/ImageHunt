@@ -20,14 +20,14 @@ export class GameActionListComponent implements OnInit {
     this.gameId = this.route.snapshot.params["gameId"];
 
     this.gameService.getGameActionCountForGame(this.gameId)
-      .subscribe(next => {
-        this.totalRecords = next.json();
+      .subscribe((next: number) => {
+        this.totalRecords = next;
       });
   }
   loadData(event: LazyLoadEvent) {  
     this.gameService.getGameActionsToValidateForGame(this.gameId, (event.first / event.rows) + 1, event.rows, 3)
-      .subscribe(next => {
-        this.gameActions = next.json();
+      .subscribe((gameActions: GameAction[]) => {
+        this.gameActions = gameActions;
       });
   }
   probableNodeChanged(event, action) {

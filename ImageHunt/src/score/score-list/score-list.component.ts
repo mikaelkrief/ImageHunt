@@ -22,14 +22,14 @@ export class ScoreListComponent implements OnInit {
   constructor(private _gameService: GameService) { }
 
   ngOnInit() {
-    this._gameService.getGameReviewed().subscribe(next => {
-      this.games = next.json();
+    this._gameService.getGameReviewed().subscribe((games: Game[]) => {
+      this.games = games;
     });
   }
   onGameChange(game) {
     this._gameService.getScoreForGame(game.id)
-      .subscribe(list => {
-        this.scores = list.json();
+      .subscribe((scores: Score[]) => {
+        this.scores = scores;
         this.scores = this.scores.sort((a, b) => b.points - a.points);
       });
   }

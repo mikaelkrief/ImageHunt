@@ -12,14 +12,12 @@
     </thead>
     <tbody>
       <tr *ngFor="let team of teams">
-        <td><a routerLink="/team/{{team.id}}"><span class="fa fa-users fa-2x" [style.color]="team.color"> {{team.name}}</span></a></td>
+        <td><a routerLink="/team/{{team.id}}"><i class="fa fa-users fa-2x" [style.color]="team.color"></i> {{team.name}}</a></td>
         <td>
           <ul>
             <li>/init gameid={{gameId}} teamid={{team.id}}</li>
             <li><qr-code [value]="'/init gameid=' + gameId + ' teamid=' + team.id" [size]="50"></qr-code></li>
           </ul>
-          <br/>
-
         </td>
         <td>
           <button class="btn btn-danger" (click)="deleteTeam(team.id)"><i class="fa fa-trash"></i></button>
