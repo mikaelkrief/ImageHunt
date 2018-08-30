@@ -8,6 +8,7 @@ namespace ImageHuntWebServiceClient
     VisitWaypoint,
     ReplyQuestion,
     DoAction,
-    SubmitPosition
+    SubmitPosition,
+    RedeemPasscode
   }
 }

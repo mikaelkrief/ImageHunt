@@ -3,14 +3,16 @@ using System;
 using ImageHunt.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
-    partial class HuntContextModelSnapshot : ModelSnapshot
+    [Migration("20180829164550_AddPasscodesToGame")]
+    partial class AddPasscodesToGame
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,8 +211,6 @@ namespace ImageHunt.Migrations
 
                     b.Property<string>("Pass");
 
-                    b.Property<int>("Points");
-
                     b.HasKey("Id");
 
                     b.HasIndex("GameId");
@@ -282,21 +282,6 @@ namespace ImageHunt.Migrations
                     b.HasIndex("GameId");
 
                     b.ToTable("Teams");
-                });
-
-            modelBuilder.Entity("ImageHunt.Model.TeamPasscode", b =>
-                {
-                    b.Property<int>("TeamId");
-
-                    b.Property<int>("PasscodeId");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.HasKey("TeamId", "PasscodeId");
-
-                    b.HasIndex("PasscodeId");
-
-                    b.ToTable("TeamPasscode");
                 });
 
             modelBuilder.Entity("ImageHunt.Model.TeamPlayer", b =>
@@ -477,19 +462,6 @@ namespace ImageHunt.Migrations
                     b.HasOne("ImageHunt.Model.Game")
                         .WithMany("Teams")
                         .HasForeignKey("GameId");
-                });
-
-            modelBuilder.Entity("ImageHunt.Model.TeamPasscode", b =>
-                {
-                    b.HasOne("ImageHunt.Model.Passcode", "Passcode")
-                        .WithMany()
-                        .HasForeignKey("PasscodeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ImageHunt.Model.Team", "Team")
-                        .WithMany("TeamPasscodes")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ImageHunt.Model.TeamPlayer", b =>

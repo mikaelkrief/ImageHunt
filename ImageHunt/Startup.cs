@@ -95,6 +95,7 @@ namespace ImageHunt
       services.AddTransient<INodeService, NodeService>();
       services.AddTransient<IPlayerService, PlayerService>();
       services.AddTransient<IActionService, ActionService>();
+      services.AddTransient<IPasscodeService, PasscodeService>();
       services.AddTransient<IImageTransformation, ImageTransformation>();
       services.AddSignalR();
     }
