@@ -43,6 +43,7 @@ import { TeamFollowComponent } from "../team/team-follow/team-follow.component";
 import { IPartialConfigOptions, IProviders } from "ng2-ui-auth/lib/config-interfaces";
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
+import { PasscodeListComponent } from "../game/passcode-list/passcode-list.component";
 
 registerLocaleData(localeFr);
 
@@ -104,6 +105,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
       { path: "admin", component: AdminListComponent },
       { path: "score", component: ScoreListComponent },
       { path: "follow/:gameId", component: TeamFollowComponent },
+      { path: "passcode/:gameId", component: PasscodeListComponent },
       { path: "", redirectTo: "home", pathMatch: "full" },
       { path: "**", component: PageNotFoundComponent }
     ])

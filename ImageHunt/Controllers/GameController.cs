@@ -250,16 +250,16 @@ namespace ImageHunt.Controllers
 
       return Ok(picturesNodes);
     }
-    [HttpGet("GameActionsToValidate/{gameId}&pageIndex={pageIndex}&pageSize={pageSize}&nbPotential={nbPotential}")]
-    public async Task<IActionResult> GetGameActionsToValidate(int gameId, int pageIndex, int pageSize, int nbPotential)
+    [HttpGet("GameActionsToValidate")]
+    public async Task<IActionResult> GetGameActionsToValidate(GameActionListRequest gameActionListRequest)
     {
-      var gameActions = await _actionService.GetGameActionsForGame(gameId, pageIndex, pageSize);
+      var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize);
       var gameActionsToValidate = new List<GameActionToValidate>();
       foreach (var gameAction in gameActions)
       {
         var gameActionToValidate = Mapper.Map<GameAction, GameActionToValidate>(gameAction);
         gameActionToValidate.ProbableNodes = _nodeService
-          .GetGameNodesOrderByPosition(gameId, gameAction.Latitude, gameAction.Longitude).Take(nbPotential);
+          .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude, gameAction.Longitude).Take(gameActionListRequest.NbPotential);
         foreach (var probableNode in gameActionToValidate.ProbableNodes)
         {
           if (probableNode is PictureNode)

@@ -31,6 +31,7 @@ import { TeamModule } from "../team/team.module";
 import { LightboxModule } from 'primeng/lightbox';
 import { ImageNodeEditComponent } from './image-node-edit/image-node-edit.component';
 import { LiveService } from '../shared/services/live.service';
+import { PasscodeListComponent } from './passcode-list/passcode-list.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
@@ -39,10 +40,10 @@ import { LiveService } from '../shared/services/live.service';
     RadioButtonModule, TeamModule, LightboxModule],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent,
     NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent,
-    GameActionDetailComponent, ImageNodeEditComponent],
+    GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent],
   exports: [GameCreateComponent, GameDetailComponent, GameListComponent,
     NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent,
-    GameActionListComponent, GameActionDetailComponent, ImageNodeEditComponent],
+    GameActionListComponent, GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent],
   providers: [GameService, TeamService, AlertService, ConfirmationService, LiveService]
 })
 export class GameModule

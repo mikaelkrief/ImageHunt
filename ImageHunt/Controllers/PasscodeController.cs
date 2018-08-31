@@ -19,10 +19,10 @@ namespace ImageHunt.Controllers
     {
       return Ok(_passcodeService.GetAll(gameId));
     }
-    [HttpPatch("gameId={gameId}&teamId={teamId}&passcode={passcode}")]
-    public IActionResult Redeem(int gameId, int teamId, string passcode)
+    [HttpPatch]
+    public IActionResult Redeem(PasscodeRedeemRequest request)
     {
-      return Ok(_passcodeService.Redeem(gameId, teamId, passcode));
+      return Ok(_passcodeService.Redeem(request.GameId, request.TeamId, request.Passcode));
     }
     [HttpDelete("gameId={gameId}&passcodeId={passcodeId}")]
     public IActionResult Delete(int gameId, int passcodeId)

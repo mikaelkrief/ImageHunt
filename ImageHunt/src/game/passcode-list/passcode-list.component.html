@@ -1,0 +1,24 @@
+<div class="row">
+  <h2>Passcodes pour la partie {{game.name}}</h2>
+</div>
+<div class="row">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Mot de passe</th>
+      <th>Nombre d'utilisation</th>
+      <th>Points par utilisation</th>
+      <th><button class="btn btn-primary"><i class="fa fa-plus-square"></i></button></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let passcode of passcodes">
+      <td>{{passcode.pass}}</td>
+      <td>{{passcode.nbRedeem}}</td>
+      <td>{{passcode.points}}</td>
+      <td><button class="btn btn-danger" (click)="deletePasscode(passcode)"><i class="fa fa-trash"></i></button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+

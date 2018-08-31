@@ -41,7 +41,7 @@ namespace ImageHuntTest.Controller
             // Arrange
             
             // Act
-            var result = _target.Redeem(1, 2, "ghjgsjdgjhd");
+            var result = _target.Redeem(new PasscodeRedeemRequest(1, 2, "ghjgsjdgjhd"));
             // Assert
             A.CallTo(() => _passcodeService.Redeem(1, 2, "ghjgsjdgjhd")).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();

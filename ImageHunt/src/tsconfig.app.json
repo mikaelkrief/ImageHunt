@@ -3,6 +3,10 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "baseUrl": "./",
+    "paths": {
+      "services/*": [ "shared/services/*" ]
+    },
+
     "module": "es2015",
     "types": []
   },
