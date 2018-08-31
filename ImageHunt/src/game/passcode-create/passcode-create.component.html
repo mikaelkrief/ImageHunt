@@ -11,17 +11,24 @@
       <span></span>
         <div class="form-group row">
           <label for="pass">Mot de passe</label>
-          <input type="text" class="form-control" id="pass" ngModel name="pass"
-                 placeholder="Mot de passe" />
+          <div class="col-11">
+            <input type="text" class="form-control" id="pass" [(ngModel)]="pass" name="pass"
+                   placeholder="Mot de passe" />
+          </div>
+          <div class="col-1" style="padding-left: 0">
+            <button type="button" class="btn btn-success" (click)="generatePassword()">
+              <span class="fa fa-qrcode"></span>
+            </button>
+          </div>
         </div>
       <div class="form-group row">
         <div class="col-6">
           <label for="nbRedeem">Nombre d'utilisations</label>
-          <input class="form-control fa" type="number" ngModel name="nbRedeem" id="nbRedeem"/>
+          <input class="form-control fa" type="number" [(ngModel)]="nbRedeem" min="-1" name="nbRedeem" id="nbRedeem"/>
         </div>
         <div class="col-6">
           <label for="Points">Nombre de points</label>
-          <input class="form-control fa" type="number" ngModel name="points" id="points"/>
+          <input class="form-control fa" type="number" [(ngModel)]="points" name="points" id="points"/>
         </div>
         </div>
     </div>

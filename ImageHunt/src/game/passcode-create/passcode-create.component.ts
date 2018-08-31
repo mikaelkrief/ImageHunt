@@ -17,9 +17,21 @@ export class PasscodeCreateComponent {
   }
   public gameId: number;
   @Output() newPasscode = new EventEmitter<Passcode>();
+  pass: string;
+  nbRedeem: number = -1;
+  points: number = 10;
 
   createPasscode(form: NgForm) {
-    let passcode: Passcode = { id: 0, pass: form.value.pass, nbRedeem: form.value.nbRedeem, points: form.value.points };
+    //let passcode: Passcode = { id: 0, pass: form.value.pass, nbRedeem: form.value.nbRedeem, points: form.value.points };
+    let passcode: Passcode = { id: 0, pass: this.pass, nbRedeem: this.nbRedeem, points: this.points };
     this.newPasscode.emit(passcode);
   }
+  generatePassword() {
+    this.pass = '';
+    for (var i = 0; i < 20; i++) {
+      this.pass += Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 1);
+    }
+    this.pass = this.pass.toUpperCase();
+  }
+
 }
