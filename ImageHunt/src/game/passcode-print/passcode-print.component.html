@@ -1,0 +1,5 @@
+<div class="passcodeGrid">
+  <div *ngFor="let passcode of passcodes">
+    <qr-code [value]="passcode.pass"></qr-code>
+  </div>
+</div>

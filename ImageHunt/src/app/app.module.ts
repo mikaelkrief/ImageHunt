@@ -44,6 +44,8 @@ import { IPartialConfigOptions, IProviders } from "ng2-ui-auth/lib/config-interf
 import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { PasscodeListComponent } from "../game/passcode-list/passcode-list.component";
+import { PasscodeCreateComponent } from "../game/passcode-create/passcode-create.component";
+import { PasscodePrintComponent } from "../game/passcode-print/passcode-print.component";
 
 registerLocaleData(localeFr);
 
@@ -106,12 +108,14 @@ export class MyAuthConfig implements IPartialConfigOptions {
       { path: "score", component: ScoreListComponent },
       { path: "follow/:gameId", component: TeamFollowComponent },
       { path: "passcode/:gameId", component: PasscodeListComponent },
+      { path: "passcode/print/:gameId", component: PasscodePrintComponent },
       { path: "", redirectTo: "home", pathMatch: "full" },
       { path: "**", component: PageNotFoundComponent }
     ])
   ],
   providers: [Globals],
-  entryComponents: [NodeCreateComponent, NodeRelationComponent, QuestionNodeComponent, ImageNodeEditComponent]
+  entryComponents: [NodeCreateComponent, NodeRelationComponent, QuestionNodeComponent,
+                    ImageNodeEditComponent, PasscodeCreateComponent]
 
 })
 export class AppModule {

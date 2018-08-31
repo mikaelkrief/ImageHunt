@@ -31,7 +31,7 @@ namespace ImageHunt.Controllers
       return Ok();
     }
     [HttpPost]
-    public IActionResult Add(PasscodeRequest passcodeRequest)
+    public IActionResult Add([FromBody]PasscodeRequest passcodeRequest)
     {
       var passcode = new Passcode() { NbRedeem = passcodeRequest.NbRedeem, Pass = passcodeRequest.Pass, Points = passcodeRequest.Points };
       return Ok(_passcodeService.Add(passcodeRequest.GameId, passcode));

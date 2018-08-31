@@ -116,4 +116,14 @@ export class GameService {
   deletePasscode(gameId: number, passcode: Passcode) {
     return this.http.delete(`api/Passcode/gameId=${gameId}&passcodeId=${passcode.id}`);
   }
+  addPasscode(gameId: number, passcode: Passcode) {
+    let request =
+    {
+        gameId: gameId,
+        pass: passcode.pass,
+        nbRedeem: passcode.nbRedeem,
+        points: passcode.points
+    }
+    return this.http.post(`api/Passcode/`, request);
+  }
 }
