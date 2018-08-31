@@ -38,7 +38,8 @@ namespace ImageHunt.Services
                 return RedeemStatus.AlreadyRedeem;
             var gameAction = new GameAction() { Action = Action.RedeemPasscode, DateOccured = DateTime.Now, Game = game, Team = team, PointsEarned = passcode.Points };
             Context.GameActions.Add(gameAction);
-            passcode.NbRedeem--;
+            if (passcode.NbRedeem > 0)
+              passcode.NbRedeem--;
             team.TeamPasscodes.Add(new TeamPasscode() { Passcode = passcode, Team = team });
             Context.SaveChanges();
             return RedeemStatus.Ok;
