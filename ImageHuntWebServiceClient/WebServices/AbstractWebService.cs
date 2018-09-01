@@ -37,7 +37,7 @@ namespace ImageHuntWebServiceClient.WebServices
       return null;
     }
 
-    private async Task<T> ConvertToObject<T>(HttpResponseMessage response) where T : class
+      protected async Task<T> ConvertToObject<T>(HttpResponseMessage response) where T : class
     {
         var responseContent = response.Content;
         if (responseContent == null)
@@ -76,5 +76,15 @@ namespace ImageHuntWebServiceClient.WebServices
 
       return null;
     }
+
+      protected async Task<T> PatchAsync<T>(string uri, HttpContent content, CancellationToken cancellationToken = default(CancellationToken)) where T : class
+      {
+          var result = await _httpClient.PatchAsync(uri, content, cancellationToken);
+          if (result.IsSuccessStatusCode)
+          {
+              return await ConvertToObject<T>(result);
+          }
+          return null;
+      }
   }
 }

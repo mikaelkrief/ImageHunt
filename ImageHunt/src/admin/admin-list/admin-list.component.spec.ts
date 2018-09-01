@@ -13,7 +13,7 @@ import { ConfirmationService } from "primeng/api";
 
 import 'rxjs/add/observable/of';
 import { Component } from "@angular/core";
-import { JwtHttp } from "ng2-ui-auth";
+import { HttpClient } from '@angular/common/http';
 let component: AdminListComponent;
 let fixture: ComponentFixture<AdminListComponent>;
 class MockAdminService {
@@ -46,7 +46,7 @@ describe('admin-list component', () =>
         TestBed.configureTestingModule({
             declarations: [AdminListComponent],
             imports: [BrowserModule, RouterModule, FormsModule, SharedModule, ConfirmDialogModule],
-            providers: [AdminService, ConfirmationService, JwtHttp]
+            providers: [AdminService, ConfirmationService, HttpClient]
     });
     TestBed.overrideModule(ConfirmDialogModule,
       {

@@ -22,7 +22,7 @@ namespace ImageHunt.Controllers
     [HttpPatch]
     public IActionResult Redeem(PasscodeRedeemRequest request)
     {
-      return Ok(_passcodeService.Redeem(request.GameId, request.TeamId, request.Passcode));
+      return Ok(_passcodeService.Redeem(request.GameId, request.TeamId, request.Pass));
     }
     [HttpDelete("gameId={gameId}&passcodeId={passcodeId}")]
     public IActionResult Delete(int gameId, int passcodeId)

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ImageHunt.Model;
 using ImageHuntCore.Services;
+using ImageHuntWebServiceClient;
 
 namespace ImageHunt.Services
 {
@@ -11,12 +12,4 @@ namespace ImageHunt.Services
       void Delete(int gameId, int passcodeId);
       Passcode Add(int gameId, Passcode passcode);
     }
-
-  public enum RedeemStatus
-  {
-    Ok,
-    WrongCode,
-    FullyRedeem,
-    AlreadyRedeem,
-  }
 }

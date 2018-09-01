@@ -1,4 +1,13 @@
+.qrcode {
+  margin:20px;
+}
+.passcodeCell {
+  border-color: black;
+  border-width: 2px;
+  border-style: dashed;
+  margin:20px;
+}
 .passcodeGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
 }

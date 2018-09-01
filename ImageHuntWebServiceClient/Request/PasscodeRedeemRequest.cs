@@ -2,15 +2,15 @@ namespace ImageHuntWebServiceClient.Request
 {
   public class PasscodeRedeemRequest
   {
-    public PasscodeRedeemRequest(int gameId, int teamId, string passcode)
+    public PasscodeRedeemRequest(int gameId, int teamId, string pass)
     {
       GameId = gameId;
       TeamId = teamId;
-      Passcode = passcode;
+      Pass = pass;
     }
 
-    public int GameId { get; private set; }
-    public int TeamId { get; private set; }
-    public string Passcode { get; private set; }
+    public int GameId { get; }
+    public int TeamId { get; }
+    public string Pass { get; }
   }
 }

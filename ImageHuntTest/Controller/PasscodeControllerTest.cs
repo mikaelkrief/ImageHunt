@@ -5,6 +5,7 @@ using FakeItEasy;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Mvc;
 using NFluent;

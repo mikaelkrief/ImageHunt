@@ -4,6 +4,7 @@ using System.Text;
 using Castle.Core.Logging;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using ImageHuntWebServiceClient;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;

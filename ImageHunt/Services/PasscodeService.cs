@@ -4,6 +4,7 @@ using System.Linq;
 using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHuntCore.Services;
+using ImageHuntWebServiceClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Action = ImageHuntWebServiceClient.Action;
