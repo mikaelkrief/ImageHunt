@@ -46,6 +46,7 @@ import { NgModule } from "@angular/core";
 import { PasscodeListComponent } from "../game/passcode-list/passcode-list.component";
 import { PasscodeCreateComponent } from "../game/passcode-create/passcode-create.component";
 import { PasscodePrintComponent } from "../game/passcode-print/passcode-print.component";
+import { TeamCreateComponent } from "../team/team-create/team-create.component";
 
 registerLocaleData(localeFr);
 
@@ -115,7 +116,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
   ],
   providers: [Globals],
   entryComponents: [NodeCreateComponent, NodeRelationComponent, QuestionNodeComponent,
-                    ImageNodeEditComponent, PasscodeCreateComponent]
+                    ImageNodeEditComponent, PasscodeCreateComponent, TeamCreateComponent]
 
 })
 export class AppModule {

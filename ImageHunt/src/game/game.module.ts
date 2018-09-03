@@ -46,7 +46,8 @@ import { QRCodeModule } from 'angular2-qrcode';
     GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent, PasscodeCreateComponent, PasscodePrintComponent],
   exports: [GameCreateComponent, GameDetailComponent, GameListComponent,
     NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent,
-    GameActionListComponent, GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent, PasscodeCreateComponent, PasscodePrintComponent],
+    GameActionListComponent, GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent, PasscodeCreateComponent,
+    PasscodePrintComponent],
   providers: [GameService, TeamService, AlertService, ConfirmationService, LiveService]
 })
 export class GameModule
