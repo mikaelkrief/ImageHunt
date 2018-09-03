@@ -2,7 +2,7 @@
 
 namespace ImageHuntBot.Dialogs
 {
-    public interface IStartDialog : IDialog
+    public interface IBeginDialog : IDialog
     {
     }
 }

@@ -7,11 +7,11 @@ using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBot.Dialogs
 {
-    public class StartDialog : AbstractDialog, IStartDialog
+    public class BeginDialog : AbstractDialog, IBeginDialog
     {
         private readonly IActionWebService _actionWebService;
 
-        public StartDialog(IActionWebService actionWebService, ILogger<StartDialog> logger) : base(logger)
+        public BeginDialog(IActionWebService actionWebService, ILogger<BeginDialog> logger) : base(logger)
         {
             _actionWebService = actionWebService;
         }
@@ -42,6 +42,6 @@ namespace ImageHuntBot.Dialogs
             await turnContext.End();
         }
 
-        public override string Command => "/start";
+        public override string Command => "/begin";
     }
 }
