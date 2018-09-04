@@ -7,6 +7,7 @@ using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Mvc;
 using NFluent;
 using Xunit;
@@ -40,13 +41,19 @@ namespace ImageHuntTest.Controller
         public void RedemPasscode()
         {
             // Arrange
-            
+            var passcodes = new List<Passcode>
+            {
+                new Passcode(),
+                new Passcode(){Pass = "ghjgsjdgjhd"},
+                new Passcode(),
+            };
+            A.CallTo(() => _passcodeService.GetAll(A<int>._)).Returns(passcodes);
             // Act
             var result = _target.Redeem(new PasscodeRedeemRequest(1, 2, "ghjgsjdgjhd"));
             // Assert
             A.CallTo(() => _passcodeService.Redeem(1, 2, "ghjgsjdgjhd")).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();
-            Check.That(((OkObjectResult) result).Value).IsInstanceOf<RedeemStatus>();
+            Check.That(((OkObjectResult) result).Value).IsInstanceOf<PasscodeResponse>();
 
         }
 

@@ -22,13 +22,15 @@ namespace ImageHuntTest.Controller
         private TeamController _target;
       private IPlayerService _playerService;
       private IImageService _imageService;
+        private IGameService _gameService;
 
-      public TeamControllerTest()
+        public TeamControllerTest()
         {
             _teamService = A.Fake<ITeamService>();
           _playerService = A.Fake<IPlayerService>();
           _imageService = A.Fake<IImageService>();
-            _target = new TeamController(_teamService, _playerService, _imageService);
+            _gameService = A.Fake<IGameService>();
+            _target = new TeamController(_teamService, _playerService, _imageService, _gameService);
         }
 
       [Fact]

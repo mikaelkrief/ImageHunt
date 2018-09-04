@@ -123,5 +123,14 @@ namespace ImageHunt.Services
           .Select(ga => ga.Key);
       return games.Intersect(gamesActionWithScore);
     }
+
+    public Game GetActiveGameForPlayer(Player player)
+    {
+      var games = Context.Games
+        .Include(g=>g.Teams).ThenInclude(t=>t.TeamPlayers).ThenInclude(t=>t.Player)
+        .Where(g => g.IsActive && g.StartDate.HasValue && g.StartDate.Value.Date == DateTime.Today);
+      var game = games.FirstOrDefault(g => g.Teams.Any(t => t.TeamPlayers.Any(p => p.Player == player)));
+      return game;
+    }
   }
 }

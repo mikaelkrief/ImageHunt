@@ -9,6 +9,7 @@ namespace ImageHuntTelegramBot
     {
       IActivity Activity { get; set; }
       long ChatId { get; set; }
+      string Username { get; set; }
       bool Replied { get; }
       IDialog CurrentDialog { get; }
 

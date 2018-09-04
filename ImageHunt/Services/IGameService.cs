@@ -21,5 +21,6 @@ namespace ImageHunt.Services
     void DeleteGame(int gameId);
     IEnumerable<PictureNode> GetPictureNode(int gameId);
     IEnumerable<Game> GetGamesWithScore();
+    Game GetActiveGameForPlayer(Player player);
   }
 }

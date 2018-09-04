@@ -1,6 +1,8 @@
+using System.Linq;
 using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ImageHunt.Controllers
@@ -22,7 +24,17 @@ namespace ImageHunt.Controllers
     [HttpPatch]
     public IActionResult Redeem(PasscodeRedeemRequest request)
     {
-      return Ok(_passcodeService.Redeem(request.GameId, request.TeamId, request.Pass));
+      var redeemStatus = _passcodeService.Redeem(request.GameId, request.TeamId, request.Pass);
+      var passcodes = _passcodeService.GetAll(request.GameId);
+      var passcode = passcodes.SingleOrDefault(p => p.Pass == request.Pass);
+      var passcodeResponse = new PasscodeResponse()
+      {
+        Id = passcode.Id,
+        Pass = passcode.Pass,
+        RedeemStatus = redeemStatus,
+        Points = passcode.Points
+      };
+      return Ok(passcodeResponse);
     }
     [HttpDelete("gameId={gameId}&passcodeId={passcodeId}")]
     public IActionResult Delete(int gameId, int passcodeId)

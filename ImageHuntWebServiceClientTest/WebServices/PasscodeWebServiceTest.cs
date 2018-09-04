@@ -6,6 +6,7 @@ using FakeItEasy;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using TestUtilities;
 using Xunit;
@@ -47,16 +48,18 @@ namespace ImageHuntWebServiceClientTest.WebServices
         {
         }
 
-        public async Task<RedeemStatus> RedeemPasscode(int gameId, int teamId, string passcode)
+        public async Task<PasscodeResponse> RedeemPasscode(int gameId, int teamId, string passcode)
         {
             using (var content = new MultipartFormDataContent())
             {
                 content.Add(new StringContent(gameId.ToString()), "gameId");
                 content.Add(new StringContent(teamId.ToString()), "teamId");
                 content.Add(new StringContent(passcode), "pass");
-                var result = await PatchAsync<string>($"{_httpClient.BaseAddress}api/Passcode/", content);
-                return Enum.Parse<RedeemStatus>(result);
+                var result = await PatchAsync<PasscodeResponse>($"{_httpClient.BaseAddress}api/Passcode/", content);
+                return result;
             };
         }
+
+
     }
 }

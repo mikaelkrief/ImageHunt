@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
+using ImageHuntWebServiceClient.Responses;
 
 namespace ImageHuntWebServiceClient.WebServices
 {
     public interface IPasscodeWebService
     {
-        Task<RedeemStatus> RedeemPasscode(int gameId, int teamId, string passcode);
+        Task<PasscodeResponse> RedeemPasscode(int gameId, int teamId, string passcode);
     }
 }

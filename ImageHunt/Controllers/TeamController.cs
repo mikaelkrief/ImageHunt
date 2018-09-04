@@ -22,14 +22,17 @@ namespace ImageHunt.Controllers
     private readonly ITeamService _teamService;
     private readonly IPlayerService _playerService;
     private readonly IImageService _imageService;
+    private readonly IGameService _gameService;
 
     public TeamController(ITeamService teamService,
                           IPlayerService playerService,
-                          IImageService imageService)
+                          IImageService imageService,
+      IGameService gameService)
     {
       _teamService = teamService;
       _playerService = playerService;
       _imageService = imageService;
+      _gameService = gameService;
     }
     // GET: api/Team
     [HttpGet("ByGame/{gameId}")]
@@ -94,7 +97,9 @@ namespace ImageHunt.Controllers
     public IActionResult GetTeamsOfPlayer(string playerChatId)
     {
       var player = _playerService.GetPlayerByChatId(playerChatId);
-      return Ok(_teamService.GetTeamsForPlayer(player));
+      var teams = _teamService.GetTeamsForPlayer(player);
+      var game = _gameService.GetActiveGameForPlayer(player);
+      return Ok();
     }
     [HttpPut("StartTeam/{gameId}/{teamId}")]
     public IActionResult StartTeam(int gameId, int teamId)
