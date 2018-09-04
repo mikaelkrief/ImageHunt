@@ -70,7 +70,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _teamService.GetTeamById(gameActionRequest.TeamId)).MustHaveHappened();
             A.CallTo(() => _gameService.GetGameById(gameActionRequest.GameId)).MustHaveHappened();
             A.CallTo(() => _imageService.AddPicture(A<Picture>.That.Matches(p => CheckPicture(p)))).MustHaveHappened();
-            A.CallTo(() => _actionService.AddGameAction(A<GameAction>.That.Matches(ga => CheckGameActionForImage(ga, gameActionRequest.Latitude, gameActionRequest.Longitude)))).MustHaveHappened();
+            A.CallTo(() => _actionService.AddGameAction(A<GameAction>.That.Matches(ga => CheckGameActionForImage(ga, gameActionRequest.Latitude.Value, gameActionRequest.Longitude.Value)))).MustHaveHappened();
             A.CallTo(() => _nodeService.GetNode(A<int>._)).MustNotHaveHappened();
         }
 
@@ -108,19 +108,49 @@ namespace ImageHuntTest.Controller
             var result = await _target.AddGameAction(gameActionRequest);
             // Assert
             Check.That(result).IsInstanceOf<CreatedAtActionResult>();
-            A.CallTo(() => _actionService.AddGameAction(A<GameAction>.That.Matches(ga => CheckGameActionForAction(ga, Action.StartGame, gameActionRequest.Latitude, gameActionRequest.Longitude))))
+            A.CallTo(() => _actionService.AddGameAction(A<GameAction>.That.Matches(ga => CheckGameActionForAction(ga, Action.StartGame, gameActionRequest.Latitude.Value, gameActionRequest.Longitude.Value))))
+              .MustHaveHappened();
+        }
+        [Fact]
+        public async Task AddGameAction_GivePoints()
+        {
+            // Arrange
+            var gameActionRequest = new GameActionRequest()
+            {
+                Action = (int)Action.GivePoints,
+                GameId = 2,
+                TeamId = 5,
+                Points = 150
+
+            };
+            // Act
+            var result = await _target.AddGameAction(gameActionRequest);
+            // Assert
+            Check.That(result).IsInstanceOf<CreatedAtActionResult>();
+            A.CallTo(() => _actionService.AddGameAction(A<GameAction>
+                    .That.Matches(ga => CheckGameActionForAction(ga, Action.GivePoints, 
+                        gameActionRequest.Latitude, gameActionRequest.Longitude))))
               .MustHaveHappened();
         }
 
-        private bool CheckGameActionForAction(GameAction ga, Action expectedAction, double expectedLatitude, double expectedLongitude)
+        private bool CheckGameActionForAction(GameAction ga, Action expectedAction, double? expectedLatitude, double? expectedLongitude)
         {
             Check.That(ga.Action).Equals(expectedAction);
-            Check.That(ga.Latitude).Equals(expectedLatitude);
-            Check.That(ga.Longitude).Equals(expectedLongitude);
-            Check.That(ga.Game).IsNotNull();
-            Check.That(ga.Team).IsNotNull();
+            switch (expectedAction)
+            {
+                case Action.GivePoints:
+                    Check.That(ga.Game).IsNotNull();
+                    Check.That(ga.Team).IsNotNull();
+                    Check.That(ga.PointsEarned).IsNotEqualTo(0);
+                    return true;
+                default:
+                    Check.That(ga.Latitude).Equals(expectedLatitude);
+                    Check.That(ga.Longitude).Equals(expectedLongitude);
+                    Check.That(ga.Game).IsNotNull();
+                    Check.That(ga.Team).IsNotNull();
 
-            return true;
+                    return true;
+            }
         }
 
         [Fact]

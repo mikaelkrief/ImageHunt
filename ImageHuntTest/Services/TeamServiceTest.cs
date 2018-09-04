@@ -410,8 +410,8 @@ namespace ImageHuntTest.Services
       var imageAction = _context.GameActions.First();
       Check.That(imageAction.Game).Equals(games[0]);
       Check.That(imageAction.Team).Equals(teams[0]);
-      Check.That(imageAction.Latitude).IsEqualsWithDelta(59.3278160094444, 0.001);
-      Check.That(imageAction.Longitude).IsEqualsWithDelta(18.0551338194444, 0.001);
+      Check.That(imageAction.Latitude.Value).IsEqualsWithDelta(59.3278160094444, 0.001);
+      Check.That(imageAction.Longitude.Value).IsEqualsWithDelta(18.0551338194444, 0.001);
       Check.That(imageAction.Picture).IsNotNull();
       Check.That(imageAction.Action).Equals(Action.SubmitPicture);
       Check.That(imageAction.Node).Equals(nodes[0]);

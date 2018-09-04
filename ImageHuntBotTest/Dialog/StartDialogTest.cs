@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
 using ImageHuntBot.Dialogs;
@@ -32,12 +33,21 @@ namespace ImageHuntBotTest.Dialog
         }
 
         [Fact]
-        public void Begin()
+        public async Task Begin()
         {
             // Arrange
-            
+            var activity = new Activity()
+            {
+                ActivityType = ActivityType.Message,
+                ChatId = 15,
+                Text = "/start redeem="
+            };
+            var turnContext = A.Fake<ITurnContext>();
+            A.CallTo(() => turnContext.Activity).Returns(activity);
+            var imageHuntState = new ImageHuntState() { Status = Status.Initialized };
+            A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(imageHuntState);
             // Act
-
+            await _target.Begin(turnContext);
             // Assert
         }
     }
@@ -46,15 +56,16 @@ namespace ImageHuntBotTest.Dialog
     {
         private readonly IPasscodeWebService _passcodeWebService;
 
-        public StartDialog(ILogger logger, IPasscodeWebService passcodeWebService) : base(logger)
+        public StartDialog(ILogger<StartDialog> logger, IPasscodeWebService passcodeWebService) : base(logger)
         {
             _passcodeWebService = passcodeWebService;
         }
 
-        public override string Command => "/start";
-    }
+        public override Task Begin(ITurnContext turnContext)
+        {
+            return base.Begin(turnContext);
+        }
 
-    public interface IStartDialog : IDialog
-    {
+        public override string Command => "/start";
     }
 }

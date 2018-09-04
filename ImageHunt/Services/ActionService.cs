@@ -48,7 +48,7 @@ namespace ImageHunt.Services
         if (gameAction.Node != null)
         {
           var delta = GeographyComputation.Distance(gameAction.Node.Latitude, gameAction.Node.Longitude,
-            gameAction.Latitude, gameAction.Longitude);
+            gameAction.Latitude.Value, gameAction.Longitude.Value);
           _logger.LogDebug($"Delta = {delta} for nodeId {gameAction.Node.Id}");
           return delta;
         }

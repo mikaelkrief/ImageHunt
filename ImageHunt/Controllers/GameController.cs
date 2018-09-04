@@ -259,7 +259,7 @@ namespace ImageHunt.Controllers
       {
         var gameActionToValidate = Mapper.Map<GameAction, GameActionToValidate>(gameAction);
         gameActionToValidate.ProbableNodes = _nodeService
-          .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude, gameAction.Longitude).Take(gameActionListRequest.NbPotential);
+          .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value, gameAction.Longitude.Value).Take(gameActionListRequest.NbPotential);
         foreach (var probableNode in gameActionToValidate.ProbableNodes)
         {
           if (probableNode is PictureNode)
