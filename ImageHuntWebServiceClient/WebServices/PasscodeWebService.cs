@@ -14,9 +14,9 @@ namespace ImageHuntWebServiceClient.WebServices
         {
             using (var content = new MultipartFormDataContent())
             {
-                content.Add(new StringContent(gameId.ToString()), "gameId");
-                content.Add(new StringContent(teamId.ToString()), "teamId");
-                content.Add(new StringContent(passcode), "pass");
+                content.Add(new StringContent(gameId.ToString()), "GameId");
+                content.Add(new StringContent(teamId.ToString()), "TeamId");
+                content.Add(new StringContent(passcode), "Pass");
                 var result = await PatchAsync<PasscodeResponse>($"{_httpClient.BaseAddress}api/Passcode/", content);
                 return result;
             };

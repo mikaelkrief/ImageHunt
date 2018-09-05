@@ -49,7 +49,7 @@ namespace ImageHuntTest.Controller
             };
             A.CallTo(() => _passcodeService.GetAll(A<int>._)).Returns(passcodes);
             // Act
-            var result = _target.Redeem(new PasscodeRedeemRequest(1, 2, "ghjgsjdgjhd"));
+            var result = _target.Redeem(new PasscodeRedeemRequest(){GameId = 1, TeamId=2, Pass = "ghjgsjdgjhd"});
             // Assert
             A.CallTo(() => _passcodeService.Redeem(1, 2, "ghjgsjdgjhd")).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();

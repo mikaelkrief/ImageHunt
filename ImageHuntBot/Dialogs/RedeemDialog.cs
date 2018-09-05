@@ -41,7 +41,7 @@ namespace ImageHuntBot.Dialogs
                 {
                     case RedeemStatus.Ok:
                         reply =
-                            $"Le passcode {pass} a été bien été utilisé, il a rapporté {passcodeResponse.Points} à votre équipe.";
+                            $"Le passcode {pass} a été bien été utilisé, il a rapporté {passcodeResponse.Points} points à votre équipe.";
                         break;
                     case RedeemStatus.WrongCode:
                         reply = $"Le passcode {pass} est inconnu";

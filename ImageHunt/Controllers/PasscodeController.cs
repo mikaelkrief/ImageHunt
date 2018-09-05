@@ -22,18 +22,23 @@ namespace ImageHunt.Controllers
       return Ok(_passcodeService.GetAll(gameId));
     }
     [HttpPatch]
+    [Consumes("multipart/form-data")]
+
     public IActionResult Redeem(PasscodeRedeemRequest request)
     {
       var redeemStatus = _passcodeService.Redeem(request.GameId, request.TeamId, request.Pass);
-      var passcodes = _passcodeService.GetAll(request.GameId);
-      var passcode = passcodes.SingleOrDefault(p => p.Pass == request.Pass);
       var passcodeResponse = new PasscodeResponse()
       {
-        Id = passcode.Id,
-        Pass = passcode.Pass,
         RedeemStatus = redeemStatus,
-        Points = passcode.Points
       };
+      var passcodes = _passcodeService.GetAll(request.GameId);
+      var passcode = passcodes.SingleOrDefault(p => p.Pass == request.Pass);
+      if (passcode != null)
+      {
+        passcodeResponse.Id = passcode.Id;
+        passcodeResponse.Pass = passcode.Pass;
+        passcodeResponse.Points = passcode.Points;
+      }
       return Ok(passcodeResponse);
     }
     [HttpDelete("gameId={gameId}&passcodeId={passcodeId}")]
