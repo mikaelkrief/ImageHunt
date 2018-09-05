@@ -34,7 +34,11 @@ namespace ImageHuntBotTest
       public async Task GetContext_Message()
       {
         // Arrange
-        var update = new Update() {Message = new Message() {Text = "toto", Chat = new Chat() {Id = 15}}};
+        var update = new Update() {Message = new Message()
+        {
+            Text = "toto", Chat = new Chat() {Id = 15},
+            From = new User()
+        }};
         // Act
         var context = await _target.GetContext(update);
         // Assert
@@ -49,8 +53,8 @@ namespace ImageHuntBotTest
       public async Task GetContext_second_message()
       {
       // Arrange
-        var update1 = new Update() { Message = new Message() { Text = "toto", Chat = new Chat() { Id = 15 } } };
-        var update2 = new Update() { Message = new Message() { Text = "tata", Chat = new Chat() { Id = 15 } } };
+        var update1 = new Update() { Message = new Message() { Text = "toto", Chat = new Chat() { Id = 15 }, From = new User()} };
+        var update2 = new Update() { Message = new Message() { Text = "tata", Chat = new Chat() { Id = 15 }, From = new User() } };
         // Act
         var context1 = await _target.GetContext(update1);
         var context2 = await _target.GetContext(update2);
@@ -62,7 +66,17 @@ namespace ImageHuntBotTest
       public async Task GetContext_CallbackQuery()
       {
         // Arrange
-        var update = new Update() {CallbackQuery = new CallbackQuery(){Message = new Message(){Chat = new Chat(){Id = 15}}}};
+        var update = new Update()
+        {
+            CallbackQuery = new CallbackQuery()
+            {
+                Message = new Message()
+                {
+                    Chat = new Chat(){Id = 15},
+                    From = new User() { Username = "Toto"}
+                }
+            }
+        };
         // Act
         var context = await _target.GetContext(update);
         // Assert

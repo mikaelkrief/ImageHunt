@@ -33,8 +33,10 @@ namespace ImageHuntTelegramBot.Controllers
         var tc = _turnContexts[chatId];
         tc.ChatId = chatId;
         tc.Activity = activity;
-        tc.Username = update.Message.From.Username;
-
+        if (update.Message != null)
+            tc.Username = update.Message?.From.Username;
+          else if (update.CallbackQuery != null)
+              tc.Username = update.CallbackQuery?.Message?.From.Username;
         return tc;
       }
 
