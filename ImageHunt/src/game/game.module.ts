@@ -31,18 +31,23 @@ import { TeamModule } from "../team/team.module";
 import { LightboxModule } from 'primeng/lightbox';
 import { ImageNodeEditComponent } from './image-node-edit/image-node-edit.component';
 import { LiveService } from '../shared/services/live.service';
+import { PasscodeListComponent } from './passcode-list/passcode-list.component';
+import { PasscodeCreateComponent } from './passcode-create/passcode-create.component';
+import { PasscodePrintComponent } from './passcode-print/passcode-print.component';
+import { QRCodeModule } from 'angular2-qrcode';
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
     MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule,
     ToggleButtonModule, DropdownModule, ContextMenuModule, TableModule, GMapModule, SharedModule,
-    RadioButtonModule, TeamModule, LightboxModule],
+    RadioButtonModule, TeamModule, LightboxModule, QRCodeModule],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent,
     NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent,
-    GameActionDetailComponent, ImageNodeEditComponent],
+    GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent, PasscodeCreateComponent, PasscodePrintComponent],
   exports: [GameCreateComponent, GameDetailComponent, GameListComponent,
     NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent,
-    GameActionListComponent, GameActionDetailComponent, ImageNodeEditComponent],
+    GameActionListComponent, GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent, PasscodeCreateComponent,
+    PasscodePrintComponent],
   providers: [GameService, TeamService, AlertService, ConfirmationService, LiveService]
 })
 export class GameModule

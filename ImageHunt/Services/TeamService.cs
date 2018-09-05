@@ -72,7 +72,8 @@ namespace ImageHunt.Services
 
     public IEnumerable<Team> GetTeamsForPlayer(Player player)
     {
-      return Context.Teams.Include(t => t.TeamPlayers).ThenInclude(t=>t.Team)
+      var teamsWithPlayers = Context.Teams.Include(t => t.TeamPlayers).ThenInclude(t=>t.Player);
+      return teamsWithPlayers
         .Where(t => t.Players.Any(p=>p.Id == player.Id));
     }
     public Node NextNodeForTeam(int teamId, double playerLatitude, double playerLongitude)

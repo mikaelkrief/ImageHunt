@@ -21,13 +21,23 @@
       <br/>
       <br/>
       <div class="row">
-        <button class="btn btn-primary" [routerLink]="['/action/', game.id]"><span class="fa fa-map-signs"> Actions</span></button>
+        <div class="col-md-1">
+          <button class="btn btn-primary" [routerLink]="['/action/', game.id]">
+            <span class="fa fa-map-signs"> Actions</span>
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+          <button class="btn btn-primary" [routerLink]="['/passcode/', game.id]">
+            <span class="fa fa-qrcode"> Passcodes</span>
+          </button>
+        </div>
       </div>
     </div>
     <div class="col-lg-9">
       <div heading="Equipes">
         <team-list [teams]="game.teams" [gameId]="game.id"></team-list>
-        <team-create [gameId]="game.id" (teamCreated)="teamsUpdated()"></team-create>
       </div>
     </div>
   </div>

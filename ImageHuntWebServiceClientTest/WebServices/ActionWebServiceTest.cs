@@ -72,5 +72,33 @@ namespace ImageHuntWebServiceClientTest.WebServices
                 .WithReturnType<Task<HttpResponseMessage>>().MustHaveHappened();
 
         }
+        [Fact]
+        public async Task LogAction_LogGivePoints()
+        {
+            // Arrange
+            var logActionRequest = new GameActionRequest()
+            {
+                GameId = 1,
+                TeamId = 1,
+                Action = (int)Action.GivePoints
+            };
+
+            var httpResponse = new HttpResponseMessage()
+            {
+                Content = new StringContent("OK")
+            };
+
+            A.CallTo(_fakeHttpMessageHandler)
+                .Where(x => x.Method.Name == "PostAsync")
+                .WithReturnType<Task<HttpResponseMessage>>()
+                .Returns(httpResponse);
+            // Act
+            await _target.LogAction(logActionRequest);
+            // Assert
+            A.CallTo(_fakeHttpMessageHandler)
+                .Where(x => x.Method.Name == "SendAsync")
+                .WithReturnType<Task<HttpResponseMessage>>().MustHaveHappened();
+
+        }
     }
 }

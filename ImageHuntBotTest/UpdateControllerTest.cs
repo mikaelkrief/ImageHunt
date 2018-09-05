@@ -130,7 +130,7 @@ namespace ImageHuntBotTest
             {
                 Chat = new Chat() { Id = 15 },
                 From = new User() { Username = "titi"},
-                Text = "/start"
+                Text = "/begin"
             } };
             await _target.UpdateAdmins();
             // Act

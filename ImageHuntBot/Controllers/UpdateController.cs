@@ -38,7 +38,7 @@ namespace ImageHuntTelegramBot.Controllers
             var message = update.Message == null ? update.EditedMessage : update.Message;
             _logger.LogInformation(
             $"Received update from {message.Chat.Id} of type {message.Type}");
-            if (!string.IsNullOrEmpty(message.Text) && message.Text.StartsWith("/"))
+            if (!string.IsNullOrEmpty(message.Text) && message.Text.StartsWith("/") && !message.Text.StartsWith("/start"))
             {
                 try
                 {

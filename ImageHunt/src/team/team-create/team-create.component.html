@@ -1,26 +1,36 @@
-<p-panel header="Création d'une Equipe" class="ui-g-12">
-  <div class="ui-g">
-    <form [formGroup]="teamCreateForm" class="ui-g" (submit)="createTeam()">
-      <div class="form-group row">
-        <label for="teamName" class="ui-g-12 ui-md-2">Nom de l'équipe</label>
-        <input pInputText id="teamName" formControlName="teamName" placeholder="Nom de l'équipe"
-               class="ui-g-12 ui-md-5" />
-      </div>
-      <div class="ui-g-12 ui-md-5">
-        <div class="ui-message ui-messages-error" *ngIf="fieldErrors('teamName')">
-          <i class="fa fa-close"></i>
-          <span *ngIf="fieldErrors('teamName').required">Le nom de l'équipe est requis</span>
-          <span *ngIf="fieldErrors('teamName').minlength">Le nom de l'équipe est trop court</span>
-        </div>
-      </div>
-      <p-button class="ui-g ui-button-success" [disabled]="hasFormErrors()"
-                type="submit" icon="fa fa-users" iconPos="left"
-                label="Créer l'équipe"></p-button>
-    </form>
-    <div>
-      <label for="teamColor" class="ui-g-12 ui-md-2">Couleur d'équipe</label>
-      <p-colorPicker [(ngModel)]="color" id="teamColor"></p-colorPicker>
-    </div>
+<div #createTeamTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Création d'une équipe</h4>
+    <button type="button" class="close pull-right" aria-label="Fermer" (click)="bsModalRef.hide()">
+      <span aria-hidden="true" class="fa fa-times"></span>
+    </button>
   </div>
-</p-panel>
+  <div class="container">
+    <form #form="ngForm" (submit)="createTeam()">
+      <div class="modal-body">
+        <div class="form-group row">
+          <label for="teamName">Nom de l'équipe</label>
+          <input class="form-control" [(ngModel)]="name" id="teamName" name="teamName" placeholder="Nom de l'équipe" />
+        </div>
+        <div class="form-group row">
+          <label for="teamColor">Couleur d'équipe</label>
+          <div class="col-11" style="padding-right: 0">
+            <input class="form-control" [(ngModel)]="color" id="teamColor" name="teamColor" />
+          </div>
+          <div class="col-1">
+            <p-colorPicker></p-colorPicker>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success pull-right" type="submit" aria-label="Close"
+                (click)="bsModalRef.hide()">
+          Créer l'équipe
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 

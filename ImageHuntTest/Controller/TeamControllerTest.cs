@@ -8,6 +8,7 @@ using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NFluent;
@@ -22,13 +23,15 @@ namespace ImageHuntTest.Controller
         private TeamController _target;
       private IPlayerService _playerService;
       private IImageService _imageService;
+        private IGameService _gameService;
 
-      public TeamControllerTest()
+        public TeamControllerTest()
         {
             _teamService = A.Fake<ITeamService>();
           _playerService = A.Fake<IPlayerService>();
           _imageService = A.Fake<IImageService>();
-            _target = new TeamController(_teamService, _playerService, _imageService);
+            _gameService = A.Fake<IGameService>();
+            _target = new TeamController(_teamService, _playerService, _imageService, _gameService);
         }
 
       [Fact]
@@ -130,12 +133,30 @@ namespace ImageHuntTest.Controller
       public void GetTeamOfPlayer()
       {
         // Arrange
+          var players = new List<Player>
+          {
+              new Player(),
+              new Player()
+          };
+          var teams = new List<Team>
+          {
+              new Team(),
+              new Team()
+          };
+          teams[0].TeamPlayers.Add(new TeamPlayer(){Team = teams[0], Player = players[1]});
+          teams[1].TeamPlayers.Add(new TeamPlayer(){Team = teams[1], Player = players[1]});
+          A.CallTo(() => _playerService.GetPlayerByChatId(A<string>._)).Returns(players[1]);
+          A.CallTo(() => _teamService.GetTeamsForPlayer(A<Player>._)).Returns(teams);
+          var game = new Game() {Id = 56, Teams = new List<Team>() {teams[0]}};
+          A.CallTo(() => _gameService.GetActiveGameForPlayer(players[1]))
+              .Returns(game);
         // Act
         var result = _target.GetTeamsOfPlayer("toto");
         // Assert
         Check.That(result).IsInstanceOf<OkObjectResult>();
         A.CallTo(() => _playerService.GetPlayerByChatId("toto")).MustHaveHappened();
         A.CallTo(() => _teamService.GetTeamsForPlayer(A<Player>._)).MustHaveHappened();
+          Check.That(((TeamResponse)((OkObjectResult) result).Value).GameId).Equals(game.Id);
       }
       [Fact]
       public void StartPlayer()

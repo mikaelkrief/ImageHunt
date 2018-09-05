@@ -22,6 +22,15 @@ namespace ImageHuntTelegramBot
       }
 
       public Document Document { get; set; }
+
+        public string Payload
+        {
+            get
+            {
+                var regex = new Regex(@"(\/\w*) (.*)");
+                return regex.Matches(Text)[0].Groups[2].Value;
+            }
+        }
     }
 
   public enum ActivityType
@@ -42,5 +51,6 @@ namespace ImageHuntTelegramBot
     Location Location { get; set; }
     string Command { get; }
     Document Document { get; set; }
+      string Payload { get; }
   }
 }

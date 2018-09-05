@@ -72,6 +72,10 @@ namespace ImageHunt.Controllers
       
       switch (gameAction.Action)
       {
+        case Action.GivePoints:
+          gameAction.PointsEarned = gameActionRequest.Points;
+          gameAction.IsValidated = true;
+          break;
         case Action.DoAction:
         case Action.SubmitPicture:
           if (string.IsNullOrEmpty(gameActionRequest.Picture))

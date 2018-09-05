@@ -14,6 +14,7 @@ namespace ImageHuntTelegramBot
         private readonly ILogger<TurnContext> _logger;
         public virtual IActivity Activity { get; set; }
         public virtual long ChatId { get; set; }
+        public string Username { get; set; }
         public virtual bool Replied { get; private set; }
         public virtual IDialog CurrentDialog { get; private set; }
 

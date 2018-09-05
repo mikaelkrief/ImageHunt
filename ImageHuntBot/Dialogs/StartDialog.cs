@@ -1,7 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Autofac;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
-using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;
 
@@ -9,36 +10,38 @@ namespace ImageHuntBot.Dialogs
 {
     public class StartDialog : AbstractDialog, IStartDialog
     {
-        private readonly IActionWebService _actionWebService;
+        private readonly IPasscodeWebService _passcodeWebService;
+        private readonly ILifetimeScope _scope;
+        private readonly IContainer _container;
 
-        public StartDialog(IActionWebService actionWebService, ILogger<StartDialog> logger) : base(logger)
+        public StartDialog(ILogger<StartDialog> logger, IPasscodeWebService passcodeWebService, ILifetimeScope scope) : base(logger)
         {
-            _actionWebService = actionWebService;
+            _passcodeWebService = passcodeWebService;
+            _scope = scope;
         }
 
         public override async Task Begin(ITurnContext turnContext)
         {
-            var state = turnContext.GetConversationState<ImageHuntState>();
-            if (state.Status != Status.Initialized)
+            // extract the payload
+            var command = turnContext.Activity.Command;
+            var payload = turnContext.Activity.Payload;
+            payload = $"/{payload}";
+            var regex = new Regex(@"(\w*)\=");
+            if (regex.IsMatch(payload))
             {
-                LogInfo<ImageHuntState>(turnContext, "Game not initialized");
-                await turnContext.ReplyActivity("Le chat n'a pas été initialisé, impossible de commencer maintenant!");
-                await turnContext.End();
-                return;
+                var group = regex.Matches(payload);
+                var subCommand = group[0].Groups[1].Value;
+                IDialog subDialog = null;
+                turnContext.Activity.Text = payload;
+                switch (subCommand)
+                {
+                    case "redeem":
+                        subDialog = _scope.Resolve<IRedeemDialog>();
+                        await turnContext.Begin(subDialog);
+                        break;
+                }
             }
-            LogInfo<ImageHuntState>(turnContext, "Start Game");
 
-            var gameActionRequest = new GameActionRequest()
-            {
-                Action = (int) ImageHuntWebServiceClient.Action.StartGame,
-                GameId = state.GameId,
-                TeamId = state.TeamId,
-                Latitude = state.CurrentLatitude,
-                Longitude = state.CurrentLongitude
-            };
-            state.Status = Status.Started;
-            await _actionWebService.LogAction(gameActionRequest);
-            await turnContext.ReplyActivity($"La chasse commence maintenant! Bonne chance!");
             await turnContext.End();
         }
 

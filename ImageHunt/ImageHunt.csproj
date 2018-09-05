@@ -29,6 +29,7 @@
     <None Remove="src\shared\GUINode.ts" />
     <None Remove="src\shared\NodeClicked.ts" />
     <None Remove="src\shared\NodeDragged.ts" />
+    <None Remove="src\shared\Passcode.ts" />
     <None Remove="src\shared\picture.ts" />
     <None Remove="src\shared\RelationClicked.ts" />
     <None Remove="src\shared\player.ts" />
@@ -79,6 +80,7 @@
     <TypeScriptCompile Include="src\shared\GUINode.ts" />
     <TypeScriptCompile Include="src\shared\player.ts" />
     <TypeScriptCompile Include="src\shared\QuestionNodeAnswerRelation.ts" />
+    <TypeScriptCompile Include="src\shared\Passcode.ts" />
     <TypeScriptCompile Include="src\shared\score.ts" />
     <TypeScriptCompile Include="src\shared\services\game.service.ts" />
     <TypeScriptCompile Include="src\shared\team.ts" />

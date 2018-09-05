@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Autofac;
-using ImageHuntBot.Dialogs;
+using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Controllers;
-using ImageHuntTelegramBot.Dialogs;
 using ImageHuntWebServiceClient.WebServices;
 
-namespace ImageHuntTelegramBot
+namespace ImageHuntBot
 {
     public class DefaultModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterAssemblyTypes(this.ThisAssembly)
+            builder.RegisterAssemblyTypes(ThisAssembly)
                 .PublicOnly()
                 .Where(t => t.Name.EndsWith("Dialog"))
                 .AsImplementedInterfaces();
@@ -21,6 +18,7 @@ namespace ImageHuntTelegramBot
             builder.RegisterType<TeamWebService>().As<ITeamWebService>();
             builder.RegisterType<ActionWebService>().As<IActionWebService>();
             builder.RegisterType<AdminWebService>().As<IAdminWebService>();
+            builder.RegisterType<PasscodeWebService>().As<IPasscodeWebService>();
             builder.Register(t =>
             {
                 var bot = new TelegramBot();

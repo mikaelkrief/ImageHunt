@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { TeamService } from "../../shared/services/team.service";
 import {Team} from "../../shared/team";
+import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
     selector: 'team-create',
@@ -12,15 +13,11 @@ import {Team} from "../../shared/team";
 export class TeamCreateComponent implements OnInit {
   teamCreateForm: FormGroup;
   @Input() gameId: number;
-  @Output() teamCreated = new EventEmitter();
+  @Output() teamCreated = new EventEmitter<Team>();
     /** teamCreate ctor */
-    constructor(private fb: FormBuilder, private teamService: TeamService) {
+  constructor(public bsModalRef: BsModalRef, private teamService: TeamService) {
     }
   ngOnInit(): void {
-    this.teamCreateForm = this.fb.group({
-      teamName: ['', [Validators.required, Validators.minLength(5)]]
-    });
-
     }
   hasFormErrors() {
     return !this.teamCreateForm.valid;
@@ -30,14 +27,11 @@ export class TeamCreateComponent implements OnInit {
     return (controlState.dirty && controlState.errors) ? controlState.errors : null;
   }
   createTeam() {
-    let teamName = this.teamCreateForm.value['teamName'];
-    let team: Team = { id: 0, name: teamName, players: null, color:this.color };
-    this.teamService.createTeam(this.gameId, team)
-      .subscribe(() => {
-        this.teamCreated.emit();
-        this.teamCreateForm.reset();
-      });
+    let team: Team = { id: 0, name: this.name, players: null, color:this.color };
+    this.teamCreated.emit(team);
+    this.teamCreateForm.reset();
 
   }
-  color:string;
+  color: string;
+  name:string;
 }

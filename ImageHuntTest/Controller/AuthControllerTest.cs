@@ -40,8 +40,10 @@ namespace ImageHuntTest.Controller
         {
             // Arrange
             dynamic bearer = new JObject();
-            bearer.code = "toto";
-            bearer.redirectUri = "http://localhost";
+            bearer.oauthData = new JObject();
+            bearer.oauthData.code = "toto";
+            bearer.authorizationData = new JObject();
+            bearer.authorizationData.redirect_uri = "http://localhost";
             var response = new HttpResponseMessage();
             response.Content = new StringContent("{\"access_token\":\"1545151515\", \"expires_in\":\"3521\", \"redirectUri\":\"http://localhost\"}");
             A.CallTo(_fakeTokenMessageHandler)
@@ -70,8 +72,10 @@ namespace ImageHuntTest.Controller
         {
             // Arrange
             dynamic bearer = new JObject();
-            bearer.code = "toto";
-            bearer.redirectUri = "http://localhost";
+            bearer.oauthData = new JObject();
+            bearer.oauthData.code = "toto";
+            bearer.authorizationData = new JObject();
+            bearer.authorizationData.redirect_uri = "http://localhost";
             var response = new HttpResponseMessage();
             response.Content = new StringContent("{\"access_token\":\"1545151515\", \"expires_in\":\"3521\", \"redirectUri\":\"http://localhost\"}");
             A.CallTo(_fakeTokenMessageHandler)

@@ -290,5 +290,74 @@ namespace ImageHuntTest.Services
           // Assert
           Check.That(results).ContainsExactly(games[0], games[1]);
       }
+
+      [Fact]
+      public void GetActiveGameForPlayer()
+      {
+          var players = new List<Player>
+          {
+              new Player(),new Player(),new Player(),new Player(), new Player(),
+              new Player(),new Player(),new Player(),new Player(), new Player(),
+              new Player(),new Player(),new Player(),new Player(), new Player(),
+              new Player(),new Player(),new Player(),new Player(), new Player(),
+          };
+          _context.Players.AddRange(players);
+          _context.SaveChanges();
+          var teams = new List<Team>
+          {
+              new Team(),
+              new Team(),
+              new Team(),
+              new Team(),
+          };
+          teams[0].TeamPlayers=new List<TeamPlayer>
+          {
+              new TeamPlayer(){Player = players[0], Team = teams[0]},
+              new TeamPlayer(){Player = players[1], Team = teams[0]},
+              new TeamPlayer(){Player = players[3], Team = teams[0]},
+          };
+          teams[1].TeamPlayers=new List<TeamPlayer>
+          {
+              new TeamPlayer(){Player = players[2], Team = teams[1]},
+              new TeamPlayer(){Player = players[4], Team = teams[1]},
+              new TeamPlayer(){Player = players[6], Team = teams[1]},
+          };
+          teams[2].TeamPlayers=new List<TeamPlayer>
+          {
+              new TeamPlayer(){Player = players[0], Team = teams[2]},
+              new TeamPlayer(){Player = players[7], Team = teams[2]},
+              new TeamPlayer(){Player = players[8], Team = teams[2]},
+          };
+          teams[3].TeamPlayers=new List<TeamPlayer>
+          {
+              new TeamPlayer(){Player = players[8], Team = teams[3]},
+              new TeamPlayer(){Player = players[6], Team = teams[3]},
+              new TeamPlayer(){Player = players[9], Team = teams[3]},
+          };
+          _context.Teams.AddRange(teams);
+          _context.SaveChanges();
+          // Arrange
+          var games = new List<Game>
+          {
+              new Game(){IsActive = false},
+              new Game(){IsActive = true, StartDate = DateTime.Today, Teams = new List<Team>(){teams[0], teams[2]}},
+              new Game(){IsActive = true, StartDate = DateTime.Today.AddDays(1), Teams = new List<Team>(){teams[0], teams[2]}},
+              new Game(){IsActive = true, StartDate = DateTime.Today, Teams = new List<Team>(){teams[1], teams[3]}},
+          };
+          games[0].Teams.Add(teams[0]);
+          games[0].Teams.Add(teams[2]);
+          games[1].Teams.Add(teams[0]);
+          games[1].Teams.Add(teams[2]);
+          games[2].Teams.Add(teams[0]);
+          games[2].Teams.Add(teams[2]);
+          games[3].Teams.Add(teams[1]);
+          games[3].Teams.Add(teams[3]);
+          _context.Games.AddRange(games);
+          _context.SaveChanges();
+          // Act
+          var result = _target.GetActiveGameForPlayer(players[0]);
+          // Assert
+          Check.That(result).Equals(games[1]);
+      }
   }
 }

@@ -23,5 +23,6 @@ namespace ImageHunt.Model
     public double? MapCenterLat { get; set; }
     public double? MapCenterLng { get; set; }
     public int? MapZoom { get; set; }
+    public List<Passcode> Passcodes { get; set; }
   }
 }

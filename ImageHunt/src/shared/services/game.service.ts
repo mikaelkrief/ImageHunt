@@ -7,6 +7,7 @@ import {NodeRequest} from '../nodeRequest';
 import { Observable } from 'rxjs';
 import {QuestionNodeAnswerRelation} from '../QuestionNodeAnswerRelation';
 import { GameAction } from '../gameAction';
+import { Passcode } from '../Passcode';
 
 @Injectable()
 export class GameService {
@@ -106,5 +107,23 @@ export class GameService {
   }
   getGameActionsForGame(gameId: number) {
     return this.http.get(`api/Action/${gameId}`);
+  }
+
+  getPasscodesForGame(gameId: number) {
+    return this.http.get(`api/Passcode/${gameId}`);
+  }
+
+  deletePasscode(gameId: number, passcode: Passcode) {
+    return this.http.delete(`api/Passcode/gameId=${gameId}&passcodeId=${passcode.id}`);
+  }
+  addPasscode(gameId: number, passcode: Passcode) {
+    let request =
+    {
+        gameId: gameId,
+        pass: passcode.pass,
+        nbRedeem: passcode.nbRedeem,
+        points: passcode.points
+    }
+    return this.http.post(`api/Passcode/`, request);
   }
 }

@@ -1,0 +1,43 @@
+<div #createPasscodeTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Création d'un passcode</h4>
+    <button type="button" class="close pull-right" aria-label="Fermer" (click)="bsModalRef.hide()">
+      <span aria-hidden="true" class="fa fa-times"></span>
+    </button>
+  </div>
+  <div class="container">
+  <form #form="ngForm" (submit)="createPasscode(form)">
+    <div class="modal-body">
+      <span></span>
+        <div class="form-group row">
+          <label for="pass">Mot de passe</label>
+          <div class="col-11">
+            <input type="text" class="form-control" id="pass" [(ngModel)]="pass" name="pass"
+                   placeholder="Mot de passe" />
+          </div>
+          <div class="col-1" style="padding-left: 0">
+            <button type="button" class="btn btn-success" (click)="generatePassword()">
+              <span class="fa fa-qrcode"></span>
+            </button>
+          </div>
+        </div>
+      <div class="form-group row">
+        <div class="col-6">
+          <label for="nbRedeem">Nombre d'utilisations</label>
+          <input class="form-control fa" type="number" [(ngModel)]="nbRedeem" min="-1" name="nbRedeem" id="nbRedeem"/>
+        </div>
+        <div class="col-6">
+          <label for="Points">Nombre de points</label>
+          <input class="form-control fa" type="number" [(ngModel)]="points" name="points" id="points"/>
+        </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-success pull-right" type="submit" aria-label="Close"
+              (click)="bsModalRef.hide()">
+        Créer le passcode
+      </button>
+    </div>
+  </form>
+  </div>
+</div>

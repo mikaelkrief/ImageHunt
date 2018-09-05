@@ -525,8 +525,9 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _actionService.GetGameActionsForGame(A<int>._, A<int>._, A<int>._))
                 .Returns(Task.FromResult(new PaginatedList<GameAction>(gameActions, 2, 1, 10)));
             A.CallTo(() => _nodeService.GetGameNodesOrderByPosition(1, 40, 5)).Returns(nodes);
+            var gameActionListRequest = new GameActionListRequest(){GameId = 1, PageIndex = 1, PageSize = 1, NbPotential = 3};
             // Act
-            var result = await _target.GetGameActionsToValidate(1, 1, 1, 3) as OkObjectResult;
+            var result = await _target.GetGameActionsToValidate(gameActionListRequest) as OkObjectResult;
             // Assert
             Check.That(result.Value).IsInstanceOf<List<GameActionToValidate>>();
             var gameActionToValidate = result.Value as List<GameActionToValidate>;

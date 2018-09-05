@@ -14,7 +14,7 @@ namespace ImageHunt.Model
 
       public Team Team  
       {
-        get { return _team; }
+        get => _team;
         set
         {
           _team = value;
