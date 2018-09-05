@@ -9,9 +9,8 @@ namespace ImageHuntBot.Dialogs
   {
     private readonly string _displayMessage;
 
-    public DisplayDialog(string displayMessage, ILogger<DisplayDialog> logger) : base(logger)
+    public DisplayDialog(ILogger<DisplayDialog> logger) : base(logger)
     {
-      _displayMessage = displayMessage;
     }
     public override async Task Begin(ITurnContext turnContext)
     {

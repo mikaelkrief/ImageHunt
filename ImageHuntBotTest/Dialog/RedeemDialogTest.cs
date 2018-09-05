@@ -54,7 +54,7 @@ namespace ImageHuntBotTest.Dialog
             {
                 ActivityType = ActivityType.Message,
                 ChatId = 15,
-                Text = "/redeem pass=YHTYTH"
+                Text = "/redeem=YHTYTH"
             };
             var turnContext = A.Fake<ITurnContext>();
             A.CallTo(() => turnContext.Activity).Returns(activity);

@@ -19,6 +19,7 @@ namespace ImageHuntBotTest.Dialog
         private IPasscodeWebService _passcodeWebService;
         private ILogger<StartDialog> _logger;
         private StartDialog _target;
+        private IRedeemDialog _redeemDialog;
 
         public StartDialogTest()
         {
@@ -27,6 +28,8 @@ namespace ImageHuntBotTest.Dialog
             _testContainerBuilder.RegisterInstance(_passcodeWebService);
             _logger = A.Fake<ILogger<StartDialog>>();
             _testContainerBuilder.RegisterInstance(_logger).As<ILogger<StartDialog>>();
+            _redeemDialog = A.Fake<IRedeemDialog>();
+            _testContainerBuilder.RegisterInstance(_redeemDialog).As<IRedeemDialog>();
             _container = _testContainerBuilder.Build();
             _target = _container.Resolve<StartDialog>();
 
@@ -40,7 +43,7 @@ namespace ImageHuntBotTest.Dialog
             {
                 ActivityType = ActivityType.Message,
                 ChatId = 15,
-                Text = "/start redeem="
+                Text = "/start redeem=GFHFTF"
             };
             var turnContext = A.Fake<ITurnContext>();
             A.CallTo(() => turnContext.Activity).Returns(activity);
@@ -50,22 +53,5 @@ namespace ImageHuntBotTest.Dialog
             await _target.Begin(turnContext);
             // Assert
         }
-    }
-
-    public class StartDialog : AbstractDialog, IStartDialog
-    {
-        private readonly IPasscodeWebService _passcodeWebService;
-
-        public StartDialog(ILogger<StartDialog> logger, IPasscodeWebService passcodeWebService) : base(logger)
-        {
-            _passcodeWebService = passcodeWebService;
-        }
-
-        public override Task Begin(ITurnContext turnContext)
-        {
-            return base.Begin(turnContext);
-        }
-
-        public override string Command => "/start";
     }
 }

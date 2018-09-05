@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -99,7 +100,14 @@ namespace ImageHunt.Controllers
       var player = _playerService.GetPlayerByChatId(playerChatId);
       var teams = _teamService.GetTeamsForPlayer(player);
       var game = _gameService.GetActiveGameForPlayer(player);
-      return Ok();
+      var team = teams.Single(t => game.Teams.Any(gt => gt == t));
+      var teamResponse = new TeamResponse()
+      {
+        GameId = game.Id,
+        Id = team.Id,
+        Name = team.Name
+      };
+      return Ok(teamResponse);
     }
     [HttpPut("StartTeam/{gameId}/{teamId}")]
     public IActionResult StartTeam(int gameId, int teamId)

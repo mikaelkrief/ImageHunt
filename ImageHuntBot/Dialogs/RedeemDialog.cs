@@ -28,7 +28,7 @@ namespace ImageHuntBot.Dialogs
 
         public override async Task Begin(ITurnContext turnContext)
         {
-            var regEx = new Regex(@"(?i)\/redeem pass=(\w*)");
+            var regEx = new Regex(@"(?i)\/redeem=(\w*)");
             var activityText = turnContext.Activity.Text;
             if (regEx.IsMatch(activityText))
             {
