@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import {QuestionNodeAnswerRelation} from '../QuestionNodeAnswerRelation';
 import { GameAction } from '../gameAction';
 import { Passcode } from '../Passcode';
+import { NodeRelation } from '../NodeRelation';
 
 @Injectable()
 export class GameService {
@@ -15,8 +16,8 @@ export class GameService {
   getGameForAdmin(adminId: number) {
     return this.http.get('api/Game/ByAdminId/' + adminId);
   }
-  getGameById(gameId: number) {
-    return this.http.get('api/Game/byId/' + gameId);
+  getGameById(gameId: number):Observable<Game> {
+    return this.http.get<Game>('api/Game/byId/' + gameId);
   }
   createGame(adminId: number, game: Game) {
     return this.http.post('api/Game/' + adminId, game);
@@ -47,8 +48,8 @@ export class GameService {
 
   }
 
-  getNodeRelations(gameId: number) {
-     return this.http.get(`api/Game/NodesRelations/${gameId}`);
+  getNodeRelations(gameId: number):Observable<NodeRelation[]> {
+     return this.http.get<NodeRelation[]>(`api/Game/NodesRelations/${gameId}`);
   }
 
   addRelation(orgNodeId: number, destNodeId: number, answerId: number) {
@@ -105,8 +106,8 @@ export class GameService {
     };
     return this.http.patch(`api/Node/`, nodeRequest);
   }
-  getGameActionsForGame(gameId: number) {
-    return this.http.get(`api/Action/${gameId}`);
+  getGameActionsForGame(gameId: number): Observable<GameAction[]>{
+    return this.http.get < GameAction[]>(`api/Action/${gameId}`);
   }
 
   getPasscodesForGame(gameId: number) {

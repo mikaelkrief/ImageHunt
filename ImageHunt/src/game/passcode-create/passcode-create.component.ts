@@ -21,8 +21,7 @@ export class PasscodeCreateComponent {
   nbRedeem: number = -1;
   points: number = 10;
 
-  createPasscode(form: NgForm) {
-    //let passcode: Passcode = { id: 0, pass: form.value.pass, nbRedeem: form.value.nbRedeem, points: form.value.points };
+  createPasscode() {
     let passcode: Passcode = { id: 0, pass: this.pass, nbRedeem: this.nbRedeem, points: this.points };
     this.newPasscode.emit(passcode);
   }
