@@ -1,6 +1,26 @@
 .qrcode {
   margin:20px;
+  z-index:0;
+  width:200px;
+  height:200px;
 }
+.logo {
+  left: 95px;
+  top: 125px;
+  position: relative;
+  z-index: 2;
+}
+.logoBackground {
+  background-color: white;
+  border-radius:10px;
+  left: 90px;
+  top:-130px;
+  width: 60px;
+  height: 60px;
+  position: relative;
+  z-index: 1;
+}
+
 .passcodeCell {
   border-color: black;
   border-width: 2px;
