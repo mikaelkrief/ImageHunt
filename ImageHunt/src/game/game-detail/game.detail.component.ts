@@ -26,6 +26,7 @@ import { MenuItem } from "primeng/api";
 import {RelationClicked} from "../../shared/RelationClicked";
 import { ImageNodeEditComponent } from '../image-node-edit/image-node-edit.component';
 import { NodeDragged } from '../../shared/NodeDragged';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'game-detail',
@@ -75,15 +76,16 @@ export class GameDetailComponent implements OnInit {
     });
   }
   getGame(gameId: number) {
-    forkJoin<Game, NodeRelation[]>(
+    forkJoin(
         this._gameService.getGameById(gameId),
-        this._gameService.getNodeRelations(gameId))
-      .subscribe(([game, relations]) => {
+      this._gameService.getNodeRelations(gameId))
+      .pipe(map(([game, nodeRelations]) => {
         this.game = game;
         this.currentZoom = this.game.mapZoom;
-        this.nodeRelations = relations;
-          this.buildRelations();
-        }
+        this.nodeRelations = nodeRelations;
+        this.buildRelations();
+      }))
+      .subscribe(
       );
     this._gameService.getGameById(gameId).subscribe((game:Game) => {
       this.game = game;
