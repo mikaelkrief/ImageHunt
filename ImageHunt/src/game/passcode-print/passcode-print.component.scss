@@ -1,13 +1,37 @@
 .qrcode {
   margin:20px;
+  z-index:0;
+  width:200px;
+  height:200px;
+  top:20px;
 }
+.logo {
+  left:145px;
+  position: relative;
+  z-index: 2;
+}
+.logoBackground {
+  background-color: white;
+  border-radius:10px;
+  left: 140px;
+  top:-130px;
+  width: 60px;
+  height: 60px;
+  position: relative;
+  z-index: 1;
+}
+
 .passcodeCell {
-  border-color: black;
-  border-width: 2px;
-  border-style: dashed;
   margin:20px;
 }
 .passcodeGrid {
   display: grid;
+ 
   grid-template-columns: 1fr 1fr;
+  padding-right: 50px;
+  grid-column-gap:100px;
+  grid-row-gap:70px;
+  left:-50px;
+  position:relative;
+  top:50px;
 }
