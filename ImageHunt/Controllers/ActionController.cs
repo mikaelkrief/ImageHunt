@@ -72,6 +72,10 @@ namespace ImageHunt.Controllers
       
       switch (gameAction.Action)
       {
+        case Action.StartGame:
+        case Action.EndGame:
+          gameAction.IsValidated = true;
+          break;
         case Action.GivePoints:
           gameAction.PointsEarned = gameActionRequest.Points;
           gameAction.IsValidated = true;
