@@ -22,5 +22,12 @@ namespace ImageHuntWebServiceClient.WebServices
       var result = await PutAsync<NodeResponse>($"{_httpClient.BaseAddress}api/Team/StartTeam/{gameId}/{teamId}", cancellationToken);
       return result;
     }
+
+      public async Task<ScoreResponse[]> GetScoresForGame(int gameId, CancellationToken cancellationToken = default(CancellationToken))
+      {
+          var result = await GetAsync<ScoreResponse[]>($"{_httpClient.BaseAddress}api/Game/Score/{gameId}",
+              cancellationToken);
+          return result;
+      }
   }
 }

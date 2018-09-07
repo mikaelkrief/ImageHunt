@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ImageHunt.Model;
 using ImageHuntCore.Services;
+using ImageHuntWebServiceClient.Responses;
 
 namespace ImageHunt.Services
 {

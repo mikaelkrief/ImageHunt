@@ -7,6 +7,7 @@ using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Action = ImageHuntWebServiceClient.Action;
