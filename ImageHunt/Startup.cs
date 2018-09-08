@@ -87,6 +87,8 @@ namespace ImageHunt
           sb.GetService<IAuthService>()
         );
       });
+      ConfigureMappings();
+      services.AddSingleton(provider => Mapper.Instance);
       //services.AddTransient<ILocationHub, LocationHub>();
       services.AddTransient<ITeamService, TeamService>();
       services.AddTransient<IAdminService, AdminService>();
@@ -131,7 +133,6 @@ namespace ImageHunt
       app.UseStaticFiles();
       app.UseMvc();
       app.UseSignalR(routes => { routes.MapHub<LocationHub>("/locationHub"); });
-      ConfigureMappings();
     }
 
     public static void ConfigureMappings()

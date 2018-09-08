@@ -110,12 +110,15 @@ namespace ImageHunt.Services
           .Select(g=>new Score(){Team = g.Key, Points = g.Sum(_=>_.PointsEarned)}).ToList();
         foreach (var score in scoresForGame)
         {
-          var startDate = Context.GameActions.Last(ga => ga.Team == score.Team && ga.Action == Action.StartGame)
-            .DateOccured;
-          var endDate = Context.GameActions.First(ga => ga.Team == score.Team && ga.Action == Action.EndGame)
-            .DateOccured;
+          var startDate = Context.GameActions.LastOrDefault(ga => ga.Team == score.Team && ga.Action == Action.StartGame)
+            ?.DateOccured;
+          var endDate = Context.GameActions.FirstOrDefault(ga => ga.Team == score.Team && ga.Action == Action.EndGame)
+            ?.DateOccured;
           score.Points *= (1 - 0.05 * Math.Max(0, score.Team.TeamPlayers.Count - 2));
-          score.TravelTime = endDate - startDate;
+          if (startDate.HasValue && endDate.HasValue)
+          {
+            score.TravelTime = endDate.Value - startDate.Value;
+          }
         }
         return scoresForGame;
       }

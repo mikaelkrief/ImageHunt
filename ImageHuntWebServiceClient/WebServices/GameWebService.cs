@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Responses;
@@ -23,9 +24,9 @@ namespace ImageHuntWebServiceClient.WebServices
       return result;
     }
 
-      public async Task<ScoreResponse[]> GetScoresForGame(int gameId, CancellationToken cancellationToken = default(CancellationToken))
+      public async Task<IEnumerable<ScoreResponse>> GetScoresForGame(int gameId, CancellationToken cancellationToken = default(CancellationToken))
       {
-          var result = await GetAsync<ScoreResponse[]>($"{_httpClient.BaseAddress}api/Game/Score/{gameId}",
+          var result = await GetAsync<IEnumerable<ScoreResponse>>($"{_httpClient.BaseAddress}api/Game/Score/{gameId}",
               cancellationToken);
           return result;
       }
