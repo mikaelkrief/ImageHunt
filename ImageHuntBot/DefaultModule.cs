@@ -3,6 +3,7 @@ using Autofac;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Controllers;
 using ImageHuntWebServiceClient.WebServices;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBot
 {
@@ -21,7 +22,7 @@ namespace ImageHuntBot
             builder.RegisterType<PasscodeWebService>().As<IPasscodeWebService>();
             builder.Register(t =>
             {
-                var bot = new TelegramBot();
+                var bot = new TelegramBot(t.Resolve<ILogger<TelegramBot>>());
                 var dialogs = t.Resolve<IEnumerable<IDialog>>();
                 foreach (var dialog in dialogs)
                 {

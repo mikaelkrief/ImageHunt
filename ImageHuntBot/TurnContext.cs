@@ -92,6 +92,18 @@ namespace ImageHuntTelegramBot
 
         public event EventHandler EndCalled;
 
+        public async Task Reset()
+        {
+            CurrentDialog = null;
+            Replied = false;
+            await _adapter.SendActivity(new Activity()
+            {
+                ActivityType = ActivityType.Message,
+                Text = "La conversation vient d'être remise à zéro"
+            });
+            _logger.LogInformation("Reset conversation");
+        }
+
         public virtual async Task Begin(IDialog dialog)
         {
             CurrentDialog = dialog;
