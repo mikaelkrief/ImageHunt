@@ -32,6 +32,10 @@ namespace ImageHuntTelegramBot
                 if (context.Activity.Command == "/reset")
                 {
                     await context.Reset();
+                    var resetDialog = _dialogs[context.Activity.Command.ToLowerInvariant()];
+                    await context.Begin(resetDialog);
+                    await context.Continue();
+                    await context.End();
                     return;
                 }
 
