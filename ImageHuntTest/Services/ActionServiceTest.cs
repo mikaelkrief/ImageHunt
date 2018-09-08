@@ -7,6 +7,7 @@ using FakeItEasy;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using NFluent;
@@ -447,19 +448,54 @@ namespace ImageHuntTest.Services
         public void GetScoreForGame()
         {
             // Arrange
+            var players = new List<Player>
+            {
+                new Player(),
+                new Player(),
+                new Player(),
+                new Player(),
+                new Player(),
+                new Player(),
+                new Player(),
+                new Player(),
+                new Player(),
+                new Player(),
+            };
             var games = new List<Game> {new Game()};
             _context.Games.AddRange(games);
-            var teams = new List<Team> {new Team(), new Team()};
+            var teams = new List<Team> {new Team(), new Team(), new Team()};
+            teams[0].TeamPlayers.Add(new TeamPlayer(){Team = teams[0], Player = players[0]});
+            teams[0].TeamPlayers.Add(new TeamPlayer(){Team = teams[0], Player = players[1]});
+
+            teams[1].TeamPlayers.Add(new TeamPlayer(){Team = teams[1], Player = players[2]});
+            teams[1].TeamPlayers.Add(new TeamPlayer(){Team = teams[1], Player = players[3]});
+            teams[1].TeamPlayers.Add(new TeamPlayer(){Team = teams[1], Player = players[4]});
+
+            teams[2].TeamPlayers.Add(new TeamPlayer(){Team = teams[2], Player = players[5]});
+            teams[2].TeamPlayers.Add(new TeamPlayer(){Team = teams[2], Player = players[6]});
+            teams[2].TeamPlayers.Add(new TeamPlayer(){Team = teams[2], Player = players[7]});
+            teams[2].TeamPlayers.Add(new TeamPlayer(){Team = teams[2], Player = players[8]});
             _context.Teams.AddRange(teams);
             var gameActions = new List<GameAction>
             {
-                new GameAction {Game = games[0], Team = teams[0], IsValidated = true, PointsEarned = 15},
-                new GameAction {Game = games[0], Team = teams[1], IsValidated = true, PointsEarned = 15},
-                new GameAction {Game = games[0], Team = teams[0], IsValidated = true, PointsEarned = 15},
-                new GameAction {Game = games[0], Team = teams[1], IsValidated = false, PointsEarned = 15},
-                new GameAction {Game = games[0], Team = teams[1], IsValidated = true, PointsEarned = 15},
-                new GameAction {Game = games[0], Team = teams[1], IsValidated = true, PointsEarned = 15},
-                new GameAction {Game = games[0], Team = teams[1], IsValidated = false, PointsEarned = 15},
+                new GameAction{ Action=Action.StartGame, Game = games[0], Team = teams[0], DateOccured = DateTime.Now.AddHours(-1)},
+                new GameAction{ Action=Action.StartGame, Game = games[0], Team = teams[1], DateOccured = DateTime.Now.AddHours(-2)},
+                new GameAction{ Action=Action.StartGame, Game = games[0], Team = teams[2], DateOccured = DateTime.Now.AddHours(-3)},
+                new GameAction {Action=Action.SubmitPicture, Game = games[0], Team = teams[0], IsValidated = true, PointsEarned = 15},
+                new GameAction {Action=Action.SubmitPicture, Game = games[0], Team = teams[1], IsValidated = true, PointsEarned = 15},
+                new GameAction {Action=Action.SubmitPicture, Game = games[0], Team = teams[0], IsValidated = true, PointsEarned = 15},
+                new GameAction {Action=Action.SubmitPicture, Game = games[0], Team = teams[1], IsValidated = false, PointsEarned = 15},
+                new GameAction {Action=Action.SubmitPicture, Game = games[0], Team = teams[1], IsValidated = true, PointsEarned = 15},
+                new GameAction {Action=Action.SubmitPicture, Game = games[0], Team = teams[1], IsValidated = true, PointsEarned = 15},
+                new GameAction {Action=Action.SubmitPicture, Game = games[0], Team = teams[1], IsValidated = false, PointsEarned = 15},
+                new GameAction {Action=Action.SubmitPicture, Game = games[0], Team = teams[2], IsValidated = true, PointsEarned = 15},
+                new GameAction {Action=Action.SubmitPicture, Game = games[0], Team = teams[2], IsValidated = true, PointsEarned = 15},
+                new GameAction {Action=Action.SubmitPicture, Game = games[0], Team = teams[2], IsValidated = true, PointsEarned = 15},
+                new GameAction {Action=Action.SubmitPicture, Game = games[0], Team = teams[2], IsValidated = true, PointsEarned = 15},
+                new GameAction{ Action=Action.EndGame, Game = games[0], Team = teams[0], DateOccured = DateTime.Now.AddHours(1)},
+                new GameAction{ Action=Action.EndGame, Game = games[0], Team = teams[1], DateOccured = DateTime.Now.AddHours(2)},
+                new GameAction{ Action=Action.EndGame, Game = games[0], Team = teams[2], DateOccured = DateTime.Now.AddHours(3)},
+
             };
             _context.GameActions.AddRange(gameActions);
             _context.SaveChanges();
@@ -468,12 +504,15 @@ namespace ImageHuntTest.Services
             // Assert
             var expectedScores = new List<Score>
             {
-                new Score(){Team = gameActions[0].Team, Points = 30},
-                new Score(){Team = gameActions[1].Team, Points = 45},
+                new Score(){Team = teams[0], Points = 30, TravelTime = new TimeSpan(2, 0, 0)},
+                new Score(){Team = teams[1], Points = 42.75, TravelTime = new TimeSpan(4, 0, 0)},
+                new Score(){Team = teams[2], Points = 54, TravelTime = new TimeSpan(6, 0, 0)},
             };
             var list = result.ToList();
             Check.That(result.Extracting("Points")).ContainsExactly(expectedScores.Extracting("Points"));
             Check.That(result.Extracting("Team")).ContainsExactly(expectedScores.Extracting("Team"));
+            Check.That(result.First().TravelTime.Hours).IsEqualTo(expectedScores[0].TravelTime.Hours);
+            Check.That(result.Last().TravelTime.Hours).IsEqualTo(expectedScores[2].TravelTime.Hours);
         }
 
         [Fact]

@@ -37,7 +37,8 @@ namespace ImageHuntTest.Controller
         private IActionService _actionService;
         private ILogger<GameController> _logger;
         private IImageTransformation _imageTransformation;
-        
+        private IMapper _mapper;
+
         public GameControllerTest()
         {
             _gameService = A.Fake<IGameService>();
@@ -46,7 +47,8 @@ namespace ImageHuntTest.Controller
             _actionService = A.Fake<IActionService>();
             _logger = A.Fake<ILogger<GameController>>();
             _imageTransformation = A.Fake<IImageTransformation>();
-            _target = new GameController(_gameService, _imageService, _nodeService, _actionService, _logger, _imageTransformation);
+            _mapper = Mapper.Instance;
+            _target = new GameController(_gameService, _imageService, _nodeService, _actionService, _logger, _imageTransformation, _mapper);
         }
 
         [Fact]
@@ -483,12 +485,18 @@ namespace ImageHuntTest.Controller
         public void GetScoreForGame()
         {
             // Arrange
-
+            var scores = new List<Score>
+            {
+                new Score(){Team = new Team()}
+            };
+            A.CallTo(() => _actionService.GetScoresForGame(1)).Returns(scores);
             // Act
             var result = _target.GetScoreForGame(1);
             // Assert
             Check.That(result).IsInstanceOf<OkObjectResult>();
             A.CallTo(() => _actionService.GetScoresForGame(1)).MustHaveHappened();
+            var response = (result as OkObjectResult).Value;
+            Check.That(response).IsInstanceOf<List<ScoreResponse>>();
         }
 
         [Fact]

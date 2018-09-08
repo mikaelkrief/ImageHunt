@@ -35,6 +35,7 @@ namespace ImageHuntTest.Controller
         private ITeamService _teamService;
         private IHubContext<LocationHub> _hubContext;
         private ILogger<ActionController> _logger;
+        private IMapper _mapper;
 
         public ActionControllerTest()
         {
@@ -46,8 +47,8 @@ namespace ImageHuntTest.Controller
             _nodeService = A.Fake<INodeService>();
             _hubContext = A.Fake<IHubContext<LocationHub>>();
             _logger = A.Fake<ILogger<ActionController>>();
-
-            _target = new ActionController(_gameService, _playerService, _imageService, _actionService, _nodeService, _teamService, _hubContext, _logger);
+            _mapper = Mapper.Instance;
+            _target = new ActionController(_gameService, _playerService, _imageService, _actionService, _nodeService, _teamService, _hubContext, _mapper, _logger);
         }
         [Fact]
         public async Task AddGameAction_UploadPicture()

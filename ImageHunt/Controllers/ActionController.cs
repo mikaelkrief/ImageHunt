@@ -30,6 +30,7 @@ namespace ImageHunt.Controllers
     private readonly INodeService _nodeService;
     private readonly ITeamService _teamService;
     private readonly IHubContext<LocationHub> _hubContext;
+    private readonly IMapper _mapper;
     private readonly ILogger<ActionController> _logger;
 
     public ActionController(IGameService gameService,
@@ -39,6 +40,7 @@ namespace ImageHunt.Controllers
       INodeService nodeService,
       ITeamService teamService,
       IHubContext<LocationHub> hubContext,
+      IMapper mapper,
       ILogger<ActionController> logger)
     {
       _gameService = gameService;
@@ -48,6 +50,7 @@ namespace ImageHunt.Controllers
       _nodeService = nodeService;
       _teamService = teamService;
       _hubContext = hubContext;
+      _mapper = mapper;
       _logger = logger;
     }
     /// <summary>
@@ -57,7 +60,7 @@ namespace ImageHunt.Controllers
     [HttpPost("AddGameAction")]
     public async Task<IActionResult> AddGameAction(GameActionRequest gameActionRequest)
     {
-      var gameAction = Mapper.Map<GameAction>(gameActionRequest);
+      var gameAction = _mapper.Map<GameAction>(gameActionRequest);
 
       gameAction.Team = _teamService.GetTeamById(gameActionRequest.TeamId);
       gameAction.Game = _gameService.GetGameById(gameActionRequest.GameId);
@@ -72,6 +75,10 @@ namespace ImageHunt.Controllers
       
       switch (gameAction.Action)
       {
+        case Action.StartGame:
+        case Action.EndGame:
+          gameAction.IsValidated = true;
+          break;
         case Action.GivePoints:
           gameAction.PointsEarned = gameActionRequest.Points;
           gameAction.IsValidated = true;
