@@ -12,6 +12,7 @@ using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,7 @@ namespace ImageHuntTest.Controller
         private ITeamService _teamService;
         private IHubContext<LocationHub> _hubContext;
         private ILogger<ActionController> _logger;
+        private IMapper _mapper;
 
         public ActionControllerTest()
         {
@@ -46,8 +48,8 @@ namespace ImageHuntTest.Controller
             _nodeService = A.Fake<INodeService>();
             _hubContext = A.Fake<IHubContext<LocationHub>>();
             _logger = A.Fake<ILogger<ActionController>>();
-
-            _target = new ActionController(_gameService, _playerService, _imageService, _actionService, _nodeService, _teamService, _hubContext, _logger);
+            _mapper = Mapper.Instance;
+            _target = new ActionController(_gameService, _playerService, _imageService, _actionService, _nodeService, _teamService, _hubContext, _mapper, _logger);
         }
         [Fact]
         public async Task AddGameAction_UploadPicture()
@@ -115,14 +117,29 @@ namespace ImageHuntTest.Controller
         public async Task AddGameAction_GivePoints()
         {
             // Arrange
+
             var gameActionRequest = new GameActionRequest()
             {
                 Action = (int)Action.GivePoints,
                 GameId = 2,
                 TeamId = 5,
-                Points = 150
+                PointsEarned = 150,
+                Longitude = 56.9,
+                Latitude = 56.7
 
             };
+            var gameAction = new GameAction()
+            {
+                Game = new Game() {Id = gameActionRequest.GameId}
+            };
+            A.CallTo(() => _actionService.AddGameAction(A<GameAction>._)).Invokes((GameAction ga) =>
+                {
+                    ga.Game.Id = gameActionRequest.GameId;
+                    ga.Team.Id = gameActionRequest.TeamId;
+                    ga.Latitude = gameActionRequest.Latitude;
+                    ga.Longitude = gameActionRequest.Longitude;
+                    ga.Action = (Action) gameActionRequest.Action;
+                });
             // Act
             var result = await _target.AddGameAction(gameActionRequest);
             // Assert
@@ -131,6 +148,11 @@ namespace ImageHuntTest.Controller
                     .That.Matches(ga => CheckGameActionForAction(ga, Action.GivePoints, 
                         gameActionRequest.Latitude, gameActionRequest.Longitude))))
               .MustHaveHappened();
+            var response = ((CreatedAtActionResult) result).Value as GameActionResponse;
+            Check.That(response.GameId).Equals(gameActionRequest.GameId);
+            Check.That(response.TeamId).Equals(gameActionRequest.TeamId);
+            Check.That(response.Latitude).Equals(gameActionRequest.Latitude);
+            Check.That(response.Longitude).Equals(gameActionRequest.Longitude);
         }
 
         private bool CheckGameActionForAction(GameAction ga, Action expectedAction, double? expectedLatitude, double? expectedLongitude)

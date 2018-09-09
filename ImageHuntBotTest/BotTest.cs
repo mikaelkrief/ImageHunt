@@ -14,11 +14,11 @@ namespace ImageHuntBotTest
     public class BotTest : BaseTest
     {
       private TelegramBot _target;
-      private ILogger _logger;
+      private ILogger<TelegramBot> _logger;
 
       public BotTest()
       {
-        _logger = A.Fake<ILogger>();
+        _logger = A.Fake<ILogger<TelegramBot>>();
         _testContainerBuilder.RegisterInstance(_logger);
         _testContainerBuilder.RegisterType<TelegramBot>();
         _container = _testContainerBuilder.Build();
@@ -120,11 +120,12 @@ namespace ImageHuntBotTest
         var uploadDocumentDialog = A.Fake<IDialog>();
           A.CallTo(() => uploadDocumentDialog.Command).Returns("/uploaddocument");
        _target.AddDialog(uploadDocumentDialog);
-        // Act
-        Check.ThatAsyncCode(()=> _target.OnTurn(turnContext)).Throws<Exception>();
+            // Act
+          await _target.OnTurn(turnContext);
       // Assert
+          A.CallTo(() => turnContext.End()).MustHaveHappened();
 
-    }
+      }
     [Fact]
       public async Task OnTurn_DialogPending()
       {

@@ -30,13 +30,15 @@ namespace ImageHunt.Controllers
     private readonly IActionService _actionService;
     private readonly ILogger<GameController> _logger;
     private readonly IImageTransformation _imageTransformation;
+    private readonly IMapper _mapper;
 
     public GameController(IGameService gameService,
       IImageService imageService,
       INodeService nodeService,
       IActionService actionService,
       ILogger<GameController> logger,
-      IImageTransformation imageTransformation)
+      IImageTransformation imageTransformation,
+      IMapper mapper)
     {
       _gameService = gameService;
       _imageService = imageService;
@@ -44,6 +46,7 @@ namespace ImageHunt.Controllers
       _actionService = actionService;
       _logger = logger;
       _imageTransformation = imageTransformation;
+      _mapper = mapper;
     }
 
     [HttpGet("ById/{gameId}")]
@@ -67,7 +70,7 @@ namespace ImageHunt.Controllers
     {
       if (nodeRequest == null)
         return BadRequest("Node is missing");
-      var node = Mapper.Map<Node>(nodeRequest);
+      var node = _mapper.Map<Node>(nodeRequest);
       switch (nodeRequest.NodeType)
       {
         case "FirstNode":
@@ -237,7 +240,9 @@ namespace ImageHunt.Controllers
     [HttpGet("Score/{gameId}")]
     public IActionResult GetScoreForGame(int gameId)
     {
-      return Ok(_actionService.GetScoresForGame(gameId));
+      var scores = _actionService.GetScoresForGame(gameId);
+      
+      return Ok(_mapper.Map<IEnumerable<ScoreResponse>>(scores));
     }
     [HttpGet("GetPictureNode/{gameId}")]
     public IActionResult GetPictureNodes(int gameId)
@@ -257,7 +262,7 @@ namespace ImageHunt.Controllers
       var gameActionsToValidate = new List<GameActionToValidate>();
       foreach (var gameAction in gameActions)
       {
-        var gameActionToValidate = Mapper.Map<GameAction, GameActionToValidate>(gameAction);
+        var gameActionToValidate =_mapper.Map<GameAction, GameActionToValidate>(gameAction);
         gameActionToValidate.ProbableNodes = _nodeService
           .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value, gameAction.Longitude.Value).Take(gameActionListRequest.NbPotential);
         foreach (var probableNode in gameActionToValidate.ProbableNodes)

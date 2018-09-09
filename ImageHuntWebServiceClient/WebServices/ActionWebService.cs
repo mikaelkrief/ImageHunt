@@ -1,10 +1,11 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace ImageHuntWebServiceClient.WebServices
 {
@@ -29,18 +30,14 @@ namespace ImageHuntWebServiceClient.WebServices
             }
         }
 
-        public async Task LogAction(GameActionRequest logActionRequest, 
+        public async Task<GameActionResponse> LogAction(GameActionRequest logActionRequest, 
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var content = new MultipartFormDataContent())
+            using (var content = new StringContent(JsonConvert.SerializeObject(logActionRequest), Encoding.UTF8, "application/json"))
             {
-                content.Add(new StringContent(logActionRequest.GameId.ToString()), "gameId");
-                content.Add(new StringContent(logActionRequest.TeamId.ToString()), "teamId");
-                content.Add(new StringContent(logActionRequest.Latitude.ToString()), "latitude");
-                content.Add(new StringContent(logActionRequest.Longitude.ToString()), "longitude");
-                content.Add(new StringContent(logActionRequest.Action.ToString()), "action");
-                var result = await PostAsync<string>($"{_httpClient.BaseAddress}api/Action/AddGameAction/",
+                var result = await PostAsync<GameActionResponse>($"{_httpClient.BaseAddress}api/Action/AddGameAction/",
                     content, cancellationToken);
+                 return result;
             }
         }
     }

@@ -94,18 +94,18 @@ namespace ImageHunt.Controllers
       _teamService.DelMemberToTeam(team, player);
       return Ok();
     }
-    [HttpGet("GetTeamsOfPlayer/{playerChatId}")]
-    public IActionResult GetTeamsOfPlayer(string playerChatId)
+    [HttpGet("GetTeamsOfPlayer/{gameId}/{playerChatId}")]
+    public IActionResult GetTeamsOfPlayer(int gameId, string playerChatId)
     {
       var player = _playerService.GetPlayerByChatId(playerChatId);
-      var teams = _teamService.GetTeamsForPlayer(player);
-      var game = _gameService.GetActiveGameForPlayer(player);
-      var team = teams.Single(t => game.Teams.Any(gt => gt == t));
+      //var teams = _teamService.GetTeamsForPlayer(player);
+      var game = _gameService.GetGameById(gameId);
+      var teamPlayer = player.TeamPlayers.Single(t => game.Teams.Any(gt => gt == t.Team));
       var teamResponse = new TeamResponse()
       {
         GameId = game.Id,
-        Id = team.Id,
-        Name = team.Name
+        Id = teamPlayer.Team.Id,
+        Name = teamPlayer.Team.Name
       };
       return Ok(teamResponse);
     }

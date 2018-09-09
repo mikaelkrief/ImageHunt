@@ -34,5 +34,24 @@
       </tr>
       </tbody>
     </table>
+    <h1>Temps</h1>
+    <table class="table">
+      <thead>
+      <tr>
+        <th></th>
+        <th>Equipe</th>
+        <th>Temps</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let score of scores; let i = index">
+        <td><i class="fa fa-star" [style.color]="colorFromRank(i)"></i></td>
+        <td>{{score.team.name}}</td>
+        <!--<td>{{score.travelTime | amDuration:'P1Y2M3DT4H5M6S'}}</td>-->
+        <td>{{score.travelTime }}</td>
+      </tr>
+      </tbody>
+    </table>
+
   </div>
 </div> 

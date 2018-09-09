@@ -5,6 +5,7 @@ using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;
+using Remotion.Linq.Parsing.Structure.IntermediateModel;
 
 namespace ImageHuntBot.Dialogs
 {
@@ -26,16 +27,19 @@ namespace ImageHuntBot.Dialogs
             var command = turnContext.Activity.Command;
             var payload = turnContext.Activity.Payload;
             payload = $"/{payload}";
-            var regex = new Regex(@"(\w*)\=");
+            var regex = new Regex(@"(\w*)_(.*)");
             if (regex.IsMatch(payload))
             {
                 var group = regex.Matches(payload);
-                var subCommand = group[0].Groups[1].Value;
+                var subCommand = $"/{group[0].Groups[1].Value}";
                 IDialog subDialog = null;
-                turnContext.Activity.Text = payload;
+                var subpayload = payload;
+                // Replace # by space
+                subpayload = payload.Replace('_', ' ');
+                turnContext.Activity.Text = subpayload;
                 switch (subCommand)
                 {
-                    case "redeem":
+                    case "/redeem":
                         subDialog = _scope.Resolve<IRedeemDialog>();
                         await turnContext.Begin(subDialog);
                         break;

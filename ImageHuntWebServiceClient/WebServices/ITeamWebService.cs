@@ -9,6 +9,6 @@ namespace ImageHuntWebServiceClient.WebServices
   {
     Task<TeamResponse> GetTeamById(int teamId);
     Task<NodeResponse> UploadImage(UploadImageRequest request);
-      Task<TeamResponse> GetTeamForUserName(string userName);
+      Task<TeamResponse> GetTeamForUserName(int gameId, string userName);
   }
 }

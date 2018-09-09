@@ -5,6 +5,6 @@ namespace ImageHuntWebServiceClient.WebServices
 {
     public interface IPasscodeWebService
     {
-        Task<PasscodeResponse> RedeemPasscode(int gameId, int teamId, string passcode);
+        Task<PasscodeResponse> RedeemPasscode(int gameId, string userName, string passcode);
     }
 }

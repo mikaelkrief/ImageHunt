@@ -417,5 +417,43 @@ namespace ImageHuntTest.Services
       Check.That(imageAction.Node).Equals(nodes[0]);
     }
 
-  }
+      [Fact]
+      public void GetTeamForPlayer()
+      {
+          // Arrange
+          var players = new List<Player>
+          {
+              new Player() {ChatLogin = "toto"},
+              new Player() {ChatLogin = "titi"},
+              new Player() {ChatLogin = "tata"},
+          };
+          _context.Players.AddRange(players);
+          _context.SaveChanges();
+
+          var teams = new List<Team>
+          {
+              new Team(),
+              new Team(),
+              new Team(),
+          };
+          teams[0].TeamPlayers = new List<TeamPlayer>(){new TeamPlayer(){Team = teams[0], Player = players[0]}};
+          teams[1].TeamPlayers = new List<TeamPlayer>(){new TeamPlayer(){Team = teams[1], Player = players[1]}};
+          teams[2].TeamPlayers = new List<TeamPlayer>(){new TeamPlayer(){Team = teams[2], Player = players[2]}};
+          _context.Teams.AddRange(teams);
+          _context.SaveChanges();
+
+          var games = new List<Game>
+          {
+              new Game() {Teams = new List<Team>() {teams[0], teams[1]}},
+              new Game() {Teams = new List<Team>() {teams[2]}}
+          };
+          _context.Games.AddRange(games);
+          _context.SaveChanges();
+          // Act
+          var result = _target.GetTeamForUserName(games[0].Id, players[1].ChatLogin);
+          // Assert
+          Check.That(result).Equals(teams[1]);
+      }
+
+    }
 }

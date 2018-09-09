@@ -47,7 +47,8 @@ import { PasscodeListComponent } from "../game/passcode-list/passcode-list.compo
 import { PasscodeCreateComponent } from "../game/passcode-create/passcode-create.component";
 import { PasscodePrintComponent } from "../game/passcode-print/passcode-print.component";
 import { TeamCreateComponent } from "../team/team-create/team-create.component";
-
+import { MomentModule } from 'angular2-moment';
+ 
 registerLocaleData(localeFr);
 
 export class MyAuthConfig implements IPartialConfigOptions {
@@ -88,6 +89,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
     PageNotFoundModule,
     SharedModule,
     InputTextModule,
+    MomentModule,
     Ng2UiAuthModule.forRoot({
       providers: { google: { clientId: environment.GOOGLE_CLIENT_ID } }, tokenName: "accessToken",
       tokenPrefix: "",

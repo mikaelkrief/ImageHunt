@@ -7,6 +7,7 @@ using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Action = ImageHuntWebServiceClient.Action;
@@ -102,11 +103,24 @@ namespace ImageHunt.Services
 
       public IEnumerable<Score> GetScoresForGame(int gameId)
       {
-        return Context.GameActions.Include(ga => ga.Game)
+        var scoresForGame = Context.GameActions.Include(ga => ga.Game)
           .Include(ga => ga.Team).ThenInclude(t=>t.TeamPlayers).ThenInclude(tp=>tp.Player)
           .Where(ga => ga.Game.Id == gameId && ga.IsValidated)
           .GroupBy(ga => ga.Team)
-          .Select(g=>new Score(){Team = g.Key, Points = g.Sum(_=>_.PointsEarned)});
+          .Select(g=>new Score(){Team = g.Key, Points = g.Sum(_=>_.PointsEarned)}).ToList();
+        foreach (var score in scoresForGame)
+        {
+          var startDate = Context.GameActions.LastOrDefault(ga => ga.Team == score.Team && ga.Action == Action.StartGame)
+            ?.DateOccured;
+          var endDate = Context.GameActions.FirstOrDefault(ga => ga.Team == score.Team && ga.Action == Action.EndGame)
+            ?.DateOccured;
+          score.Points *= (1 - 0.05 * Math.Max(0, score.Team.TeamPlayers.Count - 2));
+          if (startDate.HasValue && endDate.HasValue)
+          {
+            score.TravelTime = endDate.Value - startDate.Value;
+          }
+        }
+        return scoresForGame;
       }
 
     public IEnumerable<GameAction> GetGamePositionsForGame(int gameId)

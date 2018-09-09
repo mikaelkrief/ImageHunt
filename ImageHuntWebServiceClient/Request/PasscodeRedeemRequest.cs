@@ -4,7 +4,7 @@ namespace ImageHuntWebServiceClient.Request
   {
 
     public int GameId { get; set; }
-    public int TeamId { get; set; }
+    public string UserName { get; set; }
     public string Pass { get; set; }
   }
 }

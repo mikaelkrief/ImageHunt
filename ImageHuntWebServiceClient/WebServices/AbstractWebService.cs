@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -83,6 +85,13 @@ namespace ImageHuntWebServiceClient.WebServices
           if (result.IsSuccessStatusCode)
           {
               return await ConvertToObject<T>(result);
+          }
+          else
+          {
+              if (result.StatusCode == HttpStatusCode.NotFound)
+              {
+                  throw new KeyNotFoundException();
+              }
           }
           return null;
       }

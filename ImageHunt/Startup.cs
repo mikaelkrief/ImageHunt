@@ -11,6 +11,7 @@ using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -86,6 +87,8 @@ namespace ImageHunt
           sb.GetService<IAuthService>()
         );
       });
+      ConfigureMappings();
+      services.AddSingleton(provider => Mapper.Instance);
       //services.AddTransient<ILocationHub, LocationHub>();
       services.AddTransient<ITeamService, TeamService>();
       services.AddTransient<IAdminService, AdminService>();
@@ -130,7 +133,6 @@ namespace ImageHunt
       app.UseStaticFiles();
       app.UseMvc();
       app.UseSignalR(routes => { routes.MapHub<LocationHub>("/locationHub"); });
-      ConfigureMappings();
     }
 
     public static void ConfigureMappings()
@@ -141,10 +143,16 @@ namespace ImageHunt
         config.CreateMap<AddNodeRequest, Node>()
           .ConstructUsing(r => NodeFactory.CreateNode(r.NodeType));
         config.CreateMap<GameActionRequest, GameAction>()
-          .ForMember(x=>x.Picture, expression => expression.Ignore());
+          .ForMember(x => x.Picture, expression => expression.Ignore())
+          .ForMember(m=>m.PointsEarned, opt=>opt.MapFrom(gar=>gar.PointsEarned));
+        config.CreateMap<GameAction, GameActionResponse>();
+          //.ForMember(m=>m.GameId, opt=>opt.MapFrom(ga=>ga.Game.Id));
         config.CreateMap<Node, Node>().ForSourceMember(x => x.Id, opt => opt.Ignore());
         config.CreateMap<GameAction, GameActionToValidate>()
           .ForMember(x=>x.Node, x=>x.Ignore());
+        config.CreateMap<Team, TeamResponse>();
+        config.CreateMap<Player, PlayerResponse>();
+        config.CreateMap<Score, ScoreResponse>();
       });
     }
   }

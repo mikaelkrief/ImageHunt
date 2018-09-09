@@ -39,9 +39,9 @@ namespace ImageHuntWebServiceClient.WebServices
         
     }
 
-      public async Task<TeamResponse> GetTeamForUserName(string userName)
+      public async Task<TeamResponse> GetTeamForUserName(int gameId, string userName)
       {
-          return await GetAsync<TeamResponse>($"{_httpClient.BaseAddress}api/Team/GetTeamsOfPlayer/{userName}");
+          return await GetAsync<TeamResponse>($"{_httpClient.BaseAddress}api/Team/GetTeamsOfPlayer/{gameId}/{userName}");
       }
   }
 }

@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
@@ -28,17 +29,22 @@ namespace ImageHuntBot.Dialogs
 
         public override async Task Begin(ITurnContext turnContext)
         {
-            var regEx = new Regex(@"(?i)\/redeem=(\w*)");
+            var regEx = new Regex(@"(?i)\/redeem gameId=(\d*) pass=(\w*)");
             var activityText = turnContext.Activity.Text;
             if (regEx.IsMatch(activityText))
             {
                 var groups = regEx.Matches(activityText);
-                var pass = groups[0].Groups[1].Value;
-                var teamResponse = await _teamWebService.GetTeamForUserName(turnContext.Username);
-                var passcodeResponse = await _passcodeWebService.RedeemPasscode(teamResponse.GameId, teamResponse.Id, pass);
+                var gameId = Convert.ToInt32(groups[0].Groups[1].Value);
+                var pass = groups[0].Groups[2].Value;
+                var passcodeResponse = await _passcodeWebService.RedeemPasscode(gameId, turnContext.Username, pass);
+
                 string reply = "";
                 switch (passcodeResponse.RedeemStatus)
                 {
+                    case RedeemStatus.UserNotFound:
+                        reply =
+                            $"Vous ne pouvez pas utiliser cet passcode car vous ne faites pas partie de la chasse pour laquelle il est prevu";
+                        break;
                     case RedeemStatus.Ok:
                         reply =
                             $"Le passcode {pass} a été bien été utilisé, il a rapporté {passcodeResponse.Points} points à votre équipe.";
@@ -55,13 +61,6 @@ namespace ImageHuntBot.Dialogs
                 }
 
                 await turnContext.ReplyActivity(reply);
-                var gameActionRequest = new GameActionRequest()
-                {
-                    GameId = teamResponse.GameId,
-                    TeamId = teamResponse.Id,
-                    Action = (int) ImageHuntWebServiceClient.Action.RedeemPasscode,
-                };
-                await _actionWebService.LogAction(gameActionRequest);
 
             }
 
