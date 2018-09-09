@@ -6,5 +6,6 @@ namespace ImageHuntWebServiceClient
     WrongCode,
     FullyRedeem,
     AlreadyRedeem,
+    UserNotFound
   }
 }

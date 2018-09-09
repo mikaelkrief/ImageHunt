@@ -28,6 +28,8 @@ namespace ImageHunt.Controllers
     public IActionResult Redeem([FromBody]PasscodeRedeemRequest request)
     {
       var team = _teamService.GetTeamForUserName(request.GameId, request.UserName);
+      if (team == null)
+        return NotFound(request);
       var redeemStatus = _passcodeService.Redeem(request.GameId, team.Id, request.Pass);
       var passcodeResponse = new PasscodeResponse()
       {

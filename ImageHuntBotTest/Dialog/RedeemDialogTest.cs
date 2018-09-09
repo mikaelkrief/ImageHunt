@@ -72,5 +72,33 @@ namespace ImageHuntBotTest.Dialog
             A.CallTo(() => _passcodeWebService.RedeemPasscode(teamResponse.GameId,A<string>._, "YHTYTH"))
                 .MustHaveHappened();
        }
+        [Fact]
+        public async Task Begin_Player_NotExists()
+         {
+            // Arrange
+            var activity = new Activity()
+            {
+                ActivityType = ActivityType.Message,
+                ChatId = 15,
+                Text = "/redeem gameId=3 pass=YHTYTH"
+            };
+            var turnContext = A.Fake<ITurnContext>();
+            A.CallTo(() => turnContext.Activity).Returns(activity);
+            var teamResponse = new TeamResponse()
+            {
+                Id = 16,
+                GameId = 3
+            };
+             A.CallTo(() => _passcodeWebService.RedeemPasscode(teamResponse.GameId, A<string>._, "YHTYTH")).Returns(new PasscodeResponse(){RedeemStatus = RedeemStatus.UserNotFound});
+            // Act
+            await _target.Begin(turnContext);
+            // Assert
+            A.CallTo(() => _passcodeWebService.RedeemPasscode(teamResponse.GameId,A<string>._, "YHTYTH"))
+                .MustHaveHappened();
+             A.CallTo(() =>
+                     turnContext.ReplyActivity(
+                         "Vous ne pouvez pas utiliser cet passcode car vous ne faites pas partie de la chasse pour laquelle il est prevu"))
+                 .MustHaveHappened();
+         }
     }
 }

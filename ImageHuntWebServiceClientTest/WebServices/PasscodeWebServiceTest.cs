@@ -7,6 +7,7 @@ using ImageHunt.Services;
 using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
+using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
 
@@ -15,10 +16,12 @@ namespace ImageHuntWebServiceClientTest.WebServices
     public class PasscodeWebServiceTest : WebServiceBaseTest
     {
         private PasscodeWebService _target;
+        private ILogger<PasscodeWebService> _logger;
 
         public PasscodeWebServiceTest()
         {
-            _target = new PasscodeWebService(_httpClient);
+            _logger = A.Fake<ILogger<PasscodeWebService>>();
+            _target = new PasscodeWebService(_httpClient, _logger);
         }
 
         [Fact]

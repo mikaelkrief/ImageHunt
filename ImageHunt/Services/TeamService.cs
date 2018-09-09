@@ -105,11 +105,12 @@ namespace ImageHunt.Services
     public Team GetTeamForUserName(int gameId, string userName)
     {
       var game = Context.Games
-        .Include(g => g.Teams)
+        .Include(g => g.Teams).ThenInclude(t=>t.TeamPlayers).ThenInclude(tp=>tp.Player)
         .Single(g => g.Id == gameId);
-      var gameTeams = game.Teams.ToList();
-      var teamsWithPlayer = Context.Teams.Include(t=>t.TeamPlayers).ThenInclude(t=>t.Player).Where(t=>t.Players.Any(p=>p.ChatLogin == userName)).ToList();
-      return gameTeams.Intersect(teamsWithPlayer).First();
+      return game.Teams.SingleOrDefault(t => t.Players.Any(p => p.ChatLogin == userName));
+      //var gameTeams = game.Teams.ToList();
+      //var teamsWithPlayer = Context.Teams.Include(t=>t.TeamPlayers).ThenInclude(t=>t.Player).Where(t=>t.Players.Any(p=>p.ChatLogin == userName)).ToList();
+      //return gameTeams.Intersect(teamsWithPlayer).First();
     }
 
     public void UploadImage(int gameId, int teamId, double latitude, double longitude, byte[] image,

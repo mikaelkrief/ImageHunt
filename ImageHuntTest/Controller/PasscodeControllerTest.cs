@@ -91,5 +91,16 @@ namespace ImageHuntTest.Controller
             Check.That(passcode.Pass).Equals(passcodeRequest.Pass);
             return true;
         }
+
+        [Fact]
+        public void Redeem_Player_Not_Exists()
+        {
+            // Arrange
+            A.CallTo(() => _teamService.GetTeamForUserName(A<int>._, A<string>._)).Returns(null);
+            // Act
+            var result = _target.Redeem(new PasscodeRedeemRequest() { GameId = 1, Pass = "ghjgsjdgjhd" });
+            // Assert
+            Check.That(result).IsInstanceOf<NotFoundObjectResult>();
+        }
     }
 }

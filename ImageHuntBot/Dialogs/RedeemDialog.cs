@@ -37,9 +37,14 @@ namespace ImageHuntBot.Dialogs
                 var gameId = Convert.ToInt32(groups[0].Groups[1].Value);
                 var pass = groups[0].Groups[2].Value;
                 var passcodeResponse = await _passcodeWebService.RedeemPasscode(gameId, turnContext.Username, pass);
+
                 string reply = "";
                 switch (passcodeResponse.RedeemStatus)
                 {
+                    case RedeemStatus.UserNotFound:
+                        reply =
+                            $"Vous ne pouvez pas utiliser cet passcode car vous ne faites pas partie de la chasse pour laquelle il est prevu";
+                        break;
                     case RedeemStatus.Ok:
                         reply =
                             $"Le passcode {pass} a été bien été utilisé, il a rapporté {passcodeResponse.Points} points à votre équipe.";
