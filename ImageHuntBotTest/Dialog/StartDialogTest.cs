@@ -43,8 +43,8 @@ namespace ImageHuntBotTest.Dialog
             var activity = A.Fake<IActivity>();
             A.CallTo(() => activity.ActivityType).Returns(ActivityType.Message);
             A.CallTo(() => activity.ChatId).Returns(15);
-            A.CallTo(() => activity.Text).Returns("/start redeem#gameId=21#pass=GFHFTF");
-            A.CallTo(() => activity.Payload).Returns("redeem#gameId=21#pass=GFHFTF");
+            A.CallTo(() => activity.Text).Returns("/start redeem_gameId=21_pass=GFHFTF");
+            A.CallTo(() => activity.Payload).Returns("redeem_gameId=21_pass=GFHFTF");
             var turnContext = A.Fake<ITurnContext>();
             A.CallTo(() => turnContext.Activity).Returns(activity);
             var imageHuntState = new ImageHuntState() { Status = Status.Initialized };
