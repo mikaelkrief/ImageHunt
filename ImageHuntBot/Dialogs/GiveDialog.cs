@@ -38,7 +38,7 @@ namespace ImageHuntBot.Dialogs
                 var points = Convert.ToInt32(groups[0].Groups[1].Value);
                 var request = new GameActionRequest()
                 {
-                    Action = (int) Action.GivePoints, GameId = state.GameId, TeamId = state.TeamId, Points = points
+                    Action = (int) Action.GivePoints, GameId = state.GameId, TeamId = state.TeamId, PointsEarned = points
                 };
                 await _actionWebService.LogAction(request);
                 await turnContext.ReplyActivity($"L'orga vient de vous donner {points}!");

@@ -8,6 +8,7 @@ using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -58,7 +59,7 @@ namespace ImageHunt.Controllers
     /// </summary>
     /// <param name="gameActionRequest"></param>
     [HttpPost("AddGameAction")]
-    public async Task<IActionResult> AddGameAction(GameActionRequest gameActionRequest)
+    public async Task<IActionResult> AddGameAction([FromBody]GameActionRequest gameActionRequest)
     {
       var gameAction = _mapper.Map<GameAction>(gameActionRequest);
 
@@ -80,7 +81,7 @@ namespace ImageHunt.Controllers
           gameAction.IsValidated = true;
           break;
         case Action.GivePoints:
-          gameAction.PointsEarned = gameActionRequest.Points;
+          gameAction.PointsEarned = gameActionRequest.PointsEarned;
           gameAction.IsValidated = true;
           break;
         case Action.DoAction:
@@ -106,7 +107,8 @@ namespace ImageHunt.Controllers
       _actionService.AddGameAction(gameAction);
       await NotifyClientsForGameAction(gameAction);
 
-      return CreatedAtAction("AddGameAction", gameAction);
+      var response = _mapper.Map<GameAction, GameActionResponse>(gameAction);
+      return CreatedAtAction("AddGameAction", response);
     }
 
     private async Task NotifyClientsForGameAction(GameAction gameAction)

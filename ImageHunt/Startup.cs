@@ -143,7 +143,10 @@ namespace ImageHunt
         config.CreateMap<AddNodeRequest, Node>()
           .ConstructUsing(r => NodeFactory.CreateNode(r.NodeType));
         config.CreateMap<GameActionRequest, GameAction>()
-          .ForMember(x=>x.Picture, expression => expression.Ignore());
+          .ForMember(x => x.Picture, expression => expression.Ignore())
+          .ForMember(m=>m.PointsEarned, opt=>opt.MapFrom(gar=>gar.PointsEarned));
+        config.CreateMap<GameAction, GameActionResponse>();
+          //.ForMember(m=>m.GameId, opt=>opt.MapFrom(ga=>ga.Game.Id));
         config.CreateMap<Node, Node>().ForSourceMember(x => x.Id, opt => opt.Ignore());
         config.CreateMap<GameAction, GameActionToValidate>()
           .ForMember(x=>x.Node, x=>x.Ignore());

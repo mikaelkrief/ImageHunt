@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 
 namespace ImageHuntWebServiceClient.WebServices
 {
@@ -8,7 +9,7 @@ namespace ImageHuntWebServiceClient.WebServices
     {
         Task LogPosition(LogPositionRequest logPositionRequest, CancellationToken cancellationToken = default(CancellationToken));
 
-        Task LogAction(GameActionRequest logActionRequest,
+        Task<GameActionResponse> LogAction(GameActionRequest logActionRequest,
             CancellationToken cancellationToken = default(CancellationToken));
     }
 }
