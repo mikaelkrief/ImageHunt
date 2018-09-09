@@ -56,13 +56,6 @@ namespace ImageHuntBot.Dialogs
                 }
 
                 await turnContext.ReplyActivity(reply);
-                var gameActionRequest = new GameActionRequest()
-                {
-                    GameId = gameId,
-                    TeamId = passcodeResponse.TeamId,
-                    Action = (int) ImageHuntWebServiceClient.Action.RedeemPasscode,
-                };
-                await _actionWebService.LogAction(gameActionRequest);
 
             }
 
