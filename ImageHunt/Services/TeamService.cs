@@ -105,7 +105,7 @@ namespace ImageHunt.Services
     public Team GetTeamForUserName(int gameId, string userName)
     {
       var game = Context.Games.Include(g => g.Teams)
-        .ThenInclude(t => t.TeamPlayers).ThenInclude(tp=>tp.Player)
+        .ThenInclude(t => t.TeamPlayers).ThenInclude(tp=>tp.Player).ToList()
         .Single(g=>g.Id == gameId);
       return game.Teams.Single(t=>t.Players.Any(p=>p.ChatLogin == userName));
     }

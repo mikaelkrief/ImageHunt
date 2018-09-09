@@ -41,7 +41,7 @@ namespace ImageHuntBot.Dialogs
                     Action = (int) Action.GivePoints, GameId = state.GameId, TeamId = state.TeamId, PointsEarned = points
                 };
                 await _actionWebService.LogAction(request);
-                await turnContext.ReplyActivity($"L'orga vient de vous donner {points}!");
+                await turnContext.ReplyActivity($"L'orga vient de vous attribuer {points} points!");
             }
 
             await turnContext.End();
