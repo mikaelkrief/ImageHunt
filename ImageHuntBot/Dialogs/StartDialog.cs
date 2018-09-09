@@ -27,7 +27,7 @@ namespace ImageHuntBot.Dialogs
             var command = turnContext.Activity.Command;
             var payload = turnContext.Activity.Payload;
             payload = $"/{payload}";
-            var regex = new Regex(@"(\w*)#(.*)");
+            var regex = new Regex(@"(\w*)_(.*)");
             if (regex.IsMatch(payload))
             {
                 var group = regex.Matches(payload);
@@ -35,7 +35,7 @@ namespace ImageHuntBot.Dialogs
                 IDialog subDialog = null;
                 var subpayload = payload;
                 // Replace # by space
-                subpayload = payload.Replace('#', ' ');
+                subpayload = payload.Replace('_', ' ');
                 turnContext.Activity.Text = subpayload;
                 switch (subCommand)
                 {
