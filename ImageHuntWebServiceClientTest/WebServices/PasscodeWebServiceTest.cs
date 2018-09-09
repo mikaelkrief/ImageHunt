@@ -22,7 +22,7 @@ namespace ImageHuntWebServiceClientTest.WebServices
         }
 
         [Fact]
-        public void RedeemPasscode()
+        public async Task RedeemPasscode()
         {
             // Arrange
             var httpResponse = new HttpResponseMessage()
@@ -36,7 +36,7 @@ namespace ImageHuntWebServiceClientTest.WebServices
                 .Returns(httpResponse);
 
             // Act
-            _target.RedeemPasscode(1, 1, "toto");
+            await _target.RedeemPasscode(1, "toto", "HJHJHJH");
             // Assert
         }
     }

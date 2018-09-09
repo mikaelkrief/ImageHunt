@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
+using FakeItEasy.Creation;
 using ImageHuntBot.Dialogs;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
@@ -39,12 +40,11 @@ namespace ImageHuntBotTest.Dialog
         public async Task Begin()
         {
             // Arrange
-            var activity = new Activity()
-            {
-                ActivityType = ActivityType.Message,
-                ChatId = 15,
-                Text = "/start redeem=GFHFTF"
-            };
+            var activity = A.Fake<IActivity>();
+            A.CallTo(() => activity.ActivityType).Returns(ActivityType.Message);
+            A.CallTo(() => activity.ChatId).Returns(15);
+            A.CallTo(() => activity.Text).Returns("/start redeem#gameId=21#pass=GFHFTF");
+            A.CallTo(() => activity.Payload).Returns("redeem#gameId=21#pass=GFHFTF");
             var turnContext = A.Fake<ITurnContext>();
             A.CallTo(() => turnContext.Activity).Returns(activity);
             var imageHuntState = new ImageHuntState() { Status = Status.Initialized };
@@ -52,6 +52,7 @@ namespace ImageHuntBotTest.Dialog
             // Act
             await _target.Begin(turnContext);
             // Assert
+            A.CallToSet(() => turnContext.Activity.Text).To("/redeem gameId=21 pass=GFHFTF").MustHaveHappened();
         }
     }
 }

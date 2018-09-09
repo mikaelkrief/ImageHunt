@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FakeItEasy;
+using ImageHunt.Model;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Http.Internal;
@@ -15,11 +16,11 @@ using Xunit;
 
 namespace ImageHuntBotTest.WebServices
 {
-  public class TeamServiceTest : WebServiceBaseTest
+  public class TeamWebServiceTest : WebServiceBaseTest
   {
     private TeamWebService _target;
 
-    public TeamServiceTest()
+    public TeamWebServiceTest()
     {
       _target = new TeamWebService(_httpClient);
     }
@@ -59,5 +60,6 @@ namespace ImageHuntBotTest.WebServices
       //A.CallTo(() => _fakeHttpMessageHandler.(A<string>._, A<HttpContent>._, A<CancellationToken>._)).MustHaveHappened();
 
     }
+
   }
 }

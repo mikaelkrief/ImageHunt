@@ -5,6 +5,7 @@ using ImageHunt.Exception;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Action = ImageHuntWebServiceClient.Action;
 
@@ -63,7 +64,9 @@ namespace ImageHunt.Services
 
     public Player GetPlayerByChatId(string chatId)
     {
-      return Context.Players.Single(p => p.ChatLogin == chatId);
+      return Context.Players
+        .Include(p=>p.TeamPlayers).ToList()
+        .Single(p => p.ChatLogin == chatId);
     }
   }
 }

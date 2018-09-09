@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
@@ -28,14 +29,14 @@ namespace ImageHuntBot.Dialogs
 
         public override async Task Begin(ITurnContext turnContext)
         {
-            var regEx = new Regex(@"(?i)\/redeem=(\w*)");
+            var regEx = new Regex(@"(?i)\/redeem gameId=(\d*) pass=(\w*)");
             var activityText = turnContext.Activity.Text;
             if (regEx.IsMatch(activityText))
             {
                 var groups = regEx.Matches(activityText);
-                var pass = groups[0].Groups[1].Value;
-                var teamResponse = await _teamWebService.GetTeamForUserName(turnContext.Username);
-                var passcodeResponse = await _passcodeWebService.RedeemPasscode(teamResponse.GameId, teamResponse.Id, pass);
+                var gameId = Convert.ToInt32(groups[0].Groups[1].Value);
+                var pass = groups[0].Groups[2].Value;
+                var passcodeResponse = await _passcodeWebService.RedeemPasscode(gameId, turnContext.Username, pass);
                 string reply = "";
                 switch (passcodeResponse.RedeemStatus)
                 {
@@ -57,8 +58,8 @@ namespace ImageHuntBot.Dialogs
                 await turnContext.ReplyActivity(reply);
                 var gameActionRequest = new GameActionRequest()
                 {
-                    GameId = teamResponse.GameId,
-                    TeamId = teamResponse.Id,
+                    GameId = gameId,
+                    TeamId = passcodeResponse.TeamId,
                     Action = (int) ImageHuntWebServiceClient.Action.RedeemPasscode,
                 };
                 await _actionWebService.LogAction(gameActionRequest);

@@ -37,7 +37,7 @@ namespace ImageHuntWebServiceClient.WebServices
             {
                 var result = await PostAsync<GameActionResponse>($"{_httpClient.BaseAddress}api/Action/AddGameAction/",
                     content, cancellationToken);
-                return result;
+                 return result;
             }
         }
     }

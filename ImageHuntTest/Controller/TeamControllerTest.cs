@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using FakeItEasy;
@@ -145,17 +146,18 @@ namespace ImageHuntTest.Controller
           };
           teams[0].TeamPlayers.Add(new TeamPlayer(){Team = teams[0], Player = players[1]});
           teams[1].TeamPlayers.Add(new TeamPlayer(){Team = teams[1], Player = players[1]});
+          players[1].TeamPlayers.Add(teams[0].TeamPlayers.First());
+          players[1].TeamPlayers.Add(teams[1].TeamPlayers.First());
           A.CallTo(() => _playerService.GetPlayerByChatId(A<string>._)).Returns(players[1]);
           A.CallTo(() => _teamService.GetTeamsForPlayer(A<Player>._)).Returns(teams);
           var game = new Game() {Id = 56, Teams = new List<Team>() {teams[0]}};
-          A.CallTo(() => _gameService.GetActiveGameForPlayer(players[1]))
+          A.CallTo(() => _gameService.GetGameById(A<int>._))
               .Returns(game);
         // Act
-        var result = _target.GetTeamsOfPlayer("toto");
+        var result = _target.GetTeamsOfPlayer(1, "toto");
         // Assert
         Check.That(result).IsInstanceOf<OkObjectResult>();
         A.CallTo(() => _playerService.GetPlayerByChatId("toto")).MustHaveHappened();
-        A.CallTo(() => _teamService.GetTeamsForPlayer(A<Player>._)).MustHaveHappened();
           Check.That(((TeamResponse)((OkObjectResult) result).Value).GameId).Equals(game.Id);
       }
       [Fact]

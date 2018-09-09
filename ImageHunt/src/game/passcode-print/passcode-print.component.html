@@ -1,7 +1,7 @@
 <div class="passcodeGrid">
   <div class="passcodeCell" *ngFor="let passcode of passcodes">
     <img class="logo" src="assets/ImageHunt.png" width="50px" height="50px" />
-    <qr-code class="qrcode" [value]="'https://telegram.me/'+botName+'?start=redeem=' + passcode.pass"
+    <qr-code class="qrcode" [value]="'https://telegram.me/'+botName+'?start=redeem#gameId'+gameId + '#pass=' + passcode.pass"
              level="H" size="200"></qr-code>
     <div class="logoBackground"></div>
     <span class="points">{{passcode.points}}</span>

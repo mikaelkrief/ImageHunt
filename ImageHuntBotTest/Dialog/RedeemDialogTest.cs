@@ -48,13 +48,13 @@ namespace ImageHuntBotTest.Dialog
         [InlineData(RedeemStatus.FullyRedeem)]
         [InlineData(RedeemStatus.WrongCode)]
         public async Task Begin(RedeemStatus redeemStatus)
-        {
+         {
             // Arrange
             var activity = new Activity()
             {
                 ActivityType = ActivityType.Message,
                 ChatId = 15,
-                Text = "/redeem=YHTYTH"
+                Text = "/redeem gameId=3 pass=YHTYTH"
             };
             var turnContext = A.Fake<ITurnContext>();
             A.CallTo(() => turnContext.Activity).Returns(activity);
@@ -63,17 +63,14 @@ namespace ImageHuntBotTest.Dialog
                 Id = 16,
                 GameId = 3
             };
-            A.CallTo(() => _teamWebService.GetTeamForUserName(A<string>._)).Returns(teamResponse);
-            A.CallTo(() => _passcodeWebService.RedeemPasscode(A<int>._, A<int>._, A<string>._))
+            A.CallTo(() => _teamWebService.GetTeamForUserName(teamResponse.GameId, A<string>._)).Returns(teamResponse);
+            A.CallTo(() => _passcodeWebService.RedeemPasscode(A<int>._, A<string>._, A<string>._))
                 .Returns(new PasscodeResponse() {RedeemStatus = redeemStatus});
             // Act
             await _target.Begin(turnContext);
             // Assert
-            A.CallTo(() => _teamWebService.GetTeamForUserName(A<string>._)).MustHaveHappened();
-            A.CallTo(() => _passcodeWebService.RedeemPasscode(teamResponse.GameId, teamResponse.Id, "YHTYTH"))
+            A.CallTo(() => _passcodeWebService.RedeemPasscode(teamResponse.GameId,A<string>._, "YHTYTH"))
                 .MustHaveHappened();
-            A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
-                .MustHaveHappened();
-        }
+       }
     }
 }

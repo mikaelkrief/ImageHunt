@@ -11,10 +11,12 @@ namespace ImageHunt.Controllers
   public class PasscodeController : BaseController
   {
     private IPasscodeService _passcodeService;
+    private readonly ITeamService _teamService;
 
-    public PasscodeController(IPasscodeService passcodeService)
+    public PasscodeController(IPasscodeService passcodeService, ITeamService teamService)
     {
       _passcodeService = passcodeService;
+      _teamService = teamService;
     }
     [HttpGet("{gameId}")]
     public IActionResult Get(int gameId)
@@ -22,11 +24,11 @@ namespace ImageHunt.Controllers
       return Ok(_passcodeService.GetAll(gameId));
     }
     [HttpPatch]
-    [Consumes("multipart/form-data")]
-
-    public IActionResult Redeem(PasscodeRedeemRequest request)
+    
+    public IActionResult Redeem([FromBody]PasscodeRedeemRequest request)
     {
-      var redeemStatus = _passcodeService.Redeem(request.GameId, request.TeamId, request.Pass);
+      var team = _teamService.GetTeamForUserName(request.GameId, request.UserName);
+      var redeemStatus = _passcodeService.Redeem(request.GameId, team.Id, request.Pass);
       var passcodeResponse = new PasscodeResponse()
       {
         RedeemStatus = redeemStatus,

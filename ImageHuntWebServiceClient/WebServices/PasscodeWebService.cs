@@ -1,6 +1,9 @@
 ﻿using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
+using Newtonsoft.Json;
 
 namespace ImageHuntWebServiceClient.WebServices
 {
@@ -10,16 +13,21 @@ namespace ImageHuntWebServiceClient.WebServices
         {
         }
 
-        public async Task<PasscodeResponse> RedeemPasscode(int gameId, int teamId, string passcode)
+        public async Task<PasscodeResponse> RedeemPasscode(int gameId, string userName, string passcode)
         {
-            using (var content = new MultipartFormDataContent())
+            var passcodeRequest = new PasscodeRedeemRequest()
             {
-                content.Add(new StringContent(gameId.ToString()), "GameId");
-                content.Add(new StringContent(teamId.ToString()), "TeamId");
-                content.Add(new StringContent(passcode), "Pass");
-                var result = await PatchAsync<PasscodeResponse>($"{_httpClient.BaseAddress}api/Passcode/", content);
-                return result;
+                GameId = gameId,
+                UserName = userName,
+                Pass = passcode
             };
+            using (var content = new StringContent(JsonConvert.SerializeObject(passcodeRequest), Encoding.UTF8,
+                "application/json"))
+            {
+                var result = await PatchAsync<PasscodeResponse>($"{_httpClient.BaseAddress}api/Passcode", content);
+
+                return result;
+            }
         }
 
 

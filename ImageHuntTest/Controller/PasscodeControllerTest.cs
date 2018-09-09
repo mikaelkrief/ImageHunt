@@ -18,11 +18,13 @@ namespace ImageHuntTest.Controller
     {
         private PasscodeController _target;
         private IPasscodeService _passcodeService;
+        private ITeamService _teamService;
 
         public PasscodeControllerTest()
         {
             _passcodeService = A.Fake<IPasscodeService>();
-            _target = new PasscodeController(_passcodeService);
+            _teamService = A.Fake<ITeamService>();
+            _target = new PasscodeController(_passcodeService, _teamService);
         }
 
         [Fact]
@@ -48,8 +50,9 @@ namespace ImageHuntTest.Controller
                 new Passcode(),
             };
             A.CallTo(() => _passcodeService.GetAll(A<int>._)).Returns(passcodes);
+            A.CallTo(() => _teamService.GetTeamForUserName(A<int>._, A<string>._)).Returns(new Team() {Id = 2});
             // Act
-            var result = _target.Redeem(new PasscodeRedeemRequest(){GameId = 1, TeamId=2, Pass = "ghjgsjdgjhd"});
+            var result = _target.Redeem(new PasscodeRedeemRequest(){GameId = 1, Pass = "ghjgsjdgjhd"});
             // Assert
             A.CallTo(() => _passcodeService.Redeem(1, 2, "ghjgsjdgjhd")).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();
