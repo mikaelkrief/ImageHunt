@@ -75,6 +75,9 @@ namespace ImageHunt
         });
       services.AddTransient<IAuthenticationHandler, TokenAuthenticationHandler>();
       services.AddTransient<IAuthorizationHandler, TokenAuthorizationHandler>();
+      var dbContextBuilder = new DbContextOptionsBuilder<HuntContext>().UseMySql(Configuration.GetConnectionString("DefaultConnection"));
+      services.AddTransient(s =>
+        HuntContext.CreateInstance(dbContextBuilder.Options));
       services.AddDbContext<HuntContext>(options =>
           options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
       services.AddSingleton(Configuration);
