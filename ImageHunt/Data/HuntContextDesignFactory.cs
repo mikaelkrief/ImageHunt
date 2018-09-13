@@ -14,9 +14,10 @@ namespace ImageHunt.Data
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.Development.json")
                 .Build();
-            var optionsBuilder = new DbContextOptionsBuilder<HuntContext>();
-            optionsBuilder.UseMySql(configuration.GetConnectionString("DefaultConnection"));
-            return new HuntContext(optionsBuilder.Options);
+      var optionsBuilder = new DbContextOptionsBuilder<HuntContext>();
+      optionsBuilder.UseMySql(configuration.GetConnectionString("DefaultConnection"));
+      return HuntContext
+              .CreateInstance(optionsBuilder.Options);
         }
     }
 }

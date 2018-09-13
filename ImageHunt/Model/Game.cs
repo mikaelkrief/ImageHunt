@@ -24,5 +24,7 @@ namespace ImageHunt.Model
     public double? MapCenterLng { get; set; }
     public int? MapZoom { get; set; }
     public List<Passcode> Passcodes { get; set; }
+    public int NbPlayerPenaltyThreshold { get; set; }
+    public double NbPlayerPenaltyValue { get; set; }
   }
 }

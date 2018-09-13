@@ -49,10 +49,11 @@
         <div class="thumbnail" *ngIf="action.picture !== null">
           <p-lightbox type="content">
             <a class="group" href="#">
-              <img src="api/Image/Thumbnail?pictureId={{action.picture.id}}&width=150&height=100" />
+              <img class="thumbnail" src="api/Image/Thumbnail?pictureId={{action.picture.id}}&width=150&height=100" />
             </a>
-
-            <img src="api/Image/{{action.picture.id}}" width="500" />
+            <div>
+              <img src="api/Image/{{action.picture.id}}" width="500" />
+            </div>
           </p-lightbox>
         </div>
       </td>

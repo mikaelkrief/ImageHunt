@@ -6,13 +6,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ImageHunt.Data
 {
-  public class HuntContext : DbContext
+  public class HuntContext : ActivableContext<HuntContext>
   {
-    public HuntContext(DbContextOptions options)
-        : base((DbContextOptions) options)
+    public HuntContext()
     {
+      
     }
 
+    public HuntContext(DbContextOptions options):base(options)
+    {
+      
+    }
     public DbSet<Node> Nodes { get; set; }
     public DbSet<FirstNode> FirstNodes { get; set; }
     public DbSet<LastNode> LastNodes { get; set; }
