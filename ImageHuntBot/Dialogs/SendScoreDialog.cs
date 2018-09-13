@@ -35,7 +35,15 @@ namespace ImageHuntBot.Dialogs
                 {
                     var gameId = Convert.ToInt32(gameIdAsString);
                     statesToBroadcast = states.Where(s => s.GameId == gameId);
-                    var scores = _gameWebService.GetScoresForGame(gameId);
+                    var game = await _gameWebService.GetGameById(gameId);
+                    var scores = await _gameWebService.GetScoresForGame(gameId);
+                    scoreBuilder.Append($"Voici les scores pour la partie : {game.Name}").AppendLine();
+                    scoreBuilder.Append($"Temps de parcours:").AppendLine();
+                    scoreBuilder.Append("Equipe\tTemps de parcours\tScore");
+                    foreach (var score in scores)
+                    {
+                        scoreBuilder.Append($"{score.Team.Name}\t{score.TravelTime}\t{score.Points}").AppendLine();
+                    }
                 }
                 else if (!string.IsNullOrEmpty(teamIdAsString))
                 {
