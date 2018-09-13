@@ -461,7 +461,7 @@ namespace ImageHuntTest.Services
                 new Player(),
                 new Player(),
             };
-            var games = new List<Game> {new Game()};
+            var games = new List<Game> {new Game(){NbPlayerPenaltyThreshold = 3, NbPlayerPenaltyValue = 0.05}};
             _context.Games.AddRange(games);
             var teams = new List<Team> {new Team(), new Team(), new Team()};
             teams[0].TeamPlayers.Add(new TeamPlayer(){Team = teams[0], Player = players[0]});
@@ -505,8 +505,8 @@ namespace ImageHuntTest.Services
             var expectedScores = new List<Score>
             {
                 new Score(){Team = teams[0], Points = 30, TravelTime = new TimeSpan(2, 0, 0)},
-                new Score(){Team = teams[1], Points = 42.75, TravelTime = new TimeSpan(4, 0, 0)},
-                new Score(){Team = teams[2], Points = 54, TravelTime = new TimeSpan(6, 0, 0)},
+                new Score(){Team = teams[1], Points = 45, TravelTime = new TimeSpan(4, 0, 0)},
+                new Score(){Team = teams[2], Points = 57, TravelTime = new TimeSpan(6, 0, 0)},
             };
             var list = result.ToList();
             Check.That(result.Extracting("Points")).ContainsExactly(expectedScores.Extracting("Points"));

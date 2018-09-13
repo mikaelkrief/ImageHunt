@@ -103,6 +103,7 @@ namespace ImageHunt.Services
 
       public IEnumerable<Score> GetScoresForGame(int gameId)
       {
+        var game = Context.Games.Single(g => g.Id == gameId);
         var scoresForGame = Context.GameActions.Include(ga => ga.Game)
           .Include(ga => ga.Team).ThenInclude(t=>t.TeamPlayers).ThenInclude(tp=>tp.Player)
           .Where(ga => ga.Game.Id == gameId && ga.IsValidated)
@@ -114,7 +115,7 @@ namespace ImageHunt.Services
             ?.DateOccured;
           var endDate = Context.GameActions.FirstOrDefault(ga => ga.Team == score.Team && ga.Action == Action.EndGame)
             ?.DateOccured;
-          score.Points *= (1 - 0.05 * Math.Max(0, score.Team.TeamPlayers.Count - 2));
+          score.Points *= (1 - game.NbPlayerPenaltyValue * Math.Max(0, score.Team.TeamPlayers.Count - game.NbPlayerPenaltyThreshold));
           if (startDate.HasValue && endDate.HasValue)
           {
             score.TravelTime = endDate.Value - startDate.Value;
