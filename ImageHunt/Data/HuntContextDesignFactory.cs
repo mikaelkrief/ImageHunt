@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using ImageHuntCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +17,7 @@ namespace ImageHunt.Data
                 .Build();
       var optionsBuilder = new DbContextOptionsBuilder<HuntContext>();
       optionsBuilder.UseMySql(configuration.GetConnectionString("DefaultConnection"));
-      return HuntContext
+      return ActivableContext<HuntContext>
               .CreateInstance(optionsBuilder.Options);
         }
     }

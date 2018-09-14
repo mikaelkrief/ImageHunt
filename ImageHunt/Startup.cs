@@ -10,6 +10,7 @@ using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using ImageHuntCore;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Authentication;
@@ -77,7 +78,7 @@ namespace ImageHunt
       services.AddTransient<IAuthorizationHandler, TokenAuthorizationHandler>();
       var dbContextBuilder = new DbContextOptionsBuilder<HuntContext>().UseMySql(Configuration.GetConnectionString("DefaultConnection"));
       services.AddTransient(s =>
-        HuntContext.CreateInstance(dbContextBuilder.Options));
+        ActivableContext<HuntContext>.CreateInstance(dbContextBuilder.Options));
       services.AddDbContext<HuntContext>(options =>
           options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
       services.AddSingleton(Configuration);

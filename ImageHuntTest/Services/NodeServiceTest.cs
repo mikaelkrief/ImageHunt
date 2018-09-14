@@ -8,12 +8,13 @@ using NFluent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using ImageHunt.Data;
 using TestUtilities;
 using Xunit;
 
 namespace ImageHuntTest.Services
 {
-    public class NodeServiceTest : ContextBasedTest
+    public class NodeServiceTest : ContextBasedTest<HuntContext>
     {
         private NodeService _target;
         private ILogger<NodeService> _logger;

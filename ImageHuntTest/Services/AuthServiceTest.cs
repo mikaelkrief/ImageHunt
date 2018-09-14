@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using FakeItEasy;
+using ImageHunt.Data;
 using ImageHunt.Services;
 using Microsoft.Extensions.Logging;
 using NFluent;
@@ -10,7 +11,7 @@ using Xunit;
 
 namespace ImageHuntTest.Services
 {
-    public class AuthServiceTest : ContextBasedTest
+    public class AuthServiceTest : ContextBasedTest<HuntContext>
     {
         private AuthService _target;
       private ILogger<AuthService> _logger;

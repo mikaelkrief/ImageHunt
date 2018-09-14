@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FakeItEasy;
+using ImageHunt.Data;
 using ImageHunt.Exception;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
@@ -14,7 +15,7 @@ using Xunit;
 
 namespace ImageHuntTest
 {
-    public class PlayerServiceTest : ContextBasedTest
+    public class PlayerServiceTest : ContextBasedTest<HuntContext>
     {
       private PlayerService _target;
       private ILogger<PlayerService> _logger;

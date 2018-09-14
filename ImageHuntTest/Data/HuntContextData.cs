@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ImageHunt.Data;
 using ImageHunt.Model;
+using ImageHuntCore;
 using Microsoft.EntityFrameworkCore;
 using NFluent;
 using TestUtilities;
@@ -9,7 +11,7 @@ using Xunit;
 
 namespace ImageHuntTest.Data
 {
-    public class HuntContextTest : ContextBasedTest
+    public class HuntContextTest : ContextBasedTest<HuntContext>
     {
 
         [Fact]

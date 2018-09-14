@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using Castle.Core.Logging;
+using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient;
@@ -12,7 +13,7 @@ using Xunit;
 
 namespace ImageHuntTest.Services
 {
-    public class PasscodeServiceTest : ContextBasedTest
+    public class PasscodeServiceTest : ContextBasedTest<HuntContext>
     {
         private ILogger<PasscodeService> _logger;
         private PasscodeService _target;

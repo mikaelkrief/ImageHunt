@@ -22,7 +22,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3177C873
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntBot", "ImageHuntBot\ImageHuntBot.csproj", "{314398C9-12E9-463F-B4CA-032323B1BB76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntApiTester", "ImageHuntApiTester\ImageHuntApiTester.csproj", "{F7733386-A0E2-4258-A3E4-217AE47E52DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntApiTester", "ImageHuntApiTester\ImageHuntApiTester.csproj", "{F7733386-A0E2-4258-A3E4-217AE47E52DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntCore", "ImageHuntCore\ImageHuntCore.csproj", "{84EEA0B0-463F-4672-943D-43B669F0FAAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +64,10 @@ Global
 		{F7733386-A0E2-4258-A3E4-217AE47E52DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7733386-A0E2-4258-A3E4-217AE47E52DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7733386-A0E2-4258-A3E4-217AE47E52DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84EEA0B0-463F-4672-943D-43B669F0FAAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84EEA0B0-463F-4672-943D-43B669F0FAAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84EEA0B0-463F-4672-943D-43B669F0FAAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84EEA0B0-463F-4672-943D-43B669F0FAAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

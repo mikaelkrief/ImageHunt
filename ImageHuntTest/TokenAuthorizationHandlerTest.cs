@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using FakeItEasy;
 using ImageHunt;
+using ImageHunt.Data;
 using ImageHunt.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +17,7 @@ using Xunit;
 
 namespace ImageHuntTest
 {
-    public class TokenAuthorizationHandlerTest : ContextBasedTest
+    public class TokenAuthorizationHandlerTest : ContextBasedTest<HuntContext>
     {
         private TokenAuthorizationHandler _target;
 

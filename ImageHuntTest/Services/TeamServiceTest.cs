@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using Castle.Components.DictionaryAdapter;
 using FakeItEasy;
+using ImageHunt.Data;
 using ImageHunt.Exception;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
@@ -17,7 +18,7 @@ using Action = ImageHuntWebServiceClient.Action;
 
 namespace ImageHuntTest.Services
 {
-  public class TeamServiceTest : ContextBasedTest
+  public class TeamServiceTest : ContextBasedTest<HuntContext>
   {
     private TeamService _target;
     private ILogger<TeamService> _logger;

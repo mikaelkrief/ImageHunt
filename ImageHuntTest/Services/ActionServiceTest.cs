@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FakeItEasy;
+using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
@@ -17,7 +18,7 @@ using Action = ImageHuntWebServiceClient.Action;
 
 namespace ImageHuntTest.Services
 {
-    public class ActionServiceTest : ContextBasedTest
+    public class ActionServiceTest : ContextBasedTest<HuntContext>
     {
       private ActionService _target;
       private ILogger<ActionService> _logger;

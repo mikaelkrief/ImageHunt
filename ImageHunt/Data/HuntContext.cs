@@ -2,11 +2,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
+using ImageHuntCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ImageHunt.Data
 {
-  public class HuntContext : ActivableContext<HuntContext>
+  public class HuntContext : DbContext
   {
     public HuntContext()
     {

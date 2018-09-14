@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FakeItEasy;
+using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Services;
 using Microsoft.Extensions.Logging;
@@ -13,7 +14,7 @@ using Xunit;
 
 namespace ImageHuntTest.Services
 {
-    public class AdminServiceTest : ContextBasedTest
+    public class AdminServiceTest : ContextBasedTest<HuntContext>
     {
         private AdminService _target;
       private ILogger<AdminService> _logger;
