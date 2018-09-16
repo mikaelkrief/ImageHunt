@@ -256,7 +256,7 @@ namespace ImageHunt.Controllers
       return Ok(picturesNodes);
     }
     [HttpGet("GameActionsToValidate")]
-    public async Task<IActionResult> GetGameActionsToValidate(GameActionListRequest gameActionListRequest)
+    public async Task<IActionResult> GetGameActionsToValidate([FromQuery]GameActionListRequest gameActionListRequest)
     {
       var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize);
       var gameActionsToValidate = new List<GameActionToValidate>();
