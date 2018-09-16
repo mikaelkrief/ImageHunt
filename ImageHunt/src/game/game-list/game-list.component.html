@@ -10,6 +10,7 @@
       <!--<th>Carte</th>-->
       <th>Actions</th>
       <th>Suivis</th>
+      <th>Scores</th>
       <th></th>
     </tr>
     </thead>
@@ -29,6 +30,7 @@
       <!--<td><map-thumbnail [CenterLat]="game.mapCenterLat" [CenterLng]="game.mapCenterLng"></map-thumbnail></td>-->
       <td><button class="btn btn-primary" [routerLink]="['/action/', game.id]"><i class="fa fa-map-signs"></i></button></td>
       <td><button class="btn btn-primary" [routerLink]="['/follow', game.id]"><i class="fa fa-map"></i></button></td>
+      <td><button class="btn btn-primary" [routerLink]="['/score', game.id]"><i class="fa fa-star"></i></button></td>
       <td><button class="btn btn-danger" (click)="deleteGame(game.id)"><i class="fa fa-trash"></i></button></td>
     </tr>
     </tbody>
