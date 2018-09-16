@@ -524,15 +524,15 @@ namespace ImageHuntTest.Services
             // Arrange
             var gameActions = new List<GameAction>
             {
-                new GameAction(){Action=Action.DoAction, Game = games[1]},
-                new GameAction(){Action=Action.SubmitPosition, Game = games[1]},
-                new GameAction(){Action=Action.SubmitPosition, Game = games[0]},
-                new GameAction(){Action=Action.SubmitPosition, Game = games[1]},
-                new GameAction(){Action=Action.SubmitPosition, Game = games[1]},
-                new GameAction(){Action=Action.SubmitPosition, Game = games[0]},
-                new GameAction(){Action=Action.SubmitPosition, Game = games[1]},
-                new GameAction(){Action=Action.SubmitPosition, Game = games[1]},
-                new GameAction(){Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.DoAction, Game = games[1]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[0]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[0]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
             };
             _context.GameActions.AddRange(gameActions);
             _context.SaveChanges();
@@ -540,6 +540,31 @@ namespace ImageHuntTest.Services
             var results = _target.GetGamePositionsForGame(games[1].Id);
             // Assert
             Check.That(results).HasSize(7).And.Contains(gameActions[0], gameActions[1], gameActions[3], gameActions[4]);
+        }
+        [Fact]
+        public void GetPositionsForGame_Null_Latitude_Should_Be_Ignored()
+        {
+            var games = new List<Game>(){new Game(), new Game()};
+            _context.Games.AddRange(games);
+            // Arrange
+            var gameActions = new List<GameAction>
+            {
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.DoAction, Game = games[1]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[0]},
+                new GameAction(){Latitude = null, Longitude=null, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[0]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+            };
+            _context.GameActions.AddRange(gameActions);
+            _context.SaveChanges();
+            // Act
+            var results = _target.GetGamePositionsForGame(games[1].Id);
+            // Assert
+            Check.That(results).HasSize(6).And.Contains(gameActions[0], gameActions[1], gameActions[4]);
         }
   }
 }
