@@ -26,6 +26,15 @@ namespace ImageHuntBot.Dialogs
                 await turnContext.End();
                 return;
             }
+
+            if (state.CurrentLatitude == 0.0 && state.CurrentLongitude == 0.0)
+            {
+                LogInfo<ImageHuntState>(turnContext, "Not location");
+                await turnContext.ReplyActivity(
+                    "Aucun joueur n'a activé sa localisation en continu, la chasse ne peut commencer!");
+                await turnContext.End();
+                return;
+            }
             LogInfo<ImageHuntState>(turnContext, "Start Game");
 
             var gameActionRequest = new GameActionRequest()
