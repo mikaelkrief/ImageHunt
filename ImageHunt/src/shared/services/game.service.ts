@@ -77,7 +77,7 @@ export class GameService {
     return this.http.get<GameAction[]>(`api/Game/GameActions/${gameId}&pageIndex=${pageIndex}&pageSize=${pageSize}`);
   }
   getGameActionsToValidateForGame(gameId: number, pageIndex: number, pageSize: number, nbProbableNode: number) {
-    return this.http.get<GameAction[]>(`api/Game/GameActionsToValidate/${gameId}&pageIndex=${pageIndex}&pageSize=${pageSize}&nbPotential=${nbProbableNode}`);
+    return this.http.get<GameAction[]>(`api/Game/GameActionsToValidate?gameId=${gameId}&pageIndex=${pageIndex}&pageSize=${pageSize}&nbPotential=${nbProbableNode}`);
   }
   getGameAction(gameActionId: number) {
     return this.http.get(`api/Game/GetGameAction/${gameActionId}`);
