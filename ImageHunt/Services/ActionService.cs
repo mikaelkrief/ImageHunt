@@ -7,6 +7,7 @@ using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
+using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.EntityFrameworkCore;
@@ -101,9 +102,19 @@ namespace ImageHunt.Services
         Context.SaveChanges();
       }
 
-      public int GetGameActionCountForGame(int gameId)
+      public int GetGameActionCountForGame(int gameId, IncludeAction includeAction)
       {
-        return Context.GameActions.Count(ga => ga.Game.Id == gameId);
+        int gameActionCountForGame = 0;
+        switch (includeAction)
+        {
+        case IncludeAction.All:
+          gameActionCountForGame = Context.GameActions.Count(ga => ga.Game.Id == gameId);
+          break;
+        case IncludeAction.Picture:
+          gameActionCountForGame = Context.GameActions.Count(ga => ga.Game.Id == gameId && ga.Action == Action.SubmitPicture);
+          break;
+        }
+        return gameActionCountForGame;
       }
 
       public IEnumerable<Score> GetScoresForGame(int gameId)

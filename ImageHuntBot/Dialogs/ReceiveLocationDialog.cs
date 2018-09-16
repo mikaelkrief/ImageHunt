@@ -12,9 +12,9 @@ namespace ImageHuntTelegramBot.Dialogs
         public override async Task Begin(ITurnContext turnContext)
         {
             var state = turnContext.GetConversationState<ImageHuntState>();
-            if (state.Status != Status.Started)
+            if (state.Status == Status.None)
             {
-                LogInfo<ImageHuntState>(turnContext, "Game not started");
+                LogInfo<ImageHuntState>(turnContext, "Game not initialized");
                 await turnContext.End();
                 return;
             }

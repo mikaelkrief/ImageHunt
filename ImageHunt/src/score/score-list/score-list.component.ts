@@ -3,6 +3,7 @@ import { GameService } from "../../shared/services/game.service";
 import { Game } from '../../shared/game';
 import { GameAction } from '../../shared/gameAction';
 import { Score } from '../../shared/score';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-score-list',
@@ -19,19 +20,20 @@ export class ScoreListComponent implements OnInit {
     { headerName: 'EquipeId', field: 'team.id' },
     { headerName: 'Score', field: 'pointsEarned' },
     ];
-  constructor(private _gameService: GameService) { }
+  constructor(private _gameService: GameService, private _route: ActivatedRoute) { }
 
   ngOnInit() {
-    this._gameService.getGameReviewed().subscribe((games: Game[]) => {
-      this.games = games;
+    let gameId = this._route.snapshot.params["gameId"];
+
+    this._gameService.getGameById(gameId).subscribe((game: Game) => {
+      this.game = game;
     });
-  }
-  onGameChange(game) {
-    this._gameService.getScoreForGame(game.id)
+    this._gameService.getScoreForGame(gameId)
       .subscribe((scores: Score[]) => {
         this.scores = scores;
         this.scores = this.scores.sort((a, b) => b.points - a.points);
       });
+
   }
   colorFromRank(rank: number): string {
     switch (rank) {
@@ -46,4 +48,5 @@ export class ScoreListComponent implements OnInit {
     }
   }
 
+  game: Game;
 }

@@ -9,7 +9,7 @@
               <label>Nom de la partie :</label>
               <span>{{game.name}}</span>
             </div>
-            <br/>
+            <br />
             <div class="form-control">
               <label>Date de début :</label>
               <span>{{game.startDate | date:'medium':'':'fr'}}</span>
@@ -17,27 +17,37 @@
           </div>
         </div>
       </div>
-      <br/>
-      <br/>
-      <br/>
-      <div class="row">
-        <div class="col-md-1">
-          <button class="btn btn-primary" [routerLink]="['/action/', game.id]">
-            <span class="fa fa-map-signs"> Actions</span>
-          </button>
+      <br />
+      <br />
+      <br />
+      <div class="col-md-1">
+        <div heading="Suivis">
+          <h4>Suivi</h4>
+          <div class="btn-group-vertical" role="group">
+            <div class="btn-group">
+              <button class="btn btn-primary" [routerLink]="['/action/', game.id]">
+                <span class="fa fa-map-signs"> Actions</span>
+              </button>
+              <button class="btn btn-primary" [routerLink]="['/score/', game.id]">
+                <span class="fa fa-star"> Scores</span>
+              </button>
+            </div>
+          </div>
+          <h4>Configuration</h4>
+          <div class="btn-group-vertical" role="group">
+            <div class="btn-group">
+              <button class="btn btn-primary" [routerLink]="['/passcode/', game.id]">
+                <span class="fa fa-qrcode"> Passcodes</span>
+              </button>
+              <button class="btn btn-primary" [routerLink]="['/teams/', game.id]">
+                <span class="fa fa-users"> Equipes</span>
+              </button>
+
+            </div>
+
+          </div>
+
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-1">
-          <button class="btn btn-primary" [routerLink]="['/passcode/', game.id]">
-            <span class="fa fa-qrcode"> Passcodes</span>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-9">
-      <div heading="Equipes">
-        <team-list [teams]="game.teams" [gameId]="game.id"></team-list>
       </div>
     </div>
   </div>
@@ -64,7 +74,7 @@
     </div>
     <div class="col-lg-3">
       <div heading="Actions">
-      <h4>Actions</h4>
+        <h4>Actions</h4>
         <div class="btn-group-vertical" role="group">
           <div class="btn-group">
             <button class="btn btn-default" (click)="uploadImages(uploadImagesTemplate)">Ajouter les photos mystères</button>

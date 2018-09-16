@@ -8,6 +8,7 @@ using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
@@ -292,7 +293,7 @@ namespace ImageHuntTest.Services
             _context.GameActions.AddRange(gameActions);
             _context.SaveChanges();
             // Act
-            var result = _target.GetGameActionCountForGame(games[1].Id);
+            var result = _target.GetGameActionCountForGame(games[1].Id, IncludeAction.All);
             // Assert
             Check.That(result).Equals(3);
         }
