@@ -134,7 +134,7 @@ namespace ImageHunt.Services
       return Context.GameActions
         .Include(ga => ga.Game)
         .Include(ga=>ga.Team)
-        .Where(ga => ga.Game.Id == gameId);
+        .Where(ga => ga.Game.Id == gameId  && ga.Latitude.HasValue && ga.Longitude.HasValue);
     }
   }
 }
