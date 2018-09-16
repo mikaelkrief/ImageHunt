@@ -4,12 +4,13 @@ import { Injectable } from '@angular/core';
 import {Player} from "../player";
 import {Team} from "../team";
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class TeamService {
   constructor(private http: HttpClient) { }
-  getTeams(gameId: number) {
-    return this.http.get('api/Team/ByGame/' + gameId);
+  getTeams(gameId: number):Observable<Team[]> {
+    return this.http.get<Team[]>('api/Team/ByGame/' + gameId);
 
   }
   getTeam(teamId) {

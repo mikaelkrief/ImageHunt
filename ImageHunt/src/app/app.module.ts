@@ -106,6 +106,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
       { path: "action/:gameId", component: GameActionListComponent },
       { path: "action/detail/:gameActionId", component: GameActionDetailComponent },
       { path: "team/:teamId", component: TeamDetailComponent },
+      { path: "teams/:gameId", component: TeamListComponent },
       { path: "team", component: TeamListComponent },
       { path: "admin", component: AdminListComponent },
       { path: "score/:gameId", component: ScoreListComponent },

@@ -70,7 +70,7 @@ export class GameService {
     return this.http.put(`api/Node/AddRelationsWithAnswers`, relations);
   }
   getGameActionCountForGame(gameId: number) {
-    return this.http.get(`api/Game/GameActionCount/${gameId}`);
+    return this.http.get(`api/Game/GameActionCount?gameId=${gameId}&includeAction=Picture`);
   }
   getGameActionForGame(gameId: number, pageIndex: number, pageSize: number) {
 

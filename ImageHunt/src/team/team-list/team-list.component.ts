@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {Team} from "../../shared/team";
-import {TeamService} from "../../shared/services/team.service";
+import { Team } from "../../shared/team";
+import { TeamService } from "../../shared/services/team.service";
 import { ConfirmationService } from "primeng/api";
 import { BsModalService } from 'ngx-bootstrap';
 import { TeamCreateComponent } from '../team-create/team-create.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'team-list',
@@ -12,15 +13,20 @@ import { TeamCreateComponent } from '../team-create/team-create.component';
 })
 /** team component*/
 export class TeamListComponent implements OnInit {
-  @Input() teams: Team[];
-  @Input() gameId: number;
+  teams: Team[];
+  gameId: number;
 
   /** team ctor */
   constructor(private teamService: TeamService,
-    private confirmationService: ConfirmationService, private _modalService: BsModalService) { }
+    private confirmationService: ConfirmationService,
+    private _modalService: BsModalService,
+    private route: ActivatedRoute) { }
 
   /** Called by Angular after team component initialized */
   ngOnInit(): void {
+    this.gameId = this.route.snapshot.params["gameId"];
+    this.teamService.getTeams(this.gameId)
+      .subscribe(teams => this.teams = teams);
   }
 
   deleteTeam(teamId: number) {
@@ -32,7 +38,8 @@ export class TeamListComponent implements OnInit {
     this.modalRef.content.teamCreated.subscribe((team: Team) => {
       this.teamService.createTeam(this.gameId, team).subscribe((createdTeam: Team) => {
         this.teams.push(createdTeam);
-      }) });
+      })
+    });
 
   }
 
