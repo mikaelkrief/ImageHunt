@@ -222,10 +222,12 @@ namespace ImageHunt.Controllers
         return BadRequest($"The {gameId} is not in the system or there are no images associated");
       }
     }
-    [HttpGet("GameActionCount/{gameId}")]
-    public IActionResult GetGameActionCountForGame(int gameId)
+    [HttpGet("GameActionCount")]
+    public IActionResult GetGameActionCountForGame(GetGameActionCountRequest getGameActionCountRequest)
     {
-      return Ok(_actionService.GetGameActionCountForGame(gameId));
+      IncludeAction includeAction;
+      Enum.TryParse(getGameActionCountRequest.IncludeAction, out includeAction);
+      return Ok(_actionService.GetGameActionCountForGame(getGameActionCountRequest.GameId, includeAction));
     }
     [HttpGet("Reviewed")]
     public IActionResult GetGamesReviewed()

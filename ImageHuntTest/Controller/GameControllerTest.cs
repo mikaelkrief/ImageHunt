@@ -440,9 +440,10 @@ namespace ImageHuntTest.Controller
         public void GetGameActionCountForGame()
         {
             // Arrange
-            A.CallTo(() => _actionService.GetGameActionCountForGame(A<int>._)).Returns(12);
+            A.CallTo(() => _actionService.GetGameActionCountForGame(A<int>._, A<IncludeAction>._)).Returns(12);
+            var request = new GetGameActionCountRequest(){GameId = 1, IncludeAction = "All"};
             // Act
-            var result = _target.GetGameActionCountForGame(1) as OkObjectResult;
+            var result = _target.GetGameActionCountForGame(request) as OkObjectResult;
             // Assert
             Check.That(result.Value).Equals(12);
         }
