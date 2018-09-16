@@ -8,6 +8,7 @@ using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHuntCore.Services;
 using ImageHuntWebServiceClient.Responses;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Action = ImageHuntWebServiceClient.Action;
@@ -92,6 +93,10 @@ namespace ImageHunt.Services
 
       public void AddGameAction(GameAction gameAction)
       {
+        var game = Context.Games.Single(g => g.Id == gameAction.Game.Id);
+        var team = Context.Teams.Single(t => t.Id == gameAction.Team.Id);
+        gameAction.Game = game;
+        gameAction.Team = team;
         Context.GameActions.Add(gameAction);
         Context.SaveChanges();
       }

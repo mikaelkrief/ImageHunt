@@ -69,8 +69,6 @@ namespace ImageHuntTest.Controller
             var result = await _target.AddGameAction(gameActionRequest);
             // Assert
             Check.That(result).IsInstanceOf<CreatedAtActionResult>();
-            A.CallTo(() => _teamService.GetTeamById(gameActionRequest.TeamId)).MustHaveHappened();
-            A.CallTo(() => _gameService.GetGameById(gameActionRequest.GameId)).MustHaveHappened();
             A.CallTo(() => _imageService.AddPicture(A<Picture>.That.Matches(p => CheckPicture(p)))).MustHaveHappened();
             A.CallTo(() => _actionService.AddGameAction(A<GameAction>.That.Matches(ga => CheckGameActionForImage(ga, gameActionRequest.Latitude.Value, gameActionRequest.Longitude.Value)))).MustHaveHappened();
             A.CallTo(() => _nodeService.GetNode(A<int>._)).MustNotHaveHappened();

@@ -63,8 +63,8 @@ namespace ImageHunt.Controllers
     {
       var gameAction = _mapper.Map<GameAction>(gameActionRequest);
 
-      gameAction.Team = _teamService.GetTeamById(gameActionRequest.TeamId);
-      gameAction.Game = _gameService.GetGameById(gameActionRequest.GameId);
+      gameAction.Team = new Team() {Id = gameActionRequest.TeamId};
+      gameAction.Game = new Game {Id = gameActionRequest.GameId};
       gameAction.Latitude = gameActionRequest.Latitude;
       gameAction.Longitude = gameActionRequest.Longitude;
       gameAction.Action = (Action)gameActionRequest.Action;
