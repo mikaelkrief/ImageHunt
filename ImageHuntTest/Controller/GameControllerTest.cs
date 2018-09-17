@@ -204,8 +204,15 @@ namespace ImageHuntTest.Controller
             // Act
             _target.AddImageNodes(1, images);
             // Assert
-            A.CallTo(() => _gameService.AddNode(1, A<Node>._)).MustHaveHappened(Repeated.Exactly.Times(3));
+            A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n=>CheckImageNode(n)))).MustHaveHappened(Repeated.Exactly.Times(3));
         }
+
+        private bool CheckImageNode(Node node)
+        {
+            Check.That(node.Name).IsNullOrEmpty();
+            return true;
+        }
+
         [Fact]
         public void AddImagesNodes_without_Geotag()
         {
