@@ -48,6 +48,7 @@ import { PasscodeCreateComponent } from "../game/passcode-create/passcode-create
 import { PasscodePrintComponent } from "../game/passcode-print/passcode-print.component";
 import { TeamCreateComponent } from "../team/team-create/team-create.component";
 import { MomentModule } from 'angular2-moment';
+import { GameCreateComponent } from "../game/game-create/game.create.component";
  
 registerLocaleData(localeFr);
 
@@ -119,7 +120,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
   ],
   providers: [Globals],
   entryComponents: [NodeCreateComponent, NodeRelationComponent, QuestionNodeComponent,
-                    ImageNodeEditComponent, PasscodeCreateComponent, TeamCreateComponent]
+    ImageNodeEditComponent, PasscodeCreateComponent, TeamCreateComponent, GameCreateComponent]
 
 })
 export class AppModule {

@@ -1,58 +1,56 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-lg-3">
-      <div class="row">
-        <div heading="Details">
-          <h2>Detail d'une partie</h2>
-          <div class="form-inline">
-            <div class="form-control">
-              <label>Nom de la partie :</label>
-              <span>{{game.name}}</span>
-            </div>
-            <br />
-            <div class="form-control">
-              <label>Date de début :</label>
-              <span>{{game.startDate | date:'medium':'':'fr'}}</span>
-            </div>
-          </div>
+  <div class="row" style="margin-bottom: 10px;">
+    <div>
+      <h2>Detail d'une partie</h2>
+      <div class="form-inline">
+        <div class="form-group">
+          <label for="gameName">Nom de la partie :</label>
+          <input class="form-control" type="text" [value]="game.name" id="gameName" name="gameName" readonly="readonly"/>
         </div>
-      </div>
-      <br />
-      <br />
-      <br />
-      <div class="col-md-1">
-        <div heading="Suivis">
-          <h4>Suivi</h4>
-          <div class="btn-group-vertical" role="group">
-            <div class="btn-group">
-              <button class="btn btn-primary" [routerLink]="['/action/', game.id]">
-                <span class="fa fa-map-signs"> Actions</span>
-              </button>
-              <button class="btn btn-primary" [routerLink]="['/score/', game.id]">
-                <span class="fa fa-star"> Scores</span>
-              </button>
-            </div>
-          </div>
-          <h4>Configuration</h4>
-          <div class="btn-group-vertical" role="group">
-            <div class="btn-group">
-              <button class="btn btn-primary" [routerLink]="['/passcode/', game.id]">
-                <span class="fa fa-qrcode"> Passcodes</span>
-              </button>
-              <button class="btn btn-primary" [routerLink]="['/teams/', game.id]">
-                <span class="fa fa-users"> Equipes</span>
-              </button>
-
-            </div>
-
-          </div>
-
+        <div class="form-group">
+          <label for="dateStart">Date de début :</label>
+          <input class="form-control" type="datetime" [value]="game.startDate | date:'medium':'':'fr'" id="dateStart" readonly="readonly"/>
         </div>
       </div>
     </div>
   </div>
   <div class="row">
-    <div class="col-lg-9">
+    <div class="col-2">
+      <div heading="Suivi">
+        <h4>Suivi</h4>
+        <div class="btn-group-vertical w-100" role="group">
+          <div class="btn-group">
+            <button class="btn btn-primary" [routerLink]="['/action/', game.id]">
+              <span class="fa fa-map-signs"> Actions</span>
+            </button>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-primary" [routerLink]="['/score/', game.id]">
+              <span class="fa fa-star"> Scores</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div heading="Configuration">
+        <h4>Configuration</h4>
+        <div class="btn-group-vertical w-100" role="group">
+          <div class="btn-group">
+            <button class="btn btn-primary" [routerLink]="['/passcode/', game.id]">
+              <span class="fa fa-qrcode"> Passcodes</span>
+            </button>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-primary" [routerLink]="['/teams/', game.id]">
+              <span class="fa fa-users"> Equipes</span>
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="col-8">
       <map-detail3 #mapComponent
                    [gameId]="game.id"
                    [newNodesRelation]="newRelations"
@@ -72,42 +70,35 @@
                    width="100%">
       </map-detail3>
     </div>
-    <div class="col-lg-3">
+    <div class="col-2">
       <div heading="Actions">
         <h4>Actions</h4>
-        <div class="btn-group-vertical" role="group">
+        <div class="btn-group-vertical w-100" role="group">
+        <div class="btn-group-vertical " role="group">
           <div class="btn-group">
-            <button class="btn btn-default" (click)="uploadImages(uploadImagesTemplate)">Ajouter les photos mystères</button>
-          </div>
-          <div class="btn-group">
-            <button class="btn btn-default" (click)="centerMap(game.id)">Centrer la carte sur les n&oelig;uds</button>
+            <button class="btn btn-default" (click)="uploadImages(uploadImagesTemplate)"><span class="fa fa-image"></span> Ajouter les photos mystères</button>
           </div>
           <div class="btn-group">
-            <button class="btn btn-primary" (click)="editNodeRelations()"><span class="fa fa-link"> Editer les relations</span></button>
+            <button class="btn btn-default" (click)="centerMap(game.id)"><span class="fa fa-align-center"></span> Centrer la carte sur les n&oelig;uds</button>
           </div>
           <div class="btn-group">
-            <button class="btn btn-primary" (click)="editNodeAnswers()"><span class="fa fa-question"> Editer les réponses aux questions</span></button>
+            <button class="btn btn-primary" (click)="editNodeRelations()"><span class="fa fa-link"></span> Editer les relations</button>
           </div>
           <div class="btn-group">
-            <button class="btn btn-danger" (click)="saveChanges(game.id)"><span class="fa fa-floppy-o"> Enregistrer les changements</span></button>
+            <button class="btn btn-primary" (click)="editNodeAnswers()"><span class="fa fa-question"></span> Editer les réponses aux questions</button>
           </div>
           <div class="btn-group">
-            <button class="btn btn-default">
-              <span class="fa fa-edit"> <a [routerLink]="['/game', game.id]">Editer les n&oelig;uds image</a></span>
-            </button>
+            <button class="btn btn-danger" (click)="saveChanges(game.id)"><span class="fa fa-floppy-o"></span> Enregistrer les changements</button>
           </div>
-          <h4>Filtres</h4>
-          <div class="btn-group-vertical" role="group">
-            <div class="btn-group">
-              <button class="btn btn-default" btnCheckbox>Filtrer les noeuds images</button>
-            </div>
+          <div class="btn-group">
+            <button class="btn btn-default" [routerLink]="['/game', game.id]"><span class="fa fa-edit"></span> Editer les n&oelig;uds image</button>
           </div>
-
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <ng-template #uploadImagesTemplate>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Téléchargement de noeuds images</h4>

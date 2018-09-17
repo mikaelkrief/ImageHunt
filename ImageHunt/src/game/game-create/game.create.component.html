@@ -1,17 +1,33 @@
-<h2>Creation d'une partie</h2>
-
-<form>
-  <label>Administrateur</label>
-  <!--<span>{{admin.name}}</span>-->
-  <div class="form-inline">
-    <div class="input-group">
-      <label for="name">Nom de la partie</label>
-      <input type="text" class="form-control" ngModel name="name"
-             required placeholder="Nom de la partie" id="name"/>
-    </div>
-    <div class="input-group">
-      <label for="startDate">Date de la partie</label>
-      <p-calendar [(ngModel)]="value"></p-calendar>
-    </div>
+<div #createTeamTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Création d'une partie</h4>
+    <button type="button" class="close pull-right" aria-label="Fermer" (click)="bsModalRef.hide()">
+      <span aria-hidden="true" class="fa fa-times"></span>
+    </button>
   </div>
-</form>
+  <div class="container">
+    <form #form="ngForm" (submit)="createGame()">
+      <div class="modal-body">
+        <div class="form-group row">
+          <label for="gameName">Nom de la partie</label>
+          <input class="form-control" [(ngModel)]="name" id="gameName" name="gameName" placeholder="Nom de la partie" />
+        </div>
+        <div class="form-group row">
+          <label for="startDate">Date de démarrage de la partie</label>
+          <input class="form-control" type="date" [(ngModel)]="startDate" id="startDate" name="startDate"/>
+        </div>
+        <div class="form-group row">
+          <label for="startTime">Heure de départ</label>
+          <input class="form-control" id="startTime" name="startTime" [(ngModel)]="startTime" type="time"/>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success pull-right" type="submit" aria-label="Close"
+                (click)="bsModalRef.hide()">
+          Créer la partie
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

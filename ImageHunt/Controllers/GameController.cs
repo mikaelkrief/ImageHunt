@@ -117,6 +117,7 @@ namespace ImageHunt.Controllers
           var node = new PictureNode
           {
             Image = picture,
+            Name = file.FileName,
             Latitude = coordinates.Item1,
             Longitude = coordinates.Item2
           };
