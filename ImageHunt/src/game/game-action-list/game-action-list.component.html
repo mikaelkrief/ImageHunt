@@ -15,6 +15,7 @@
       <th style="width: 180px;">Photo associée</th>
       <th>Revu</th>
       <th>Validé</th>
+      <th>Rejeter</th>
       <th>Points</th>
       <th></th>
     </tr>
@@ -36,7 +37,7 @@
           <ng-template let-item pTemplate="item">
             <!--<div class="ui-helper-clearfix" style="position: relative; height: 50px;">-->
                 <img *ngIf="item.value.image !== undefined" src="api/Image/Thumbnail?pictureId={{item.value.image.id}}&width=40&height=40"/>
-              <span style="font-size: 14px; float: right; margin-top: 4px">{{item.label}} </span>
+            <span style="font-size: 14px; float: right; margin-top: 4px">{{item.label}}</span>
               <span style="color: green">{{item.value.points}}</span>
                 
 
@@ -61,9 +62,13 @@
         <span [class]="reviewedSpanClass(action)"></span>
       </td>
       <td>
-        <button [class]="validatedBtnClass(action)" (click)="validateGameAction(action)">
+        <button [class]="validatedBtnClass(action)" (click)="validateGameAction(action)" [disabled]="action.isValidated">
           <span [class]="validatedSpanClass(action)"></span>
         </button>
+      </td>
+      <td>
+        <button class="btn btn-danger" (click)="rejectGameAction(action)"><span class="fa fa-times"></span></button>
+
       </td>
       <td>
         {{action.pointsEarned}}

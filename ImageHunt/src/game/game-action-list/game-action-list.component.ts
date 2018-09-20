@@ -55,15 +55,16 @@ export class GameActionListComponent implements OnInit {
   }
   validateGameAction(action: GameAction) {
     this.gameService.validateGameAction(action.id).subscribe(next => {
-      action.isValidated = !action.isValidated;
-      if (action.isValidated) {
-        action.isReviewed = true;
-        action.pointsEarned = action.node.points;
-      } else {
-        action.isReviewed = false;
-        action.pointsEarned = 0;
-
-      }
+      action.isValidated = true;
+      action.isReviewed = true;
+      action.pointsEarned = action.node.points;
+    });
+  }
+  rejectGameAction(action: GameAction) {
+    this.gameService.rejectGameAction(action.id).subscribe(next => {
+      action.isValidated = false;
+      action.isReviewed = true;
+      action.pointsEarned = 0;
     });
   }
   public isNaN(value): boolean {

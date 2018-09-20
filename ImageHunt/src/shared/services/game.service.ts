@@ -85,6 +85,9 @@ export class GameService {
   validateGameAction(gameActionId: number) {
     return this.http.put(`api/Action/Validate/${gameActionId}`, null);
   }
+  rejectGameAction(gameActionId: number) {
+    return this.http.put(`api/Action/Reject/${gameActionId}`, null);
+  }
 
   getGameReviewed() { return this.http.get("api/Game/Reviewed"); }
   getScoreForGame(gameId) {

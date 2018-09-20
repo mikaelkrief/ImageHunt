@@ -73,7 +73,7 @@ namespace ImageHunt.Services
         return gameAction;
       }
 
-      public void Validate(int actionId, int validatorId)
+      public void Validate(int actionId, int validatorId, bool validate)
       {
         var gameAction = Context.GameActions
           .Include(ga=>ga.Node)
@@ -82,7 +82,7 @@ namespace ImageHunt.Services
         gameAction.Reviewer = validator;
         gameAction.IsReviewed = true;
         gameAction.DateReviewed = DateTime.Now;
-        gameAction.IsValidated = !gameAction.IsValidated;
+        gameAction.IsValidated = validate;
         gameAction.PointsEarned = gameAction.IsValidated?gameAction.Node?.Points ?? 0:0;
         Context.SaveChanges();
       }

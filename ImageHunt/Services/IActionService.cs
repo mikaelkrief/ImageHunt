@@ -12,7 +12,7 @@ namespace ImageHunt.Services
     void AddGameAction(GameAction gameAction);
     Task<PaginatedList<GameAction>> GetGameActionsForGame(int gameId, int pageIndex, int take);
     GameAction GetGameAction(int gameActionId);
-    void Validate(int gameActionId, int validatorId);
+    void Validate(int gameActionId, int validatorId, bool validate);
     int GetGameActionCountForGame(int gameId, IncludeAction includeAction);
     IEnumerable<Score> GetScoresForGame(int gameId);
     IEnumerable<GameAction> GetGamePositionsForGame(int gameId);
