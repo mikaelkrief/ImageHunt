@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {GameService} from "../../shared/services/game.service";
 import { ActivatedRoute } from "@angular/router";
 import { GameAction } from "../../shared/gameAction";
+import { Node } from "../../shared/node";
 import { LazyLoadEvent } from 'primeng/api';
 
 @Component({
@@ -28,10 +29,32 @@ export class GameActionListComponent implements OnInit {
     this.gameService.getGameActionsToValidateForGame(this.gameId, (event.first / event.rows) + 1, event.rows, 3)
       .subscribe((gameActions: GameAction[]) => {
         this.gameActions = gameActions;
+        this.computeDeltas();
       });
   }
-  probableNodeChanged(event, action) {
+  getDistanceFromLatLon(lat1, lon1, lat2, lon2) {
+    var R = 6371000; // Radius of the earth in km
+    var dLat = this.deg2rad(lat2 - lat1);  // deg2rad below
+    var dLon = this.deg2rad(lon2 - lon1);
+    var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2)
+      ;
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in m
+    return d;
+  }
+
+  deg2rad(deg) {
+    return deg * (Math.PI / 180)
+  }
+  probableNodeChanged(event, action: GameAction) {
     action.node = event.value;
+    let selectedNode = event.value as Node;
+    action.delta =
+      this.getDistanceFromLatLon(action.latitude, action.longitude, selectedNode.latitude, selectedNode.longitude);
+
   }
   validatedBtnClass(action: GameAction) {
     if (action.isValidated === null)
@@ -76,5 +99,14 @@ export class GameActionListComponent implements OnInit {
   totalRecords: number;
   loadBigImage(pictureId) {
 
+  }
+
+  computeDeltas() {
+    this.gameActions.map(ga => {
+      ga.delta = this.getDistanceFromLatLon(ga.latitude,
+        ga.longitude,
+        ga.probableNodes[0].latitude,
+        ga.probableNodes[0].longitude);
+    });
   }
 }
