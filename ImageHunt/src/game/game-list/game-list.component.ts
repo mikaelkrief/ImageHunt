@@ -7,8 +7,6 @@ import { DatePipe } from '@angular/common';
 import { NgForm } from "@angular/forms";
 import {AlertService} from "../../shared/services/alert.service";
 import { ConfirmationService } from "primeng/api";
-import { BsModalService } from 'ngx-bootstrap';
-import { GameCreateComponent } from '../game-create/game.create.component';
 
 @Component({
   selector: 'game-list',
@@ -24,8 +22,7 @@ export class GameListComponent implements OnInit {
   constructor(private gameService: GameService,
     private localStorageService: LocalStorageService,
     private _alertService: AlertService,
-    private _confirmationService: ConfirmationService,
-  private _modalService: BsModalService) { }
+    private _confirmationService: ConfirmationService) { }
 
   /** Called by Angular after game component initialized */
   ngOnInit(): void {
@@ -33,20 +30,22 @@ export class GameListComponent implements OnInit {
     this.admin = <Admin>(this.localStorageService.get('connectedAdmin'));
     this.getGames();
   }
-  showModal() {
-    this.modalRef = this._modalService.show(GameCreateComponent, { ignoreBackdropClick: true });
-    this.modalRef.content.game.subscribe(game => this.createGame(game));
-  }
+
   getGames() {
     if (this.admin != null)
       this.gameService.getGameForAdmin(this.admin.id)
         .subscribe((games:Game[]) => this.games = games, err=> this._alertService.sendAlert("Erreur lors de la mise à jour de la liste des jeux", "danger", 10000));
   }
 
-  createGame(game: Game) {
+  createGame(form: NgForm) {
+    var startDate = <Date>(form.value.startDate);
+    var game: Game = { id: 0, name: form.value.name, startDate: startDate, isActive: true, mapCenterLat: 0, mapCenterLng: 0, mapZoom: 12.0, nodes: null, teams:null };
     this.gameService.createGame(this.admin.id, game)
-      .subscribe(() => this.getGames());
-  }
+      .subscribe(null, null, () => {
+        this.getGames();
+        form.resetForm();
+      });
+  }i
   deleteGame(gameId: number) {
     this._confirmationService.confirm({
       message: "Voulez-vous vraiment effacer cette partie ?",
@@ -59,6 +58,4 @@ export class GameListComponent implements OnInit {
   classForActive(active: boolean) {
     return active ? 'fa-eye' : 'fa-eye-slash';
   }
-
-  modalRef;
 }
