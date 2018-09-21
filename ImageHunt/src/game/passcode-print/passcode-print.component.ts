@@ -20,9 +20,12 @@ export class PasscodePrintComponent implements OnInit {
     this.gameId = this._route.snapshot.params['gameId'];
     this._gamerService.getPasscodesForGame(this.gameId)
       .subscribe((passcodes: Passcode[]) => this.passcodes = passcodes);
+    this._gamerService.getGameById(this.gameId)
+      .subscribe(game => this.game = game);
   }
 
   gameId;
   passcodes: Passcode[];
   botName:string;
+  game;
 }

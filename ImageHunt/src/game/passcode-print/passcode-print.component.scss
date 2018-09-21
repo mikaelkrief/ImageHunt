@@ -1,42 +1,49 @@
-.qrcode {
-  margin:20px;
-  z-index:0;
-  width:200px;
-  height:200px;
-  top:20px;
-}
-.logo {
-  left:145px;
-  position: relative;
-  z-index: 2;
-}
-.logoBackground {
-  background-color: white;
-  border-radius:10px;
-  left: 140px;
-  top:-130px;
-  width: 60px;
-  height: 60px;
-  position: relative;
-  z-index: 1;
-}
+@media all {
+  @page {
+    size: 210mm 297mm;
+  }
+  .qrcode {
+    z-index: 0;
+    /*width:40mm;
+  height:40mm;*/
+  }
 
-.passcodeCell {
-  margin:20px;
-}
-.passcodeGrid {
-  display: grid;
- 
-  grid-template-columns: 1fr 1fr;
-  padding-right: 50px;
-  grid-column-gap:100px;
-  grid-row-gap:70px;
-  left:-50px;
-  position:relative;
-  top:50px;
-}
-.points{
-  position:relative;
-  left:150px;
-  top:-50px;
+  .logoBackground {
+    background-color: white;
+    border-radius: 10px;
+    width: 20mm;
+    height: 20mm;
+    z-index: 1;
+  }
+
+  .logo {
+    width: 15mm;
+    height: 15mm;
+    z-index: 2;
+  }
+
+  .passcodeCell {
+    width: 100mm;
+    height: 70mm;
+    border-style: dashed;
+    align-content: center;
+    position: relative;
+  }
+
+  .passcodeCell > * {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  .passcodeGrid {
+    display: grid;
+    grid-template-columns: 100mm 100mm;
+    grid-template-rows: 70mm 70mm 70mm 70mm;
+    grid-auto-rows:70mm;
+    grid-column-gap: 30mm;
+    grid-row-gap: 40mm;
+    align-items: center;
+  }
 }
