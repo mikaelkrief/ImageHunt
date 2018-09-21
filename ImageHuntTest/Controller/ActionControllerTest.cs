@@ -219,7 +219,20 @@ namespace ImageHuntTest.Controller
 
             // Assert
             Check.That(result).IsInstanceOf<OkResult>();
-            A.CallTo(() => _actionService.Validate(1, 15)).MustHaveHappened();
+            A.CallTo(() => _actionService.Validate(1, 15, true)).MustHaveHappened();
+        }
+        [Fact]
+        public void Reject()
+        {
+            // Arrange
+            _target.ControllerContext = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            _target.User.AddIdentity(new ClaimsIdentity(new[] { new Claim("userId", "15"), }));
+            // Act
+            var result = _target.Reject(1);
+
+            // Assert
+            Check.That(result).IsInstanceOf<OkResult>();
+            A.CallTo(() => _actionService.Validate(1, 15, false)).MustHaveHappened();
         }
 
         [Fact]

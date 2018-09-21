@@ -8,13 +8,14 @@
   <ng-template pTemplate="header">
     <tr>
       <th>Heure</th>
-      <th>Delta</th>
+      <th style="white-space: nowrap;">Delta</th>
       <th>Equipe</th>
       <th>Action</th>
       <th style="width: 180px;">Noeud probable</th>
       <th style="width: 180px;">Photo associée</th>
       <th>Revu</th>
       <th>Validé</th>
+      <th>Rejeter</th>
       <th>Points</th>
       <th></th>
     </tr>
@@ -22,25 +23,26 @@
   <ng-template pTemplate="body" let-action let-rowData>
     <tr>
       <td>{{action.dateOccured|date:'HH:mm'}}</td>
-      <td>{{isNaN(action.delta)?'-':action.delta | number:'1.0-2':'fr'}} m</td>
+      <td style="white-space: nowrap;">{{isNaN(action.delta)?'-':action.delta | number:'1.0-2':'fr'}} m</td>
       <td>{{action.team.name}}</td>
       <td>{{action.action|gameActionTranslationPipe}}</td>
       <td>
-        <p-dropdown [options]="action.probableNodes" optionLabel="name"
+        <p-dropdown class="probableNode"
+                    [options]="action.probableNodes" optionLabel="name"
                     (onChange)="probableNodeChanged($event, action)"
                     autoWidth="false">
           <ng-template let-item pTemplate="selectedItem" style="width: 100%">
             <img *ngIf="action.node.image !== undefined" src="api/Image/Thumbnail?pictureId={{action.node.image.id}}&width=40&height=40" />
-            <span style="vertical-align: middle">{{item.label}}</span>
+            <span style="vertical-align: middle;float: right"> {{item.label}}</span>
           </ng-template>
           <ng-template let-item pTemplate="item">
             <!--<div class="ui-helper-clearfix" style="position: relative; height: 50px;">-->
-                <img *ngIf="item.value.image !== undefined" src="api/Image/Thumbnail?pictureId={{item.value.image.id}}&width=40&height=40"/>
-              <span style="font-size: 14px; float: right; margin-top: 4px">{{item.label}} </span>
-              <span style="color: green">{{item.value.points}}</span>
-                
+            <div class="row">
+                <img class="col-4" *ngIf="item.value.image !== undefined" src="api/Image/Thumbnail?pictureId={{item.value.image.id}}&width=40&height=40"/>
+            <span class="col-4" style="font-size: 14px;">{{item.label}}</span>
+              <span class="col-4" style="vertical-align: middle">{{item.value.points}}</span>
+            </div>
 
-<!--            </div>-->
   </ng-template>
         </p-dropdown>
   
@@ -61,9 +63,13 @@
         <span [class]="reviewedSpanClass(action)"></span>
       </td>
       <td>
-        <button [class]="validatedBtnClass(action)" (click)="validateGameAction(action)">
+        <button [class]="validatedBtnClass(action)" (click)="validateGameAction(action)" [disabled]="action.isValidated">
           <span [class]="validatedSpanClass(action)"></span>
         </button>
+      </td>
+      <td>
+        <button class="btn btn-danger" (click)="rejectGameAction(action)"><span class="fa fa-times"></span></button>
+
       </td>
       <td>
         {{action.pointsEarned}}

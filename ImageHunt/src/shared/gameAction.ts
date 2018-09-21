@@ -17,4 +17,5 @@ export class GameAction {
   delta: number;
   picture: Picture;
   pointsEarned: number;
+  probableNodes: Node[];
 }

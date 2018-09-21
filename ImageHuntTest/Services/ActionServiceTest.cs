@@ -391,11 +391,29 @@ namespace ImageHuntTest.Services
         _context.Admins.AddRange(admins);
         _context.SaveChanges();
         // Act
-        _target.Validate(gameActions[1].Id, admins[1].Id);
+        _target.Validate(gameActions[1].Id, admins[1].Id, true);
         // Assert
         Check.That(gameActions.Extracting("IsValidated")).Contains(false, true);
         Check.That(gameActions.Extracting("IsReviewed")).Contains(false, true);
           Check.That(gameActions.Extracting("PointsEarned")).Contains(0, 15);
+      }
+      [Fact]
+      public void Reject()
+      {
+        // Arrange
+        var gameActions = new List<GameAction> {new GameAction(),
+            new GameAction() {IsValidated = false, Node = new PictureNode{Points = 15}}};
+        _context.GameActions.AddRange(gameActions);
+        _context.SaveChanges();
+        var admins = new List<Admin> {new Admin(), new Admin()};
+        _context.Admins.AddRange(admins);
+        _context.SaveChanges();
+        // Act
+        _target.Validate(gameActions[1].Id, admins[1].Id, false);
+        // Assert
+        Check.That(gameActions.Extracting("IsValidated")).Contains(false, false);
+        Check.That(gameActions.Extracting("IsReviewed")).Contains(false, true);
+          Check.That(gameActions.Extracting("PointsEarned")).Contains(0, 0);
       }
 
       [Fact]
@@ -410,7 +428,7 @@ namespace ImageHuntTest.Services
         _context.Admins.AddRange(admins);
         _context.SaveChanges();
         // Act
-        _target.Validate(gameActions[1].Id, admins[1].Id);
+        _target.Validate(gameActions[1].Id, admins[1].Id, true);
         // Assert
         Check.That(gameActions.Extracting("PointsEarned")).Contains(0, 20);
       }
@@ -427,7 +445,7 @@ namespace ImageHuntTest.Services
         _context.Admins.AddRange(admins);
         _context.SaveChanges();
         // Act
-      _target.Validate(gameActions[1].Id, admins[1].Id);
+      _target.Validate(gameActions[1].Id, admins[1].Id, false);
         // Assert
         Check.That(gameActions.Extracting("IsValidated")).ContainsExactly(false, false);
         Check.That(gameActions.Extracting("IsReviewed")).ContainsExactly(false, true);
@@ -442,7 +460,7 @@ namespace ImageHuntTest.Services
         _context.GameActions.AddRange(gameActions);
         _context.SaveChanges();
         // Act
-        Check.ThatCode(()=> _target.Validate(gameActions[1].Id, 0)).Throws<InvalidOperationException>();
+        Check.ThatCode(()=> _target.Validate(gameActions[1].Id, 0, true)).Throws<InvalidOperationException>();
         // Assert
       }
 

@@ -121,9 +121,18 @@ namespace ImageHunt.Controllers
     public IActionResult Validate(int gameActionId)
     {
       var validatorId = UserId;
-      _actionService.Validate(gameActionId, validatorId);
+      _actionService.Validate(gameActionId, validatorId, true);
       return Ok();
     }
+    [HttpPut("Reject/{gameActionId}")]
+    [Authorize]
+    public IActionResult Reject(int gameActionId)
+    {
+      var validatorId = UserId;
+      _actionService.Validate(gameActionId, validatorId, false);
+      return Ok();
+    }
+
     [HttpPost("LogPosition")]
     public async Task<IActionResult> LogPosition(LogPositionRequest logPositionRequest)
     {
@@ -146,5 +155,6 @@ namespace ImageHunt.Controllers
     {
       return Ok(_actionService.GetGamePositionsForGame(gameId));
     }
+
   }
 }
