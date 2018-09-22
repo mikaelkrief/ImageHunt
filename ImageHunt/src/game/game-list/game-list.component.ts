@@ -40,12 +40,16 @@ export class GameListComponent implements OnInit {
   getGames() {
     if (this.admin != null)
       this.gameService.getGameForAdmin(this.admin.id)
-        .subscribe((games: Game[]) => this.games = games, err => this._alertService.sendAlert("Erreur lors de la mise à jour de la liste des jeux", "danger", 10000));
+        .subscribe((games: Game[]) => this.games = games,
+          err => this._alertService.sendAlert("Erreur lors de la mise à jour de la liste des jeux", "danger", 10000));
   }
 
   createGame(game: Game) {
     this.gameService.createGame(this.admin.id, game)
-      .subscribe(() => this.getGames());
+      .subscribe(() => {
+        this.getGames();
+        this._alertService.sendAlert(`La partie ${game.name} a bien été créée`, "success", 5000);
+      });
   }
   deleteGame(gameId: number) {
     this._confirmationService.confirm({
