@@ -266,16 +266,19 @@ namespace ImageHunt.Controllers
       foreach (var gameAction in gameActions)
       {
         var gameActionToValidate =_mapper.Map<GameAction, GameActionToValidate>(gameAction);
-        gameActionToValidate.ProbableNodes = _nodeService
-          .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value, gameAction.Longitude.Value).Take(gameActionListRequest.NbPotential);
-        foreach (var probableNode in gameActionToValidate.ProbableNodes)
+        if (gameAction.Latitude.HasValue && gameAction.Longitude.HasValue)
         {
-          if (probableNode is PictureNode)
-            ((PictureNode)probableNode).Image = _imageService.GetImageForNode(probableNode);
-        }
+          gameActionToValidate.ProbableNodes = _nodeService
+            .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value, gameAction.Longitude.Value).Take(gameActionListRequest.NbPotential);
+          foreach (var probableNode in gameActionToValidate.ProbableNodes)
+          {
+            if (probableNode is PictureNode)
+              ((PictureNode)probableNode).Image = _imageService.GetImageForNode(probableNode);
+          }
 
-        gameActionToValidate.Node = gameActionToValidate.ProbableNodes.FirstOrDefault();
-        gameActionsToValidate.Add(gameActionToValidate);
+          gameActionToValidate.Node = gameActionToValidate.ProbableNodes.FirstOrDefault();
+          gameActionsToValidate.Add(gameActionToValidate);
+        }
       }
       return Ok(gameActionsToValidate);
     }
