@@ -7,6 +7,8 @@ namespace ImageHuntWebServiceClient.Request
       [FromQuery]
     public int GameId { get; set; }
       [FromQuery]
+    public int? TeamId { get; set; }
+      [FromQuery]
       public int PageSize { get; set; }
       [FromQuery]
       public int PageIndex { get; set; }

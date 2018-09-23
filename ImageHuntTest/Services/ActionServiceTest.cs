@@ -88,7 +88,7 @@ namespace ImageHuntTest.Services
       _context.GameActions.AddRange(gameActions);
       _context.SaveChanges();
       // Act
-      var results = await _target.GetGameActionsForGame(games[1].Id, 0, 10);
+      var results = await _target.GetGameActionsForGame(games[1].Id, 0, 10, 3);
       // Assert
       Check.That(results).ContainsExactly(gameActions[0], gameActions[1], gameActions[2]);
 
@@ -160,7 +160,7 @@ namespace ImageHuntTest.Services
       _context.GameActions.AddRange(gameActions);
       _context.SaveChanges();
       // Act
-      var results = await _target.GetGameActionsForGame(games[1].Id, 0, 10);
+      var results = await _target.GetGameActionsForGame(games[1].Id, 0, 10, 3);
       // Assert
       Check.That(results).ContainsExactly(gameActions[0], gameActions[1], gameActions[2]);
 
@@ -225,7 +225,93 @@ namespace ImageHuntTest.Services
       _context.GameActions.AddRange(gameActions);
       _context.SaveChanges();
       // Act
-      var results = await _target.GetGameActionsForGame(games[1].Id, 2, 2);
+      var results = await _target.GetGameActionsForGame(games[1].Id, 2, 2, 3);
+      // Assert
+      Check.That(results).ContainsExactly(gameActions[2]);
+
+      Check.That(results[0].Node).IsNull();
+      Check.That(results[0].Delta).IsNaN();
+      Check.That(results[0].Delta).IsEqualsWithDelta(15.6238, 0.001);
+    }
+    [Fact]
+    public async Task GetGameActionForGame_Paginated_ForTeam()
+    {
+      // Arrange
+      var teams = new List<Team> {new Team(), new Team(), new Team()};
+      _context.Teams.AddRange(teams);
+      _context.SaveChanges();
+      var games = new List<Game> { new Game(), new Game() };
+      _context.AddRange(games);
+      _context.SaveChanges();
+      var nodes = new List<Node>(){new FirstNode(){Latitude = 10.0001, Longitude = 15.0001},
+       new ObjectNode(){Latitude = 12, Longitude = 16}, new LastNode()};
+      _context.Nodes.AddRange(nodes);
+      _context.SaveChanges();
+      var gameActions = new List<GameAction>()
+      {
+        new GameAction()
+        {
+          Game = games[1],
+          Action = Action.StartGame,
+          DateOccured = DateTime.Now,
+          Latitude = 10,
+          Longitude = 15,
+          Node = nodes[0],
+          Team = teams[1]
+        },
+        new GameAction()
+        {
+          Game = games[1],
+          Action = Action.VisitWaypoint,
+          DateOccured = DateTime.Now,
+          Latitude = 11,
+          Longitude = 15.2,
+          Node = nodes[1],
+          Team = teams[1]
+        },
+        new GameAction()
+        {
+          Game = games[1],
+          Action = Action.VisitWaypoint,
+          DateOccured = DateTime.Now.AddMinutes(15),
+          Latitude = 11.3,
+          Longitude = 15.5,
+          Team = teams[1]
+        },
+        new GameAction()
+        {
+          Game = games[1],
+          Action = Action.VisitWaypoint,
+          DateOccured = DateTime.Now.AddMinutes(15),
+          Latitude = 11.3,
+          Longitude = 15.5,
+          Team = teams[0]
+        },
+        new GameAction()
+        {
+          Game = games[0],
+          Action = Action.VisitWaypoint,
+          DateOccured = DateTime.Now,
+          Latitude = 11,
+          Longitude = 15.2,
+          Node = nodes[1],
+          Team = teams[1]
+        },
+        new GameAction()
+        {
+          Game = games[0],
+          Action = Action.VisitWaypoint,
+          DateOccured = DateTime.Now,
+          Latitude = 11,
+          Longitude = 15.2,
+          Node = nodes[1],
+          Team = teams[0]
+        },
+      };
+      _context.GameActions.AddRange(gameActions);
+      _context.SaveChanges();
+      // Act
+      var results = await _target.GetGameActionsForGame(games[1].Id, 2, 2, 3, teams[1].Id);
       // Assert
       Check.That(results).ContainsExactly(gameActions[2]);
 
@@ -294,6 +380,78 @@ namespace ImageHuntTest.Services
             _context.SaveChanges();
             // Act
             var result = _target.GetGameActionCountForGame(games[1].Id, IncludeAction.All);
+            // Assert
+            Check.That(result).Equals(3);
+        }
+        [Fact]
+        public void GetGameActionCountForGame_WithTeam()
+        {
+            // Arrange
+            var teams = new List<Team> { new Team(), new Team(), new Team() };
+            _context.Teams.AddRange(teams);
+            _context.SaveChanges();
+            var games = new List<Game> { new Game(), new Game() };
+            _context.AddRange(games);
+            _context.SaveChanges();
+            var nodes = new List<Node>(){new FirstNode(){Latitude = 10.0001, Longitude = 15.0001},
+                new ObjectNode(){Latitude = 12, Longitude = 16}, new LastNode()};
+            _context.Nodes.AddRange(nodes);
+            _context.SaveChanges();
+            var gameActions = new List<GameAction>()
+            {
+                new GameAction()
+                {
+                    Game = games[1],
+                    Action = Action.StartGame,
+                    DateOccured = DateTime.Now,
+                    Latitude = 10,
+                    Longitude = 15,
+                    Node = nodes[0],
+                    Team = teams[1]
+                },
+                new GameAction()
+                {
+                    Game = games[1],
+                    Action = Action.VisitWaypoint,
+                    DateOccured = DateTime.Now,
+                    Latitude = 11,
+                    Longitude = 15.2,
+                    Node = nodes[1],
+                    Team = teams[1]
+                },
+                new GameAction()
+                {
+                    Game = games[1],
+                    Action = Action.VisitWaypoint,
+                    DateOccured = DateTime.Now.AddMinutes(15),
+                    Latitude = 11.3,
+                    Longitude = 15.5,
+                    Team = teams[1]
+                },
+                new GameAction()
+                {
+                    Game = games[1],
+                    Action = Action.VisitWaypoint,
+                    DateOccured = DateTime.Now.AddMinutes(15),
+                    Latitude = 11.3,
+                    Longitude = 15.5,
+                    Team = teams[0]
+                },
+                new GameAction()
+                {
+                    Game = games[0],
+                    Action = Action.VisitWaypoint,
+                    DateOccured = DateTime.Now,
+                    Latitude = 11,
+                    Longitude = 15.2,
+                    Node = nodes[1],
+                    Team = teams[1]
+                },
+            };
+            _context.GameActions.AddRange(gameActions);
+            _context.SaveChanges();
+            // Act
+            var result = _target.GetGameActionCountForGame(games[1].Id, IncludeAction.All, teams[1].Id);
             // Assert
             Check.That(result).Equals(3);
         }

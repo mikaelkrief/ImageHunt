@@ -18,7 +18,7 @@ namespace ImageHunt.Services
 {
     public class ActionService : AbstractService, IActionService
     {
-      public async Task<PaginatedList<GameAction>> GetGameActionsForGame(int gameId, int pageIndex, int pageSize)
+      public async Task<PaginatedList<GameAction>> GetGameActionsForGame(int gameId, int pageIndex, int pageSize, int take, int? teamId = null)
       {
         var gameActions = Context.GameActions
             .Include(ga => ga.Game)
@@ -29,7 +29,8 @@ namespace ImageHunt.Services
             .Where(ga => ga.Game.Id == gameId)
             .Where(ga=>!ga.IsReviewed)
           ;
-
+        if (teamId.HasValue)
+          gameActions = gameActions.Where(ga => ga.Team.Id == teamId.Value);
         foreach (var gameAction in gameActions)
         {
           gameAction.Delta = ComputeDelta(gameAction);
@@ -102,19 +103,23 @@ namespace ImageHunt.Services
         Context.SaveChanges();
       }
 
-      public int GetGameActionCountForGame(int gameId, IncludeAction includeAction)
+      public int GetGameActionCountForGame(int gameId, IncludeAction includeAction, int? teamId = null)
       {
         int gameActionCountForGame = 0;
+        IQueryable<GameAction> actions = null;
         switch (includeAction)
         {
         case IncludeAction.All:
-          gameActionCountForGame = Context.GameActions.Count(ga => ga.Game.Id == gameId);
+          actions = Context.GameActions.Where(ga => ga.Game.Id == gameId);
           break;
         case IncludeAction.Picture:
-          gameActionCountForGame = Context.GameActions.Count(ga => ga.Game.Id == gameId && ga.Action == Action.SubmitPicture);
+          actions = Context.GameActions.Where(ga => ga.Game.Id == gameId && ga.Action == Action.SubmitPicture);
           break;
         }
-        return gameActionCountForGame;
+
+        if (teamId.HasValue)
+          actions = actions.Where(ga => ga.Team.Id == teamId.Value);
+        return actions.Count();
       }
 
       public IEnumerable<Score> GetScoresForGame(int gameId)

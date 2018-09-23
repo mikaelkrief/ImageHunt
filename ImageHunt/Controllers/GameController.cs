@@ -181,7 +181,8 @@ namespace ImageHunt.Controllers
     [HttpGet("GameActions")]
     public async Task<IActionResult> GetGameActions(GameActionListRequest gameActionListRequest)
     {
-      var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize);
+      var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId,
+        gameActionListRequest.PageIndex, gameActionListRequest.PageSize, gameActionListRequest.NbPotential, gameActionListRequest.TeamId);
       //foreach (var gameAction in gameActions)
       //{
       //  if (gameAction.Picture != null)
@@ -228,7 +229,7 @@ namespace ImageHunt.Controllers
     {
       IncludeAction includeAction;
       Enum.TryParse(getGameActionCountRequest.IncludeAction, out includeAction);
-      return Ok(_actionService.GetGameActionCountForGame(getGameActionCountRequest.GameId, includeAction));
+      return Ok(_actionService.GetGameActionCountForGame(getGameActionCountRequest.GameId, includeAction, getGameActionCountRequest.TeamId));
     }
     [HttpGet("Reviewed")]
     public IActionResult GetGamesReviewed()
@@ -261,7 +262,8 @@ namespace ImageHunt.Controllers
     [HttpGet("GameActionsToValidate")]
     public async Task<IActionResult> GetGameActionsToValidate([FromQuery]GameActionListRequest gameActionListRequest)
     {
-      var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize);
+      var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId,
+        gameActionListRequest.PageIndex, gameActionListRequest.PageSize, gameActionListRequest.NbPotential, gameActionListRequest.TeamId);
       var gameActionsToValidate = new List<GameActionToValidate>();
       foreach (var gameAction in gameActions)
       {
