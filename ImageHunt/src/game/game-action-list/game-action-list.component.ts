@@ -4,6 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { GameAction } from "../../shared/gameAction";
 import { Node } from "../../shared/node";
 import { LazyLoadEvent } from 'primeng/api';
+import { AlertService } from 'services/alert.service';
 
 @Component({
     selector: 'game-action-list',
@@ -14,7 +15,7 @@ import { LazyLoadEvent } from 'primeng/api';
 export class GameActionListComponent implements OnInit {
   selectedProbableNode: any;
   /** GameActionList ctor */
-    constructor(private gameService: GameService, private route: ActivatedRoute) {
+    constructor(private gameService: GameService, private route: ActivatedRoute, private alertService: AlertService) {
     }
   images: any[][] = [];
   ngOnInit(): void {
@@ -77,18 +78,22 @@ export class GameActionListComponent implements OnInit {
       return "fa fa-check-square";
   }
   validateGameAction(action: GameAction) {
-    this.gameService.validateGameAction(action.id).subscribe(next => {
-      action.isValidated = true;
-      action.isReviewed = true;
-      action.pointsEarned = action.node.points;
-    });
+    this.gameService.validateGameAction(action.id)
+      .subscribe(next => {
+          action.isValidated = true;
+          action.isReviewed = true;
+          action.pointsEarned = action.node.points;
+        },
+        error => this.handleError(error)
+      );
   }
   rejectGameAction(action: GameAction) {
     this.gameService.rejectGameAction(action.id).subscribe(next => {
       action.isValidated = false;
       action.isReviewed = true;
       action.pointsEarned = 0;
-    });
+    },
+      error => this.handleError(error));
   }
   public isNaN(value): boolean {
     return "NaN" === value;
@@ -108,5 +113,13 @@ export class GameActionListComponent implements OnInit {
         ga.probableNodes[0].latitude,
         ga.probableNodes[0].longitude);
     });
+  }
+
+  handleError(error): void {
+    switch (error.status) {
+    case 401:
+        this.alertService.sendAlert("Vous n'\xEAtes pas autoris\xE9 \xE0 valider les actions des joueurs", "danger", 10000);
+    default:
+    }
   }
 }
