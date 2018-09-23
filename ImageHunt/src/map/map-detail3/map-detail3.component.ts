@@ -33,6 +33,7 @@ export class MapDetail3Component implements OnInit, AfterViewInit {
   @Input() lngCenter: number;
   @Input() zoom: number;
   @Input() nodes: Node[];
+  @Input() editable: boolean;
 
   @Output() mapClicked = new EventEmitter();
   @Output() nodeClicked = new EventEmitter<NodeClicked>();
@@ -150,7 +151,7 @@ export class MapDetail3Component implements OnInit, AfterViewInit {
         iconAnchor: [16, 16]
       });
       const marker = new NodeMarker([node.latitude, node.longitude],
-        { icon: icon, title: node.name, draggable: true });
+        { icon: icon, title: node.name, draggable: this.editable });
       marker.node = node;
       marker.addTo(this.map);
       marker.on('click', event => this.onNodeClick(event));
