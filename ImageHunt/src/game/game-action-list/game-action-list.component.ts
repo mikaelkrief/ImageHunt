@@ -20,14 +20,15 @@ export class GameActionListComponent implements OnInit {
   images: any[][] = [];
   ngOnInit(): void {
     this.gameId = this.route.snapshot.params["gameId"];
+    this.teamId = this.route.snapshot.params["teamId"];
 
-    this.gameService.getGameActionCountForGame(this.gameId)
+    this.gameService.getGameActionCountForGame(this.gameId, this.teamId)
       .subscribe((next: number) => {
         this.totalRecords = next;
       });
   }
   loadData(event: LazyLoadEvent) {  
-    this.gameService.getGameActionsToValidateForGame(this.gameId, (event.first / event.rows) + 1, event.rows, 3)
+    this.gameService.getGameActionsToValidateForGame(this.gameId, (event.first / event.rows) + 1, event.rows, 3, this.teamId)
       .subscribe((gameActions: GameAction[]) => {
         this.gameActions = gameActions;
         this.computeDeltas();
@@ -100,6 +101,7 @@ export class GameActionListComponent implements OnInit {
   }
 
   gameId: number;
+  teamId?: number;
   gameActions: GameAction[];
   totalRecords: number;
   loadBigImage(pictureId) {

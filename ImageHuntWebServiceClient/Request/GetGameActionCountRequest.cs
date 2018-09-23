@@ -3,6 +3,7 @@
   public class GetGameActionCountRequest
   {
     public int GameId { get; set; }
+    public int? TeamId { get; set; }
     public string IncludeAction { get; set; }
   }
 }

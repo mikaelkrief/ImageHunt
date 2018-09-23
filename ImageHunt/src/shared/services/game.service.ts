@@ -69,14 +69,18 @@ export class GameService {
   addRelationAnswers(relations: QuestionNodeAnswerRelation[]) {
     return this.http.put(`api/Node/AddRelationsWithAnswers`, relations);
   }
-  getGameActionCountForGame(gameId: number) {
+  getGameActionCountForGame(gameId: number, teamId?: number) {
+    if (teamId)
+      return this.http.get(`api/Game/GameActionCount?gameId=${gameId}&teamId=${teamId}&includeAction=Picture`);
     return this.http.get(`api/Game/GameActionCount?gameId=${gameId}&includeAction=Picture`);
   }
   getGameActionForGame(gameId: number, pageIndex: number, pageSize: number) {
 
     return this.http.get<GameAction[]>(`api/Game/GameActions/${gameId}&pageIndex=${pageIndex}&pageSize=${pageSize}`);
   }
-  getGameActionsToValidateForGame(gameId: number, pageIndex: number, pageSize: number, nbProbableNode: number) {
+  getGameActionsToValidateForGame(gameId: number, pageIndex: number, pageSize: number, nbProbableNode: number, teamId?: number) {
+    if (teamId)
+      return this.http.get<GameAction[]>(`api/Game/GameActionsToValidate?gameId=${gameId}&teamId=${teamId}&pageIndex=${pageIndex}&pageSize=${pageSize}&nbPotential=${nbProbableNode}`);
     return this.http.get<GameAction[]>(`api/Game/GameActionsToValidate?gameId=${gameId}&pageIndex=${pageIndex}&pageSize=${pageSize}&nbPotential=${nbProbableNode}`);
   }
   getGameAction(gameActionId: number) {
