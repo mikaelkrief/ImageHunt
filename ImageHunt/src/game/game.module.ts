@@ -6,7 +6,7 @@ import {CalendarModule} from "primeng/calendar";
 import {GameCreateComponent} from "./game-create/game.create.component";
 import {GameService} from "../shared/services/game.service";
 import {MapModule} from "../map/map.module";
-import { BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule  } from "ngx-bootstrap";
+import { BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule, TooltipModule  } from "ngx-bootstrap";
 import {GameDetailComponent} from "./game-detail/game.detail.component";
 import {TeamService} from "../shared/services/team.service";
 import {AlertService} from "../shared/services/alert.service";
@@ -41,7 +41,7 @@ import { QRCodeModule } from 'angular2-qrcode';
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
     MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule,
     ToggleButtonModule, DropdownModule, ContextMenuModule, TableModule, GMapModule, SharedModule,
-    RadioButtonModule, TeamModule, LightboxModule, QRCodeModule, BsDatepickerModule, ButtonsModule],
+    RadioButtonModule, TeamModule, LightboxModule, QRCodeModule, BsDatepickerModule, ButtonsModule, TooltipModule ],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent,
     NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent,
     GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent, PasscodeCreateComponent, PasscodePrintComponent],

@@ -7,37 +7,62 @@
 <div class="row">
   <table class="table">
     <thead>
-    <tr>
-      <th>Nom</th>
-      <th>Date de la chasse</th>
-      <th>Active</th>
-      <th>Teams</th>
-      <!--<th>Carte</th>-->
-      <th>Actions</th>
-      <th>Suivis</th>
-      <th>Scores</th>
-      <th></th>
-    </tr>
+      <tr>
+        <th>Nom</th>
+        <th style="width: 200px;">Teams</th>
+        <th></th>
+      </tr>
+      <tr>
+        <th>Date de la chasse</th>
+
+      </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let game of games">
-      <td><span class="fa fa-gamepad fa-2x"> </span> <a [routerLink]="['/game', game.id]">{{game.name}}</a></td>
-      <td>{{game.startDate | date:'medium':'':'fr'}}</td>
-      <td>
-        <span class="fa fa-eye fa-lg" *ngIf="game.isActive"></span>
-        <span class="fa fa-eye-slash fa-lg" *ngIf="!game.isActive"></span>
-      </td>
-      <td>
-        <ul class="fa-ul">
-          <li class="fa-li" *ngFor="let team of game.teams"><i class="fa fa-users"></i> <a [routerLink]="['/team', team.id]">{{team.name}}</a></li>
-        </ul>
-      </td>
-      <!--<td><map-thumbnail [CenterLat]="game.mapCenterLat" [CenterLng]="game.mapCenterLng"></map-thumbnail></td>-->
-      <td><button class="btn btn-primary" [routerLink]="['/action/', game.id]"><i class="fa fa-map-signs"></i></button></td>
-      <td><button class="btn btn-primary" [routerLink]="['/follow', game.id]"><i class="fa fa-map"></i></button></td>
-      <td><button class="btn btn-primary" [routerLink]="['/score', game.id]"><i class="fa fa-star"></i></button></td>
-      <td><button class="btn btn-danger" (click)="deleteGame(game.id)"><i class="fa fa-trash"></i></button></td>
-    </tr>
+      <tr *ngFor="let game of games">
+        <td>
+          <ul>
+            <li>
+              <span class="fa fa-gamepad fa-2x"></span> <a [routerLink]="['/game', game.id]">{{game.name}}</a>
+              <div>
+                <span class="fa fa-eye fa-lg"  tooltip="Partie active" *ngIf="game.isActive"></span>
+                <span class="fa fa-eye-slash fa-lg" tooltip="Partie inactive" *ngIf="!game.isActive"></span>
+              </div>
+            </li>
+            <li>{{game.startDate | date:'medium':'':'fr'}}</li>
+          </ul>
+
+        </td>
+        <td>
+          <ul class="fa-ul">
+            <li class="fa-li w-100" *ngFor="let team of game.teams"><i class="fa fa-users"></i>  <a [routerLink]="['/team', team.id]">{{team.name}}</a></li>
+          </ul>
+        </td>
+        <td>
+          <div class="btn-group-vertical">
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary" [routerLink]="['/action/', game.id]" tooltip="Actions">
+                <i class="fa fa-map-signs"></i>
+              </button>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-primary" [routerLink]="['/follow', game.id]" tooltip="Suivi">
+                <i class="fa fa-map"></i>
+              </button>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-primary" [routerLink]="['/score', game.id]" tooltip="Score">
+                <i class="fa fa-star"></i>
+              </button>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-danger" (click)="deleteGame(game.id)" tooltip="Effacer">
+                <i class="fa fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </td>
+        <!--<td><map-thumbnail [CenterLat]="game.mapCenterLat" [CenterLng]="game.mapCenterLng"></map-thumbnail></td>-->
+      </tr>
     </tbody>
   </table>
   <p-confirmDialog id="deleteGameConfirm"
