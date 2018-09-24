@@ -49,7 +49,7 @@ namespace ImageHunt.Services
 
     public void DelMemberToTeam(Team team, Player playerToDelete)
     {
-      var teamToModify = Context.Teams.Single(t => t.Id == team.Id);
+      var teamToModify = Context.Teams.Include(t=>t.TeamPlayers).Single(t => t.Id == team.Id);
       var playerToRemove = Context.Players.Single(p => p.Id == playerToDelete.Id);
       teamToModify.TeamPlayers.Remove(teamToModify.TeamPlayers.Single(tp=>tp.Player == playerToRemove));
       Context.SaveChanges();

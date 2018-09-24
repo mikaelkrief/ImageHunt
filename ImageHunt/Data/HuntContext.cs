@@ -94,6 +94,8 @@ namespace ImageHunt.Data
         .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
       modelBuilder.Entity<Passcode>()
         .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
+      modelBuilder.Entity<TeamPlayer>()
+        .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
       modelBuilder.Entity<ParentChildren>()
         .HasOne(n => n.Parent)
         .WithMany(n => n.ChildrenRelation)
