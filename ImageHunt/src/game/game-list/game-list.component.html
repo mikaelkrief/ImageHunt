@@ -20,21 +20,23 @@
     <tbody>
       <tr *ngFor="let game of games">
         <td>
-          <ul>
-            <li>
-              <span class="fa fa-gamepad fa-2x"></span> <a [routerLink]="['/game', game.id]">{{game.name}}</a>
-              <div>
-                <span class="fa fa-eye fa-lg"  tooltip="Partie active" *ngIf="game.isActive"></span>
-                <span class="fa fa-eye-slash fa-lg" tooltip="Partie inactive" *ngIf="!game.isActive"></span>
-              </div>
-            </li>
-            <li>{{game.startDate | date:'medium':'':'fr'}}</li>
-          </ul>
-
+          <div class="row">
+            <label class="col-6" for="gameName">Nom de la partie</label>
+            <a class="col-6" id="gameName" [routerLink]="['/game', game.id]">{{game.name}}</a>
+          </div>
+          <div class="row">
+            <label class="col-6" for="gameDate">Heure de départ</label>
+            <span class="col-6" id="gameDate">{{game.startDate | date:'medium':'':'fr'}}</span>
+          </div>
+          <!--<div class="row">
+            <span class="fa fa-eye fa-lg" tooltip="Partie active" *ngIf="game.isActive"></span>
+            <span class="fa fa-eye-slash fa-lg" tooltip="Partie inactive" *ngIf="!game.isActive"></span>
+          </div>-->
         </td>
         <td>
           <ul class="fa-ul">
-            <li class="fa-li w-100" *ngFor="let team of game.teams"><i class="fa fa-users"></i>  <a [routerLink]="['/team', team.id]">{{team.name}}</a></li>
+            <li class="fa-li w-100" *ngFor="let team of game.teams"><i class="fa fa-users"></i>
+              <a [routerLink]="['/team', team.id]">{{team.name}}</a></li>
           </ul>
         </td>
         <td>
