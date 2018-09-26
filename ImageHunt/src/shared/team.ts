@@ -5,4 +5,5 @@ export class Team {
   name: string;
   players: Player[];
   color: string;
+  cultureInfo: string;
 }

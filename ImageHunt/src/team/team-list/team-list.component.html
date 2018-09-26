@@ -7,6 +7,7 @@
       <tr>
         <th>Nom de la team</th>
         <th>Init group chat</th>
+        <th>Langue</th>
         <th></th>
         <th><button class="btn btn-primary" (click)="createTeam()"><span class="fa fa-plus-square"></span></button></th>
       </tr>
@@ -19,6 +20,9 @@
             <li>/init gameid={{gameId}} teamid={{team.id}}</li>
             <li><qr-code [value]="'/init gameid=' + gameId + ' teamid=' + team.id" [size]="50"></qr-code></li>
           </ul>
+        </td>
+        <td>
+          {{team.cultureInfo}}
         </td>
         <td>
           <button class="btn btn-primary" [routerLink]="['/action/', gameId, team.id]"><span class="fa fa-map-signs"></span></button>

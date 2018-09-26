@@ -30,15 +30,19 @@ export class TeamListComponent implements OnInit {
   }
 
   deleteTeam(teamId: number) {
-    this.teamService.deleteTeam(teamId)
-      .subscribe(() => this.teams.splice(this.teams.indexOf(this.teams.find(t => t.id === teamId)), 1));
+    this.confirmationService.confirm({
+      message: "Voulez-vous vraiment effacer cette équipe ?",
+      accept: () => this.teamService.deleteTeam(teamId)
+        .subscribe(() => this.teams.splice(this.teams.indexOf(this.teams.find(t => t.id === teamId)), 1))
+    });
+    
   }
   createTeam() {
     this.modalRef = this._modalService.show(TeamCreateComponent, { ignoreBackdropClick: true });
     this.modalRef.content.teamCreated.subscribe((team: Team) => {
       this.teamService.createTeam(this.gameId, team).subscribe((createdTeam: Team) => {
         this.teams.push(createdTeam);
-      })
+      });
     });
 
   }

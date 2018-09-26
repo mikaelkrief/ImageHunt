@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators, NgForm } from "@angular/forms";
 import { TeamService } from "../../shared/services/team.service";
 import {Team} from "../../shared/team";
 import { BsModalRef } from 'ngx-bootstrap';
@@ -15,7 +15,8 @@ export class TeamCreateComponent implements OnInit {
   @Input() gameId: number;
   @Output() teamCreated = new EventEmitter<Team>();
     /** teamCreate ctor */
-  constructor(public bsModalRef: BsModalRef, private teamService: TeamService) {
+  constructor(public bsModalRef: BsModalRef,
+    private teamService: TeamService) {
     }
   ngOnInit(): void {
     }
@@ -26,12 +27,13 @@ export class TeamCreateComponent implements OnInit {
     let controlState = this.teamCreateForm.controls[field];
     return (controlState.dirty && controlState.errors) ? controlState.errors : null;
   }
-  createTeam() {
-    let team: Team = { id: 0, name: this.name, players: null, color:this.color };
+  createTeam(form: NgForm) {
+    let team: Team = { id: 0, name: this.name, players: null, color: this.color, cultureInfo: form.form.value.language };
     this.teamCreated.emit(team);
     this.teamCreateForm.reset();
 
   }
   color: string;
   name:string;
+  language: string;
 }
