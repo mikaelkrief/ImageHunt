@@ -12,8 +12,9 @@ import { PanelModule } from "primeng/panel";
 import {QRCodeModule } from "angular2-qrcode";
 import { LiveService } from '../shared/services/live.service';
 import { TeamFollowComponent } from './team-follow/team-follow.component';
-import { ColorPickerModule } from 'primeng/colorpicker';
+//import { ColorPickerModule } from 'primeng/colorpicker';
 import { BsModalService } from 'ngx-bootstrap';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, ConfirmDialogModule,
