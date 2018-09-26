@@ -8,7 +8,7 @@
   }
   .passcodeCell {
     width: 100mm;
-    height: 67mm;
+    height: 68mm;
     border-style: dashed;
     align-content: center;
     position: relative;
@@ -27,8 +27,8 @@
     grid-template-rows: 1fr 1fr 1fr 1fr;
     /*grid-auto-columns: 100mm;*/
     grid-auto-rows:68mm;
-    grid-column-gap: 3mm;
-    /*grid-row-gap: 40mm;*/
+    grid-column-gap: 40mm;
+    grid-row-gap: 40mm;
     align-items: center;
   }
 
