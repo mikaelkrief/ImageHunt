@@ -1,19 +1,22 @@
-<div class="row">
-  <div class="col-2">
-    <navmenu></navmenu>
-  </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <navmenu></navmenu>
+    </div>
+    <div class="container col-sm-10 body-content">
+      <router-outlet></router-outlet>
+    </div>
 
-  <div class="container col-10 body-content">
-    <router-outlet></router-outlet>
   </div>
+  <footer class="footer sticky">
+    <div *ngFor="let alert of _alertService.alerts">
+      <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" dismissible="true">
+        <strong>{{alert.time | date:'mediumTime'}}</strong> {{alert.message}}
+      </alert>
+    </div>
+  </footer>
+
 </div>
 
 
-<footer class="footer sticky">
-  <div *ngFor="let alert of _alertService.alerts">
-    <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout" dismissible="true">
-      <strong>{{alert.time | date:'mediumTime'}}</strong> {{alert.message}}
-    </alert>
-  </div>
-</footer>
 
