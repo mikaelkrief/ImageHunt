@@ -8,26 +8,25 @@
 
   <form #form="ngForm" (submit)="createNode(form)">
     <div class="modal-body">
-      <span></span>
-      <div class="form-inline">
-        <div class="input-group">
-          <label for="name">Nom du n&oelig;ud</label>
+      <div class="row">
+        <div class="form-group col-6">
+          <label for="name">Nom du n&oelig;ud : </label>
           <input type="text" class="form-control" id="name" ngModel name="name"
                  placeholder="Entrez le nom du noeud" />
         </div>
-        <div class="input-group">
-          <label for="nodeType">Type de N&oelig;ud</label>
-          <select class="form-control fa" ngModel name="nodeType" id="nodeType">
-            <option value="FirstNode">&#xf11d; N&oelig;ud départ</option>
+        <div class="form-group col-6">
+          <label for="nodeType">Type de N&oelig;ud : </label>
+          <select class="form-control fa" ngModel name="nodeType" id="nodeType" placeholder="Type de N&oelig;ud">
+            <option value="FirstNode">&#xf024; N&oelig;ud départ</option>
             <option value="TimerNode">&#xf017; N&oelig;ud attente</option>
             <option value="ObjectNode">&#xf1b2; N&oelig;ud action</option>
-            <option value="QuestionNode">&#xf29c; N&oelig;ud choix</option>
+            <option value="QuestionNode">&#xf128; N&oelig;ud choix</option>
             <option value="PictureNode">&#xf030; N&oelig;ud photo</option>
             <option value="LastNode">&#xf11e; N&oelig;ud arrivée</option>
           </select>
         </div>
       </div>
-      <div class="form-inline">
+      <div class="row">
         <div class="form-group col-lg-12">
           <table class="table">
             <tr>
@@ -40,8 +39,10 @@
               <td>{{longitude}}</td>
             </tr>
           </table>
-            
+
         </div>
+      </div>
+      <div class="row">
         <div class="form-group col-lg-12">
           <label for="nbPoints">Nombre de points</label>
           <input type="number" class="form-control" ngModel
@@ -55,7 +56,7 @@
               <div class="form-group">
                 <label class="col-lg-6" for="password">Mot de passe</label>
                 <input type="text" class="form-control col-lg-6" id="password" name="password"
-                       ngModel placeholder="Mot de passe à demander"/>
+                       ngModel placeholder="Mot de passe à demander" />
               </div>
             </div>
           </tab>
@@ -63,7 +64,7 @@
             <div class="form-inline">
               <div class="input-group">
                 <label for="duration">Durée d'attente (en secondes)</label>
-                <input type="number" class="form-control" id="duration" name="duration" ngModel placeholder="Durée en secondes"/>
+                <input type="number" class="form-control" id="duration" name="duration" ngModel placeholder="Durée en secondes" />
               </div>
             </div>
           </tab>
@@ -83,29 +84,29 @@
               </div>
 
             </div>
-            <br/>
+            <br />
             <table class="table">
               <thead>
-              <tr>
-                <th>#</th>
-                <th>Réponse</th>
-                <th>Réponse correcte</th>
-              </tr>
+                <tr>
+                  <th>#</th>
+                  <th>Réponse</th>
+                  <th>Réponse correcte</th>
+                </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let answer of answers; let i = index">
-                <td>{{i + 1}}</td>
-                <td><span class="form-control">{{answer}}</span></td>
-                <td><p-radioButton name="groupAnswers" value="{{i}}" [(ngModel)]="correctAnswer"></p-radioButton></td>
-              </tr>
+                <tr *ngFor="let answer of answers; let i = index">
+                  <td>{{i + 1}}</td>
+                  <td><span class="form-control">{{answer}}</span></td>
+                  <td><p-radioButton name="groupAnswers" value="{{i}}" [(ngModel)]="correctAnswer"></p-radioButton></td>
+                </tr>
               </tbody>
             </table>
-            <br/>
+            <br />
             <form #newAnswer="ngForm">
               <div class="form-inline">
                 <div class="input-group">
                   <label for="answer">Réponse</label>
-                  <input type="text" ngModel name="answer" id="answer" class="form-control"/>
+                  <input type="text" ngModel name="answer" id="answer" class="form-control" />
                   <button type="button" class="btn btn-primary pull-right" (click)="addAnswer(newAnswer)">
                     <span class="fa fa-plus-square"> Ajouter une réponse</span>
                   </button>
