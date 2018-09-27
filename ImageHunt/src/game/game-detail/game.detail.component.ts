@@ -124,14 +124,14 @@ export class GameDetailComponent implements OnInit {
   //  }
   //  this.mapComponent.nodes = this.game.nodes;
   //}
-  createTeam(gameId: number, form: NgForm) {
-    var team: Team = { id: 0, name: form.value.name, players: null, color:'' };
-    this._teamService.createTeam(gameId, team)
-      .subscribe(null, null, () => {
-        this._gameService.getGameById(gameId).subscribe((game:Game) => this.game = game);
-        form.resetForm();
-      });
-  }
+  //createTeam(gameId: number, form: NgForm) {
+  //  var team: Team = { id: 0, name: form.value.name, players: null, color:'',  };
+  //  this._teamService.createTeam(gameId, team)
+  //    .subscribe(null, null, () => {
+  //      this._gameService.getGameById(gameId).subscribe((game:Game) => this.game = game);
+  //      form.resetForm();
+  //    });
+  //}
   centerMap(gameId: number) {
     this._gameService.centerMap(gameId).subscribe(null, null,
       () => {

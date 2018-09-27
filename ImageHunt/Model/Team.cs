@@ -24,5 +24,6 @@ namespace ImageHunt.Model
     public string ChatId { get; set; }
     public Node.Node CurrentNode { get; set; }
     public string Color { get; set; }
+    public string CultureInfo { get; set; }
   }
 }

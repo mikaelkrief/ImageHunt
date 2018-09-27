@@ -42,7 +42,7 @@ export class TeamDetailComponent implements OnInit
   }
   deletePlayer(teamId:number, player: Player) {
     this._confirmationService.confirm({
-      message: "Vouslez-vous vraiment retirer ce joueur de sa team ?",
+      message: "Voulez-vous vraiment retirer ce joueur de sa team ?",
       accept: () => this._teamService.removePlayerToTeam(teamId, player)
         .subscribe(() => this.getTeam(this.team.id))
     });
