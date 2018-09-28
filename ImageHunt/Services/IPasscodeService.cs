@@ -11,5 +11,6 @@ namespace ImageHunt.Services
       RedeemStatus Redeem(int gameId, int teamId, string passcode);
       void Delete(int gameId, int passcodeId);
       Passcode Add(int gameId, Passcode passcode);
+      Passcode Get(int passcodeId);
     }
 }
