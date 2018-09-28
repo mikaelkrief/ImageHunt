@@ -1,8 +1,5 @@
 <div class="row">
-  <h2 class="col-11">Jeux existants</h2>
-  <div class="col-1">
-    <button class="btn btn-primary" (click)="showModal()"><span class="fa fa-plus-square"></span></button>
-  </div>
+  <h2>Jeux existants</h2>
 </div>
 <div class="row">
   <table class="table">
@@ -10,6 +7,7 @@
       <tr>
         <th>Nom</th>
         <th style="width: 200px;">Teams</th>
+        <th><button class="btn btn-primary" (click)="showModal()"><span class="fa fa-plus-square"></span></button></th>
         <th></th>
       </tr>
       <tr>
@@ -56,12 +54,11 @@
                 <i class="fa fa-star"></i>
               </button>
             </div>
-            <div class="btn-group">
-              <button class="btn btn-danger" (click)="deleteGame(game.id)" tooltip="Effacer">
-                <i class="fa fa-trash"></i>
-              </button>
-            </div>
           </div>
+        </td>
+        <td>              <button class="btn btn-danger" (click)="deleteGame(game.id)" tooltip="Effacer">
+            <i class="fa fa-trash"></i>
+          </button>
         </td>
         <!--<td><map-thumbnail [CenterLat]="game.mapCenterLat" [CenterLng]="game.mapCenterLng"></map-thumbnail></td>-->
       </tr>

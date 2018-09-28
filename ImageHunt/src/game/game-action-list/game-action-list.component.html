@@ -1,3 +1,4 @@
+<h2>Validation des actions</h2>
 <p-table class="table"
          [value]="gameActions"
          [paginator]="true"
@@ -38,14 +39,14 @@
           <ng-template let-item pTemplate="item">
             <!--<div class="ui-helper-clearfix" style="position: relative; height: 50px;">-->
             <div class="row">
-                <img class="col-4" *ngIf="item.value.image !== undefined" src="api/Image/Thumbnail?pictureId={{item.value.image.id}}&width=40&height=40"/>
-            <span class="col-4" style="font-size: 14px;">{{item.label}}</span>
+              <img class="col-4" *ngIf="item.value.image !== undefined" src="api/Image/Thumbnail?pictureId={{item.value.image.id}}&width=40&height=40" />
+              <span class="col-4" style="font-size: 14px;">{{item.label}}</span>
               <span class="col-4" style="vertical-align: middle">{{item.value.points}}</span>
             </div>
 
-  </ng-template>
+          </ng-template>
         </p-dropdown>
-  
+
       </td>
       <td>
         <div class="thumbnail" *ngIf="action.picture !== null">
@@ -69,14 +70,15 @@
       </td>
       <td>
         <button class="btn btn-danger" (click)="rejectGameAction(action)"><span class="fa fa-times"></span></button>
-
       </td>
       <td>
         {{action.pointsEarned}}
       </td>
-      <td><button class="btn btn-success" [routerLink]="['/action/detail/', action.id]">
-        <span class="fa fa-info-circle"></span>
-      </button></td>
+      <td>
+        <button class="btn btn-success" [routerLink]="['/action/detail/', action.id]">
+          <span class="fa fa-info-circle"></span>
+        </button>
+      </td>
     </tr>
   </ng-template>
 </p-table>
