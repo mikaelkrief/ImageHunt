@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using AutoMapper;
 using FakeItEasy;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
@@ -15,31 +17,38 @@ using Xunit;
 
 namespace ImageHuntTest.Controller
 {
+    [Collection("AutomapperFixture")]
+
     public class PasscodeControllerTest
     {
         private PasscodeController _target;
         private IPasscodeService _passcodeService;
         private ITeamService _teamService;
         private IConfiguration _configuration;
+        private IMapper _mapper;
 
         public PasscodeControllerTest()
         {
             _passcodeService = A.Fake<IPasscodeService>();
             _teamService = A.Fake<ITeamService>();
             _configuration = A.Fake<IConfiguration>();
-            _target = new PasscodeController(_passcodeService, _teamService, _configuration);
+            _mapper = Mapper.Instance;
+            _target = new PasscodeController(_passcodeService, _teamService, _configuration, _mapper);
         }
 
         [Fact]
         public void GetAll()
         {
             // Arrange
-            
+            var passcodes = new List<Passcode>(){new Passcode(){Pass = "toto"}, new Passcode(){Pass = "tata"}};
+            A.CallTo(() => _passcodeService.GetAll(1)).Returns(passcodes);
             // Act
             var result = _target.Get(1);
             // Assert
             A.CallTo(() => _passcodeService.GetAll(1)).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();
+            var response = ((OkObjectResult) result).Value as IEnumerable<PasscodeResponse>;
+            Check.That(response.First()).IsInstanceOf<PasscodeResponse>();
         }
 
         [Fact]
@@ -111,15 +120,15 @@ namespace ImageHuntTest.Controller
         {
             // Arrange
             A.CallTo(() => _passcodeService.Get(A<int>._)).Returns(new Passcode() {Pass = "toto"});
-            A.CallTo(() => _configuration["BotConfiguration.BotName"]).Returns("ImageHuntDevBot");
+            A.CallTo(() => _configuration["BotConfiguration:BotName"]).Returns("ImageHuntDevBot");
             // Act
             var result = _target.GetQRCode(1, 15);
             // Assert
             A.CallTo(() => _passcodeService.Get(A<int>._)).MustHaveHappened();
-            A.CallTo(() => _configuration["BotConfiguration.BotName"]).MustHaveHappened();
+            A.CallTo(() => _configuration["BotConfiguration:BotName"]).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();
-            var code = ((OkObjectResult) result).Value;
-            Check.That((string)code).StartsWith("iVBORw");
+            var image = ((OkObjectResult) result).Value;
+            Check.That(image).IsInstanceOf<string>();
         }
     }
 }

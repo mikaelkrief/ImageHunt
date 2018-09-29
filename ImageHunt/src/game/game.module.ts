@@ -35,13 +35,12 @@ import { PasscodeListComponent } from './passcode-list/passcode-list.component';
 import { PasscodeCreateComponent } from './passcode-create/passcode-create.component';
 import { PasscodePrintComponent } from './passcode-print/passcode-print.component';
 import { ButtonsModule } from 'ngx-bootstrap';
-import { QRCodeModule } from 'angular2-qrcode';
 
 @NgModule({
   imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
     MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule,
     ToggleButtonModule, DropdownModule, ContextMenuModule, TableModule, GMapModule, SharedModule,
-    RadioButtonModule, TeamModule, LightboxModule, QRCodeModule, BsDatepickerModule, ButtonsModule, TooltipModule ],
+    RadioButtonModule, TeamModule, LightboxModule, BsDatepickerModule, ButtonsModule, TooltipModule ],
   declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent,
     NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent,
     GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent, PasscodeCreateComponent, PasscodePrintComponent],

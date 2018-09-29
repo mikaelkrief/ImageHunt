@@ -4,5 +4,5 @@ export class Passcode {
   pass: string;
   points: number;
   nbRedeem: number;
-
+  qrCode: string;
 }

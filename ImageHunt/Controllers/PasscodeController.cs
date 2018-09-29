@@ -1,7 +1,11 @@
+using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using AutoMapper;
 using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
@@ -18,17 +22,43 @@ namespace ImageHunt.Controllers
     private IPasscodeService _passcodeService;
     private readonly ITeamService _teamService;
     private readonly IConfiguration _configuration;
+    private readonly IMapper _mapper;
 
-    public PasscodeController(IPasscodeService passcodeService, ITeamService teamService, IConfiguration configuration)
+    public PasscodeController(IPasscodeService passcodeService, ITeamService teamService, IConfiguration configuration, IMapper mapper)
     {
       _passcodeService = passcodeService;
       _teamService = teamService;
       _configuration = configuration;
+      _mapper = mapper;
     }
     [HttpGet("{gameId}")]
     public IActionResult Get(int gameId)
     {
-      return Ok(_passcodeService.GetAll(gameId));
+      var passcodes = _passcodeService.GetAll(gameId);
+      var botName = _configuration["BotConfiguration:BotName"];
+      var passcodeResponses = new List<PasscodeResponse>();
+      foreach (var passcode in passcodes)
+      {
+        var passcodeResponse = _mapper.Map<PasscodeResponse>(passcode);
+        using (var generator = new QRCodeGenerator())
+        {
+          var payload = $"https://telegram.me/{botName}?start=redeem_gameId={gameId}_pass={passcode.Pass}";
+          using (var code = generator.CreateQrCode(payload, QRCodeGenerator.ECCLevel.H))
+          {
+            using (var base64QrCode = new Base64QRCode(code))
+            {
+              var imageStream = Assembly.GetAssembly(this.GetType())
+                .GetManifestResourceStream("ImageHunt.src.assets.ImageHunt.png");
+              var image = base64QrCode.GetGraphic(20, Color.Black, Color.White, (Bitmap) Bitmap.FromStream(imageStream),
+                30);
+              passcodeResponse.QRCode = image;
+            }
+          }
+        }
+        passcodeResponses.Add(passcodeResponse);
+      }
+
+      return Ok(passcodeResponses);
     }
     [HttpPatch]
 
@@ -70,15 +100,16 @@ namespace ImageHunt.Controllers
       var passcode = _passcodeService.Get(passcodeId);
       using (var generator = new QRCodeGenerator())
       {
-        var botName = _configuration["BotConfiguration.BotName"];
+        var botName = _configuration["BotConfiguration:BotName"];
         var payload = $"https://telegram.me/{botName}?start=redeem_gameId={gameId}_pass={passcode.Pass}";
         using (var code = generator.CreateQrCode(payload, QRCodeGenerator.ECCLevel.H))
         {
-          using (var base64Code = new Base64QRCode(code))
+          using (var base64QrCode = new Base64QRCode(code))
           {
             var imageStream = Assembly.GetAssembly(this.GetType())
               .GetManifestResourceStream("ImageHunt.src.assets.ImageHunt.png");
-            return Ok(base64Code.GetGraphic(20, Color.Black, Color.White, (Bitmap)Bitmap.FromStream(imageStream), 30));
+            var image = base64QrCode.GetGraphic(20, Color.Black, Color.White, (Bitmap)Bitmap.FromStream(imageStream), 30);
+            return Ok(image);
           }
         }
 

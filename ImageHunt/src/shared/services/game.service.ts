@@ -3,9 +3,9 @@ import { Game } from '../game';
 import { Node } from '../node';
 import { Http, RequestOptions, Headers } from '@angular/http';
 import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
-import {NodeRequest} from '../nodeRequest';
+import { NodeRequest } from '../nodeRequest';
 import { Observable } from 'rxjs';
-import {QuestionNodeAnswerRelation} from '../QuestionNodeAnswerRelation';
+import { QuestionNodeAnswerRelation } from '../QuestionNodeAnswerRelation';
 import { GameAction } from '../gameAction';
 import { Passcode } from '../Passcode';
 import { NodeRelation } from '../NodeRelation';
@@ -16,7 +16,7 @@ export class GameService {
   getGameForAdmin(adminId: number) {
     return this.http.get('api/Game/ByAdminId/' + adminId);
   }
-  getGameById(gameId: number):Observable<Game> {
+  getGameById(gameId: number): Observable<Game> {
     return this.http.get<Game>('api/Game/byId/' + gameId);
   }
   createGame(adminId: number, game: Game) {
@@ -48,8 +48,8 @@ export class GameService {
 
   }
 
-  getNodeRelations(gameId: number):Observable<NodeRelation[]> {
-     return this.http.get<NodeRelation[]>(`api/Game/NodesRelations/${gameId}`);
+  getNodeRelations(gameId: number): Observable<NodeRelation[]> {
+    return this.http.get<NodeRelation[]>(`api/Game/NodesRelations/${gameId}`);
   }
 
   addRelation(orgNodeId: number, destNodeId: number, answerId: number) {
@@ -63,7 +63,7 @@ export class GameService {
   }
 
   setZoom(gameId: number, zoom: number) { return this.http.patch(`api/Game/UpdateZoom/${gameId}/${zoom}`, null); }
-  getQuestionNodesOfGame(gameId: number)  {
+  getQuestionNodesOfGame(gameId: number) {
     return this.http.get(`api/Game/GetQuestionNodeOfGame/${gameId}`);
   }
   addRelationAnswers(relations: QuestionNodeAnswerRelation[]) {
@@ -95,7 +95,7 @@ export class GameService {
 
   getGameReviewed() { return this.http.get("api/Game/Reviewed"); }
   getScoreForGame(gameId) {
-     return this.http.get(`api/Game/Score/${gameId}`);
+    return this.http.get(`api/Game/Score/${gameId}`);
   }
   getPicturesNodes(gameId: number) {
     return this.http.get(`api/Game/GetPictureNodes/${gameId}`);
@@ -113,8 +113,8 @@ export class GameService {
     };
     return this.http.patch(`api/Node/`, nodeRequest);
   }
-  getGameActionsForGame(gameId: number): Observable<GameAction[]>{
-    return this.http.get < GameAction[]>(`api/Action/${gameId}`);
+  getGameActionsForGame(gameId: number): Observable<GameAction[]> {
+    return this.http.get<GameAction[]>(`api/Action/${gameId}`);
   }
 
   getPasscodesForGame(gameId: number) {
@@ -126,12 +126,14 @@ export class GameService {
   }
   addPasscode(gameId: number, passcode: Passcode) {
     let request =
-    {
+      {
         gameId: gameId,
         pass: passcode.pass,
         nbRedeem: passcode.nbRedeem,
         points: passcode.points
-    }
+      }
     return this.http.post(`api/Passcode/`, request);
   }
+
+  getQRCode(gameId: number, passcodeId: number) { return this.http.get(`api/Passcode/QRCode/${gameId}/${passcodeId}`); }
 }
