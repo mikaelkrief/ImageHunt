@@ -120,7 +120,7 @@ namespace ImageHunt.Controllers
     {
       var passcodes = _passcodeService.GetAll(gameId);
       // create document
-      var pdfDocument = new PdfDocument();
+      //var pdfDocument = new PdfDocument();
       return Ok();
     }
   }
