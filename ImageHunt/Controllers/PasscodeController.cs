@@ -36,27 +36,27 @@ namespace ImageHunt.Controllers
     {
       var passcodes = _passcodeService.GetAll(gameId);
       var botName = _configuration["BotConfiguration:BotName"];
-      var passcodeResponses = new List<PasscodeResponse>();
-      foreach (var passcode in passcodes)
-      {
-        var passcodeResponse = _mapper.Map<PasscodeResponse>(passcode);
-        using (var generator = new QRCodeGenerator())
-        {
-          var payload = $"https://telegram.me/{botName}?start=redeem_gameId={gameId}_pass={passcode.Pass}";
-          using (var code = generator.CreateQrCode(payload, QRCodeGenerator.ECCLevel.H))
-          {
-            using (var base64QrCode = new Base64QRCode(code))
-            {
-              var imageStream = Assembly.GetAssembly(this.GetType())
-                .GetManifestResourceStream("ImageHunt.src.assets.ImageHunt.png");
-              var image = base64QrCode.GetGraphic(20, Color.Black, Color.White, (Bitmap) Bitmap.FromStream(imageStream),
-                30);
-              passcodeResponse.QRCode = image;
-            }
-          }
-        }
-        passcodeResponses.Add(passcodeResponse);
-      }
+      var passcodeResponses = _mapper.Map<List<PasscodeResponse>>(passcodes);
+
+      //foreach (var passcodeResponse in passcodeResponses)
+      //{
+      //  //var passcodeResponse = _mapper.Map<PasscodeResponse>(passcode);
+      //  using (var generator = new QRCodeGenerator())
+      //  {
+      //    var payload = $"https://telegram.me/{botName}?start=redeem_gameId={gameId}_pass={passcodeResponse.Pass}";
+      //    using (var code = generator.CreateQrCode(payload, QRCodeGenerator.ECCLevel.H))
+      //    {
+      //      using (var base64QrCode = new Base64QRCode(code))
+      //      {
+      //        var imageStream = Assembly.GetAssembly(this.GetType())
+      //          .GetManifestResourceStream("ImageHunt.src.assets.ImageHunt.png");
+      //        var image = base64QrCode.GetGraphic(20, Color.Black, Color.White, (Bitmap) Bitmap.FromStream(imageStream),
+      //          30);
+      //        passcodeResponse.QRCode = image;
+      //      }
+      //    }
+      //  }
+      //}
 
       return Ok(passcodeResponses);
     }
