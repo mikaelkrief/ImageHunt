@@ -115,5 +115,13 @@ namespace ImageHunt.Controllers
 
       }
     }
+
+    public IActionResult GetPage(int gameId, int pageNumber)
+    {
+      var passcodes = _passcodeService.GetAll(gameId);
+      // create document
+      var pdfDocument = new PdfDocument();
+      return Ok();
+    }
   }
 }
