@@ -22,7 +22,7 @@ export class PasscodeCreateComponent {
   points: number = 10;
 
   createPasscode() {
-    let passcode: Passcode = { id: 0, pass: this.pass, nbRedeem: this.nbRedeem, points: this.points };
+    let passcode: Passcode = { id: 0, pass: this.pass, nbRedeem: this.nbRedeem, points: this.points, qrCode: '' };
     this.newPasscode.emit(passcode);
   }
   generatePassword() {
