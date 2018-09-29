@@ -48,6 +48,25 @@ namespace ImageHuntTest.Services
             // Assert
             Check.That(result).Contains(passcodes[1], passcodes[3], passcodes[4]);
         }
+        [Fact]
+        public void Get()
+        {
+            // Arrange
+            var passcodes = new List<Passcode>
+            {
+                new Passcode(),
+                new Passcode(),
+                new Passcode(),
+                new Passcode(),
+                new Passcode(),
+            };
+            _context.Passcodes.AddRange(passcodes);
+            _context.SaveChanges();
+            // Act
+            var result = _target.Get(passcodes[1].Id);
+            // Assert
+            Check.That(result).Equals(passcodes[1]);
+        }
 
         [Fact]
         public void Delete()

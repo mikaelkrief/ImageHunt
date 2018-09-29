@@ -7,5 +7,6 @@
         public string Pass { get; set; }
         public int Points { get; set; }
         public int TeamId { get; set; }
+        public string QRCode { get; set; }
     }
 }
