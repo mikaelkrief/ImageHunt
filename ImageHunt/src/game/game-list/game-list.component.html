@@ -34,7 +34,7 @@
         <td>
           <ul class="fa-ul">
             <li class="fa-li w-100" *ngFor="let team of game.teams"><i class="fa fa-users"></i>
-              <a [routerLink]="['/team', team.id]">{{team.name}}</a></li>
+              <a [routerLink]="['/team',game.id, team.id]">{{team.name}}</a></li>
           </ul>
         </td>
         <td>
