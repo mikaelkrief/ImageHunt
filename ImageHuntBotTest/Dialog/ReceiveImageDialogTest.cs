@@ -203,8 +203,6 @@ namespace ImageHuntBotTest
             await _target.Begin(turnContext);
             // Assert
             A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).MustHaveHappened();
-            A.CallTo(() => turnContext.ReplyActivity(A<string>._)).MustHaveHappened();
-            A.CallTo(() => turnContext.End()).MustHaveHappened();
         }
 
         [Fact]
