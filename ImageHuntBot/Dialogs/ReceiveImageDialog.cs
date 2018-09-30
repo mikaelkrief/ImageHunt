@@ -36,7 +36,7 @@ namespace ImageHuntTelegramBot.Dialogs
             if (state.Status != Status.Started)
             {
                 LogInfo<ImageHuntState>(turnContext, "Attempt to record image before start!");
-                await turnContext.ReplyActivity($"Vous ne pouvez m'envoyer de images qu'après le début de la chasse!");
+                //await turnContext.ReplyActivity($"Vous ne pouvez m'envoyer de images qu'après le début de la chasse!");
                 await turnContext.End();
                 return;
             }
