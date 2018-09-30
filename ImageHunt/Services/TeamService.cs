@@ -37,7 +37,9 @@ namespace ImageHunt.Services
 
     public IEnumerable<Team> GetTeams(int gameId)
     {
-      return Context.Games.Include(g => g.Teams).Single(g => g.Id == gameId).Teams;
+      return Context.Games
+        .Include(g => g.Teams).ThenInclude(t=>t.TeamPlayers).ThenInclude(tp=>tp.Player)
+        .Single(g => g.Id == gameId).Teams;
     }
 
     public void AddMemberToTeam(Team team, List<Player> players)

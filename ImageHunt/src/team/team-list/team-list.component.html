@@ -6,6 +6,7 @@
     <thead>
       <tr>
         <th>Nom de la team</th>
+        <th>Nbr joueurs</th>
         <th>Init group chat</th>
         <th>Langue</th>
         <th></th>
@@ -14,7 +15,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let team of teams">
-        <td><a routerLink="/team/{{team.id}}"><i class="fa fa-users fa-2x" [style.color]="team.color"></i> {{team.name}}</a></td>
+        <td><a routerLink="/team/{{gameId}}/{{team.id}}"><i class="fa fa-users fa-2x" [style.color]="team.color"></i> {{team.name}}</a></td>
+        <td>{{team.players.length}}</td>
         <td>
           <ul>
             <li>/init gameid={{gameId}} teamid={{team.id}}</li>
