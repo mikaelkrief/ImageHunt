@@ -456,6 +456,43 @@ namespace ImageHuntTest.Services
             // Assert
             Check.That(result).Equals(teams[1]);
         }
+        [Fact]
+        public void GetTeamForPlayer_inconsistant_casing()
+        {
+            // Arrange
+            var players = new List<Player>
+          {
+              new Player() {ChatLogin = "tOto"},
+              new Player() {ChatLogin = "tiTi"},
+              new Player() {ChatLogin = "tatA"},
+          };
+            _context.Players.AddRange(players);
+            _context.SaveChanges();
+
+            var teams = new List<Team>
+          {
+              new Team(),
+              new Team(),
+              new Team(),
+          };
+            teams[0].TeamPlayers = new List<TeamPlayer>() { new TeamPlayer() { Team = teams[0], Player = players[0] } };
+            teams[1].TeamPlayers = new List<TeamPlayer>() { new TeamPlayer() { Team = teams[1], Player = players[1] } };
+            teams[2].TeamPlayers = new List<TeamPlayer>() { new TeamPlayer() { Team = teams[2], Player = players[2] } };
+            _context.Teams.AddRange(teams);
+            _context.SaveChanges();
+
+            var games = new List<Game>
+          {
+              new Game() {Teams = new List<Team>() {teams[0], teams[1]}},
+              new Game() {Teams = new List<Team>() {teams[2]}}
+          };
+            _context.Games.AddRange(games);
+            _context.SaveChanges();
+            // Act
+            var result = _target.GetTeamForUserName(games[0].Id, players[1].ChatLogin.ToLower());
+            // Assert
+            Check.That(result).Equals(teams[1]);
+        }
 
     }
 }
