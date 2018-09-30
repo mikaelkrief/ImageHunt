@@ -30,7 +30,7 @@ namespace ImageHuntBot.Dialogs
                 await turnContext.End();
                 return;
             }
-            var regEx = new Regex(@"(?i)\/give points=(\d*)");
+            var regEx = new Regex(@"(?i)\/give points=(-?\d*)");
             var activityText = turnContext.Activity.Text;
             if (regEx.IsMatch(activityText))
             {
@@ -42,6 +42,7 @@ namespace ImageHuntBot.Dialogs
                 };
                 await _actionWebService.LogAction(request);
                 await turnContext.ReplyActivity($"L'orga vient de vous attribuer {points} points!");
+                LogInfo<ImageHuntState>(turnContext, $"Admin give {points} to team {state.TeamId}");
             }
 
             await turnContext.End();
