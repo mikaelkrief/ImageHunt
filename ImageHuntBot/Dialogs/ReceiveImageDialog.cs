@@ -33,10 +33,16 @@ namespace ImageHuntTelegramBot.Dialogs
         public override async Task Begin(ITurnContext turnContext)
         {
             var state = turnContext.GetConversationState<ImageHuntState>();
-            if (state.Status != Status.Started)
+            if (state.Status == Status.Ended)
+            {
+                LogInfo<ImageHuntState>(turnContext, "Receive image after end of hunt, ignore");
+                await turnContext.End();
+                return;
+            }
+
+            if (state.Status == Status.Initialized)
             {
                 LogInfo<ImageHuntState>(turnContext, "Attempt to record image before start!");
-                await turnContext.ReplyActivity($"Vous ne pouvez m'envoyer de images qu'après le début de la chasse!");
                 await turnContext.End();
                 return;
             }

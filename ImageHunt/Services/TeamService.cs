@@ -37,7 +37,9 @@ namespace ImageHunt.Services
 
     public IEnumerable<Team> GetTeams(int gameId)
     {
-      return Context.Games.Include(g => g.Teams).Single(g => g.Id == gameId).Teams;
+      return Context.Games
+        .Include(g => g.Teams).ThenInclude(t=>t.TeamPlayers).ThenInclude(tp=>tp.Player)
+        .Single(g => g.Id == gameId).Teams;
     }
 
     public void AddMemberToTeam(Team team, List<Player> players)
@@ -107,10 +109,7 @@ namespace ImageHunt.Services
       var game = Context.Games
         .Include(g => g.Teams).ThenInclude(t=>t.TeamPlayers).ThenInclude(tp=>tp.Player)
         .Single(g => g.Id == gameId);
-      return game.Teams.SingleOrDefault(t => t.Players.Any(p => p.ChatLogin == userName));
-      //var gameTeams = game.Teams.ToList();
-      //var teamsWithPlayer = Context.Teams.Include(t=>t.TeamPlayers).ThenInclude(t=>t.Player).Where(t=>t.Players.Any(p=>p.ChatLogin == userName)).ToList();
-      //return gameTeams.Intersect(teamsWithPlayer).First();
+      return game.Teams.SingleOrDefault(t => t.Players.Any(p => p.ChatLogin.Equals(userName, StringComparison.InvariantCultureIgnoreCase)));
     }
 
     public void UploadImage(int gameId, int teamId, double latitude, double longitude, byte[] image,

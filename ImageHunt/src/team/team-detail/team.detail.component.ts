@@ -25,8 +25,9 @@ export class TeamDetailComponent implements OnInit
 
     /** Called by Angular after team-detail component initialized */
     ngOnInit(): void {
-      let teamId = this._route.snapshot.params["teamId"];
-      this.getTeam(teamId);
+      this.teamId = this._route.snapshot.params["teamId"];
+      this.gameId = this._route.snapshot.params["gameId"];
+      this.getTeam(this.teamId);
   }
   getTeam(teamId: number) {
     this._teamService.getTeam(teamId)
@@ -47,4 +48,7 @@ export class TeamDetailComponent implements OnInit
         .subscribe(() => this.getTeam(this.team.id))
     });
   }
+
+  teamId: number;
+  gameId: number;
 }
