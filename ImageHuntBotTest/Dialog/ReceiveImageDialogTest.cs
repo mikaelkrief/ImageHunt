@@ -100,7 +100,38 @@ namespace ImageHuntBotTest
             await _target.Begin(turnContext);
             // Assert
             A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).MustHaveHappened();
-            A.CallTo(() => turnContext.ReplyActivity(A<string>._)).MustHaveHappened();
+            A.CallTo(() => turnContext.End()).MustHaveHappened();
+            A.CallTo(() => _logger.Log(A<LogLevel>._, A<EventId>._, A<object>._, A<Exception>._,
+              A<Func<object, Exception, string>>._))
+              .WithAnyArguments()
+              .MustHaveHappened();
+        }
+        [Fact]
+        public async Task Begin_GameEnded()
+        {
+            // Arrange
+            var turnContext = A.Fake<ITurnContext>();
+            var imageHuntState = new ImageHuntState() { GameId = 15, TeamId = 16, CurrentLatitude = 15.2, CurrentLongitude = 56, Status = Status.Ended };
+            A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(imageHuntState);
+            var photoSize1 = new PhotoSize() { FileSize = 15, FileId = "15" };
+            var photoSize2 = new PhotoSize() { FileSize = 1195247, FileId = "AgADBAADOawxG-RQqVO-4ni8OVZOPOnykBkABDQFk1xY-YUAAR0SAgABAg" };
+            var activity = new Activity()
+            {
+                ActivityType = ActivityType.Message,
+                ChatId = 15,
+                Pictures = new[]
+              {
+          photoSize1,
+          photoSize2
+        }
+            };
+
+            A.CallTo(() => turnContext.Activity).Returns(activity);
+
+            // Act
+            await _target.Begin(turnContext);
+            // Assert
+            A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).MustHaveHappened();
             A.CallTo(() => turnContext.End()).MustHaveHappened();
             A.CallTo(() => _logger.Log(A<LogLevel>._, A<EventId>._, A<object>._, A<Exception>._,
               A<Func<object, Exception, string>>._))

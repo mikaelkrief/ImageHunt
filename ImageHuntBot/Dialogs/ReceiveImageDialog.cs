@@ -40,6 +40,13 @@ namespace ImageHuntTelegramBot.Dialogs
                 await turnContext.End();
                 return;
             }
+            if (state.Status == Status.Ended)
+            {
+                LogInfo<ImageHuntState>(turnContext, "Receive image after end of hunt, ignore");
+                //await turnContext.ReplyActivity($"Vous ne pouvez m'envoyer de images qu'après le début de la chasse!");
+                await turnContext.End();
+                return;
+            }
             if (state.GameId == 0 ||
                 state.TeamId == 0 ||
                 state.CurrentLatitude == 0.0 ||
