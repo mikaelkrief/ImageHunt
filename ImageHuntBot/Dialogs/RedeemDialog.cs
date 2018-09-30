@@ -44,19 +44,25 @@ namespace ImageHuntBot.Dialogs
                     case RedeemStatus.UserNotFound:
                         reply =
                             $"Vous ne pouvez pas utiliser cet passcode car vous ne faites pas partie de la chasse pour laquelle il est prevu";
+                        LogInfo<ImageHuntState>(turnContext, $"User {turnContext.Username} not in game {gameId}");
                         break;
                     case RedeemStatus.Ok:
                         reply =
                             $"Le passcode {pass} a été bien été utilisé, il a rapporté {passcodeResponse.Points} points à votre équipe.";
+                        LogInfo<ImageHuntState>(turnContext, $"User {turnContext.Username} correctly redeem passcode for game {gameId}");
                         break;
                     case RedeemStatus.WrongCode:
                         reply = $"Le passcode {pass} est inconnu";
+                        LogInfo<ImageHuntState>(turnContext, $"User {turnContext.Username} used wrong passcode");
                         break;
                     case RedeemStatus.FullyRedeem:
                         reply = $"Le passcode {pass} est épuisé, désolé!";
+                        LogInfo<ImageHuntState>(turnContext, $"User {turnContext.Username} used full redeem passcode");
                         break;
                     case RedeemStatus.AlreadyRedeem:
                         reply = $"Le passcode {pass} a déjà été utilisé par votre équipe.";
+                        LogInfo<ImageHuntState>(turnContext, $"User {turnContext.Username} used already redeem passcode in game {gameId}");
+
                         break;
                 }
 
