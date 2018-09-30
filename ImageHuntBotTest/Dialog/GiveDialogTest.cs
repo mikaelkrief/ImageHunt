@@ -54,5 +54,25 @@ namespace ImageHuntBotTest.Dialog
             A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
                 .MustHaveHappened();
         }
+        [Fact]
+        public async Task Give_Negative_Points()
+        {
+            // Arrange
+            var activity = new Activity()
+            {
+                ActivityType = ActivityType.Message,
+                ChatId = 15,
+                Text = "/give points=-150"
+            };
+            var turnContext = A.Fake<ITurnContext>();
+            A.CallTo(() => turnContext.Activity).Returns(activity);
+            var imageHuntState = new ImageHuntState() { Status = Status.Started, TeamId = 12};
+            A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(imageHuntState);
+            // Act
+            await _target.Begin(turnContext);
+            // Assert
+            A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
+                .MustHaveHappened();
+        }
     }
 }
