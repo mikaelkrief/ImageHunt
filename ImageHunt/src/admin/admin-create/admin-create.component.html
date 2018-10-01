@@ -1,0 +1,38 @@
+<div #createAdminTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Création d'un administrateur</h4>
+    <button type="button" class="close pull-right" aria-label="Fermer" (click)="bsModalRef.hide()">
+      <span aria-hidden="true" class="fa fa-times"></span>
+    </button>
+  </div>
+  <div class="container">
+    <form #form="ngForm" (submit)="createAdmin(form)">
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="name">Nom</label>
+          <input type="text" class="form-control" [(ngModel)]="name" name="name" required placeholder="Nom de l'utilisateur" id="name" />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" [(ngModel)]="email" name="email" required placeholder="Email de l'utilisateur" id="email" />
+        </div>
+        <div class="form-group">
+          <label for="role">Role</label>
+          <select class="form-control" id="role" [(ngModel)]="role" name="role">
+            <option value="0">Administrateur</option>
+            <option value="1">Validateur</option>
+            <option value="2">Créateur de carte</option>
+            <option value="3">Lecteur</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success pull-right" type="submit" aria-label="Close"
+                (click)="bsModalRef.hide()">
+          Créer l'équipe
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

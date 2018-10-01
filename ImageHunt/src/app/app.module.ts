@@ -17,7 +17,7 @@ import { TeamListComponent } from "../team/team-list/team-list.component";
 import { HomeComponent } from "../home/home.component";
 import { PageNotFoundComponent } from "../page-not-found/page.not.found.component";
 import { NavmenuModule } from "../navmenu/navmenu.module";
-import { AdminListModule } from "../admin/admin-list/admin-list.module";
+import { AdminModule } from "../admin/admin.module";
 import { AdminListComponent } from "../admin/admin-list/admin-list.component";
 import { GameModule } from "../game/game.module";
 import { ScoreModule } from "../score/score.module";
@@ -83,7 +83,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
     ScoreModule,
     MapModule,
     PlayerModule,
-    AdminListModule,
+    AdminModule,
     ReactiveFormsModule,
     ContextMenuModule,
     NavmenuModule,

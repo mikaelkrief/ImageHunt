@@ -3,6 +3,8 @@ import {Admin} from "../../shared/admin";
 import { ConfirmationService } from "primeng/api";
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
+import { BsModalService } from "ngx-bootstrap";
+import { AdminCreateComponent } from "../admin-create/admin-create.component";
 
 @Component({
   selector: 'admin-list',
@@ -13,7 +15,9 @@ import { NgForm } from "@angular/forms";
 export class AdminListComponent implements OnInit {
   admins: Admin[];
   /** admin ctor */
-  constructor(private _adminService: AdminService, private _confirmationService: ConfirmationService) {
+  constructor(private _adminService: AdminService,
+    private _confirmationService: ConfirmationService,
+    private _modalService: BsModalService) {
 
   }
 
@@ -34,12 +38,15 @@ export class AdminListComponent implements OnInit {
     });
 
   }
-  createAdmin(form: NgForm) {
-    let  admin : Admin = { id: 0, name: form.value.name, email: form.value.email, games: null, role:form.value.role };
-    //this._adminService.createAdmin(admin)
-    //  .subscribe(null, null, () => {
-    //    this.getAdmins();
-    //    form.resetForm();
-    //  });
+  createUser() {
+    this.modalRef = this._modalService.show(AdminCreateComponent, { ignoreBackdropClick: true });
+    this.modalRef.content.adminCreated.subscribe((admin: Admin) => {
+      this._adminService.createAdmin(admin)
+        .subscribe(() => {
+          this.getAdmins();
+        });
+    });
   }
+
+  modalRef;
 }
