@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Admin } from '../../shared/admin';
 import { NgForm, FormGroup } from '@angular/forms';
+import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
     selector: 'admin-create',
@@ -13,7 +14,7 @@ export class AdminCreateComponent {
   adminCreateForm: FormGroup;
 
     /** admin-create ctor */
-    constructor() {
+  constructor(public bsModalRef: BsModalRef,) {
 
   }
   name: string;
