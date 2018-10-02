@@ -19,7 +19,7 @@ export class TeamCreateComponent implements OnInit {
     }
   ngOnInit(): void {
     }
-  createTeam(form: NgForm) {
+  createTeam() {
     let team: Team = {
       id: 0, name: this.teamGroup.value.name, players: null,
       color: this.teamGroup.value.color,
