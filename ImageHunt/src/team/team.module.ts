@@ -15,12 +15,13 @@ import { TeamFollowComponent } from './team-follow/team-follow.component';
 //import { ColorPickerModule } from 'primeng/colorpicker';
 import { BsModalService } from 'ngx-bootstrap';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { PlayerCreateComponent } from './player-create/player-create.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, ConfirmDialogModule,
     PanelModule, QRCodeModule, ReactiveFormsModule, ColorPickerModule],
-  declarations: [TeamDetailComponent, TeamListComponent, TeamCreateComponent, TeamFollowComponent],
-  exports: [TeamDetailComponent, TeamListComponent, TeamCreateComponent, TeamFollowComponent],
+  declarations: [TeamDetailComponent, TeamListComponent, TeamCreateComponent, TeamFollowComponent, PlayerCreateComponent],
+  exports: [TeamDetailComponent, TeamListComponent, TeamCreateComponent, TeamFollowComponent, PlayerCreateComponent],
   providers: [TeamService, ConfirmationService, LiveService, BsModalService]})
 export class TeamModule
 {

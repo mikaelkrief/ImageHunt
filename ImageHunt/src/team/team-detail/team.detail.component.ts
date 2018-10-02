@@ -5,6 +5,8 @@ import {Team} from "../../shared/team";
 import { ActivatedRoute } from "@angular/router";
 import {Player} from "../../shared/player";
 import { ConfirmationService } from "primeng/api";
+import { BsModalService } from 'ngx-bootstrap';
+import { PlayerCreateComponent } from '../player-create/player-create.component';
 
 @Component({
     selector: 'team-detail',
@@ -19,7 +21,8 @@ export class TeamDetailComponent implements OnInit
     /** team-detail ctor */
   constructor(private _route: ActivatedRoute,
     private _teamService: TeamService,
-    private _confirmationService: ConfirmationService) {
+    private _confirmationService: ConfirmationService,
+    private _modalService: BsModalService) {
     this.team = new Team();
   }
 
@@ -33,14 +36,22 @@ export class TeamDetailComponent implements OnInit
     this._teamService.getTeam(teamId)
       .subscribe((team:Team) => this.team = team);
   }
-    addPlayer(teamId: number, form: NgForm): void {
-      var player: Player = {id:0, name : form.value.name, chatLogin : form.value.chatId, startDate:null};
-      this._teamService.addMemberToTeam(teamId, player)
-        .subscribe(null, null, () => {
-          this.getTeam(this.team.id);
-          form.resetForm();
-        });
+  createPlayer() {
+    this.modalRef = this._modalService.show(PlayerCreateComponent, { ignoreBackdropClick: true });
+    this.modalRef.content.playerCreated.subscribe((player: Player) => {
+      this._teamService.addMemberToTeam(this.teamId, player).subscribe(() => {
+        this.getTeam(this.team.id);
+      });
+    });
   }
+  //  addPlayer(teamId: number, form: NgForm): void {
+  //    var player: Player = {id:0, name : form.value.name, chatLogin : form.value.chatId, startDate:null};
+  //    this._teamService.addMemberToTeam(teamId, player)
+  //      .subscribe(null, null, () => {
+  //        this.getTeam(this.team.id);
+  //        form.resetForm();
+  //      });
+  //}
   deletePlayer(teamId:number, player: Player) {
     this._confirmationService.confirm({
       message: "Voulez-vous vraiment retirer ce joueur de sa team ?",
@@ -51,4 +62,5 @@ export class TeamDetailComponent implements OnInit
 
   teamId: number;
   gameId: number;
+  modalRef;
 }

@@ -8,7 +8,7 @@
       <tr>
         <th>Nom du joueur</th>
         <th>Pseudo de chat</th>
-        <th></th>
+        <th><button class="btn btn-primary" (click)="createPlayer()"><i class="fa fa-user-plus"></i></button></th>
       </tr>
       </thead>
       <tbody>
@@ -27,7 +27,7 @@
 </div>
 <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
 
-  <form #form="ngForm" (submit)="addPlayer(team.id, form)">
+  <!--<form #form="ngForm" (submit)="addPlayer(team.id, form)">
     <div class="form-inline">
       <div class="input-group">
       <label>Pseudo du joueur</label>
@@ -40,5 +40,5 @@
       </div>
     </div>
     <button  type="submit" class="btn btn-default">Ajouter un joueur</button>
-  </form>
+  </form>-->
 
