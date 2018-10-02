@@ -6,20 +6,21 @@
     </button>
   </div>
   <div class="container">
-    <form #form="ngForm" (submit)="createPlayer(form)">
+    <form [formGroup]="playerGroup" (ngSubmit)="createPlayer()">
       <div class="modal-body">
         <div class="form-group row">
           <label for="playerName">Nom du joueur</label>
-          <input class="form-control" required [(ngModel)]="name" id="playerName" name="playerName" placeholder="Nom du joueur" />
+          <input class="form-control" required formControlName="name" id="playerName" name="playerName"
+                 placeholder="Nom du joueur" minlength="4" />
         </div>
         <div class="form-group row">
           <label for="playerTG">TG du joueur</label>
-          <input id="playerTG" name="playerTG" [(ngModel)]="chatLogin" 
+          <input id="playerTG" name="playerTG" formControlName="chatLogin" required minlength="5" maxlength="32"
                  class="form-control" />
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-success pull-right" type="submit" aria-label="Close"
+        <button class="btn btn-success pull-right" type="submit" aria-label="Close" [disabled]="!playerGroup.valid"
                 (click)="bsModalRef.hide()">
           Créer le joueur
         </button>

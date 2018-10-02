@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, NgForm } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators, NgForm, FormControl } from "@angular/forms";
 import { TeamService } from "../../shared/services/team.service";
 import {Team} from "../../shared/team";
 import { BsModalRef } from 'ngx-bootstrap';
@@ -11,7 +11,6 @@ import { BsModalRef } from 'ngx-bootstrap';
 })
 /** teamCreate component*/
 export class TeamCreateComponent implements OnInit {
-  teamCreateForm: FormGroup;
   @Input() gameId: number;
   @Output() teamCreated = new EventEmitter<Team>();
     /** teamCreate ctor */
@@ -20,20 +19,22 @@ export class TeamCreateComponent implements OnInit {
     }
   ngOnInit(): void {
     }
-  hasFormErrors() {
-    return !this.teamCreateForm.valid;
-  }
-  fieldErrors(field: string) {
-    let controlState = this.teamCreateForm.controls[field];
-    return (controlState.dirty && controlState.errors) ? controlState.errors : null;
-  }
   createTeam(form: NgForm) {
-    let team: Team = { id: 0, name: this.name, players: null, color: this.color, cultureInfo: form.form.value.language };
+    let team: Team = {
+      id: 0, name: this.teamGroup.value.name, players: null,
+      color: this.teamGroup.value.color,
+      cultureInfo: this.teamGroup.value.language
+    };
     this.teamCreated.emit(team);
-    this.teamCreateForm.reset();
+    //this.teamCreateForm.reset();
 
   }
-  color: string;
-  name:string;
-  language: string;
+  teamGroup = new FormGroup({
+    name: new FormControl(''),
+    language: new FormControl('Fr-fr'),
+    color: new FormControl('')
+  });
+  //color: string;
+  //name:string;
+  //language: string;
 }
