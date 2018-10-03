@@ -18,10 +18,8 @@
         <td><a routerLink="/team/{{gameId}}/{{team.id}}"><i class="fa fa-users fa-2x" [style.color]="team.color"></i> {{team.name}}</a></td>
         <td>{{team.players.length}}</td>
         <td>
-          <ul>
-            <li>/init gameid={{gameId}} teamid={{team.id}}</li>
-            <li><qr-code [value]="'/init gameid=' + gameId + ' teamid=' + team.id" [size]="50"></qr-code></li>
-          </ul>
+          <h4>/init gameid={{gameId}} teamid={{team.id}}</h4>
+            <!--<li><qr-code [value]="'/init gameid=' + gameId + ' teamid=' + team.id" [size]="50"></qr-code></li>-->
         </td>
         <td>
           {{team.cultureInfo}}
