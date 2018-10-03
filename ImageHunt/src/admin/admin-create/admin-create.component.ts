@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { Admin } from '../../shared/admin';
-import { NgForm, FormGroup } from '@angular/forms';
+import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
@@ -11,18 +11,19 @@ import { BsModalRef } from 'ngx-bootstrap';
 /** admin-create component*/
 export class AdminCreateComponent {
   @Output() adminCreated = new EventEmitter<Admin>();
-  adminCreateForm: FormGroup;
 
     /** admin-create ctor */
-  constructor(public bsModalRef: BsModalRef,) {
+  constructor(public bsModalRef: BsModalRef) {
 
   }
-  name: string;
-  email: string;
-  role: any;
-  createAdmin(form: NgForm) {
-    let admin: Admin = { id: 0, name: this.name, email: this.email, games: null, role: this.role};
+  createAdmin() {
+    let admin: Admin = { id: 0, name: this.adminGroup.value.name, email: this.adminGroup.value.email, games: null, role: this.adminGroup.value.role};
     this.adminCreated.emit(admin);
-    this.adminCreateForm.reset();
+    this.adminGroup.reset();
   }
+  adminGroup = new FormGroup({
+    name: new FormControl(''),
+    email: new FormControl(''),
+    role: new FormControl(0)
+  });
 }
