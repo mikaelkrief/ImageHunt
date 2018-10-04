@@ -25,5 +25,6 @@ namespace ImageHunt.Model
     public Node.Node CurrentNode { get; set; }
     public string Color { get; set; }
     public string CultureInfo { get; set; }
+    public Picture Picture { get; set; }
   }
 }
