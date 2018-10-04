@@ -111,33 +111,33 @@ namespace ImageHuntBotTest
           .MustHaveHappened(Repeated.Exactly.Times(3));
       }
 
-        [Fact]
-        public async Task UpdateAdmins()
-        {
-            // Arrange
+        //[Fact]
+        //public async Task UpdateAdmins()
+        //{
+        //    // Arrange
             
-            // Act
-            await _target.UpdateAdmins();
-            // Assert
-            A.CallTo(() => _adminService.GetAllAdmins()).MustHaveHappened(Repeated.Exactly.Once);
-        }
+        //    // Act
+        //    await _target.UpdateAdmins();
+        //    // Assert
+        //    A.CallTo(() => _adminService.GetAllAdmins()).MustHaveHappened(Repeated.Exactly.Once);
+        //}
 
-        [Fact]
-        public async Task Update_CheckUser_ShouldBeAdmin()
-        {
-            // Arrange
-            var update = new Update() { Message = new Message()
-            {
-                Chat = new Chat() { Id = 15 },
-                From = new User() { Username = "titi"},
-                Text = "/begin"
-            } };
-            await _target.UpdateAdmins();
-            // Act
-            await _target.Post(update);
-            // Assert
-            A.CallTo(() => _bot.OnTurn(A<ITurnContext>._)).MustNotHaveHappened();
+        //[Fact]
+        //public async Task Update_CheckUser_ShouldBeAdmin()
+        //{
+        //    // Arrange
+        //    var update = new Update() { Message = new Message()
+        //    {
+        //        Chat = new Chat() { Id = 15 },
+        //        From = new User() { Username = "titi"},
+        //        Text = "/begin"
+        //    } };
+        //    await _target.UpdateAdmins();
+        //    // Act
+        //    await _target.Post(update);
+        //    // Assert
+        //    A.CallTo(() => _bot.OnTurn(A<ITurnContext>._)).MustNotHaveHappened();
 
-        }
+        //}
     }
 }

@@ -37,7 +37,7 @@ namespace ImageHuntBotTest
         var update = new Update() {Message = new Message()
         {
             Text = "toto", Chat = new Chat() {Id = 15},
-            From = new User()
+            From = new User() { Username = "toto"}
         }};
         // Act
         var context = await _target.GetContext(update);
@@ -47,6 +47,7 @@ namespace ImageHuntBotTest
         Check.That(context.Activity).IsNotNull();
         Check.That(context.Activity.Text).Equals(update.Message.Text);
         Check.That(context.Activity.ActivityType).Equals(ActivityType.Message);
+          Check.That(context.Username).Equals(update.Message.From.Username);
       }
 
       [Fact]
