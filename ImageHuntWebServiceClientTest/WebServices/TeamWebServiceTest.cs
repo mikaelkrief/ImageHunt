@@ -61,5 +61,19 @@ namespace ImageHuntBotTest.WebServices
 
     }
 
+      [Fact]
+      public async Task CreateTeamAsync()
+      {
+            // Arrange
+          FakeResponse("ImageHuntWebServiceClientTest.Data.createTeam.json");
+
+            var teamRequest = new TeamRequest() {Name = "Team1", ChatId = "151515", Color="0x525515"};
+          // Act
+          var response = await _target.CreateTeam(1, teamRequest);
+          // Assert
+          Check.That(response.Name).Equals(teamRequest.Name);
+          Check.That(response.ChatId).Equals(teamRequest.ChatId);
+      }
+
   }
 }
