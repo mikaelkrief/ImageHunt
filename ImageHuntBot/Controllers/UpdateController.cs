@@ -21,7 +21,6 @@ namespace ImageHuntTelegramBot.Controllers
         private readonly ILogger _logger;
         private readonly IAdminWebService _adminWebService;
         private static List<AdminResponse> _admins;
-        static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
 
         public UpdateController(ContextHub contextHub, IBot bot, ILogger<UpdateController> logger, IAdminWebService adminWebService)
         {
@@ -35,14 +34,13 @@ namespace ImageHuntTelegramBot.Controllers
         public async Task<IActionResult> Post(Update update)
         {
             _logger.LogDebug($"Received update {update}");
-            var message = update.Message == null ? update.EditedMessage : update.Message;
+            var message = update.Message ?? update.EditedMessage;
             _logger.LogInformation(
             $"Received update from {message.Chat.Id} of type {message.Type}");
             try
             {
                 var context = await _contextHub.GetContext(update);
                 await _bot.OnTurn(context);
-
             }
             catch (Exception e)
             {
@@ -54,19 +52,5 @@ namespace ImageHuntTelegramBot.Controllers
             return Ok();
         }
 
-        public async Task UpdateAdmins()
-        {
-            await semaphoreSlim.WaitAsync();
-
-            try
-            {
-                _admins = (await _adminWebService.GetAllAdmins()).ToList();
-
-            }
-            finally
-            {
-                semaphoreSlim.Release();
-            }
-        }
     }
 }
