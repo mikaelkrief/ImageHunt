@@ -13,7 +13,6 @@ using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
 using Xunit;
-using Message = System.Web.Services.Description.Message;
 
 namespace ImageHuntBotTest.Dialog
 {
