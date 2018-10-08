@@ -6,7 +6,6 @@ using AutoMapper;
 using ImageHunt.Computation;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
-using ImageHunt.Response;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
@@ -14,7 +13,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
-using NodeResponse = ImageHunt.Response.NodeResponse;
 
 namespace ImageHunt.Controllers
 {
@@ -135,18 +133,7 @@ namespace ImageHunt.Controllers
     public IActionResult GetNodesRelations(int gameId)
     {
       var nodes = _gameService.GetNodes(gameId);
-      var resNodes = new List<NodeResponse>();
-      foreach (var node in nodes)
-      {
-        foreach (var nodeChild in node.Children)
-        {
-          var resNode = new NodeResponse(node);
-          resNode.ChildNodeId = nodeChild.Id;
-          resNodes.Add(resNode);
-
-        }
-      }
-      return Ok(resNodes);
+      return Ok(_mapper.Map<IEnumerable<NodeResponse>>(nodes));
     }
 
     [HttpPatch("UpdateZoom/{gameId}/{zoom}")]
@@ -169,7 +156,7 @@ namespace ImageHunt.Controllers
     public IActionResult GetQuestionNodeOfGame(int gameId)
     {
       var questionNodeOfGame = _gameService.GetQuestionNodeOfGame(gameId);
-      var questionNodesResponse = questionNodeOfGame.Select(n => new QuestionNodeResponse(n));
+      var questionNodesResponse = _mapper.Map<IEnumerable<QuestionNode>>(questionNodeOfGame);
       return Ok(questionNodesResponse);
     }
     [HttpDelete("{gameId}")]

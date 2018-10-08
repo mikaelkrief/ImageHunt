@@ -3,14 +3,16 @@ using System;
 using ImageHunt.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
-    partial class HuntContextModelSnapshot : ModelSnapshot
+    [Migration("20181004202315_Add_Picture_And_Description_To_Game")]
+    partial class Add_Picture_And_Description_To_Game
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,8 +279,6 @@ namespace ImageHunt.Migrations
 
                     b.Property<string>("Color");
 
-                    b.Property<string>("Comment");
-
                     b.Property<string>("CultureInfo");
 
                     b.Property<int?>("CurrentNodeId");
@@ -289,15 +289,11 @@ namespace ImageHunt.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("PictureId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CurrentNodeId");
 
                     b.HasIndex("GameId");
-
-                    b.HasIndex("PictureId");
 
                     b.ToTable("Teams");
                 });
@@ -499,10 +495,6 @@ namespace ImageHunt.Migrations
                     b.HasOne("ImageHunt.Model.Game")
                         .WithMany("Teams")
                         .HasForeignKey("GameId");
-
-                    b.HasOne("ImageHunt.Model.Picture", "Picture")
-                        .WithMany()
-                        .HasForeignKey("PictureId");
                 });
 
             modelBuilder.Entity("ImageHunt.Model.TeamPasscode", b =>

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using FakeItEasy;
 using ImageHunt.Controllers;
+using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
@@ -18,11 +20,16 @@ namespace ImageHuntTest.Controller
     {
       private NodeController _target;
       private INodeService _nodeService;
+        private IGameService _gameService;
+        private ITeamService _teamService;
 
-      public NodeControllerTest()
+        public NodeControllerTest()
       {
         _nodeService = A.Fake<INodeService>();
-        _target = new NodeController(_nodeService);
+          _gameService = A.Fake<IGameService>();
+          _teamService = A.Fake<ITeamService>();
+
+        _target = new NodeController(_nodeService, _gameService, _teamService);
       }
 
       [Fact]
@@ -148,6 +155,42 @@ namespace ImageHuntTest.Controller
             // Assert
             A.CallTo(() => _nodeService.GetNode(nodeRequest.Id)).MustHaveHappened();
             A.CallTo(() => _nodeService.UpdateNode(A<Node>._)).MustHaveHappened();
+        }
+
+        [Fact]
+        public void GetNodeByType()
+        {
+            // Arrange
+            var nodes = new List<Node>()
+            {
+                new FirstNode(),
+                new ObjectNode(),
+                new PictureNode(),
+                new QuestionNode(),
+                new LastNode()
+            };
+            A.CallTo(() => _gameService.GetNodes(A<int>._)).Returns(nodes);
+            // Act
+            var result = _target.GetNodesByType("FirstNode", 1);
+            // Assert
+            A.CallTo(() => _gameService.GetNodes(1)).MustHaveHappened();
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+            var resultNodes = (result as OkObjectResult).Value as IEnumerable<Node>;
+            Check.That(resultNodes).ContainsExactly(nodes.Single(n => n.NodeType == "FirstNode"));
+        }
+        [Fact]
+        public void GetNextNodeForTeam()
+        {
+            // Arrange
+            var currentNode = new TimerNode();
+            var team = new Team(){CurrentNode = currentNode};
+            A.CallTo(() => _teamService.GetTeamById(1)).Returns(team);
+            // Act
+            var result = _target.GetNextNodeForTeam(1);
+            // Assert
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+            A.CallTo(() => _teamService.GetTeamById(1)).MustHaveHappened();
+            A.CallTo(() => _nodeService.GetNode(A<int>._)).MustHaveHappened();
         }
   }
 }

@@ -12,7 +12,6 @@ using ImageHunt.Computation;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
-using ImageHunt.Response;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
@@ -23,7 +22,6 @@ using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
 using Xunit;
-using NodeResponse = ImageHunt.Response.NodeResponse;
 
 namespace ImageHuntTest.Controller
 {
@@ -190,8 +188,8 @@ namespace ImageHuntTest.Controller
             var resNodes = result.Value as List<NodeResponse>;
             // Check that only first level nodes are populated
             Check.That(resNodes).HasSize(1);
-            Check.That(resNodes[0].NodeId).Equals(nodes[0].Id);
-            Check.That(resNodes[0].ChildNodeId).Equals(nodes[0].Children[0].Id);
+            Check.That(resNodes[0].Id).Equals(nodes[0].Id);
+            Check.That(resNodes[0].ChildNodeIds.First()).Equals(nodes[0].Children[0].Id);
         }
         [Fact]
         public void AddImagesNodes()

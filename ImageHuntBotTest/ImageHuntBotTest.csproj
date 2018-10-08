@@ -41,5 +41,11 @@
     <ProjectReference Include="..\TestUtilities\TestUtilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System.Web.Services">
+      <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Web.Services.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 
 </Project>

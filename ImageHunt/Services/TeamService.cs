@@ -66,7 +66,9 @@ namespace ImageHunt.Services
 
     public Team GetTeamById(int teamId)
     {
-      return Context.Teams.Include(t => t.TeamPlayers).ThenInclude(t => t.Player)
+      return Context.Teams
+        .Include(t => t.TeamPlayers).ThenInclude(t => t.Player)
+        .Include(t=>t.CurrentNode)
         .Single(t => t.Id == teamId);
     }
 

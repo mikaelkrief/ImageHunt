@@ -19,10 +19,14 @@ namespace ImageHunt.Controllers
   public class NodeController : Controller
   {
     private INodeService _nodeService;
+    private readonly IGameService _gameService;
+    private readonly ITeamService _teamService;
 
-    public NodeController(INodeService nodeService)
+    public NodeController(INodeService nodeService, IGameService gameService, ITeamService teamService)
     {
       _nodeService = nodeService;
+      _gameService = gameService;
+      _teamService = teamService;
     }
 
     [HttpPut("AddRelationToNode")]
@@ -86,6 +90,19 @@ namespace ImageHunt.Controllers
       node.Latitude = nodeRequest.Latitude;
       _nodeService.UpdateNode(node);
       return Ok();
+    }
+    [HttpGet("GetNextNodeForTeam/{teamId}")]
+    public IActionResult GetNextNodeForTeam(int teamId)
+    {
+      var team = _teamService.GetTeamById(teamId);
+      var node = _nodeService.GetNode(team.CurrentNode.Id);
+      return Ok(node.Children);
+    }
+    [HttpGet("GetNodesByType/{gameId}/{nodeType}")]
+    public IActionResult GetNodesByType(string nodeType, int gameId)
+    {
+      var nodes = _gameService.GetNodes(gameId);
+      return Ok(nodes.Where(n=>n.NodeType == nodeType));
     }
   }
 }

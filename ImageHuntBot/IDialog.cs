@@ -9,5 +9,6 @@ namespace ImageHuntTelegramBot
     void AddChildren(IDialog childrenDialog);
     Task Reply(ITurnContext turnContext);
     string Command { get; }
+      bool IsAdmin { get; }
   }
 }

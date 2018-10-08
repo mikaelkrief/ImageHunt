@@ -43,5 +43,14 @@ namespace ImageHuntWebServiceClient.WebServices
       {
           return await GetAsync<TeamResponse>($"{_httpClient.BaseAddress}api/Team/GetTeamsOfPlayer/{gameId}/{userName}");
       }
+
+      public async Task<TeamResponse> CreateTeam(int gameId, TeamRequest teamRequest)
+      {
+          using (var content = new StringContent(JsonConvert.SerializeObject(teamRequest)))
+          {
+              return await PostAsync<TeamResponse>($"{_httpClient.BaseAddress}api/Team/{gameId}", content);
+          }
+
+      }
   }
 }
