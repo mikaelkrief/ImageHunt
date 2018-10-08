@@ -24,7 +24,7 @@ export class GameCreateComponent implements OnInit
     ngOnInit(): void {
       this.admin = this.globals.connectedUser;
   }
-  uploadImage() {
+  uploadPicture() {
 
   }
   createGame() {
