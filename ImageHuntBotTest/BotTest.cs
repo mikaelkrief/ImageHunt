@@ -187,5 +187,17 @@ namespace ImageHuntBotTest
                 A.CallTo(() => turnContext.Begin(A<IDialog>._)).MustNotHaveHappened();
         }
 
+        [Fact]
+        public async Task OnTurn_Should_Log_All_Commands()
+        {
+            // Arrange
+            var turnContext = A.Fake<ITurnContext>();
+            var activity = new Activity() { ActivityType = ActivityType.Message, Text = "/init" };
+            // Act
+            await _target.OnTurn(turnContext);
+            // Assert
+            A.CallTo(() => _logger.Log(LogLevel.Trace, A<EventId>._, A<object>._, A<Exception>._,
+                A<Func<object, Exception, string>>._)).MustHaveHappened();
+        }
     }
 }

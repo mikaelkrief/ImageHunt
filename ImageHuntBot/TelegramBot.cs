@@ -37,6 +37,7 @@ namespace ImageHuntTelegramBot
             // Start critical section
             try
             {
+                _logger.LogTrace($"Command {context.Activity.Command} had occured in {context.ChatId}");
                 if (context.Activity.Command == "/reset")
                 {
                     await context.Reset();
