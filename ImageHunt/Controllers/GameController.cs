@@ -156,7 +156,7 @@ namespace ImageHunt.Controllers
     public IActionResult GetQuestionNodeOfGame(int gameId)
     {
       var questionNodeOfGame = _gameService.GetQuestionNodeOfGame(gameId);
-      var questionNodesResponse = _mapper.Map<IEnumerable<QuestionNode>>(questionNodeOfGame);
+      var questionNodesResponse = _mapper.Map<IEnumerable<QuestionNodeResponse>>(questionNodeOfGame);
       return Ok(questionNodesResponse);
     }
     [HttpDelete("{gameId}")]
