@@ -24,7 +24,9 @@ namespace ImageHunt.Services
 
     public Node GetNode(int nodeId)
     {
-      Node node = Context.Nodes.SingleOrDefault(n => n.Id == nodeId);
+      Node node = Context.Nodes
+        .Include(n=>n.ChildrenRelation).ThenInclude(cr=>cr.Children)
+        .SingleOrDefault(n => n.Id == nodeId);
       switch (node.NodeType)
       {
         case "QuestionNode":

@@ -25,16 +25,20 @@ namespace ImageHuntBotTest.Dialog
         private RedeemDialog _target;
         private IPasscodeWebService _passcodeWebService;
         private ITeamWebService _teamWebService;
+        private IBroadcastDialog _broadcastDialog;
 
         public RedeemDialogTest()
         {
             _testContainerBuilder.RegisterType<RedeemDialog>();
+            _broadcastDialog = A.Fake<IBroadcastDialog>();
             _actionWebService = A.Fake<IActionWebService>();
             _passcodeWebService = A.Fake<IPasscodeWebService>();
             _teamWebService = A.Fake<ITeamWebService>();
             _testContainerBuilder.RegisterInstance(_actionWebService).As<IActionWebService>();
             _testContainerBuilder.RegisterInstance(_passcodeWebService).As<IPasscodeWebService>();
             _testContainerBuilder.RegisterInstance(_teamWebService).As<ITeamWebService>();
+            _testContainerBuilder.RegisterInstance(_broadcastDialog).As<IBroadcastDialog>();
+
             _logger = A.Fake<ILogger<RedeemDialog>>();
             _testContainerBuilder.RegisterInstance(_logger).As<ILogger<RedeemDialog>>();
 
@@ -71,7 +75,8 @@ namespace ImageHuntBotTest.Dialog
             // Assert
             A.CallTo(() => _passcodeWebService.RedeemPasscode(teamResponse.GameId,A<string>._, "YHTYTH"))
                 .MustHaveHappened();
-       }
+             A.CallTo(() => turnContext.Begin(_broadcastDialog)).MustHaveHappened();
+         }
         [Fact]
         public async Task Begin_Player_NotExists()
          {

@@ -17,6 +17,8 @@ namespace ImageHunt.Model
     }
     public bool IsActive { get; set; }
     public string Name { get; set; }
+    public Picture Picture { get; set; }
+    public string Description { get; set; }
     public DateTime? StartDate { get; set; }
     public List<Node.Node> Nodes { get; set; }
     public List<Team> Teams { get; set; }

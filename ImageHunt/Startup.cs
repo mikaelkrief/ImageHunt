@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using AutoMapper;
@@ -152,6 +153,12 @@ namespace ImageHunt
         config.CreateMap<GameAction, GameActionResponse>();
           //.ForMember(m=>m.GameId, opt=>opt.MapFrom(ga=>ga.Game.Id));
         config.CreateMap<Node, Node>().ForSourceMember(x => x.Id, opt => opt.Ignore());
+        config.CreateMap<Node, NodeResponse>()
+          .ForMember(n=>n.ChildNodeIds, expression => expression.ResolveUsing(node => node.Children.Select(c=>c.Id)));
+        config.CreateMap<ObjectNode, NodeResponse>();
+        config.CreateMap<QuestionNode, QuestionNodeResponse>()
+          .ForMember(n => n.ChildNodeIds, expression => expression.ResolveUsing(node => node.Children.Select(c => c.Id)));
+        config.CreateMap<Answer, AnswerResponse>();
         config.CreateMap<GameAction, GameActionToValidate>()
           .ForMember(x=>x.Node, x=>x.Ignore());
         config.CreateMap<Team, TeamResponse>();

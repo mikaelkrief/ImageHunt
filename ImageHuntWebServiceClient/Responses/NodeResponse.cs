@@ -1,13 +1,17 @@
-﻿namespace ImageHuntWebServiceClient.Responses
+﻿using System.Collections.Generic;
+
+namespace ImageHuntWebServiceClient.Responses
 {
-  public class NodeResponse
-  {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string NodeType { get; set; }
-    public double Latitude { get; set; }
-    public double Longitude { get; set; }
-    public int Points { get; set; }
-    public string Password { get; set; }
-  }
+    public class NodeResponse
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string NodeType { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public int Points { get; set; }
+        public string Password { get; set; }
+        public IEnumerable<int> ChildNodeIds { get; set; }
+        public string Action { get; set; }
+    }
 }

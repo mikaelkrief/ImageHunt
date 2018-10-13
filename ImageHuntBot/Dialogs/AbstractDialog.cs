@@ -72,5 +72,6 @@ namespace ImageHuntTelegramBot.Dialogs
     }
 
       public abstract string Command { get; }
+      public virtual bool IsAdmin => true;
   }
 }

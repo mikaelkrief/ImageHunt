@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -57,7 +58,7 @@ namespace ImageHuntTelegramBot.Dialogs
             }
             await base.Begin(turnContext);
             await turnContext.ReplyActivity(
-              $"Le groupe de l'équipe {state.Team.Name} pour la chasse {state.Game.Name} qui débute le {state.Game.StartDate} est prêt, bon jeu!");
+              $"Le groupe de l'équipe {state.Team.Name} pour la chasse {state.Game.Name} qui débute le {state.Game.StartDate.ToString(new CultureInfo(state.Team.CultureInfo))} est prêt, bon jeu!");
             await turnContext.End();
         }
 

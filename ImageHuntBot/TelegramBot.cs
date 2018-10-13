@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntTelegramBot.Controllers;
+using ImageHuntWebServiceClient.Responses;
+using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntTelegramBot
@@ -11,12 +13,16 @@ namespace ImageHuntTelegramBot
     public class TelegramBot : IBot
     {
         private readonly ILogger<TelegramBot> _logger;
+        private readonly IAdminWebService _adminWebService;
         private Dictionary<string, IDialog> _dialogs = new Dictionary<string, IDialog>();
         private static readonly SemaphoreSlim Padlock = new SemaphoreSlim(1, 1);
+        private static List<AdminResponse> _admins;
 
-        public TelegramBot(ILogger<TelegramBot> logger)
+        public TelegramBot(ILogger<TelegramBot> logger, IAdminWebService adminWebService)
         {
             _logger = logger;
+            _adminWebService = adminWebService;
+            
         }
         public void AddDialog(IDialog dialog)
         {
@@ -26,9 +32,12 @@ namespace ImageHuntTelegramBot
         public async Task OnTurn(ITurnContext context)
         {
             await Padlock.WaitAsync();
+            if (_admins==null)
+                _admins = await _adminWebService.GetAllAdmins() as List<AdminResponse>;
             // Start critical section
             try
             {
+                _logger.LogTrace($"Command {context.Activity.Command} had occured in {context.ChatId}");
                 if (context.Activity.Command == "/reset")
                 {
                     await context.Reset();
@@ -48,10 +57,16 @@ namespace ImageHuntTelegramBot
                         dialog = _dialogs[context.Activity.Command.ToLowerInvariant()];
                     }
                 }
-
-                if (dialog != null)
+                if (_admins.Any(a=>a.Name == context.Username) || !dialog.IsAdmin)
                 {
-                    await context.Begin(dialog);
+                    if (dialog != null)
+                    {
+                        await context.Begin(dialog);
+                    }
+                }
+                else
+                {
+                    _logger.LogError($"Attempt to use {nameof(dialog)} by {context.Username}");
                 }
             }
             catch (Exception ex)
