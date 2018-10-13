@@ -336,8 +336,8 @@ namespace ImageHuntTest.Controller
             // Assert
             A.CallTo(() => _gameService.GetQuestionNodeOfGame(1)).MustHaveHappened();
             var nodesResponse = result.Value as IEnumerable<QuestionNodeResponse>;
-            Check.That(nodesResponse.Extracting("NodeId")).ContainsExactly(questionNodes.Extracting("Id"));
-            Check.That(nodesResponse.Extracting("Question")).ContainsExactly(questionNodes.Extracting("Question"));
+            Check.That(nodesResponse.Extracting("Id")).ContainsExactly(questionNodes.Extracting("Id"));
+            //Check.That(nodesResponse.Extracting("Question")).ContainsExactly(questionNodes.Extracting("Question"));
             Check.That(nodesResponse.First().Answers.Extracting("Id")).ContainsExactly(1, 2, 3);
         }
 

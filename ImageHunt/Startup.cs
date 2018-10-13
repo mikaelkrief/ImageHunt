@@ -156,6 +156,9 @@ namespace ImageHunt
         config.CreateMap<Node, NodeResponse>()
           .ForMember(n=>n.ChildNodeIds, expression => expression.ResolveUsing(node => node.Children.Select(c=>c.Id)));
         config.CreateMap<ObjectNode, NodeResponse>();
+        config.CreateMap<QuestionNode, QuestionNodeResponse>()
+          .ForMember(n => n.ChildNodeIds, expression => expression.ResolveUsing(node => node.Children.Select(c => c.Id)));
+        config.CreateMap<Answer, AnswerResponse>();
         config.CreateMap<GameAction, GameActionToValidate>()
           .ForMember(x=>x.Node, x=>x.Ignore());
         config.CreateMap<Team, TeamResponse>();
