@@ -10,6 +10,7 @@ using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NFluent;
 using TestUtilities;
@@ -80,6 +81,29 @@ namespace ImageHuntTest.Controller
             var result = await _target.GetImageAndthumbnailById(1, 150, 100) as OkObjectResult;
             // Assert
             Check.That(result.Value).IsInstanceOf<FileContentResult[]>();
+        }
+
+        [Fact]
+        public void UploadImage()
+        {
+            // Arrange
+            var file = A.Fake<IFormFile>();
+
+            // Act
+            var result = _target.UploadImage(file);
+            // Assert
+            Check.That(result).IsInstanceOf<CreatedAtActionResult>();
+            A.CallTo(() => _imageService.AddPicture(A<Picture>._)).MustHaveHappened();
+        }
+        [Fact]
+        public void UploadImage_BadRequest()
+        {
+            // Arrange
+
+            // Act
+            var result = _target.UploadImage(null);
+            // Assert
+            Check.That(result).IsInstanceOf<BadRequestResult>();
         }
     }
 }
