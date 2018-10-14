@@ -73,14 +73,14 @@ namespace ImageHuntTest.Controller
         }
 
         [Fact]
-        public void CreateGame()
+        public async Task CreateGame()
         {
             // Arrange
-            var game = new Game();
+            var gameRequest = new GameRequest();
             // Act
-            var result = _target.CreateGame(1, game);
+            var result = await _target.CreateGame(1, gameRequest);
             // Assert
-            A.CallTo(() => _gameService.CreateGame(1, game)).MustHaveHappened();
+            A.CallTo(() => _gameService.CreateGame(1, A<Game>._)).MustHaveHappened();
         }
 
         [Fact]
@@ -597,5 +597,5 @@ namespace ImageHuntTest.Controller
                 gameActionListRequest.PageSize, gameActionListRequest.NbPotential, 1)).MustHaveHappened();
             Check.That(gameActionToValidate.Extracting("Node")).IsNotNull();
         }
-    } 
+    }
 }

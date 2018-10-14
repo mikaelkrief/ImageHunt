@@ -165,6 +165,7 @@ namespace ImageHunt
         config.CreateMap<Player, PlayerResponse>();
         config.CreateMap<Score, ScoreResponse>();
         config.CreateMap<Passcode, PasscodeResponse>();
+        config.CreateMap<GameRequest, Game>();
       });
     }
   }

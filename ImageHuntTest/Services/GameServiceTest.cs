@@ -42,6 +42,24 @@ namespace ImageHuntTest.Services
       Check.That(result.Id).Not.IsEqualTo(0);
       Check.That(admins[1].Games).ContainsExactly(game);
     }
+      [Fact]
+    public void CreateGame_With_Picture()
+    {
+      // Arrange
+      var admins = new List<Admin>() { new Admin(), new Admin(), new Admin() };
+      _context.Admins.AddRange(admins);
+        var pictures = new List<Picture>() {new Picture(), new Picture()};
+        _context.Pictures.AddRange(pictures);
+      _context.SaveChanges();
+
+      var game = new Game(){Picture = new Picture(){Id = pictures[1].Id} };
+
+      // Act
+      var result = _target.CreateGame(admins[1].Id, game);
+      // Assert
+      Check.That(result.Id).Not.IsEqualTo(0);
+      Check.That(admins[1].Games).ContainsExactly(game);
+    }
 
     [Fact]
     public void DeleteGame()

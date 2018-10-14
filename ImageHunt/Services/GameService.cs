@@ -21,7 +21,10 @@ namespace ImageHunt.Services
     public Game CreateGame(int adminId, Game newGame)
     {
       var admin = Context.Admins.Single(a => a.Id == adminId);
+      if (newGame.Picture != null && newGame.Picture.Id != 0)
+        newGame.Picture = Context.Pictures.Single(p => p.Id == newGame.Picture.Id);
       var games = admin.Games ?? new List<Game>();
+
       games.Add(newGame);
       admin.Games = games;
       Context.SaveChanges();
