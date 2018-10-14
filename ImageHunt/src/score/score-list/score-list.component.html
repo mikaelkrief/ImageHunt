@@ -16,7 +16,7 @@
         <td><ul>
           <li *ngFor="let player of score.team.players">{{player.name}}</li>
         </ul></td>
-        <td>{{score.points}}</td>
+        <td>{{score.points | number:'1.0-0':'fr'}}</td>
       </tr>
       </tbody>
     </table>
