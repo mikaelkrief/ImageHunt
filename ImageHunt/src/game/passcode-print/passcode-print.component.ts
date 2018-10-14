@@ -14,7 +14,7 @@ export class PasscodePrintComponent implements OnInit {
   /** passcode-print ctor */
   constructor(private _gamerService: GameService,
               private _route: ActivatedRoute) {
-    this.botName = environment.BOT_NAME;
+    this.botName = environment.NAME_IMAGEBOT;
   }
   ngOnInit(): void {
     this.gameId = this._route.snapshot.params['gameId'];
