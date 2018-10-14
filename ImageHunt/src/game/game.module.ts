@@ -35,20 +35,30 @@ import { PasscodeListComponent } from './passcode-list/passcode-list.component';
 import { PasscodeCreateComponent } from './passcode-create/passcode-create.component';
 import { PasscodePrintComponent } from './passcode-print/passcode-print.component';
 import { ButtonsModule } from 'ngx-bootstrap';
+import { ImageService } from 'services/image.service';
 
-@NgModule({
-  imports: [CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
+@
+NgModule({
+  imports: [
+    CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
     MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule,
     ToggleButtonModule, DropdownModule, ContextMenuModule, TableModule, GMapModule, SharedModule,
-    RadioButtonModule, TeamModule, LightboxModule, BsDatepickerModule, ButtonsModule, TooltipModule ],
-  declarations: [GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent,
+    RadioButtonModule, TeamModule, LightboxModule, BsDatepickerModule, ButtonsModule, TooltipModule
+  ],
+  declarations: [
+    GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent,
     NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent,
-    GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent, PasscodeCreateComponent, PasscodePrintComponent],
-  exports: [GameCreateComponent, GameDetailComponent, GameListComponent,
+    GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent, PasscodeCreateComponent,
+    PasscodePrintComponent
+  ],
+  exports: [
+    GameCreateComponent, GameDetailComponent, GameListComponent,
     NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent,
-    GameActionListComponent, GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent, PasscodeCreateComponent,
-    PasscodePrintComponent],
-  providers: [GameService, TeamService, AlertService, ConfirmationService, LiveService]
+    GameActionListComponent, GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent,
+    PasscodeCreateComponent,
+    PasscodePrintComponent
+  ],
+  providers: [GameService, TeamService, AlertService, ConfirmationService, LiveService, ImageService]
 })
 export class GameModule
 {

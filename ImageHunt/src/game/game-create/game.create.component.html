@@ -12,28 +12,34 @@
           <label for="gameName">Nom de la partie</label>
           <input class="form-control" [(ngModel)]="name" id="gameName" name="gameName" placeholder="Nom de la partie" />
         </div>
+        <div class="form-group row">
+          <label for="gameDescription">Description de la partie</label>
+          <textarea  class="form-control" [(ngModel)]="description" id="gameDescription" name="gameDescription"
+                 placeholder="Description de la partie"
+                 rows="2"></textarea>
+        </div>
         <div class="row">
           <div class="col-6">
             <div class="form-group row">
-              <div *ngIf="false">
-                <img class="img-thumbnail" src="https://via.placeholder.com/100x100"/>
+              <div *ngIf="pictureId">
+                <img class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{pictureId}}&width=200" />
               </div>
-              <div *ngIf="true">
-                <img class="img-thumbnail" src="assets/ImageHunt.png" width="80%" height="80%"/>
+              <div *ngIf="!pictureId">
+                <img class="img-thumbnail" src="assets/ImageHunt.png" width="80%" height="80%" />
               </div>
             </div>
             <div class="form-group row">
-              <button class="btn btn-primary" (click)="uploadPicture()"><i class="fas fa-upload"></i> Ajouter une image</button>
+              <a class="btn btn-primary" (click)="uploadPicture()"><i class="fas fa-upload"></i> Ajouter une image</a>
             </div>
           </div>
           <div class="col-6">
             <div class="form-group row">
               <label for="startDate">Date de démarrage de la partie</label>
-              <input class="form-control" type="date" [(ngModel)]="startDate" id="startDate" name="startDate"/>
+              <input class="form-control" type="date" [(ngModel)]="startDate" id="startDate" name="startDate" />
             </div>
             <div class="form-group row">
               <label for="startTime">Heure de départ</label>
-              <input class="form-control" id="startTime" name="startTime" [(ngModel)]="startTime" type="time"/>
+              <input class="form-control" id="startTime" name="startTime" [(ngModel)]="startTime" type="time" />
             </div>
 
           </div>
@@ -49,3 +55,4 @@
     </form>
   </div>
 </div>
+

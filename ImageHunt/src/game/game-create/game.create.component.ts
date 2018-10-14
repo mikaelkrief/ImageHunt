@@ -1,31 +1,37 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import {Globals} from "../../shared/globals";
-import {Admin} from "../../shared/admin";
+import { Component, OnInit, Output, EventEmitter, TemplateRef } from '@angular/core';
+import { Globals } from "../../shared/globals";
+import { Admin } from "../../shared/admin";
 import { Game } from '../../shared/game';
-import { BsModalRef } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { UploadImageComponent } from '../../shared/upload-image/upload-image.component';
 
 @Component({
-    selector: 'game-create',
-    templateUrl: './game.create.component.html',
-    styleUrls: ['./game.create.component.scss']
+  selector: 'game-create',
+  templateUrl: './game.create.component.html',
+  styleUrls: ['./game.create.component.scss']
 })
 /** game.create component*/
-export class GameCreateComponent implements OnInit
-{
+export class GameCreateComponent implements OnInit {
+  uploadModalRef: BsModalRef;
   @Output() game = new EventEmitter<Game>();
   admin: Admin;
   name: string;
   startDate: string;
   startTime: string;
-    /** game.create ctor */
-  constructor(private globals: Globals, public bsModalRef: BsModalRef) { }
+  pictureId?: number;
+  description: string;
+  /** game.create ctor */
+  constructor(private globals: Globals, public bsModalRef: BsModalRef, private _modalService: BsModalService) { }
 
-    /** Called by Angular after game.create component initialized */
-    ngOnInit(): void {
-      this.admin = this.globals.connectedUser;
+  /** Called by Angular after game.create component initialized */
+  ngOnInit(): void {
+    this.admin = this.globals.connectedUser;
   }
-  uploadPicture() {
+  modalRef;
 
+  uploadPicture() {
+    this.modalRef = this._modalService.show(UploadImageComponent, { ignoreBackdropClick: true });
+    this.modalRef.content.pictureId.subscribe(id => this.pictureId = id);
   }
   createGame() {
     let game: Game = {
@@ -37,7 +43,9 @@ export class GameCreateComponent implements OnInit
       mapCenterLat: 0,
       mapZoom: 1,
       nodes: [],
-      teams: []
+      teams: [],
+      pictureId: this.pictureId,
+      description: this.description
     };
     this.game.emit(game);
     this.name = '';

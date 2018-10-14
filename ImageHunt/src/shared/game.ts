@@ -11,5 +11,6 @@ export class Game {
   mapZoom:number;
   nodes: Node[];
   teams: Team[];
-  pictureId?: number; 
+  pictureId?: number;
+  description: string;
 }
