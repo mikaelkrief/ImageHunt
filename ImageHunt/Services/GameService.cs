@@ -36,6 +36,7 @@ namespace ImageHunt.Services
       return Context.Games
         .Include(g => g.Nodes)
         .Include(g => g.Teams)
+        .Include(g => g.Picture)
         .Single(g => g.Id == gameId);
     }
 
@@ -67,7 +68,7 @@ namespace ImageHunt.Services
 
     public IEnumerable<Node> GetNodes(int gameId)
     {
-      var nodes = Context.Games.Include(n=>n.Nodes).ThenInclude(n=>n.ChildrenRelation).Single(g=>g.Id == gameId).Nodes;
+      var nodes = Context.Games.Include(n => n.Nodes).ThenInclude(n => n.ChildrenRelation).Single(g => g.Id == gameId).Nodes;
       return nodes;
     }
 
@@ -98,12 +99,12 @@ namespace ImageHunt.Services
     public IEnumerable<QuestionNode> GetQuestionNodeOfGame(int gameId)
     {
       var game = Context.Games
-        .Include(g=>g.Nodes)
+        .Include(g => g.Nodes)
         .Single(g => g.Id == gameId);
       return Context.QuestionNodes
         .Include(n => n.Answers)
-        .Include(n=>n.ChildrenRelation)
-        .Where(n=>game.Nodes.Contains(n));
+        .Include(n => n.ChildrenRelation)
+        .Where(n => game.Nodes.Contains(n));
     }
 
     public void DeleteGame(int gameId)
@@ -133,7 +134,7 @@ namespace ImageHunt.Services
     public Game GetActiveGameForPlayer(Player player)
     {
       var games = Context.Games
-        .Include(g=>g.Teams).ThenInclude(t=>t.TeamPlayers).ThenInclude(t=>t.Player)
+        .Include(g => g.Teams).ThenInclude(t => t.TeamPlayers).ThenInclude(t => t.Player)
         .Where(g => g.IsActive && g.StartDate.HasValue && g.StartDate.Value.Date == DateTime.Today);
       var game = games.FirstOrDefault(g => g.Teams.Any(t => t.TeamPlayers.Any(p => p.Player == player)));
       return game;
