@@ -41,7 +41,10 @@ namespace ImageHunt.Services
 
     public IEnumerable<Game> GetGamesForAdmin(int adminId)
     {
-      return Context.Admins.Include(a => a.Games).ThenInclude(g => g.Teams).Single(a => a.Id == adminId).Games;
+      return Context.Admins
+        .Include(a => a.Games).ThenInclude(g => g.Teams)
+        .Include(a => a.Games).ThenInclude(g => g.Picture)
+        .Single(a => a.Id == adminId).Games;
     }
 
     public void AddNode(int gameId, Node node)

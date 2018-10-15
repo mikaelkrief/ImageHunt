@@ -21,10 +21,14 @@
     <tbody>
     <tr *ngFor="let game of games">
       <td>
-        <a id="gameName" [routerLink]="['/game', game.id]">{{game.name}}</a>
-        <br/>
-        <span id="gameDate">{{game.startDate | date:'medium':'':'fr'}}</span>
-
+        <div style="float: left; margin-right: 20px;">
+          <img *ngIf="game" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{game.picture.id}}&width=100" />
+        </div>
+        <div>
+          <a id="gameName" [routerLink]="['/game', game.id]">{{game.name}}</a>
+          <br />
+          <span id="gameDate">{{game.startDate | date:'medium':'':'fr'}}</span>
+        </div>
         <!--<div class="row">
           <span class="fa fa-eye fa-lg" tooltip="Partie active" *ngIf="game.isActive"></span>
           <span class="fa fa-eye-slash fa-lg" tooltip="Partie inactive" *ngIf="!game.isActive"></span>
