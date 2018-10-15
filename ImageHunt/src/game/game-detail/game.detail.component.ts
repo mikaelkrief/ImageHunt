@@ -76,33 +76,37 @@ export class GameDetailComponent implements OnInit {
     });
   }
   getGame(gameId: number) {
-    forkJoin(
+    forkJoin([
         this._gameService.getGameById(gameId),
-      this._gameService.getNodeRelations(gameId))
-      .pipe(map(([game, nodeRelations]) => {
-        this.game = game;
+        this._gameService.getNodeRelations(gameId)])
+      .subscribe(responses => {
+        this.game = <Game>(responses[0]);
         this.currentZoom = this.game.mapZoom;
-        this.nodeRelations = nodeRelations;
+        this.nodeRelations = <NodeRelation[]>(responses[1]);
         this.buildRelations();
-      }))
-      .subscribe(
+        this.mapComponent.gameId = this.game.id;
+        this.mapComponent.nodeRelations = this.nodeRelations;
+        this.mapComponent.latCenter= this.game.mapCenterLat;
+        this.mapComponent.lngCenter = this.game.mapCenterLng;
+        this.mapComponent.zoom = this.game.mapZoom;
+        this.mapComponent.nodes = this.game.nodes;
+          this.mapComponent.updateMap();
+        }
       );
-    this._gameService.getGameById(gameId).subscribe((game:Game) => {
-      this.game = game;
-        this.currentZoom = this.game.mapZoom;
-      //this.getNodeRelations(gameId);
-      this.mapComponent.game = this.game;
-        this.mapComponent.updateMap();
-      },
-      err => console.error('getGame raise error: ' + err)
-    );
   }
   buildRelations() {
     for (const relation of this.nodeRelations) {
       // Find the origin node
-      const orgNode = this.game.nodes.find(n => n.id === relation.nodeId);
-      const destNode = this.game.nodes.find(n => n.id === relation.childNodeId);
-      orgNode.children.push(destNode);
+      const orgNode = this.game.nodes.find(n => n.id === relation.id);
+      if (relation.childNodeId) {
+        relation.childNodeId.map(c => {
+          const destNode = this.game.nodes.find(n => n.id === c);
+          if (orgNode) {
+            orgNode.children.push(destNode);
+          }
+
+        });
+      }
     }
   }
 

@@ -22,7 +22,8 @@
     <tr *ngFor="let game of games">
       <td>
         <div style="float: left; margin-right: 20px;">
-          <img *ngIf="game" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{game.picture.id}}&width=100" />
+          <img *ngIf="game.picture" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{game.picture.id}}&width=100" />
+          <img *ngIf="!game.picture" class="img-thumbnail" src="assets/ImageHunt.png" width="100px" />
         </div>
         <div>
           <a id="gameName" [routerLink]="['/game', game.id]">{{game.name}}</a>

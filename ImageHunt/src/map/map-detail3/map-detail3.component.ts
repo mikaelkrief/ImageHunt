@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, AfterContentChecked, AfterContentInit } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-polylinedecorator';
 
@@ -23,7 +23,7 @@ class NodeMarker extends L.Marker {
   styleUrls: ['./map-detail3.component.scss']
 })
 /** map-detail3 component*/
-export class MapDetail3Component implements OnInit, AfterViewInit {
+export class MapDetail3Component implements OnInit {
   @Input() gameId: number;
   @Input() newNodesRelation: GeoPoint[];
   @Input() nodeMode: string;
@@ -53,10 +53,9 @@ export class MapDetail3Component implements OnInit, AfterViewInit {
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: 'ImageHunt'
     }).addTo(this.map);
-
-  }
-  ngAfterViewInit(): void {
     this.updateMap();
+
+
   }
 
   /** map-detail3 ctor */
@@ -86,7 +85,7 @@ export class MapDetail3Component implements OnInit, AfterViewInit {
   }
   updateMap() {
 
-    if (this.latCenter !== undefined) {
+    if (this.latCenter) {
       this.map.setView(new L.LatLng(this.latCenter, this.lngCenter), this.zoom);
       this.map.on('click', event => this.mapClicked.emit(event));
       this.createMarkers();
@@ -129,7 +128,7 @@ export class MapDetail3Component implements OnInit, AfterViewInit {
   createNewRelations() {
     if (this.newRelation !== undefined) {
       this.newRelation.forEach(relation => {
-        const firstNode = this.nodes.find(n => n.id === relation.nodeId);
+        const firstNode = this.nodes.find(n => n.id === relation.id);
         const secondNode = this.nodes.find(n => n.id === relation.childNodeId);
         const polyline = L.polyline(
           [
@@ -201,7 +200,7 @@ export class MapDetail3Component implements OnInit, AfterViewInit {
         this.secondNode = node;
         this.isFirstClick = true;
         nClicked = new NodeClicked(node, 2, null);
-        this.newRelation.emit({ nodeId: this.firstNode.id, childNodeId: this.secondNode.id });
+        this.newRelation.emit({ id: this.firstNode.id, childNodeId: [{ id: this.secondNode.id }] });
       }
     } else {
       nClicked = new NodeClicked(node, 1, null);
