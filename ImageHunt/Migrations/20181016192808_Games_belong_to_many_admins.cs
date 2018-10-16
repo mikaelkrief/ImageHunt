@@ -6,15 +6,15 @@ namespace ImageHunt.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.DropForeignKey(
-            //    name: "FK_Games_Admins_AdminId",
-            //    table: "Games");
+      migrationBuilder.DropForeignKey(
+          name: "FK_Games_Admins_AdminId",
+          table: "Games");
 
-            //migrationBuilder.DropIndex(
-            //    name: "IX_Games_AdminId",
-            //    table: "Games");
+      migrationBuilder.DropIndex(
+          name: "IX_Games_AdminId",
+          table: "Games");
 
-            migrationBuilder.DropColumn(
+      migrationBuilder.DropColumn(
                 name: "AdminId",
                 table: "Games");
 
