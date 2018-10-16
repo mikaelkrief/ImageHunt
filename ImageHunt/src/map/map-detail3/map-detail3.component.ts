@@ -98,9 +98,9 @@ export class MapDetail3Component implements OnInit {
 
   createRelations() {
 
-    if (this.nodes !== undefined) {
+    if (this.nodes) {
       this.nodes.forEach(node => {
-        if (node.children !== undefined) {
+        if (node.children) {
           node.children.forEach(children => {
             const polyline = L.polyline(
               [
@@ -128,7 +128,7 @@ export class MapDetail3Component implements OnInit {
   createNewRelations() {
     if (this.newRelation !== undefined) {
       this.newRelation.forEach(relation => {
-        const firstNode = this.nodes.find(n => n.id === relation.id);
+        const firstNode = this.nodes.find(n => n.id === relation.nodeId);
         const secondNode = this.nodes.find(n => n.id === relation.childNodeId);
         const polyline = L.polyline(
           [
@@ -200,7 +200,7 @@ export class MapDetail3Component implements OnInit {
         this.secondNode = node;
         this.isFirstClick = true;
         nClicked = new NodeClicked(node, 2, null);
-        this.newRelation.emit({ id: this.firstNode.id, childNodeId: [{ id: this.secondNode.id }] });
+        this.newRelation.emit({ nodeId: this.firstNode.id, childNodeId: this.secondNode.id });
       }
     } else {
       nClicked = new NodeClicked(node, 1, null);

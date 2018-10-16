@@ -9,6 +9,7 @@ import { QuestionNodeAnswerRelation } from '../QuestionNodeAnswerRelation';
 import { GameAction } from '../gameAction';
 import { Passcode } from '../Passcode';
 import { NodeRelation } from '../NodeRelation';
+import { NodeResponse } from '../nodeResponse';
 
 @Injectable()
 export class GameService {
@@ -48,8 +49,8 @@ export class GameService {
 
   }
 
-  getNodeRelations(gameId: number): Observable<NodeRelation[]> {
-    return this.http.get<NodeRelation[]>(`api/Game/NodesRelations/${gameId}`);
+  getNodeRelations(gameId: number): Observable<NodeResponse[]> {
+    return this.http.get<NodeResponse[]>(`api/Game/NodesRelations/${gameId}`);
   }
 
   addRelation(orgNodeId: number, destNodeId: number, answerId: number) {

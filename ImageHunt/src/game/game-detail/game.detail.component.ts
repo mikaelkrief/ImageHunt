@@ -27,6 +27,7 @@ import {RelationClicked} from "../../shared/RelationClicked";
 import { ImageNodeEditComponent } from '../image-node-edit/image-node-edit.component';
 import { NodeDragged } from '../../shared/NodeDragged';
 import { map } from 'rxjs/operators';
+import { NodeResponse } from '../../shared/nodeResponse';
 
 @Component({
   selector: 'game-detail',
@@ -42,6 +43,7 @@ export class GameDetailComponent implements OnInit {
   alerts: any = [];
   public uploadModalRef: BsModalRef;
   game: Game;
+  nodes: NodeResponse[];
   nodeRelations: NodeRelation[];
   newRelations: GeoVector[];
   currentZoom: number;
@@ -82,7 +84,7 @@ export class GameDetailComponent implements OnInit {
       .subscribe(responses => {
         this.game = <Game>(responses[0]);
         this.currentZoom = this.game.mapZoom;
-        this.nodeRelations = <NodeRelation[]>(responses[1]);
+        this.nodes = <NodeResponse[]>(responses[1]);
         this.buildRelations();
         this.mapComponent.gameId = this.game.id;
         this.mapComponent.nodeRelations = this.nodeRelations;
@@ -95,11 +97,11 @@ export class GameDetailComponent implements OnInit {
       );
   }
   buildRelations() {
-    for (const relation of this.nodeRelations) {
+    for (const node of this.nodes) {
       // Find the origin node
-      const orgNode = this.game.nodes.find(n => n.id === relation.id);
-      if (relation.childNodeId) {
-        relation.childNodeId.map(c => {
+      const orgNode = this.game.nodes.find(n => n.id === node.id);
+      if (node.childNodeIds) {
+        node.childNodeIds.map(c => {
           const destNode = this.game.nodes.find(n => n.id === c);
           if (orgNode) {
             orgNode.children.push(destNode);
