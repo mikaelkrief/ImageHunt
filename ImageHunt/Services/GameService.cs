@@ -32,19 +32,27 @@ namespace ImageHunt.Services
 
     public Game GetGameById(int gameId)
     {
-      return Context.Games
+      var game = Context.Games
         .Include(g => g.Nodes)
         .Include(g => g.Teams)
         .Include(g => g.Picture)
         .Single(g => g.Id == gameId);
+      game.StartDate = TimeZoneInfo.ConvertTimeToUtc(game.StartDate ?? DateTime.Now, TimeZoneInfo.Utc);
+      return game;
     }
 
     public IEnumerable<Game> GetGamesForAdmin(int adminId)
     {
-      return Context.Admins
+      var gamesForAdmin = Context.Admins
         .Include(a => a.GameAdmins).ThenInclude(g => g.Game.Teams)
         .Include(a => a.GameAdmins).ThenInclude(g => g.Game.Picture)
-        .Single(a => a.Id == adminId).Games;
+        .Single(a => a.Id == adminId).Games.Select(g=>
+        {
+          g.StartDate = TimeZoneInfo.ConvertTimeToUtc(g.StartDate?? DateTime.Now, TimeZoneInfo.Utc);
+          return g;
+        });
+      
+      return gamesForAdmin;
     }
 
     public void AddNode(int gameId, Node node)

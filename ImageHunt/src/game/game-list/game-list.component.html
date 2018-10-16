@@ -28,7 +28,7 @@
         <div>
           <a id="gameName" [routerLink]="['/game', game.id]">{{game.name}}</a>
           <br />
-          <span id="gameDate">{{game.startDate | date:'medium':'':'fr'}}</span>
+          <span id="gameDate">{{game.startDate | date:'medium':'CEST':'fr'}}</span>
           <br/>
           <span>{{game.description}}</span>
         </div>

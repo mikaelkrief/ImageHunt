@@ -5,6 +5,7 @@ import { Game } from '../../shared/game';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { UploadImageComponent } from '../../shared/upload-image/upload-image.component';
 
+
 @Component({
   selector: 'game-create',
   templateUrl: './game.create.component.html',
@@ -34,11 +35,13 @@ export class GameCreateComponent implements OnInit {
     this.modalRef.content.pictureId.subscribe(id => this.pictureId = id);
   }
   createGame() {
+    const startDate = new Date(this.startDate + ' ' + this.startTime);
+    
     let game: Game = {
       id: 0,
       isActive: true,
       name: this.name,
-      startDate: new Date(this.startDate + ' ' + this.startTime),
+      startDate: startDate,
       mapCenterLng: 0,
       mapCenterLat: 0,
       mapZoom: 1,
