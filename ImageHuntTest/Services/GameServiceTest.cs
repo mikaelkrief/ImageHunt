@@ -131,7 +131,8 @@ namespace ImageHuntTest.Services
                 new Game(),
                 new Game()
             };
-      var admin = new Admin() { Games = games };
+      var admin = new Admin() { };
+        admin.GameAdmins = new List<GameAdmin>(){new GameAdmin(){Game = games[0], Admin = admin},new GameAdmin(){Game = games[1], Admin = admin},};
       _context.Admins.Add(admin);
       _context.SaveChanges();
       // Act

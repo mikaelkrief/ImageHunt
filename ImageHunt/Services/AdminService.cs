@@ -17,7 +17,7 @@ namespace ImageHunt.Services
 
     public IEnumerable<Admin> GetAllAdmins()
     {
-      return Context.Admins.Include(a => a.Games);
+      return Context.Admins.Include(a => a.GameAdmins).ThenInclude(ga=>ga.Game);
     }
 
     public void InsertAdmin(Admin admin)
@@ -34,12 +34,16 @@ namespace ImageHunt.Services
 
     public Admin GetAdminById(int adminId)
     {
-      return Context.Admins.Include(a => a.Games).Single(a => a.Id == adminId);
+      return Context.Admins
+        .Include(a => a.GameAdmins).ThenInclude(ga=>ga.Game)
+        .Single(a => a.Id == adminId);
     }
 
     public Admin GetAdminByEmail(string email)
     {
-      return Context.Admins.Include(g => g.Games).Single(a => string.Equals(a.Email, email, StringComparison.InvariantCultureIgnoreCase));
+      return Context.Admins
+        .Include(g => g.GameAdmins).ThenInclude(ga => ga.Game)
+        .Single(a => string.Equals(a.Email, email, StringComparison.InvariantCultureIgnoreCase));
     }
   }
 }

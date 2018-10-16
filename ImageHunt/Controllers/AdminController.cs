@@ -25,7 +25,8 @@ namespace ImageHunt.Controllers
     public IActionResult GetAllAdmins()
     {
       _logger.LogTrace($"GetAllAdmins");
-      return Ok(_adminService.GetAllAdmins());
+      var allAdmins = _adminService.GetAllAdmins();
+      return Ok(allAdmins);
     }
     [HttpGet("ById/{adminId}")]
     public IActionResult GetAdminById(int adminId)
