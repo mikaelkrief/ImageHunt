@@ -49,7 +49,12 @@ namespace ImageHuntTest.Services
             // Arrange
             var admins = new List<Admin>()
             {
-                new Admin(){Games = new List<Game>() {new Game(), new Game()}},
+                new Admin(),
+            };
+            admins[0].GameAdmins = new List<GameAdmin>()
+            {
+                new GameAdmin(){Admin = admins[0], Game = new Game()},
+                new GameAdmin(){Admin = admins[0], Game = new Game()},
             };
             _context.Admins.AddRange(admins);
             _context.SaveChanges();

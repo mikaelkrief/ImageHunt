@@ -35,6 +35,7 @@ namespace ImageHunt.Data
     public DbSet<GameAction> GameActions { get; set; }
     public DbSet<Passcode> Passcodes { get; set; }
 
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       base.OnModelCreating(modelBuilder);
@@ -75,6 +76,8 @@ namespace ImageHunt.Data
         .Property<bool>("IsDeleted");
       modelBuilder.Entity<TeamPasscode>()
         .Property<bool>("IsDeleted");
+      modelBuilder.Entity<GameAdmin>()
+        .Property<bool>("IsDeleted");
       // Filter entities
       modelBuilder.Entity<Game>()
         .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
@@ -96,10 +99,22 @@ namespace ImageHunt.Data
         .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
       modelBuilder.Entity<TeamPlayer>()
         .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
+      modelBuilder.Entity<GameAdmin>()
+        .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
+
       modelBuilder.Entity<ParentChildren>()
         .HasOne(n => n.Parent)
         .WithMany(n => n.ChildrenRelation)
         .HasForeignKey(pc => pc.ParentId);
+      modelBuilder.Entity<GameAdmin>()
+        .HasKey(tp => new { tp.AdminId, tp.GameId });
+
+      modelBuilder.Entity<GameAdmin>()
+        .HasOne(tp => tp.Admin)
+        .WithMany(t => t.GameAdmins)
+        .HasForeignKey(tp => tp.AdminId);
+
+
       modelBuilder.Entity<TeamPlayer>()
         .HasKey(tp => new {tp.TeamId, tp.PlayerId});
       modelBuilder.Entity<TeamPasscode>()
@@ -108,14 +123,14 @@ namespace ImageHunt.Data
         .HasOne(tp => tp.Team)
         .WithMany(t => t.TeamPlayers)
         .HasForeignKey(tp => tp.TeamId);
-      modelBuilder.Entity<TeamPasscode>()
-        .HasOne(tp => tp.Team)
-        .WithMany(t => t.TeamPasscodes)
-        .HasForeignKey(tp => tp.TeamId);
       modelBuilder.Entity<TeamPlayer>()
         .HasOne(tp => tp.Player)
         .WithMany(t => t.TeamPlayers)
         .HasForeignKey(tp => tp.PlayerId);
+      modelBuilder.Entity<TeamPasscode>()
+        .HasOne(tp => tp.Team)
+        .WithMany(t => t.TeamPasscodes)
+        .HasForeignKey(tp => tp.TeamId);
 
     }
 

@@ -23,10 +23,9 @@ namespace ImageHunt.Services
       var admin = Context.Admins.Single(a => a.Id == adminId);
       if (newGame.Picture != null && newGame.Picture.Id != 0)
         newGame.Picture = Context.Pictures.Single(p => p.Id == newGame.Picture.Id);
-      var games = admin.Games ?? new List<Game>();
-
-      games.Add(newGame);
-      admin.Games = games;
+      Context.Games.Add(newGame);
+      var gameAdmin = new GameAdmin() {Admin = admin, Game = newGame};
+      admin.GameAdmins.Add(gameAdmin);
       Context.SaveChanges();
       return newGame;
     }
@@ -43,8 +42,8 @@ namespace ImageHunt.Services
     public IEnumerable<Game> GetGamesForAdmin(int adminId)
     {
       return Context.Admins
-        .Include(a => a.Games).ThenInclude(g => g.Teams)
-        .Include(a => a.Games).ThenInclude(g => g.Picture)
+        .Include(a => a.GameAdmins).ThenInclude(g => g.Game.Teams)
+        .Include(a => a.GameAdmins).ThenInclude(g => g.Game.Picture)
         .Single(a => a.Id == adminId).Games;
     }
 

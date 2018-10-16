@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,13 +10,14 @@ namespace ImageHunt.Model
     {
       public Admin()
       {
-        Games = new List<Game>();
+        GameAdmins = new List<GameAdmin>();
       }
       public string Name { get; set; }
       public string Email { get; set; }
       public string Token { get; set; }
       public DateTime? ExpirationTokenDate { get; set; }
-      public List<Game> Games { get; set; }
+      [NotMapped] public IEnumerable<Game> Games => GameAdmins.Select(ga => ga.Game);
+      public List<GameAdmin> GameAdmins { get; set; }
       public Role Role { get; set; }
     }
 
