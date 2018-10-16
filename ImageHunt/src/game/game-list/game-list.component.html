@@ -29,6 +29,8 @@
           <a id="gameName" [routerLink]="['/game', game.id]">{{game.name}}</a>
           <br />
           <span id="gameDate">{{game.startDate | date:'medium':'':'fr'}}</span>
+          <br/>
+          <span>{{game.description}}</span>
         </div>
         <!--<div class="row">
           <span class="fa fa-eye fa-lg" tooltip="Partie active" *ngIf="game.isActive"></span>

@@ -111,7 +111,7 @@ export class MapDetail3Component implements OnInit {
             );
             //polyline.addTo(this.map);
             this.polylines.push(polyline);
-            const symbol = L.Symbol.arrowHead({ pixelSize: 10, pathOptions: { fillOpacity: 1, weight: 0 } });
+            const symbol = L.Symbol.arrowHead({ pixelSize: 10, pathOptions: { fillOpacity: 1, weight: 2 } });
             const decorator = L.polylineDecorator(polyline,
               {
                 patterns:
