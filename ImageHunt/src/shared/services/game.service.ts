@@ -137,4 +137,8 @@ export class GameService {
   }
 
   getQRCode(gameId: number, passcodeId: number) { return this.http.get(`api/Passcode/QRCode/${gameId}/${passcodeId}`); }
+
+  getAllGame():Observable<Game[]> {
+    return this.http.get<Game[]>("api/Game");
+  }
 }

@@ -379,5 +379,24 @@ namespace ImageHuntTest.Services
           // Assert
           Check.That(result).Equals(games[1]);
       }
-  }
+      [Fact]
+      public void GetAllGame()
+      {
+          // Arrange
+          var games = new List<Game>
+          {
+              new Game(),
+              new Game() {IsActive = false},
+              new Game(),
+              new Game(),
+          };
+            _context.Games.AddRange(games);
+          _context.SaveChanges();
+          // Act
+          var result = _target.GetAllGame();
+          // Assert
+          Check.That(result).Contains(games.Where(g => g.IsActive));
+      }
+
+    }
 }

@@ -24,7 +24,7 @@ namespace ImageHunt.Services
       if (newGame.Picture != null && newGame.Picture.Id != 0)
         newGame.Picture = Context.Pictures.Single(p => p.Id == newGame.Picture.Id);
       Context.Games.Add(newGame);
-      var gameAdmin = new GameAdmin() {Admin = admin, Game = newGame};
+      var gameAdmin = new GameAdmin() { Admin = admin, Game = newGame };
       admin.GameAdmins.Add(gameAdmin);
       Context.SaveChanges();
       return newGame;
@@ -47,13 +47,13 @@ namespace ImageHunt.Services
       var gamesForAdmin = Context.Admins
         .Include(a => a.GameAdmins).ThenInclude(g => g.Game.Teams)
         .Include(a => a.GameAdmins).ThenInclude(g => g.Game.Picture)
-        .Single(a => a.Id == adminId).Games.Select(g=>
+        .Single(a => a.Id == adminId).Games.Select(g =>
         {
           if (g.StartDate.HasValue)
             g.StartDate = TimeZoneInfo.ConvertTimeToUtc(g.StartDate.Value, TimeZoneInfo.Utc);
           return g;
         });
-      
+
       return gamesForAdmin;
     }
 
@@ -147,6 +147,11 @@ namespace ImageHunt.Services
         .Where(g => g.IsActive && g.StartDate.HasValue && g.StartDate.Value.Date == DateTime.Today);
       var game = games.FirstOrDefault(g => g.Teams.Any(t => t.TeamPlayers.Any(p => p.Player == player)));
       return game;
+    }
+
+    public IEnumerable<Game> GetAllGame()
+    {
+      return Context.Games.Where(g => g.IsActive);
     }
   }
 }

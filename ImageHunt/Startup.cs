@@ -166,6 +166,9 @@ namespace ImageHunt
         config.CreateMap<Score, ScoreResponse>();
         config.CreateMap<Passcode, PasscodeResponse>();
         config.CreateMap<GameRequest, Game>();
+        config.CreateMap<Admin, AdminResponse>()
+          .ForMember(a=>a.GameIds, a=>a.ResolveUsing(admin => admin.Games.Select(g=>g.Id)))
+          .ForMember(a=>a.GameResponses, a=>a.ResolveUsing(admin =>admin.Games));
       });
     }
   }

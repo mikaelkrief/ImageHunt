@@ -50,7 +50,7 @@ import { TeamCreateComponent } from "../team/team-create/team-create.component";
 import { MomentModule } from 'angular2-moment';
 import { GameCreateComponent } from "../game/game-create/game.create.component";
 import { PlayerCreateComponent } from "../team/player-create/player-create.component";
- 
+import { AngularDualListBoxModule } from 'angular-dual-listbox';
 registerLocaleData(localeFr);
 
 export class MyAuthConfig implements IPartialConfigOptions {
@@ -92,6 +92,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
     SharedModule,
     InputTextModule,
     MomentModule,
+    AngularDualListBoxModule,
     Ng2UiAuthModule.forRoot({
       providers: { google: { clientId: environment.GOOGLE_CLIENT_ID } }, tokenName: "accessToken",
       tokenPrefix: "",

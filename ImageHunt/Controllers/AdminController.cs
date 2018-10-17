@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using AutoMapper;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,11 +17,13 @@ namespace ImageHunt.Controllers
   {
     private readonly IAdminService _adminService;
     private readonly ILogger _logger;
+    private readonly IMapper _mapper;
 
-    public AdminController(IAdminService adminService, ILogger<AdminController> logger)
+    public AdminController(IAdminService adminService, ILogger<AdminController> logger, IMapper mapper)
     {
       _adminService = adminService;
       _logger = logger;
+      _mapper = mapper;
     }
     [Authorize]
     [HttpGet("GetAllAdmins")]
@@ -26,7 +31,7 @@ namespace ImageHunt.Controllers
     {
       _logger.LogTrace($"GetAllAdmins");
       var allAdmins = _adminService.GetAllAdmins();
-      return Ok(allAdmins);
+      return Ok(_mapper.Map<IEnumerable<AdminResponse>>(allAdmins));
     }
     [HttpGet("ById/{adminId}")]
     public IActionResult GetAdminById(int adminId)

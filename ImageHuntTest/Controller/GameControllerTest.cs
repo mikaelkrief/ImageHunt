@@ -50,6 +50,16 @@ namespace ImageHuntTest.Controller
         }
 
         [Fact]
+        public void GetAllGame()
+        {
+            // Arrange
+            
+            // Act
+            var response = _target.GetAllGame();
+            // Assert
+            A.CallTo(() => _gameService.GetAllGame()).MustHaveHappened();
+        }
+        [Fact]
         public void GetGameById()
         {
             // Arrange

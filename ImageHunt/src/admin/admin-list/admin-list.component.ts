@@ -5,6 +5,9 @@ import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { BsModalService } from "ngx-bootstrap";
 import { AdminCreateComponent } from "../admin-create/admin-create.component";
+import { GameAssignComponent } from "../game-assign/game-assign.component";
+import { GameService } from "services/game.service";
+import { forkJoin } from "rxjs";
 
 @Component({
   selector: 'admin-list',
@@ -17,6 +20,7 @@ export class AdminListComponent implements OnInit {
   /** admin ctor */
   constructor(private _adminService: AdminService,
     private _confirmationService: ConfirmationService,
+    private _gameService: GameService,
     private _modalService: BsModalService) {
 
   }
@@ -26,9 +30,10 @@ export class AdminListComponent implements OnInit {
     this.getAdmins();
   }
   public getAdmins() {
-    this._adminService.getAllAdmins()
-      .subscribe((res: Admin[]) => this.admins = res,
-        err => console.error(err.status));
+      this._adminService.getAllAdmins()
+        .subscribe(
+          (res: Admin[]) => this.admins = res,
+           err => console.error(err.status));
   }
   deleteAdmin(adminId: number) {
     this._confirmationService.confirm({
@@ -47,6 +52,10 @@ export class AdminListComponent implements OnInit {
         });
     });
   }
-
+  assignGame(admin: Admin) {
+    this.modalRef = this._modalService.show(GameAssignComponent, { ignoreBackdropClick: true, initialState: {admin} });
+    this.modalRef.content.admin
+  }
   modalRef;
+  games;
 }
