@@ -37,7 +37,8 @@ namespace ImageHunt.Services
         .Include(g => g.Teams)
         .Include(g => g.Picture)
         .Single(g => g.Id == gameId);
-      game.StartDate = TimeZoneInfo.ConvertTimeToUtc(game.StartDate ?? DateTime.Now, TimeZoneInfo.Utc);
+      if (game.StartDate.HasValue)
+        game.StartDate = TimeZoneInfo.ConvertTimeToUtc(game.StartDate.Value, TimeZoneInfo.Utc);
       return game;
     }
 
@@ -48,7 +49,8 @@ namespace ImageHunt.Services
         .Include(a => a.GameAdmins).ThenInclude(g => g.Game.Picture)
         .Single(a => a.Id == adminId).Games.Select(g=>
         {
-          g.StartDate = TimeZoneInfo.ConvertTimeToUtc(g.StartDate?? DateTime.Now, TimeZoneInfo.Utc);
+          if (g.StartDate.HasValue)
+            g.StartDate = TimeZoneInfo.ConvertTimeToUtc(g.StartDate.Value, TimeZoneInfo.Utc);
           return g;
         });
       
