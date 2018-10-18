@@ -27,5 +27,8 @@ export class GameAssignComponent implements OnInit {
         this.notSelectedGames = this.games.filter(g => !(this.admin.gameIds.includes(g.id)));
       });
   }
+  saveChanges() {
+    this.bsModalRef.hide();
+  }
 
 }

@@ -151,5 +151,19 @@ namespace ImageHuntTest.Services
             // Assert
         }
 
+        [Fact]
+        public void AssignGame()
+        {
+            // Arrange
+            var games = new List<Game> {new Game(), new Game(), new Game()};
+            _context.Games.AddRange(games);
+            var admins = new List<Admin> {new Admin(), new Admin()};
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
+            // Act
+            var result = _target.AssignGame(admins[1].Id, games[1].Id);
+            // Assert
+            Check.That(admins[1].Games).Contains(games[1]);
+        }
     }
 }

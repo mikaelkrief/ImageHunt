@@ -45,5 +45,14 @@ namespace ImageHunt.Services
         .Include(g => g.GameAdmins).ThenInclude(ga => ga.Game)
         .Single(a => string.Equals(a.Email, email, StringComparison.InvariantCultureIgnoreCase));
     }
+
+    public Admin AssignGame(int adminId, int gameId)
+    {
+      var admin = Context.Admins.Single(a => a.Id == adminId);
+      var game = Context.Games.Single(g => g.Id == gameId);
+      admin.GameAdmins.Add(new GameAdmin(){Admin = admin, Game = game});
+      Context.SaveChanges();
+      return admin;
+    }
   }
 }

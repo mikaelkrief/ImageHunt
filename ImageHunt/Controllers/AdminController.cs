@@ -57,5 +57,10 @@ namespace ImageHunt.Controllers
       _adminService.DeleteAdmin(admin);
       return Ok();
     }
+    [HttpPut("Assign/{adminId}/{gameId}")]
+    public IActionResult AssignGame(int adminId, int gameId)
+    {
+      return Ok(_adminService.AssignGame(adminId, gameId));
+    }
   }
 }

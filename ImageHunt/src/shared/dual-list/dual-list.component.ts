@@ -31,9 +31,11 @@ export class DualListComponent {
   addSourceSelectedToDestination() {
     this.sourceSelected.map(ss => this.destination = [...this.destination, ss]);
     this.source = this.source.filter(s => !this.sourceSelected.includes(s));
+    this.destinationChange.emit(this.destination);
   }
   removeDestinationSelectedToSource() {
     this.destinationSelected.map(ss => this.source = [...this.source, ss]);
     this.destination = this.destination.filter(s => !this.destinationSelected.includes(s));
+    this.destinationChange.emit(this.destination);
   }
 }

@@ -114,5 +114,17 @@ namespace ImageHuntTest.Controller
             Check.That(result).IsNotNull();
             A.CallTo(() => _adminService.DeleteAdmin(admin)).MustHaveHappened();
         }
+
+        [Fact]
+        public void AssignGameToAdmin()
+        {
+            // Arrange
+            
+            // Act
+            var response = _target.AssignGame(1, 4);
+            // Assert
+            Check.That(response).IsInstanceOf<OkObjectResult>();
+            A.CallTo(() => _adminService.AssignGame(A<int>._, A<int>._)).MustHaveHappened();
+        }
     }
 }
