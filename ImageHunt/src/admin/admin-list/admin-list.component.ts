@@ -30,9 +30,14 @@ export class AdminListComponent implements OnInit {
     this.getAdmins();
   }
   public getAdmins() {
-      this._adminService.getAllAdmins()
-        .subscribe(
-          (res: Admin[]) => this.admins = res,
+    forkJoin(
+      this._adminService.getAllAdmins(),
+        this._gameService.getAllGame())
+      .subscribe((res: any[]) => {
+          this.admins = res[0];
+        this.games = res[1];
+          this.admins.map(a => a.games = this.games.filter(g => a.gameIds.includes(g.id)));
+        },
            err => console.error(err.status));
   }
   deleteAdmin(adminId: number) {

@@ -7,7 +7,8 @@
 
   </div>
   <div class="modal-body">
-    <dual-list [source]="notSelectedGames" [(destination)]="selectedGames" [key]="id" [display]="name"></dual-list>
+    <dual-list addLabel="Ajouter" removeLabel="Retirer" allLabel="Tous" noneLabel="Aucun"
+               [source]="notSelectedGames" [(destination)]="selectedGames" display="name"></dual-list>
   </div>
   <!--<ngx-dual-listbox [items]=""></ngx-dual-listbox>-->
   <!--<form [formGroup]="gameAssign" (ngSubmit)="assignGame">

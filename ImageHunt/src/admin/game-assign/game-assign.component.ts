@@ -23,8 +23,8 @@ export class GameAssignComponent implements OnInit {
     this._gameService.getAllGame()
       .subscribe(games => {
         this.games = games;
-        this.selectedGames = this.games.filter(g => g.id in this.admin.gameIds);
-        this.notSelectedGames = this.games.filter(g => !(g.id in this.admin.gameIds));
+        this.selectedGames = this.games.filter(g => this.admin.gameIds.includes(g.id));
+        this.notSelectedGames = this.games.filter(g => !(this.admin.gameIds.includes(g.id)));
       });
   }
 

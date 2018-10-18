@@ -10,10 +10,9 @@ import { ConfirmationService } from "primeng/api";
 import {SharedModule} from "../shared/shared.module";
 import { BsModalService } from 'ngx-bootstrap';
 import { GameAssignComponent } from './game-assign/game-assign.component';
-import { AngularDualListBoxModule } from 'angular-dual-listbox';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, SharedModule, AngularDualListBoxModule],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, SharedModule],
   declarations: [AdminListComponent, AdminCreateComponent, GameAssignComponent],
   exports: [AdminListComponent, AdminCreateComponent, GameAssignComponent],
   bootstrap: [AdminListComponent, AdminCreateComponent, GameAssignComponent],
