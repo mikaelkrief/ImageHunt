@@ -161,7 +161,38 @@ namespace ImageHuntTest.Services
             _context.Admins.AddRange(admins);
             _context.SaveChanges();
             // Act
-            var result = _target.AssignGame(admins[1].Id, games[1].Id);
+            var result = _target.AssignGame(admins[1].Id, games[1].Id, true);
+            // Assert
+            Check.That(admins[1].Games).Contains(games[1]);
+        }
+
+        [Fact]
+        public void AssignGame_RemoveAssignment()
+        {
+            // Arrange
+            var games = new List<Game> { new Game(), new Game(), new Game() };
+            _context.Games.AddRange(games);
+            var admins = new List<Admin> { new Admin(), new Admin() };
+            admins[1].GameAdmins = new List<GameAdmin>(){new GameAdmin(){Admin = admins[1], Game = games[1]}};
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
+            // Act
+            var result = _target.AssignGame(admins[1].Id, games[1].Id, false);
+            // Assert
+            Check.That(admins[1].Games).Not.Contains(games[1]);
+        }
+        [Fact]
+        public void AssignGame_Already_assigned()
+        {
+            // Arrange
+            var games = new List<Game> { new Game(), new Game(), new Game() };
+            _context.Games.AddRange(games);
+            var admins = new List<Admin> { new Admin(), new Admin() };
+            admins[1].GameAdmins = new List<GameAdmin>(){new GameAdmin(){Admin = admins[1], Game = games[1]}};
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
+            // Act
+            var result = _target.AssignGame(admins[1].Id, games[1].Id, true);
             // Assert
             Check.That(admins[1].Games).Contains(games[1]);
         }

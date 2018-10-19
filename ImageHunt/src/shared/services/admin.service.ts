@@ -20,4 +20,7 @@ export class AdminService {
   getAdminByEmail(email: string) {
     return this.http.get('api/Admin/ByEmail/' + email);
   }
+  assignGame(adminId: number, gameId: number, assign: boolean) {
+    return this.http.put(`api/Admin/Assign/${adminId}/${gameId}?assign=${assign}`, null);
+  }
 }

@@ -58,9 +58,10 @@ namespace ImageHunt.Controllers
       return Ok();
     }
     [HttpPut("Assign/{adminId}/{gameId}")]
-    public IActionResult AssignGame(int adminId, int gameId)
+    public IActionResult AssignGame(int adminId, int gameId, [FromQuery]bool assign)
     {
-      return Ok(_adminService.AssignGame(adminId, gameId));
+      return Ok(_adminService.AssignGame(adminId, gameId, assign));
     }
+
   }
 }

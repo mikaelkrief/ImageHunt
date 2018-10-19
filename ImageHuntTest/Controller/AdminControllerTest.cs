@@ -121,10 +121,21 @@ namespace ImageHuntTest.Controller
             // Arrange
             
             // Act
-            var response = _target.AssignGame(1, 4);
+            var response = _target.AssignGame(1, 4, true);
             // Assert
             Check.That(response).IsInstanceOf<OkObjectResult>();
-            A.CallTo(() => _adminService.AssignGame(A<int>._, A<int>._)).MustHaveHappened();
+            A.CallTo(() => _adminService.AssignGame(A<int>._, A<int>._, true)).MustHaveHappened();
+        }
+        [Fact]
+        public void RemoveGameToAdmin()
+        {
+            // Arrange
+            
+            // Act
+            var response = _target.AssignGame(1, 4, false);
+            // Assert
+            Check.That(response).IsInstanceOf<OkObjectResult>();
+            A.CallTo(() => _adminService.AssignGame(A<int>._, A<int>._, false)).MustHaveHappened();
         }
     }
 }
