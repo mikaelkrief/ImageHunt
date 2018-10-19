@@ -5,12 +5,12 @@ export class Game {
   id: number;
   isActive: boolean;
   name: string;
-  startDate: Date;
-  mapCenterLat: number;
-  mapCenterLng: number;
-  mapZoom:number;
-  nodes: Node[];
-  teams: Team[];
+  startDate?: Date;
+  mapCenterLat?: number;
+  mapCenterLng?: number;
+  mapZoom?:number;
+  nodes?: Node[];
+  teams?: Team[];
   pictureId?: number;
-  description: string;
+  description?: string;
 }

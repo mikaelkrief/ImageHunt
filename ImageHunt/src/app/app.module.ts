@@ -27,7 +27,7 @@ import { environment } from "../environments/environment";
 import { Globals } from "../shared/globals";
 import { TeamDetailComponent } from "../team/team-detail/team.detail.component";
 import { MapModule } from "../map/map.module";
-import { ContextMenuModule, InputTextModule } from "primeng/primeng";
+import { ContextMenuModule, InputTextModule, ListboxModule } from "primeng/primeng";
 import { NodeRelationComponent } from "../game/node-relation/node.relation.component";
 import { NodeCreateComponent } from "../game/node-create/node.create.component";
 import { QuestionNodeComponent } from "../game/question-node/question.node.component";
@@ -50,7 +50,6 @@ import { TeamCreateComponent } from "../team/team-create/team-create.component";
 import { MomentModule } from 'angular2-moment';
 import { GameCreateComponent } from "../game/game-create/game.create.component";
 import { PlayerCreateComponent } from "../team/player-create/player-create.component";
- 
 registerLocaleData(localeFr);
 
 export class MyAuthConfig implements IPartialConfigOptions {
@@ -92,6 +91,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
     SharedModule,
     InputTextModule,
     MomentModule,
+    ListboxModule,
     Ng2UiAuthModule.forRoot({
       providers: { google: { clientId: environment.GOOGLE_CLIENT_ID } }, tokenName: "accessToken",
       tokenPrefix: "",

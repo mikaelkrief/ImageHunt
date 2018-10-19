@@ -1,0 +1,40 @@
+<div>
+  <div class="row">
+    <div class="col-sm-6">
+      <button class="btn btn-primary w-100" [disabled]="sourceSelected.length===0" (click)="addSourceSelectedToDestination()">{{addLabel}}<i class="fas fa-carret-right"></i></button>
+    </div>
+    <div class="col-sm-6">
+      <button class="btn btn-primary w-100" [disabled]="destinationSelected.length===0" (click)="removeDestinationSelectedToSource()"><i class="fas fa-carret-left"></i>{{removeLabel}}</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6" style="height: 150px;">
+      <p-listbox class="w-100 h-100" [options]="source" [optionLabel]="display" [multiple]="true" [(ngModel)]="sourceSelected"></p-listbox>
+    </div>
+    <div class="col-sm-6" style="height: 150px;">
+      <p-listbox [options]="destination" [optionLabel]="display" class="w-100 h-100" [multiple]="true" [(ngModel)]="destinationSelected"></p-listbox>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="row">
+      <div class="col-sm-6">
+        <button class="btn btn-primary w-100" [disabled]="source.length === 0 || sourceSelected.length === source.length" (click)="sourceSelected=source">{{allLabel}}</button>
+      </div>
+        <div class="col-sm-6">
+          <button class="btn btn-default w-100" [disabled]="source.length === 0 || sourceSelected.length === 0" (click)="noneSourceSelected()">{{noneLabel}}</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="row">
+      <div class="col-sm-6">
+        <button class="btn btn-primary w-100" [disabled]="destination.length === 0 || destinationSelected.length === destination.length" (click)="destinationSelected=destination">{{allLabel}}</button>
+      </div>
+        <div class="col-sm-6">
+          <button class="btn btn-default w-100"[disabled]="destination.length === 0 || destinationSelected.length === 0" (click)="noneDestinationSelected()">{{noneLabel}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

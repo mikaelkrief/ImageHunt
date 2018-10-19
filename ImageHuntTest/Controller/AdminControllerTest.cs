@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Text;
+using AutoMapper;
 using FakeItEasy;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NFluent;
@@ -19,14 +21,33 @@ namespace ImageHuntTest.Controller
         private IAdminService _adminService;
         private AdminController _target;
       private ILogger<AdminController> _logger;
+        private IMapper _mapper;
 
-      public AdminControllerTest()
+        public AdminControllerTest()
         {
             _adminService = A.Fake<IAdminService>();
             _logger = A.Fake<ILogger<AdminController>>();
-            _target = new AdminController(_adminService, _logger);
+            _mapper = AutoMapper.Mapper.Instance;
+            _target = new AdminController(_adminService, _logger, _mapper);
         }
 
+        [Fact]
+        public void Should_Admin_Mapped_To_AdminResponse()
+        {
+            // Arrange
+            var admin = new Admin(){Email = "toto@titi.com", Name = "toto", Role = Role.GameMaster};
+            admin.GameAdmins = new List<GameAdmin>()
+            {
+                new GameAdmin() {Game = new Game() {Id = 2}, Admin = admin},
+                new GameAdmin() {Game = new Game() {Id = 3}, Admin = admin}
+            };
+            // Act
+            var response = _mapper.Map<AdminResponse>(admin);
+            // Assert
+            Check.That(response.Name).Equals(admin.Name);
+            Check.That(response.Email).Equals(admin.Email);
+            Check.That(response.GameIds).Contains(2, 3);
+        }
         [Fact]
         public void GetAllAdmins()
         {
@@ -92,6 +113,29 @@ namespace ImageHuntTest.Controller
             // Assert
             Check.That(result).IsNotNull();
             A.CallTo(() => _adminService.DeleteAdmin(admin)).MustHaveHappened();
+        }
+
+        [Fact]
+        public void AssignGameToAdmin()
+        {
+            // Arrange
+            
+            // Act
+            var response = _target.AssignGame(1, 4, true);
+            // Assert
+            Check.That(response).IsInstanceOf<OkObjectResult>();
+            A.CallTo(() => _adminService.AssignGame(A<int>._, A<int>._, true)).MustHaveHappened();
+        }
+        [Fact]
+        public void RemoveGameToAdmin()
+        {
+            // Arrange
+            
+            // Act
+            var response = _target.AssignGame(1, 4, false);
+            // Assert
+            Check.That(response).IsInstanceOf<OkObjectResult>();
+            A.CallTo(() => _adminService.AssignGame(A<int>._, A<int>._, false)).MustHaveHappened();
         }
     }
 }

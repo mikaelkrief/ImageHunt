@@ -17,7 +17,7 @@ export class AdminCreateComponent {
 
   }
   createAdmin() {
-    let admin: Admin = { id: 0, name: this.adminGroup.value.name, email: this.adminGroup.value.email, games: null, role: this.adminGroup.value.role};
+    let admin: Admin = { id: 0, name: this.adminGroup.value.name, email: this.adminGroup.value.email, role: this.adminGroup.value.role};
     this.adminCreated.emit(admin);
     this.adminGroup.reset();
   }

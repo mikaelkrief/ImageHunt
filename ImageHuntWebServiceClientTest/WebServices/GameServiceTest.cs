@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FakeItEasy;
+using ImageHunt.Model;
 using ImageHuntBotTest.WebServices;
 using ImageHuntWebServiceClient.WebServices;
 using NFluent;

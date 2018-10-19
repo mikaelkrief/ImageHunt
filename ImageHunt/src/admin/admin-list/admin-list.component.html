@@ -6,8 +6,11 @@
     <th>Nom</th>
     <th>Email</th>
     <th>Role</th>
-    <th><button class="btn btn-primary" (click)="createUser()"><i class="fa fa-user-plus"></i></button></th>
+    <th>
+      <button class="btn btn-primary" (click)="createUser()"><i class="fa fa-user-plus"></i></button>
+    </th>
     <th>Jeux associés</th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
@@ -20,6 +23,9 @@
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let game of admin.games"><span class=" fa fa-gamepad"></span> <a [routerLink]="['/game', game.id]">{{game.name}}</a></li>
       </ul>
+    </td>
+    <td>
+      <button class="btn btn-primary" (click)="assignGame(admin)"><i class="fas fa-link"></i></button>
     </td>
   </tr>
   </tbody>

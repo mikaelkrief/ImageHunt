@@ -76,8 +76,6 @@ namespace ImageHunt.Data
         .Property<bool>("IsDeleted");
       modelBuilder.Entity<TeamPasscode>()
         .Property<bool>("IsDeleted");
-      modelBuilder.Entity<GameAdmin>()
-        .Property<bool>("IsDeleted");
       // Filter entities
       modelBuilder.Entity<Game>()
         .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
@@ -98,8 +96,6 @@ namespace ImageHunt.Data
       modelBuilder.Entity<Passcode>()
         .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
       modelBuilder.Entity<TeamPlayer>()
-        .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
-      modelBuilder.Entity<GameAdmin>()
         .HasQueryFilter(e => EF.Property<bool>(e, "IsDeleted") == false);
 
       modelBuilder.Entity<ParentChildren>()
@@ -151,15 +147,18 @@ namespace ImageHunt.Data
     {
       foreach (var entityEntry in ChangeTracker.Entries())
       {
-        switch (entityEntry.State)
+        if (entityEntry.Entity is DbObject)
         {
-          case EntityState.Deleted:
-            entityEntry.State = EntityState.Modified;
-            entityEntry.CurrentValues["IsDeleted"] = true;
-            break;
-          case EntityState.Added:
-            entityEntry.CurrentValues["IsDeleted"] = false;
-            break;
+          switch (entityEntry.State)
+          {
+            case EntityState.Deleted:
+              entityEntry.State = EntityState.Modified;
+              entityEntry.CurrentValues["IsDeleted"] = true;
+              break;
+            case EntityState.Added:
+              entityEntry.CurrentValues["IsDeleted"] = false;
+              break;
+          }
         }
       }
     }

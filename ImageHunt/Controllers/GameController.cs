@@ -274,5 +274,10 @@ namespace ImageHunt.Controllers
       }
       return Ok(gameActionsToValidate);
     }
+    [HttpGet]
+    public IActionResult GetAllGame()
+    {
+      return Ok(_mapper.Map<IEnumerable<GameResponse>>(_gameService.GetAllGame()));
+    }
   }
 }

@@ -115,7 +115,7 @@ namespace ImageHuntTest.Controller
             Check.That(result).IsInstanceOf<NotFoundObjectResult>();
         }
 
-        [Fact(Skip = "Not ready for Linux")]
+        [Fact]
         public void Generate_QRCode()
         {
             // Arrange
