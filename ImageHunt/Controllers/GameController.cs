@@ -62,8 +62,9 @@ namespace ImageHunt.Controllers
     public async Task<IActionResult> CreateGame(int adminId, [FromBody] GameRequest newGame)
     {
       var game = _mapper.Map<Game>(newGame);
-      game.Picture = new Picture(){Id = newGame.PictureId};
-
+      if (newGame.PictureId != 0)
+        game.Picture = new Picture(){Id = newGame.PictureId};
+      
       return CreatedAtAction("CreateGame", _gameService.CreateGame(adminId, game));
     }
     [HttpPost("AddNode/{gameId}")]
