@@ -29,7 +29,7 @@ export class GameAssignComponent implements OnInit {
       });
   }
   saveChanges() {
-    this.notSelectedGames = this.games.filter(g => this.selectedGames.includes(g));
+    this.notSelectedGames = this.games.filter(g => !this.selectedGames.includes(g));
     for (var gameS of this.selectedGames) {
       this._adminService.assignGame(this.admin.id, gameS.id, true)
         .subscribe();

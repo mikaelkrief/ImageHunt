@@ -59,7 +59,7 @@ export class AdminListComponent implements OnInit {
   }
   assignGame(admin: Admin) {
     this.modalRef = this._modalService.show(GameAssignComponent, { ignoreBackdropClick: true, initialState: {admin} });
-    this.modalRef.content.admin
+    this._modalService.onHidden.subscribe(() => this.getAdmins());
   }
   modalRef;
   games;
