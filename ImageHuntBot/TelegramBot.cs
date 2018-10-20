@@ -52,7 +52,7 @@ namespace ImageHuntTelegramBot
                 IDialog dialog = null;
                 if (!context.Replied)
                 {
-                    if (context.CurrentDialog == null && _dialogs.Any(d => context.Activity.Command == d.Key))
+                    if (context.CurrentDialog == null && _dialogs.Any(d => context.Activity.Command.Equals(d.Key, StringComparison.InvariantCultureIgnoreCase)))
                     {
                         dialog = _dialogs[context.Activity.Command.ToLowerInvariant()];
                     }

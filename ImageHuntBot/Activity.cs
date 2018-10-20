@@ -17,7 +17,9 @@ namespace ImageHuntTelegramBot
         get
         {
           var regex = new Regex(@"\/\w*");
-          return regex.Match(Text).Value;
+            if (string.IsNullOrEmpty(Text))
+                return "";
+          return regex.Match(Text.ToLowerInvariant()).Value;
         }
       }
 
