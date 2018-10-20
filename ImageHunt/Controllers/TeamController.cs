@@ -59,7 +59,7 @@ namespace ImageHunt.Controllers
 
     // PUT api/team/5
     [HttpPost("AddPlayer/{teamId}")]
-    public void AddPlayer(int teamId, [FromBody]Player player)
+    public IActionResult AddPlayer(int teamId, [FromBody]Player player)
     {
       var team = _teamService.GetTeamById(teamId);
       Player dbPlayer = null;
@@ -72,6 +72,8 @@ namespace ImageHunt.Controllers
       {
         _teamService.AddMemberToTeam(team, new List<Player>() { player });
       }
+
+      return Ok(_teamService.GetTeamById(teamId));
     }
 
     // DELETE api/Team/5

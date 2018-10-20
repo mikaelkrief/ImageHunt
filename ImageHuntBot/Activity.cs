@@ -31,6 +31,8 @@ namespace ImageHuntTelegramBot
                 return regex.Matches(Text)[0].Groups[2].Value;
             }
         }
+
+        public User[] NewChatMember { get; set; }
     }
 
   public enum ActivityType
@@ -38,8 +40,8 @@ namespace ImageHuntTelegramBot
     None,
     Message,
     UpdateMessage,
-    CallbackQuery
-
+    CallbackQuery,
+    AddMember,
   }
 
   public interface IActivity
@@ -52,5 +54,6 @@ namespace ImageHuntTelegramBot
     string Command { get; }
     Document Document { get; set; }
       string Payload { get; }
+      User[] NewChatMember { get; set; }
   }
 }

@@ -52,5 +52,13 @@ namespace ImageHuntWebServiceClient.WebServices
           }
 
       }
-  }
+
+      public async Task<TeamResponse> AddPlayer(int teamId, PlayerRequest playerRequest)
+      {
+          using (var content = new StringContent(JsonConvert.SerializeObject(playerRequest)))
+          {
+              return await PostAsync<TeamResponse>($"{_httpClient.BaseAddress}api/Team/AddPlayer/{teamId}", content);
+          }
+      }
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -38,7 +39,7 @@ namespace ImageHuntTelegramBot
             }
         }
 
-        public async Task<Activity> CreateActivityFromUpdate(Update update)
+        public async virtual Task<Activity> CreateActivityFromUpdate(Update update)
         {
             long chatId = 0;
             string text = null;
@@ -46,6 +47,7 @@ namespace ImageHuntTelegramBot
             PhotoSize[] photoSizes = null;
             Document document = null;
             Location location = null;
+            User[] newUsers = null;
             Message message = null;
             switch (update.Type)
             {
@@ -54,6 +56,7 @@ namespace ImageHuntTelegramBot
                     message = update.Message == null ? update.EditedMessage : update.Message;
                     chatId = message.Chat.Id;
                     text = message.Text;
+                    activityType = ActivityType.Message;
                     if (message.Photo != null)
                     {
                         text = "/uploadphoto";
@@ -72,7 +75,12 @@ namespace ImageHuntTelegramBot
                         location = message.Location;
                     }
 
-                    activityType = ActivityType.Message;
+                    if (message.NewChatMembers != null)
+                    {
+                        text = "/newUser";
+                        newUsers = message.NewChatMembers;
+                        activityType = ActivityType.AddMember;
+                    }
 
                     break;
                 case UpdateType.CallbackQuery:
@@ -89,6 +97,7 @@ namespace ImageHuntTelegramBot
             activity.Pictures = photoSizes;
             activity.Document = document;
             activity.Location = location;
+            activity.NewChatMember = newUsers;
             return activity;
         }
 

@@ -84,5 +84,34 @@ namespace ImageHuntBotTest
         Check.That(context).Equals(_turnContext);
         Check.That(context.ChatId).Equals(15);
       }
+
+        [Fact]
+        public async Task GetContext_NewChatMember()
+        {
+            // Arrange
+            var update = new Update()
+            {
+               
+                Message = new Message()
+                {
+                    Chat = new Chat()
+                    {
+                        Id = 155151
+                    },
+                    From = new User()
+                    {
+                        Username = "tata"
+                    },
+                    NewChatMembers = new User[]
+                    {
+                        new User(){Username = "toto"}
+                    }
+                }
+            };
+            // Act
+            var context = await _target.GetContext(update);
+            // Assert
+            A.CallTo(() => _adapter.CreateActivityFromUpdate(update)).MustHaveHappened();
+        }
    }
 }

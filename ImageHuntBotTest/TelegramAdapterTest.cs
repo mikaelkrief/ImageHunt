@@ -169,5 +169,35 @@ namespace ImageHuntBotTest
             Check.That(url).IsNotEmpty();
             return true;
         }
+
+        [Fact]
+        public async Task CreateActivityFromUpdate_NewMembers()
+        {
+            // Arrange
+            var update = new Update()
+            {
+
+                Message = new Message()
+                {
+                    Chat = new Chat()
+                    {
+                        Id = 155151
+                    },
+                    From = new User()
+                    {
+                        Username = "tata"
+                    },
+                    NewChatMembers = new User[]
+                    {
+                        new User(){Username = "toto"}
+                    }
+                }
+            };
+            // Act
+            var activity = await _target.CreateActivityFromUpdate(update);
+            // Assert
+            Check.That(activity.ActivityType).Equals(ActivityType.AddMember);
+            Check.That(activity.Text).Equals("/newUser");
+        }
     }
 }

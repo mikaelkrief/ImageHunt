@@ -196,5 +196,15 @@ namespace ImageHuntBotTest
             // Assert
             A.CallTo(() => _storage.Write(A<IEnumerable<KeyValuePair<string, object>>>._)).MustHaveHappened();
         }
+
+        [Fact]
+        public void NewChatMemberMessageReceived()
+        {
+            // Arrange
+            
+            // Act
+
+            // Assert
+        }
     }
 }
