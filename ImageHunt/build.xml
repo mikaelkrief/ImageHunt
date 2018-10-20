@@ -8,6 +8,7 @@
         <replacefilter token="GOOGLE_API_MAP_KEY" value="${GOOGLE_API_MAP_KEY}"/>
         <replacefilter token="TELEGRAM_APIKEY" value="${TELEGRAM_APIKEY}"/>
         <replacefilter token="BOT_NAME" value="${BOT_NAME}"/>
+        <replacefilter token="BOT_URL" value="${BOT_URL}"/>
     </replace>
     <move file="${INFILE}" toFile="${TOFILE}"></move>
   </target>
