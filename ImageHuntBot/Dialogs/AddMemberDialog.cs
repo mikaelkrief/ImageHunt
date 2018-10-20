@@ -26,6 +26,7 @@ namespace ImageHuntBot.Dialogs
                 {
                     await turnContext.ReplyActivity(
                         "Je ne peux ajouter un membre à une équipe que si le groupe à été initialisé! Commande /init");
+                    _logger.LogError($"Unable to add an user to a team since the group had not been initialized");
                     await turnContext.End();
                     return;
                 }
@@ -35,6 +36,7 @@ namespace ImageHuntBot.Dialogs
                     await _teamWebService.AddPlayer(state.TeamId, playerRequest);
                     await turnContext.ReplyActivity(
                         $"Le joueur {user.Username} vient d'être ajouté à l'équipe {state.Team.Name}");
+                    _logger.LogInformation($"The user {user.Username} had been added to team {state.TeamId}");
                 }
             }
             finally

@@ -61,6 +61,7 @@ namespace ImageHuntTelegramBot
                 {
                     if (dialog != null)
                     {
+                        _logger.LogInformation($"Pass control to {nameof(dialog)}");
                         await context.Begin(dialog);
                     }
                 }
