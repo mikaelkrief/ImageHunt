@@ -15,23 +15,30 @@ namespace ImageHuntApiTester
     {
         public class Options
         {
-            [Option('g', "gameId", Required = true)]
+            [Option("API", Required = true)]
+            public string APIToTest { get; set; }
+            [Option('g', "gameId", Required = false)]
             public int GameId { get; set; }
-            [Option('t', "minTeamId", Required = true)]
+            [Option('t', "minTeamId", Required = false)]
             public int MinTeamId { get; set; }
-            [Option('T', "maxTeamId", Required = true)]
+            [Option('T', "maxTeamId", Required = false)]
             public int MaxTeamId { get; set; }
-            [Option('a', "latitude", Required = true)]
+            [Option('a', "latitude", Required = false)]
             public double SeedLatitude { get; set; }
-            [Option('n', "longitude", Required = true)]
+            [Option('n', "longitude", Required = false)]
             public double SeedLongitude { get; set; }
             [Option('u', "APIUrl", Required = true)]
             public string APIUrl { get; set; }
             [Option('i', "Timer", Required = false, Default = 15000)]
             public int TimerInterval { get; set; }
+            [Option("Name")]
+            public string Name { get; set; }
+            [Option("ChatLogin")]
+            public string ChatLogin { get; set; }
         }
         static HttpClient httpClient = new HttpClient();
         private static IActionWebService _actionWebService;
+        private static ITeamWebService _teamWebService;
         static void Main(string[] args)
         {
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
@@ -67,17 +74,33 @@ namespace ImageHuntApiTester
                 Thread.Sleep(interval);
             } while (true);
         }
+
+        static async Task InsertPlayerToTeam(int teamId, string playerName, string playerChatLogin)
+        {
+            var playerRequest = new PlayerRequest(){Name = playerName, ChatLogin = playerChatLogin};
+            var result =await _teamWebService.AddPlayer(teamId, playerRequest);
+            Console.WriteLine($"Player {playerName} with {playerChatLogin} inserted in team {teamId}");
+        }
         static async Task RunAsync(string[] args)
         {
             Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(async o => {
+                .WithParsed(async o =>
+                {
                     httpClient.BaseAddress = new Uri(o.APIUrl);
                     httpClient.DefaultRequestHeaders.Accept.Clear();
-                    _actionWebService = new ActionWebService(httpClient);
-
                     try
                     {
-                        await InsertRandomPosition(o.GameId, o.MinTeamId, o.MaxTeamId, o.SeedLatitude, o.SeedLongitude, o.TimerInterval);
+                        switch (o.APIToTest)
+                        {
+                            case "LogAction":
+                                _actionWebService = new ActionWebService(httpClient);
+                                await InsertRandomPosition(o.GameId, o.MinTeamId, o.MaxTeamId, o.SeedLatitude, o.SeedLongitude, o.TimerInterval);
+                                break;
+                            case "AddPlayer":
+                                _teamWebService = new TeamWebService(httpClient);
+                                await InsertPlayerToTeam(o.MinTeamId, o.Name, o.ChatLogin);
+                                break;
+                        }
                     }
                     catch (Exception e)
                     {

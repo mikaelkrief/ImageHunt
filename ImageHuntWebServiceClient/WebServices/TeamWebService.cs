@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
@@ -46,7 +47,7 @@ namespace ImageHuntWebServiceClient.WebServices
 
       public async Task<TeamResponse> CreateTeam(int gameId, TeamRequest teamRequest)
       {
-          using (var content = new StringContent(JsonConvert.SerializeObject(teamRequest)))
+          using (var content = new StringContent(JsonConvert.SerializeObject(teamRequest), Encoding.UTF8, "application/json"))
           {
               return await PostAsync<TeamResponse>($"{_httpClient.BaseAddress}api/Team/{gameId}", content);
           }
@@ -55,7 +56,7 @@ namespace ImageHuntWebServiceClient.WebServices
 
       public async Task<TeamResponse> AddPlayer(int teamId, PlayerRequest playerRequest)
       {
-          using (var content = new StringContent(JsonConvert.SerializeObject(playerRequest)))
+          using (var content = new StringContent(JsonConvert.SerializeObject(playerRequest), Encoding.UTF8, "application/json"))
           {
               return await PostAsync<TeamResponse>($"{_httpClient.BaseAddress}api/Team/AddPlayer/{teamId}", content);
           }

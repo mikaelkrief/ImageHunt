@@ -24,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntBot", "ImageHuntBo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntApiTester", "ImageHuntApiTester\ImageHuntApiTester.csproj", "{F7733386-A0E2-4258-A3E4-217AE47E52DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntCore", "ImageHuntCore\ImageHuntCore.csproj", "{84EEA0B0-463F-4672-943D-43B669F0FAAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntCore", "ImageHuntCore\ImageHuntCore.csproj", "{84EEA0B0-463F-4672-943D-43B669F0FAAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
