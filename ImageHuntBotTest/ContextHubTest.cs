@@ -24,7 +24,9 @@ namespace ImageHuntBotTest
       {
         _turnContext = A.Fake<ITurnContext>();
         _adapter = A.Fake<TelegramAdapter>();
-        _testContainerBuilder.RegisterInstance(_adapter).As<IAdapter>();
+          A.CallTo(() => _adapter.CreateActivityFromUpdate(A<Update>._)).CallsBaseMethod();
+
+            _testContainerBuilder.RegisterInstance(_adapter).As<IAdapter>();
         _testContainerBuilder.RegisterInstance(_turnContext).As<ITurnContext>();
         _testContainerBuilder.RegisterType<ContextHub>().SingleInstance();
         _container = _testContainerBuilder.Build();
