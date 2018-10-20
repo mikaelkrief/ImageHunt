@@ -57,7 +57,7 @@ namespace ImageHuntTelegramBot
                         dialog = _dialogs[context.Activity.Command.ToLowerInvariant()];
                     }
                 }
-                if (_admins.Any(a=>a.Name == context.Username) || !dialog.IsAdmin)
+                if (_admins.Any(a=>a.Name.Equals(context.Username, StringComparison.InvariantCultureIgnoreCase)) || !dialog.IsAdmin)
                 {
                     if (dialog != null)
                     {
