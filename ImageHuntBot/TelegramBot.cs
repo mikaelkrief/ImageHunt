@@ -67,6 +67,7 @@ namespace ImageHuntTelegramBot
                 else
                 {
                     _logger.LogError($"Attempt to use {nameof(dialog)} by {context.Username}");
+                    await context.End();
                 }
             }
             catch (Exception ex)
