@@ -169,6 +169,7 @@ namespace ImageHunt
         config.CreateMap<Admin, AdminResponse>()
           .ForMember(a=>a.GameIds, a=>a.ResolveUsing(admin => admin.Games.Select(g=>g.Id)))
           ;
+        config.CreateMap<PlayerRequest, Player>();
       });
     }
   }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using AutoMapper;
 using FakeItEasy;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
@@ -25,6 +26,7 @@ namespace ImageHuntTest.Controller
       private IPlayerService _playerService;
       private IImageService _imageService;
         private IGameService _gameService;
+        private IMapper _mapper;
 
         public TeamControllerTest()
         {
@@ -32,7 +34,8 @@ namespace ImageHuntTest.Controller
           _playerService = A.Fake<IPlayerService>();
           _imageService = A.Fake<IImageService>();
             _gameService = A.Fake<IGameService>();
-            _target = new TeamController(_teamService, _playerService, _imageService, _gameService);
+            _mapper = AutoMapper.Mapper.Instance;
+            _target = new TeamController(_teamService, _playerService, _imageService, _gameService, _mapper);
         }
 
       [Fact]
@@ -88,7 +91,7 @@ namespace ImageHuntTest.Controller
             var team = new Team();
             A.CallTo(() => _teamService.GetTeamById(A<int>._)).Returns(team);
           A.CallTo(() => _playerService.GetPlayerByChatId(A<string>._)).Throws<InvalidOperationException>();
-            var player = new Player(){Name = "toto", ChatLogin = "Toro"};
+            var player = new PlayerRequest(){Name = "toto", ChatLogin = "Toro"};
             // Act
             _target.AddPlayer(1, player);
             // Assert
@@ -100,7 +103,7 @@ namespace ImageHuntTest.Controller
             // Arrange
             var team = new Team();
             A.CallTo(() => _teamService.GetTeamById(A<int>._)).Returns(team);
-            var player = new Player(){Name = "toto", ChatLogin = "Toro"};
+            var player = new PlayerRequest(){Name = "toto", ChatLogin = "Toro"};
             // Act
             _target.AddPlayer(1, player);
             // Assert

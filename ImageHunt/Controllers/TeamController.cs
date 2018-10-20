@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
@@ -24,16 +25,19 @@ namespace ImageHunt.Controllers
     private readonly IPlayerService _playerService;
     private readonly IImageService _imageService;
     private readonly IGameService _gameService;
+    private readonly IMapper _mapper;
 
     public TeamController(ITeamService teamService,
                           IPlayerService playerService,
                           IImageService imageService,
-      IGameService gameService)
+      IGameService gameService,
+      IMapper mapper)
     {
       _teamService = teamService;
       _playerService = playerService;
       _imageService = imageService;
       _gameService = gameService;
+      _mapper = mapper;
     }
     // GET: api/Team
     [HttpGet("ByGame/{gameId}")]
@@ -59,9 +63,10 @@ namespace ImageHunt.Controllers
 
     // PUT api/team/5
     [HttpPost("AddPlayer/{teamId}")]
-    public IActionResult AddPlayer(int teamId, [FromBody]Player player)
+    public IActionResult AddPlayer(int teamId, [FromBody]PlayerRequest playerRequest)
     {
       var team = _teamService.GetTeamById(teamId);
+      var player = _mapper.Map<Player>(playerRequest);
       Player dbPlayer = null;
       try
       {

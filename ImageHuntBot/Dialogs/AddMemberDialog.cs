@@ -32,7 +32,7 @@ namespace ImageHuntBot.Dialogs
                 }
                 foreach (var user in turnContext.Activity.NewChatMember)
                 {
-                    var playerRequest = new PlayerRequest(){Name = user.LastName, Username=user.Username};
+                    var playerRequest = new PlayerRequest(){Name = user.LastName, ChatLogin= user.Username};
                     await _teamWebService.AddPlayer(state.TeamId, playerRequest);
                     await turnContext.ReplyActivity(
                         $"Le joueur {user.Username} vient d'être ajouté à l'équipe {state.Team.Name}");
