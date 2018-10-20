@@ -3,6 +3,7 @@ using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBot.Dialogs
 {
