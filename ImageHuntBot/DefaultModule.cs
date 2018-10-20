@@ -19,6 +19,7 @@ namespace ImageHuntBot
             builder.RegisterType<TeamWebService>().As<ITeamWebService>();
             builder.RegisterType<ActionWebService>().As<IActionWebService>();
             builder.RegisterType<AdminWebService>().As<IAdminWebService>();
+            builder.RegisterType<NodeWebService>().As<INodeWebService>();
             builder.RegisterType<PasscodeWebService>().As<IPasscodeWebService>();
             builder.Register(t =>
             {
