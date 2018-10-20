@@ -49,7 +49,7 @@ namespace ImageHuntBot
             containerBuilder.Populate(services);
 
             var container = containerBuilder.Build();
-
+            var adapter = container.Resolve<IAdapter>();
             services.Configure<BotConfiguration>(Configuration.GetSection("BotConfiguration"));
             return new AutofacServiceProvider(container);
         }
