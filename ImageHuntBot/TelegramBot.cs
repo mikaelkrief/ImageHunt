@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntTelegramBot.Controllers;
+using ImageHuntTelegramBot.Dialogs;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;
@@ -14,15 +15,16 @@ namespace ImageHuntTelegramBot
     {
         private readonly ILogger<TelegramBot> _logger;
         private readonly IAdminWebService _adminWebService;
+        private readonly ITeamWebService _teamWebService;
         private Dictionary<string, IDialog> _dialogs = new Dictionary<string, IDialog>();
         private static readonly SemaphoreSlim Padlock = new SemaphoreSlim(1, 1);
         private static List<AdminResponse> _admins;
 
-        public TelegramBot(ILogger<TelegramBot> logger, IAdminWebService adminWebService)
+        public TelegramBot(ILogger<TelegramBot> logger, IAdminWebService adminWebService, ITeamWebService teamWebService)
         {
             _logger = logger;
             _adminWebService = adminWebService;
-            
+            _teamWebService = teamWebService;
         }
         public void AddDialog(IDialog dialog)
         {
@@ -34,6 +36,8 @@ namespace ImageHuntTelegramBot
             await Padlock.WaitAsync();
             if (_admins==null)
                 _admins = await _adminWebService.GetAllAdmins() as List<AdminResponse>;
+            var state = context.GetConversationState<ImageHuntState>();
+            var team = await _teamWebService.GetTeamById(state.TeamId);
             // Start critical section
             try
             {
@@ -57,7 +61,9 @@ namespace ImageHuntTelegramBot
                         dialog = _dialogs[context.Activity.Command.ToLowerInvariant()];
                     }
                 }
-                if (_admins.Any(a=>a.Name.Equals(context.Username, StringComparison.InvariantCultureIgnoreCase)) || !dialog.IsAdmin)
+                if (_admins.Any(a=>a.Name.Equals(context.Username, StringComparison.InvariantCultureIgnoreCase)) &&
+                    !team.Players.Any(p=>p.ChatLogin.Equals(context.Username, StringComparison.InvariantCultureIgnoreCase))
+                    || !dialog.IsAdmin)
                 {
                     if (dialog != null)
                     {
@@ -68,6 +74,8 @@ namespace ImageHuntTelegramBot
                 else
                 {
                     _logger.LogError($"Attempt to use {nameof(dialog)} by {context.Username}");
+                    await context.ReplyActivity(
+                        $"Cette commande est réservée aux orgas, vous ne pouvez pas l'utiliser");
                     await context.End();
                 }
             }

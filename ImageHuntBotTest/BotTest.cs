@@ -20,14 +20,17 @@ namespace ImageHuntBotTest
         private TelegramBot _target;
         private ILogger<TelegramBot> _logger;
         private IAdminWebService _adminService;
+        private ITeamWebService _teamService;
 
         public BotTest()
         {
             _logger = A.Fake<ILogger<TelegramBot>>();
             _adminService = A.Fake<IAdminWebService>();
+            _teamService = A.Fake<ITeamWebService>();
             _testContainerBuilder.RegisterInstance(_logger);
             _testContainerBuilder.RegisterType<TelegramBot>();
             _testContainerBuilder.RegisterInstance(_adminService);
+            _testContainerBuilder.RegisterInstance(_teamService);
             var admin = new List<AdminResponse> { new AdminResponse() { Name = "tata" } };
             A.CallTo(() => _adminService.GetAllAdmins()).Returns(admin);
 
@@ -50,6 +53,11 @@ namespace ImageHuntBotTest
             // Arrange
             var turnContext = A.Fake<ITurnContext>();
             var activity = new Activity() { ActivityType = ActivityType.Message, Text = "/init", ChatId = 15};
+            var state = new ImageHuntState() { GameId = 15, TeamId = 6 };
+            A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(state);
+            var teamResponse = new TeamResponse() { Players = new PlayerResponse[] { new PlayerResponse() { ChatLogin = "tita" }, new PlayerResponse() { ChatLogin = "titi" }, } };
+            A.CallTo(() => _teamService.GetTeamById(state.TeamId)).Returns(teamResponse);
+
             A.CallTo(() => turnContext.Activity).Returns(activity);
             A.CallTo(() => turnContext.CurrentDialog).Returns(null);
             A.CallTo(() => turnContext.Username).Returns("tata");
@@ -166,7 +174,10 @@ namespace ImageHuntBotTest
             // Arrange
             var turnContext = A.Fake<ITurnContext>();
             var activity = new Activity() { ActivityType = ActivityType.Message, Text = "/init" };
-
+            var state = new ImageHuntState() { GameId = 15, TeamId = 6 };
+            A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(state);
+            var teamResponse = new TeamResponse() { Players = new PlayerResponse[] { new PlayerResponse() { ChatLogin = "tita" }, new PlayerResponse() { ChatLogin = "titi" }, } };
+            A.CallTo(() => _teamService.GetTeamById(state.TeamId)).Returns(teamResponse);
             A.CallTo(() => turnContext.Activity).Returns(activity);
             A.CallTo(() => turnContext.Replied).Returns(false);
             A.CallTo(() => turnContext.CurrentDialog).Returns(null);
@@ -185,6 +196,33 @@ namespace ImageHuntBotTest
                 A.CallTo(() => turnContext.Begin(A<IDialog>._)).MustHaveHappened();
             else
                 A.CallTo(() => turnContext.Begin(A<IDialog>._)).MustNotHaveHappened();
+        }
+        [Fact]
+        public async Task OnTurn_Check_Admin_Cannot_Use_Admin_Command_If_They_Belongs_to_Game()
+        {
+            // Arrange
+            var turnContext = A.Fake<ITurnContext>();
+            var activity = new Activity() { ActivityType = ActivityType.Message, Text = "/init" };
+            var state = new ImageHuntState(){GameId = 15, TeamId = 6};
+            A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(state);
+            A.CallTo(() => turnContext.Activity).Returns(activity);
+            A.CallTo(() => turnContext.Replied).Returns(false);
+            A.CallTo(() => turnContext.CurrentDialog).Returns(null);
+            A.CallTo(() => turnContext.Username).Returns("Toto");
+            var teamResponse = new TeamResponse(){Players = new PlayerResponse[]{new PlayerResponse(){ChatLogin = "toto"}, new PlayerResponse(){ChatLogin = "titi"},  }};
+            A.CallTo(() => _teamService.GetTeamById(state.TeamId)).Returns(teamResponse);
+            var admin = new List<AdminResponse> { new AdminResponse() { Name = "Toto" } };
+            A.CallTo(() => _adminService.GetAllAdmins()).Returns(admin);
+            var initDialog = A.Fake<IDialog>();
+            A.CallTo(() => initDialog.IsAdmin).Returns(true);
+            A.CallTo(() => initDialog.Command).Returns("/init");
+            _target.AddDialog(initDialog);
+
+            // Act
+            await _target.OnTurn(turnContext);
+            // Assert
+            A.CallTo(() => turnContext.Begin(A<IDialog>._)).MustNotHaveHappened();
+            A.CallTo(() => turnContext.ReplyActivity(A<string>._)).MustHaveHappened();
         }
 
         [Fact]
