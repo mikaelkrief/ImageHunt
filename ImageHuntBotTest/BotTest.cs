@@ -53,6 +53,11 @@ namespace ImageHuntBotTest
             // Arrange
             var turnContext = A.Fake<ITurnContext>();
             var activity = new Activity() { ActivityType = ActivityType.Message, Text = "/init", ChatId = 15};
+            var state = new ImageHuntState() { GameId = 15, TeamId = 6 };
+            A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(state);
+            var teamResponse = new TeamResponse() { Players = new PlayerResponse[] { new PlayerResponse() { ChatLogin = "tita" }, new PlayerResponse() { ChatLogin = "titi" }, } };
+            A.CallTo(() => _teamService.GetTeamById(state.TeamId)).Returns(teamResponse);
+
             A.CallTo(() => turnContext.Activity).Returns(activity);
             A.CallTo(() => turnContext.CurrentDialog).Returns(null);
             A.CallTo(() => turnContext.Username).Returns("tata");
