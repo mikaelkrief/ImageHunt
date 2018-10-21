@@ -88,7 +88,7 @@ namespace ImageHuntTest.Services
       _context.GameActions.AddRange(gameActions);
       _context.SaveChanges();
       // Act
-      var results = await _target.GetGameActionsForGame(games[1].Id, 0, 10, 3);
+      var results = await _target.GetGameActionsForGame(games[1].Id, 0, 10, 3, IncludeAction.All);
       // Assert
       Check.That(results).ContainsExactly(gameActions[0], gameActions[1], gameActions[2]);
 
@@ -160,7 +160,7 @@ namespace ImageHuntTest.Services
       _context.GameActions.AddRange(gameActions);
       _context.SaveChanges();
       // Act
-      var results = await _target.GetGameActionsForGame(games[1].Id, 0, 10, 3);
+      var results = await _target.GetGameActionsForGame(games[1].Id, 0, 10, 3, IncludeAction.All);
       // Assert
       Check.That(results).ContainsExactly(gameActions[0], gameActions[1], gameActions[2]);
 
@@ -225,7 +225,7 @@ namespace ImageHuntTest.Services
       _context.GameActions.AddRange(gameActions);
       _context.SaveChanges();
       // Act
-      var results = await _target.GetGameActionsForGame(games[1].Id, 2, 2, 3);
+      var results = await _target.GetGameActionsForGame(games[1].Id, 2, 2, 3, IncludeAction.All);
       // Assert
       Check.That(results).ContainsExactly(gameActions[2]);
 
@@ -311,7 +311,7 @@ namespace ImageHuntTest.Services
       _context.GameActions.AddRange(gameActions);
       _context.SaveChanges();
       // Act
-      var results = await _target.GetGameActionsForGame(games[1].Id, 2, 2, 3, teams[1].Id);
+      var results = await _target.GetGameActionsForGame(games[1].Id, 2, 2, 3, IncludeAction.All, teams[1].Id);
       // Assert
       Check.That(results).ContainsExactly(gameActions[2]);
 

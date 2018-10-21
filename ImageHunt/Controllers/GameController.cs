@@ -169,18 +169,6 @@ namespace ImageHunt.Controllers
       _gameService.DeleteGame(gameId);
       return Ok();
     }
-    [HttpGet("GameActions")]
-    public async Task<IActionResult> GetGameActions(GameActionListRequest gameActionListRequest)
-    {
-      var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId,
-        gameActionListRequest.PageIndex, gameActionListRequest.PageSize, gameActionListRequest.NbPotential, gameActionListRequest.TeamId);
-      //foreach (var gameAction in gameActions)
-      //{
-      //  if (gameAction.Picture != null)
-      //    gameAction.Picture.Image = _imageTransformation.Thumbnail(gameAction.Picture.Image, 150, 150);
-      //}
-      return Ok(gameActions);
-    }
     [HttpPost("UploadImage")]
     public IActionResult UploadImage(IFormFile file)
     {
@@ -198,11 +186,6 @@ namespace ImageHunt.Controllers
         return CreatedAtAction("UploadImage", image);
       }
     }
-    [HttpGet("GetGameAction/{gameActionId}")]
-    public IActionResult GetGameAction(int gameActionId)
-    {
-      return Ok(_actionService.GetGameAction(gameActionId));
-    }
     [HttpGet("GetImages/{gameId}")]
     public IActionResult GetImagesForGame(int gameId)
     {
@@ -214,13 +197,6 @@ namespace ImageHunt.Controllers
       {
         return BadRequest($"The {gameId} is not in the system or there are no images associated");
       }
-    }
-    [HttpGet("GameActionCount")]
-    public IActionResult GetGameActionCountForGame(GetGameActionCountRequest getGameActionCountRequest)
-    {
-      IncludeAction includeAction;
-      Enum.TryParse(getGameActionCountRequest.IncludeAction, out includeAction);
-      return Ok(_actionService.GetGameActionCountForGame(getGameActionCountRequest.GameId, includeAction, getGameActionCountRequest.TeamId));
     }
     [HttpGet("Reviewed")]
     public IActionResult GetGamesReviewed()
@@ -249,31 +225,6 @@ namespace ImageHunt.Controllers
       }
 
       return Ok(picturesNodes);
-    }
-    [HttpGet("GameActionsToValidate")]
-    public async Task<IActionResult> GetGameActionsToValidate([FromQuery]GameActionListRequest gameActionListRequest)
-    {
-      var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId,
-        gameActionListRequest.PageIndex, gameActionListRequest.PageSize, gameActionListRequest.NbPotential, gameActionListRequest.TeamId);
-      var gameActionsToValidate = new List<GameActionToValidate>();
-      foreach (var gameAction in gameActions)
-      {
-        var gameActionToValidate =_mapper.Map<GameAction, GameActionToValidate>(gameAction);
-        if (gameAction.Latitude.HasValue && gameAction.Longitude.HasValue)
-        {
-          gameActionToValidate.ProbableNodes = _nodeService
-            .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value, gameAction.Longitude.Value).Take(gameActionListRequest.NbPotential);
-          foreach (var probableNode in gameActionToValidate.ProbableNodes)
-          {
-            if (probableNode is PictureNode)
-              ((PictureNode)probableNode).Image = _imageService.GetImageForNode(probableNode);
-          }
-
-          gameActionToValidate.Node = gameActionToValidate.ProbableNodes.FirstOrDefault();
-          gameActionsToValidate.Add(gameActionToValidate);
-        }
-      }
-      return Ok(gameActionsToValidate);
     }
     [HttpGet]
     public IActionResult GetAllGame()

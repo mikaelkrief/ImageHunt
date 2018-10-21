@@ -1,6 +1,6 @@
 ﻿namespace ImageHuntWebServiceClient.Request
 {
-  public class GetGameActionCountRequest
+  public class GameActionCountRequest
   {
     public int GameId { get; set; }
     public int? TeamId { get; set; }

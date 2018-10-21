@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -278,10 +279,151 @@ namespace ImageHuntTest.Controller
             // Arrange
             
             // Act
-            var result = _target.GetGameActionsForGameAction(1);
+            var result = _target.GetGameActionsForGame(1);
             // Assert
             Check.That(result).IsInstanceOf<OkObjectResult>();
             A.CallTo(() => _actionService.GetGamePositionsForGame(A<int>._));
         }
+        [Fact]
+        public void GetGameAction()
+        {
+            // Arrange
+
+            // Act
+            var result = _target.GetGameAction(1) as OkObjectResult;
+            // Assert
+            A.CallTo(() => _actionService.GetGameAction(1)).MustHaveHappened();
+        }
+        [Fact]
+        public void GetGameActionCountForGame()
+        {
+            // Arrange
+            A.CallTo(() => _actionService.GetGameActionCountForGame(A<int>._, A<IncludeAction>._, A<int?>._)).Returns(12);
+            var request = new GameActionCountRequest() { GameId = 1, IncludeAction = "All" };
+            // Act
+            var result = _target.GetGameActionCountForGame(request) as OkObjectResult;
+            // Assert
+            Check.That(result.Value).Equals(12);
+        }
+        [Fact]
+        public void GetGameActionCountForGameAndTeam()
+        {
+            // Arrange
+            A.CallTo(() => _actionService.GetGameActionCountForGame(A<int>._, A<IncludeAction>._, A<int?>._)).Returns(12);
+            var request = new GameActionCountRequest() { GameId = 1, TeamId = 1, IncludeAction = "All" };
+            // Act
+            var result = _target.GetGameActionCountForGame(request) as OkObjectResult;
+            // Assert
+            Check.That(result.Value).Equals(12);
+            A.CallTo(() => _actionService.GetGameActionCountForGame(request.GameId, IncludeAction.All, 1))
+                .MustHaveHappened();
+        }
+        [Fact]
+        public async Task GetGameActionsToValidate()
+        {
+            // Arrange
+            var nodes = new List<Node>()
+            {
+                new PictureNode() {Id = 1, Latitude = 40.0, Longitude = 5 },
+                new PictureNode() {Id = 2, Latitude = 40.00005, Longitude = 5.00004 } ,
+                new ObjectNode() {Id = 9, Latitude = 40.00005, Longitude = 5.00004},
+                new PictureNode() {Id = 2, Latitude = 40.0001, Longitude = 5.004 } ,
+                new PictureNode() {Id = 2, Latitude = 40.05, Longitude = 5.04 } ,
+                new PictureNode() {Id = 2, Latitude = 40.00005, Longitude = 5.00004 } ,
+            };
+            //A.CallTo(() => _nodeService.GetNode())
+            var gameActions = new List<GameAction>
+          {
+              new GameAction() {Latitude = 40, Longitude = 5},
+              new GameAction() {Latitude = 50, Longitude = 5},
+          };
+            A.CallTo(() => _actionService.GetGameActionsForGame(A<int>._, A<int>._, A<int>._, A<int>._, A<IncludeAction>._, A<int?>._))
+                .Returns(Task.FromResult(new PaginatedList<GameAction>(gameActions, 2, 1, 10)));
+            A.CallTo(() => _nodeService.GetGameNodesOrderByPosition(1, 40, 5)).Returns(nodes);
+            var gameActionListRequest = new GameActionListRequest() { GameId = 1, PageIndex = 1, PageSize = 1, NbPotential = 3 };
+            // Act
+            var result = await _target.GetGameActionsToValidate(gameActionListRequest) as OkObjectResult;
+            // Assert
+            Check.That(result.Value).IsInstanceOf<List<GameActionToValidate>>();
+            var gameActionToValidate = result.Value as List<GameActionToValidate>;
+            Check.That(gameActionToValidate[0].ProbableNodes).ContainsExactly(nodes.Take(3));
+            Check.That(gameActionToValidate[0].ProbableNodes.Extracting("Image")).Contains(null);
+            A.CallTo(() => _actionService.GetGameActionsForGame(A<int>._, A<int>._, A<int>._, A<int>._, A<IncludeAction>._, A<int?>._)).MustHaveHappened();
+            Check.That(gameActionToValidate.Extracting("Node")).IsNotNull();
+        }
+        [Fact]
+        public async Task GetGameActionsToValidate_For_Team()
+        {
+            // Arrange
+            var nodes = new List<Node>()
+            {
+                new PictureNode() {Id = 1, Latitude = 40.0, Longitude = 5 },
+                new PictureNode() {Id = 2, Latitude = 40.00005, Longitude = 5.00004 } ,
+                new ObjectNode() {Id = 9, Latitude = 40.00005, Longitude = 5.00004},
+                new PictureNode() {Id = 2, Latitude = 40.0001, Longitude = 5.004 } ,
+                new PictureNode() {Id = 2, Latitude = 40.05, Longitude = 5.04 } ,
+                new PictureNode() {Id = 2, Latitude = 40.00005, Longitude = 5.00004 } ,
+            };
+            //A.CallTo(() => _nodeService.GetNode())
+            var gameActions = new List<GameAction>
+          {
+              new GameAction() {Latitude = 40, Longitude = 5},
+              new GameAction() {Latitude = 50, Longitude = 5},
+          };
+            A.CallTo(() => _actionService.GetGameActionsForGame(A<int>._, A<int>._, A<int>._, A<int>._, A<IncludeAction>._, A<int?>._))
+                .Returns(Task.FromResult(new PaginatedList<GameAction>(gameActions, 2, 1, 10)));
+            A.CallTo(() => _nodeService.GetGameNodesOrderByPosition(1, 40, 5)).Returns(nodes);
+            var gameActionListRequest = new GameActionListRequest() { GameId = 1, TeamId = 1, PageIndex = 1, PageSize = 1, NbPotential = 3 };
+            // Act
+            var result = await _target.GetGameActionsToValidate(gameActionListRequest) as OkObjectResult;
+            // Assert
+            Check.That(result.Value).IsInstanceOf<List<GameActionToValidate>>();
+            var gameActionToValidate = result.Value as List<GameActionToValidate>;
+            Check.That(gameActionToValidate[0].ProbableNodes).ContainsExactly(nodes.Take(3));
+            Check.That(gameActionToValidate[0].ProbableNodes.Extracting("Image")).Contains(null);
+            A.CallTo(() => _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex,
+                gameActionListRequest.PageSize, gameActionListRequest.NbPotential, A<IncludeAction>._, 1)).MustHaveHappened();
+            Check.That(gameActionToValidate.Extracting("Node")).IsNotNull();
+        }
+        [Fact]
+        public async Task GetGameActions()
+        {
+            // Arrange
+            var gameActionListRequest = new GameActionListRequest()
+            {
+                GameId = 1,
+                PageSize = 10,
+                PageIndex = 0,
+            };
+            // Act
+            var result = await _target.GetGameActions(gameActionListRequest) as OkObjectResult;
+            // Assert
+            A.CallTo(() => _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize, gameActionListRequest.NbPotential, A<IncludeAction>._, null)).MustHaveHappened();
+            Check.That(result).IsNotNull();
+        }
+        [Fact]
+        public async Task GetGameActionsWithNoImage()
+        {
+            // Arrange
+            var gameActionListRequest = new GameActionListRequest()
+            {
+                GameId = 1,
+                PageSize = 10,
+                PageIndex = 0,
+            };
+            var gameActions = new List<GameAction>()
+            {
+                new GameAction(),
+                new GameAction()
+            };
+            A.CallTo(() => _actionService.GetGameActionsForGame(A<int>._, A<int>._, A<int>._, A<int>._, A<IncludeAction>._, A<int?>._))
+                .Returns(Task.FromResult(new PaginatedList<GameAction>(gameActions, 2, 10, 1)));
+            // Act
+            var result = await _target.GetGameActions(gameActionListRequest) as OkObjectResult;
+            // Assert
+            A.CallTo(() => _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize, gameActionListRequest.NbPotential, A<IncludeAction>._, null)).MustHaveHappened();
+            Check.That(result).IsNotNull();
+        }
+
     }
 }

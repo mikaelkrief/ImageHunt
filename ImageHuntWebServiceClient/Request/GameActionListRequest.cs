@@ -14,5 +14,7 @@ namespace ImageHuntWebServiceClient.Request
       public int PageIndex { get; set; }
       [FromQuery]
       public int NbPotential { get; set; }
-  }
+      public string IncludeAction { get; set; }
+
+    }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -151,9 +152,65 @@ namespace ImageHunt.Controllers
       return Ok();
     }
     [HttpGet("{gameId}")]
-    public IActionResult GetGameActionsForGameAction(int gameId)
+    public IActionResult GetGameActionsForGame(int gameId)
     {
       return Ok(_actionService.GetGamePositionsForGame(gameId));
+    }
+    [HttpGet("GetGameAction/{gameActionId}")]
+    public IActionResult GetGameAction(int gameActionId)
+    {
+      return Ok(_actionService.GetGameAction(gameActionId));
+    }
+    [HttpGet("GameActionCount")]
+    public IActionResult GetGameActionCountForGame(GameActionCountRequest getGameActionCountRequest)
+    {
+      IncludeAction includeAction;
+      Enum.TryParse(getGameActionCountRequest.IncludeAction, out includeAction);
+      return Ok(_actionService.GetGameActionCountForGame(getGameActionCountRequest.GameId, includeAction, getGameActionCountRequest.TeamId));
+    }
+    [HttpGet("GameActionsToValidate")]
+    public async Task<IActionResult> GetGameActionsToValidate([FromQuery]GameActionListRequest gameActionListRequest)
+    {
+      IncludeAction includeAction;
+      Enum.TryParse(gameActionListRequest.IncludeAction, out includeAction);
+
+      var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId,
+        gameActionListRequest.PageIndex, gameActionListRequest.PageSize, gameActionListRequest.NbPotential, includeAction, gameActionListRequest.TeamId);
+      var gameActionsToValidate = new List<GameActionToValidate>();
+      foreach (var gameAction in gameActions)
+      {
+        var gameActionToValidate = _mapper.Map<GameAction, GameActionToValidate>(gameAction);
+        if (gameAction.Latitude.HasValue && gameAction.Longitude.HasValue)
+        {
+          gameActionToValidate.ProbableNodes = _nodeService
+            .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value, gameAction.Longitude.Value)
+            .Take(gameActionListRequest.NbPotential);
+          foreach (var probableNode in gameActionToValidate.ProbableNodes)
+          {
+            if (probableNode is PictureNode)
+              ((PictureNode)probableNode).Image = _imageService.GetImageForNode(probableNode);
+          }
+
+          gameActionToValidate.Node = gameActionToValidate.ProbableNodes.FirstOrDefault();
+          gameActionsToValidate.Add(gameActionToValidate);
+        }
+      }
+      return Ok(gameActionsToValidate);
+    }
+    [HttpGet("GameActions")]
+    public async Task<IActionResult> GetGameActions(GameActionListRequest gameActionListRequest)
+    {
+      IncludeAction includeAction;
+      Enum.TryParse(gameActionListRequest.IncludeAction, out includeAction);
+
+      var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId,
+        gameActionListRequest.PageIndex, gameActionListRequest.PageSize, gameActionListRequest.NbPotential, includeAction, gameActionListRequest.TeamId);
+      //foreach (var gameAction in gameActions)
+      //{
+      //  if (gameAction.Picture != null)
+      //    gameAction.Picture.Image = _imageTransformation.Thumbnail(gameAction.Picture.Image, 150, 150);
+      //}
+      return Ok(gameActions);
     }
 
   }

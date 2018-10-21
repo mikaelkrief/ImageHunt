@@ -18,19 +18,26 @@ namespace ImageHunt.Services
 {
     public class ActionService : AbstractService, IActionService
     {
-      public async Task<PaginatedList<GameAction>> GetGameActionsForGame(int gameId, int pageIndex, int pageSize, int take, int? teamId = null)
+      public async Task<PaginatedList<GameAction>> GetGameActionsForGame(int gameId, int pageIndex, int pageSize, int take, IncludeAction includeAction, int? teamId = null)
       {
         var gameActions = Context.GameActions
             .Include(ga => ga.Game)
             .Include(ga => ga.Team)
             .Include(ga => ga.Node)
             .Include(ga => ga.Picture)
-            .Where(ga=>ga.Action !=  Action.SubmitPosition)
             .Where(ga => ga.Game.Id == gameId)
             .Where(ga=>!ga.IsReviewed)
           ;
         if (teamId.HasValue)
           gameActions = gameActions.Where(ga => ga.Team.Id == teamId.Value);
+        switch (includeAction)
+        {
+          case IncludeAction.Picture:
+            gameActions = gameActions.Where(ga => ga.Action == Action.SubmitPicture);
+            break;
+          case IncludeAction.ReplyQuestion:
+            break;
+        }
         foreach (var gameAction in gameActions)
         {
           gameAction.Delta = ComputeDelta(gameAction);
@@ -46,8 +53,32 @@ namespace ImageHunt.Services
         }
         return await PaginatedList<GameAction>.CreateAsync(gameActions, pageIndex, pageSize);
       }
+      public int GetGameActionCountForGame(int gameId, IncludeAction includeAction, int? teamId = null)
+      {
+        int gameActionCountForGame = 0;
+        var gameActions = Context.GameActions
+            .Include(ga => ga.Game)
+            .Include(ga => ga.Team)
+            .Include(ga => ga.Node)
+            .Include(ga => ga.Picture)
+            .Where(ga => ga.Game.Id == gameId)
+            .Where(ga => !ga.IsReviewed)
+          ;
 
-      protected virtual double ComputeDelta(GameAction gameAction)
+      IQueryable<GameAction> actions = null;
+        switch (includeAction)
+        {
+          case IncludeAction.Picture:
+            actions = gameActions.Where(ga => ga.Action == Action.SubmitPicture);
+            break;
+        }
+
+        if (teamId.HasValue)
+          actions = actions.Where(ga => ga.Team.Id == teamId.Value);
+        return actions.Count();
+      }
+
+    protected virtual double ComputeDelta(GameAction gameAction)
       {
         if (gameAction.Node != null)
         {
@@ -103,24 +134,6 @@ namespace ImageHunt.Services
         Context.SaveChanges();
       }
 
-      public int GetGameActionCountForGame(int gameId, IncludeAction includeAction, int? teamId = null)
-      {
-        int gameActionCountForGame = 0;
-        IQueryable<GameAction> actions = null;
-        switch (includeAction)
-        {
-        case IncludeAction.All:
-          actions = Context.GameActions.Where(ga => ga.Game.Id == gameId);
-          break;
-        case IncludeAction.Picture:
-          actions = Context.GameActions.Where(ga => ga.Game.Id == gameId && ga.Action == Action.SubmitPicture);
-          break;
-        }
-
-        if (teamId.HasValue)
-          actions = actions.Where(ga => ga.Team.Id == teamId.Value);
-        return actions.Count();
-      }
 
       public IEnumerable<Score> GetScoresForGame(int gameId)
       {
