@@ -23,7 +23,7 @@ namespace ImageHuntBot
             builder.RegisterType<PasscodeWebService>().As<IPasscodeWebService>();
             builder.Register(t =>
             {
-                var bot = new TelegramBot(t.Resolve<ILogger<TelegramBot>>(), t.Resolve<IAdminWebService>());
+                var bot = t.Resolve<TelegramBot>();
                 var dialogs = t.Resolve<IEnumerable<IDialog>>();
                 foreach (var dialog in dialogs)
                 {
