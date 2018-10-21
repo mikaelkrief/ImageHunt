@@ -65,17 +65,16 @@ namespace ImageHunt.Services
             .Where(ga => !ga.IsReviewed)
           ;
 
-      IQueryable<GameAction> actions = null;
         switch (includeAction)
         {
           case IncludeAction.Picture:
-            actions = gameActions.Where(ga => ga.Action == Action.SubmitPicture);
+            gameActions = gameActions.Where(ga => ga.Action == Action.SubmitPicture);
             break;
         }
 
         if (teamId.HasValue)
-          actions = actions.Where(ga => ga.Team.Id == teamId.Value);
-        return actions.Count();
+          gameActions = gameActions.Where(ga => ga.Team.Id == teamId.Value);
+        return gameActions.Count();
       }
 
     protected virtual double ComputeDelta(GameAction gameAction)
