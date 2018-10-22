@@ -18,7 +18,6 @@
       </div>
   </div>
 </div>
-<p-gmap [options]="options" [style]="{'width':'250px','height':'200px'}" [overlays]="overlays"></p-gmap>
 <img [src]="gameAction.picture.imageData"/>
 Delta entre la position de l'action et le noeud potentiel : {{gameAction.delta}}
 <p-toggleButton (click)="validate(gameAction.id)" [(ngModel)]="gameAction.isValidated" [style]="{'width':'150px'}" onLabel="Valide" offLabel="Invalide" onIcon="fa-check-square"></p-toggleButton>

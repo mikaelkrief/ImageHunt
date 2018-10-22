@@ -175,7 +175,7 @@ namespace ImageHunt.Controllers
       Enum.TryParse(gameActionListRequest.IncludeAction, out includeAction);
 
       var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId,
-        gameActionListRequest.PageIndex, gameActionListRequest.PageSize, gameActionListRequest.NbPotential, includeAction, gameActionListRequest.TeamId);
+        gameActionListRequest.PageIndex, gameActionListRequest.PageSize, includeAction, gameActionListRequest.TeamId);
       var gameActionsToValidate = new List<GameActionToValidate>();
       foreach (var gameAction in gameActions)
       {
@@ -204,7 +204,7 @@ namespace ImageHunt.Controllers
       Enum.TryParse(gameActionListRequest.IncludeAction, out includeAction);
 
       var gameActions = await _actionService.GetGameActionsForGame(gameActionListRequest.GameId,
-        gameActionListRequest.PageIndex, gameActionListRequest.PageSize, gameActionListRequest.NbPotential, includeAction, gameActionListRequest.TeamId);
+        gameActionListRequest.PageIndex, gameActionListRequest.PageSize, includeAction, gameActionListRequest.TeamId);
       //foreach (var gameAction in gameActions)
       //{
       //  if (gameAction.Picture != null)

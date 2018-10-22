@@ -18,7 +18,7 @@ namespace ImageHunt.Services
 {
     public class ActionService : AbstractService, IActionService
     {
-      public async Task<PaginatedList<GameAction>> GetGameActionsForGame(int gameId, int pageIndex, int pageSize, int take, IncludeAction includeAction, int? teamId = null)
+      public async Task<PaginatedList<GameAction>> GetGameActionsForGame(int gameId, int pageIndex, int pageSize, IncludeAction includeAction, int? teamId = null)
       {
         var gameActions = Context.GameActions
             .Include(ga => ga.Game)
