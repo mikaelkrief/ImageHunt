@@ -289,6 +289,40 @@ namespace ImageHuntTest.Services
           Longitude = 15.5,
           Team = teams[1]
         },
+          new GameAction()
+          {
+              Game = games[1],
+              Action = Action.SubmitPicture,
+              DateOccured = DateTime.Now,
+              Latitude = 11,
+              Longitude = 15.2,
+              Node = nodes[1],
+              Team = teams[1],
+              Picture = new Picture()
+          },
+          new GameAction()
+          {
+              Game = games[1],
+              Action = Action.SubmitPicture,
+              DateOccured = DateTime.Now,
+              Latitude = 11,
+              Longitude = 15.2,
+              Node = nodes[1],
+              Team = teams[1],
+              Picture = new Picture()
+          },
+          new GameAction()
+          {
+              Game = games[1],
+              Action = Action.SubmitPicture,
+              DateOccured = DateTime.Now,
+              Latitude = 11,
+              Longitude = 15.2,
+              Node = nodes[1],
+              Team = teams[1],
+              Picture = new Picture()
+          },
+
         new GameAction()
         {
           Game = games[0],
@@ -299,16 +333,63 @@ namespace ImageHuntTest.Services
           Node = nodes[1],
           Team = teams[1]
         },
+          new GameAction()
+          {
+              Game = games[1],
+              Action = Action.SubmitPicture,
+              DateOccured = DateTime.Now,
+              Latitude = 11,
+              Longitude = 15.2,
+              Node = nodes[1],
+              Team = teams[1],
+              Picture = new Picture()
+          },
+          new GameAction()
+          {
+              Game = games[1],
+              Action = Action.SubmitPicture,
+              DateOccured = DateTime.Now,
+              Latitude = 11,
+              Longitude = 15.2,
+              Node = nodes[1],
+              Team = teams[1],
+              Picture = new Picture()
+          },
+          new GameAction()
+          {
+              Game = games[1],
+              Action = Action.SubmitPicture,
+              DateOccured = DateTime.Now,
+              Latitude = 11,
+              Longitude = 15.2,
+              Node = nodes[1],
+              Team = teams[1],
+              Picture = new Picture()
+          },
+          new GameAction()
+          {
+              Game = games[1],
+              Action = Action.SubmitPicture,
+              DateOccured = DateTime.Now,
+              Latitude = 11,
+              Longitude = 15.2,
+              Node = nodes[1],
+              Team = teams[1],
+              Picture = new Picture()
+          },
+
       };
       _context.GameActions.AddRange(gameActions);
       _context.SaveChanges();
       // Act
-      var results = await _target.GetGameActionsForGame(games[1].Id, 1, 1, IncludeAction.Picture);
+      var results = await _target.GetGameActionsForGame(games[1].Id, 1, 2, IncludeAction.Picture);
       // Assert
-      Check.That(results).ContainsExactly(gameActions[2]);
-
-    }
-    [Fact]
+        Check.That(results).HasSize(2);
+      Check.That(results).ContainsExactly(gameActions[2], gameActions[4]);
+        results = await _target.GetGameActionsForGame(games[1].Id, 2, 2, IncludeAction.Picture);
+        Check.That(results).ContainsExactly(gameActions[5], gameActions[6]);
+        }
+        [Fact]
     public async Task GetGameActionForGame_Paginated_ForTeam()
     {
       // Arrange
