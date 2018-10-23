@@ -198,7 +198,7 @@ namespace ImageHunt.Controllers
       return Ok(gameActionsToValidate);
     }
     [HttpGet("GameActions")]
-    public async Task<IActionResult> GetGameActions(GameActionListRequest gameActionListRequest)
+    public async Task<IActionResult> GetGameActions([FromQuery]GameActionListRequest gameActionListRequest)
     {
       IncludeAction includeAction;
       Enum.TryParse(gameActionListRequest.IncludeAction, out includeAction);
