@@ -162,7 +162,7 @@ namespace ImageHunt.Controllers
       return Ok(_actionService.GetGameAction(gameActionId));
     }
     [HttpGet("GameActionCount")]
-    public IActionResult GetGameActionCountForGame(GameActionCountRequest getGameActionCountRequest)
+    public IActionResult GetGameActionCountForGame([FromQuery]GameActionCountRequest getGameActionCountRequest)
     {
       IncludeAction includeAction;
       Enum.TryParse(getGameActionCountRequest.IncludeAction, out includeAction);
