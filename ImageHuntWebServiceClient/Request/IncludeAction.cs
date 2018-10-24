@@ -1,9 +1,13 @@
-﻿namespace ImageHuntWebServiceClient.Request
+﻿using System;
+
+namespace ImageHuntWebServiceClient.Request
 {
-  public enum IncludeAction
-  {
-    All,
-    Picture,
-    ReplyQuestion,
-  }
+    [Flags]
+    public enum IncludeAction
+    {
+        All,
+        Picture,
+        Positions,
+        ReplyQuestion,
+    }
 }
