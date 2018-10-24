@@ -281,8 +281,7 @@ namespace ImageHuntTest.Services
       // Act
       var result = _target.GetPictureNode(games[1].Id);
       // Assert
-      Check.That(result.Extracting("Id")).Contains(nodes[1].Id, nodes[3].Id);
-      Check.That(result.First().Image.Image).IsNull();
+      Check.That(result).Contains(nodes[1], nodes[3]);
     }
 
       [Fact]
