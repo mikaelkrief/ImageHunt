@@ -16,6 +16,7 @@ namespace ImageHuntTelegramBot.Dialogs
         public double CurrentLatitude { get; set; }
         public Status Status { get; set; }
         public int CurrentNodeId { get; set; }
+        public NodeResponse CurrentNode { get; set; }
         public override string ToString()
         {
             return $"chatId={ChatId} gameid={GameId} teamId={TeamId} Status={Status}";
