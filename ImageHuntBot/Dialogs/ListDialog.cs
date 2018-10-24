@@ -30,5 +30,6 @@ namespace ImageHuntBot.Dialogs
         }
 
         public override string Command => "/liste";
+        public override bool IsAdmin => false;
     }
 }
