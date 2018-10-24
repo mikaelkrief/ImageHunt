@@ -30,5 +30,13 @@ namespace ImageHuntWebServiceClient.WebServices
               cancellationToken);
           return result;
       }
+
+      public async Task<IEnumerable<NodeResponse>> GetPictureNodesForGame(int gameId, CancellationToken cancellationToken = default(CancellationToken))
+      {
+          var result =
+              await GetAsync<IEnumerable<NodeResponse>>($"{_httpClient.BaseAddress}api/Game/GetImages/{gameId}",
+                  cancellationToken);
+          return result;
+      }
   }
 }

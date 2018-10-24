@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace ImageHuntWebServiceClient.Responses
 {
@@ -13,5 +14,6 @@ namespace ImageHuntWebServiceClient.Responses
         public string Password { get; set; }
         public IEnumerable<int> ChildNodeIds { get; set; }
         public string Action { get; set; }
+        public IFormFile Picture { get; set; }
     }
 }
