@@ -14,6 +14,6 @@ namespace ImageHuntWebServiceClient.Responses
         public string Password { get; set; }
         public IEnumerable<int> ChildNodeIds { get; set; }
         public string Action { get; set; }
-        public IFormFile Picture { get; set; }
+        public ImageResponse Image { get; set; }
     }
 }

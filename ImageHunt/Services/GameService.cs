@@ -130,8 +130,8 @@ namespace ImageHunt.Services
     {
       var game = Context.Games.Include(g => g.Nodes).Single(g => g.Id == gameId);
       var pictureNodes = game.Nodes.Where(n => n is PictureNode);
-      return _mapper.Map<IEnumerable<PictureNode>>(Context.PictureNodes.Include(p => p.Image)
-        .Where(p => pictureNodes.Any(pn => pn.Id == p.Id)));
+      return Context.PictureNodes.Include(p => p.Image)
+        .Where(p => pictureNodes.Any(pn => pn.Id == p.Id));
     }
 
     public IEnumerable<Game> GetGamesWithScore()

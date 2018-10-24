@@ -169,9 +169,9 @@ namespace ImageHunt
         config.CreateMap<Admin, AdminResponse>()
           .ForMember(a=>a.GameIds, a=>a.ResolveUsing(admin => admin.Games.Select(g=>g.Id)));
         config.CreateMap<PlayerRequest, Player>();
-        config.CreateMap<PictureNode, PictureNode>()
+        config.CreateMap<PictureNode, NodeResponse>()
           .ForPath(n=>n.Image.Id, o=>o.MapFrom(p=>p.Image.Id))  
-          .ForPath(n => n.Image.Image, o => o.Ignore());
+          .ForPath(n => n.Image, o => o.Ignore());
       });
     }
   }
