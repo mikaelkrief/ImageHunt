@@ -51,6 +51,8 @@ namespace ImageHunt.Services
               pictureNode.Image.Image = null;
           }
         }
+
+        var count = gameActions.Count();
         return await PaginatedList<GameAction>.CreateAsync(gameActions, pageIndex, pageSize);
       }
       public int GetGameActionCountForGame(int gameId, IncludeAction includeAction, int? teamId = null)
@@ -74,6 +76,7 @@ namespace ImageHunt.Services
 
         if (teamId.HasValue)
           gameActions = gameActions.Where(ga => ga.Team.Id == teamId.Value);
+        var count = gameActions.Count();
         return gameActions.Count();
       }
 
