@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AutoMapper;
 using FakeItEasy;
 using ImageHunt.Data;
 using ImageHunt.Model;
@@ -17,15 +18,19 @@ using Xunit;
 
 namespace ImageHuntTest.Services
 {
-  public class GameServiceTest : ContextBasedTest<HuntContext>
+    [Collection("AutomapperFixture")]
+
+    public class GameServiceTest : ContextBasedTest<HuntContext>
   {
     private GameService _target;
     private ILogger<GameService> _logger;
+      private IMapper _mapper;
 
-    public GameServiceTest()
+      public GameServiceTest()
     {
       _logger = A.Fake<ILogger<GameService>>();
-      _target = new GameService(_context, _logger);
+        _mapper = Mapper.Instance;
+      _target = new GameService(_context, _logger, _mapper);
     }
 
     [Fact]
@@ -265,9 +270,9 @@ namespace ImageHuntTest.Services
       var nodes = new List<Node>
       {
         new FirstNode(),
-        new PictureNode(),
+        new PictureNode(){Image = new Picture(){Id=13, Image = new byte[56]}},
         new ObjectNode(),
-        new PictureNode(),
+        new PictureNode(){Image = new Picture(){Id=13, Image = new byte[56]}},
         new QuestionNode()
       };
       var games = new List<Game> {new Game(), new Game(){Nodes = nodes}, new Game()};
@@ -276,7 +281,8 @@ namespace ImageHuntTest.Services
       // Act
       var result = _target.GetPictureNode(games[1].Id);
       // Assert
-      Check.That(result).Contains(nodes[1], nodes[3]);
+      Check.That(result.Extracting("Id")).Contains(nodes[1].Id, nodes[3].Id);
+      Check.That(result.First().Image.Image).IsNull();
     }
 
       [Fact]
