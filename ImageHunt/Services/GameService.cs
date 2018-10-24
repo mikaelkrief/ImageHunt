@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Model;
@@ -14,8 +15,11 @@ namespace ImageHunt.Services
 {
   public class GameService : AbstractService, IGameService
   {
-    public GameService(HuntContext context, ILogger<GameService> logger) : base(context, logger)
+    private readonly IMapper _mapper;
+
+    public GameService(HuntContext context, ILogger<GameService> logger, IMapper mapper) : base(context, logger)
     {
+      _mapper = mapper;
     }
 
     public Game CreateGame(int adminId, Game newGame)
@@ -126,7 +130,8 @@ namespace ImageHunt.Services
     {
       var game = Context.Games.Include(g => g.Nodes).Single(g => g.Id == gameId);
       var pictureNodes = game.Nodes.Where(n => n is PictureNode);
-      return Context.PictureNodes.Include(p => p.Image).Where(p => pictureNodes.Any(pn => pn.Id == p.Id));
+      return _mapper.Map<IEnumerable<PictureNode>>(Context.PictureNodes.Include(p => p.Image)
+        .Where(p => pictureNodes.Any(pn => pn.Id == p.Id)));
     }
 
     public IEnumerable<Game> GetGamesWithScore()

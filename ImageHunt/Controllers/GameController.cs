@@ -191,7 +191,7 @@ namespace ImageHunt.Controllers
     {
       try
       {
-        return Ok(_gameService.GetPictureNode(gameId).Select(p => p.Image));
+        return Ok(_gameService.GetPictureNode(gameId));
       }
       catch (System.Exception e)
       {
