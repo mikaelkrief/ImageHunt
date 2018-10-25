@@ -22,6 +22,7 @@ namespace ImageHuntTelegramBot.Dialogs
             state.CurrentLongitude = turnContext.Activity.Location.Longitude;
 
             _logger.LogInformation($"Received position: [lat:{state.CurrentLatitude}, lng:{state.CurrentLongitude}");
+
             await base.Begin(turnContext);
             var logPositionRequest = new LogPositionRequest()
             {

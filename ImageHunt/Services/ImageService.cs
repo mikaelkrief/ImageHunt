@@ -5,6 +5,7 @@ using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
+using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
 using ImageMagick;
 using Microsoft.EntityFrameworkCore;

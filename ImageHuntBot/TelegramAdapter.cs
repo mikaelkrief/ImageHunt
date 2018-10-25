@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InputFiles;
 
 namespace ImageHuntTelegramBot
 {
@@ -29,13 +31,31 @@ namespace ImageHuntTelegramBot
                 case ActivityType.Message:
                     await SendMessage(activity);
                     break;
-                case ActivityType.UpdateMessage:
+                case ActivityType.Picture:
+                    await SendPicture(activity);
                     break;
+                case ActivityType.UpdateMessage:
                 case ActivityType.CallbackQuery:
                     break;
                 case ActivityType.None:
-                default:
-                    throw new ArgumentOutOfRangeException();
+                    break;
+            }
+        }
+
+        private async Task SendPicture(IActivity activity)
+        {
+            try
+            {
+                using (var pictureStream = new MemoryStream())
+                {
+                    var inputFile = new InputOnlineFile(pictureStream);
+                    await _client.SendPhotoAsync(activity.ChatId, inputFile, activity.Text);
+
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Error while sending picture to {activity.ChatId}");
             }
         }
 
@@ -122,7 +142,6 @@ namespace ImageHuntTelegramBot
             try
             {
                 await _client.SendTextMessageAsync(activity.ChatId, activity.Text);
-
             }
             catch (Exception e)
             {

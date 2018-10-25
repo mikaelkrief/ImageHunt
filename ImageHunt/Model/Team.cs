@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using ImageHuntCore.Model;
 
 namespace ImageHunt.Model
 {
@@ -22,7 +23,7 @@ namespace ImageHunt.Model
     public IEnumerable<Passcode> Passcodes => TeamPasscodes.Select(tp => tp.Passcode);
 
     public string ChatId { get; set; }
-    public Node.Node CurrentNode { get; set; }
+    public ImageHuntCore.Model.Node.Node CurrentNode { get; set; }
     public string Color { get; set; }
     public string CultureInfo { get; set; }
     public string Comment { get; set; }

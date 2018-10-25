@@ -7,6 +7,7 @@ using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;

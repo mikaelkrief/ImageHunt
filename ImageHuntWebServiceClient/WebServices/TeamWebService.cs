@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
@@ -14,9 +15,15 @@ namespace ImageHuntWebServiceClient.WebServices
     {
       
     }
+      public async Task<NodeResponse> StartGameForTeam(int gameId, int teamId,
+          CancellationToken cancellationToken = default(CancellationToken))
+      {
+          var result = await PutAsync<NodeResponse>($"{_httpClient.BaseAddress}api/Team/StartTeam/{gameId}/{teamId}", cancellationToken);
+          return result;
+      }
 
 
-    public async Task<TeamResponse> GetTeamById(int teamId)
+        public async Task<TeamResponse> GetTeamById(int teamId)
     {
       return await GetAsync<TeamResponse>($"{_httpClient.BaseAddress}api/Team/{teamId}");
     }

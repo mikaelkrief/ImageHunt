@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using ImageHunt.Model.Node;
+using ImageHuntCore.Model;
 
 namespace ImageHunt.Model
 {
@@ -12,7 +13,7 @@ namespace ImageHunt.Model
   {
     public Game()
     {
-      Nodes = new List<Node.Node>();
+      Nodes = new List<ImageHuntCore.Model.Node.Node>();
       Teams = new List<Team>();
     }
     public bool IsActive { get; set; }
@@ -20,7 +21,7 @@ namespace ImageHunt.Model
     public Picture Picture { get; set; }
     public string Description { get; set; }
     public DateTime? StartDate { get; set; }
-    public List<Node.Node> Nodes { get; set; }
+    public List<ImageHuntCore.Model.Node.Node> Nodes { get; set; }
     public List<Team> Teams { get; set; }
     public double? MapCenterLat { get; set; }
     public double? MapCenterLng { get; set; }

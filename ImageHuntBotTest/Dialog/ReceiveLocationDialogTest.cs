@@ -8,6 +8,7 @@ using FakeItEasy;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;
 using NFluent;
@@ -85,5 +86,43 @@ namespace ImageHuntBotTest.Dialog
               .WithAnyArguments()
               .MustHaveHappened();
         }
+        [Fact]
+        public async Task Begin_CurrentLocation_In_range_current_Node()
+        {
+            // Arrange
+            var activity = new Activity()
+            {
+                ActivityType = ActivityType.Message,
+                ChatId = 15,
+                Location = new Location() { Latitude = 15.6f, Longitude = 4.2f }
+            };
+            var turnContext = A.Fake<ITurnContext>();
+            A.CallTo(() => turnContext.Activity).Returns(activity);
+            var imageHuntState = new ImageHuntState()
+            {
+                Status = Status.Started,
+                CurrentNode = new NodeResponse()
+                {
+                    Latitude = 15.600005,
+                    Longitude = 4.20004,
+                    Name = "Node1",
+                    ChildNodeIds = new List<int>() { 56 },
+                    Points = 56
+                }
+            };
+            A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(imageHuntState);
+            // Act
+            await _target.Begin(turnContext);
+            // Assert
+            A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).MustHaveHappened();
+            A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._)).MustHaveHappened();
+            Check.That(imageHuntState.CurrentLatitude).Equals(15.6f);
+            Check.That(imageHuntState.CurrentLongitude).Equals(4.2f);
+            A.CallTo(() => _logger.Log(A<LogLevel>._, A<EventId>._, A<object>._, A<Exception>._,
+                    A<Func<object, Exception, string>>._))
+                .WithAnyArguments()
+                .MustHaveHappened();
+        }
+
     }
 }

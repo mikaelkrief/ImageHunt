@@ -42,21 +42,6 @@ namespace ImageHuntBotTest
         Check.That(response.Name).Equals("Paris");
       }
 
-      [Fact]
-      public async Task StartGame()
-      {
-      // Arrange
-        FakeResponse("ImageHuntWebServiceClientTest.Data.StartTeamFirstNode.json");
-        // Act
-       var result = await _target.StartGameForTeam(1, 2);
-      // Assert
-        A.CallTo(_fakeHttpMessageHandler)
-          .Where(x => x.Method.Name == "SendAsync")
-          .WithReturnType<Task<HttpResponseMessage>>()
-          .MustHaveHappened();
-        Check.That(result.Id).Equals(1);
-        Check.That(result.Name).Equals("Départ");
-      }
 
       public class DummyHttpMessageHandler : HttpMessageHandler
       {
