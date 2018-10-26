@@ -44,6 +44,7 @@ namespace ImageHuntTelegramBot
     UpdateMessage,
     CallbackQuery,
     AddMember,
+      Picture,
   }
 
   public interface IActivity

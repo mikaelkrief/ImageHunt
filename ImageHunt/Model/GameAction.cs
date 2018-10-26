@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using ImageHunt.Model.Node;
+using ImageHuntCore.Model;
 using Action = ImageHuntWebServiceClient.Action;
 
 namespace ImageHunt.Model
@@ -17,7 +18,7 @@ namespace ImageHunt.Model
       public Team Team { get; set; }
       public Picture Picture { get; set; }
       public Action Action { get; set; }
-      public Node.Node Node { get; set; }
+      public ImageHuntCore.Model.Node.Node Node { get; set; }
       public bool IsValidated { get; set; }
       public Answer SelectedAnswer { get; set; }
       public Answer CorrectAnswer { get; set; }

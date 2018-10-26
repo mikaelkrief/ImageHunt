@@ -12,6 +12,7 @@ using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using ImageHuntCore;
+using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Authentication;
@@ -167,9 +168,11 @@ namespace ImageHunt
         config.CreateMap<Passcode, PasscodeResponse>();
         config.CreateMap<GameRequest, Game>();
         config.CreateMap<Admin, AdminResponse>()
-          .ForMember(a=>a.GameIds, a=>a.ResolveUsing(admin => admin.Games.Select(g=>g.Id)))
-          ;
+          .ForMember(a=>a.GameIds, a=>a.ResolveUsing(admin => admin.Games.Select(g=>g.Id)));
         config.CreateMap<PlayerRequest, Player>();
+        config.CreateMap<PictureNode, NodeResponse>()
+          .ForPath(n=>n.Image.Id, o=>o.MapFrom(p=>p.Image.Id))  
+          .ForPath(n => n.Image, o => o.Ignore());
       });
     }
   }

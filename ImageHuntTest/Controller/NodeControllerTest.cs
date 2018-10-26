@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AutoMapper;
 using FakeItEasy;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -22,14 +24,16 @@ namespace ImageHuntTest.Controller
       private INodeService _nodeService;
         private IGameService _gameService;
         private ITeamService _teamService;
+        private IMapper _mapper;
 
         public NodeControllerTest()
       {
         _nodeService = A.Fake<INodeService>();
           _gameService = A.Fake<IGameService>();
           _teamService = A.Fake<ITeamService>();
+          _mapper = AutoMapper.Mapper.Instance;
 
-        _target = new NodeController(_nodeService, _gameService, _teamService);
+        _target = new NodeController(_nodeService, _gameService, _teamService, _mapper);
       }
 
       [Fact]

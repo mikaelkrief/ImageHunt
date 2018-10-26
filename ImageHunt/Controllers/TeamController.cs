@@ -10,6 +10,7 @@ using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Action = ImageHuntWebServiceClient.Action;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,18 +26,21 @@ namespace ImageHunt.Controllers
     private readonly IPlayerService _playerService;
     private readonly IImageService _imageService;
     private readonly IGameService _gameService;
+    private readonly IActionService _actionService;
     private readonly IMapper _mapper;
 
     public TeamController(ITeamService teamService,
-                          IPlayerService playerService,
-                          IImageService imageService,
+      IPlayerService playerService,
+      IImageService imageService,
       IGameService gameService,
+      IActionService actionService,
       IMapper mapper)
     {
       _teamService = teamService;
       _playerService = playerService;
       _imageService = imageService;
       _gameService = gameService;
+      _actionService = actionService;
       _mapper = mapper;
     }
     // GET: api/Team

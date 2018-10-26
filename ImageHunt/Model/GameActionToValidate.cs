@@ -4,6 +4,6 @@ namespace ImageHunt.Model
 {
   public class GameActionToValidate : GameAction
   {
-    public IEnumerable<Node.Node> ProbableNodes { get; set; }
+    public IEnumerable<ImageHuntCore.Model.Node.Node> ProbableNodes { get; set; }
   }
 }

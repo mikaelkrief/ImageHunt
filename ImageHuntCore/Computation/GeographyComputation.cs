@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ImageHunt.Model;
-using ImageHunt.Model.Node;
+using ImageHuntCore.Model.Node;
 
-namespace ImageHunt.Computation
+namespace ImageHuntCore.Computation
 {
     public static class GeographyComputation
     {

@@ -10,10 +10,12 @@ namespace ImageHuntBot.Dialogs
     public class BeginDialog : AbstractDialog, IBeginDialog
     {
         private readonly IActionWebService _actionWebService;
+        private readonly ITeamWebService _teamWebService;
 
-        public BeginDialog(IActionWebService actionWebService, ILogger<BeginDialog> logger) : base(logger)
+        public BeginDialog(IActionWebService actionWebService, ITeamWebService teamWebService, ILogger<BeginDialog> logger) : base(logger)
         {
             _actionWebService = actionWebService;
+            _teamWebService = teamWebService;
         }
 
         public override async Task Begin(ITurnContext turnContext)
@@ -45,6 +47,8 @@ namespace ImageHuntBot.Dialogs
                 Latitude = state.CurrentLatitude,
                 Longitude = state.CurrentLongitude
             };
+            var startNode = await _teamWebService.StartGameForTeam(state.GameId, state.TeamId);
+            state.CurrentNode = startNode;
             state.Status = Status.Started;
             await _actionWebService.LogAction(gameActionRequest);
             await turnContext.ReplyActivity($"La chasse commence maintenant! Bonne chance!");

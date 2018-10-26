@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHuntCore;
+using ImageHuntCore.Model;
+using ImageHuntCore.Model.Node;
 using Microsoft.EntityFrameworkCore;
 
 namespace ImageHunt.Data

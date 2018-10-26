@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AutoMapper;
 using FakeItEasy;
 using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using ImageHuntCore.Model.Node;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Logging;
@@ -17,15 +19,19 @@ using Xunit;
 
 namespace ImageHuntTest.Services
 {
-  public class GameServiceTest : ContextBasedTest<HuntContext>
+    [Collection("AutomapperFixture")]
+
+    public class GameServiceTest : ContextBasedTest<HuntContext>
   {
     private GameService _target;
     private ILogger<GameService> _logger;
+      private IMapper _mapper;
 
-    public GameServiceTest()
+      public GameServiceTest()
     {
       _logger = A.Fake<ILogger<GameService>>();
-      _target = new GameService(_context, _logger);
+        _mapper = Mapper.Instance;
+      _target = new GameService(_context, _logger, _mapper);
     }
 
     [Fact]
@@ -265,9 +271,9 @@ namespace ImageHuntTest.Services
       var nodes = new List<Node>
       {
         new FirstNode(),
-        new PictureNode(),
+        new PictureNode(){Image = new Picture(){Id=13, Image = new byte[56]}},
         new ObjectNode(),
-        new PictureNode(),
+        new PictureNode(){Image = new Picture(){Id=13, Image = new byte[56]}},
         new QuestionNode()
       };
       var games = new List<Game> {new Game(), new Game(){Nodes = nodes}, new Game()};

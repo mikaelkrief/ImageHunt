@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ImageHunt.Computation;
+using ImageHuntCore.Computation;
 using NFluent;
 using TestUtilities;
 using Xunit;

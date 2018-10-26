@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
@@ -12,5 +13,7 @@ namespace ImageHuntWebServiceClient.WebServices
       Task<TeamResponse> GetTeamForUserName(int gameId, string userName);
       Task<TeamResponse> CreateTeam(int gameId, TeamRequest teamRequest);
       Task<TeamResponse> AddPlayer(int teamId, PlayerRequest playerRequest);
-  }
+      Task<NodeResponse> StartGameForTeam(int gameId, int teamId, CancellationToken cancellationToken = default(CancellationToken));
+
+    }
 }
