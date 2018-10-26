@@ -37,7 +37,9 @@ namespace ImageHuntTelegramBot
             if (_admins==null)
                 _admins = await _adminWebService.GetAllAdmins() as List<AdminResponse>;
             var state = context.GetConversationState<ImageHuntState>();
-            var team = await _teamWebService.GetTeamById(state.TeamId);
+            TeamResponse team = null;
+            if (state.TeamId != 0)
+                team = await _teamWebService.GetTeamById(state.TeamId);
             // Start critical section
             try
             {
