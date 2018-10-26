@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ImageHuntCore\ImageHuntCore.csproj" />
     <ProjectReference Include="..\ImageHuntWebServiceClient\ImageHuntWebServiceClient.csproj" />
   </ItemGroup>
 

@@ -15,5 +15,6 @@ namespace ImageHuntWebServiceClient.Responses
         public IEnumerable<int> ChildNodeIds { get; set; }
         public string Action { get; set; }
         public ImageResponse Image { get; set; }
+        public string Question { get; set; }
     }
 }

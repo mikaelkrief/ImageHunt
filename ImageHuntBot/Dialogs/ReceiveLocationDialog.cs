@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using ImageHuntCore.Computation;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;
@@ -22,7 +23,13 @@ namespace ImageHuntTelegramBot.Dialogs
             state.CurrentLongitude = turnContext.Activity.Location.Longitude;
 
             _logger.LogInformation($"Received position: [lat:{state.CurrentLatitude}, lng:{state.CurrentLongitude}");
-
+            var distance = GeographyComputation.Distance(state.CurrentLatitude, state.CurrentLongitude,
+                state.CurrentNode.Latitude, state.CurrentNode.Longitude);
+            if (distance <= 40.0)
+            {
+                await turnContext.ReplyActivity(
+                    $"Bravo, vous avez rejoint le point de controle {state.CurrentNode.Name}");
+            }
             await base.Begin(turnContext);
             var logPositionRequest = new LogPositionRequest()
             {

@@ -122,6 +122,7 @@ namespace ImageHuntBotTest.Dialog
                     A<Func<object, Exception, string>>._))
                 .WithAnyArguments()
                 .MustHaveHappened();
+            A.CallTo(() => turnContext.ReplyActivity(A<string>._)).MustHaveHappened();
         }
 
     }
