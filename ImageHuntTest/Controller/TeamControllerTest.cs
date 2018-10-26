@@ -9,6 +9,7 @@ using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Http;
@@ -27,6 +28,7 @@ namespace ImageHuntTest.Controller
       private IImageService _imageService;
         private IGameService _gameService;
         private IMapper _mapper;
+        private IActionService _actionService;
 
         public TeamControllerTest()
         {
@@ -34,8 +36,9 @@ namespace ImageHuntTest.Controller
           _playerService = A.Fake<IPlayerService>();
           _imageService = A.Fake<IImageService>();
             _gameService = A.Fake<IGameService>();
+            _actionService = A.Fake<IActionService>();
             _mapper = AutoMapper.Mapper.Instance;
-            _target = new TeamController(_teamService, _playerService, _imageService, _gameService, _mapper);
+            _target = new TeamController(_teamService, _playerService, _imageService, _gameService, _actionService, _mapper);
         }
 
       [Fact]
@@ -164,7 +167,7 @@ namespace ImageHuntTest.Controller
           Check.That(((TeamResponse)((OkObjectResult) result).Value).GameId).Equals(game.Id);
       }
       [Fact]
-      public void StartPlayer()
+      public void StartTeam()
       {
         // Arrange
         // Act

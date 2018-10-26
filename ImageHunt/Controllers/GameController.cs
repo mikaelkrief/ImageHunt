@@ -7,6 +7,7 @@ using ImageHunt.Computation;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Http;
@@ -191,7 +192,7 @@ namespace ImageHunt.Controllers
     {
       try
       {
-        return Ok(_gameService.GetPictureNode(gameId).Select(p => p.Image));
+        return Ok(_mapper.Map<IEnumerable<NodeResponse>>(_gameService.GetPictureNode(gameId).ToList()) );
       }
       catch (System.Exception e)
       {

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using ImageHunt.Data;
+using ImageHuntCore.Model.Node;
 using TestUtilities;
 using Xunit;
 

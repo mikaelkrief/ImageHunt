@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using ImageHuntCore.Model;
 
 namespace ImageHunt.Model
 {
@@ -12,7 +13,7 @@ namespace ImageHunt.Model
       TeamPlayers = new List<TeamPlayer>();
     }
     public string Name { get; set; }
-    public Node.Node CurrentNode { get; set; }
+    public ImageHuntCore.Model.Node.Node CurrentNode { get; set; }
     public DateTime? StartTime { get; set; }
     public string ChatLogin { get; set; }
     [NotMapped]

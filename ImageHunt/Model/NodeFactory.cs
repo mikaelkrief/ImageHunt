@@ -1,10 +1,10 @@
-﻿using ImageHunt.Model.Node;
+using ImageHunt.Model.Node;
 
 namespace ImageHunt.Model
 {
   public static class NodeFactory
   {
-    public static ImageHunt.Model.Node.Node CreateNode(string nodeType)
+    public static ImageHuntCore.Model.Node.Node CreateNode(string nodeType)
     {
       switch (nodeType)
       {

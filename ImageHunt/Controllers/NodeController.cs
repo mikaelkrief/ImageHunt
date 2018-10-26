@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,12 +20,14 @@ namespace ImageHunt.Controllers
   #endif
   public class NodeController : Controller
   {
+    public readonly IMapper _mapper;
     private INodeService _nodeService;
     private readonly IGameService _gameService;
     private readonly ITeamService _teamService;
 
-    public NodeController(INodeService nodeService, IGameService gameService, ITeamService teamService)
+    public NodeController(INodeService nodeService, IGameService gameService, ITeamService teamService, IMapper mapper)
     {
+      _mapper = mapper;
       _nodeService = nodeService;
       _gameService = gameService;
       _teamService = teamService;
@@ -78,7 +82,7 @@ namespace ImageHunt.Controllers
     [HttpGet("{nodeId}")]
     public IActionResult GetNodeById(int nodeId)
     {
-      return Ok(_nodeService.GetNode(nodeId));
+      return Ok(_mapper.Map<NodeResponse>(_nodeService.GetNode(nodeId)));
     }
     [HttpPatch]
     public IActionResult UpdateNode([FromBody]NodeUpdateRequest nodeRequest)

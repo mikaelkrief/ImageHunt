@@ -8,6 +8,7 @@ using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using ImageHuntCore.Model.Node;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Logging;
 using NFluent;
