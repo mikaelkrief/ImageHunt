@@ -197,6 +197,38 @@ namespace ImageHuntBotTest
             else
                 A.CallTo(() => turnContext.Begin(A<IDialog>._)).MustNotHaveHappened();
         }
+        [Theory]
+        [InlineData("toto", false)]
+        [InlineData("tata", true)]
+        public async Task OnTurn_Check_Player_Cannot_Use_Admin_Command_Team_Not_Defined(string userName, bool mustBegin)
+        {
+            // Arrange
+            var turnContext = A.Fake<ITurnContext>();
+            var activity = new Activity() { ActivityType = ActivityType.Message, Text = "/init" };
+            var state = new ImageHuntState();
+            TeamResponse teamResponse = null;
+            A.CallTo(() => _teamService.GetTeamById(state.TeamId)).Returns(teamResponse);
+
+            A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(state);
+            A.CallTo(() => turnContext.Activity).Returns(activity);
+            A.CallTo(() => turnContext.Replied).Returns(false);
+            A.CallTo(() => turnContext.CurrentDialog).Returns(null);
+            A.CallTo(() => turnContext.Username).Returns(userName);
+            var admin = new List<AdminResponse> { new AdminResponse() { Name = "tata" } };
+            A.CallTo(() => _adminService.GetAllAdmins()).Returns(admin);
+            var initDialog = A.Fake<IDialog>();
+            A.CallTo(() => initDialog.IsAdmin).Returns(true);
+            A.CallTo(() => initDialog.Command).Returns("/init");
+            _target.AddDialog(initDialog);
+
+            // Act
+            await _target.OnTurn(turnContext);
+            // Assert
+            if (mustBegin)
+                A.CallTo(() => turnContext.Begin(A<IDialog>._)).MustHaveHappened();
+            else
+                A.CallTo(() => turnContext.Begin(A<IDialog>._)).MustNotHaveHappened();
+        }
         [Fact]
         public async Task OnTurn_Check_Admin_Cannot_Use_Admin_Command_If_They_Belongs_to_Game()
         {
