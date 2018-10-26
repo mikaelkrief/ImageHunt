@@ -1,5 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Autofac;
+using ImageHuntBot.Dialogs;
 using ImageHuntCore.Computation;
+using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;
@@ -9,46 +13,72 @@ namespace ImageHuntTelegramBot.Dialogs
     public class ReceiveLocationDialog : AbstractDialog, IReceiveLocationDialog
     {
         private readonly IActionWebService _actionWebService;
+        private readonly INodeWebService _nodeWebService;
+        private readonly ILifetimeScope _scope;
 
         public override async Task Begin(ITurnContext turnContext)
         {
-            var state = turnContext.GetConversationState<ImageHuntState>();
-            if (state.Status == Status.None)
+            try
             {
-                LogInfo<ImageHuntState>(turnContext, "Game not initialized");
-                await turnContext.End();
-                return;
-            }
-            state.CurrentLatitude = turnContext.Activity.Location.Latitude;
-            state.CurrentLongitude = turnContext.Activity.Location.Longitude;
+                var state = turnContext.GetConversationState<ImageHuntState>();
+                if (state.Status == Status.None)
+                {
+                    LogInfo<ImageHuntState>(turnContext, "Game not initialized");
+                    await turnContext.End();
+                    return;
+                }
+                state.CurrentLatitude = turnContext.Activity.Location.Latitude;
+                state.CurrentLongitude = turnContext.Activity.Location.Longitude;
 
-            _logger.LogInformation($"Received position: [lat:{state.CurrentLatitude}, lng:{state.CurrentLongitude}");
-            var distance = GeographyComputation.Distance(state.CurrentLatitude, state.CurrentLongitude,
-                state.CurrentNode.Latitude, state.CurrentNode.Longitude);
-            if (distance <= 40.0)
-            {
-                await turnContext.ReplyActivity(
-                    $"Bravo, vous avez rejoint le point de controle {state.CurrentNode.Name}");
+                _logger.LogInformation($"Received position: [lat:{state.CurrentLatitude}, lng:{state.CurrentLongitude}");
+                var distance = GeographyComputation.Distance(state.CurrentLatitude, state.CurrentLongitude,
+                    state.CurrentNode.Latitude, state.CurrentNode.Longitude);
+                await base.Begin(turnContext);
+                var logPositionRequest = new LogPositionRequest()
+                {
+                    GameId = state.GameId,
+                    TeamId = state.TeamId,
+                    Latitude = state.CurrentLatitude,
+                    Longitude = state.CurrentLongitude
+                };
+                await _actionWebService.LogPosition(logPositionRequest);
+                if (distance <= 40.0)
+                {
+                    await turnContext.ReplyActivity(
+                        $"Bravo, vous avez rejoint le point de controle {state.CurrentNode.Name}");
+                    var actionRequest = new GameActionRequest()
+                    {
+                        GameId = state.GameId,
+                        TeamId = state.TeamId,
+                        Action = (int)Action.VisitWaypoint,
+                        Latitude = state.CurrentLatitude,
+                        Longitude = state.CurrentLongitude,
+                        NodeId = state.CurrentNodeId,
+                        PointsEarned = state.CurrentNode.Points
+                    };
+                    await _actionWebService.LogAction(actionRequest);
+                    var nextNode = await _nodeWebService.GetNode(state.CurrentNode.ChildNodeIds.First());
+                    state.CurrentNode = nextNode;
+                    state.CurrentNodeId = nextNode.Id;
+                    var displayDialog = _scope.Resolve<IDisplayNodeDialog>();
+                    await turnContext.Begin(displayDialog);
+                }
+
             }
-            await base.Begin(turnContext);
-            var logPositionRequest = new LogPositionRequest()
+            finally
             {
-                GameId = state.GameId,
-                TeamId = state.TeamId,
-                Latitude = state.CurrentLatitude,
-                Longitude = state.CurrentLongitude
-            };
-            await _actionWebService.LogPosition(logPositionRequest);
-            //await turnContext.ReplyActivity(
-            //  $"J'ai enregistré votre nouvelle position {state.CurrentLatitude}, {state.CurrentLongitude}");
-            await turnContext.End();
+                await turnContext.End();
+            }
         }
 
         public override string Command => "/location";
 
-        public ReceiveLocationDialog(IActionWebService actionWebService, ILogger<ReceiveLocationDialog> logger) : base(logger)
+        public ReceiveLocationDialog(IActionWebService actionWebService, 
+            INodeWebService nodeWebService, ILogger<ReceiveLocationDialog> logger, ILifetimeScope scope) : base(logger)
         {
             _actionWebService = actionWebService;
+            _nodeWebService = nodeWebService;
+            _scope = scope;
         }
     }
 }
