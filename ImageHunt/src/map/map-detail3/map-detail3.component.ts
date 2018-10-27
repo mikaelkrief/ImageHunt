@@ -85,7 +85,7 @@ export class MapDetail3Component implements OnInit {
   }
   updateMap() {
 
-    if (this.latCenter) {
+    if (this.latCenter !== undefined) {
       this.map.setView(new L.LatLng(this.latCenter, this.lngCenter), this.zoom);
       this.map.on('click', event => this.mapClicked.emit(event));
       this.createMarkers();
@@ -211,19 +211,20 @@ export class MapDetail3Component implements OnInit {
 
   markerRightClick(leafletEvent: L.LeafletEvent): void {
     let node = leafletEvent.target.node;
-    //  this.nodeMenuItems = [
-    //    { label: 'Modifier', icon: 'fa-edit', disabled: true },
-    //    { label: 'Effacer', icon: 'fa-trash', command: event => this.deleteNode(node.id) },
-    //  ];
-    //  if (node.nodeType === 'QuestionNode') {
-    //    this.nodeMenuItems.push({
-    //      label: 'Editer les relations',
-    //      automationId: node.id,
-    //      //command: event => this.editNodeAnswers()
-    //    });
-    //  }
-    //  this.markerContextMenu.show(event.Ia);
-    //  this.nodeRightClicked.emit(new NodeClicked(node, 0, event.Ia));
+      //this.nodeMenuItems = [
+      //  { label: 'Modifier', icon: 'fa-edit', disabled: true },
+      //  { label: 'Effacer', icon: 'fa-trash', command: event => this.deleteNode(node.id) },
+      //];
+      //if (node.nodeType === 'QuestionNode') {
+      //  this.nodeMenuItems.push({
+      //    label: 'Editer les relations',
+      //    automationId: node.id,
+      //    //command: event => this.editNodeAnswers()
+      //  });
+      //}
+      //this.markerContextMenu.show(event.Ia);
+      //this.nodeRightClicked.emit(new NodeClicked(node, 0, event.Ia));
+      this.nodeRightClicked.emit(new NodeClicked(node, 0, null));
 
   }
 
