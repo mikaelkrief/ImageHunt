@@ -30,6 +30,14 @@ namespace ImageHuntBot.Dialogs
                     await turnContext.End();
                     return;
                 }
+
+                if (state.CurrentNodeId == 0)
+                {
+                    LogInfo<ImageHuntState>(turnContext, "No current node");
+                    await turnContext.ReplyActivity($"Aucun noeud courant, impossible de continuer. Prévenir les orga");
+                    await turnContext.End();
+                    return;
+                }
                 var node = await _nodeWebService.GetNode(state.CurrentNodeId);
                 var activity = new Activity()
                 {
