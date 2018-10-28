@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBot.Dialogs
 {
