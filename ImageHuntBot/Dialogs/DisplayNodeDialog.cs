@@ -39,6 +39,8 @@ namespace ImageHuntBot.Dialogs
                     return;
                 }
                 var node = await _nodeWebService.GetNode(state.CurrentNodeId);
+                await turnContext.ReplyActivity(
+                    $"Le prochain point de controle {node.Name} se trouve à la position suivante :");
                 var activity = new Activity()
                 {
                     ChatId = state.ChatId,
@@ -47,9 +49,9 @@ namespace ImageHuntBot.Dialogs
                     {
                         Latitude = (float)node.Latitude,
                         Longitude = (float)node.Longitude
-                    },
-                    Text = "Veuillez vous rendre à cette position pour poursuivre votre chasse"
+                    }
                 };
+
                 await turnContext.SendActivity(activity);
 
             }
