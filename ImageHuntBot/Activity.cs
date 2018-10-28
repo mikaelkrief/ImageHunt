@@ -45,6 +45,7 @@ namespace ImageHuntTelegramBot
     CallbackQuery,
     AddMember,
       Picture,
+      Location,
   }
 
   public interface IActivity

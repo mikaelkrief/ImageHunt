@@ -51,6 +51,16 @@ namespace ImageHuntBotTest
             // Assert
             A.CallTo(() => _telegramClient.SendTextMessageAsync(A<ChatId>._, A<string>._, A<ParseMode>._, A<bool>._, A<bool>._, A<int>._, A<IReplyMarkup>._, A<CancellationToken>._)).MustHaveHappened();
         }
+        [Fact]
+        public async Task SendActivity_Location()
+        {
+            // Arrange
+            var activity = new Activity() { ChatId = 15, ActivityType = ActivityType.Location, Location = new Location()};
+            // Act
+            await _target.SendActivity(activity);
+            // Assert
+            A.CallTo(() => _telegramClient.SendLocationAsync(A<ChatId>._, A<float>._, A<float>._, A<int>._, A<bool>._, A<int>._, A<IReplyMarkup>._, A<CancellationToken>._)).MustHaveHappened();
+        }
 
         [Fact]
         public async Task SendActivity_Picture()

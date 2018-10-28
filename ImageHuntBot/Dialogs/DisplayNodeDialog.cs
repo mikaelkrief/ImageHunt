@@ -42,7 +42,7 @@ namespace ImageHuntBot.Dialogs
                 var activity = new Activity()
                 {
                     ChatId = state.ChatId,
-                    ActivityType = ActivityType.Message,
+                    ActivityType = ActivityType.Location,
                     Location = new Location()
                     {
                         Latitude = (float)node.Latitude,

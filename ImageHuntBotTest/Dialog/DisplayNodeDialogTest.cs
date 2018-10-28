@@ -61,7 +61,7 @@ namespace ImageHuntBotTest.Dialog
         {
             Check.That(activity.Location.Latitude).Equals((float)nodeResponse.Latitude);
             Check.That(activity.Location.Longitude).Equals((float)nodeResponse.Longitude);
-            Check.That(activity.ActivityType).Equals(ActivityType.Message);
+            Check.That(activity.ActivityType).Equals(ActivityType.Location);
             return true;
         }
         [Fact]

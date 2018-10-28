@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
@@ -37,8 +38,24 @@ namespace ImageHuntTelegramBot
                 case ActivityType.UpdateMessage:
                 case ActivityType.CallbackQuery:
                     break;
+                case ActivityType.Location:
+                    await SendLocation(activity);
+                    break;
                 case ActivityType.None:
                     break;
+            }
+        }
+
+        private async Task SendLocation(IActivity activity)
+        {
+            try
+            {
+                await _client.SendLocationAsync(activity.ChatId, activity.Location.Latitude, activity.Location.Longitude);
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, $"Error while sending location [{activity.Location.Latitude}, {activity.Location.Longitude}] to ChatId {activity.ChatId}");
             }
         }
 

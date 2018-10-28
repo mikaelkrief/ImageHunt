@@ -219,5 +219,6 @@ namespace ImageHuntBotTest
             // Assert
             A.CallTo(() => _adapter.Leave(A<ChatId>._)).MustHaveHappened();
         }
+
     }
 }
