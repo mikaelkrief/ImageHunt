@@ -49,6 +49,7 @@ namespace ImageHuntBot.Dialogs
             };
             var startNode = await _teamWebService.StartGameForTeam(state.GameId, state.TeamId);
             state.CurrentNode = startNode;
+            state.CurrentNodeId = startNode.Id;
             state.Status = Status.Started;
             await _actionWebService.LogAction(gameActionRequest);
             await turnContext.ReplyActivity($"La chasse commence maintenant! Bonne chance!");
