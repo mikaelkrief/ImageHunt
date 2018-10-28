@@ -8,5 +8,6 @@ namespace ImageHuntTelegramBot
     Task SendActivity(IActivity activity);
     Task<Activity> CreateActivityFromUpdate(Update update);
       Task SetWebHook();
-  }
+        Task Leave(ChatId chatId);
+    }
 }

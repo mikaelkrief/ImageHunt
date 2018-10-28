@@ -137,6 +137,11 @@ namespace ImageHuntTelegramBot
             }
         }
 
+        public async Task Leave(ChatId chatId)
+        {
+            await _client.LeaveChatAsync(chatId);
+        }
+
         private async Task SendMessage(IActivity activity)
         {
             try

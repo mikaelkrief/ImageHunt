@@ -8,6 +8,7 @@ using ImageHuntBot;
 using ImageHuntTelegramBot;
 using Microsoft.Extensions.Logging;
 using NFluent;
+using Telegram.Bot.Types;
 using TestUtilities;
 using Xunit;
 
@@ -205,6 +206,18 @@ namespace ImageHuntBotTest
             // Act
 
             // Assert
+        }
+
+        [Fact]
+        public async Task LeaveChat()
+        {
+            // Arrange
+            var activity = new Activity() {ChatId = 15};
+            _target.Activity = activity;
+            // Act
+            await _target.Leave();
+            // Assert
+            A.CallTo(() => _adapter.Leave(A<ChatId>._)).MustHaveHappened();
         }
     }
 }
