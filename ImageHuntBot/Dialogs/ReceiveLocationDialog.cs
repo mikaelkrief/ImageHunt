@@ -39,7 +39,7 @@ namespace ImageHuntTelegramBot.Dialogs
                     if (distance <= 40.0)
                     {
                         await turnContext.ReplyActivity(
-                            $"Bravo, vous avez rejoint le point de controle {state.CurrentNode.Name}");
+                            $"Bravo, vous avez rejoint le point de controle {state.CurrentNode.Name}, cela a fait gagner {state.CurrentNode.Points} à votre équipe");
                         var actionRequest = new GameActionRequest()
                         {
                             GameId = state.GameId,

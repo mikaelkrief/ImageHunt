@@ -60,7 +60,7 @@ namespace ImageHunt.Controllers
     /// </summary>
     /// <param name="gameActionRequest"></param>
     [HttpPost("AddGameAction")]
-    public async Task<IActionResult> AddGameAction([FromBody]GameActionRequest gameActionRequest)
+    public async Task<IActionResult> AddGameAction(GameActionRequest gameActionRequest)
     {
       var gameAction = _mapper.Map<GameAction>(gameActionRequest);
 

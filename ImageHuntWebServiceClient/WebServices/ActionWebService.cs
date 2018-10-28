@@ -33,8 +33,16 @@ namespace ImageHuntWebServiceClient.WebServices
         public async Task<GameActionResponse> LogAction(GameActionRequest logActionRequest, 
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var content = new StringContent(JsonConvert.SerializeObject(logActionRequest), Encoding.UTF8, "application/json"))
+            using (var content = new MultipartFormDataContent())
             {
+                content.Add(new StringContent(logActionRequest.Action.ToString()), "action");
+                content.Add(new StringContent(logActionRequest.GameId.ToString()), "gameId");
+                content.Add(new StringContent(logActionRequest.TeamId.ToString()), "teamId");
+                content.Add(new StringContent(logActionRequest.NodeId.ToString()), "nodeId");
+                content.Add(new StringContent(logActionRequest.Latitude.ToString()), "latitude");
+                content.Add(new StringContent(logActionRequest.Longitude.ToString()), "longitude");
+                content.Add(new StringContent(logActionRequest.PointsEarned.ToString()), "pointEarned");
+
                 var result = await PostAsync<GameActionResponse>($"{_httpClient.BaseAddress}api/Action/AddGameAction/",
                     content, cancellationToken);
                  return result;
