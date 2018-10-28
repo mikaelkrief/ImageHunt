@@ -11,7 +11,7 @@ namespace ImageHuntBot.Dialogs
         {
         }
 
-        public override async Task Begin(ITurnContext turnContext)
+        public override async Task Begin(ITurnContext turnContext, bool overrideAdmin = false)
         {
             LogInfo<ImageHuntState>(turnContext, "Begin HelpDialog");
             await turnContext.ReplyActivity(@"Pour jouer à la chasse au trésor, vous devez d'abord envoyer votre position. 

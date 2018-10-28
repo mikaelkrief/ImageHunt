@@ -19,7 +19,7 @@ namespace ImageHuntBot.Dialogs
             _actionWebService = actionWebService;
         }
 
-        public override async Task Begin(ITurnContext turnContext)
+        public override async Task Begin(ITurnContext turnContext, bool overrideAdmin = false)
         {
             var state = turnContext.GetConversationState<ImageHuntState>();
             if (state.Status != Status.Started &&  state.Status != Status.Ended)

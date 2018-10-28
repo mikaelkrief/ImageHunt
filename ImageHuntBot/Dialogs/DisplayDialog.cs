@@ -12,7 +12,7 @@ namespace ImageHuntBot.Dialogs
     public DisplayDialog(ILogger<DisplayDialog> logger) : base(logger)
     {
     }
-    public override async Task Begin(ITurnContext turnContext)
+    public override async Task Begin(ITurnContext turnContext, bool overrideAdmin = false)
     {
       var activity = new Activity(){};
       await turnContext.ReplyActivity(activity);

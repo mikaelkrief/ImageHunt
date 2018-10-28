@@ -55,7 +55,7 @@ namespace ImageHuntBotTest.Dialog
             _gameWebService = gameWebService;
         }
 
-        public override async Task Begin(ITurnContext turnContext)
+        public override async Task Begin(ITurnContext turnContext, bool overrideAdmin = false)
         {
             try
             {

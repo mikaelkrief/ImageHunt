@@ -15,8 +15,9 @@ namespace ImageHuntTelegramBot.Dialogs
         private readonly IActionWebService _actionWebService;
         private readonly INodeWebService _nodeWebService;
         private readonly ILifetimeScope _scope;
+        public override bool IsAdmin => false;
 
-        public override async Task Begin(ITurnContext turnContext)
+        public override async Task Begin(ITurnContext turnContext, bool overrideAdmin = false)
         {
             try
             {

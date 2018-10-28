@@ -20,6 +20,7 @@ namespace ImageHuntTelegramBot.Dialogs
     {
         private readonly ITeamWebService _teamWebService;
         private readonly ITelegramBotClient _telegramBotClient;
+        public override bool IsAdmin => false;
 
         public ReceiveImageDialog(ITeamWebService teamWebService,
             //IActionWebService
@@ -30,7 +31,7 @@ namespace ImageHuntTelegramBot.Dialogs
             _telegramBotClient = telegramBotClient;
         }
 
-        public override async Task Begin(ITurnContext turnContext)
+        public override async Task Begin(ITurnContext turnContext, bool overrideAdmin = false)
         {
             var state = turnContext.GetConversationState<ImageHuntState>();
             if (state.Status == Status.Ended)

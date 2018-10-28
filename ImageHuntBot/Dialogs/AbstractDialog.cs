@@ -24,7 +24,7 @@ namespace ImageHuntTelegramBot.Dialogs
           var state = turnContext.GetConversationState<T>();
           _logger.LogInformation($"On {turnContext.ChatId}, State={state} : {message}");
       }
-    public virtual async Task Begin(ITurnContext turnContext)
+    public virtual async Task Begin(ITurnContext turnContext, bool overrideAdmin = false)
     {
       turnContext.EndCalled += TurnContextOnEndCalled;
       if (_childenDialogs.Any())
@@ -71,6 +71,10 @@ namespace ImageHuntTelegramBot.Dialogs
     {
     }
 
+      protected virtual async Task<bool> IsCommandAllowed(ITurnContext turnContext, bool overrideAdmin)
+      {
+          return false;
+      }
       public abstract string Command { get; }
       public virtual bool IsAdmin => true;
   }

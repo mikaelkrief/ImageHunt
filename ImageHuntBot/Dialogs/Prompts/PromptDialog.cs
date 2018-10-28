@@ -16,7 +16,7 @@ namespace ImageHuntTelegramBot.Dialogs.Prompts
       _prompResult = prompResult;
     }
 
-    public override async Task Begin(ITurnContext turnContext)
+    public override async Task Begin(ITurnContext turnContext, bool overrideAdmin)
     {
       var activity = new Activity()
       {

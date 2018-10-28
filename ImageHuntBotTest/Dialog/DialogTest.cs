@@ -82,7 +82,7 @@ namespace ImageHuntBotTest
         // Assert
         A.CallTo(() => context.Begin(childrenDialog1)).MustHaveHappened(Repeated.Exactly.Once);
         A.CallTo(() => childrenDialog1.Continue(context)).MustHaveHappened(Repeated.Exactly.Once);
-        A.CallTo(() => childrenDialog2.Begin(context)).MustHaveHappened(Repeated.Exactly.Once);
+        A.CallTo(() => childrenDialog2.Begin(context, A<bool>._)).MustHaveHappened(Repeated.Exactly.Once);
         //A.CallTo(() => childrenDialog2.Continue(context)).MustHaveHappened(Repeated.Exactly.Once);
         A.CallTo(() => context.End()).MustHaveHappened();
       }
@@ -117,7 +117,7 @@ namespace ImageHuntBotTest
         // Act
         _target.Begin(context);
         // Assert
-        A.CallTo(() => _target.Begin(A<ITurnContext>._)).MustHaveHappened();
+        A.CallTo(() => _target.Begin(A<ITurnContext>._, A<bool>._)).MustHaveHappened();
       }
 
       [Fact]

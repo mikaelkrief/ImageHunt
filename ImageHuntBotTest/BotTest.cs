@@ -162,7 +162,7 @@ namespace ImageHuntBotTest
             // Act
             await _target.OnTurn(turnContext);
             // Assert
-            A.CallTo(() => initDialog.Begin(turnContext)).MustNotHaveHappened();
+            A.CallTo(() => initDialog.Begin(turnContext, A<bool>._)).MustNotHaveHappened();
             A.CallTo(() => turnContext.Continue()).MustHaveHappened();
         }
 

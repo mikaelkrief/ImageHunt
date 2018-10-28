@@ -15,7 +15,7 @@ namespace ImageHuntBot.Dialogs
         {
         }
 
-        public override async Task Begin(ITurnContext turnContext)
+        public override async Task Begin(ITurnContext turnContext, bool overrideAdmin = false)
         {
             //_logger.LogInformation();
             try
