@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, AfterContentChecked, AfterContentInit } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-polylinedecorator';
+import 'leaflet-contextmenu';
 
 import { GameService } from '../../shared/services/game.service';
 import { GeoPoint } from '../../shared/GeoPoint';
@@ -150,7 +151,7 @@ export class MapDetail3Component implements OnInit {
         iconAnchor: [16, 16]
       });
       const marker = new NodeMarker([node.latitude, node.longitude],
-        { icon: icon, title: node.name, draggable: this.editable });
+        { icon: icon, title: node.name, draggable: this.editable, });
       marker.node = node;
       marker.addTo(this.map);
       marker.on('click', event => this.onNodeClick(event));
@@ -187,7 +188,7 @@ export class MapDetail3Component implements OnInit {
     this.firstNode = null;
     this.isFirstClick = true;
   }
-
+  
   onNodeClick(leafletEvent: L.LeafletEvent): void {
     let node = leafletEvent.target.node;
     let nClicked: NodeClicked;
@@ -211,7 +212,7 @@ export class MapDetail3Component implements OnInit {
 
   markerRightClick(leafletEvent: L.LeafletEvent): void {
     let node = leafletEvent.target.node;
-      //this.nodeMenuItems = [
+      //const nodeMenuItems = [
       //  { label: 'Modifier', icon: 'fa-edit', disabled: true },
       //  { label: 'Effacer', icon: 'fa-trash', command: event => this.deleteNode(node.id) },
       //];
