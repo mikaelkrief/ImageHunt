@@ -31,9 +31,33 @@ namespace ImageHuntTelegramBot.Dialogs
                 state.CurrentLongitude = turnContext.Activity.Location.Longitude;
 
                 _logger.LogInformation($"Received position: [lat:{state.CurrentLatitude}, lng:{state.CurrentLongitude}");
-                var distance = GeographyComputation.Distance(state.CurrentLatitude, state.CurrentLongitude,
-                    state.CurrentNode.Latitude, state.CurrentNode.Longitude);
-                await base.Begin(turnContext);
+                if (state.CurrentNode != null)
+                {
+                    var distance = GeographyComputation.Distance(state.CurrentLatitude, state.CurrentLongitude,
+                        state.CurrentNode.Latitude, state.CurrentNode.Longitude);
+                    if (distance <= 40.0)
+                    {
+                        await turnContext.ReplyActivity(
+                            $"Bravo, vous avez rejoint le point de controle {state.CurrentNode.Name}");
+                        var actionRequest = new GameActionRequest()
+                        {
+                            GameId = state.GameId,
+                            TeamId = state.TeamId,
+                            Action = (int)Action.VisitWaypoint,
+                            Latitude = state.CurrentLatitude,
+                            Longitude = state.CurrentLongitude,
+                            NodeId = state.CurrentNodeId,
+                            PointsEarned = state.CurrentNode.Points
+                        };
+                        await _actionWebService.LogAction(actionRequest);
+                        var nextNode = await _nodeWebService.GetNode(state.CurrentNode.ChildNodeIds.First());
+                        state.CurrentNode = nextNode;
+                        state.CurrentNodeId = nextNode.Id;
+                        var displayDialog = _scope.Resolve<IDisplayNodeDialog>();
+                        await turnContext.Begin(displayDialog);
+                    }
+                }
+
                 var logPositionRequest = new LogPositionRequest()
                 {
                     GameId = state.GameId,
@@ -42,27 +66,6 @@ namespace ImageHuntTelegramBot.Dialogs
                     Longitude = state.CurrentLongitude
                 };
                 await _actionWebService.LogPosition(logPositionRequest);
-                if (distance <= 40.0)
-                {
-                    await turnContext.ReplyActivity(
-                        $"Bravo, vous avez rejoint le point de controle {state.CurrentNode.Name}");
-                    var actionRequest = new GameActionRequest()
-                    {
-                        GameId = state.GameId,
-                        TeamId = state.TeamId,
-                        Action = (int)Action.VisitWaypoint,
-                        Latitude = state.CurrentLatitude,
-                        Longitude = state.CurrentLongitude,
-                        NodeId = state.CurrentNodeId,
-                        PointsEarned = state.CurrentNode.Points
-                    };
-                    await _actionWebService.LogAction(actionRequest);
-                    var nextNode = await _nodeWebService.GetNode(state.CurrentNode.ChildNodeIds.First());
-                    state.CurrentNode = nextNode;
-                    state.CurrentNodeId = nextNode.Id;
-                    var displayDialog = _scope.Resolve<IDisplayNodeDialog>();
-                    await turnContext.Begin(displayDialog);
-                }
 
             }
             finally

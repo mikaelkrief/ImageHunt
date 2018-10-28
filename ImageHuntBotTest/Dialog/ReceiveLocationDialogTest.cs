@@ -71,6 +71,32 @@ namespace ImageHuntBotTest.Dialog
               .MustHaveHappened();
         }
         [Fact]
+        public async Task Begin_No_CurrentNode()
+        {
+            // Arrange
+            var activity = new Activity()
+            {
+                ActivityType = ActivityType.Message,
+                ChatId = 15,
+                Location = new Location() { Latitude = 15.6f, Longitude = 4.2f }
+            };
+            var turnContext = A.Fake<ITurnContext>();
+            A.CallTo(() => turnContext.Activity).Returns(activity);
+            var imageHuntState = new ImageHuntState() { Status = Status.Started, CurrentNode = null };
+            A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(imageHuntState);
+            // Act
+            await _target.Begin(turnContext);
+            // Assert
+            A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).MustHaveHappened();
+            A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._)).MustHaveHappened();
+            Check.That(imageHuntState.CurrentLatitude).Equals(15.6f);
+            Check.That(imageHuntState.CurrentLongitude).Equals(4.2f);
+            A.CallTo(() => _logger.Log(A<LogLevel>._, A<EventId>._, A<object>._, A<Exception>._,
+                    A<Func<object, Exception, string>>._))
+                .WithAnyArguments()
+                .MustHaveHappened();
+        }
+        [Fact]
         public async Task Begin_GameNotStared()
         {
             // Arrange
