@@ -211,5 +211,16 @@ namespace ImageHuntBotTest
             Check.That(activity.ActivityType).Equals(ActivityType.AddMember);
             Check.That(activity.Text).Equals("/newUser");
         }
+
+        [Fact]
+        public async Task Leave()
+        {
+            // Arrange
+            var chatId = new ChatId(15);
+            // Act
+            await _target.Leave(chatId);
+            // Assert
+            A.CallTo(() => _telegramClient.LeaveChatAsync(chatId, A<CancellationToken>._)).MustHaveHappened();
+        }
     }
 }

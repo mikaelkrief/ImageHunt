@@ -49,6 +49,11 @@ namespace ImageHuntTelegramBot
             return (await _storage.ReadAll()).Select(s => (T)s.First().Value);
         }
 
+        public async Task Leave()
+        {
+            await _adapter.Leave(Activity.ChatId);
+        }
+
         public virtual async Task Continue()
         {
             if (CurrentDialog != null)

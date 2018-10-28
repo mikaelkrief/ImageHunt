@@ -23,5 +23,6 @@ namespace ImageHuntTelegramBot
         T GetConversationState<T>() where T : IBaseState, new();
         Task ResetConversationStates<T>() where T : IBaseState, new();
         Task<IEnumerable<T>> GetAllConversationState<T>() where T : IBaseState, new();
+        Task Leave();
     }
 }
