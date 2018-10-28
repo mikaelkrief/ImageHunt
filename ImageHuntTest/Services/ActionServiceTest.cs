@@ -686,8 +686,10 @@ namespace ImageHuntTest.Services
         _context.Games.AddRange(games);
         var teams = new List<Team> { new Team(), new Team(), new Team() };
         _context.Teams.AddRange(teams);
+          var nodes = new List<Node> {new TimerNode(), new ObjectNode()};
+          _context.Nodes.AddRange(nodes);
         _context.SaveChanges();
-        var gameAction = new GameAction(){Game = games[1], Team = teams[1]};
+        var gameAction = new GameAction(){Game = games[1], Team = teams[1], Node = nodes[1]};
         // Act
         _target.AddGameAction(gameAction);
         // Assert
