@@ -156,7 +156,8 @@ namespace ImageHunt
         config.CreateMap<Node, Node>().ForSourceMember(x => x.Id, opt => opt.Ignore());
         config.CreateMap<Node, NodeResponse>()
           .ForMember(n=>n.ChildNodeIds, expression => expression.ResolveUsing(node => node.Children.Select(c=>c.Id)));
-        //config.CreateMap<ObjectNode, NodeResponse>();
+        config.CreateMap<ObjectNode, NodeResponse>()
+          .ForMember(n => n.ChildNodeIds, expression => expression.ResolveUsing(node => node.Children.Select(c => c.Id)));
         config.CreateMap<QuestionNode, QuestionNodeResponse>()
           .ForMember(n => n.ChildNodeIds, expression => expression.ResolveUsing(node => node.Children.Select(c => c.Id)));
         config.CreateMap<Answer, AnswerResponse>();
