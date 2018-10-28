@@ -144,6 +144,7 @@ namespace ImageHuntBotTest.Dialog
                     Points = 56
                 }
             };
+            A.CallTo(() => _nodeWebService.GetNode(A<int>._)).Returns(imageHuntState.CurrentNode);
             A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(imageHuntState);
             var nextNode = new NodeResponse();
             A.CallTo(() => _nodeWebService.GetNode(imageHuntState.CurrentNode.ChildNodeIds.First()))

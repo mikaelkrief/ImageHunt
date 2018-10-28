@@ -51,6 +51,7 @@ namespace ImageHuntTelegramBot.Dialogs
                             PointsEarned = state.CurrentNode.Points
                         };
                         await _actionWebService.LogAction(actionRequest);
+                        state.CurrentNode = await _nodeWebService.GetNode(state.CurrentNodeId);
                         var nextNode = await _nodeWebService.GetNode(state.CurrentNode.ChildNodeIds.First());
                         state.CurrentNode = nextNode;
                         state.CurrentNodeId = nextNode.Id;
