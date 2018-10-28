@@ -17,7 +17,7 @@ namespace ImageHuntBot.Dialogs
             _teamWebService = teamWebService;
         }
 
-        public override async Task Begin(ITurnContext turnContext)
+        public override async Task Begin(ITurnContext turnContext, bool overrideAdmin = false)
         {
             try
             {

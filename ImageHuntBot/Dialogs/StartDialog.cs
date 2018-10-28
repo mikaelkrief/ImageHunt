@@ -21,8 +21,9 @@ namespace ImageHuntBot.Dialogs
             _scope = scope;
         }
 
-        public override async Task Begin(ITurnContext turnContext)
+        public override async Task Begin(ITurnContext turnContext, bool overrideAdmin = false)
         {
+            
             // extract the payload
             var command = turnContext.Activity.Command;
             var payload = turnContext.Activity.Payload;

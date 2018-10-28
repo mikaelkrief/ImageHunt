@@ -13,7 +13,7 @@ namespace ImageHuntBot.Dialogs
         public ResetDialog(ILogger<ResetDialog> logger) : base(logger)
         {
         }
-        public override async Task Begin(ITurnContext turnContext)
+        public override async Task Begin(ITurnContext turnContext, bool overrideAdmin = false)
         {
             LogInfo<ImageHuntState>(turnContext, "Reset Game");
             await turnContext.ResetConversationStates<ImageHuntState>();

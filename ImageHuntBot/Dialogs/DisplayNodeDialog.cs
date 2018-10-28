@@ -17,7 +17,7 @@ namespace ImageHuntBot.Dialogs
             _nodeWebService = nodeWebService;
         }
 
-        public async override Task Begin(ITurnContext turnContext)
+        public async override Task Begin(ITurnContext turnContext, bool overrideAdmin = false)
         {
             try
             {

@@ -23,7 +23,7 @@ namespace ImageHuntTelegramBot.Dialogs
             _teamWebService = teamWebService;
         }
 
-        public override async Task Begin(ITurnContext turnContext)
+        public override async Task Begin(ITurnContext turnContext, bool overrideAdmin = false)
         {
             var state = turnContext.GetConversationState<ImageHuntState>();
             

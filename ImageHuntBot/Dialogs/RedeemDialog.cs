@@ -31,7 +31,7 @@ namespace ImageHuntBot.Dialogs
             _scope = scope;
         }
 
-        public override async Task Begin(ITurnContext turnContext)
+        public override async Task Begin(ITurnContext turnContext, bool overrideAdmin = false)
         {
             string pass = "";
             int gameId = 0;

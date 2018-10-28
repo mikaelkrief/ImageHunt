@@ -21,7 +21,7 @@ namespace ImageHuntBot.Dialogs
         }
 
         public override string Command => "/sendScore";
-        public override async Task Begin(ITurnContext turnContext)
+        public override async Task Begin(ITurnContext turnContext, bool overrideAdmin = false)
         {
             try
             {
