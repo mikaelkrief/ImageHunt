@@ -41,7 +41,7 @@ namespace ImageHuntWebServiceClient.WebServices
                 content.Add(new StringContent(logActionRequest.NodeId.ToString()), "nodeId");
                 content.Add(new StringContent(logActionRequest.Latitude.ToString()), "latitude");
                 content.Add(new StringContent(logActionRequest.Longitude.ToString()), "longitude");
-                content.Add(new StringContent(logActionRequest.PointsEarned.ToString()), "pointEarned");
+                content.Add(new StringContent(logActionRequest.PointsEarned.ToString()), "pointsEarned");
 
                 var result = await PostAsync<GameActionResponse>($"{_httpClient.BaseAddress}api/Action/AddGameAction/",
                     content, cancellationToken);
