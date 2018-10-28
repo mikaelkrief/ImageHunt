@@ -72,19 +72,19 @@ namespace ImageHuntBotTest
             // Act
             await _target.Begin(dialog);
             // Assert
-            A.CallTo(() => dialog.Begin(A<ITurnContext>._)).MustHaveHappened();
+            A.CallTo(() => dialog.Begin(A<ITurnContext>._, A<bool>._)).MustHaveHappened();
         }
         [Fact]
         public async Task Begin_errorInDialog()
         {
             // Arrange
             var dialog = A.Fake<IDialog>();
-            A.CallTo(() => dialog.Begin(A<ITurnContext>._)).Throws<Exception>();
+            A.CallTo(() => dialog.Begin(A<ITurnContext>._, A<bool>._)).Throws<Exception>();
 
             // Act
             await _target.Begin(dialog);
             // Assert
-            A.CallTo(() => dialog.Begin(A<ITurnContext>._)).MustHaveHappened();
+            A.CallTo(() => dialog.Begin(A<ITurnContext>._, A<bool>._)).MustHaveHappened();
             //A.CallTo(() => _logger.Log())
         }
         [Fact]
