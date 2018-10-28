@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, AfterContentChecked, AfterContentInit } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-polylinedecorator';
+import 'leaflet-contextmenu';
 
 import { GameService } from '../../shared/services/game.service';
 import { GeoPoint } from '../../shared/GeoPoint';
@@ -85,7 +86,7 @@ export class MapDetail3Component implements OnInit {
   }
   updateMap() {
 
-    if (this.latCenter) {
+    if (this.latCenter !== undefined) {
       this.map.setView(new L.LatLng(this.latCenter, this.lngCenter), this.zoom);
       this.map.on('click', event => this.mapClicked.emit(event));
       this.createMarkers();
@@ -150,7 +151,7 @@ export class MapDetail3Component implements OnInit {
         iconAnchor: [16, 16]
       });
       const marker = new NodeMarker([node.latitude, node.longitude],
-        { icon: icon, title: node.name, draggable: this.editable });
+        { icon: icon, title: node.name, draggable: this.editable, });
       marker.node = node;
       marker.addTo(this.map);
       marker.on('click', event => this.onNodeClick(event));
@@ -187,7 +188,7 @@ export class MapDetail3Component implements OnInit {
     this.firstNode = null;
     this.isFirstClick = true;
   }
-
+  
   onNodeClick(leafletEvent: L.LeafletEvent): void {
     let node = leafletEvent.target.node;
     let nClicked: NodeClicked;
@@ -211,19 +212,20 @@ export class MapDetail3Component implements OnInit {
 
   markerRightClick(leafletEvent: L.LeafletEvent): void {
     let node = leafletEvent.target.node;
-    //  this.nodeMenuItems = [
-    //    { label: 'Modifier', icon: 'fa-edit', disabled: true },
-    //    { label: 'Effacer', icon: 'fa-trash', command: event => this.deleteNode(node.id) },
-    //  ];
-    //  if (node.nodeType === 'QuestionNode') {
-    //    this.nodeMenuItems.push({
-    //      label: 'Editer les relations',
-    //      automationId: node.id,
-    //      //command: event => this.editNodeAnswers()
-    //    });
-    //  }
-    //  this.markerContextMenu.show(event.Ia);
-    //  this.nodeRightClicked.emit(new NodeClicked(node, 0, event.Ia));
+      //const nodeMenuItems = [
+      //  { label: 'Modifier', icon: 'fa-edit', disabled: true },
+      //  { label: 'Effacer', icon: 'fa-trash', command: event => this.deleteNode(node.id) },
+      //];
+      //if (node.nodeType === 'QuestionNode') {
+      //  this.nodeMenuItems.push({
+      //    label: 'Editer les relations',
+      //    automationId: node.id,
+      //    //command: event => this.editNodeAnswers()
+      //  });
+      //}
+      //this.markerContextMenu.show(event.Ia);
+      //this.nodeRightClicked.emit(new NodeClicked(node, 0, event.Ia));
+      this.nodeRightClicked.emit(new NodeClicked(node, 0, null));
 
   }
 

@@ -86,5 +86,24 @@ namespace ImageHuntBotTest.Dialog
             A.CallTo(() => turnContext.End()).MustHaveHappened();
         }
 
+        [Fact]
+        public async Task Begin_No_Current_Node()
+        {
+            // Arrange
+            var activity = new Activity()
+            {
+                ActivityType = ActivityType.Message,
+                ChatId = 15,
+            };
+            var turnContext = A.Fake<ITurnContext>();
+            A.CallTo(() => turnContext.Activity).Returns(activity);
+            var imageHuntState = new ImageHuntState() { Status = Status.Started };
+            A.CallTo(() => turnContext.GetConversationState<ImageHuntState>()).Returns(imageHuntState);
+            // Act
+            await _target.Begin(turnContext);
+            // Assert
+            A.CallTo(() => _nodeWebService.GetNode(A<int>._)).MustNotHaveHappened();
+            A.CallTo(() => turnContext.End()).MustHaveHappened();
+        }
     }
 }
