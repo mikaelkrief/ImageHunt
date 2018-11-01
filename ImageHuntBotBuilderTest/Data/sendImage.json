@@ -1,0 +1,46 @@
+{
+  "update_id": 315760889,
+  "message": {
+    "message_id": 376,
+    "from": {
+      "id": 178939937,
+      "is_bot": false,
+      "first_name": "christophe",
+      "username": "nimbusparis",
+      "language_code": "fr"
+    },
+    "chat": {
+      "id": 178939937,
+      "first_name": "christophe",
+      "username": "nimbusparis",
+      "type": "private"
+    },
+    "date": 1529570828,
+    "photo": [
+      {
+        "file_id": "AgADBAADmK0xG3AuWVHxffLzbSk_BFNWoBoABF-veZuovgZ4q3ECAAEC",
+        "file_size": 936,
+        "width": 51,
+        "height": 90
+      },
+      {
+        "file_id": "AgADBAADmK0xG3AuWVHxffLzbSk_BFNWoBoABC6h9GVCOah7rHECAAEC",
+        "file_size": 10176,
+        "width": 180,
+        "height": 320
+      },
+      {
+        "file_id": "AgADBAADmK0xG3AuWVHxffLzbSk_BFNWoBoABIp_KKHvbmKyrnECAAEC",
+        "file_size": 44104,
+        "width": 450,
+        "height": 800
+      },
+      {
+        "file_id": "AgADBAADmK0xG3AuWVHxffLzbSk_BFNWoBoABIeSS3LyTp8lrXECAAEC",
+        "file_size": 74305,
+        "width": 720,
+        "height": 1280
+      }
+    ]
+  }
+}

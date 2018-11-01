@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using Autofac;
+using Newtonsoft.Json.Linq;
 
 namespace TestUtilities
 {
@@ -29,6 +30,17 @@ namespace TestUtilities
           using (var reader = new StreamReader(stream))
           {
             return reader.ReadToEnd();
+          }
+        }
+
+      }
+      protected JObject GetJObjectFromResource(Assembly assembly, string resourceName)
+      {
+        using (var stream = assembly.GetManifestResourceStream(resourceName))
+        {
+          using (var reader = new StreamReader(stream))
+          {
+            return JObject.Parse(reader.ReadToEnd());
           }
         }
 
