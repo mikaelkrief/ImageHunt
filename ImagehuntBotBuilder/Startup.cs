@@ -132,7 +132,7 @@ namespace ImagehuntBotBuilder
             });
             // Create and register state accesssors.
             // Acessors created here are passed into the IBot-derived class on every turn.
-            services.AddSingleton<EchoBotAccessors>(sp =>
+            services.AddSingleton<ImageHuntBotAccessors>(sp =>
             {
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
                 if (options == null)
@@ -148,9 +148,9 @@ namespace ImagehuntBotBuilder
 
                 // Create the custom state accessor.
                 // State accessors enable other components to read and write individual properties of state.
-                var accessors = new EchoBotAccessors(conversationState)
+                var accessors = new ImageHuntBotAccessors(conversationState)
                 {
-                    CounterState = conversationState.CreateProperty<ImageHuntState>(EchoBotAccessors.CounterStateName),
+                    ImageHuntState = conversationState.CreateProperty<ImageHuntState>(ImageHuntBotAccessors.ImageHuntStateName),
                 };
 
                 return accessors;

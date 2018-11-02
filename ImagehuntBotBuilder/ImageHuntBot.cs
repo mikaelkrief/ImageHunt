@@ -1,13 +1,10 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 
-namespace ImagehuntBotBuilder
+namespace ImageHuntBotBuilder
 {
     /// <summary>
     /// Represents a bot that processes incoming activities.
@@ -22,24 +19,19 @@ namespace ImagehuntBotBuilder
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
     public class ImageHuntBot : IBot
     {
-        private readonly EchoBotAccessors _accessors;
+        private readonly ImageHuntBotAccessors _accessors;
         private readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EchoWithCounterBot"/> class.
         /// </summary>
         /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
-        /// <param name="loggerFactory">A <see cref="ILoggerFactory"/> that is hooked to the Azure App Service provider.</param>
+        /// <param name="logger">Logger provided by injection</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
-        public ImageHuntBot(EchoBotAccessors accessors, ILoggerFactory loggerFactory)
+        public ImageHuntBot(ImageHuntBotAccessors accessors, ILogger<ImageHuntBot> logger)
         {
-            if (loggerFactory == null)
-            {
-                throw new System.ArgumentNullException(nameof(loggerFactory));
-            }
-
-            _logger = loggerFactory.CreateLogger<ImageHuntBot>();
-            _logger.LogTrace("EchoBot turn start.");
+            _logger = logger;
+            _logger.LogTrace("ImageHuntBot turn start.");
             _accessors = accessors ?? throw new System.ArgumentNullException(nameof(accessors));
         }
 
@@ -56,7 +48,9 @@ namespace ImagehuntBotBuilder
         /// <seealso cref="BotStateSet"/>
         /// <seealso cref="ConversationState"/>
         /// <seealso cref="IMiddleware"/>
-        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task OnTurnAsync(
+            ITurnContext turnContext,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             // Handle Message activity type, which is the main activity type for shown within a conversational interface
             // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
@@ -64,19 +58,16 @@ namespace ImagehuntBotBuilder
             if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 // Get the conversation state from the turn context.
-                var state = await _accessors.CounterState.GetAsync(turnContext, () => new ImageHuntState());
-
-                // Bump the turn count for this conversation.
-                state.TurnCount++;
+                var state = await _accessors.ImageHuntState.GetAsync(turnContext, () => new ImageHuntState());
 
                 // Set the property using the accessor.
-                await _accessors.CounterState.SetAsync(turnContext, state);
+                await _accessors.ImageHuntState.SetAsync(turnContext, state);
 
                 // Save the new turn count into the conversation state.
                 await _accessors.ConversationState.SaveChangesAsync(turnContext);
 
                 // Echo back to the user whatever they typed.
-                var responseMessage = $"Turn {state.TurnCount}: You sent '{turnContext.Activity.Text}'\n";
+                var responseMessage = $"Turn {state}: You sent '{turnContext.Activity.Text}'\n";
                 await turnContext.SendActivityAsync(responseMessage);
             }
             else

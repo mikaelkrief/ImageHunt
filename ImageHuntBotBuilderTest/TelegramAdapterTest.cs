@@ -167,7 +167,7 @@ namespace ImageHuntBotBuilderTest
             Check.That(responses.Extracting("Id")).Contains("51515115");
         }
         [Fact]
-        public async Task Should_SendActivitiesAsync_on_telegram_return()
+        public async Task Should_SendActivitiesAsync_on_telegram_return_Text()
         {
             // Arrange
             var turnContext = A.Fake<ITurnContext>();
