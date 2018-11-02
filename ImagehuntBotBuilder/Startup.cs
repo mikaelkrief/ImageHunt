@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -206,6 +207,23 @@ namespace ImagehuntBotBuilder
                           return new ChannelAccount(from.Id.ToString(), from.Username);
                       }))
                     .ForMember(a => a.Text, opt => opt.ResolveUsing(u => MessageFromUpdate(u).Text))
+                    .ForMember(a => a.Attachments, opt => opt.ResolveUsing(u =>
+                      {
+                          var message = MessageFromUpdate(u);
+                          var attachments = new List<Attachment>();
+                          if (message.Photo != null)
+                          {
+                              var attachment = new Attachment()
+                              {
+                                  ContentUrl = message.Photo.OrderByDescending(p => p.FileSize).First().FileId,
+                                  ContentType = "image",
+                                  Name = message.Text
+                              };
+                              attachments.Add(attachment);
+                          }
+
+                          return attachments;
+                      }))
                     //.ForMember(a=> a.From, expression => )
                     ;
             });

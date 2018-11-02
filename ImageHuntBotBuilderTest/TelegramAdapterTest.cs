@@ -82,6 +82,22 @@ namespace ImageHuntBotBuilderTest
             Check.That(activity.Type).Equals("location");
         }
         [Fact]
+        public void Should_Map_Update_to_Activity_image()
+        {
+            // Arrange
+            var update =
+                GetJObjectFromResource(Assembly.GetExecutingAssembly(), "ImageHuntBotBuilderTest.Data.sendImage.json")
+                    .ToObject<Update>();
+            var mapper = Mapper.Instance;
+            // Act
+            var activity = _mapper.Map<Activity>(update);
+            // Assert
+            Check.That(activity.Id).Equals(update.Message.Chat.Id.ToString());
+            Check.That(activity.Type).Equals("message");
+            Check.That(activity.Attachments.Extracting("ContentUrl"))
+                .Contains("AgADBAADmK0xG3AuWVHxffLzbSk_BFNWoBoABIeSS3LyTp8lrXECAAEC");
+        }
+        [Fact]
         public async Task Should_Create_Activity_If_type_is_null()
         {
             // Arrange
