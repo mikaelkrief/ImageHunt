@@ -25,19 +25,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.1.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.1.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.1.1" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.1.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
     <PackageReference Include="Polly" Version="6.1.0" />
-    <PackageReference Include="xunit" Version="2.3.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ImagehuntBotBuilder\ImageHuntBotBuilder.csproj" />
-    <ProjectReference Include="..\ImageHuntBot\ImageHuntBot.csproj" />
     <ProjectReference Include="..\TestUtilities\TestUtilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Microsoft.Bot.Builder">
+      <HintPath>..\..\botbuilder-dotnet\libraries\Microsoft.Bot.Builder\bin\Debug - NuGet Packages\netstandard2.0\Microsoft.Bot.Builder.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bot.Schema">
       <HintPath>..\..\botbuilder-dotnet\libraries\integration\Microsoft.Bot.Builder.Integration.AspNet.Core\bin\Debug - NuGet Packages\netstandard2.0\Microsoft.Bot.Schema.dll</HintPath>
     </Reference>

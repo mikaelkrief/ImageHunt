@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +11,9 @@ using ImagehuntBotBuilder;
 using ImageHuntBotBuilder;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Rest;
 using Newtonsoft.Json.Linq;
@@ -22,6 +25,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TestUtilities;
 using Xunit;
 
+
 namespace ImageHuntBotBuilderTest
 {
     public class TelegramAdapterTest : BaseTest
@@ -30,10 +34,16 @@ namespace ImageHuntBotBuilderTest
         private IMapper _mapper;
         private ILogger<TelegramAdapter> _logger;
         private ITelegramBotClient _telegramBotClient;
+        private IConfiguration _configuration;
+        private ICredentialProvider _credentialProvider;
 
         public TelegramAdapterTest()
         {
             Startup.ConfigureMappings();
+            _configuration = A.Fake<IConfiguration>();
+            _credentialProvider = A.Fake<ICredentialProvider>();
+            _testContainerBuilder.RegisterInstance(_credentialProvider);
+            _testContainerBuilder.RegisterInstance(_configuration);
             _testContainerBuilder.RegisterType<TelegramAdapter>();
             _logger = A.Fake<ILogger<TelegramAdapter>>();
             _testContainerBuilder.RegisterInstance(_logger);
@@ -43,6 +53,7 @@ namespace ImageHuntBotBuilderTest
             _testContainerBuilder.RegisterInstance(_telegramBotClient);
             var container = _testContainerBuilder.Build();
             _target = container.Resolve<TelegramAdapter>();
+            A.CallTo(() => _credentialProvider.IsAuthenticationDisabledAsync()).Returns(true);
         }
 
         [Fact]
@@ -52,7 +63,6 @@ namespace ImageHuntBotBuilderTest
             var update =
                 GetJObjectFromResource(Assembly.GetExecutingAssembly(), "ImageHuntBotBuilderTest.Data.sendText.json")
                     .ToObject<Update>();
-            var mapper = Mapper.Instance;
             var fromExpected = new ChannelAccount(update.Message.From.Id.ToString(), update.Message.From.Username);
             // Act
             var activity = _mapper.Map<Activity>(update);
@@ -80,6 +90,13 @@ namespace ImageHuntBotBuilderTest
             // Assert
             Check.That(activity.Id).Equals(update.EditedMessage.Chat.Id.ToString());
             Check.That(activity.Type).Equals("location");
+            Check.That(activity.Attachments.Extracting("ContentType")).Contains("location");
+            Check.That(activity.Attachments.Single().Content).IsInstanceOf<GeoCoordinates>();
+            var location = activity.Attachments.Single().Content as GeoCoordinates;
+            var expectedLocation = new GeoCoordinates(latitude: 47.875189d, longitude: 3.311155d);
+
+            Check.That(location.Latitude).IsEqualsWithDelta(expectedLocation.Latitude, 0.001);
+            Check.That(location.Longitude).IsEqualsWithDelta(expectedLocation.Longitude, 0.001);
         }
         [Fact]
         public void Should_Map_Update_to_Activity_image()
@@ -101,11 +118,12 @@ namespace ImageHuntBotBuilderTest
         public async Task Should_Create_Activity_If_type_is_null()
         {
             // Arrange
-            string authHeader = "Auth";
+            string authHeader = null;
             var callback = A.Fake<BotCallbackHandler>();
+            A.CallTo(() => _configuration["BotConfiguration:BotUrl"]).Returns("http://localhost");
             Activity activity = new Activity()
             {
-                Properties = GetJObjectFromResource(Assembly.GetExecutingAssembly(), "ImageHuntBotBuilderTest.Data.sendImage.json")
+                Properties = GetJObjectFromResource(Assembly.GetExecutingAssembly(), "ImageHuntBotBuilderTest.Data.sendImage.json"),
             };
 
             // Act
@@ -117,7 +135,7 @@ namespace ImageHuntBotBuilderTest
         public async Task Should_RunPipelineAsync_If_Activity_Type_NotNull()
         {
             // Arrange
-            string authHeader = "Auth";
+            string authHeader = null;
             var callback = A.Fake<BotCallbackHandler>();
 
             Activity activity = new Activity() {Type = "message", ServiceUrl = "http://localhost"};
@@ -152,7 +170,7 @@ namespace ImageHuntBotBuilderTest
             var connectorClient = A.Fake<IConnectorClient>();
             var conversation = A.Fake<IConversations>();
             A.CallTo(() => connectorClient.Conversations).Returns(conversation);
-            var turnState = new TurnContextStateCollection(){ {typeof(ConnectorClient).FullName,connectorClient} };
+            var turnState = new TurnContextStateCollection(){ {typeof(IConnectorClient).FullName,connectorClient} };
             A.CallTo(() => turnContext.TurnState).Returns(turnState);
             A.CallTo(() => conversation.SendToConversationWithHttpMessagesAsync(A<string>._, A<Activity>._, A<Dictionary<string, List<string>>>._, A<CancellationToken>._))
                 .Returns(new HttpOperationResponse<ResourceResponse>());
@@ -189,5 +207,28 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _telegramBotClient.SendTextMessageAsync(A<ChatId>._, "toto", A<ParseMode>._, A<bool>._,
                 A<bool>._, A<int>._, A<IReplyMarkup>._, A<CancellationToken>._)).MustHaveHappened();
         }
+
+        //[Fact]
+        //public async Task Should_handle_user_location_from_emulator()
+        //{
+        //    // Arrange
+        //    var activity = new Activity("message", "e05908f0-df71-11e8-bd35-5d35ac6a130a",
+        //        text: "/location 15.55,3.616", serviceUrl: "http://localhost:50354");
+        //    var callback = A.Fake<BotCallbackHandler>();
+
+        //    // Act
+        //    await _target.ProcessActivityAsync(null, activity, callback, CancellationToken.None);
+
+        //    // Assert
+        //    A.CallTo(() =>
+        //            callback.Invoke(A<ITurnContext>.That.Matches(t => CheckTurnContext(t)), A<CancellationToken>._))
+        //        .MustHaveHappened();
+        //}
+
+        //private bool CheckTurnContext(ITurnContext turnContext)
+        //{
+        //    Check.That(turnContext.Activity.Type).Equals("location");
+        //    return true;
+        //}
     }
 }

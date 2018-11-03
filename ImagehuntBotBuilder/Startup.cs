@@ -73,25 +73,26 @@ namespace ImagehuntBotBuilder
             containerBuilder.Register(context => new TelegramBotClient(botToken))
                 .As<ITelegramBotClient>()
                 .SingleInstance();
+            var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+
+            // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+
+            // Retrieve current endpoint.
+            var environment = _isProduction ? "production" : "development";
+            var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+            if (!(service is EndpointService endpointService))
+            {
+                throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+            }
+            var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+            containerBuilder.RegisterInstance(credentialProvider).As<ICredentialProvider>();
             services.AddBot<ImageHuntBot>(options =>
             {
-                var secretKey = Configuration.GetSection("botFileSecret")?.Value;
-                var botFilePath = Configuration.GetSection("botFilePath")?.Value;
 
-                // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
-                var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
-                services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
-
-                // Retrieve current endpoint.
-                var environment = _isProduction ? "production" : "development";
-                var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
-                if (!(service is EndpointService endpointService))
-                {
-                    throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
-                }
-
-                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
-
+                options.CredentialProvider = credentialProvider;
                 // Creates a logger for the application to use.
                 ILogger logger = _loggerFactory.CreateLogger<ImageHuntBot>();
 
@@ -102,34 +103,17 @@ namespace ImagehuntBotBuilder
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
-                // The Memory Storage used here is for local bot debugging only. When the bot
-                // is restarted, everything stored in memory will be gone.
-                IStorage dataStore = new MemoryStorage();
-
-                // For production bots use the Azure Blob or
-                // Azure CosmosDB storage providers. For the Azure
-                // based storage providers, add the Microsoft.Bot.Builder.Azure
-                // Nuget package to your solution. That package is found at:
-                // https://www.nuget.org/packages/Microsoft.Bot.Builder.Azure/
-                // Uncomment the following lines to use Azure Blob Storage
-                // //Storage configuration name or ID from the .bot file.
-                // const string StorageConfigurationId = "<STORAGE-NAME-OR-ID-FROM-BOT-FILE>";
-                // var blobConfig = botConfig.FindServiceByNameOrId(StorageConfigurationId);
-                // if (!(blobConfig is BlobStorageService blobStorageConfig))
-                // {
-                //    throw new InvalidOperationException($"The .bot file does not contain an blob storage with name '{StorageConfigurationId}'.");
-                // }
-                // // Default container name.
-                // const string DefaultBotContainer = "<DEFAULT-CONTAINER>";
-                // var storageContainer = string.IsNullOrWhiteSpace(blobStorageConfig.Container) ? DefaultBotContainer : blobStorageConfig.Container;
-                // IStorage dataStore = new Microsoft.Bot.Builder.Azure.AzureBlobStorage(blobStorageConfig.ConnectionString, storageContainer);
+                IStorage dataStore = new FileStorage(
+                    Configuration.GetValue<string>("BotConfiguration:StorageFolder"));
 
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
                 var conversationState = new ConversationState(dataStore);
 
                 options.State.Add(conversationState);
+                //options.Middleware.Add(new TelegramUpdateToActivityMiddleware(Mapper.Instance));
             });
+
             // Create and register state accesssors.
             // Acessors created here are passed into the IBot-derived class on every turn.
             services.AddSingleton<ImageHuntBotAccessors>(sp =>
@@ -155,12 +139,10 @@ namespace ImagehuntBotBuilder
 
                 return accessors;
             });
+            containerBuilder.RegisterInstance(Configuration).AsImplementedInterfaces();
             services.AddTransient<IAdapterIntegration, TelegramAdapter>();
-
-            containerBuilder.RegisterType<TelegramAdapter>().As<IAdapterIntegration>();
             containerBuilder.RegisterInstance(Mapper.Instance);
             containerBuilder.Populate(services);
-            //services.AddSingleton(Mapper.Instance);
             var container = containerBuilder.Build();
             return new AutofacServiceProvider(container);
         }
@@ -176,8 +158,8 @@ namespace ImagehuntBotBuilder
 
         private static string ActivityTypeFromUpdate(Update update)
         {
-            if ((update.Message != null && update.Message.Location != null) ||
-                (update.EditedMessage != null && update.EditedMessage.Location != null))
+            var message = MessageFromUpdate(update);
+            if (message.Location != null)
                 return "location";
             return "message";
         }
@@ -190,6 +172,7 @@ namespace ImagehuntBotBuilder
                 return update.EditedMessage;
             return null;
         }
+
         public static void ConfigureMappings()
         {
             Mapper.Reset();
@@ -201,6 +184,12 @@ namespace ImagehuntBotBuilder
                     .ForMember(a => a.Timestamp, opt => opt.ResolveUsing(u => new DateTimeOffset(MessageFromUpdate(u).Date)))
                     .ForMember(a => a.Id, expression => expression.ResolveUsing(u => MessageFromUpdate(u).Chat.Id.ToString()))
                     .ForMember(a => a.Type, opt => opt.ResolveUsing(ActivityTypeFromUpdate))
+                    .ForMember(a => a.Conversation, opt => opt.ResolveUsing(u =>
+                    {
+                        var message = MessageFromUpdate(u);
+                        var conversation = new ConversationAccount() { Id = message.Chat.Id.ToString()};
+                        return conversation;
+                    }))
                     .ForMember(a => a.From, opt => opt.ResolveUsing(update =>
                       {
                           User from = MessageFromUpdate(update).From;
@@ -222,6 +211,15 @@ namespace ImagehuntBotBuilder
                               attachments.Add(attachment);
                           }
 
+                          if (message.Location != null)
+                          {
+                              var attachment = new Attachment()
+                              {
+                                  ContentType = "location",
+                                  Content = new GeoCoordinates(latitude:message.Location.Latitude, longitude:message.Location.Longitude)
+                              };
+                              attachments.Add(attachment);
+                          }
                           return attachments;
                       }))
                     //.ForMember(a=> a.From, expression => )
