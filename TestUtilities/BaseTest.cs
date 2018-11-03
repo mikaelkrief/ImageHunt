@@ -46,4 +46,19 @@ namespace TestUtilities
 
       }
   }
+
+    public class BaseTest<T> : BaseTest where T : class
+    {
+        protected T _target;
+        public BaseTest() : base()
+        {
+            _testContainerBuilder.RegisterType<T>();
+        }
+
+        public void Build()
+        {
+            _container = _testContainerBuilder.Build();
+            _target = _container.Resolve<T>();
+        }
+    }
 }
