@@ -17,6 +17,7 @@ namespace ImageHuntBotBuilder
         public int? GameId { get; set; }
         public int? TeamId { get; set; }
         public GeoCoordinates CurrentLocation { get; set; }
+        public string[] GroupAdmins { get; set; }
     }
 
     public enum Status  

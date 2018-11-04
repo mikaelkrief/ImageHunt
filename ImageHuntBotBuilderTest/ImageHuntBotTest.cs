@@ -201,5 +201,15 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _teamWebService.UploadImage(A<UploadImageRequest>._)).MustNotHaveHappened();
             A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._)).MustHaveHappened();
         }
+
+        [Fact]
+        public void Should_Bot_Handle_Command()
+        {
+            // Arrange
+            
+            // Act
+
+            // Assert
+        }
     }
 }
