@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Bot.Schema;
 
@@ -18,6 +19,8 @@ namespace ImageHuntBotBuilder
         public int? TeamId { get; set; }
         public GeoCoordinates CurrentLocation { get; set; }
         public string[] GroupAdmins { get; set; }
+        public GameResponse Game { get; set; }
+        public TeamResponse Team { get; set; }
     }
 
     public enum Status  
