@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,6 +37,8 @@ namespace ImageHuntBotBuilderTest
         private ITelegramBotClient _telegramBotClient;
         private IConfiguration _configuration;
         private ICredentialProvider _credentialProvider;
+        private HttpClient _httpClient;
+        private HttpMessageHandler _fakeHttpMessageHandler;
 
         public TelegramAdapterTest()
         {
@@ -51,8 +54,12 @@ namespace ImageHuntBotBuilderTest
             _testContainerBuilder.RegisterInstance(_mapper);
             _telegramBotClient = A.Fake<ITelegramBotClient>();
             _testContainerBuilder.RegisterInstance(_telegramBotClient);
+            _fakeHttpMessageHandler = A.Fake<HttpMessageHandler>();
+            _httpClient = new HttpClient(_fakeHttpMessageHandler) {BaseAddress = new Uri("http://test.com")};
+            _testContainerBuilder.RegisterInstance(_httpClient);
             var container = _testContainerBuilder.Build();
             _target = container.Resolve<TelegramAdapter>();
+
             A.CallTo(() => _credentialProvider.IsAuthenticationDisabledAsync()).Returns(true);
         }
 
@@ -114,7 +121,7 @@ namespace ImageHuntBotBuilderTest
             Check.That(activity.Attachments.Extracting("ContentUrl"))
                 .Contains("AgADBAADmK0xG3AuWVHxffLzbSk_BFNWoBoABIeSS3LyTp8lrXECAAEC");
         }
-        [Fact]
+        [Fact(Skip = "Handle telegram case later")]
         public async Task Should_Create_Activity_If_type_is_null()
         {
             // Arrange
@@ -230,5 +237,71 @@ namespace ImageHuntBotBuilderTest
         //    Check.That(turnContext.Activity.Type).Equals("location");
         //    return true;
         //}
+        [Fact]
+        public async Task Should_Download_Images_And_Store_in_activity_content_emulator()
+        {
+            // Arrange
+            var attachments = new List<Attachment>
+            {
+                new Attachment()
+                {
+                    ContentType = "image/png",
+                    ContentUrl =
+                        "http://localhost:50354/v3/attachments/a3e895a0-e004-11e8-bd35-5d35ac6a130a/views/original",
+                    Name = "Capture.png"
+                }
+            };
+            var activity = new Activity() {Attachments = attachments, Type = ActivityTypes.Message, ServiceUrl = "http://localhost:50354" };
+            var botCallback = A.Fake<BotCallbackHandler>();
+            var response = new HttpResponseMessage();
+            var content = new ByteArrayContent(new byte[15]);
+            response.Content = content;
+            A.CallTo(_fakeHttpMessageHandler)
+                .Where(x => x.Method.Name == "SendAsync")
+                .WithReturnType<Task<HttpResponseMessage>>()
+                .Returns(response);
+            // Act
+            await _target.ProcessActivityAsync(null, activity, botCallback, CancellationToken.None);
+            // Assert
+            A.CallTo(() => botCallback.Invoke(A<ITurnContext>.That.Matches(t => CheckTurnContext(t)), A<CancellationToken>._))
+                .MustHaveHappened();
+        }
+        [Fact]
+        public async Task Should_Download_Images_And_Store_in_activity_content_telegram()
+        {
+            // Arrange
+            var attachments = new List<Attachment>
+            {
+                new Attachment()
+                {
+                    ContentType = "telegram/image",
+                    ContentUrl =
+                        "http://localhost:50354/v3/attachments/a3e895a0-e004-11e8-bd35-5d35ac6a130a/views/original",
+                   
+                }
+            };
+            var activity = new Activity() {Attachments = attachments, Type = ActivityTypes.Message, ServiceUrl = "http://localhost:50354", Text = "Capture.jpg"};
+            var botCallback = A.Fake<BotCallbackHandler>();
+            var response = new HttpResponseMessage();
+            var content = new ByteArrayContent(new byte[15]);
+            response.Content = content;
+            A.CallTo(_fakeHttpMessageHandler)
+                .Where(x => x.Method.Name == "SendAsync")
+                .WithReturnType<Task<HttpResponseMessage>>()
+                .Returns(response);
+            // Act
+            await _target.ProcessActivityAsync(null, activity, botCallback, CancellationToken.None);
+            // Assert
+            A.CallTo(() => botCallback.Invoke(A<ITurnContext>.That.Matches(t => CheckTurnContext(t)), A<CancellationToken>._))
+                .MustHaveHappened();
+        }
+
+        private bool CheckTurnContext(ITurnContext turnContext)
+        {
+            var activity = turnContext.Activity;
+            Check.That(activity.Attachments.First().Content).IsNotNull();
+            Check.That(activity.Attachments.First().Name).IsNotEmpty();
+            return true;
+        }
     }
 }

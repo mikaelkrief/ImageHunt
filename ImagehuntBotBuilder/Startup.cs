@@ -213,7 +213,7 @@ namespace ImagehuntBotBuilder
                               var attachment = new Attachment()
                               {
                                   ContentUrl = message.Photo.OrderByDescending(p => p.FileSize).First().FileId,
-                                  ContentType = "image",
+                                  ContentType = "telegram/image",
                                   Name = message.Text
                               };
                               attachments.Add(attachment);
