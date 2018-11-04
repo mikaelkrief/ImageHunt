@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Principal;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -86,6 +87,14 @@ namespace ImageHuntBotBuilder
             {
                 activity = _mapper.Map<Activity>(activity.Properties.ToObject<Update>());
                 activity.ServiceUrl = _configuration["BotConfiguration:BotUrl"];
+            }
+            else //emulator
+            {
+                var regex = new Regex(@"\/location ");
+                if (regex.IsMatch(activity.Text))
+                {
+
+                }
             }
             return await base.ProcessActivityAsync(authHeader, activity, callback, cancellationToken);
             //BotAssert.ActivityNotNull(activity);

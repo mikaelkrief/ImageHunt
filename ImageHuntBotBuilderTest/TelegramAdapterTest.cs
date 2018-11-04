@@ -138,7 +138,7 @@ namespace ImageHuntBotBuilderTest
             string authHeader = null;
             var callback = A.Fake<BotCallbackHandler>();
 
-            Activity activity = new Activity() {Type = "message", ServiceUrl = "http://localhost"};
+            Activity activity = new Activity() {Type = "message", ServiceUrl = "http://localhost", Text = "toto"};
 
             // Act
             await _target.ProcessActivityAsync(authHeader, activity, callback, CancellationToken.None);

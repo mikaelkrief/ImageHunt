@@ -1,5 +1,8 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
@@ -20,6 +23,7 @@ namespace ImageHuntBotBuilder
     public class ImageHuntBot : IBot
     {
         private readonly ImageHuntBotAccessors _accessors;
+        private readonly IActionWebService _actionWebService;
         private readonly ILogger _logger;
 
         /// <summary>
@@ -28,39 +32,48 @@ namespace ImageHuntBotBuilder
         /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
         /// <param name="logger">Logger provided by injection</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
-        public ImageHuntBot(ImageHuntBotAccessors accessors, ILogger<ImageHuntBot> logger)
+        public ImageHuntBot(ImageHuntBotAccessors accessors, IActionWebService actionWebService, ILogger<ImageHuntBot> logger)
         {
             _logger = logger;
             _logger.LogTrace("ImageHuntBot turn start.");
             _accessors = accessors ?? throw new System.ArgumentNullException(nameof(accessors));
+            _actionWebService = actionWebService;
         }
 
         public async Task OnTurnAsync(
             ITurnContext turnContext,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            // Handle Message activity type, which is the main activity type for shown within a conversational interface
-            // Message activities may contain text, speech, interactive cards, and binary or unknown attachments.
-            // see https://aka.ms/about-bot-activity-message to learn more about the message and other activity types
-            if (turnContext.Activity.Type == ActivityTypes.Message)
+            // Get the conversation state from the turn context.
+            var state = await _accessors.ImageHuntState.GetAsync(turnContext, () => new ImageHuntState());
+
+            switch (turnContext.Activity.Type)
             {
-                // Get the conversation state from the turn context.
-                var state = await _accessors.ImageHuntState.GetAsync(turnContext, () => new ImageHuntState());
+                case "location":
+                    if (state.Status == Status.Started && state.GameId.HasValue && state.TeamId.HasValue)
+                    {
+                        var location = turnContext.Activity.Attachments.Single().Content as GeoCoordinates;
+                        var logPositionRequest = new LogPositionRequest()
+                        {
+                            GameId = state.GameId.Value,
+                            TeamId = state.TeamId.Value,
+                            Latitude = location.Latitude ?? 0d,
+                            Longitude = location.Longitude ?? 0d,
+                        };
+                        await _actionWebService.LogPosition(logPositionRequest, cancellationToken);
+                        state.CurrentLocation = location;
+                    }
 
-                // Set the property using the accessor.
-                await _accessors.ImageHuntState.SetAsync(turnContext, state);
-
-                // Save the new turn count into the conversation state.
-                await _accessors.ConversationState.SaveChangesAsync(turnContext);
-
-                // Echo back to the user whatever they typed.
-                var responseMessage = $"Turn {state}: You sent '{turnContext.Activity.Text}'\n";
-                await turnContext.SendActivityAsync(responseMessage);
+                    break;
+                case ActivityTypes.Message:
+                    break;
             }
-            else
-            {
-                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected");
-            }
+            // Set the property using the accessor.
+            await _accessors.ImageHuntState.SetAsync(turnContext, state);
+            // Save the new turn count into the conversation state.
+            await _accessors.ConversationState.SaveChangesAsync(turnContext);
+
+
         }
     }
 }

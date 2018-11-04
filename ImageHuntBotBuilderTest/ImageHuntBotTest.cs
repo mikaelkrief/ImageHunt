@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
 using ImageHunt;
 using ImageHuntBotBuilder;
+using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
@@ -18,25 +22,117 @@ namespace ImageHuntBotBuilderTest
         private ILogger<ImageHuntBot> _logger;
         private ImageHuntBotAccessors _accessor;
         private ITurnContext _turnContext;
+        private IStatePropertyAccessor<ImageHuntState> _statePropertyAccessor;
+        private IActionWebService _actionWebService;
+        private IStorage _storage;
+        private ConversationState _conversationState;
 
         public ImageHuntBotTest()
         {
             Startup.ConfigureMappings();
             _logger = A.Fake<ILogger<ImageHuntBot>>();
-            _accessor = A.Fake<ImageHuntBotAccessors>();
             _testContainerBuilder.RegisterInstance(_logger);
             _turnContext = A.Fake<ITurnContext>();
+            _actionWebService = A.Fake<IActionWebService>();
+            _testContainerBuilder.RegisterInstance(_actionWebService);
+            _statePropertyAccessor = A.Fake<IStatePropertyAccessor<ImageHuntState>>();
+            _storage = A.Fake<IStorage>();
+            _conversationState = new ConversationState(_storage);
+            _accessor = new ImageHuntBotAccessors(_conversationState);
+            _accessor.ImageHuntState = _statePropertyAccessor;
+            _testContainerBuilder.RegisterInstance(_accessor);
             Build();
         }
 
         [Fact]
-        public void Should_Turn_Record_Position()
+        public async Task Should_Turn_Record_Position()
         {
             // Arrange
-            //var activity = new Activity(type:"location", attachments:new )
-            // Act
+            var attachments = new List<Attachment>
+            {
+                new Attachment()
+                {
+                    ContentType = "location",
+                    Content = new GeoCoordinates(latitude: 15.56d, longitude: 3.92)
+                }
+            };
+            var activity = new Activity(type: "location", attachments: attachments);
+            var imageHuntState = new ImageHuntState()
+            {
+                Status = Status.Started,
+                GameId = 15,
+                TeamId = 3
+            };
+            A.CallTo(() =>
+                    _statePropertyAccessor.GetAsync(A<ITurnContext>._, A<Func<ImageHuntState>>._,
+                        A<CancellationToken>._))
+                .Returns(imageHuntState);
 
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            // Act
+            await _target.OnTurnAsync(_turnContext);
             // Assert
+            A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._))
+                .MustHaveHappened();
+            A.CallTo(() =>
+                    _statePropertyAccessor.SetAsync(A<ITurnContext>._, A<ImageHuntState>._, A<CancellationToken>._))
+                .MustHaveHappened();
+        }
+        [Fact]
+        public async Task Should_Not_Turn_Record_Position_If_Game_Not_Started()
+        {
+            // Arrange
+            var attachments = new List<Attachment>
+            {
+                new Attachment()
+                {
+                    ContentType = "location",
+                    Content = new GeoCoordinates(latitude: 15.56d, longitude: 3.92)
+                }
+            };
+            var imageHuntState = new ImageHuntState()
+            {
+                Status = Status.None
+            };
+            A.CallTo(() =>
+                    _statePropertyAccessor.GetAsync(A<ITurnContext>._, A<Func<ImageHuntState>>._,
+                        A<CancellationToken>._))
+                .Returns(imageHuntState);
+            var activity = new Activity(type: "location", attachments: attachments);
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            // Act
+            await _target.OnTurnAsync(_turnContext);
+            // Assert
+            A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._))
+                .MustNotHaveHappened();
+        }
+        [Fact]
+        public async Task Should_Not_Turn_Record_Position_If_GameId_And_TeamId_not_set()
+        {
+            // Arrange
+            var attachments = new List<Attachment>
+            {
+                new Attachment()
+                {
+                    ContentType = "location",
+                    Content = new GeoCoordinates(latitude: 15.56d, longitude: 3.92)
+                }
+            };
+            var imageHuntState = new ImageHuntState()
+            {
+                Status = Status.Started
+            };
+            A.CallTo(() =>
+                    _statePropertyAccessor.GetAsync(A<ITurnContext>._, A<Func<ImageHuntState>>._,
+                        A<CancellationToken>._))
+                .Returns(imageHuntState);
+            var activity = new Activity(type: "location", attachments: attachments);
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            // Act
+            await _target.OnTurnAsync(_turnContext);
+            // Assert
+            A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._))
+                .MustNotHaveHappened();
         }
     }
 }

@@ -25,7 +25,7 @@ namespace ImageHuntBotBuilder
         }
 
         /// <summary>
-        /// Gets the <see cref="IStatePropertyAccessor{T}"/> name used for the <see cref="ImagehuntBotBuilder.ImageHuntState"/> accessor.
+        /// Gets the <see cref="IStatePropertyAccessor{T}"/> name used for the <see cref="ImageHuntBotBuilder.ImageHuntState"/> accessor.
         /// </summary>
         /// <remarks>Accessors require a unique name.</remarks>
         /// <value>The accessor name for the counter accessor.</value>

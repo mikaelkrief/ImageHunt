@@ -28,6 +28,11 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\ImageHuntWebServiceClient\ImageHuntWebServiceClient.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
     <Reference Include="Autofac">
       <HintPath>..\..\..\Users\ChristopheMandrillon\.nuget\packages\autofac\4.8.1\lib\netstandard1.1\Autofac.dll</HintPath>
     </Reference>
