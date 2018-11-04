@@ -88,14 +88,14 @@ namespace ImageHuntBotBuilder
                 activity = _mapper.Map<Activity>(activity.Properties.ToObject<Update>());
                 activity.ServiceUrl = _configuration["BotConfiguration:BotUrl"];
             }
-            else //emulator
-            {
-                var regex = new Regex(@"\/location ");
-                if (regex.IsMatch(activity.Text))
-                {
+            //else //emulator
+            //{
+            //    var regex = new Regex(@"\/location ");
+            //    if (regex.IsMatch(activity.Text))
+            //    {
 
-                }
-            }
+            //    }
+            //}
             return await base.ProcessActivityAsync(authHeader, activity, callback, cancellationToken);
             //BotAssert.ActivityNotNull(activity);
             //_logger.LogInformation($"Received an incoming activity.  ActivityId: {activity.Id}");

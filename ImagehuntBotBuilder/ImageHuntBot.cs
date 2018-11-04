@@ -24,6 +24,7 @@ namespace ImageHuntBotBuilder
     {
         private readonly ImageHuntBotAccessors _accessors;
         private readonly IActionWebService _actionWebService;
+        private readonly ITeamWebService _teamWebService;
         private readonly ILogger _logger;
 
         /// <summary>
@@ -32,12 +33,16 @@ namespace ImageHuntBotBuilder
         /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
         /// <param name="logger">Logger provided by injection</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
-        public ImageHuntBot(ImageHuntBotAccessors accessors, IActionWebService actionWebService, ILogger<ImageHuntBot> logger)
+        public ImageHuntBot(ImageHuntBotAccessors accessors, 
+            IActionWebService actionWebService, 
+            ITeamWebService teamWebService,
+            ILogger<ImageHuntBot> logger)
         {
             _logger = logger;
             _logger.LogTrace("ImageHuntBot turn start.");
             _accessors = accessors ?? throw new System.ArgumentNullException(nameof(accessors));
             _actionWebService = actionWebService;
+            _teamWebService = teamWebService;
         }
 
         public async Task OnTurnAsync(

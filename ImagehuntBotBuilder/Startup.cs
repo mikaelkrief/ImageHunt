@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
@@ -142,6 +144,12 @@ namespace ImagehuntBotBuilder
             containerBuilder.RegisterInstance(Configuration).AsImplementedInterfaces();
             services.AddTransient<IAdapterIntegration, TelegramAdapter>();
             containerBuilder.RegisterInstance(Mapper.Instance);
+            containerBuilder.Register(a => new HttpClient()
+            {
+                BaseAddress = new Uri(Configuration.GetValue<string>("ImageHuntApi:Url")),
+                DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", "ImageHuntBotToken") }
+            });
+
             containerBuilder.Populate(services);
             var container = containerBuilder.Build();
             return new AutofacServiceProvider(container);

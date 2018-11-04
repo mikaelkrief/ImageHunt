@@ -26,6 +26,7 @@ namespace ImageHuntBotBuilderTest
         private IActionWebService _actionWebService;
         private IStorage _storage;
         private ConversationState _conversationState;
+        private ITeamWebService _teamWebService;
 
         public ImageHuntBotTest()
         {
@@ -34,7 +35,9 @@ namespace ImageHuntBotBuilderTest
             _testContainerBuilder.RegisterInstance(_logger);
             _turnContext = A.Fake<ITurnContext>();
             _actionWebService = A.Fake<IActionWebService>();
+            _teamWebService = A.Fake<ITeamWebService>();
             _testContainerBuilder.RegisterInstance(_actionWebService);
+            _testContainerBuilder.RegisterInstance(_teamWebService);
             _statePropertyAccessor = A.Fake<IStatePropertyAccessor<ImageHuntState>>();
             _storage = A.Fake<IStorage>();
             _conversationState = new ConversationState(_storage);
@@ -134,5 +137,36 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._))
                 .MustNotHaveHappened();
         }
+        [Fact]
+        public async Task Should_Turn_Record_Images()
+        {
+            // Arrange
+            var attachments = new List<Attachment>
+            {
+                new Attachment()
+                {
+                    ContentType = "image",
+                    ContentUrl = "http://api.telegram.com/imge/1515151515"
+                }
+            };
+            var activity = new Activity(type: "message", attachments: attachments);
+            var imageHuntState = new ImageHuntState()
+            {
+                Status = Status.Started,
+                GameId = 15,
+                TeamId = 3,
+                CurrentLocation = new GeoCoordinates(latitude:15.6d, longitude:3.9d)
+            };
+            A.CallTo(() =>
+                    _statePropertyAccessor.GetAsync(A<ITurnContext>._, A<Func<ImageHuntState>>._,
+                        A<CancellationToken>._))
+                .Returns(imageHuntState);
+
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            // Act
+            await _target.OnTurnAsync(_turnContext);
+            // Assert
+        }
+
     }
 }
