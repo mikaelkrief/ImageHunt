@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.Bot.Schema;
 
 namespace ImageHuntBotBuilder
 {
@@ -13,9 +14,16 @@ namespace ImageHuntBotBuilder
     public class ImageHuntState
     {
         public Status Status { get; set; }
+        public int? GameId { get; set; }
+        public int? TeamId { get; set; }
+        public GeoCoordinates CurrentLocation { get; set; }
     }
 
     public enum Status  
     {
+        None,
+        Initialized,
+        Started,
+        Ended
     }
 }
