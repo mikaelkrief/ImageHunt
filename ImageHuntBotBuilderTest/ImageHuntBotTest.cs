@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
@@ -81,6 +80,7 @@ namespace ImageHuntBotBuilderTest
                     _statePropertyAccessor.SetAsync(A<ITurnContext>._, A<ImageHuntState>._, A<CancellationToken>._))
                 .MustHaveHappened();
         }
+
         [Fact]
         public async Task Should_Not_Turn_Record_Position_If_Game_Not_Started()
         {
@@ -109,6 +109,7 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._))
                 .MustNotHaveHappened();
         }
+
         [Fact]
         public async Task Should_Not_Turn_Record_Position_If_GameId_And_TeamId_not_set()
         {
@@ -137,6 +138,7 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._))
                 .MustNotHaveHappened();
         }
+
         [Fact]
         public async Task Should_Turn_Record_Images()
         {
@@ -145,17 +147,16 @@ namespace ImageHuntBotBuilderTest
             {
                 new Attachment()
                 {
-                    ContentType = "image",
-                    ContentUrl = "http://api.telegram.com/imge/1515151515"
+                    Content = new byte[15]
                 }
             };
-            var activity = new Activity(type: "message", attachments: attachments);
+            var activity = new Activity(type: "image", attachments: attachments);
             var imageHuntState = new ImageHuntState()
             {
                 Status = Status.Started,
                 GameId = 15,
                 TeamId = 3,
-                CurrentLocation = new GeoCoordinates(latitude:15.6d, longitude:3.9d)
+                CurrentLocation = new GeoCoordinates(latitude: 15.6d, longitude: 3.9d)
             };
             A.CallTo(() =>
                     _statePropertyAccessor.GetAsync(A<ITurnContext>._, A<Func<ImageHuntState>>._,
@@ -166,7 +167,39 @@ namespace ImageHuntBotBuilderTest
             // Act
             await _target.OnTurnAsync(_turnContext);
             // Assert
-        }
+            A.CallTo(() => _teamWebService.UploadImage(A<UploadImageRequest>._)).MustHaveHappened();
 
+        }
+        [Fact]
+        public async Task Should_Turn_Not_Record_Images_If_Hunt_Not_Started()
+        {
+            // Arrange
+            var attachments = new List<Attachment>
+            {
+                new Attachment()
+                {
+                    Content = new byte[15]
+                }
+            };
+            var activity = new Activity(type: "image", attachments: attachments);
+            var imageHuntState = new ImageHuntState()
+            {
+                Status = Status.None,
+                GameId = 15,
+                TeamId = 3,
+                CurrentLocation = new GeoCoordinates(latitude: 15.6d, longitude: 3.9d)
+            };
+            A.CallTo(() =>
+                    _statePropertyAccessor.GetAsync(A<ITurnContext>._, A<Func<ImageHuntState>>._,
+                        A<CancellationToken>._))
+                .Returns(imageHuntState);
+
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            // Act
+            await _target.OnTurnAsync(_turnContext);
+            // Assert
+            A.CallTo(() => _teamWebService.UploadImage(A<UploadImageRequest>._)).MustNotHaveHappened();
+            A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._)).MustHaveHappened();
+        }
     }
 }

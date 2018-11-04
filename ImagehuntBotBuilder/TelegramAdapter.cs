@@ -67,6 +67,7 @@ namespace ImageHuntBotBuilder
                                             var bytes = new byte[contentStream.Length];
                                             await contentStream.ReadAsync(bytes, 0, (int)contentStream.Length);
                                             attachment.Content = bytes;
+                                            activity.Type = "image";
                                         }
                                     }
                                 }
@@ -81,6 +82,7 @@ namespace ImageHuntBotBuilder
                                         await stream.ReadAsync(imageBytes, 0, (int) stream.Length);
                                         attachment.Content = imageBytes;
                                         attachment.Name = activity.Text;
+                                        activity.Type = "image";
                                     }
                                 }
                                 break;

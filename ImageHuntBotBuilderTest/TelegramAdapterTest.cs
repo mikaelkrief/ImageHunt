@@ -17,7 +17,6 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Rest;
-using Newtonsoft.Json.Linq;
 using NFluent;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -301,6 +300,7 @@ namespace ImageHuntBotBuilderTest
             var activity = turnContext.Activity;
             Check.That(activity.Attachments.First().Content).IsNotNull();
             Check.That(activity.Attachments.First().Name).IsNotEmpty();
+            Check.That(activity.Type).Equals("image");
             return true;
         }
     }

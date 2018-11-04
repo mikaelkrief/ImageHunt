@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
@@ -33,8 +35,8 @@ namespace ImageHuntBotBuilder
         /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
         /// <param name="logger">Logger provided by injection</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
-        public ImageHuntBot(ImageHuntBotAccessors accessors, 
-            IActionWebService actionWebService, 
+        public ImageHuntBot(ImageHuntBotAccessors accessors,
+            IActionWebService actionWebService,
             ITeamWebService teamWebService,
             ILogger<ImageHuntBot> logger)
         {
@@ -55,9 +57,13 @@ namespace ImageHuntBotBuilder
             switch (turnContext.Activity.Type)
             {
                 case "location":
-                    if (state.Status == Status.Started && state.GameId.HasValue && state.TeamId.HasValue)
+                    if (state.Status == Status.Started &&
+                        state.GameId.HasValue &&
+                        state.TeamId.HasValue)
                     {
                         var location = turnContext.Activity.Attachments.Single().Content as GeoCoordinates;
+                        _logger.LogInformation(
+                            $"Receive location [{location.Latitude}, {location.Longitude}] for GameId={state.GameId}, TeamId={state.TeamId}");
                         var logPositionRequest = new LogPositionRequest()
                         {
                             GameId = state.GameId.Value,
@@ -70,15 +76,44 @@ namespace ImageHuntBotBuilder
                     }
 
                     break;
+                case "image":
+                    if (state.Status == Status.Started &&
+                        state.GameId.HasValue &&
+                        state.TeamId.HasValue)
+                    {
+                        var uploadRequest = new UploadImageRequest()
+                        {
+                            GameId = state.GameId.Value,
+                            TeamId = state.TeamId.Value,
+                            Latitude = state.CurrentLocation.Latitude ?? 0d,
+                            Longitude = state.CurrentLocation.Longitude ?? 0d,
+                            ImageName = turnContext.Activity.Text
+                        };
+                        using (var stream = new MemoryStream((byte[]) turnContext.Activity.Attachments.First().Content))
+                        {
+                            uploadRequest.FormFile = new FormFile(stream, 0, stream.Length, "formFile", "image.jpg");
+                            await _teamWebService.UploadImage(uploadRequest);
+                            _logger.LogInformation(
+                                $"Image {turnContext.Activity.Attachments.First().Name} had been uploaded");
+                            await turnContext.SendActivityAsync(
+                                $"Votre image a bien été téléchargée, un validateur l'examinera pour vous attribuer les points", cancellationToken: cancellationToken);
+                        }
+                    }
+                    else
+                    {
+                        await turnContext.SendActivityAsync(
+                            $"La chasse n'a pas encore commencée ou le groupe n'est pas encore initialisé, merci de m'envoyer les photos plus tard!", cancellationToken: cancellationToken);
+                    }
+
+                    break;
                 case ActivityTypes.Message:
                     break;
             }
+
             // Set the property using the accessor.
             await _accessors.ImageHuntState.SetAsync(turnContext, state);
             // Save the new turn count into the conversation state.
             await _accessors.ConversationState.SaveChangesAsync(turnContext);
-
-
         }
     }
 }
