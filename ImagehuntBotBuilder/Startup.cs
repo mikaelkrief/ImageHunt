@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -10,6 +7,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using ImageHuntBotBuilder;
+using ImageHuntBotBuilder.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -18,7 +16,6 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -63,37 +60,32 @@ namespace ImagehuntBotBuilder
         /// <seealso cref="IStatePropertyAccessor{T}"/>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection"/>
         /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             ConfigureMappings();
 
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.RegisterModule<DefaultModule>();
-            containerBuilder.RegisterInstance(Configuration);
-            var botToken = Configuration.GetSection("BotConfiguration:BotToken").Value;
-            // Register bot client
-            containerBuilder.Register(context => new TelegramBotClient(botToken))
-                .As<ITelegramBotClient>()
-                .SingleInstance();
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
 
             // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
             var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
-            services.AddSingleton(sp => botConfig ?? throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
+            services.AddSingleton(sp =>
+                botConfig ??
+                throw new InvalidOperationException($"The .bot config file could not be loaded. ({botConfig})"));
 
             // Retrieve current endpoint.
             var environment = _isProduction ? "production" : "development";
             var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
             if (!(service is EndpointService endpointService))
             {
-                throw new InvalidOperationException($"The .bot file does not contain an endpoint with name '{environment}'.");
+                throw new InvalidOperationException(
+                    $"The .bot file does not contain an endpoint with name '{environment}'.");
             }
+
             var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
-            containerBuilder.RegisterInstance(credentialProvider).As<ICredentialProvider>();
+            services.AddSingleton( credentialProvider);
             services.AddBot<ImageHuntBot>(options =>
             {
-
                 options.CredentialProvider = credentialProvider;
                 // Creates a logger for the application to use.
                 ILogger logger = _loggerFactory.CreateLogger<ImageHuntBot>();
@@ -113,7 +105,6 @@ namespace ImagehuntBotBuilder
                 var conversationState = new ConversationState(dataStore);
 
                 options.State.Add(conversationState);
-                //options.Middleware.Add(new TelegramUpdateToActivityMiddleware(Mapper.Instance));
             });
 
             // Create and register state accesssors.
@@ -123,27 +114,69 @@ namespace ImagehuntBotBuilder
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
                 if (options == null)
                 {
-                    throw new InvalidOperationException("BotFrameworkOptions must be configured prior to setting up the state accessors");
+                    throw new InvalidOperationException(
+                        "BotFrameworkOptions must be configured prior to setting up the state accessors");
                 }
 
                 var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
                 if (conversationState == null)
                 {
-                    throw new InvalidOperationException("ConversationState must be defined and added before adding conversation-scoped state accessors.");
+                    throw new InvalidOperationException(
+                        "ConversationState must be defined and added before adding conversation-scoped state accessors.");
                 }
 
                 // Create the custom state accessor.
                 // State accessors enable other components to read and write individual properties of state.
                 var accessors = new ImageHuntBotAccessors(conversationState)
                 {
-                    ImageHuntState = conversationState.CreateProperty<ImageHuntState>(ImageHuntBotAccessors.ImageHuntStateName),
+                    ImageHuntState =
+                        conversationState.CreateProperty<ImageHuntState>(ImageHuntBotAccessors.ImageHuntStateName),
                 };
 
                 return accessors;
             });
+
+            //services.AddTransient<IAdapterIntegration, TelegramAdapter>();
+        }
+
+        public void ConfigureContainer(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterModule<DefaultModule>();
+            var secretKey = Configuration.GetSection("botFileSecret")?.Value;
+            var botFilePath = Configuration.GetSection("botFilePath")?.Value;
+
+            // Loads .bot configuration file and adds a singleton that your Bot can access through dependency injection.
+            var botConfig = BotConfiguration.Load(botFilePath ?? @".\BotConfiguration.bot", secretKey);
+            containerBuilder.RegisterInstance(botConfig);
+
+            // Retrieve current endpoint.
+            var environment = _isProduction ? "production" : "development";
+            var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+            if (!(service is EndpointService endpointService))
+            {
+                throw new InvalidOperationException(
+                    $"The .bot file does not contain an endpoint with name '{environment}'.");
+            }
+
+            var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+            containerBuilder.RegisterInstance(credentialProvider).AsImplementedInterfaces();
+            containerBuilder.RegisterInstance(Configuration);
+            // Register bot client
+            var botToken = Configuration.GetSection("BotConfiguration:BotToken").Value;
+
+            containerBuilder.Register(context => new TelegramBotClient(botToken))
+                .As<ITelegramBotClient>()
+                .SingleInstance();
             containerBuilder.RegisterInstance(Configuration).AsImplementedInterfaces();
-            services.AddTransient<IAdapterIntegration, TelegramAdapter>();
-            //containerBuilder.RegisterType<TelegramAdapter>().As<IAdapterIntegration>();
+
+            containerBuilder.RegisterType<TelegramAdapter>().OnActivating(e =>
+            {
+                var adapter = e.Instance;
+                adapter.Use(e.Context.Resolve<LogPositionMiddleware>());
+            })
+                .AsSelf()
+                .As<IAdapterIntegration>();
+            containerBuilder.RegisterType<LogPositionMiddleware>().AsSelf().As<IMiddleware>();
             containerBuilder.RegisterInstance(Mapper.Instance);
             containerBuilder.Register(a => new HttpClient()
             {
@@ -151,11 +184,8 @@ namespace ImagehuntBotBuilder
                 DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", "ImageHuntBotToken") }
             });
 
-            containerBuilder.Populate(services);
-            var container = containerBuilder.Build();
-            return new AutofacServiceProvider(container);
-        }
 
+        }
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
@@ -190,47 +220,51 @@ namespace ImagehuntBotBuilder
                 config.CreateMap<Update, Activity>()
                     .ForMember(a => a.ChannelId, opt => opt.UseValue("telegram"))
                     .ForMember(a => a.Value, opt => opt.MapFrom(u => u))
-                    .ForMember(a => a.Timestamp, opt => opt.ResolveUsing(u => new DateTimeOffset(MessageFromUpdate(u).Date)))
-                    .ForMember(a => a.Id, expression => expression.ResolveUsing(u => MessageFromUpdate(u).Chat.Id.ToString()))
+                    .ForMember(a => a.Timestamp,
+                        opt => opt.ResolveUsing(u => new DateTimeOffset(MessageFromUpdate(u).Date)))
+                    .ForMember(a => a.Id,
+                        expression => expression.ResolveUsing(u => MessageFromUpdate(u).Chat.Id.ToString()))
                     .ForMember(a => a.Type, opt => opt.ResolveUsing(ActivityTypeFromUpdate))
                     .ForMember(a => a.Conversation, opt => opt.ResolveUsing(u =>
                     {
                         var message = MessageFromUpdate(u);
-                        var conversation = new ConversationAccount() { Id = message.Chat.Id.ToString()};
+                        var conversation = new ConversationAccount() {Id = message.Chat.Id.ToString()};
                         return conversation;
                     }))
                     .ForMember(a => a.From, opt => opt.ResolveUsing(update =>
-                      {
-                          User from = MessageFromUpdate(update).From;
-                          return new ChannelAccount(from.Id.ToString(), from.Username);
-                      }))
+                    {
+                        User from = MessageFromUpdate(update).From;
+                        return new ChannelAccount(from.Id.ToString(), from.Username);
+                    }))
                     .ForMember(a => a.Text, opt => opt.ResolveUsing(u => MessageFromUpdate(u).Text))
                     .ForMember(a => a.Attachments, opt => opt.ResolveUsing(u =>
-                      {
-                          var message = MessageFromUpdate(u);
-                          var attachments = new List<Attachment>();
-                          if (message.Photo != null)
-                          {
-                              var attachment = new Attachment()
-                              {
-                                  ContentUrl = message.Photo.OrderByDescending(p => p.FileSize).First().FileId,
-                                  ContentType = "telegram/image",
-                                  Name = message.Text
-                              };
-                              attachments.Add(attachment);
-                          }
+                    {
+                        var message = MessageFromUpdate(u);
+                        var attachments = new List<Attachment>();
+                        if (message.Photo != null)
+                        {
+                            var attachment = new Attachment()
+                            {
+                                ContentUrl = message.Photo.OrderByDescending(p => p.FileSize).First().FileId,
+                                ContentType = "telegram/image",
+                                Name = message.Text
+                            };
+                            attachments.Add(attachment);
+                        }
 
-                          if (message.Location != null)
-                          {
-                              var attachment = new Attachment()
-                              {
-                                  ContentType = "location",
-                                  Content = new GeoCoordinates(latitude:message.Location.Latitude, longitude:message.Location.Longitude)
-                              };
-                              attachments.Add(attachment);
-                          }
-                          return attachments;
-                      }))
+                        if (message.Location != null)
+                        {
+                            var attachment = new Attachment()
+                            {
+                                ContentType = "location",
+                                Content = new GeoCoordinates(latitude: message.Location.Latitude,
+                                    longitude: message.Location.Longitude)
+                            };
+                            attachments.Add(attachment);
+                        }
+
+                        return attachments;
+                    }))
                     //.ForMember(a=> a.From, expression => )
                     ;
             });

@@ -68,5 +68,32 @@ namespace ImageHuntBotBuilderTest.Middlewares
                 .MustHaveHappened();
             A.CallTo(() => _nextDelegate.Invoke(A<CancellationToken>._)).MustNotHaveHappened();
         }
+        [Fact]
+        public async Task Should_Do_Nothing_If_Activity_Type_not_location()
+        {
+            // Arrange
+            var attachements = new List<Attachment>
+            {
+                new Attachment() {Content = new GeoCoordinates(latitude: 45.7, longitude: 65.9)}
+            };
+            var activity = new Activity() {Type = ActivityTypes.Message};
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            var imageHuntState = new ImageHuntState()
+            {
+                Status = Status.Started,
+                GameId = 15,
+                TeamId = 78,
+            };
+            A.CallTo(() =>
+                    _statePropertyAccessor.GetAsync(A<ITurnContext>._, A<Func<ImageHuntState>>._,
+                        A<CancellationToken>._))
+                .Returns(imageHuntState);
+            // Act
+            await _target.OnTurnAsync(_turnContext, _nextDelegate);
+            // Assert
+            A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._))
+                .MustNotHaveHappened();
+            A.CallTo(() => _nextDelegate.Invoke(A<CancellationToken>._)).MustHaveHappened();
+        }
     }
 }

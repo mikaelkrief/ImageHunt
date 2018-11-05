@@ -48,6 +48,10 @@ namespace ImageHuntBotBuilder.Middlewares
                     state.CurrentLocation = location;
                 }
             }
+            else
+            {
+                await next(cancellationToken);
+            }
         }
     }
 }

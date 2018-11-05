@@ -61,26 +61,6 @@ namespace ImageHuntBotBuilder
 
             switch (turnContext.Activity.Type)
             {
-                case "location":
-                    if (state.Status == Status.Started &&
-                        state.GameId.HasValue &&
-                        state.TeamId.HasValue)
-                    {
-                        var location = turnContext.Activity.Attachments.Single().Content as GeoCoordinates;
-                        _logger.LogInformation(
-                            $"Receive location [{location.Latitude}, {location.Longitude}] for GameId={state.GameId}, TeamId={state.TeamId}");
-                        var logPositionRequest = new LogPositionRequest()
-                        {
-                            GameId = state.GameId.Value,
-                            TeamId = state.TeamId.Value,
-                            Latitude = location.Latitude ?? 0d,
-                            Longitude = location.Longitude ?? 0d,
-                        };
-                        await _actionWebService.LogPosition(logPositionRequest, cancellationToken);
-                        state.CurrentLocation = location;
-                    }
-
-                    break;
                 case "image":
                     if (state.Status == Status.Started &&
                         state.GameId.HasValue &&
