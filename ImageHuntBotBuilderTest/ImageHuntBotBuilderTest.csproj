@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\newUser.json" />
     <None Remove="Data\sendImage.json" />
     <None Remove="Data\sendLocation.json" />
     <None Remove="Data\sendText.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Data\newUser.json" />
     <EmbeddedResource Include="Data\sendLocation.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
