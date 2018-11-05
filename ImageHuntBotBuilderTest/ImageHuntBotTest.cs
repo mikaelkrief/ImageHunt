@@ -17,6 +17,8 @@ using Xunit;
 
 namespace ImageHuntBotBuilderTest
 {
+    [Collection("AutomapperFixture")]
+
     public class ImageHuntBotTest : BaseTest<ImageHuntBot>
     {
         private ILogger<ImageHuntBot> _logger;

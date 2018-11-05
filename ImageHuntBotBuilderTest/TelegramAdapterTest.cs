@@ -28,6 +28,8 @@ using Xunit;
 
 namespace ImageHuntBotBuilderTest
 {
+    [Collection("AutomapperFixture")]
+
     public class TelegramAdapterTest : BaseTest
     {
         private TelegramAdapter _target;
