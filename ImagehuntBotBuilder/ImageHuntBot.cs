@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ImageHuntBotBuilder.Commands;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Http.Internal;
@@ -27,6 +28,7 @@ namespace ImageHuntBotBuilder
         private readonly ImageHuntBotAccessors _accessors;
         private readonly IActionWebService _actionWebService;
         private readonly ITeamWebService _teamWebService;
+        private readonly ICommandRepository _commandRepository;
         private readonly ILogger _logger;
 
         /// <summary>
@@ -38,6 +40,7 @@ namespace ImageHuntBotBuilder
         public ImageHuntBot(ImageHuntBotAccessors accessors,
             IActionWebService actionWebService,
             ITeamWebService teamWebService,
+            ICommandRepository commandRepository,
             ILogger<ImageHuntBot> logger)
         {
             _logger = logger;
@@ -45,6 +48,7 @@ namespace ImageHuntBotBuilder
             _accessors = accessors ?? throw new System.ArgumentNullException(nameof(accessors));
             _actionWebService = actionWebService;
             _teamWebService = teamWebService;
+            _commandRepository = commandRepository;
         }
 
         public async Task OnTurnAsync(
@@ -53,6 +57,7 @@ namespace ImageHuntBotBuilder
         {
             // Get the conversation state from the turn context.
             var state = await _accessors.ImageHuntState.GetAsync(turnContext, () => new ImageHuntState());
+            await _commandRepository.RefreshAdmins();
 
             switch (turnContext.Activity.Type)
             {
@@ -107,6 +112,11 @@ namespace ImageHuntBotBuilder
 
                     break;
                 case ActivityTypes.Message:
+                    if (turnContext.Activity.Text.StartsWith('/'))
+                    {
+                        var command = _commandRepository.Get(turnContext, turnContext.Activity.Text);
+                        await command.Execute(turnContext, state);
+                    }
                     break;
             }
 

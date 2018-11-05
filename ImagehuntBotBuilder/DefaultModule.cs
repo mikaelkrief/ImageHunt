@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
+using ImageHuntBotBuilder.Commands;
 using ImageHuntWebServiceClient.WebServices;
 
 namespace ImageHuntBotBuilder
@@ -13,6 +14,13 @@ namespace ImageHuntBotBuilder
         {
             builder.RegisterType<ActionWebService>().As<IActionWebService>();
             builder.RegisterType<TeamWebService>().As<ITeamWebService>();
+            builder.RegisterType<GameWebService>().As<IGameWebService>();
+            builder.RegisterType<AdminWebService>().As<IAdminWebService>();
+
+            builder.RegisterType<CommandRepository>().AsImplementedInterfaces().SingleInstance();
+
+            builder.RegisterCommand<ResetCommand>();
+            builder.RegisterCommand<InitCommand>();
         }
     }
 }

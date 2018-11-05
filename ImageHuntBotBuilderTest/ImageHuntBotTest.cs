@@ -6,6 +6,7 @@ using Autofac;
 using FakeItEasy;
 using ImageHunt;
 using ImageHuntBotBuilder;
+using ImageHuntBotBuilder.Commands;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
@@ -26,6 +27,7 @@ namespace ImageHuntBotBuilderTest
         private IStorage _storage;
         private ConversationState _conversationState;
         private ITeamWebService _teamWebService;
+        private ICommandRepository _commandRepository;
 
         public ImageHuntBotTest()
         {
@@ -43,6 +45,8 @@ namespace ImageHuntBotBuilderTest
             _accessor = new ImageHuntBotAccessors(_conversationState);
             _accessor.ImageHuntState = _statePropertyAccessor;
             _testContainerBuilder.RegisterInstance(_accessor);
+            _commandRepository = A.Fake<ICommandRepository>();
+            _testContainerBuilder.RegisterInstance(_commandRepository);
             Build();
         }
 
@@ -203,13 +207,19 @@ namespace ImageHuntBotBuilderTest
         }
 
         [Fact]
-        public void Should_Bot_Handle_Command()
+        public async Task Should_Bot_Handle_Command()
         {
             // Arrange
-            
-            // Act
+            var activity = new Activity(text: "/toto", type:ActivityTypes.Message);
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            var command = A.Fake<ICommand>();
+            A.CallTo(() => _commandRepository.Get(_turnContext, activity.Text)).Returns(command);
 
+            // Act
+            await _target.OnTurnAsync(_turnContext);
             // Assert
+            A.CallTo(() => _commandRepository.Get(_turnContext, activity.Text)).MustHaveHappened();
+            A.CallTo(() => command.Execute(_turnContext, A<ImageHuntState>._)).MustHaveHappened();
         }
     }
 }
