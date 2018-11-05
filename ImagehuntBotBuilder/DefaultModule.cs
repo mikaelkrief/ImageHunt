@@ -12,6 +12,7 @@ namespace ImageHuntBotBuilder
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<ActionWebService>().As<IActionWebService>();
+            builder.RegisterType<TeamWebService>().As<ITeamWebService>();
         }
     }
 }

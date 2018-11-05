@@ -143,6 +143,7 @@ namespace ImagehuntBotBuilder
             });
             containerBuilder.RegisterInstance(Configuration).AsImplementedInterfaces();
             services.AddTransient<IAdapterIntegration, TelegramAdapter>();
+            //containerBuilder.RegisterType<TelegramAdapter>().As<IAdapterIntegration>();
             containerBuilder.RegisterInstance(Mapper.Instance);
             containerBuilder.Register(a => new HttpClient()
             {

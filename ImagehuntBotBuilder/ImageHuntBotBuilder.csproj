@@ -17,6 +17,7 @@
     <PackageReference Include="Autofac" Version="4.8.1" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.0" />
     <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="Castle.Core" Version="4.3.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
     <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
@@ -36,11 +37,6 @@
   </ItemGroup>
 
 
-  <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\..\..\Users\ChristopheMandrillon\.nuget\packages\castle.core\4.3.1\lib\netstandard1.5\Castle.Core.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 
 
 </Project>
