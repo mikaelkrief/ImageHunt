@@ -1,0 +1,25 @@
+{
+  "update_id": 315760887,
+  "edited_message": {
+    "message_id": 368,
+    "from": {
+      "id": 178939937,
+      "is_bot": false,
+      "first_name": "christophe",
+      "username": "nimbusparis",
+      "language_code": "fr"
+    },
+    "chat": {
+      "id": 178939937,
+      "first_name": "christophe",
+      "username": "nimbusparis",
+      "type": "private"
+    },
+    "date": 1529509302,
+    "edit_date": 1529509347,
+    "location": {
+      "latitude": 47.875189,
+      "longitude": 3.311155
+    }
+  }
+}

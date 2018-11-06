@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using Autofac;
+using Newtonsoft.Json.Linq;
 
 namespace TestUtilities
 {
@@ -33,5 +34,31 @@ namespace TestUtilities
         }
 
       }
+      protected JObject GetJObjectFromResource(Assembly assembly, string resourceName)
+      {
+        using (var stream = assembly.GetManifestResourceStream(resourceName))
+        {
+          using (var reader = new StreamReader(stream))
+          {
+            return JObject.Parse(reader.ReadToEnd());
+          }
+        }
+
+      }
   }
+
+    public class BaseTest<T> : BaseTest where T : class
+    {
+        protected T _target;
+        public BaseTest() : base()
+        {
+            _testContainerBuilder.RegisterType<T>();
+        }
+
+        public void Build()
+        {
+            _container = _testContainerBuilder.Build();
+            _target = _container.Resolve<T>();
+        }
+    }
 }
