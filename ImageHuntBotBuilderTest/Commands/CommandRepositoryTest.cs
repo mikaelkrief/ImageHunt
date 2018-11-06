@@ -135,5 +135,16 @@ namespace ImageHuntBotBuilderTest.Commands
             // Assert
         }
 
+        [Fact]
+        public async Task Should_Refresh_Every_5_Minutes()
+        {
+            // Arrange
+            
+            // Act
+            await _target.RefreshAdmins();
+            await _target.RefreshAdmins();
+            // Assert
+            A.CallTo(() => _adminWebService.GetAllAdmins()).MustHaveHappened(Repeated.Exactly.Once);
+        }
     }
 }
