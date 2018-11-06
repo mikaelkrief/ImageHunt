@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CommandLine;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Action = ImageHuntWebServiceClient.Action;
 
@@ -39,8 +40,11 @@ namespace ImageHuntApiTester
         static HttpClient httpClient = new HttpClient();
         private static IActionWebService _actionWebService;
         private static ITeamWebService _teamWebService;
+        private static LoggerFactory _loggerFactory;
+
         static void Main(string[] args)
         {
+            _loggerFactory = new LoggerFactory();
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
             RunAsync(args).GetAwaiter().GetResult();
         }
@@ -93,11 +97,11 @@ namespace ImageHuntApiTester
                         switch (o.APIToTest)
                         {
                             case "LogAction":
-                                _actionWebService = new ActionWebService(httpClient);
+                                _actionWebService = new ActionWebService(httpClient, _loggerFactory.CreateLogger<IActionWebService>());
                                 await InsertRandomPosition(o.GameId, o.MinTeamId, o.MaxTeamId, o.SeedLatitude, o.SeedLongitude, o.TimerInterval);
                                 break;
                             case "AddPlayer":
-                                _teamWebService = new TeamWebService(httpClient);
+                                _teamWebService = new TeamWebService(httpClient, _loggerFactory.CreateLogger<ITeamWebService>());
                                 await InsertPlayerToTeam(o.MinTeamId, o.Name, o.ChatLogin);
                                 break;
                         }

@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace ImageHuntWebServiceClient.WebServices
@@ -13,12 +14,14 @@ namespace ImageHuntWebServiceClient.WebServices
   public abstract class AbstractWebService
   {
     protected readonly HttpClient _httpClient;
+      private readonly ILogger _logger;
 
-    protected AbstractWebService(HttpClient httpClient)
-    {
-      _httpClient = httpClient;
-      //_httpClient.DefaultRequestHeaders.Clear();
-    }
+      protected AbstractWebService(HttpClient httpClient, ILogger logger)
+      {
+          _httpClient = httpClient;
+          _logger = logger;
+          //_httpClient.DefaultRequestHeaders.Clear();
+      }
 
     protected async Task<T> GetAsync<T>(string url, CancellationToken cancellationToken = default(CancellationToken)) where T : class
     {
@@ -33,6 +36,7 @@ namespace ImageHuntWebServiceClient.WebServices
       }
       catch (Exception e)
       {
+          _logger.LogError(e, $"Excetion while getting data from webservice {url}");
         return null;
       }
 

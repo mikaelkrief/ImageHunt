@@ -14,7 +14,7 @@ namespace ImageHuntWebServiceClient.WebServices
     {
         private readonly ILogger<PasscodeWebService> _logger;
 
-        public PasscodeWebService(HttpClient httpClient, ILogger<PasscodeWebService> logger) : base(httpClient)
+        public PasscodeWebService(HttpClient httpClient, ILogger<PasscodeWebService> logger) : base(httpClient, logger)
         {
             _logger = logger;
         }

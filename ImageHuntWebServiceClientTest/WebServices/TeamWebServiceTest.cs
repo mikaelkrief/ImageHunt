@@ -10,6 +10,7 @@ using ImageHunt.Model;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
 using Xunit;
@@ -19,10 +20,12 @@ namespace ImageHuntBotTest.WebServices
     public class TeamWebServiceTest : WebServiceBaseTest
     {
         private TeamWebService _target;
+        private ILogger<ITeamWebService> _logger;
 
         public TeamWebServiceTest()
         {
-            _target = new TeamWebService(_httpClient);
+            _logger = A.Fake<ILogger<ITeamWebService>>();
+            _target = new TeamWebService(_httpClient, _logger);
         }
         [Fact]
         public async Task GetTeamById()

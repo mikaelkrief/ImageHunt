@@ -5,13 +5,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace ImageHuntWebServiceClient.WebServices
 {
   public class TeamWebService : AbstractWebService, ITeamWebService
   {
-    public TeamWebService(HttpClient httpClient) : base(httpClient)
+    public TeamWebService(HttpClient httpClient, ILogger<ITeamWebService> logger) : base(httpClient, logger)
     {
       
     }

@@ -143,7 +143,7 @@ namespace ImageHuntBotBuilderTest
             Check.That(activity.Attachments.Extracting("ContentUrl"))
                 .Contains("AgADBAADmK0xG3AuWVHxffLzbSk_BFNWoBoABIeSS3LyTp8lrXECAAEC");
         }
-        [Fact(Skip = "Handle telegram case later")]
+        [Fact]
         public async Task Should_Create_Activity_If_type_is_null()
         {
             // Arrange

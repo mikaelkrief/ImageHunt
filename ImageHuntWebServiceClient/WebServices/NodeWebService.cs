@@ -1,12 +1,13 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Responses;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHuntWebServiceClient.WebServices
 {
     public class NodeWebService : AbstractWebService, INodeWebService
     {
-        public NodeWebService(HttpClient httpClient) : base(httpClient)
+        public NodeWebService(HttpClient httpClient, ILogger<INodeWebService> logger) : base(httpClient, logger)
         {
         }
 

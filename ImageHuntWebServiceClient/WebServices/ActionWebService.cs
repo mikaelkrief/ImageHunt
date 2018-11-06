@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace ImageHuntWebServiceClient.WebServices
 {
     public class ActionWebService : AbstractWebService, IActionWebService
     {
-        public ActionWebService(HttpClient httpClient) : base(httpClient)
+        public ActionWebService(HttpClient httpClient, ILogger<IActionWebService> logger) : base(httpClient, logger)
         {
             
         }
