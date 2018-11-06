@@ -199,8 +199,10 @@ namespace ImagehuntBotBuilder
         {
             var message = MessageFromUpdate(update);
             if (message.Location != null)
-                return "location";
-            return "message";
+                return ImageHuntActivityTypes.Location;
+            if (message.NewChatMembers != null && message.NewChatMembers.Length != 0)
+                return ImageHuntActivityTypes.NewPlayer;
+            return ActivityTypes.Message;
         }
 
         private static Message MessageFromUpdate(Update update)

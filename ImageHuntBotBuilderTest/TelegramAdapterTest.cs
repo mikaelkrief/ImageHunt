@@ -85,26 +85,26 @@ namespace ImageHuntBotBuilderTest
             Check.That(activity.Value).Equals(update);
             Check.That(activity.Timestamp).Equals(new DateTimeOffset(update.Message.Date));
         }
-        //[Fact]
-        //public void Should_New_Participant()
-        //{
-        //    // Arrange
-        //    var update =
-        //        GetJObjectFromResource(Assembly.GetExecutingAssembly(), "ImageHuntBotBuilderTest.Data.newUser.json")
-        //            .ToObject<Update>();
-        //    var fromExpected = new ChannelAccount(update.Message.From.Id.ToString(), update.Message.From.Username);
-        //    // Act
-        //    var activity = _mapper.Map<Activity>(update);
-        //    // Assert
-        //    Check.That(activity.ChannelId).Equals("telegram");
-        //    Check.That(activity.Id).Equals(update.Message.Chat.Id.ToString());
-        //    Check.That(activity.Type).Equals(ActivityTypes.ConversationUpdate);
-        //    Check.That(activity.From.Id).IsEqualTo(fromExpected.Id);
-        //    Check.That(activity.From.Name).IsEqualTo(fromExpected.Name);
-        //    Check.That(activity.Text).Equals(update.Message.Text);
-        //    Check.That(activity.Value).Equals(update);
-        //    Check.That(activity.Timestamp).Equals(new DateTimeOffset(update.Message.Date));
-        //}
+        [Fact]
+        public void Should_New_Participant()
+        {
+            // Arrange
+            var update =
+                GetJObjectFromResource(Assembly.GetExecutingAssembly(), "ImageHuntBotBuilderTest.Data.newUser.json")
+                    .ToObject<Update>();
+            var fromExpected = new ChannelAccount(update.Message.From.Id.ToString(), update.Message.From.Username);
+            // Act
+            var activity = _mapper.Map<Activity>(update);
+            // Assert
+            Check.That(activity.ChannelId).Equals("telegram");
+            Check.That(activity.Id).Equals(update.Message.Chat.Id.ToString());
+            Check.That(activity.Type).Equals(ImageHuntActivityTypes.NewPlayer);
+            Check.That(activity.From.Id).IsEqualTo(fromExpected.Id);
+            Check.That(activity.From.Name).IsEqualTo(fromExpected.Name);
+            Check.That(activity.Text).Equals(update.Message.Text);
+            Check.That(activity.Value).Equals(update);
+            Check.That(activity.Timestamp).Equals(new DateTimeOffset(update.Message.Date));
+        }
 
         [Fact]
         public void Should_Map_Update_to_Activity_Location()
