@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Autofac;
 using ImageHuntWebServiceClient.Responses;
@@ -38,8 +39,15 @@ namespace ImageHuntBotBuilder.Commands
 
         public ICommand Get(ITurnContext turnContext, string commandText)
         {
-            // Remove leading '/' if any
-            commandText = commandText.Replace('/', ' ').Trim(' ');
+            // Remove leading '/' if any and extract command name
+            var regex = new Regex(@"\/?(\S*)");
+            if (!regex.IsMatch(commandText))
+            {
+                return null;
+            }
+
+            var group = regex.Matches(commandText);
+            commandText = group[0].Groups[1].Value;
             if (turnContext.Activity == null)
             {
                 throw new ArgumentNullException("turnContext.Activity");

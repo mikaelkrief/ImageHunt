@@ -46,6 +46,10 @@ namespace ImageHuntBotBuilder.Middlewares
                     };
                     await _actionWebService.LogPosition(logPositionRequest, cancellationToken);
                     state.CurrentLocation = location;
+                    // Set the property using the accessor.
+                    await _accessors.ImageHuntState.SetAsync(turnContext, state);
+                    // Save the new turn count into the conversation state.
+                    await _accessors.ConversationState.SaveChangesAsync(turnContext);
                 }
             }
             else

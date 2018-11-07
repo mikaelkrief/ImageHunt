@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
 {
+    [Command("begin")]
+
     public class BeginCommand : AbstractCommand, IBeginCommand
     {
         private readonly IActionWebService _actionWebService;

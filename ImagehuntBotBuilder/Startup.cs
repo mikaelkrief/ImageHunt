@@ -153,10 +153,11 @@ namespace ImagehuntBotBuilder
 
         public void ConfigureDevelopmentContainer(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<EmulatorAdapter>().OnActivating(e =>
+            containerBuilder.RegisterType<LogFakePositionMiddleware>();
+            containerBuilder.RegisterType<BotFrameworkAdapter>().OnActivating(e =>
             {
                 var adapter = e.Instance;
-                adapter.Use(e.Context.Resolve<LogPositionMiddleware>());
+                adapter.Use(e.Context.Resolve<LogFakePositionMiddleware>());
             }).As<IAdapterIntegration>();
             ConfigureContainer(containerBuilder);
         }
