@@ -26,6 +26,7 @@ namespace ImageHuntBotBuilder.Commands
             catch (Exception e)
             {
                 _logger.LogError(e, "Exception occured while execute command");
+                throw e;
             }
         }
     }
