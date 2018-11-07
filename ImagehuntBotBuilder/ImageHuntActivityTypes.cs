@@ -4,5 +4,6 @@
     {
         public const string Location = "location";
         public const string NewPlayer = "newPlayer";
+        public const string Command = "command";
     }
 }

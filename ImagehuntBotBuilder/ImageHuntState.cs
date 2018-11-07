@@ -21,6 +21,8 @@ namespace ImageHuntBotBuilder
         public string[] GroupAdmins { get; set; }
         public GameResponse Game { get; set; }
         public TeamResponse Team { get; set; }
+        public NodeResponse CurrentNode { get; set; }
+        public int CurrentNodeId { get; set; }
     }
 
     public enum Status  
