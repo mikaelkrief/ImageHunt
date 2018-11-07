@@ -2,12 +2,13 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Responses;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHuntWebServiceClient.WebServices
 {
     public class AdminWebService : AbstractWebService, IAdminWebService
     {
-        public AdminWebService(HttpClient httpClient) : base(httpClient)
+        public AdminWebService(HttpClient httpClient, ILogger<IAdminWebService> logger) : base(httpClient, logger)
         {
         }
 

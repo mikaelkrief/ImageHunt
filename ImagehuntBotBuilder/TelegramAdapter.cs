@@ -22,7 +22,7 @@ using Telegram.Bot.Types;
 
 namespace ImageHuntBotBuilder
 {
-    public class TelegramAdapter : BotFrameworkAdapter, IAdapterIntegration
+    public class TelegramAdapter : BotAdapter, IAdapterIntegration
     {
         private readonly IMapper _mapper;
         private readonly ILogger<TelegramAdapter> _logger;
@@ -37,7 +37,7 @@ namespace ImageHuntBotBuilder
             IConfiguration configuration,
             ICredentialProvider credentialProvider,
             HttpClient httpClient)
-            : base(credentialProvider)
+           
         {
             _mapper = mapper;
             _logger = logger;
@@ -57,42 +57,46 @@ namespace ImageHuntBotBuilder
                         switch (attachment.ContentType)
                         {
                             case string s when s.StartsWith("image"):
+                            {
+                                // Try to download the image
+                                using (var request =
+                                    new HttpRequestMessage(HttpMethod.Get, new Uri(attachment.ContentUrl)))
                                 {
-                                    // Try to download the image
-                                    using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(attachment.ContentUrl)))
+                                    var response = await _httpClient.SendAsync(request);
+                                    using (var contentStream = await response.Content.ReadAsStreamAsync())
                                     {
-                                        var response = await _httpClient.SendAsync(request);
-                                        using (var contentStream = await response.Content.ReadAsStreamAsync())
-                                        {
-                                            var bytes = new byte[contentStream.Length];
-                                            await contentStream.ReadAsync(bytes, 0, (int)contentStream.Length);
-                                            attachment.Content = bytes;
-                                            activity.Type = "image";
-                                        }
-                                    }
-                                }
-
-                                break;
-                            case string s when s.StartsWith("telegram"):
-                                {
-                                    using (var stream = new MemoryStream())
-                                    {
-                                        var fileInfo = await _telegramBotClient.GetInfoAndDownloadFileAsync(attachment.ContentUrl, stream);
-                                        var imageBytes = new byte[stream.Length];
-                                        await stream.ReadAsync(imageBytes, 0, (int) stream.Length);
-                                        attachment.Content = imageBytes;
-                                        attachment.Name = activity.Text;
+                                        var bytes = new byte[contentStream.Length];
+                                        await contentStream.ReadAsync(bytes, 0, (int) contentStream.Length);
+                                        attachment.Content = bytes;
                                         activity.Type = "image";
                                     }
                                 }
+                            }
+
+                                break;
+                            case string s when s.StartsWith("telegram"):
+                            {
+                                using (var stream = new MemoryStream())
+                                {
+                                    var fileInfo =
+                                        await _telegramBotClient.GetInfoAndDownloadFileAsync(attachment.ContentUrl,
+                                            stream);
+                                    var imageBytes = new byte[stream.Length];
+                                    await stream.ReadAsync(imageBytes, 0, (int) stream.Length);
+                                    attachment.Content = imageBytes;
+                                    attachment.Name = activity.Text;
+                                    activity.Type = "image";
+                                }
+                            }
                                 break;
                         }
-
                     }
                 }
             }
         }
-        public override async Task<ResourceResponse[]> SendActivitiesAsync(ITurnContext turnContext, Activity[] activities, CancellationToken cancellationToken)
+
+        public override async Task<ResourceResponse[]> SendActivitiesAsync(ITurnContext turnContext,
+            Activity[] activities, CancellationToken cancellationToken)
         {
             if (turnContext == null)
                 throw new ArgumentNullException(nameof(turnContext));
@@ -100,7 +104,8 @@ namespace ImageHuntBotBuilder
                 throw new ArgumentNullException(nameof(activities));
             if (activities.Length == 0)
             {
-                throw new ArgumentException("Expecting one or more activities, but the array was empty.", nameof(activities));
+                throw new ArgumentException("Expecting one or more activities, but the array was empty.",
+                    nameof(activities));
             }
 
             var responses = new ResourceResponse[activities.Length];
@@ -111,7 +116,8 @@ namespace ImageHuntBotBuilder
                 switch (activity.ChannelId)
                 {
                     case "emulator":
-                        var connectorClient = turnContext.TurnState.Get<IConnectorClient>(typeof(IConnectorClient).FullName);
+                        var connectorClient =
+                            turnContext.TurnState.Get<IConnectorClient>(typeof(IConnectorClient).FullName);
                         response = await connectorClient.Conversations
                             .SendToConversationAsync(activity, cancellationToken).ConfigureAwait(false);
                         if (response == null)
@@ -121,7 +127,9 @@ namespace ImageHuntBotBuilder
 
                         break;
                     case "telegram":
-                        var telegramMessage = await _telegramBotClient.SendTextMessageAsync(Convert.ToInt64(activity.Conversation.Id), activity.Text);
+                        var telegramMessage =
+                            await _telegramBotClient.SendTextMessageAsync(Convert.ToInt64(activity.Conversation.Id),
+                                activity.Text);
                         response = new ResourceResponse(telegramMessage.MessageId.ToString());
                         break;
                 }
@@ -132,17 +140,35 @@ namespace ImageHuntBotBuilder
             return responses;
         }
 
-        public virtual async Task<InvokeResponse> ProcessActivityAsync(string authHeader, Activity activity, BotCallbackHandler callback,
+        public async override Task<ResourceResponse> UpdateActivityAsync(ITurnContext turnContext, Activity activity,
+            CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async override Task DeleteActivityAsync(ITurnContext turnContext, ConversationReference reference,
+            CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual async Task<InvokeResponse> ProcessActivityAsync(string authHeader, Activity activity,
+            BotCallbackHandler callback,
             CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(activity.Type))
             {
                 activity = _mapper.Map<Activity>(activity.Properties.ToObject<Update>());
-                activity.ServiceUrl = _configuration["BotConfiguration:BotUrl"];
+                //activity.ServiceUrl = _configuration["BotConfiguration:BotUrl"];
             }
 
             await DownloadPicture(activity);
-            return await base.ProcessActivityAsync(authHeader, activity, callback, cancellationToken);
+            using (var turnContext = new TurnContext(this, activity))
+            {
+                await RunPipelineAsync(turnContext, callback, cancellationToken).ConfigureAwait(false);
+                return null;
+            }
+
         }
     }
 }

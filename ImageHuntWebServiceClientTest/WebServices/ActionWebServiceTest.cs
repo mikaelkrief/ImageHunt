@@ -4,6 +4,7 @@ using FakeItEasy;
 using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
+using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
 
@@ -12,10 +13,12 @@ namespace ImageHuntWebServiceClientTest.WebServices
     public class ActionWebServiceTest : WebServiceBaseTest
     {
         private ActionWebService _target;
+        private ILogger<IActionWebService> _logger;
 
         public ActionWebServiceTest()
         {
-            _target = new ActionWebService(_httpClient);
+            _logger = A.Fake<ILogger<IActionWebService>>();
+            _target = new ActionWebService(_httpClient, _logger);
         }
 
         [Fact]

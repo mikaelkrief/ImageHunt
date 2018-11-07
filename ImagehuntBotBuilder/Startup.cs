@@ -83,7 +83,7 @@ namespace ImagehuntBotBuilder
             }
 
             var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
-            services.AddSingleton( credentialProvider);
+            services.AddSingleton(credentialProvider);
             services.AddBot<ImageHuntBot>(options =>
             {
                 options.CredentialProvider = credentialProvider;
@@ -139,6 +139,29 @@ namespace ImagehuntBotBuilder
             //services.AddTransient<IAdapterIntegration, TelegramAdapter>();
         }
 
+        public void ConfigureProductionContainer(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<TelegramAdapter>().OnActivating(e =>
+                {
+                    var adapter = e.Instance;
+                    adapter.Use(e.Context.Resolve<LogPositionMiddleware>());
+                })
+                .AsSelf()
+                .As<IAdapterIntegration>();
+            ConfigureContainer(containerBuilder);
+        }
+
+        public void ConfigureDevelopmentContainer(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<LogFakePositionMiddleware>();
+            containerBuilder.RegisterType<BotFrameworkAdapter>().OnActivating(e =>
+            {
+                var adapter = e.Instance;
+                adapter.Use(e.Context.Resolve<LogFakePositionMiddleware>());
+            }).As<IAdapterIntegration>();
+            ConfigureContainer(containerBuilder);
+        }
+
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterModule<DefaultModule>();
@@ -169,23 +192,15 @@ namespace ImagehuntBotBuilder
                 .SingleInstance();
             containerBuilder.RegisterInstance(Configuration).AsImplementedInterfaces();
 
-            containerBuilder.RegisterType<TelegramAdapter>().OnActivating(e =>
-            {
-                var adapter = e.Instance;
-                adapter.Use(e.Context.Resolve<LogPositionMiddleware>());
-            })
-                .AsSelf()
-                .As<IAdapterIntegration>();
             containerBuilder.RegisterType<LogPositionMiddleware>().AsSelf().As<IMiddleware>();
             containerBuilder.RegisterInstance(Mapper.Instance);
             containerBuilder.Register(a => new HttpClient()
             {
                 BaseAddress = new Uri(Configuration.GetValue<string>("ImageHuntApi:Url")),
-                DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", "ImageHuntBotToken") }
+                DefaultRequestHeaders = {Authorization = new AuthenticationHeaderValue("Bearer", "ImageHuntBotToken")}
             });
-
-
         }
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
@@ -199,8 +214,10 @@ namespace ImagehuntBotBuilder
         {
             var message = MessageFromUpdate(update);
             if (message.Location != null)
-                return "location";
-            return "message";
+                return ImageHuntActivityTypes.Location;
+            if (message.NewChatMembers != null && message.NewChatMembers.Length != 0)
+                return ImageHuntActivityTypes.NewPlayer;
+            return ActivityTypes.Message;
         }
 
         private static Message MessageFromUpdate(Update update)

@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Responses;
+using Microsoft.Extensions.Logging;
 
 namespace ImageHuntWebServiceClient.WebServices
 {
@@ -13,7 +14,7 @@ namespace ImageHuntWebServiceClient.WebServices
       return await GetAsync<GameResponse>($"{_httpClient.BaseAddress}api/Game/ById/{gameId}", cancellationToken);
     }
 
-    public GameWebService(HttpClient httpClient) : base(httpClient)
+    public GameWebService(HttpClient httpClient, ILogger<IGameWebService> logger) : base(httpClient, logger)
     {
     }
 

@@ -57,7 +57,6 @@ namespace ImageHuntBotBuilder
         {
             // Get the conversation state from the turn context.
             var state = await _accessors.ImageHuntState.GetAsync(turnContext, () => new ImageHuntState());
-            await _commandRepository.RefreshAdmins();
 
             switch (turnContext.Activity.Type)
             {
@@ -94,6 +93,8 @@ namespace ImageHuntBotBuilder
                 case ActivityTypes.Message:
                     if (turnContext.Activity.Text.StartsWith('/'))
                     {
+                        await _commandRepository.RefreshAdmins();
+
                         var command = _commandRepository.Get(turnContext, turnContext.Activity.Text);
                         await command.Execute(turnContext, state);
                     }

@@ -10,6 +10,7 @@ using FakeItEasy;
 using ImageHunt.Model;
 using ImageHuntBotTest.WebServices;
 using ImageHuntWebServiceClient.WebServices;
+using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
 using Xunit;
@@ -19,10 +20,12 @@ namespace ImageHuntBotTest
     public class GameServiceTest : WebServiceBaseTest
     {
       private GameWebService _target;
+        private ILogger<IGameWebService> _logger;
 
-      public GameServiceTest()
+        public GameServiceTest()
       {
-        _target = new GameWebService(_httpClient);
+          _logger = A.Fake<ILogger<IGameWebService>>();
+        _target = new GameWebService(_httpClient, _logger);
       }
       [Fact]
       public async Task GetGameById()
