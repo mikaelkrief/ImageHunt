@@ -19,12 +19,12 @@ namespace ImageHuntBotBuilderTest
 {
     [Collection("AutomapperFixture")]
 
-    public class ImageHuntBotTest : BaseTest<ImageHuntBot>
+    public class ImageHuntBotTest : BaseTest<ImageHuntBotBuilder.ImageHuntBot>
     {
-        private ILogger<ImageHuntBot> _logger;
+        private ILogger<ImageHuntBotBuilder.ImageHuntBot> _logger;
         private ImageHuntBotAccessors _accessor;
         private ITurnContext _turnContext;
-        private IStatePropertyAccessor<ImageHuntState> _statePropertyAccessor;
+        private IStatePropertyAccessorExtended<ImageHuntState> _statePropertyAccessor;
         private IActionWebService _actionWebService;
         private IStorage _storage;
         private ConversationState _conversationState;
@@ -34,14 +34,14 @@ namespace ImageHuntBotBuilderTest
         public ImageHuntBotTest()
         {
             Startup.ConfigureMappings();
-            _logger = A.Fake<ILogger<ImageHuntBot>>();
+            _logger = A.Fake<ILogger<ImageHuntBotBuilder.ImageHuntBot>>();
             _testContainerBuilder.RegisterInstance(_logger);
             _turnContext = A.Fake<ITurnContext>();
             _actionWebService = A.Fake<IActionWebService>();
             _teamWebService = A.Fake<ITeamWebService>();
             _testContainerBuilder.RegisterInstance(_actionWebService);
             _testContainerBuilder.RegisterInstance(_teamWebService);
-            _statePropertyAccessor = A.Fake<IStatePropertyAccessor<ImageHuntState>>();
+            _statePropertyAccessor = A.Fake<IStatePropertyAccessorExtended<ImageHuntState>>();
             _storage = A.Fake<IStorage>();
             _conversationState = new ConversationState(_storage);
             _accessor = new ImageHuntBotAccessors(_conversationState);

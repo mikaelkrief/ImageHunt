@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
-using ImageHuntBotBuilder.Commands;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Extensions.Logging;
 
-namespace ImageHuntBotBuilder
+namespace ImageHuntBotBuilder.Commands
 {
     [Command("end")]
     public class EndCommand : AbstractCommand, IEndCommand
@@ -17,7 +16,7 @@ namespace ImageHuntBotBuilder
             _actionWebService = actionWebService;
         }
 
-        public override bool IsAdmin { get; }
+        public override bool IsAdmin => true;
         protected async override Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
         {
             if (state.Status != Status.Started)

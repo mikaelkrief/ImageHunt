@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
@@ -24,7 +25,7 @@ namespace ImageHuntBotBuilder.Middlewares
             CancellationToken cancellationToken = new CancellationToken())
         {
             var regex = new Regex(@"\/location lat=([0-9]*[.]?[0-9]+) lng=([0-9]*[.]?[0-9]+)");
-            if (regex.IsMatch(turnContext.Activity.Text))
+            if (!turnContext.Activity.Text.IsNullOrEmpty() && regex.IsMatch(turnContext.Activity.Text))
             {
                 var state = await _accessors.ImageHuntState.GetAsync(turnContext, () => new ImageHuntState());
                 var group = regex.Matches(turnContext.Activity.Text);

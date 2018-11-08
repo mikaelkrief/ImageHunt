@@ -14,7 +14,7 @@ namespace ImageHuntBotBuilder.Commands
             _logger = logger;
         }
 
-        public abstract bool IsAdmin { get; }
+        public virtual bool IsAdmin => true;
         protected abstract Task InternalExecute(ITurnContext turnContext, ImageHuntState state);
 
         public virtual async Task Execute(ITurnContext turnContext, ImageHuntState state)

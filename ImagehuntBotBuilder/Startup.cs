@@ -102,7 +102,7 @@ namespace ImagehuntBotBuilder
 
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
-                var conversationState = new ConversationState(dataStore);
+                var conversationState = new ImageHuntConversationState(dataStore);
 
                 options.State.Add(conversationState);
             });
@@ -118,7 +118,7 @@ namespace ImagehuntBotBuilder
                         "BotFrameworkOptions must be configured prior to setting up the state accessors");
                 }
 
-                var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
+                var conversationState = options.State.OfType<ImageHuntConversationState>().FirstOrDefault();
                 if (conversationState == null)
                 {
                     throw new InvalidOperationException(

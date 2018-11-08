@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +13,7 @@ using static Newtonsoft.Json.TypeNameHandling;
 
 namespace ImageHuntBotBuilder
 {
-    public class FileStorage : IStorage
+    public class FileStorage : IStorage, IMultiStorage
     {
         private readonly string _folder;
         private readonly object _syncroot = new object();
@@ -40,6 +42,25 @@ namespace ImageHuntBotBuilder
             }
 
             return storeItems;
+        }
+
+        public async Task<IEnumerable<IDictionary<string, object>>> ReadAllAsync(
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            var keys = await ReadAllKeysAsync();
+            var results = new List<IDictionary<string, object>>();
+            foreach (var key in keys)
+            {
+                results.Add(await ReadAsync(new[] { key }, cancellationToken));
+            }
+
+            return results;
+
+        }
+
+        private async Task<IEnumerable<string>> ReadAllKeysAsync()
+        {
+            return Directory.EnumerateFiles(this._folder).Select(f => Path.GetFileName(f));
         }
 
         public async Task WriteAsync(IDictionary<string, object> changes, CancellationToken cancellationToken = new CancellationToken())
@@ -142,5 +163,11 @@ namespace ImageHuntBotBuilder
 
             return sb.ToString();
         }
+    }
+
+    public interface IMultiStorage  
+    {
+        Task<IEnumerable<IDictionary<string, object>>> ReadAllAsync(
+            CancellationToken cancellationToken = new CancellationToken());
     }
 }
