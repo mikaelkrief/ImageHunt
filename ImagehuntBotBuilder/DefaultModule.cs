@@ -23,6 +23,7 @@ namespace ImageHuntBotBuilder
             builder.RegisterCommand<InitCommand>();
             builder.RegisterCommand<BeginCommand >();
             builder.RegisterCommand<DisplayStateCommand>();
+            builder.RegisterCommand<EndCommand>();
         }
     }
 }
