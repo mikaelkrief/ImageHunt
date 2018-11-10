@@ -22,12 +22,12 @@ namespace ImageHuntBotBuilderTest.Middlewares
         private IStorage _storage;
         private ConversationState _conversationState;
         private ImageHuntBotAccessors _accessor;
-        private IStatePropertyAccessorExtended<ImageHuntState> _statePropertyAccessor;
+        private IStatePropertyAccessor<ImageHuntState> _statePropertyAccessor;
 
         public LogFakePositionMiddlewareTest()
         {
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<LogFakePositionMiddleware>());
-            _statePropertyAccessor = A.Fake<IStatePropertyAccessorExtended<ImageHuntState>>();
+            _statePropertyAccessor = A.Fake<IStatePropertyAccessor<ImageHuntState>>();
 
             _storage = A.Fake<IStorage>();
             _conversationState = new ConversationState(_storage);

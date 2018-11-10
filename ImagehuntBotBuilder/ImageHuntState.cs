@@ -14,6 +14,7 @@ namespace ImageHuntBotBuilder
     /// </summary>
     public class ImageHuntState
     {
+        public string ConversationId { get; set; }
         public Status Status { get; set; }
         public int? GameId { get; set; }
         public int? TeamId { get; set; }

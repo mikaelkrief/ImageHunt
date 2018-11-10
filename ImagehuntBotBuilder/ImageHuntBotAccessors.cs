@@ -37,7 +37,11 @@ namespace ImageHuntBotBuilder
         /// <value>
         /// The accessor stores the turn count for the conversation.
         /// </value>
-        public virtual IStatePropertyAccessorExtended<ImageHuntState> ImageHuntState { get; set; }
+        public virtual IStatePropertyAccessor<ImageHuntState> ImageHuntState { get; set; }
+        /// <summary>
+        /// return all states of all conversations
+        /// </summary>
+        public virtual IStatePropertyAccessorExtended<ImageHuntState> AllStates { get; set; }
 
         /// <summary>
         /// Gets the <see cref="ConversationState"/> object for the conversation.

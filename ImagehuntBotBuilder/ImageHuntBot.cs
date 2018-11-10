@@ -57,7 +57,7 @@ namespace ImageHuntBotBuilder
         {
             // Get the conversation state from the turn context.
             var state = await _accessors.ImageHuntState.GetAsync(turnContext, () => new ImageHuntState());
-
+            state.ConversationId = turnContext.Activity.Conversation.Id;
             switch (turnContext.Activity.Type)
             {
                 case "image":

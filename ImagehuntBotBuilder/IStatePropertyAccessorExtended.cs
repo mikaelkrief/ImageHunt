@@ -6,8 +6,8 @@ using Microsoft.Bot.Builder;
 
 namespace ImageHuntBotBuilder
 {
-    public interface IStatePropertyAccessorExtended<T> : IStatePropertyAccessor<T>
+    public interface IStatePropertyAccessorExtended<T> 
     {
-        Task<IEnumerable<T>> GetAllAsync(ITurnContext turnContext);
+        Task<IEnumerable<T>> GetAllAsync();
     }
 }

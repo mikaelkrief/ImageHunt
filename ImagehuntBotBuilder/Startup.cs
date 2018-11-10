@@ -76,6 +76,9 @@ namespace ImagehuntBotBuilder
             // Retrieve current endpoint.
             var environment = _isProduction ? "production" : "development";
             var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+            IMultiStorage dataStore = new FileStorage(
+                Configuration.GetValue<string>("BotConfiguration:StorageFolder"));
+            services.AddSingleton(dataStore);
             if (!(service is EndpointService endpointService))
             {
                 throw new InvalidOperationException(
@@ -97,12 +100,10 @@ namespace ImagehuntBotBuilder
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
-                IStorage dataStore = new FileStorage(
-                    Configuration.GetValue<string>("BotConfiguration:StorageFolder"));
 
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
-                var conversationState = new ImageHuntConversationState(dataStore);
+                var conversationState = new ConversationState(dataStore);
 
                 options.State.Add(conversationState);
             });
@@ -118,7 +119,7 @@ namespace ImagehuntBotBuilder
                         "BotFrameworkOptions must be configured prior to setting up the state accessors");
                 }
 
-                var conversationState = options.State.OfType<ImageHuntConversationState>().FirstOrDefault();
+                var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
                 if (conversationState == null)
                 {
                     throw new InvalidOperationException(
@@ -131,6 +132,7 @@ namespace ImagehuntBotBuilder
                 {
                     ImageHuntState =
                         conversationState.CreateProperty<ImageHuntState>(ImageHuntBotAccessors.ImageHuntStateName),
+                    AllStates = new MultiConversationState<ImageHuntState>(dataStore),
                 };
 
                 return accessors;
@@ -197,7 +199,7 @@ namespace ImagehuntBotBuilder
             containerBuilder.Register(a => new HttpClient()
             {
                 BaseAddress = new Uri(Configuration.GetValue<string>("ImageHuntApi:Url")),
-                DefaultRequestHeaders = {Authorization = new AuthenticationHeaderValue("Bearer", "ImageHuntBotToken")}
+                DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", "ImageHuntBotToken") }
             });
         }
 
@@ -245,7 +247,7 @@ namespace ImagehuntBotBuilder
                     .ForMember(a => a.Conversation, opt => opt.ResolveUsing(u =>
                     {
                         var message = MessageFromUpdate(u);
-                        var conversation = new ConversationAccount() {Id = message.Chat.Id.ToString()};
+                        var conversation = new ConversationAccount() { Id = message.Chat.Id.ToString() };
                         return conversation;
                     }))
                     .ForMember(a => a.From, opt => opt.ResolveUsing(update =>

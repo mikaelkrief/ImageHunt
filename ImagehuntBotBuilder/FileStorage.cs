@@ -13,7 +13,7 @@ using static Newtonsoft.Json.TypeNameHandling;
 
 namespace ImageHuntBotBuilder
 {
-    public class FileStorage : IStorage, IMultiStorage
+    public class FileStorage : IMultiStorage
     {
         private readonly string _folder;
         private readonly object _syncroot = new object();
@@ -165,7 +165,7 @@ namespace ImageHuntBotBuilder
         }
     }
 
-    public interface IMultiStorage  
+    public interface IMultiStorage  : IStorage
     {
         Task<IEnumerable<IDictionary<string, object>>> ReadAllAsync(
             CancellationToken cancellationToken = new CancellationToken());

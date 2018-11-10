@@ -24,7 +24,7 @@ namespace ImageHuntBotBuilderTest.Middlewares
         private NextDelegate _nextDelegate;
         private IActionWebService _actionWebService;
         private ImageHuntBotAccessors _accessor;
-        private IStatePropertyAccessorExtended<ImageHuntState> _statePropertyAccessor;
+        private IStatePropertyAccessor<ImageHuntState> _statePropertyAccessor;
 
         public LogPositionMiddlewareTest()
         {
@@ -36,7 +36,7 @@ namespace ImageHuntBotBuilderTest.Middlewares
             _testContainerBuilder.RegisterInstance(_actionWebService);
             _accessor = A.Fake<ImageHuntBotAccessors>();
             _testContainerBuilder.RegisterInstance(_accessor);
-            _statePropertyAccessor = A.Fake<IStatePropertyAccessorExtended<ImageHuntState>>();
+            _statePropertyAccessor = A.Fake<IStatePropertyAccessor<ImageHuntState>>();
             A.CallTo(() => _accessor.ImageHuntState).Returns(_statePropertyAccessor);
             Build();
         }
