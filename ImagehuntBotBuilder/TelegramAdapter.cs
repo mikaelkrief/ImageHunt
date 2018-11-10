@@ -127,10 +127,20 @@ namespace ImageHuntBotBuilder
 
                         break;
                     case "telegram":
-                        var telegramMessage =
-                            await _telegramBotClient.SendTextMessageAsync(Convert.ToInt64(activity.Conversation.Id),
-                                activity.Text);
-                        response = new ResourceResponse(telegramMessage.MessageId.ToString());
+                        switch (activity.Type)
+                        {
+                            case ActivityTypes.Message:
+                                var telegramMessage =
+                                    await _telegramBotClient.SendTextMessageAsync(Convert.ToInt64(activity.Conversation.Id),
+                                        activity.Text);
+                                response = new ResourceResponse(telegramMessage.MessageId.ToString());
+
+                                break;
+                            case ImageHuntActivityTypes.Leave:
+                                await _telegramBotClient.LeaveChatAsync(Convert.ToInt64(activity.Conversation.Id),
+                                    cancellationToken);
+                                break;
+                        }
                         break;
                 }
 

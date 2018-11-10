@@ -237,28 +237,6 @@ namespace ImageHuntBotBuilderTest
                 A<bool>._, A<int>._, A<IReplyMarkup>._, A<CancellationToken>._)).MustHaveHappened();
         }
 
-        //[Fact]
-        //public async Task Should_handle_user_location_from_emulator()
-        //{
-        //    // Arrange
-        //    var activity = new Activity("message", "e05908f0-df71-11e8-bd35-5d35ac6a130a",
-        //        text: "/location 15.55,3.616", serviceUrl: "http://localhost:50354");
-        //    var callback = A.Fake<BotCallbackHandler>();
-
-        //    // Act
-        //    await _target.ProcessActivityAsync(null, activity, callback, CancellationToken.None);
-
-        //    // Assert
-        //    A.CallTo(() =>
-        //            callback.Invoke(A<ITurnContext>.That.Matches(t => CheckTurnContext(t)), A<CancellationToken>._))
-        //        .MustHaveHappened();
-        //}
-
-        //private bool CheckTurnContext(ITurnContext turnContext)
-        //{
-        //    Check.That(turnContext.Activity.Type).Equals("location");
-        //    return true;
-        //}
         [Fact]
         public async Task Should_Download_Images_And_Store_in_activity_content_emulator()
         {
@@ -325,6 +303,22 @@ namespace ImageHuntBotBuilderTest
             Check.That(activity.Attachments.First().Name).IsNotEmpty();
             Check.That(activity.Type).Equals("image");
             return true;
+        }
+
+        [Fact]
+        public async Task Should_Leave_ChatRoom()
+        {
+            // Arrange
+            var turnContext = A.Fake<ITurnContext>();
+
+            var activities = new Activity[] {new Activity(){Type = ImageHuntActivityTypes.Leave, ChannelId = "telegram", Id = "151515",
+                    Conversation = new ConversationAccount(), Text = "toto"},
+
+            };
+            // Act
+            await _target.SendActivitiesAsync(turnContext, activities, CancellationToken.None);
+            // Assert
+            A.CallTo(() => _telegramBotClient.LeaveChatAsync(A<ChatId>._, A<CancellationToken>._)).MustHaveHappened();
         }
     }
 }
