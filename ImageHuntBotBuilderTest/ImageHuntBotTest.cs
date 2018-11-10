@@ -30,6 +30,7 @@ namespace ImageHuntBotBuilderTest
         private ITeamWebService _teamWebService;
         private ICommandRepository _commandRepository;
         private Activity _activity;
+        private ImageHuntState _state;
 
         public ImageHuntBotTest()
         {
@@ -50,6 +51,7 @@ namespace ImageHuntBotBuilderTest
             _commandRepository = A.Fake<ICommandRepository>();
             _testContainerBuilder.RegisterInstance(_commandRepository);
             _activity = new Activity() {Conversation = new ConversationAccount(){Id = "toto|livechat"}};
+            _state = new ImageHuntState();
             Build();
         }
 
@@ -189,12 +191,12 @@ namespace ImageHuntBotBuilderTest
             _activity.Text ="/toto";
             A.CallTo(() => _turnContext.Activity).Returns(_activity);
             var command = A.Fake<ICommand>();
-            A.CallTo(() => _commandRepository.Get(_turnContext, _activity.Text)).Returns(command);
+            A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).Returns(command);
 
             // Act
             await _target.OnTurnAsync(_turnContext);
             // Assert
-            A.CallTo(() => _commandRepository.Get(_turnContext, _activity.Text)).MustHaveHappened();
+            A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).MustHaveHappened();
             A.CallTo(() => command.Execute(_turnContext, A<ImageHuntState>._)).MustHaveHappened();
         }
     }

@@ -95,7 +95,7 @@ namespace ImageHuntBotBuilder
                     {
                         await _commandRepository.RefreshAdmins();
 
-                        var command = _commandRepository.Get(turnContext, turnContext.Activity.Text);
+                        var command = _commandRepository.Get(turnContext, state, turnContext.Activity.Text);
                         await command.Execute(turnContext, state);
                     }
                     break;
