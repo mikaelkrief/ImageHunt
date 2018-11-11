@@ -216,6 +216,7 @@ namespace ImagehuntBotBuilder
             var botUrl = Configuration["BotConfiguration:BotUrl"];
             try
             {
+                Console.WriteLine($"BotUrl:{botUrl}");
                 telegramBotClient?.SetWebhookAsync(botUrl).Wait();
             }
             catch (Exception e)
