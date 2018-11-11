@@ -213,7 +213,7 @@ namespace ImagehuntBotBuilder
                 .UseStaticFiles()
                 .UseBotFramework();
             var telegramBotClient = app.ApplicationServices.GetService<ITelegramBotClient>();
-            var botUrl = Configuration["BotConfiguration:botUrl"];
+            var botUrl = Configuration["BotConfiguration:BotUrl"];
             telegramBotClient?.SetWebhookAsync(botUrl);
         }
         #region Mapping Stuff
