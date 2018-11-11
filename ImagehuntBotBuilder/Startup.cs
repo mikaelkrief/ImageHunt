@@ -143,6 +143,13 @@ namespace ImagehuntBotBuilder
 
         public void ConfigureProductionContainer(ContainerBuilder containerBuilder)
         {
+            var botToken = Configuration.GetSection("BotConfiguration:BotToken").Value;
+
+            containerBuilder.Register(context => new TelegramBotClient(botToken))
+                .As<ITelegramBotClient>()
+                .SingleInstance();
+            containerBuilder.RegisterInstance(Configuration).AsImplementedInterfaces();
+
             containerBuilder.RegisterType<TelegramAdapter>().OnActivating(e =>
                 {
                     var adapter = e.Instance;
@@ -187,12 +194,7 @@ namespace ImagehuntBotBuilder
             containerBuilder.RegisterInstance(credentialProvider).AsImplementedInterfaces();
             containerBuilder.RegisterInstance(Configuration);
             // Register bot client
-            var botToken = Configuration.GetSection("BotConfiguration:BotToken").Value;
 
-            containerBuilder.Register(context => new TelegramBotClient(botToken))
-                .As<ITelegramBotClient>()
-                .SingleInstance();
-            containerBuilder.RegisterInstance(Configuration).AsImplementedInterfaces();
 
             containerBuilder.RegisterType<LogPositionMiddleware>().AsSelf().As<IMiddleware>();
             containerBuilder.RegisterInstance(Mapper.Instance);
@@ -210,8 +212,11 @@ namespace ImagehuntBotBuilder
             app.UseDefaultFiles()
                 .UseStaticFiles()
                 .UseBotFramework();
+            var telegramBotClient = app.ApplicationServices.GetService<ITelegramBotClient>();
+            var botUrl = Configuration["BotConfiguration:botUrl"];
+            telegramBotClient?.SetWebhookAsync(botUrl);
         }
-
+        #region Mapping Stuff
         private static string ActivityTypeFromUpdate(Update update)
         {
             var message = MessageFromUpdate(update);
@@ -288,5 +293,6 @@ namespace ImagehuntBotBuilder
                     ;
             });
         }
+        #endregion
     }
 }
