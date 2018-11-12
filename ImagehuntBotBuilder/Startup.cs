@@ -208,10 +208,19 @@ namespace ImagehuntBotBuilder
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
 
             app.UseDefaultFiles()
                 .UseStaticFiles()
-                .UseBotFramework();
+                .UseBotFramework()
+                .UseHttpsRedirection();
             var telegramBotClient = app.ApplicationServices.GetService<ITelegramBotClient>();
             var botUrl = Configuration["BotConfiguration:BotUrl"];
             try
