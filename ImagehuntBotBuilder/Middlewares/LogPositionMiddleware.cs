@@ -30,8 +30,7 @@ namespace ImageHuntBotBuilder.Middlewares
             if (turnContext.Activity.Type == ImageHuntActivityTypes.Location)
             {
                 var state = await _accessors.ImageHuntState.GetAsync(turnContext, cancellationToken: cancellationToken);
-                if (state.Status == Status.Started &&
-                    state.GameId.HasValue &&
+                if (state.GameId.HasValue &&
                     state.TeamId.HasValue)
                 {
                     var location = turnContext.Activity.Attachments.Single().Content as GeoCoordinates;
