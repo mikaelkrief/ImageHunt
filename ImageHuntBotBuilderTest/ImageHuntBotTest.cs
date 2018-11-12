@@ -199,5 +199,21 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).MustHaveHappened();
             A.CallTo(() => command.Execute(_turnContext, A<ImageHuntState>._)).MustHaveHappened();
         }
+        [Fact]
+        public async Task Should_Bot_Not_execute_command_if_user_not_authorized()
+        {
+            // Arrange
+            _activity.Type = ActivityTypes.Message;
+            _activity.Text ="/toto";
+            _activity.From = new ChannelAccount(name:"User");
+            A.CallTo(() => _turnContext.Activity).Returns(_activity);
+            var command = A.Fake<ICommand>();
+            A.CallTo(() => _commandRepository.Get(A<ITurnContext>._, A<ImageHuntState>._, A<string>._)).Throws(new NotAuthorizedException("User not authorized"));
+
+            // Act
+            await _target.OnTurnAsync(_turnContext);
+            // Assert
+            A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).MustHaveHappened();
+        }
     }
 }

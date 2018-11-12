@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -95,8 +96,18 @@ namespace ImageHuntBotBuilder
                     {
                         await _commandRepository.RefreshAdmins();
 
-                        var command = _commandRepository.Get(turnContext, state, turnContext.Activity.Text);
-                        await command.Execute(turnContext, state);
+                        try
+                        {
+                            var command = _commandRepository.Get(turnContext, state, turnContext.Activity.Text);
+                            await command.Execute(turnContext, state);
+
+                        }
+                        catch (NotAuthorizedException e)
+                        {
+                            _logger.LogError(e, $"User {turnContext.Activity.From.Name} not authorized to use this command");
+                            await turnContext.SendActivityAsync("Vous n'êtes pas autorisé à utiliser cette commande");
+                        }
+
                     }
                     break;
             }
