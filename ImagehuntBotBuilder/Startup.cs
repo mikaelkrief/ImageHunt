@@ -154,6 +154,7 @@ namespace ImagehuntBotBuilder
                 {
                     var adapter = e.Instance;
                     adapter.Use(e.Context.Resolve<LogPositionMiddleware>());
+                    adapter.Use(e.Context.Resolve<NewParticipantMiddleware>());
                 })
                 .AsSelf()
                 .As<IAdapterIntegration>();
