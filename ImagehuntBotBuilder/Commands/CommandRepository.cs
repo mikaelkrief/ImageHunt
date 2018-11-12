@@ -61,7 +61,7 @@ namespace ImageHuntBotBuilder.Commands
 
             var command = _scope.ResolveNamed<ICommand>(commandText);
 
-            if (command.IsAdmin && _admins.All(a => turnContext.Activity.From.Name.Equals(a.Name, StringComparison.InvariantCultureIgnoreCase)))
+            if (command.IsAdmin && _admins.All(a => !turnContext.Activity.From.Name.Equals(a.Name, StringComparison.InvariantCultureIgnoreCase)))
             {
                 throw new NotAuthorizedException(turnContext.Activity.From.Name);
             }
