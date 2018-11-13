@@ -19,7 +19,7 @@ namespace ImageHuntBotBuilder.Commands
             _teamWebService = teamWebService;
         }
 
-        public override bool IsAdmin { get; }
+        public override bool IsAdmin => true;
         protected async override Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
         {
             if (state.Status != Status.Initialized)

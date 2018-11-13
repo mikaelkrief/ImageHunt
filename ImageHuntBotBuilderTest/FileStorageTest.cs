@@ -65,6 +65,35 @@ namespace ImageHuntBotBuilderTest
             Check.That(result).Equals(values);
 
         }
+         
+        [Fact]
+        public async Task Should_ReadAll_State()
+        {
+            // Arrange
+            var values = new List<Dictionary<string, object>>()
+            {
+                new Dictionary<string, object>()
+                {
+                    {"value1", "val" }    ,
+                    {"value2", DateTime.Now }
+                },
+                new Dictionary<string, object>()
+                {
+                    {"value3", "val1" }    ,
+                    {"value4", DateTime.Now.AddHours(1) }
+                },
+            };
+            foreach (var value in values)
+            {
+                await _target.WriteAsync(value);
+            }
+            // Act
+            var result = await _target.ReadAllAsync();
+            // Assert
+            var files = Directory.EnumerateFiles(_dirInfo.FullName);
+            Check.That(files).HasSize(4);
+            Check.That(result).HasSize(4);
+        }
         [Fact]
         public async Task Should_Delete_State()
         {

@@ -40,6 +40,7 @@ namespace ImageHuntBotBuilderTest.Commands
         private ILogger<ICommandRepository> _logger;
         private ITurnContext _turnContext;
         private IAdminWebService _adminWebService;
+        private ImageHuntState _state;
 
         public CommandRepositoryTest()
         {
@@ -50,7 +51,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _testContainerBuilder.RegisterCommand<Dummy2Command>();
             _testContainerBuilder.RegisterInstance(_logger);
             _turnContext = A.Fake<ITurnContext>();
-
+            _state = new ImageHuntState();
             Build();
         }
 
@@ -68,7 +69,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _turnContext.Activity).Returns(activity);
 
             // Act
-            var commandResult = _target.Get(_turnContext, "dummy1");
+            var commandResult = _target.Get(_turnContext, _state, "dummy1");
             // Assert
             Check.That(commandResult).IsInstanceOf<Dummy1Command>();
         }
@@ -86,7 +87,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _turnContext.Activity).Returns(activity);
 
             // Act
-            var commandResult = _target.Get(_turnContext, "/dummy1 toto");
+            var commandResult = _target.Get(_turnContext, _state, "/dummy1 toto");
             // Assert
             Check.That(commandResult).IsInstanceOf<Dummy1Command>();
         }
@@ -104,7 +105,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _turnContext.Activity).Returns(activity);
 
             // Act
-            var commandResult = _target.Get(_turnContext, "/dummy1");
+            var commandResult = _target.Get(_turnContext, _state, "/dummy1");
             // Assert
             Check.That(commandResult).IsInstanceOf<Dummy1Command>();
         }
@@ -113,8 +114,8 @@ namespace ImageHuntBotBuilderTest.Commands
         public void Should_Get_Throw_if_user_not_authorized()
         {
             // Arrange
-            var activity = new Activity() {From = new ChannelAccount(name: "toto")};
-            
+            var activity = new Activity() { From = new ChannelAccount(name: "toto") };
+
             var admins = new List<AdminResponse>
             {
                 new AdminResponse() {Name = "titi"}
@@ -123,15 +124,34 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             _target.RefreshAdmins();
             // Act
-            Check.ThatCode(() => _target.Get(_turnContext, "dummy2")).Throws<NotAuthorizedException>();
+            Check.ThatCode(() => _target.Get(_turnContext, _state, "dummy2")).Throws<NotAuthorizedException>();
+            // Assert
+        }
+        [Fact]
+        public void Should_Get_Throw_if_user_is_admin_but_in_a_team()
+        {
+            // Arrange
+            var activity = new Activity() { From = new ChannelAccount(name: "titi") };
+
+            var admins = new List<AdminResponse>
+            {
+                new AdminResponse() {Name = "titi"}
+            };
+            A.CallTo(() => _adminWebService.GetAllAdmins()).Returns(admins);
+            //            _turnContext.TurnState.Get<ImageHuntState>()
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            _target.RefreshAdmins();
+            _state.Team = new TeamResponse() { Players = new PlayerResponse[] { new PlayerResponse() { ChatLogin = "titi" }, } };
+            // Act
+            Check.ThatCode(() => _target.Get(_turnContext, _state, "dummy2")).Throws<NotAuthorizedException>();
             // Assert
         }
         [Fact]
         public void Should_Get_Return_Command_If_User_Authorized()
         {
             // Arrange
-            var activity = new Activity() {From = new ChannelAccount(name: "toto")};
-            
+            var activity = new Activity() { From = new ChannelAccount(name: "toto") };
+
             var admins = new List<AdminResponse>
             {
                 new AdminResponse() {Name = "toto"}
@@ -140,7 +160,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             _target.RefreshAdmins();
             // Act
-            Check.ThatCode(() => _target.Get(_turnContext, "dummy2")).DoesNotThrow();
+            Check.ThatCode(() => _target.Get(_turnContext, _state, "dummy2")).DoesNotThrow();
             // Assert
         }
         [Fact]
@@ -149,7 +169,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             A.CallTo(() => _turnContext.Activity).Returns(new Activity());
             // Act
-            Check.ThatCode(() => _target.Get(_turnContext, "dummy2")).Throws<NotAuthorizedException>();
+            Check.ThatCode(() => _target.Get(_turnContext, _state, "dummy2")).Throws<NotAuthorizedException>();
             // Assert
         }
 
@@ -157,7 +177,7 @@ namespace ImageHuntBotBuilderTest.Commands
         public async Task Should_Refresh_Every_5_Minutes()
         {
             // Arrange
-            
+
             // Act
             await _target.RefreshAdmins();
             await _target.RefreshAdmins();

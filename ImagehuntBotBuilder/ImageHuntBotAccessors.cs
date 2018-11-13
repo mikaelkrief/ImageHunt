@@ -12,7 +12,7 @@ namespace ImageHuntBotBuilder
     ///  - See the Startup.cs file for more details on creating the Singleton that gets
     ///    injected into the constructor.
     /// </summary>
-    public class ImageHuntBotAccessors
+    public class ImageHuntBotAccessors 
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageHuntBotAccessors"/> class.
@@ -38,6 +38,10 @@ namespace ImageHuntBotBuilder
         /// The accessor stores the turn count for the conversation.
         /// </value>
         public virtual IStatePropertyAccessor<ImageHuntState> ImageHuntState { get; set; }
+        /// <summary>
+        /// return all states of all conversations
+        /// </summary>
+        public virtual IStatePropertyAccessorExtended<ImageHuntState> AllStates { get; set; }
 
         /// <summary>
         /// Gets the <see cref="ConversationState"/> object for the conversation.

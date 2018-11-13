@@ -14,6 +14,7 @@ namespace ImageHuntBotBuilder
     /// </summary>
     public class ImageHuntState
     {
+        public string ConversationId { get; set; }
         public Status Status { get; set; }
         public int? GameId { get; set; }
         public int? TeamId { get; set; }
@@ -22,7 +23,7 @@ namespace ImageHuntBotBuilder
         public GameResponse Game { get; set; }
         public TeamResponse Team { get; set; }
         public NodeResponse CurrentNode { get; set; }
-        public int CurrentNodeId { get; set; }
+        public int? CurrentNodeId { get; set; }
     }
 
     public enum Status  

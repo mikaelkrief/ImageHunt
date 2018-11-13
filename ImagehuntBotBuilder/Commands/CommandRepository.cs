@@ -37,7 +37,7 @@ namespace ImageHuntBotBuilder.Commands
             }
         }
 
-        public ICommand Get(ITurnContext turnContext, string commandText)
+        public ICommand Get(ITurnContext turnContext, ImageHuntState state, string commandText)
         {
             // Remove leading '/' if any and extract command name
             var regex = new Regex(@"\/?(\S*)");
@@ -61,11 +61,15 @@ namespace ImageHuntBotBuilder.Commands
 
             var command = _scope.ResolveNamed<ICommand>(commandText);
 
-            if (command.IsAdmin && _admins.All(a => a.Name != turnContext.Activity.From.Name))
+            if (command.IsAdmin && _admins.All(a => !turnContext.Activity.From.Name.Equals(a.Name, StringComparison.InvariantCultureIgnoreCase)))
             {
                 throw new NotAuthorizedException(turnContext.Activity.From.Name);
             }
 
+            if (state.Team != null && command.IsAdmin && state.Team.Players.Any(p => p.ChatLogin == turnContext.Activity.From.Name))
+            {
+                throw new NotAuthorizedException(turnContext.Activity.From.Name);
+            }
             return command;
         }
     }

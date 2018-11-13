@@ -18,10 +18,9 @@ using Xunit;
 namespace ImageHuntBotBuilderTest
 {
     [Collection("AutomapperFixture")]
-
-    public class ImageHuntBotTest : BaseTest<ImageHuntBot>
+    public class ImageHuntBotTest : BaseTest<ImageHuntBotBuilder.ImageHuntBot>
     {
-        private ILogger<ImageHuntBot> _logger;
+        private ILogger<ImageHuntBotBuilder.ImageHuntBot> _logger;
         private ImageHuntBotAccessors _accessor;
         private ITurnContext _turnContext;
         private IStatePropertyAccessor<ImageHuntState> _statePropertyAccessor;
@@ -30,11 +29,13 @@ namespace ImageHuntBotBuilderTest
         private ConversationState _conversationState;
         private ITeamWebService _teamWebService;
         private ICommandRepository _commandRepository;
+        private Activity _activity;
+        private ImageHuntState _state;
 
         public ImageHuntBotTest()
         {
             Startup.ConfigureMappings();
-            _logger = A.Fake<ILogger<ImageHuntBot>>();
+            _logger = A.Fake<ILogger<ImageHuntBotBuilder.ImageHuntBot>>();
             _testContainerBuilder.RegisterInstance(_logger);
             _turnContext = A.Fake<ITurnContext>();
             _actionWebService = A.Fake<IActionWebService>();
@@ -49,6 +50,8 @@ namespace ImageHuntBotBuilderTest
             _testContainerBuilder.RegisterInstance(_accessor);
             _commandRepository = A.Fake<ICommandRepository>();
             _testContainerBuilder.RegisterInstance(_commandRepository);
+            _activity = new Activity() {Conversation = new ConversationAccount(){Id = "toto|livechat"}};
+            _state = new ImageHuntState();
             Build();
         }
 
@@ -73,8 +76,9 @@ namespace ImageHuntBotBuilderTest
                     _statePropertyAccessor.GetAsync(A<ITurnContext>._, A<Func<ImageHuntState>>._,
                         A<CancellationToken>._))
                 .Returns(imageHuntState);
-            var activity = new Activity(type: "location", attachments: attachments);
-            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            _activity.Type = ImageHuntActivityTypes.Location;
+            _activity.Attachments = attachments;
+            A.CallTo(() => _turnContext.Activity).Returns(_activity);
             // Act
             await _target.OnTurnAsync(_turnContext);
             // Assert
@@ -102,8 +106,9 @@ namespace ImageHuntBotBuilderTest
                     _statePropertyAccessor.GetAsync(A<ITurnContext>._, A<Func<ImageHuntState>>._,
                         A<CancellationToken>._))
                 .Returns(imageHuntState);
-            var activity = new Activity(type: "location", attachments: attachments);
-            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            _activity.Type = ImageHuntActivityTypes.Location;
+            _activity.Attachments = attachments;
+            A.CallTo(() => _turnContext.Activity).Returns(_activity);
             // Act
             await _target.OnTurnAsync(_turnContext);
             // Assert
@@ -122,7 +127,8 @@ namespace ImageHuntBotBuilderTest
                     Content = new byte[15]
                 }
             };
-            var activity = new Activity(type: "image", attachments: attachments);
+            _activity.Type = "image";
+            _activity.Attachments = attachments;
             var imageHuntState = new ImageHuntState()
             {
                 Status = Status.Started,
@@ -135,13 +141,13 @@ namespace ImageHuntBotBuilderTest
                         A<CancellationToken>._))
                 .Returns(imageHuntState);
 
-            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            A.CallTo(() => _turnContext.Activity).Returns(_activity);
             // Act
             await _target.OnTurnAsync(_turnContext);
             // Assert
             A.CallTo(() => _teamWebService.UploadImage(A<UploadImageRequest>._)).MustHaveHappened();
-
         }
+
         [Fact]
         public async Task Should_Turn_Not_Record_Images_If_Hunt_Not_Started()
         {
@@ -153,7 +159,8 @@ namespace ImageHuntBotBuilderTest
                     Content = new byte[15]
                 }
             };
-            var activity = new Activity(type: "image", attachments: attachments);
+            _activity.Type = "image";
+            _activity.Attachments = attachments;
             var imageHuntState = new ImageHuntState()
             {
                 Status = Status.None,
@@ -166,28 +173,47 @@ namespace ImageHuntBotBuilderTest
                         A<CancellationToken>._))
                 .Returns(imageHuntState);
 
-            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            A.CallTo(() => _turnContext.Activity).Returns(_activity);
             // Act
             await _target.OnTurnAsync(_turnContext);
             // Assert
             A.CallTo(() => _teamWebService.UploadImage(A<UploadImageRequest>._)).MustNotHaveHappened();
-            A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._)).MustHaveHappened();
+            A.CallTo(
+                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                .MustHaveHappened();
         }
 
         [Fact]
         public async Task Should_Bot_Handle_Command()
         {
             // Arrange
-            var activity = new Activity(text: "/toto", type:ActivityTypes.Message);
-            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            _activity.Type = ActivityTypes.Message;
+            _activity.Text ="/toto";
+            A.CallTo(() => _turnContext.Activity).Returns(_activity);
             var command = A.Fake<ICommand>();
-            A.CallTo(() => _commandRepository.Get(_turnContext, activity.Text)).Returns(command);
+            A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).Returns(command);
 
             // Act
             await _target.OnTurnAsync(_turnContext);
             // Assert
-            A.CallTo(() => _commandRepository.Get(_turnContext, activity.Text)).MustHaveHappened();
+            A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).MustHaveHappened();
             A.CallTo(() => command.Execute(_turnContext, A<ImageHuntState>._)).MustHaveHappened();
+        }
+        [Fact]
+        public async Task Should_Bot_Not_execute_command_if_user_not_authorized()
+        {
+            // Arrange
+            _activity.Type = ActivityTypes.Message;
+            _activity.Text ="/toto";
+            _activity.From = new ChannelAccount(name:"User");
+            A.CallTo(() => _turnContext.Activity).Returns(_activity);
+            var command = A.Fake<ICommand>();
+            A.CallTo(() => _commandRepository.Get(A<ITurnContext>._, A<ImageHuntState>._, A<string>._)).Throws(new NotAuthorizedException("User not authorized"));
+
+            // Act
+            await _target.OnTurnAsync(_turnContext);
+            // Assert
+            A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).MustHaveHappened();
         }
     }
 }

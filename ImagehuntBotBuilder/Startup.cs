@@ -76,6 +76,9 @@ namespace ImagehuntBotBuilder
             // Retrieve current endpoint.
             var environment = _isProduction ? "production" : "development";
             var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
+            IMultiStorage dataStore = new FileStorage(
+                Configuration.GetValue<string>("BotConfiguration:StorageFolder"));
+            services.AddSingleton(dataStore);
             if (!(service is EndpointService endpointService))
             {
                 throw new InvalidOperationException(
@@ -97,8 +100,6 @@ namespace ImagehuntBotBuilder
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
-                IStorage dataStore = new FileStorage(
-                    Configuration.GetValue<string>("BotConfiguration:StorageFolder"));
 
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
@@ -131,6 +132,7 @@ namespace ImagehuntBotBuilder
                 {
                     ImageHuntState =
                         conversationState.CreateProperty<ImageHuntState>(ImageHuntBotAccessors.ImageHuntStateName),
+                    AllStates = new MultiConversationState<ImageHuntState>(dataStore),
                 };
 
                 return accessors;
@@ -141,10 +143,18 @@ namespace ImagehuntBotBuilder
 
         public void ConfigureProductionContainer(ContainerBuilder containerBuilder)
         {
+            var botToken = Configuration.GetSection("BotConfiguration:BotToken").Value;
+
+            containerBuilder.Register(context => new TelegramBotClient(botToken))
+                .As<ITelegramBotClient>()
+                .SingleInstance();
+            containerBuilder.RegisterInstance(Configuration).AsImplementedInterfaces();
+
             containerBuilder.RegisterType<TelegramAdapter>().OnActivating(e =>
                 {
                     var adapter = e.Instance;
                     adapter.Use(e.Context.Resolve<LogPositionMiddleware>());
+                    adapter.Use(e.Context.Resolve<NewParticipantMiddleware>());
                 })
                 .AsSelf()
                 .As<IAdapterIntegration>();
@@ -185,31 +195,46 @@ namespace ImagehuntBotBuilder
             containerBuilder.RegisterInstance(credentialProvider).AsImplementedInterfaces();
             containerBuilder.RegisterInstance(Configuration);
             // Register bot client
-            var botToken = Configuration.GetSection("BotConfiguration:BotToken").Value;
 
-            containerBuilder.Register(context => new TelegramBotClient(botToken))
-                .As<ITelegramBotClient>()
-                .SingleInstance();
-            containerBuilder.RegisterInstance(Configuration).AsImplementedInterfaces();
 
             containerBuilder.RegisterType<LogPositionMiddleware>().AsSelf().As<IMiddleware>();
             containerBuilder.RegisterInstance(Mapper.Instance);
             containerBuilder.Register(a => new HttpClient()
             {
                 BaseAddress = new Uri(Configuration.GetValue<string>("ImageHuntApi:Url")),
-                DefaultRequestHeaders = {Authorization = new AuthenticationHeaderValue("Bearer", "ImageHuntBotToken")}
+                DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", "ImageHuntBotToken") }
             });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             _loggerFactory = loggerFactory;
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
 
             app.UseDefaultFiles()
                 .UseStaticFiles()
-                .UseBotFramework();
+                .UseBotFramework()
+                .UseHttpsRedirection();
+            var telegramBotClient = app.ApplicationServices.GetService<ITelegramBotClient>();
+            var botUrl = Configuration["BotConfiguration:BotUrl"];
+            try
+            {
+                Console.WriteLine($"BotUrl:{botUrl}");
+                telegramBotClient?.SetWebhookAsync(botUrl).Wait();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
-
+        #region Mapping Stuff
         private static string ActivityTypeFromUpdate(Update update)
         {
             var message = MessageFromUpdate(update);
@@ -245,7 +270,7 @@ namespace ImagehuntBotBuilder
                     .ForMember(a => a.Conversation, opt => opt.ResolveUsing(u =>
                     {
                         var message = MessageFromUpdate(u);
-                        var conversation = new ConversationAccount() {Id = message.Chat.Id.ToString()};
+                        var conversation = new ConversationAccount() { Id = message.Chat.Id.ToString() };
                         return conversation;
                     }))
                     .ForMember(a => a.From, opt => opt.ResolveUsing(update =>
@@ -286,5 +311,6 @@ namespace ImagehuntBotBuilder
                     ;
             });
         }
+        #endregion
     }
 }

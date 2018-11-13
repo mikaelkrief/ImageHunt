@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
+using Castle.Core.Internal;
 using ImageHuntBotBuilder.Commands;
 using ImageHuntWebServiceClient.WebServices;
 
@@ -19,9 +20,16 @@ namespace ImageHuntBotBuilder
 
             builder.RegisterType<CommandRepository>().AsImplementedInterfaces().SingleInstance();
 
-            builder.RegisterCommand<ResetCommand>();
-            builder.RegisterCommand<InitCommand>();
-            builder.RegisterCommand<BeginCommand >();
+            builder.RegisterAssemblyTypes(ThisAssembly)
+                .PublicOnly()
+                .Where(t => t.Name.EndsWith("Command") && t.IsClass)
+                .AsImplementedInterfaces()
+                .Named<ICommand>(ct =>
+                {
+                    var ca = ct.GetAttribute<CommandAttribute>();
+                    return ca.Command;
+                });
+
         }
     }
 }

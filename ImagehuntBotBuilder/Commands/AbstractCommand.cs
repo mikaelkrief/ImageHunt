@@ -14,7 +14,7 @@ namespace ImageHuntBotBuilder.Commands
             _logger = logger;
         }
 
-        public abstract bool IsAdmin { get; }
+        public virtual bool IsAdmin => true;
         protected abstract Task InternalExecute(ITurnContext turnContext, ImageHuntState state);
 
         public virtual async Task Execute(ITurnContext turnContext, ImageHuntState state)
@@ -26,6 +26,7 @@ namespace ImageHuntBotBuilder.Commands
             catch (Exception e)
             {
                 _logger.LogError(e, "Exception occured while execute command");
+                throw e;
             }
         }
     }

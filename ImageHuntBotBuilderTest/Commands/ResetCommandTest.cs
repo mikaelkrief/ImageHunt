@@ -44,7 +44,7 @@ namespace ImageHuntBotBuilderTest.Commands
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
                 .Throws<Exception>();
             // Act
-            await _target.Execute(_turnContext, state);
+            Check.ThatAsyncCode(() => _target.Execute(_turnContext, state)).Throws<Exception>();
             // Assert
             A.CallTo(() => _logger.Log(LogLevel.Error, A<EventId>._, A<object>._, A<Exception>._,
                 A < Func<object, Exception, string>>._)).MustHaveHappened();
