@@ -16,17 +16,17 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.1" />
-    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="Castle.Core" Version="4.3.1" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.4" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.6" />
     <PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.1.5" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.1.5" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.1.5" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.1.5" />
     <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="2.1.1" />
-    <PackageReference Include="Polly" Version="6.1.0" />
+    <PackageReference Include="Polly" Version="6.1.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
     <PackageReference Include="Telegram.Bot" Version="14.10.0" />
   </ItemGroup>

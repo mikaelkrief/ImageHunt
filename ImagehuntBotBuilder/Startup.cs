@@ -260,26 +260,26 @@ namespace ImagehuntBotBuilder
             Mapper.Initialize(config =>
             {
                 config.CreateMap<Update, Activity>()
-                    .ForMember(a => a.ChannelId, opt => opt.UseValue("telegram"))
+                    .ForMember(a => a.ChannelId, opt => opt.MapFrom(e=>"telegram"))
                     .ForMember(a => a.Value, opt => opt.MapFrom(u => u))
                     .ForMember(a => a.Timestamp,
-                        opt => opt.ResolveUsing(u => new DateTimeOffset(MessageFromUpdate(u).Date)))
+                        opt => opt.MapFrom(u => new DateTimeOffset(MessageFromUpdate(u).Date)))
                     .ForMember(a => a.Id,
-                        expression => expression.ResolveUsing(u => MessageFromUpdate(u).Chat.Id.ToString()))
-                    .ForMember(a => a.Type, opt => opt.ResolveUsing(ActivityTypeFromUpdate))
-                    .ForMember(a => a.Conversation, opt => opt.ResolveUsing(u =>
+                        expression => expression.MapFrom(u => MessageFromUpdate(u).Chat.Id.ToString()))
+                    .ForMember(a => a.Type, opt => opt.MapFrom(e=> ActivityTypeFromUpdate(e)))
+                    .ForMember(a => a.Conversation, opt => opt.MapFrom((u, a) =>
                     {
                         var message = MessageFromUpdate(u);
                         var conversation = new ConversationAccount() { Id = message.Chat.Id.ToString() };
                         return conversation;
                     }))
-                    .ForMember(a => a.From, opt => opt.ResolveUsing(update =>
+                    .ForMember(a => a.From, opt => opt.MapFrom((update, a) =>
                     {
                         User from = MessageFromUpdate(update).From;
                         return new ChannelAccount(from.Id.ToString(), from.Username);
                     }))
-                    .ForMember(a => a.Text, opt => opt.ResolveUsing(u => MessageFromUpdate(u).Text))
-                    .ForMember(a => a.Attachments, opt => opt.ResolveUsing(u =>
+                    .ForMember(a => a.Text, opt => opt.MapFrom(u => MessageFromUpdate(u).Text))
+                    .ForMember(a => a.Attachments, opt => opt.MapFrom((u, a) =>
                     {
                         var message = MessageFromUpdate(u);
                         var attachments = new List<Attachment>();
