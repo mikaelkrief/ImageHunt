@@ -382,7 +382,8 @@ namespace ImageHuntBotBuilderTest
                             ContentType = ImageHuntActivityTypes.Location,
                             Content = new GeoCoordinates(latitude: 56.6, longitude: 5.34)
                         }
-                    }
+                    },
+                    Conversation = new ConversationAccount(),
                 },
             };
             // Act
