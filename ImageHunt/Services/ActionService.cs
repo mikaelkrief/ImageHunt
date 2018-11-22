@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Model;
-using ImageHunt.Model.Node;
 using ImageHuntCore.Computation;
+using ImageHuntCore.Model;
+using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Action = ImageHuntWebServiceClient.Action;
+using Action = ImageHuntCore.Model.Action;
 
 namespace ImageHunt.Services
 {

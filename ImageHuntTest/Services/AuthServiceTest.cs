@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using FakeItEasy;
 using ImageHunt.Data;
 using ImageHunt.Services;
+using ImageHuntCore.Model;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;

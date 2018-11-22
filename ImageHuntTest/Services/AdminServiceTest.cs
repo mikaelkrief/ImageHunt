@@ -6,6 +6,7 @@ using FakeItEasy;
 using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using ImageHuntCore.Model;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using SQLitePCL;

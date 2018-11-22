@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Autofac;
 using ImageHuntBot.Dialogs;
 using ImageHuntCore.Computation;
+using ImageHuntCore.Model;
 using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;

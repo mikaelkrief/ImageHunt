@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using ImageHunt.Data;
 using ImageHunt.Model;
+using ImageHuntCore.Model;
 using ImageHuntCore.Services;
 using ImageHuntWebServiceClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Action = ImageHuntWebServiceClient.Action;
+using Action = ImageHuntCore.Model.Action;
 
 namespace ImageHunt.Services
 {

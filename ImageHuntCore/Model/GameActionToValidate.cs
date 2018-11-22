@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ImageHunt.Model
+namespace ImageHuntCore.Model
 {
   public class GameActionToValidate : GameAction
   {

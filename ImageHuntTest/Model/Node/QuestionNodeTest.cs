@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ImageHunt.Model.Node;
+using ImageHuntCore.Model.Node;
 using Xunit;
 
 namespace ImageHuntTest.Model.Node

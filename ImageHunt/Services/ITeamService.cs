@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using ImageHunt.Model;
-using ImageHunt.Model.Node;
+using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
 

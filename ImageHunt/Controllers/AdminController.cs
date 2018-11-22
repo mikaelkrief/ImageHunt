@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

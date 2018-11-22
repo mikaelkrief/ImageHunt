@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ImageHunt.Model;
+using ImageHuntCore.Model;
 using ImageHuntCore.Services;
 using ImageHuntWebServiceClient;
 

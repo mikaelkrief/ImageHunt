@@ -5,6 +5,8 @@ namespace ImageHuntWebServiceClient.Responses
 {
     public class NodeResponse
     {
+        public const string ObjectNodeType = "ObjectNode";
+        public const string TimerNodeType = "TimerNode";
         public int Id { get; set; }
         public string Name { get; set; }
         public string NodeType { get; set; }

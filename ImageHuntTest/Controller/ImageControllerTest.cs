@@ -9,6 +9,7 @@ using ImageHunt.Computation;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

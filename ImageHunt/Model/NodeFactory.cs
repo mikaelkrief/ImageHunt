@@ -1,4 +1,4 @@
-using ImageHunt.Model.Node;
+using ImageHuntCore.Model.Node;
 
 namespace ImageHunt.Model
 {

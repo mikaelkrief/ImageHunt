@@ -1,5 +1,5 @@
 using ImageHunt.Model;
-using ImageHunt.Model.Node;
+using ImageHuntCore.Model;
 
 namespace ImageHunt.Services
 {

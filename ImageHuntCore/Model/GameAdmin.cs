@@ -1,4 +1,4 @@
-namespace ImageHunt.Model
+namespace ImageHuntCore.Model
 {
   public class GameAdmin
   {

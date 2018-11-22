@@ -4,6 +4,7 @@ using System.Text;
 using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHuntCore;
+using ImageHuntCore.Model;
 using Microsoft.EntityFrameworkCore;
 using NFluent;
 using TestUtilities;

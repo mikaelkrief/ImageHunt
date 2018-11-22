@@ -1,13 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-using ImageHunt.Model.Node;
-using ImageHuntCore.Model;
 
-namespace ImageHunt.Model
+namespace ImageHuntCore.Model
 {
   public class Game : DbObject
   {

@@ -5,6 +5,7 @@ using Castle.Core.Logging;
 using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using ImageHuntCore.Model;
 using ImageHuntWebServiceClient;
 using Microsoft.Extensions.Logging;
 using NFluent;

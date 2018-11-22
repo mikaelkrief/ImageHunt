@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ImageHunt.Model;
+using ImageHuntCore.Model;
 using ImageHuntCore.Services;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;

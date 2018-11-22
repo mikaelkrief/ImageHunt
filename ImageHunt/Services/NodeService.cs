@@ -3,7 +3,6 @@ using System.Linq;
 using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Model;
-using ImageHunt.Model.Node;
 using ImageHuntCore.Computation;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;

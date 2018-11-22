@@ -5,6 +5,7 @@ using FakeItEasy;
 using ImageHunt;
 using ImageHunt.Data;
 using ImageHunt.Model;
+using ImageHuntCore.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

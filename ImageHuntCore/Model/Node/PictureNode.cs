@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ImageHunt.Model.Node
+namespace ImageHuntCore.Model.Node
 {
     /// <summary>
     /// Mystery picture node. The player validate this node by uploading a picture through the chatbot. 

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using ImageHuntCore.Model;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
 using ImageHuntWebServiceClient.Request;
@@ -41,7 +42,7 @@ namespace ImageHuntBot.Dialogs
 
             var gameActionRequest = new GameActionRequest()
             {
-                Action = (int) ImageHuntWebServiceClient.Action.StartGame,
+                Action = (int) Action.StartGame,
                 GameId = state.GameId,
                 TeamId = state.TeamId,
                 Latitude = state.CurrentLatitude,

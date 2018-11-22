@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
-using ImageHunt.Model.Node;
+using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Responses;
 using NFluent;
 using Xunit;

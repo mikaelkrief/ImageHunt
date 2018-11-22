@@ -215,5 +215,40 @@ namespace ImageHuntBotBuilderTest
             // Assert
             A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).MustHaveHappened();
         }
+       // [Fact]
+        public async Task Should_Turn_Handle_position_if_close_current_node()
+        {
+            // Arrange
+            var location = new GeoCoordinates(latitude: 15.6d, longitude: 3.9d);
+            var attachments = new List<Attachment>
+            {
+                new Attachment()
+                {
+                    Content = location
+                }
+            };
+            _activity.Type = ImageHuntActivityTypes.Location;
+            _activity.Attachments = attachments;
+            var imageHuntState = new ImageHuntState()
+            {
+                Status = Status.None,
+                GameId = 15,
+                TeamId = 3,
+                CurrentLocation = location
+            };
+            A.CallTo(() =>
+                    _statePropertyAccessor.GetAsync(A<ITurnContext>._, A<Func<ImageHuntState>>._,
+                        A<CancellationToken>._))
+                .Returns(imageHuntState);
+
+            A.CallTo(() => _turnContext.Activity).Returns(_activity);
+            // Act
+            await _target.OnTurnAsync(_turnContext);
+            // Assert
+            A.CallTo(
+                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                .MustHaveHappened();
+        }
+
     }
 }
