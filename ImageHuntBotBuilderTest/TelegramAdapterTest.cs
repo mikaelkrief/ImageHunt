@@ -29,7 +29,6 @@ using Xunit;
 namespace ImageHuntBotBuilderTest
 {
     [Collection("AutomapperFixture")]
-
     public class TelegramAdapterTest : BaseTest
     {
         private TelegramAdapter _target;
@@ -56,7 +55,7 @@ namespace ImageHuntBotBuilderTest
             _telegramBotClient = A.Fake<ITelegramBotClient>();
             _testContainerBuilder.RegisterInstance(_telegramBotClient);
             _fakeHttpMessageHandler = A.Fake<HttpMessageHandler>();
-            _httpClient = new HttpClient(_fakeHttpMessageHandler) {BaseAddress = new Uri("http://test.com")};
+            _httpClient = new HttpClient(_fakeHttpMessageHandler) { BaseAddress = new Uri("http://test.com") };
             _testContainerBuilder.RegisterInstance(_httpClient);
             var container = _testContainerBuilder.Build();
 
@@ -85,6 +84,7 @@ namespace ImageHuntBotBuilderTest
             Check.That(activity.Value).Equals(update);
             Check.That(activity.Timestamp).Equals(new DateTimeOffset(update.Message.Date));
         }
+
         [Fact]
         public void Should_New_Participant()
         {
@@ -111,7 +111,8 @@ namespace ImageHuntBotBuilderTest
         {
             // Arrange
             var update =
-                GetJObjectFromResource(Assembly.GetExecutingAssembly(), "ImageHuntBotBuilderTest.Data.sendLocation.json")
+                GetJObjectFromResource(Assembly.GetExecutingAssembly(),
+                        "ImageHuntBotBuilderTest.Data.sendLocation.json")
                     .ToObject<Update>();
             var mapper = Mapper.Instance;
             // Act
@@ -127,6 +128,7 @@ namespace ImageHuntBotBuilderTest
             Check.That(location.Latitude).IsEqualsWithDelta(expectedLocation.Latitude, 0.001);
             Check.That(location.Longitude).IsEqualsWithDelta(expectedLocation.Longitude, 0.001);
         }
+
         [Fact]
         public void Should_Map_Update_to_Activity_image()
         {
@@ -143,6 +145,7 @@ namespace ImageHuntBotBuilderTest
             Check.That(activity.Attachments.Extracting("ContentUrl"))
                 .Contains("AgADBAADmK0xG3AuWVHxffLzbSk_BFNWoBoABIeSS3LyTp8lrXECAAEC");
         }
+
         [Fact]
         public async Task Should_Create_Activity_If_type_is_null()
         {
@@ -152,7 +155,8 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _configuration["BotConfiguration:BotUrl"]).Returns("http://localhost");
             Activity activity = new Activity()
             {
-                Properties = GetJObjectFromResource(Assembly.GetExecutingAssembly(), "ImageHuntBotBuilderTest.Data.sendImage.json"),
+                Properties = GetJObjectFromResource(Assembly.GetExecutingAssembly(),
+                    "ImageHuntBotBuilderTest.Data.sendImage.json"),
             };
 
             // Act
@@ -160,6 +164,7 @@ namespace ImageHuntBotBuilderTest
             // Assert
             A.CallTo(() => callback.Invoke(A<ITurnContext>._, A<CancellationToken>._)).MustHaveHappened();
         }
+
         [Fact]
         public async Task Should_RunPipelineAsync_If_Activity_Type_NotNull()
         {
@@ -167,13 +172,12 @@ namespace ImageHuntBotBuilderTest
             string authHeader = null;
             var callback = A.Fake<BotCallbackHandler>();
 
-            Activity activity = new Activity() {Type = "message", ServiceUrl = "http://localhost", Text = "toto"};
+            Activity activity = new Activity() { Type = "message", ServiceUrl = "http://localhost", Text = "toto" };
 
             // Act
             await _target.ProcessActivityAsync(authHeader, activity, callback, CancellationToken.None);
             // Assert
             A.CallTo(() => callback.Invoke(A<ITurnContext>._, A<CancellationToken>._)).MustHaveHappened();
-
         }
 
         [Fact]
@@ -199,13 +203,21 @@ namespace ImageHuntBotBuilderTest
             var connectorClient = A.Fake<IConnectorClient>();
             var conversation = A.Fake<IConversations>();
             A.CallTo(() => connectorClient.Conversations).Returns(conversation);
-            var turnState = new TurnContextStateCollection(){ {typeof(IConnectorClient).FullName,connectorClient} };
+            var turnState = new TurnContextStateCollection() { { typeof(IConnectorClient).FullName, connectorClient } };
             A.CallTo(() => turnContext.TurnState).Returns(turnState);
-            A.CallTo(() => conversation.SendToConversationWithHttpMessagesAsync(A<string>._, A<Activity>._, A<Dictionary<string, List<string>>>._, A<CancellationToken>._))
+            A.CallTo(() => conversation.SendToConversationWithHttpMessagesAsync(A<string>._, A<Activity>._,
+                    A<Dictionary<string, List<string>>>._, A<CancellationToken>._))
                 .Returns(new HttpOperationResponse<ResourceResponse>());
-            var activities = new Activity[] {new Activity(){Type = "message", ChannelId = "emulator", Id = "51515115",
-                Conversation = new ConversationAccount(), Text = "toto"},
-                
+            var activities = new Activity[]
+            {
+                new Activity()
+                {
+                    Type = "message",
+                    ChannelId = "emulator",
+                    Id = "51515115",
+                    Conversation = new ConversationAccount(),
+                    Text = "toto"
+                },
             };
             // Act
             var responses = await _target.SendActivitiesAsync(turnContext, activities, CancellationToken.None);
@@ -213,6 +225,7 @@ namespace ImageHuntBotBuilderTest
             Check.That(responses).HasSize(activities.Length);
             Check.That(responses.Extracting("Id")).Contains("51515115");
         }
+
         [Fact]
         public async Task Should_SendActivitiesAsync_on_telegram_return_Text()
         {
@@ -221,13 +234,21 @@ namespace ImageHuntBotBuilderTest
             var connectorClient = A.Fake<IConnectorClient>();
             var conversation = A.Fake<IConversations>();
             A.CallTo(() => connectorClient.Conversations).Returns(conversation);
-            var turnState = new TurnContextStateCollection(){ {typeof(IConnectorClient).FullName,connectorClient} };
+            var turnState = new TurnContextStateCollection() { { typeof(IConnectorClient).FullName, connectorClient } };
             A.CallTo(() => turnContext.TurnState).Returns(turnState);
-            A.CallTo(() => conversation.SendToConversationWithHttpMessagesAsync(A<string>._, A<Activity>._, A<Dictionary<string, List<string>>>._, A<CancellationToken>._))
+            A.CallTo(() => conversation.SendToConversationWithHttpMessagesAsync(A<string>._, A<Activity>._,
+                    A<Dictionary<string, List<string>>>._, A<CancellationToken>._))
                 .Returns(new HttpOperationResponse<ResourceResponse>());
-            var activities = new Activity[] {new Activity(){Type = "message", ChannelId = "telegram", Id = "151515",
-                Conversation = new ConversationAccount(), Text = "toto"},
-                
+            var activities = new Activity[]
+            {
+                new Activity()
+                {
+                    Type = "message",
+                    ChannelId = "telegram",
+                    Id = "151515",
+                    Conversation = new ConversationAccount(),
+                    Text = "toto"
+                },
             };
             // Act
             var responses = await _target.SendActivitiesAsync(turnContext, activities, CancellationToken.None);
@@ -251,7 +272,12 @@ namespace ImageHuntBotBuilderTest
                     Name = "Capture.png"
                 }
             };
-            var activity = new Activity() {Attachments = attachments, Type = ActivityTypes.Message, ServiceUrl = "http://localhost:50354" };
+            var activity = new Activity()
+            {
+                Attachments = attachments,
+                Type = ActivityTypes.Message,
+                ServiceUrl = "http://localhost:50354"
+            };
             var botCallback = A.Fake<BotCallbackHandler>();
             var response = new HttpResponseMessage();
             var content = new ByteArrayContent(new byte[15]);
@@ -263,9 +289,11 @@ namespace ImageHuntBotBuilderTest
             // Act
             await _target.ProcessActivityAsync(null, activity, botCallback, CancellationToken.None);
             // Assert
-            A.CallTo(() => botCallback.Invoke(A<ITurnContext>.That.Matches(t => CheckTurnContext(t)), A<CancellationToken>._))
+            A.CallTo(() =>
+                    botCallback.Invoke(A<ITurnContext>.That.Matches(t => CheckTurnContext(t)), A<CancellationToken>._))
                 .MustHaveHappened();
         }
+
         [Fact]
         public async Task Should_Download_Images_And_Store_in_activity_content_telegram()
         {
@@ -277,10 +305,15 @@ namespace ImageHuntBotBuilderTest
                     ContentType = "telegram/image",
                     ContentUrl =
                         "http://localhost:50354/v3/attachments/a3e895a0-e004-11e8-bd35-5d35ac6a130a/views/original",
-                   
                 }
             };
-            var activity = new Activity() {Attachments = attachments, Type = ActivityTypes.Message, ServiceUrl = "http://localhost:50354", Text = "Capture.jpg"};
+            var activity = new Activity()
+            {
+                Attachments = attachments,
+                Type = ActivityTypes.Message,
+                ServiceUrl = "http://localhost:50354",
+                Text = "Capture.jpg"
+            };
             var botCallback = A.Fake<BotCallbackHandler>();
             var response = new HttpResponseMessage();
             var content = new ByteArrayContent(new byte[15]);
@@ -292,7 +325,8 @@ namespace ImageHuntBotBuilderTest
             // Act
             await _target.ProcessActivityAsync(null, activity, botCallback, CancellationToken.None);
             // Assert
-            A.CallTo(() => botCallback.Invoke(A<ITurnContext>.That.Matches(t => CheckTurnContext(t)), A<CancellationToken>._))
+            A.CallTo(() =>
+                    botCallback.Invoke(A<ITurnContext>.That.Matches(t => CheckTurnContext(t)), A<CancellationToken>._))
                 .MustHaveHappened();
         }
 
@@ -311,14 +345,51 @@ namespace ImageHuntBotBuilderTest
             // Arrange
             var turnContext = A.Fake<ITurnContext>();
 
-            var activities = new Activity[] {new Activity(){Type = ImageHuntActivityTypes.Leave, ChannelId = "telegram", Id = "151515",
-                    Conversation = new ConversationAccount(), Text = "toto"},
-
+            var activities = new Activity[]
+            {
+                new Activity()
+                {
+                    Type = ImageHuntActivityTypes.Leave,
+                    ChannelId = "telegram",
+                    Id = "151515",
+                    Conversation = new ConversationAccount(),
+                    Text = "toto"
+                },
             };
             // Act
             await _target.SendActivitiesAsync(turnContext, activities, CancellationToken.None);
             // Assert
             A.CallTo(() => _telegramBotClient.LeaveChatAsync(A<ChatId>._, A<CancellationToken>._)).MustHaveHappened();
+        }
+
+        [Fact]
+        public async Task Should_Send_Location_To_Player()
+        {
+            // Arrange
+            var turnContext = A.Fake<ITurnContext>();
+
+            var activities = new Activity[]
+            {
+                new Activity()
+                {
+                    Type = ImageHuntActivityTypes.Location,
+                    ChannelId = "telegram",
+                    Id = "151515",
+                    Attachments = new List<Attachment>()
+                    {
+                        new Attachment()
+                        {
+                            ContentType = ImageHuntActivityTypes.Location,
+                            Content = new GeoCoordinates(latitude: 56.6, longitude: 5.34)
+                        }
+                    }
+                },
+            };
+            // Act
+            await _target.SendActivitiesAsync(turnContext, activities, CancellationToken.None);
+            // Assert
+            A.CallTo(() => _telegramBotClient.SendLocationAsync(A<ChatId>._, A<float>._, A<float>._, A<int>._,
+                A<bool>._, A<int>._, A<IReplyMarkup>._, A<CancellationToken>._)).MustHaveHappened();
         }
     }
 }
