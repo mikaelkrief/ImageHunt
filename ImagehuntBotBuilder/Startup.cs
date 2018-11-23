@@ -306,6 +306,17 @@ namespace ImagehuntBotBuilder
                             attachments.Add(attachment);
                         }
 
+                        if (message.NewChatMembers != null)
+                        {
+                            foreach (var newChatMember in message.NewChatMembers)
+                            {
+                                var attachment = new Attachment()
+                                {
+                                    ContentType = ImageHuntActivityTypes.NewPlayer,
+                                    Content = new ConversationAccount(name: newChatMember.Username) 
+                                };
+                            }
+                        }
                         return attachments;
                     }))
                     //.ForMember(a=> a.From, expression => )
