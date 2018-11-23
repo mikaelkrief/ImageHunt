@@ -315,6 +315,7 @@ namespace ImagehuntBotBuilder
                                     ContentType = ImageHuntActivityTypes.NewPlayer,
                                     Content = new ConversationAccount(name: newChatMember.Username) 
                                 };
+                                attachments.Add(attachment);
                             }
                         }
                         return attachments;
