@@ -92,7 +92,8 @@ namespace ImageHuntBotBuilder
 
                     break;
                 case ActivityTypes.Message:
-                    if (turnContext.Activity.Text.StartsWith('/'))
+                    if (!string.IsNullOrEmpty(turnContext.Activity.Text) &&
+                        turnContext.Activity.Text.StartsWith('/'))
                     {
                         await _commandRepository.RefreshAdmins();
 
