@@ -168,7 +168,6 @@ namespace ImagehuntBotBuilder
             {
                 var adapter = e.Instance;
                 adapter.Use(e.Context.Resolve<LogFakePositionMiddleware>());
-                adapter.Use(e.Context.Resolve<NewParticipantMiddleware>());
             }).As<IAdapterIntegration>();
             ConfigureContainer(containerBuilder);
         }
@@ -199,6 +198,7 @@ namespace ImagehuntBotBuilder
 
 
             containerBuilder.RegisterType<LogPositionMiddleware>().AsSelf().As<IMiddleware>();
+            containerBuilder.RegisterType<NewParticipantMiddleware>().AsSelf().As<IMiddleware>();
             containerBuilder.RegisterInstance(Mapper.Instance);
             containerBuilder.Register(a => new HttpClient()
             {
