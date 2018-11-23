@@ -18,6 +18,7 @@ using NFluent;
 using TestUtilities;
 using Xunit;
 using Activity = Microsoft.Bot.Schema.Activity;
+using IActivity = Microsoft.Bot.Schema.IActivity;
 using ITurnContext = Microsoft.Bot.Builder.ITurnContext;
 
 namespace ImageHuntBotBuilderTest
@@ -69,6 +70,8 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
                 .MustHaveHappened(Repeated.Exactly.Twice);
+            A.CallTo(() => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._))
+                .MustHaveHappened();
             Check.That(nextNode).IsNotNull();
 
         }
@@ -132,6 +135,14 @@ namespace ImageHuntBotBuilderTest
                         var nextNodeId = state.CurrentNode.ChildNodeIds.First();
                         nextNode = await _nodeWebService.GetNode(nextNodeId);
                         await context.SendActivityAsync($"Le prochain point de contrôle est {nextNode.Name}");
+                        var nextActivity = new Activity(type: ImageHuntActivityTypes.Location,
+                            attachments: new List<Attachment>()
+                            {
+                                new Attachment(ImageHuntActivityTypes.Location,
+                                    content: new GeoCoordinates(latitude: nextNode.Latitude,
+                                        longitude: nextNode.Longitude))
+                            });
+                        await context.SendActivityAsync(nextActivity);
                         break;
                 }
             }
