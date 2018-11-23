@@ -99,7 +99,7 @@ namespace ImageHuntBotBuilderTest.Middlewares
             // Act
             await _target.OnTurnAsync(_turnContext, _nextDelegate);
             // Assert
-            A.CallTo(() => _nextDelegate.Invoke(A<CancellationToken>._)).MustNotHaveHappened();
+            A.CallTo(() => _nextDelegate.Invoke(A<CancellationToken>._)).MustHaveHappened();
         }
     }
 }
