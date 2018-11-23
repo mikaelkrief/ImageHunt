@@ -63,6 +63,8 @@ namespace ImageHuntBotBuilderTest
                 }
             };
             A.CallTo(() => _turnContext.Activity).Returns(activity);
+            var nextNodeExpected = new NodeResponse();
+            A.CallTo(() => _nodeWebService.GetNode(A<int>._)).Returns(nextNodeExpected);
             // Act
             var nextNode = await _target.MatchLocation(_turnContext, state);
             // Assert
@@ -73,7 +75,7 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._))
                 .MustHaveHappened();
             Check.That(nextNode).IsNotNull();
-
+            Check.That(state.CurrentNode).IsEqualTo(nextNode).And.IsEqualTo(nextNodeExpected);
         }
         [Fact]
         public async Task Should_location_NOT_match_node()
@@ -146,6 +148,8 @@ namespace ImageHuntBotBuilderTest
                         break;
                 }
             }
+
+            state.CurrentNode = nextNode;
             return nextNode;
         }
     }
