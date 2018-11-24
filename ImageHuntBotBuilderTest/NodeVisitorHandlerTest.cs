@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
-using ImageHuntCore.Computation;
 using ImageHuntTelegramBot;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
@@ -66,7 +63,40 @@ namespace ImageHuntBotBuilderTest
             var nextNodeExpected = new NodeResponse();
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).Returns(nextNodeExpected);
             // Act
-            var nextNode = await _target.MatchLocation(_turnContext, state);
+            var nextNode = await _target.MatchLocationAsync(_turnContext, state);
+            // Assert
+            A.CallTo(() => _nodeWebService.GetNode(A<int>._)).MustHaveHappened();
+            A.CallTo(
+                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                .MustHaveHappened(Repeated.Exactly.Twice);
+            A.CallTo(() => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._))
+                .MustHaveHappened();
+            Check.That(nextNode).IsNotNull();
+            Check.That(state.CurrentNode).IsEqualTo(nextNode).And.IsEqualTo(nextNodeExpected);
+        }
+        [Fact]
+        public async Task Should_location_match_First_node()
+        {
+            // Arrange
+            var activity = new Activity(type: ImageHuntActivityTypes.Location)
+            {
+                Attachments = new List<Attachment>()
+                {
+                    new Attachment()
+                    {
+                        Content = new GeoCoordinates(latitude: 45.8, longitude: 5.87)
+                    }
+                }
+            };
+            var state = new ImageHuntState()
+            {
+                CurrentNode = new NodeResponse() { Latitude = 45.79999, Longitude = 5.86999, ChildNodeIds = new List<int>() { 15}, NodeType = NodeResponse.FirstNodeType}
+            };
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            var nextNodeExpected = new NodeResponse(){NodeType = "FirstNode"};
+            A.CallTo(() => _nodeWebService.GetNode(A<int>._)).Returns(nextNodeExpected);
+            // Act
+            var nextNode = await _target.MatchLocationAsync(_turnContext, state);
             // Assert
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).MustHaveHappened();
             A.CallTo(
@@ -97,60 +127,9 @@ namespace ImageHuntBotBuilderTest
             };
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             // Act
-            var nextNode = await _target.MatchLocation(_turnContext, state);
+            var nextNode = await _target.MatchLocationAsync(_turnContext, state);
             // Assert
             Check.That(nextNode).IsNull();
-        }
-    }
-
-    public class NodeVisitorHandler
-    {
-        private readonly ILogger<NodeVisitorHandler> _logger;
-        private readonly INodeWebService _nodeWebService;
-        private readonly ILifetimeScope _scope;
-        private readonly IConfiguration _configuration;
-
-        public NodeVisitorHandler(ILogger<NodeVisitorHandler> logger, INodeWebService nodeWebService, ILifetimeScope scope, IConfiguration configuration)
-        {
-            _logger = logger;
-            _nodeWebService = nodeWebService;
-            _scope = scope;
-            _configuration = configuration;
-        }
-
-        public async Task<NodeResponse> MatchLocation(ITurnContext context, ImageHuntState state)
-        {
-            var activity = context.Activity;
-            var location = activity.Attachments.First().Content as GeoCoordinates;
-            // Check that location match the current node
-            var distance = GeographyComputation.Distance(location.Latitude.Value, location.Longitude.Value, state.CurrentNode.Latitude,
-                state.CurrentNode.Longitude);
-            NodeResponse nextNode = null;
-            var rangeDistance = Convert.ToDouble(_configuration["NodeSettings:RangeDistance"]);
-            if (distance < rangeDistance)
-            {
-                await context.SendActivityAsync(
-                    $"Vous avez rejoint le point de controle {state.CurrentNode.Name}, bravo!");
-                switch (state.CurrentNode.NodeType)
-                {
-                    case NodeResponse.ObjectNodeType:
-                        var nextNodeId = state.CurrentNode.ChildNodeIds.First();
-                        nextNode = await _nodeWebService.GetNode(nextNodeId);
-                        await context.SendActivityAsync($"Le prochain point de contrôle est {nextNode.Name}");
-                        var nextActivity = new Activity(type: ImageHuntActivityTypes.Location,
-                            attachments: new List<Attachment>()
-                            {
-                                new Attachment(ImageHuntActivityTypes.Location,
-                                    content: new GeoCoordinates(latitude: nextNode.Latitude,
-                                        longitude: nextNode.Longitude))
-                            });
-                        await context.SendActivityAsync(nextActivity);
-                        break;
-                }
-            }
-
-            state.CurrentNode = nextNode;
-            return nextNode;
         }
     }
 }

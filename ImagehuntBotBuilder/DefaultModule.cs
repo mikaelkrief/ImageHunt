@@ -29,7 +29,7 @@ namespace ImageHuntBotBuilder
                     var ca = ct.GetAttribute<CommandAttribute>();
                     return ca.Command;
                 });
-
+            builder.RegisterType<NodeVisitorHandler>().AsImplementedInterfaces();
         }
     }
 }
