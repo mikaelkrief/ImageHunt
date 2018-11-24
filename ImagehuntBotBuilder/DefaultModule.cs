@@ -17,6 +17,7 @@ namespace ImageHuntBotBuilder
             builder.RegisterType<TeamWebService>().As<ITeamWebService>();
             builder.RegisterType<GameWebService>().As<IGameWebService>();
             builder.RegisterType<AdminWebService>().As<IAdminWebService>();
+            builder.RegisterType<NodeWebService>().As<INodeWebService>();
 
             builder.RegisterType<CommandRepository>().AsImplementedInterfaces().SingleInstance();
 
