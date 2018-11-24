@@ -19,6 +19,7 @@ namespace ImageHuntBotBuilder.Commands
             if (state != null)
             {
                 var relyBuilder = new StringBuilder();
+                relyBuilder.AppendLine($"ConversationId: {state.ConversationId}");
                 relyBuilder.AppendLine($"Game Status: {state.Status}");
                 if (state.Game != null)
                 {
