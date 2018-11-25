@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ImageHunt.Computation;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

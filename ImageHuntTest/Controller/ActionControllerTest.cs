@@ -10,8 +10,8 @@ using FakeItEasy;
 using ImageHunt;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
-using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
@@ -22,7 +22,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using Xunit;
-using Action = ImageHuntWebServiceClient.Action;
+using Action = ImageHuntCore.Model.Action;
 
 namespace ImageHuntTest.Controller
 {

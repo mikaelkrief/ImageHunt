@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using ImageHuntCore.Model;
 using ImageHuntTelegramBot;
 using ImageHuntTelegramBot.Dialogs;
 using ImageHuntWebServiceClient.Request;
@@ -28,7 +29,7 @@ namespace ImageHuntBot.Dialogs
             _logger.LogInformation($"The Hunt of GameId={state.GameId} for teamid={state.TeamId} had ended.");
             var gameActionRequest = new GameActionRequest()
             {
-                Action = (int)ImageHuntWebServiceClient.Action.EndGame,
+                Action = (int)Action.EndGame,
                 GameId = state.GameId,
                 TeamId = state.TeamId,
                 Latitude = state.CurrentLatitude,

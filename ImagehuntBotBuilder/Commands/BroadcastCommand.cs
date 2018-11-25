@@ -40,9 +40,10 @@ namespace ImageHuntBotBuilder.Commands
                     statesToBroadcast = states.Where(s => s.TeamId == teamId);
                 }
 
+                var activities = new List<Activity>();
                 foreach (var imageHuntState in statesToBroadcast)
                 {
-                    var activity = new Activity()
+                    var activity = new ImageHuntActivity()
                     {
                         Conversation = new ConversationAccount(id: imageHuntState.ConversationId),
                         Text = textToBroadcast,
@@ -50,8 +51,9 @@ namespace ImageHuntBotBuilder.Commands
                         ServiceUrl = turnContext.Activity.ServiceUrl,
                         ChannelId = turnContext.Activity.ChannelId
                     };
-                    await turnContext.SendActivityAsync(activity);
+                    activities.Add(activity);
                 }
+                 await turnContext.SendActivitiesAsync(activities.ToArray());
             }
             else
             {

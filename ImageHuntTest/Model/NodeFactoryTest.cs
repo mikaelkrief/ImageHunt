@@ -1,6 +1,6 @@
 ﻿using System;
 using ImageHunt.Model;
-using ImageHunt.Model.Node;
+using ImageHuntCore.Model.Node;
 using NFluent;
 using Xunit;
 

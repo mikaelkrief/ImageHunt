@@ -5,8 +5,9 @@ using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using ImageHunt.Model;
-using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using ImageHuntCore.Model;
+using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
@@ -15,7 +16,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
-using Action = ImageHuntWebServiceClient.Action;
+using Action = ImageHuntCore.Model.Action;
 
 namespace ImageHunt.Controllers
 {

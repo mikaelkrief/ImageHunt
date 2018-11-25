@@ -6,7 +6,7 @@ using ImageHuntTelegramBot.Dialogs;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;
-using Action = ImageHuntWebServiceClient.Action;
+using Action = ImageHuntCore.Model.Action;
 
 namespace ImageHuntBot.Dialogs
 {

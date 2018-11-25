@@ -26,16 +26,17 @@ namespace ImageHuntBotBuilder.Middlewares
             CancellationToken cancellationToken = new CancellationToken())
         {
             var state = await _accessors.ImageHuntState.GetAsync(turnContext, () => new ImageHuntState());
-            if (!state.TeamId.HasValue)
-            {
-                await turnContext.SendActivityAsync(
-                    "Je ne peux ajouter un membre à une équipe que si le groupe à été initialisé! Commande /init");
-                _logger.LogError($"Unable to add an user to a team since the group had not been initialized");
-                return;
-            }
 
             if (turnContext.Activity.Type == ImageHuntActivityTypes.NewPlayer)
             {
+                if (!state.TeamId.HasValue)
+                {
+                    await turnContext.SendActivityAsync(
+                        "Je ne peux ajouter un membre à une équipe que si le groupe à été initialisé! Commande /init");
+                    _logger.LogError($"Unable to add an user to a team since the group had not been initialized");
+                    return;
+                }
+
                 foreach (var activityAttachment in turnContext.Activity.Attachments)
                 {
                     var player = activityAttachment.Content as ConversationAccount;

@@ -30,6 +30,7 @@ namespace ImageHuntBotBuilder
         private readonly IActionWebService _actionWebService;
         private readonly ITeamWebService _teamWebService;
         private readonly ICommandRepository _commandRepository;
+        private readonly INodeVisitorHandler _nodeVisitorHandler;
         private readonly ILogger _logger;
 
         /// <summary>
@@ -42,6 +43,7 @@ namespace ImageHuntBotBuilder
             IActionWebService actionWebService,
             ITeamWebService teamWebService,
             ICommandRepository commandRepository,
+            INodeVisitorHandler nodeVisitorHandler,
             ILogger<ImageHuntBot> logger)
         {
             _logger = logger;
@@ -50,6 +52,7 @@ namespace ImageHuntBotBuilder
             _actionWebService = actionWebService;
             _teamWebService = teamWebService;
             _commandRepository = commandRepository;
+            _nodeVisitorHandler = nodeVisitorHandler;
         }
 
         public async Task OnTurnAsync(
@@ -61,7 +64,7 @@ namespace ImageHuntBotBuilder
             state.ConversationId = turnContext.Activity.Conversation.Id;
             switch (turnContext.Activity.Type)
             {
-                case "image":
+                case ImageHuntActivityTypes.Image:
                     if (state.Status == Status.Started &&
                         state.GameId.HasValue &&
                         state.TeamId.HasValue)
@@ -92,7 +95,8 @@ namespace ImageHuntBotBuilder
 
                     break;
                 case ActivityTypes.Message:
-                    if (turnContext.Activity.Text.StartsWith('/'))
+                    if (!string.IsNullOrEmpty(turnContext.Activity.Text) &&
+                        turnContext.Activity.Text.StartsWith('/'))
                     {
                         await _commandRepository.RefreshAdmins();
 
@@ -109,6 +113,10 @@ namespace ImageHuntBotBuilder
                         }
 
                     }
+
+                    break;
+                case ImageHuntActivityTypes.Location:
+                    await _nodeVisitorHandler.MatchLocationAsync(turnContext, state);
                     break;
             }
 

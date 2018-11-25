@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using FakeItEasy;
 using ImageHunt.Data;
 using ImageHunt.Model;
-using ImageHunt.Model.Node;
 using ImageHunt.Services;
+using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
@@ -16,7 +16,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using NFluent;
 using TestUtilities;
 using Xunit;
-using Action = ImageHuntWebServiceClient.Action;
+using Action = ImageHuntCore.Model.Action;
 
 namespace ImageHuntTest.Services
 {

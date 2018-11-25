@@ -31,6 +31,7 @@ namespace ImageHuntBotBuilderTest
         private ICommandRepository _commandRepository;
         private Activity _activity;
         private ImageHuntState _state;
+        private INodeVisitorHandler _nodevisitorHandler;
 
         public ImageHuntBotTest()
         {
@@ -42,6 +43,7 @@ namespace ImageHuntBotBuilderTest
             _teamWebService = A.Fake<ITeamWebService>();
             _testContainerBuilder.RegisterInstance(_actionWebService);
             _testContainerBuilder.RegisterInstance(_teamWebService);
+            _testContainerBuilder.RegisterInstance(_nodevisitorHandler = A.Fake<INodeVisitorHandler>());
             _statePropertyAccessor = A.Fake<IStatePropertyAccessor<ImageHuntState>>();
             _storage = A.Fake<IStorage>();
             _conversationState = new ConversationState(_storage);
@@ -94,7 +96,7 @@ namespace ImageHuntBotBuilderTest
             {
                 new Attachment()
                 {
-                    ContentType = "location",
+                    ContentType = ImageHuntActivityTypes.Location,
                     Content = new GeoCoordinates(latitude: 15.56d, longitude: 3.92)
                 }
             };
@@ -127,7 +129,7 @@ namespace ImageHuntBotBuilderTest
                     Content = new byte[15]
                 }
             };
-            _activity.Type = "image";
+            _activity.Type = ImageHuntActivityTypes.Image;
             _activity.Attachments = attachments;
             var imageHuntState = new ImageHuntState()
             {
@@ -159,7 +161,7 @@ namespace ImageHuntBotBuilderTest
                     Content = new byte[15]
                 }
             };
-            _activity.Type = "image";
+            _activity.Type = ImageHuntActivityTypes.Image;
             _activity.Attachments = attachments;
             var imageHuntState = new ImageHuntState()
             {
@@ -215,5 +217,40 @@ namespace ImageHuntBotBuilderTest
             // Assert
             A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).MustHaveHappened();
         }
+        [Fact]
+        public async Task Should_Turn_Handle_position_if_close_current_node()
+        {
+            // Arrange
+            var location = new GeoCoordinates(latitude: 15.6d, longitude: 3.9d);
+            var attachments = new List<Attachment>
+            {
+                new Attachment()
+                {
+                    Content = location
+                }
+            };
+            _activity.Type = ImageHuntActivityTypes.Location;
+            _activity.Attachments = attachments;
+            var imageHuntState = new ImageHuntState()
+            {
+                Status = Status.None,
+                GameId = 15,
+                TeamId = 3,
+                CurrentLocation = location
+            };
+            A.CallTo(() =>
+                    _statePropertyAccessor.GetAsync(A<ITurnContext>._, A<Func<ImageHuntState>>._,
+                        A<CancellationToken>._))
+                .Returns(imageHuntState);
+
+            A.CallTo(() => _turnContext.Activity).Returns(_activity);
+            // Act
+            await _target.OnTurnAsync(_turnContext);
+            // Assert
+            A.CallTo(
+                    () => _nodevisitorHandler.MatchLocationAsync(A<ITurnContext>._, A<ImageHuntState>._))
+                .MustHaveHappened();
+        }
+
     }
 }

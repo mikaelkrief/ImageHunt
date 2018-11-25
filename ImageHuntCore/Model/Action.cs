@@ -1,4 +1,4 @@
-namespace ImageHuntWebServiceClient
+namespace ImageHuntCore.Model
 {
   public enum Action
   {

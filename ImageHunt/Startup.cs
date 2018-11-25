@@ -9,9 +9,9 @@ using ImageHunt.Computation;
 using ImageHunt.Controllers;
 using ImageHunt.Data;
 using ImageHunt.Model;
-using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using ImageHuntCore;
+using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
@@ -153,13 +153,13 @@ namespace ImageHunt
           .ForMember(m=>m.PointsEarned, opt=>opt.MapFrom(gar=>gar.PointsEarned));
         config.CreateMap<GameAction, GameActionResponse>();
           //.ForMember(m=>m.GameId, opt=>opt.MapFrom(ga=>ga.Game.Id));
-        config.CreateMap<Node, Node>().ForSourceMember(x => x.Id, opt => opt.Ignore());
+        config.CreateMap<Node, Node>().ForSourceMember(x => x.Id, opt => opt.DoNotValidate());
         config.CreateMap<Node, NodeResponse>()
-          .ForMember(n=>n.ChildNodeIds, expression => expression.ResolveUsing(node => node.Children.Select(c=>c.Id)));
+          .ForMember(n=>n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c=>c.Id)));
         config.CreateMap<ObjectNode, NodeResponse>()
-          .ForMember(n => n.ChildNodeIds, expression => expression.ResolveUsing(node => node.Children.Select(c => c.Id)));
+          .ForMember(n => n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c => c.Id)));
         config.CreateMap<QuestionNode, QuestionNodeResponse>()
-          .ForMember(n => n.ChildNodeIds, expression => expression.ResolveUsing(node => node.Children.Select(c => c.Id)));
+          .ForMember(n => n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c => c.Id)));
         config.CreateMap<Answer, AnswerResponse>();
         config.CreateMap<GameAction, GameActionToValidate>()
           .ForMember(x=>x.Node, x=>x.Ignore());
@@ -169,7 +169,7 @@ namespace ImageHunt
         config.CreateMap<Passcode, PasscodeResponse>();
         config.CreateMap<GameRequest, Game>();
         config.CreateMap<Admin, AdminResponse>()
-          .ForMember(a=>a.GameIds, a=>a.ResolveUsing(admin => admin.Games.Select(g=>g.Id)));
+          .ForMember(a=>a.GameIds, a=>a.MapFrom(admin => admin.Games.Select(g=>g.Id)));
         config.CreateMap<PlayerRequest, Player>();
         config.CreateMap<PictureNode, NodeResponse>()
           .ForPath(n=>n.Image.Id, o=>o.MapFrom(p=>p.Image.Id))  

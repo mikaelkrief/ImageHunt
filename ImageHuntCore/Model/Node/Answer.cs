@@ -1,6 +1,4 @@
-using ImageHuntCore.Model;
-
-namespace ImageHunt.Model.Node
+namespace ImageHuntCore.Model.Node
 {
   public class Answer : DbObject
   {

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace ImageHunt.Model.Node
+namespace ImageHuntCore.Model.Node
 {
   /// <summary>
   /// Question node. The player should choose in a set of answers to pursue the hunt. 

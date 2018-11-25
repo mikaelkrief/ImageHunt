@@ -1,6 +1,5 @@
 using FakeItEasy;
 using ImageHunt.Controllers;
-using ImageHunt.Model.Node;
 using ImageHunt.Services;
 using Microsoft.AspNetCore.Mvc;
 using NFluent;

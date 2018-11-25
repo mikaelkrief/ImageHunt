@@ -1,7 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using ImageHunt.Model;
-using ImageHunt.Model.Node;
 using ImageHuntCore;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
@@ -27,6 +26,7 @@ namespace ImageHunt.Data
     public DbSet<PictureNode> PictureNodes { get; set; }
     public DbSet<QuestionNode> QuestionNodes { get; set; }
     public DbSet<ObjectNode> ObjectNodes { get; set; }
+    public DbSet<HiddenNode> HiddenNodes { get; set; }
     public DbSet<Player> Players { get; set; }
     public DbSet<Team> Teams { get; set; }
     public DbSet<Game> Games { get; set; }
@@ -61,6 +61,8 @@ namespace ImageHunt.Data
       modelBuilder.Entity<QuestionNode>()
         .Property<bool>("IsDeleted");
       modelBuilder.Entity<ObjectNode>()
+        .Property<bool>("IsDeleted");
+      modelBuilder.Entity<HiddenNode>()
         .Property<bool>("IsDeleted");
       modelBuilder.Entity<Answer>()
         .Property<bool>("IsDeleted");

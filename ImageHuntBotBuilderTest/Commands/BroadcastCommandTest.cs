@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -71,13 +72,13 @@ namespace ImageHuntBotBuilderTest.Commands
             await _target.Execute(_turnContext, state);
             // Assert
             A.CallTo(() =>
-                _turnContext.SendActivityAsync(
-                    A<Activity>.That.Matches(a => a.Conversation.Id == states[0].ConversationId),
+                _turnContext.SendActivitiesAsync(
+                    A<IActivity[]>.That.Matches(a => a.First().Conversation.Id == states[0].ConversationId),
                     A<CancellationToken>._)).MustHaveHappened();
             A.CallTo(() =>
-                _turnContext.SendActivityAsync(
-                    A<Activity>.That.Matches(a => a.Conversation.Id == states[1].ConversationId),
-                    A<CancellationToken>._)).MustHaveHappened();
+                _turnContext.SendActivitiesAsync(
+                    A<IActivity[]>.That.Matches(a=>a.Length == 2),
+                    A<CancellationToken>._)).MustHaveHappened(Repeated.Exactly.Once);
 
         }
         [Fact]
@@ -98,8 +99,8 @@ namespace ImageHuntBotBuilderTest.Commands
             await _target.Execute(_turnContext, state);
             // Assert
             A.CallTo(() =>
-                _turnContext.SendActivityAsync(
-                    A<Activity>.That.Matches(a => a.Conversation.Id == states[2].ConversationId),
+                _turnContext.SendActivitiesAsync(
+                    A<IActivity[]>.That.Matches(a => a.First().Conversation.Id == states[2].ConversationId),
                     A<CancellationToken>._)).MustHaveHappened();
         }
     }

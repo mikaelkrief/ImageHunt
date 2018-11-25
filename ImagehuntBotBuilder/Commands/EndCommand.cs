@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
@@ -30,7 +31,7 @@ namespace ImageHuntBotBuilder.Commands
             {
                 GameId = state.GameId.Value,
                 TeamId = state.TeamId.Value,
-                Action = (int)ImageHuntWebServiceClient.Action.EndGame,
+                Action = (int)Action.EndGame,
 
             };
             await _actionWebService.LogAction(gameActionRequest);

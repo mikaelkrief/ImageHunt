@@ -9,6 +9,7 @@
         <replacefilter token="TELEGRAM_APIKEY" value="${TELEGRAM_APIKEY}"/>
         <replacefilter token="BOT_NAME" value="${BOT_NAME}"/>
         <replacefilter token="BOT_URL" value="${BOT_URL}"/>
+        <replacefilter token="BOT_STORAGE_FOLDER" value="${BOT_FOLDER}"/>
     </replace>
     <move file="${INFILE}" toFile="${TOFILE}"></move>
   </target>

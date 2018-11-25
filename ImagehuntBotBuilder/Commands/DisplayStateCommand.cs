@@ -19,6 +19,7 @@ namespace ImageHuntBotBuilder.Commands
             if (state != null)
             {
                 var relyBuilder = new StringBuilder();
+                relyBuilder.AppendLine($"ConversationId: {state.ConversationId}");
                 relyBuilder.AppendLine($"Game Status: {state.Status}");
                 if (state.Game != null)
                 {
@@ -40,7 +41,7 @@ namespace ImageHuntBotBuilder.Commands
                 if (state.CurrentNode != null)
                 {
                     relyBuilder.AppendLine(
-                        $"CurrentNode: (Id: {state.CurrentNode.Id}, Name: {state.CurrentNode.Name})");
+                        $"CurrentNode: (Id: {state.CurrentNode.Id}, Name: {state.CurrentNode.Name}, Location: [lat:{state.CurrentNode.Latitude}, {state.CurrentNode.Longitude}])");
                 }
 
                 await turnContext.SendActivityAsync(relyBuilder.ToString());

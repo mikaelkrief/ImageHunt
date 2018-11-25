@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
@@ -43,7 +44,7 @@ namespace ImageHuntBotBuilder.Commands
             state.Status = Status.Started;
             var gameActionRequest = new GameActionRequest()
             {
-                Action = (int)ImageHuntWebServiceClient.Action.StartGame,
+                Action = (int)Action.StartGame,
                 GameId = state.GameId.Value,
                 TeamId = state.TeamId.Value,
                 Latitude = state.CurrentLocation.Latitude,

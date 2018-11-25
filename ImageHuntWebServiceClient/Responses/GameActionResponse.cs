@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 
 namespace ImageHuntWebServiceClient.Responses
 {
@@ -11,7 +12,7 @@ namespace ImageHuntWebServiceClient.Responses
         public int GameId { get; set; }
         public int TeamId { get; set; }
         public int PictureId { get; set; }
-        public Action Action { get; set; }
+        public ImageHuntCore.Model.Action Action { get; set; }
         public bool IsValidated { get; set; }
         public bool IsReviewed { get; set; }
         public int ReviewerId { get; set; }
