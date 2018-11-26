@@ -38,6 +38,13 @@
   </ItemGroup>
 
 
+  <ItemGroup>
+    <Reference Include="NFluent">
+      <HintPath>..\..\..\Users\ChristopheMandrillon\.nuget\packages\nfluent\2.4.0\lib\netstandard2.0\NFluent.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
 
 
 </Project>

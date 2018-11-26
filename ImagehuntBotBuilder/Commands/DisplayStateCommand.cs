@@ -1,7 +1,10 @@
-﻿using System.Text;
+﻿using System;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Extensions.Logging;
+using NFluent;
 
 namespace ImageHuntBotBuilder.Commands
 {
@@ -40,8 +43,14 @@ namespace ImageHuntBotBuilder.Commands
 
                 if (state.CurrentNode != null)
                 {
+                    string childs = string.Empty;
+                    if (state.CurrentNode.ChildNodeIds != null)
+                    {
+                        childs = state.CurrentNode.ChildNodeIds.Aggregate(string.Empty, (current, next) => current.ToString() + ", " + next.ToString());
+                    }
+
                     relyBuilder.AppendLine(
-                        $"CurrentNode: (Id: {state.CurrentNode.Id}, Name: {state.CurrentNode.Name}, Location: [lat:{state.CurrentNode.Latitude}, {state.CurrentNode.Longitude}])");
+                        $"CurrentNode: (Id: {state.CurrentNode.Id}, Name: {state.CurrentNode.Name}, Location: [lat:{state.CurrentNode.Latitude}, {state.CurrentNode.Longitude}]) Childs: [{childs}]");
                 }
 
                 await turnContext.SendActivityAsync(relyBuilder.ToString());

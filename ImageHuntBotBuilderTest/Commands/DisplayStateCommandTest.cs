@@ -49,7 +49,7 @@ namespace ImageHuntBotBuilderTest.Commands
                 Game = new GameResponse() { Id = 65, IsActive = true, Name = "GameName", PictureId = 45, StartDate = DateTime.Now},
                 Team = new TeamResponse() { GameId = 65, Id = 45, Name = "TeamName", Players = new PlayerResponse[]{new PlayerResponse(){Id = 3, Name = "Player1"},new PlayerResponse(){Id = 3, Name = "Player2"}, }},
                 CurrentLocation = new GeoCoordinates(latitude:45.7d, longitude:6.87d),
-                CurrentNode = new NodeResponse() { Name = "NodeName", Id = 56},
+                CurrentNode = new NodeResponse() { Name = "NodeName", Id = 56, ChildNodeIds = new int[]{45, 67}},
                 Status = Status.Started,
             };
             // Act
