@@ -124,7 +124,7 @@ namespace ImageHunt.Controllers
     [HttpPut("StartTeam/{gameId}/{teamId}")]
     public IActionResult StartTeam(int gameId, int teamId)
     {
-      var nextNode = _teamService.StartGame(gameId, teamId);
+      var nextNode = _mapper.Map<NodeResponse>( _teamService.StartGame(gameId, teamId));
       return Ok(nextNode);
     }
     [HttpGet("NextNodeForTeam/{teamId}")]

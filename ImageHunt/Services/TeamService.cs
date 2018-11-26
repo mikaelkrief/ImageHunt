@@ -158,7 +158,9 @@ namespace ImageHunt.Services
       var game = GetCurrentGameForTeam(team);
       if (!game.IsActive)
         throw new ArgumentException("There is no game active");
-      team.CurrentNode = game.Nodes.FirstOrDefault(n => n is FirstNode);
+      var currentNode = game.Nodes.FirstOrDefault(n => n is FirstNode);
+      team.CurrentNode = Context.Nodes.Include(n => n.ChildrenRelation).ThenInclude(cr => cr.Children)
+        .Single(n => n == currentNode);
       Context.SaveChanges();
       return team.CurrentNode;
     }

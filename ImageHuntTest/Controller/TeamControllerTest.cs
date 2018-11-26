@@ -175,7 +175,7 @@ namespace ImageHuntTest.Controller
         // Assert
         Check.That(result).IsInstanceOf<OkObjectResult>();
         var nextNode = ((OkObjectResult)result).Value;
-        Check.That(nextNode).InheritsFrom<Node>();
+        Check.That(nextNode).InheritsFrom<NodeResponse>();
         A.CallTo(() => _teamService.StartGame(A<int>._, A<int>._)).MustHaveHappened();
       }
 
