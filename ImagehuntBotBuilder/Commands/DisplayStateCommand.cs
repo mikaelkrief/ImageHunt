@@ -4,7 +4,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Extensions.Logging;
-using NFluent;
 
 namespace ImageHuntBotBuilder.Commands
 {
