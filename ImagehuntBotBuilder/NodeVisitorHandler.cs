@@ -42,30 +42,41 @@ namespace ImageHuntBotBuilder
                 state.CurrentNode.Longitude);
             NodeResponse nextNode = null;
             var rangeDistance = Convert.ToDouble(_configuration["NodeSettings:RangeDistance"]);
-            if (distance < rangeDistance)
+            try
             {
-                await context.SendActivityAsync(
-                    $"Vous avez rejoint le point de controle {state.CurrentNode.Name}, bravo!");
-                switch (state.CurrentNode.NodeType)
+                if (distance < rangeDistance)
                 {
-                    case NodeResponse.FirstNodeType:
-                    case NodeResponse.ObjectNodeType:
-                        var nextNodeId = state.CurrentNode.ChildNodeIds.First();
-                        nextNode = await _nodeWebService.GetNode(nextNodeId);
-                        await context.SendActivityAsync($"Le prochain point de contrôle est {nextNode.Name}");
-                        var nextActivity = new Activity(type: ImageHuntActivityTypes.Location,
-                            attachments: new List<Attachment>()
-                            {
-                                new Attachment(ImageHuntActivityTypes.Location,
-                                    content: new GeoCoordinates(latitude: nextNode.Latitude,
-                                        longitude: nextNode.Longitude))
-                            });
-                        await context.SendActivityAsync(nextActivity);
-                        break;
+                    await context.SendActivityAsync(
+                        $"Vous avez rejoint le point de controle {state.CurrentNode.Name}, bravo!");
+                    switch (state.CurrentNode.NodeType)
+                    {
+                        case NodeResponse.FirstNodeType:
+                        case NodeResponse.ObjectNodeType:
+                            var nextNodeId = state.CurrentNode.ChildNodeIds.First();
+                            nextNode = await _nodeWebService.GetNode(nextNodeId);
+                            await context.SendActivityAsync($"Le prochain point de contrôle est {nextNode.Name}");
+                            var nextActivity = new Activity(type: ImageHuntActivityTypes.Location,
+                                attachments: new List<Attachment>()
+                                {
+                                    new Attachment(ImageHuntActivityTypes.Location,
+                                        content: new GeoCoordinates(latitude: nextNode.Latitude,
+                                            longitude: nextNode.Longitude))
+                                });
+                            await context.SendActivityAsync(nextActivity);
+                            break;
+                    }
                 }
-            }
 
-            state.CurrentNode = nextNode;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception while handling activity: {activity.Type}");
+            }
+            finally
+            {
+                state.CurrentNode = nextNode;
+                
+            }
             return nextNode;
         }
     }
