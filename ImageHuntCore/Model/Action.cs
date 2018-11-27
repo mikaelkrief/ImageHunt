@@ -10,6 +10,7 @@ namespace ImageHuntCore.Model
     DoAction,
     SubmitPosition,
     RedeemPasscode,
-    GivePoints
+    GivePoints,
+      None,
   }
 }

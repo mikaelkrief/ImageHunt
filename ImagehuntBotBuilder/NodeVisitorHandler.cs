@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using ImageHuntCore.Computation;
+using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Action = ImageHuntCore.Model.Action;
 
 namespace ImageHuntBotBuilder
 {
@@ -24,13 +26,19 @@ namespace ImageHuntBotBuilder
         private readonly INodeWebService _nodeWebService;
         private readonly ILifetimeScope _scope;
         private readonly IConfiguration _configuration;
+        private readonly IActionWebService _actionWebService;
 
-        public NodeVisitorHandler(ILogger<NodeVisitorHandler> logger, INodeWebService nodeWebService, ILifetimeScope scope, IConfiguration configuration)
+        public NodeVisitorHandler(ILogger<NodeVisitorHandler> logger,
+            INodeWebService nodeWebService,
+            ILifetimeScope scope,
+            IConfiguration configuration,
+            IActionWebService actionWebService)
         {
             _logger = logger;
             _nodeWebService = nodeWebService;
             _scope = scope;
             _configuration = configuration;
+            _actionWebService = actionWebService;
         }
 
         public async Task<NodeResponse> MatchLocationAsync(ITurnContext context, ImageHuntState state)
@@ -48,6 +56,15 @@ namespace ImageHuntBotBuilder
                 {
                     await context.SendActivityAsync(
                         $"Vous avez rejoint le point de controle {state.CurrentNode.Name}, bravo!");
+                    var actionRequest = new GameActionRequest()
+                    {
+                        Action = (int) ActionFromNodeType(state.CurrentNode.NodeType),
+                        Latitude = location.Latitude.Value,
+                        Longitude = location.Longitude.Value,
+                        GameId = state.GameId.Value,
+                        TeamId = state.TeamId.Value,
+                        NodeId = state.CurrentNode.Id, 
+                    };
                     switch (state.CurrentNode.NodeType)
                     {
                         case NodeResponse.FirstNodeType:
@@ -65,6 +82,8 @@ namespace ImageHuntBotBuilder
                             await context.SendActivityAsync(nextActivity);
                             break;
                     }
+
+                    await _actionWebService.LogAction(actionRequest);
                 }
 
             }
@@ -78,6 +97,19 @@ namespace ImageHuntBotBuilder
                 
             }
             return nextNode;
+        }
+
+        private Action ActionFromNodeType(string currentNodeNodeType)
+        {
+            switch (currentNodeNodeType)
+            {
+                case NodeResponse.FirstNodeType:
+                    return Action.StartGame;
+                case NodeResponse.ObjectNodeType:
+                    return Action.DoAction;
+                default:
+                    return Action.None;
+            }
         }
     }
 }
