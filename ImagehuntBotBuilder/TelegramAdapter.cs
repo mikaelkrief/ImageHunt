@@ -147,6 +147,11 @@ namespace ImageHuntBotBuilder
                                     (float) location.Longitude.Value);
                                 break;
                         }
+                        if (response == null)
+                        {
+                            response = new ResourceResponse(activity.Id ?? string.Empty);
+                        }
+
                         break;
                 }
 
