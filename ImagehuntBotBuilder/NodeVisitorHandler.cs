@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
+using ImageHuntBotBuilder.Commands;
 using ImageHuntCore.Computation;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
@@ -79,7 +80,13 @@ namespace ImageHuntBotBuilder
                                         content: new GeoCoordinates(latitude: nextNode.Latitude,
                                             longitude: nextNode.Longitude))
                                 });
+                            actionRequest.PointsEarned = state.CurrentNode.Points;
                             await context.SendActivityAsync(nextActivity);
+                            break;
+                        case NodeResponse.LastNodeType:
+                            await context.SendActivityAsync($"Pour valider la fin de votre chasse, prévenez un orga");
+                            actionRequest.PointsEarned = state.CurrentNode.Points;
+
                             break;
                     }
 
@@ -107,6 +114,8 @@ namespace ImageHuntBotBuilder
                     return Action.StartGame;
                 case NodeResponse.ObjectNodeType:
                     return Action.DoAction;
+                case NodeResponse.LastNodeType:
+                    return Action.EndGame;
                 default:
                     return Action.None;
             }

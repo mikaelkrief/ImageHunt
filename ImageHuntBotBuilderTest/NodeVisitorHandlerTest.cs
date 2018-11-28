@@ -124,6 +124,44 @@ namespace ImageHuntBotBuilderTest
             Check.That(state.CurrentNode).IsEqualTo(nextNode).And.IsEqualTo(nextNodeExpected);
         }
         [Fact]
+        public async Task Should_location_match_Last_node()
+        {
+            // Arrange
+            var activity = new Activity(type: ImageHuntActivityTypes.Location)
+            {
+                Attachments = new List<Attachment>()
+                {
+                    new Attachment()
+                    {
+                        Content = new GeoCoordinates(latitude: 45.8, longitude: 5.87)
+                    }
+                }
+            };
+            var state = new ImageHuntState()
+            {
+                CurrentNode = new NodeResponse()
+                {
+                    Latitude = 45.79999, Longitude = 5.86999,
+                    NodeType = NodeResponse.LastNodeType,
+                },
+                GameId = 45,
+                TeamId = 87,
+
+            };
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            var nextNodeExpected = new NodeResponse(){NodeType = "FirstNode"};
+            A.CallTo(() => _nodeWebService.GetNode(A<int>._)).Returns(nextNodeExpected);
+            // Act
+            var nextNode = await _target.MatchLocationAsync(_turnContext, state);
+            // Assert
+            A.CallTo(
+                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                .MustHaveHappened(Repeated.Exactly.Twice);
+            A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                .MustHaveHappened();
+            Check.That(nextNode).IsNull();
+        }
+        [Fact]
         public async Task Should_location_NOT_match_node()
         {
             // Arrange
