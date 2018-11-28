@@ -2,34 +2,34 @@
 
 namespace ImageHuntBotBuilder
 {
-    public class ImageHuntActivity : Activity
+    public class ImageHuntActivity : Activity, IActivity
     {
         public new Activity ApplyConversationReference(ConversationReference reference, bool isIncoming = false)
         {
-            this.ChannelId = reference.ChannelId;
-            this.ServiceUrl = reference.ServiceUrl;
-            if (this.Conversation == null)
-                this.Conversation = reference.Conversation;
+            ChannelId = reference.ChannelId;
+            ServiceUrl = reference.ServiceUrl;
+            if (Conversation == null)
+                Conversation = reference.Conversation;
 
             if (isIncoming)
             {
-                if (this.From == null)
-                    this.From = reference.User;
-                if (this.Recipient == null)
-                    this.Recipient = reference.Bot;
+                if (From == null)
+                    From = reference.User;
+                if (Recipient == null)
+                    Recipient = reference.Bot;
                 if (reference.ActivityId != null)
-                    this.Id = reference.ActivityId;
+                    Id = reference.ActivityId;
             }
             else // Outgoing
             {
-                if (this.From == null)
+                if (From == null)
 
-                    this.From = reference.Bot;
-                if (this.Recipient == null)
+                    From = reference.Bot;
+                if (Recipient == null)
 
-                    this.Recipient = reference.User;
+                    Recipient = reference.User;
                 if (reference.ActivityId != null)
-                    this.ReplyToId = reference.ActivityId;
+                    ReplyToId = reference.ActivityId;
             }
 
             return this;
