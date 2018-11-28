@@ -19,6 +19,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Rest;
 using NFluent;
 using Telegram.Bot;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -239,6 +240,40 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => conversation.SendToConversationWithHttpMessagesAsync(A<string>._, A<Activity>._,
                     A<Dictionary<string, List<string>>>._, A<CancellationToken>._))
                 .Returns(new HttpOperationResponse<ResourceResponse>());
+            var activities = new Activity[]
+            {
+                new Activity()
+                {
+                    Type = "message",
+                    ChannelId = "telegram",
+                    Id = "151515",
+                    Conversation = new ConversationAccount(),
+                    Text = "toto"
+                },
+            };
+            // Act
+            var responses = await _target.SendActivitiesAsync(turnContext, activities, CancellationToken.None);
+            // Assert
+            Check.That(responses).HasSize(activities.Length);
+            A.CallTo(() => _telegramBotClient.SendTextMessageAsync(A<ChatId>._, "toto", A<ParseMode>._, A<bool>._,
+                A<bool>._, A<int>._, A<IReplyMarkup>._, A<CancellationToken>._)).MustHaveHappened();
+        }
+        [Fact]
+        public async Task Should_SendActivitiesAsync_on_telegram_Raise_exception()
+        {
+            // Arrange
+            var turnContext = A.Fake<ITurnContext>();
+            var connectorClient = A.Fake<IConnectorClient>();
+            var conversation = A.Fake<IConversations>();
+            A.CallTo(() => connectorClient.Conversations).Returns(conversation);
+            var turnState = new TurnContextStateCollection() { { typeof(IConnectorClient).FullName, connectorClient } };
+            A.CallTo(() => turnContext.TurnState).Returns(turnState);
+            A.CallTo(() => conversation.SendToConversationWithHttpMessagesAsync(A<string>._, A<Activity>._,
+                    A<Dictionary<string, List<string>>>._, A<CancellationToken>._))
+                .Returns(new HttpOperationResponse<ResourceResponse>());
+            A.CallTo(() => _telegramBotClient.SendTextMessageAsync(A<ChatId>._, A<string>._, A<ParseMode>._, A<bool>._,
+                A<bool>._, A<int>._, A<IReplyMarkup>._, A<CancellationToken>._)).ThrowsAsync(new ApiRequestException("Exception while sending message"));
+
             var activities = new Activity[]
             {
                 new Activity()

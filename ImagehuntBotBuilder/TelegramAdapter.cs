@@ -18,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Rest.TransientFaultHandling;
 using Telegram.Bot;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 
 namespace ImageHuntBotBuilder
@@ -131,11 +132,22 @@ namespace ImageHuntBotBuilder
                         switch (activity.Type)
                         {
                             case ActivityTypes.Message:
-                                var telegramMessage =
-                                    await _telegramBotClient.SendTextMessageAsync(chatId,
-                                        activity.Text);
-                                response = new ResourceResponse(telegramMessage.MessageId.ToString());
 
+                                Message telegramMessage = null;
+                                try
+                                {
+                                    telegramMessage = await _telegramBotClient.SendTextMessageAsync(chatId,
+                                        activity.Text);
+                                }
+                                catch (ApiRequestException e)
+                                {
+                                    _logger.LogError(e, "Error while sending message to a group");
+                                }
+                                finally
+                                {
+
+                                    response = new ResourceResponse(telegramMessage?.MessageId.ToString());
+                                }
                                 break;
                             case ImageHuntActivityTypes.Leave:
                                 await _telegramBotClient.LeaveChatAsync(chatId,
