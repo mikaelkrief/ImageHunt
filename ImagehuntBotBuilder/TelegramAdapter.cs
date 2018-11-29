@@ -39,7 +39,7 @@ namespace ImageHuntBotBuilder
             IConfiguration configuration,
             ICredentialProvider credentialProvider,
             HttpClient httpClient)
-           
+
         {
             _mapper = mapper;
             _logger = logger;
@@ -59,37 +59,37 @@ namespace ImageHuntBotBuilder
                         switch (attachment.ContentType)
                         {
                             case string s when s.StartsWith(ImageHuntActivityTypes.Image):
-                            {
-                                // Try to download the image
-                                using (var request =
-                                    new HttpRequestMessage(HttpMethod.Get, new Uri(attachment.ContentUrl)))
                                 {
-                                    var response = await _httpClient.SendAsync(request);
-                                    using (var contentStream = await response.Content.ReadAsStreamAsync())
+                                    // Try to download the image
+                                    using (var request =
+                                        new HttpRequestMessage(HttpMethod.Get, new Uri(attachment.ContentUrl)))
                                     {
-                                        var bytes = new byte[contentStream.Length];
-                                        await contentStream.ReadAsync(bytes, 0, (int) contentStream.Length);
-                                        attachment.Content = bytes;
-                                        activity.Type = ImageHuntActivityTypes.Image;
+                                        var response = await _httpClient.SendAsync(request);
+                                        using (var contentStream = await response.Content.ReadAsStreamAsync())
+                                        {
+                                            var bytes = new byte[contentStream.Length];
+                                            await contentStream.ReadAsync(bytes, 0, (int)contentStream.Length);
+                                            attachment.Content = bytes;
+                                            activity.Type = ImageHuntActivityTypes.Image;
+                                        }
                                     }
                                 }
-                            }
 
                                 break;
                             case string s when s.StartsWith("telegram"):
-                            {
-                                using (var stream = new MemoryStream())
                                 {
-                                    var fileInfo =
-                                        await _telegramBotClient.GetInfoAndDownloadFileAsync(attachment.ContentUrl,
-                                            stream);
-                                    var imageBytes = new byte[stream.Length];
-                                    await stream.ReadAsync(imageBytes, 0, (int) stream.Length);
-                                    attachment.Content = imageBytes;
-                                    attachment.Name = activity.Text;
-                                    activity.Type = ImageHuntActivityTypes.Image;
+                                    using (var stream = new MemoryStream())
+                                    {
+                                        var fileInfo =
+                                            await _telegramBotClient.GetInfoAndDownloadFileAsync(attachment.ContentUrl,
+                                                stream);
+                                        var imageBytes = new byte[stream.Length];
+                                        stream.Read(imageBytes, 0, (int)stream.Length);
+                                        attachment.Content = imageBytes;
+                                        attachment.Name = activity.Text;
+                                        activity.Type = ImageHuntActivityTypes.Image;
+                                    }
                                 }
-                            }
                                 break;
                         }
                     }
@@ -146,9 +146,9 @@ namespace ImageHuntBotBuilder
                                 }
                                 finally
                                 {
-
                                     response = new ResourceResponse(telegramMessage?.MessageId.ToString());
                                 }
+
                                 break;
                             case ImageHuntActivityTypes.Leave:
                                 await _telegramBotClient.LeaveChatAsync(chatId,
@@ -156,10 +156,11 @@ namespace ImageHuntBotBuilder
                                 break;
                             case ImageHuntActivityTypes.Location:
                                 var location = activity.Attachments.First().Content as GeoCoordinates;
-                                await _telegramBotClient.SendLocationAsync(chatId, (float) location.Latitude.Value,
-                                    (float) location.Longitude.Value);
+                                await _telegramBotClient.SendLocationAsync(chatId, (float)location.Latitude.Value,
+                                    (float)location.Longitude.Value);
                                 break;
                         }
+
                         if (response == null)
                         {
                             response = new ResourceResponse(activity.Id ?? string.Empty);
@@ -202,7 +203,6 @@ namespace ImageHuntBotBuilder
                 await RunPipelineAsync(turnContext, callback, cancellationToken).ConfigureAwait(false);
                 return null;
             }
-
         }
     }
 }
