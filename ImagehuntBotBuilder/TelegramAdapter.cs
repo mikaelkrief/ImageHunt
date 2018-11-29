@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Rest.TransientFaultHandling;
@@ -57,7 +58,7 @@ namespace ImageHuntBotBuilder
                     {
                         switch (attachment.ContentType)
                         {
-                            case string s when s.StartsWith("image"):
+                            case string s when s.StartsWith(ImageHuntActivityTypes.Image):
                             {
                                 // Try to download the image
                                 using (var request =
@@ -69,7 +70,7 @@ namespace ImageHuntBotBuilder
                                         var bytes = new byte[contentStream.Length];
                                         await contentStream.ReadAsync(bytes, 0, (int) contentStream.Length);
                                         attachment.Content = bytes;
-                                        activity.Type = "image";
+                                        activity.Type = ImageHuntActivityTypes.Image;
                                     }
                                 }
                             }
@@ -86,7 +87,7 @@ namespace ImageHuntBotBuilder
                                     await stream.ReadAsync(imageBytes, 0, (int) stream.Length);
                                     attachment.Content = imageBytes;
                                     attachment.Name = activity.Text;
-                                    activity.Type = "image";
+                                    activity.Type = ImageHuntActivityTypes.Image;
                                 }
                             }
                                 break;
