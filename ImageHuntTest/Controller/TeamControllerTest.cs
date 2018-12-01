@@ -196,7 +196,7 @@ namespace ImageHuntTest.Controller
       }
 
       [Fact]
-      public void UploadImage()
+      public async Task UploadImage()
       {
         // Arrange
         var formFile = A.Fake<IFormFile>();
