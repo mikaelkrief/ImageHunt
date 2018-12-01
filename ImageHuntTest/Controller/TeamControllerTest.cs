@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using FakeItEasy;
 using ImageHunt.Controllers;
@@ -202,40 +203,43 @@ namespace ImageHuntTest.Controller
         var uploadImageRequest = new UploadImageRequest(){FormFile = formFile, GameId = 1, TeamId = 1, Longitude = 15, Latitude = 15};
 
         // Act
-        var result = _target.UploadImage(uploadImageRequest);
-        // Assert
-        Check.That(result).InheritsFrom<IActionResult>();
-        A.CallTo(() => _teamService.UploadImage(A<int>._, A<int>._, A<double>._, A<double>._, A<byte[]>._, A<string>._))
+        var result = await _target.UploadImage(uploadImageRequest);
+            // Assert
+          Check.That(result).InheritsFrom<IActionResult>();
+
+            A.CallTo(() => _teamService.UploadImage(A<int>._, A<int>._, A<double>._, A<double>._, A<byte[]>._, A<string>._))
           .MustHaveHappened();
       }
       [Fact]
-      public void UploadImage_Only_PictureId()
+      public async Task UploadImage_Only_PictureId()
       {
         // Arrange
         var formFile = A.Fake<IFormFile>();
         var uploadImageRequest = new UploadImageRequest(){ GameId = 1, TeamId = 1, Longitude = 15, Latitude = 15, PictureId = 15};
 
         // Act
-        var result = _target.UploadImage(uploadImageRequest);
-        // Assert
-          A.CallTo(() => _actionService.AddGameAction(A<GameAction>._)).MustHaveHappened();
+        var result = await _target.UploadImage(uploadImageRequest);
+            // Assert
+          Check.That(result).InheritsFrom<IActionResult>();
+
+            A.CallTo(() => _actionService.AddGameAction(A<GameAction>._)).MustHaveHappened();
       }
       [Fact]
-      public void UploadImageWithTitle()
+      public async Task UploadImageWithTitle()
       {
         // Arrange
         var formFile = A.Fake<IFormFile>();
         var uploadImageRequest = new UploadImageRequest(){FormFile = formFile, GameId = 1, TeamId = 1, Longitude = 15, Latitude = 15, ImageName = "3"};
 
         // Act
-        var result = _target.UploadImage(uploadImageRequest);
+        var result = await _target.UploadImage(uploadImageRequest);
         // Assert
         Check.That(result).InheritsFrom<IActionResult>();
         A.CallTo(() => _teamService.UploadImage(uploadImageRequest.GameId, uploadImageRequest.TeamId, uploadImageRequest.Latitude, uploadImageRequest.Longitude, A<byte[]>._, uploadImageRequest.ImageName))
           .MustHaveHappened();
       }
       [Fact]
-      public void UploadImageGeoTagged()
+      public async Task UploadImageGeoTagged()
       {
         // Arrange
         var formFile = A.Fake<IFormFile>();
@@ -246,10 +250,11 @@ namespace ImageHuntTest.Controller
         var uploadImageRequest = new UploadImageRequest(){FormFile = formFile, GameId = 1, TeamId = 1, Longitude = 0, Latitude = 0, ImageName = "3"};
 
         // Act
-        var result = _target.UploadImage(uploadImageRequest);
-        // Assert
-        Check.That(result).InheritsFrom<IActionResult>();
-        A.CallTo(() => _teamService.UploadImage(uploadImageRequest.GameId, uploadImageRequest.TeamId, 15.6, 85.1, A<byte[]>._, uploadImageRequest.ImageName))
+        var result = await _target.UploadImage(uploadImageRequest);
+            // Assert
+          Check.That(result).InheritsFrom<IActionResult>();
+
+            A.CallTo(() => _teamService.UploadImage(uploadImageRequest.GameId, uploadImageRequest.TeamId, 15.6, 85.1, A<byte[]>._, uploadImageRequest.ImageName))
           .MustHaveHappened();
       }
 
