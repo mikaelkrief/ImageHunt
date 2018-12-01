@@ -147,7 +147,7 @@ namespace ImageHuntBotBuilderTest
             // Act
             await _target.OnTurnAsync(_turnContext);
             // Assert
-            A.CallTo(() => _teamWebService.UploadImage(A<UploadImageRequest>._)).MustHaveHappened();
+            A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._)).MustHaveHappened();
         }
 
         [Fact]

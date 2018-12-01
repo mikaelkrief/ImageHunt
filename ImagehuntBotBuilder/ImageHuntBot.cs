@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
+using Action = ImageHuntCore.Model.Action;
 
 namespace ImageHuntBotBuilder
 {
@@ -69,18 +70,16 @@ namespace ImageHuntBotBuilder
                         state.GameId.HasValue &&
                         state.TeamId.HasValue)
                     {
-                        var uploadRequest = new UploadImageRequest()
+                        var gameActionRequest = new GameActionRequest()
                         {
+                            Action = (int)Action.SubmitPicture,
                             GameId = state.GameId.Value,
                             TeamId = state.TeamId.Value,
-                            Latitude = state.CurrentLocation.Latitude ?? 0d,
-                            Longitude = state.CurrentLocation.Longitude ?? 0d,
-                            ImageName = turnContext.Activity.Text,
-                            PictureId = (int) turnContext.Activity.Attachments.First().Content
-
+                            Latitude = state.CurrentLocation.Latitude.Value,
+                            Longitude = state.CurrentLocation.Longitude.Value,
+                            PictureId = (int)turnContext.Activity.Attachments.First().Content
                         };
-
-                        await _teamWebService.UploadImage(uploadRequest);
+                        await _actionWebService.LogAction(gameActionRequest);
                         _logger.LogInformation(
                             $"Image {turnContext.Activity.Attachments.First().Name} had been uploaded");
                         await turnContext.SendActivityAsync(
