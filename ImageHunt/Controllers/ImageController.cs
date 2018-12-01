@@ -70,10 +70,11 @@ namespace ImageHunt.Controllers
       }
     }
     [HttpPost("AsStream")]
-    public IActionResult UploadImage()
+    public async Task<IActionResult> UploadImage()
     {
-      using (var stream = Request.Body as Stream)
+      using (var stream = new MemoryStream())
       {
+        await ((Stream)Request.Body).CopyToAsync(stream);
         var image = new byte[stream.Length];
         stream.Read(image, 0, (int)stream.Length);
         var picture = new Picture() { Image = image };
