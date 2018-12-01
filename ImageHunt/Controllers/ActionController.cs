@@ -88,16 +88,20 @@ namespace ImageHunt.Controllers
           break;
         case Action.DoAction:
         case Action.SubmitPicture:
-          if (string.IsNullOrEmpty(gameActionRequest.Picture))
+          if (gameActionRequest.PictureId.HasValue)
           {
-            _logger.LogError("The picture Base64 string is empty, action is ignored");
-            return BadRequest(gameActionRequest);
+            gameAction.Picture = await _imageService.GetPictureById(gameActionRequest.PictureId.Value);
           }
-          var picture = new Picture();
-          var bytes = Convert.FromBase64String(gameActionRequest.Picture);
-          picture.Image = bytes;
-          _imageService.AddPicture(picture);
-          gameAction.Picture = picture;
+
+          if (!string.IsNullOrEmpty(gameActionRequest.Picture))
+          {
+            var picture = new Picture();
+            var bytes = Convert.FromBase64String(gameActionRequest.Picture);
+            picture.Image = bytes;
+            _imageService.AddPicture(picture);
+            gameAction.Picture = picture;
+          }
+
           break;
         case Action.ReplyQuestion:
           var answer = _nodeService.GetAnswer(gameActionRequest.AnswerId);
