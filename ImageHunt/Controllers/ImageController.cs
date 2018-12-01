@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using ImageHunt.Computation;
@@ -60,6 +61,18 @@ namespace ImageHunt.Controllers
       if (file == null)
         return BadRequest();
       using (var stream = file.OpenReadStream())
+      {
+        var image = new byte[stream.Length];
+        stream.Read(image, 0, (int)stream.Length);
+        var picture = new Picture() { Image = image };
+        _imageService.AddPicture(picture);
+        return CreatedAtAction("UploadImage", picture.Id);
+      }
+    }
+    [HttpPost("AsStream")]
+    public IActionResult UploadImage()
+    {
+      using (var stream = Request.Body as Stream)
       {
         var image = new byte[stream.Length];
         stream.Read(image, 0, (int)stream.Length);
