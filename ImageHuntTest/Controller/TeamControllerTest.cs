@@ -209,6 +209,18 @@ namespace ImageHuntTest.Controller
           .MustHaveHappened();
       }
       [Fact]
+      public void UploadImage_Only_PictureId()
+      {
+        // Arrange
+        var formFile = A.Fake<IFormFile>();
+        var uploadImageRequest = new UploadImageRequest(){ GameId = 1, TeamId = 1, Longitude = 15, Latitude = 15, PictureId = 15};
+
+        // Act
+        var result = _target.UploadImage(uploadImageRequest);
+        // Assert
+          A.CallTo(() => _actionService.AddGameAction(A<GameAction>._)).MustHaveHappened();
+      }
+      [Fact]
       public void UploadImageWithTitle()
       {
         // Arrange

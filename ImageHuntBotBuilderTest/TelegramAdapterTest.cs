@@ -10,6 +10,7 @@ using AutoMapper;
 using FakeItEasy;
 using ImagehuntBotBuilder;
 using ImageHuntBotBuilder;
+using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
@@ -40,6 +41,7 @@ namespace ImageHuntBotBuilderTest
         private ICredentialProvider _credentialProvider;
         private HttpClient _httpClient;
         private HttpMessageHandler _fakeHttpMessageHandler;
+        private IImageWebService _imageWebService;
 
         public TelegramAdapterTest()
         {
@@ -58,6 +60,7 @@ namespace ImageHuntBotBuilderTest
             _fakeHttpMessageHandler = A.Fake<HttpMessageHandler>();
             _httpClient = new HttpClient(_fakeHttpMessageHandler) { BaseAddress = new Uri("http://test.com") };
             _testContainerBuilder.RegisterInstance(_httpClient);
+            _testContainerBuilder.RegisterInstance(_imageWebService = A.Fake<IImageWebService>());
             var container = _testContainerBuilder.Build();
 
             _target = container.Resolve<TelegramAdapter>();
@@ -369,7 +372,6 @@ namespace ImageHuntBotBuilderTest
         {
             var activity = turnContext.Activity;
             Check.That(activity.Attachments.First().Content).IsNotNull();
-            Check.That(activity.Attachments.First().Name).IsNotEmpty();
             Check.That(activity.Type).Equals("image");
             return true;
         }

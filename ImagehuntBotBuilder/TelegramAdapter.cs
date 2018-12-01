@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Connector;
@@ -29,6 +30,7 @@ namespace ImageHuntBotBuilder
         private readonly IMapper _mapper;
         private readonly ILogger<TelegramAdapter> _logger;
         private readonly ITelegramBotClient _telegramBotClient;
+        private readonly IImageWebService _imageWebService;
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
 
@@ -36,6 +38,7 @@ namespace ImageHuntBotBuilder
             IMapper mapper,
             ILogger<TelegramAdapter> logger,
             ITelegramBotClient telegramBotClient,
+            IImageWebService imageWebService,
             IConfiguration configuration,
             ICredentialProvider credentialProvider,
             HttpClient httpClient)
@@ -44,6 +47,7 @@ namespace ImageHuntBotBuilder
             _mapper = mapper;
             _logger = logger;
             _telegramBotClient = telegramBotClient;
+            _imageWebService = imageWebService;
             _configuration = configuration;
             _httpClient = httpClient;
         }
@@ -83,11 +87,12 @@ namespace ImageHuntBotBuilder
                                         var fileInfo =
                                             await _telegramBotClient.GetInfoAndDownloadFileAsync(attachment.ContentUrl,
                                                 stream);
-                                        var imageBytes = new byte[stream.Length];
-                                        stream.Read(imageBytes, 0, (int)stream.Length);
-                                        attachment.Content = imageBytes;
-                                        attachment.Name = activity.Text;
+                                        var imageId = await _imageWebService.UploadImage(stream);
                                         activity.Type = ImageHuntActivityTypes.Image;
+                                        activity.Attachments = new List<Attachment>
+                                        {
+                                            new Attachment(ImageHuntActivityTypes.Image, content: imageId)
+                                        };
                                     }
                                 }
                                 break;

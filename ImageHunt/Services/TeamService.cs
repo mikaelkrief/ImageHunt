@@ -143,6 +143,7 @@ namespace ImageHunt.Services
       Context.SaveChanges();
     }
 
+
     private Game GetCurrentGameForTeam(Team team)
     {
       var currentGame = Context.Games

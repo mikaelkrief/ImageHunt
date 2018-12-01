@@ -135,25 +135,48 @@ namespace ImageHunt.Controllers
 
     [HttpPost("UploadImage/")]
     [Consumes("multipart/form-data")]
-    public IActionResult UploadImage(UploadImageRequest uploadRequest)
+    public async Task<IActionResult> UploadImage(UploadImageRequest uploadRequest)
     {
-      if (uploadRequest.FormFile == null)
-        return BadRequest("Image is bad format or null");
-      using (var stream = uploadRequest.FormFile.OpenReadStream())
+      if (uploadRequest.FormFile != null)
       {
-        var image = new byte[stream.Length];
-        stream.Read(image, 0, (int)stream.Length);
-        var picture = new Picture(){Image = image};
-        var location = _imageService.ExtractLocationFromImage(picture);
-        if (!double.IsNaN(location.Item1) || !double.IsNaN(location.Item2))
+        using (var stream = uploadRequest.FormFile.OpenReadStream())
         {
-          uploadRequest.Latitude = location.Item1;
-          uploadRequest.Longitude = location.Item2;
+          var image = new byte[stream.Length];
+          stream.Read(image, 0, (int)stream.Length);
+          var picture = new Picture(){Image = image};
+          var location = _imageService.ExtractLocationFromImage(picture);
+          if (!double.IsNaN(location.Item1) || !double.IsNaN(location.Item2))
+          {
+            uploadRequest.Latitude = location.Item1;
+            uploadRequest.Longitude = location.Item2;
+          }
+          stream.Read(image, 0, (int) stream.Length);
+          _teamService.UploadImage(uploadRequest.GameId, uploadRequest.TeamId, uploadRequest.Latitude, uploadRequest.Longitude, image, uploadRequest.ImageName);
         }
-        stream.Read(image, 0, (int) stream.Length);
-        _teamService.UploadImage(uploadRequest.GameId, uploadRequest.TeamId, uploadRequest.Latitude, uploadRequest.Longitude, image, uploadRequest.ImageName);
+
         return Ok();
-     }
+      }
+
+      if (uploadRequest.PictureId.HasValue)
+      {
+        var game = _gameService.GetGameById(uploadRequest.GameId);
+        var team = _teamService.GetTeamById(uploadRequest.TeamId);
+        var picture = await _imageService.GetPictureById(uploadRequest.PictureId.Value);
+        var gameAction = new GameAction()
+        {
+          Action = Action.SubmitPicture,
+          DateOccured = DateTime.Now,
+          Game = game,
+          Team = team,
+          Picture = picture,
+          Latitude = uploadRequest.Latitude,
+          Longitude = uploadRequest.Longitude,
+        };
+        _actionService.AddGameAction(gameAction);
+        return Ok();
+      }
+
+      return BadRequest();
    }
 
   }

@@ -75,17 +75,16 @@ namespace ImageHuntBotBuilder
                             TeamId = state.TeamId.Value,
                             Latitude = state.CurrentLocation.Latitude ?? 0d,
                             Longitude = state.CurrentLocation.Longitude ?? 0d,
-                            ImageName = turnContext.Activity.Text
+                            ImageName = turnContext.Activity.Text,
+                            PictureId = (int) turnContext.Activity.Attachments.First().Content
+
                         };
-                        using (var stream = new MemoryStream((byte[]) turnContext.Activity.Attachments.First().Content))
-                        {
-                            uploadRequest.FormFile = new FormFile(stream, 0, stream.Length, "formFile", "image.jpg");
-                            await _teamWebService.UploadImage(uploadRequest);
-                            _logger.LogInformation(
-                                $"Image {turnContext.Activity.Attachments.First().Name} had been uploaded");
-                            await turnContext.SendActivityAsync(
-                                $"Votre image a bien été téléchargée, un validateur l'examinera pour vous attribuer les points", cancellationToken: cancellationToken);
-                        }
+
+                        await _teamWebService.UploadImage(uploadRequest);
+                        _logger.LogInformation(
+                            $"Image {turnContext.Activity.Attachments.First().Name} had been uploaded");
+                        await turnContext.SendActivityAsync(
+                            $"Votre image a bien été téléchargée, un validateur l'examinera pour vous attribuer les points", cancellationToken: cancellationToken);
                     }
                     else
                     {

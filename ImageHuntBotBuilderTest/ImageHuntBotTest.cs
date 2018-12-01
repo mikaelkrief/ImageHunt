@@ -126,7 +126,7 @@ namespace ImageHuntBotBuilderTest
             {
                 new Attachment()
                 {
-                    Content = new byte[15]
+                    Content = 15
                 }
             };
             _activity.Type = ImageHuntActivityTypes.Image;

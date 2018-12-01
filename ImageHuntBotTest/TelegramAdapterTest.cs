@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
 using ImageHuntTelegramBot;
+using ImageHuntWebServiceClient.WebServices;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -25,6 +26,7 @@ namespace ImageHuntBotTest
         private ITelegramBotClient _telegramClient;
         private ILogger<TelegramAdapter> _logger;
         private IConfiguration _configuration;
+        private IImageWebService _imageWebService;
 
         public TelegramAdapterTest()
         {
@@ -37,6 +39,7 @@ namespace ImageHuntBotTest
             _telegramClient = A.Fake<ITelegramBotClient>();
             _testContainerBuilder.RegisterInstance(_configuration);
             _testContainerBuilder.RegisterInstance(_telegramClient).As<ITelegramBotClient>();
+            _testContainerBuilder.RegisterInstance(_imageWebService = A.Fake<IImageWebService>());
             _container = _testContainerBuilder.Build();
             _target = _container.Resolve<IAdapter>();
         }
@@ -45,40 +48,45 @@ namespace ImageHuntBotTest
         public async Task SendActivity_Message()
         {
             // Arrange
-            var activity = new Activity() { ChatId = 15, ActivityType = ActivityType.Message };
+            var activity = new Activity() {ChatId = 15, ActivityType = ActivityType.Message};
             // Act
             await _target.SendActivity(activity);
             // Assert
-            A.CallTo(() => _telegramClient.SendTextMessageAsync(A<ChatId>._, A<string>._, A<ParseMode>._, A<bool>._, A<bool>._, A<int>._, A<IReplyMarkup>._, A<CancellationToken>._)).MustHaveHappened();
+            A.CallTo(() => _telegramClient.SendTextMessageAsync(A<ChatId>._, A<string>._, A<ParseMode>._, A<bool>._,
+                A<bool>._, A<int>._, A<IReplyMarkup>._, A<CancellationToken>._)).MustHaveHappened();
         }
+
         [Fact]
         public async Task SendActivity_Location()
         {
             // Arrange
-            var activity = new Activity() { ChatId = 15, ActivityType = ActivityType.Location, Location = new Location()};
+            var activity =
+                new Activity() {ChatId = 15, ActivityType = ActivityType.Location, Location = new Location()};
             // Act
             await _target.SendActivity(activity);
             // Assert
-            A.CallTo(() => _telegramClient.SendLocationAsync(A<ChatId>._, A<float>._, A<float>._, A<int>._, A<bool>._, A<int>._, A<IReplyMarkup>._, A<CancellationToken>._)).MustHaveHappened();
+            A.CallTo(() => _telegramClient.SendLocationAsync(A<ChatId>._, A<float>._, A<float>._, A<int>._, A<bool>._,
+                A<int>._, A<IReplyMarkup>._, A<CancellationToken>._)).MustHaveHappened();
         }
 
         [Fact]
         public async Task SendActivity_Picture()
         {
             // Arrange
-            var activity = new Activity(){ChatId = 15, ActivityType = ActivityType.Picture};
-            activity.Pictures = new PhotoSize[]{new PhotoSize(), };
+            var activity = new Activity() {ChatId = 15, ActivityType = ActivityType.Picture};
+            activity.Pictures = new PhotoSize[] {new PhotoSize(),};
             // Act
             await _target.SendActivity(activity);
             // Assert
             A.CallTo(() => _telegramClient.SendPhotoAsync(A<ChatId>._, A<InputOnlineFile>._, A<string>._,
                 A<ParseMode>._, A<bool>._, A<int>._, A<IReplyMarkup>._, A<CancellationToken>._)).MustHaveHappened();
         }
+
         [Fact]
         public async Task CreateActivityFromUpdate_Message()
         {
             // Arrange
-            var update = new Update() { Message = new Message() { Text = "toto", Chat = new Chat() { Id = 15 } } };
+            var update = new Update() {Message = new Message() {Text = "toto", Chat = new Chat() {Id = 15}}};
             // Act
             var activity = await _target.CreateActivityFromUpdate(update);
             // Assert
@@ -86,11 +94,16 @@ namespace ImageHuntBotTest
             Check.That(activity.Text).Equals(update.Message.Text);
             Check.That(activity.ChatId).Equals(update.Message.Chat.Id);
         }
+
         [Fact]
         public async Task CreateActivityFromUpdate_CallbackQuery()
         {
             // Arrange
-            var update = new Update() { CallbackQuery = new CallbackQuery() { Message = new Message() { Text = "toto", Chat = new Chat() { Id = 15 } } } };
+            var update = new Update()
+            {
+                CallbackQuery =
+                    new CallbackQuery() {Message = new Message() {Text = "toto", Chat = new Chat() {Id = 15}}}
+            };
             // Act
             var activity = await _target.CreateActivityFromUpdate(update);
             // Assert
@@ -103,9 +116,9 @@ namespace ImageHuntBotTest
         public async Task CreateActivityFromUpdate_Message_Photo()
         {
             // Arrange
-            var photoSize1 = new PhotoSize() { FileId = "fileId1", FileSize = 15 };
-            var photoSize2 = new PhotoSize() { FileId = "fileId2", FileSize = 150 };
-            var photoSize3 = new PhotoSize() { FileId = "fileId3", FileSize = 1500 };
+            var photoSize1 = new PhotoSize() {FileId = "fileId1", FileSize = 15};
+            var photoSize2 = new PhotoSize() {FileId = "fileId2", FileSize = 150};
+            var photoSize3 = new PhotoSize() {FileId = "fileId3", FileSize = 1500};
             var update = new Update()
             {
                 Message = new Message()
@@ -115,9 +128,9 @@ namespace ImageHuntBotTest
                         Id = 15
                     },
                     Photo = new[]
-                {
-            photoSize1, photoSize2, photoSize3
-          }
+                    {
+                        photoSize1, photoSize2, photoSize3
+                    }
                 }
             };
             // Act                                                                                       
@@ -141,7 +154,7 @@ namespace ImageHuntBotTest
                     {
                         Id = 15
                     },
-                    Location = new Location() { Latitude = 15.2f, Longitude = 25.2f }
+                    Location = new Location() {Latitude = 15.2f, Longitude = 25.2f}
                 }
             };
             // Act
@@ -163,7 +176,9 @@ namespace ImageHuntBotTest
             // Act
             await _target.SetWebHook();
             // Assert
-            A.CallTo(() => _telegramClient.SetWebhookAsync(A<string>.That.Matches(u => CheckSetHookUrl(u, _configuration["BotConfiguration:BotUrl"])), A<InputFileStream>._, A<int>._,
+            A.CallTo(() => _telegramClient.SetWebhookAsync(
+                A<string>.That.Matches(u => CheckSetHookUrl(u, _configuration["BotConfiguration:BotUrl"])),
+                A<InputFileStream>._, A<int>._,
                 A<IEnumerable<UpdateType>>._, A<CancellationToken>._)).MustHaveHappened();
         }
 
@@ -180,7 +195,9 @@ namespace ImageHuntBotTest
             // Act
             await _target.SetWebHook();
             // Assert
-            A.CallTo(() => _telegramClient.SetWebhookAsync(A<string>.That.Matches(u => CheckSetHookUrl(u, _configuration["BotConfiguration:BotUrl"])), A<InputFileStream>._, A<int>._,
+            A.CallTo(() => _telegramClient.SetWebhookAsync(
+                A<string>.That.Matches(u => CheckSetHookUrl(u, _configuration["BotConfiguration:BotUrl"])),
+                A<InputFileStream>._, A<int>._,
                 A<IEnumerable<UpdateType>>._, A<CancellationToken>._)).MustHaveHappened();
             A.CallTo(() => _logger.Log(A<LogLevel>._, A<EventId>._, A<object>._, A<Exception>._,
                 A<Func<object, Exception, string>>._)).MustHaveHappened();
@@ -198,7 +215,6 @@ namespace ImageHuntBotTest
             // Arrange
             var update = new Update()
             {
-
                 Message = new Message()
                 {
                     Chat = new Chat()
@@ -211,7 +227,7 @@ namespace ImageHuntBotTest
                     },
                     NewChatMembers = new User[]
                     {
-                        new User(){Username = "toto"}
+                        new User() {Username = "toto"}
                     }
                 }
             };
