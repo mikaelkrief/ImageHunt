@@ -140,9 +140,13 @@ namespace ImageHunt.Services
       var game = Context.Games.Single(g => g.Id == gameAction.Game.Id);
       var team = Context.Teams.Single(t => t.Id == gameAction.Team.Id);
       var node = gameAction.Node !=null ? Context.Nodes.Single(n => n.Id == gameAction.Node.Id) : null;
+      Picture picture = null;
+      if (gameAction.Picture != null && gameAction.Picture.Id != 0)
+        picture = Context.Pictures.Single(p => p.Id == gameAction.Picture.Id);
       gameAction.Game = game;
       gameAction.Team = team;
       gameAction.Node = node;
+      gameAction.Picture = picture;
       Context.GameActions.Add(gameAction);
       Context.SaveChanges();
     }

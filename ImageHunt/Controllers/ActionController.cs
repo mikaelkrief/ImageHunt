@@ -90,7 +90,7 @@ namespace ImageHunt.Controllers
         case Action.SubmitPicture:
           if (gameActionRequest.PictureId != 0)
           {
-            gameAction.Picture = await _imageService.GetPictureById(gameActionRequest.PictureId);
+            gameAction.Picture = new Picture(){Id= gameActionRequest.PictureId};
           }
 
           if (!string.IsNullOrEmpty(gameActionRequest.Picture))
