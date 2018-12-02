@@ -75,6 +75,7 @@ namespace ImageHunt.Controllers
       using (var stream = new MemoryStream())
       {
         await ((Stream)Request.Body).CopyToAsync(stream);
+        stream.Seek(0, SeekOrigin.Begin);
         var image = new byte[stream.Length];
         stream.Read(image, 0, (int)stream.Length);
         var picture = new Picture() { Image = image };
