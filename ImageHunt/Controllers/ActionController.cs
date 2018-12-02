@@ -88,9 +88,9 @@ namespace ImageHunt.Controllers
           break;
         case Action.DoAction:
         case Action.SubmitPicture:
-          if (gameActionRequest.PictureId.HasValue)
+          if (gameActionRequest.PictureId != 0)
           {
-            gameAction.Picture = await _imageService.GetPictureById(gameActionRequest.PictureId.Value);
+            gameAction.Picture = await _imageService.GetPictureById(gameActionRequest.PictureId);
           }
 
           if (!string.IsNullOrEmpty(gameActionRequest.Picture))
