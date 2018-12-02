@@ -87,6 +87,7 @@ namespace ImageHuntBotBuilder
                                         var fileInfo =
                                             await _telegramBotClient.GetInfoAndDownloadFileAsync(attachment.ContentUrl,
                                                 stream);
+                                        stream.Seek(0, SeekOrigin.Begin);
                                         var imageId = await _imageWebService.UploadImage(stream);
                                         activity.Type = ImageHuntActivityTypes.Image;
                                         activity.Attachments = new List<Attachment>
