@@ -21,7 +21,7 @@ namespace ImageHuntWebServiceClient.WebServices
             using (var streamContent = new StreamContent(imageStream))
             {
                 var response = await _httpClient.PostAsync($"{_httpClient.BaseAddress}api/Image/AsStream", streamContent);
-                if (response.StatusCode == HttpStatusCode.OK)
+                if (response.StatusCode == HttpStatusCode.Created)
                 {
                     var idAdText = await response.Content.ReadAsStringAsync();
                     return Convert.ToInt32(idAdText);
