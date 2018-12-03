@@ -9,4 +9,5 @@ export class NodeRequest {
   points:number;
   answers: { response: string, correct: boolean }[];
   password: string;
+  hint: string;
 }

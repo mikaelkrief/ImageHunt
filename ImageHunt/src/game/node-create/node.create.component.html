@@ -19,6 +19,7 @@
           <select class="form-control fa" ngModel name="nodeType" id="nodeType" placeholder="Type de N&oelig;ud">
             <option value="FirstNode">&#xf024; N&oelig;ud départ</option>
             <option value="TimerNode">&#xf017; N&oelig;ud attente</option>
+            <option value="HiddenNode">&#xf059; N&oelig;ud caché</option>
             <option value="ObjectNode">&#xf1b2; N&oelig;ud action</option>
             <option value="QuestionNode">&#xf128; N&oelig;ud choix</option>
             <option value="PictureNode">&#xf030; N&oelig;ud photo</option>
@@ -72,8 +73,19 @@
             <div class="form-inline">
               <div class="input-group">
                 <label for="action">Action à faire sur le noeud</label>
-                <textarea class="form-control" cols="40" rows="3" id="action" ngModel name="action" placeholder="Action à effectuer par les joueurs"></textarea>
+                <textarea class="form-control" cols="40" rows="3" id="action" ngModel name="action"
+                          placeholder="Action à effectuer par les joueurs"></textarea>
               </div>
+            </div>
+          </tab>
+          <tab heading="Caché" [disabled]="form.value.nodeType !== 'HiddenNode'" [active]="form.value.nodeType === 'HiddenNode'">
+            <div class="form-inline">
+              <div class="input-group">
+                <label for="hint">Indice pour trouver le noeud</label>
+                <textarea class="form-control" cols="40" rows="3" id="hint" ngModel name="hint"
+                          placeholder="Indice pour trouver le noeud"></textarea>
+              </div>
+
             </div>
           </tab>
           <tab heading="Question" [disabled]="form.value.nodeType !== 'QuestionNode'" [active]="form.value.nodeType === 'QuestionNode'">
