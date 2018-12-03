@@ -20,6 +20,8 @@ namespace ImageHunt.Services
 {
   public class ActionService : AbstractService, IActionService
   {
+    private readonly IScoreChanger _scoreChanger;
+
     public async Task<PaginatedList<GameAction>> GetGameActionsForGame(int gameId, int pageIndex, int pageSize, IncludeAction includeAction, int? teamId = null)
     {
       var gameActions = Context.GameActions
@@ -130,9 +132,10 @@ namespace ImageHunt.Services
       Context.SaveChanges();
     }
 
-    public ActionService(HuntContext context, ILogger<ActionService> logger)
+    public ActionService(HuntContext context, ILogger<ActionService> logger, IScoreChanger scoreChanger)
       : base(context, logger)
     {
+      _scoreChanger = scoreChanger;
     }
 
     public void AddGameAction(GameAction gameAction)
@@ -166,7 +169,8 @@ namespace ImageHunt.Services
           ?.DateOccured;
         var endDate = Context.GameActions.FirstOrDefault(ga => ga.Team == score.Team && ga.Action == Action.EndGame)
           ?.DateOccured;
-        score.Points *= (1 - game.NbPlayerPenaltyValue * Math.Max(0, score.Team.TeamPlayers.Count - game.NbPlayerPenaltyThreshold));
+        score.Points = _scoreChanger.ComputeScore(score, game);
+        //score.Points *= (1 - game.NbPlayerPenaltyValue * Math.Max(0, score.Team.TeamPlayers.Count - game.NbPlayerPenaltyThreshold));
         if (startDate.HasValue && endDate.HasValue)
         {
           score.TravelTime = endDate.Value - startDate.Value;

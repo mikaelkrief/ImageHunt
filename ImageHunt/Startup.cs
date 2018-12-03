@@ -106,6 +106,7 @@ namespace ImageHunt
       services.AddTransient<IActionService, ActionService>();
       services.AddTransient<IPasscodeService, PasscodeService>();
       services.AddTransient<IImageTransformation, ImageTransformation>();
+      services.AddTransient<IScoreChanger, ScoreDecreaseByTeamMember>();
       services.AddSignalR();
     }
 

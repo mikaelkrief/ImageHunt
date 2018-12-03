@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac;
 using FakeItEasy;
 using ImageHunt.Data;
 using ImageHunt.Model;
@@ -24,11 +25,15 @@ namespace ImageHuntTest.Services
     {
       private ActionService _target;
       private ILogger<ActionService> _logger;
+        private IScoreChanger _scoreChanger;
 
-      public ActionServiceTest()
+        public ActionServiceTest()
       {
-        _logger = A.Fake<ILogger<ActionService>>();
-        _target = new ActionService(_context, _logger);
+        _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<ActionService>>());
+          _testContainerBuilder.RegisterInstance(_context);
+          _testContainerBuilder.RegisterInstance(_scoreChanger = A.Fake<IScoreChanger>());
+          var container = _testContainerBuilder.Build();
+        _target = new ActionService(_context, _logger, _scoreChanger);
       }
     [Fact]
     public async Task GetGameActionForGame()
@@ -836,15 +841,17 @@ namespace ImageHuntTest.Services
             };
             _context.GameActions.AddRange(gameActions);
             _context.SaveChanges();
-            // Act
-            var result = _target.GetScoresForGame(gameActions[1].Game.Id);
-            // Assert
             var expectedScores = new List<Score>
             {
                 new Score(){Team = teams[0], Points = 30, TravelTime = new TimeSpan(2, 0, 0)},
                 new Score(){Team = teams[1], Points = 45, TravelTime = new TimeSpan(4, 0, 0)},
                 new Score(){Team = teams[2], Points = 57, TravelTime = new TimeSpan(6, 0, 0)},
             };
+
+            A.CallTo(() => _scoreChanger.ComputeScore(A<Score>._, A<Game>._)).ReturnsNextFromSequence(expectedScores.Select(e=>e.Points).ToArray());
+            // Act
+            var result = _target.GetScoresForGame(gameActions[1].Game.Id);
+            // Assert
             var list = result.ToList();
             Check.That(result.Extracting("Points")).ContainsExactly(expectedScores.Extracting("Points"));
             Check.That(result.Extracting("Team")).ContainsExactly(expectedScores.Extracting("Team"));
