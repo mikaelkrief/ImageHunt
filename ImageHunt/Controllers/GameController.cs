@@ -88,6 +88,10 @@ namespace ImageHunt.Controllers
           var objectNode = node as ObjectNode;
           objectNode.Action = nodeRequest.Action;
           break;
+        case "HiddenNode":
+          var hiddenNode = node as HiddenNode;
+          hiddenNode.LocationHint = nodeRequest.H;
+          break;
         case "QuestionNode":
           var questionNode = node as QuestionNode;
           questionNode.Question = nodeRequest.Question;
