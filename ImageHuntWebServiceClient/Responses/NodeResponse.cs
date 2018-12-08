@@ -9,6 +9,8 @@ namespace ImageHuntWebServiceClient.Responses
         public const string TimerNodeType = "TimerNode";
         public const string FirstNodeType = "FirstNode";
         public const string LastNodeType = "LastNode";
+        public const string HiddenNodeType = "HiddenNode";
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string NodeType { get; set; }
@@ -20,5 +22,6 @@ namespace ImageHuntWebServiceClient.Responses
         public string Action { get; set; }
         public ImageResponse Image { get; set; }
         public string Question { get; set; }
+        public string Hint { get; set; }
     }
 }

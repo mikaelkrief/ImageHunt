@@ -176,6 +176,8 @@ export class MapDetail3Component implements OnInit {
         return 'assets/questionNode.png';
       case 'ObjectNode':
         return 'assets/objectNode.png';
+      case 'HiddenNode':
+        return 'assets/hiddenNode.png';
       default:
         return null;
     }

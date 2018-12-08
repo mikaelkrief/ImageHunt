@@ -20,6 +20,8 @@ namespace ImageHunt.Model
           return new LastNode();
         case "ObjectNode":
           return new ObjectNode();
+        case "HiddenNode":
+          return new HiddenNode();
       }
       return null;
     }

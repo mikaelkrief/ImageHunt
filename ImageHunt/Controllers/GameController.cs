@@ -90,7 +90,7 @@ namespace ImageHunt.Controllers
           break;
         case "HiddenNode":
           var hiddenNode = node as HiddenNode;
-          hiddenNode.LocationHint = nodeRequest.H;
+          hiddenNode.LocationHint = nodeRequest.Hint;
           break;
         case "QuestionNode":
           var questionNode = node as QuestionNode;
