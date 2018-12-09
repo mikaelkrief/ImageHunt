@@ -260,5 +260,23 @@ namespace ImageHuntBotBuilderTest
                 .Single(a => a.ContentType == ImageHuntActivityTypes.Location).Content).Longitude).IsEqualTo(expectedLocation.Longitude);
 
         }
+        [Fact]
+        public void Should_create_activity_from_TimerNode()
+        {
+            // Arrange
+            var node = new NodeResponse()
+            {
+                NodeType = NodeResponse.TimerNodeType,
+                Name = "Timer",
+                Delay = 50,
+            };
+            // Act
+            var activities = _target.ActivitiesFromNode(node);
+            // Assert
+            Check.That(activities.Single(a => a.Type == ImageHuntActivityTypes.Wait).Attachments.First().Content)
+                .Equals(node.Delay);
+
+        }
+
     }
 }

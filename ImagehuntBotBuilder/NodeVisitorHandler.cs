@@ -134,7 +134,7 @@ namespace ImageHuntBotBuilder
                                     longitude: node.Longitude)),
                         }
                     });
-                    activities.Add(new Activity(text:$"Vous devrez effectuer l'action suivante : {node.Action}"));
+                    activities.Add(new Activity(text: $"Vous devrez effectuer l'action suivante : {node.Action}"));
 
                     break;
                 case NodeResponse.HiddenNodeType:
@@ -154,6 +154,10 @@ namespace ImageHuntBotBuilder
                                     longitude: node.Longitude)),
                         }
                     });
+                    break;
+                case NodeResponse.TimerNodeType:
+                    activities.Add(new Activity(text:$"Veuillez patienter pendant {node.Delay} secondes avant de poursuivre"));
+                    activities.Add(new Activity(type: ImageHuntActivityTypes.Wait, attachments: new List<Attachment>(){new Attachment(content: node.Delay)}));
                     break;
             }
 

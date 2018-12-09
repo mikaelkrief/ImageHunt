@@ -7,5 +7,6 @@
         public const string Command = "command";
         public const string Image = "image";
         public const string Leave = "leave";
+        public const string Wait = "wait";
     }
 }

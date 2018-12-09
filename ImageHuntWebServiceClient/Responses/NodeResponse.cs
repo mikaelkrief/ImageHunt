@@ -23,5 +23,6 @@ namespace ImageHuntWebServiceClient.Responses
         public ImageResponse Image { get; set; }
         public string Question { get; set; }
         public string Hint { get; set; }
+        public int Delay { get; set; }
     }
 }
