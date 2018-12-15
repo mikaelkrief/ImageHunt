@@ -6,8 +6,9 @@ export class NodeRequest {
   duration: number;
   action: string;
   question: string;
+  answer: string;
   points:number;
-  answers: { response: string, correct: boolean }[];
+  choices: { response: string, correct: boolean }[];
   password: string;
   hint: string;
 }

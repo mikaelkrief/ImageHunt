@@ -8,11 +8,11 @@ namespace ImageHuntTest.Model.Node
 {
     public class QuestionNodeTest
     {
-        private QuestionNode _target;
+        private ChoiceNode _target;
 
         public QuestionNodeTest()
         {
-            _target = new QuestionNode();
+            _target = new ChoiceNode();
         }
     }
 }

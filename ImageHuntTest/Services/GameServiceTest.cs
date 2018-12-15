@@ -112,16 +112,16 @@ namespace ImageHuntTest.Services
           var nodes = new List<Node>()
           {
               new TimerNode(),
-              new QuestionNode() {Answers = new List<Answer>() {answers[0], answers[1]}},
+              new ChoiceNode() {Answers = new List<Answer>() {answers[0], answers[1]}},
               new PictureNode(),
-              new QuestionNode() {Answers = new List<Answer>() {answers[2], answers[3]}},
-              new QuestionNode()
+              new ChoiceNode() {Answers = new List<Answer>() {answers[2], answers[3]}},
+              new ChoiceNode()
           };
             var games = new List<Game>() {new Game(), new Game(){Nodes = nodes.Take(4).ToList()}};
             _context.Games.AddRange(games);
           _context.SaveChanges();
           // Act
-          var result = _target.GetQuestionNodeOfGame(games[1].Id);
+          var result = _target.GetChoiceNodeOfGame(games[1].Id);
           // Assert
           Check.That(result).ContainsExactly(nodes[1], nodes[3]);
           Check.That(result.First().Answers).ContainsExactly(answers[0], answers[1]);
@@ -186,7 +186,7 @@ namespace ImageHuntTest.Services
         {
           new PictureNode(){Latitude = 48.8501065, Longitude = 2.327722},
           new TimerNode(){Latitude = 48.851291, Longitude = 2.3318698},
-          new QuestionNode(){Latitude = 48.8537828, Longitude = 2.3310879}
+          new ChoiceNode(){Latitude = 48.8537828, Longitude = 2.3310879}
         };
       var games = new List<Game>() { new Game(), new Game() { Nodes = nodes, MapZoom = 10} };
       _context.Games.AddRange(games);
@@ -274,7 +274,7 @@ namespace ImageHuntTest.Services
         new PictureNode(){Image = new Picture(){Id=13, Image = new byte[56]}},
         new ObjectNode(),
         new PictureNode(){Image = new Picture(){Id=13, Image = new byte[56]}},
-        new QuestionNode()
+        new ChoiceNode()
       };
       var games = new List<Game> {new Game(), new Game(){Nodes = nodes}, new Game()};
       _context.Games.AddRange(games);

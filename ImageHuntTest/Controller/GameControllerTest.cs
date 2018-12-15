@@ -173,7 +173,7 @@ namespace ImageHuntTest.Controller
         public void AddNodeQuestionNode()
         {
             // Arrange
-            var node = new AddNodeRequest() { NodeType = "QuestionNode", Question = "Selfie", Answers = new AnswerRequest[] { new AnswerRequest() { Response = "Toto" }, new AnswerRequest() { Response = "Tata" } } };
+            var node = new AddNodeRequest() { NodeType = NodeResponse.ChoiceNodeType, Question = "Selfie", Answers = new AnswerRequest[] { new AnswerRequest() { Response = "Toto" }, new AnswerRequest() { Response = "Tata" } } };
             // Act
             var result = _target.AddNode(1, node);
             // Assert
@@ -182,7 +182,7 @@ namespace ImageHuntTest.Controller
 
         private bool CheckQuestionNode(Node node, string expectedQuestion, AnswerRequest[] nodeAnswers)
         {
-            var questionNode = node as QuestionNode;
+            var questionNode = node as ChoiceNode;
             Check.That(questionNode.Question).Equals(expectedQuestion);
             Check.That(questionNode.Answers.Extracting("Response")).ContainsExactly(nodeAnswers.Extracting("Response"));
             return true;
@@ -199,7 +199,7 @@ namespace ImageHuntTest.Controller
             Id = 1,
             ChildrenRelation = new List<ParentChildren>() {new ParentChildren()
             {
-              Children = new QuestionNode()
+              Children = new ChoiceNode()
               {
                 Id = 2,
                 ChildrenRelation = new List<ParentChildren>()
@@ -308,9 +308,9 @@ namespace ImageHuntTest.Controller
         public void GetQuestionNodeOfGame()
         {
             // Arrange
-            var questionNodes = new List<QuestionNode>()
+            var questionNodes = new List<ChoiceNode>()
           {
-              new QuestionNode()
+              new ChoiceNode()
               {
                   Id = 1,
                   Question = "What",
@@ -336,7 +336,7 @@ namespace ImageHuntTest.Controller
 
                   }
               },
-              new QuestionNode()
+              new ChoiceNode()
               {
                   Id = 2,
                   Question = "Who",
@@ -362,12 +362,12 @@ namespace ImageHuntTest.Controller
                   }
               }
           };
-            A.CallTo(() => _gameService.GetQuestionNodeOfGame(A<int>._)).Returns(questionNodes);
+            A.CallTo(() => _gameService.GetChoiceNodeOfGame(A<int>._)).Returns(questionNodes);
             // Act
-            var result = _target.GetQuestionNodeOfGame(1) as OkObjectResult;
+            var result = _target.GetChoiceNodeOfGame(1) as OkObjectResult;
             // Assert
-            A.CallTo(() => _gameService.GetQuestionNodeOfGame(1)).MustHaveHappened();
-            var nodesResponse = result.Value as IEnumerable<QuestionNodeResponse>;
+            A.CallTo(() => _gameService.GetChoiceNodeOfGame(1)).MustHaveHappened();
+            var nodesResponse = result.Value as IEnumerable<NodeResponse>;
             Check.That(nodesResponse.Extracting("Id")).ContainsExactly(questionNodes.Extracting("Id"));
             //Check.That(nodesResponse.Extracting("Question")).ContainsExactly(questionNodes.Extracting("Question"));
             Check.That(nodesResponse.First().Answers.Extracting("Id")).ContainsExactly(1, 2, 3);

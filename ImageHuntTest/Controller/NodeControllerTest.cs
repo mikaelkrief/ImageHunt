@@ -84,7 +84,7 @@ namespace ImageHuntTest.Controller
             AnswerId = 2
           },
         };
-        A.CallTo(() => _nodeService.GetNode(1)).Returns(new QuestionNode(){Children = { new TimerNode(), new QuestionNode(), new FirstNode()}});
+        A.CallTo(() => _nodeService.GetNode(1)).Returns(new ChoiceNode(){Children = { new TimerNode(), new ChoiceNode(), new FirstNode()}});
 
       // Act
       _target.AddRelationsWithAnswers(relationsRequest);
@@ -170,7 +170,7 @@ namespace ImageHuntTest.Controller
                 new FirstNode(),
                 new ObjectNode(),
                 new PictureNode(),
-                new QuestionNode(),
+                new ChoiceNode(),
                 new LastNode()
             };
             A.CallTo(() => _gameService.GetNodes(A<int>._)).Returns(nodes);

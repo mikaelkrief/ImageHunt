@@ -160,11 +160,34 @@ namespace ImageHuntBotBuilderTest
             var nextNode = await _target.MatchLocationAsync(_turnContext, state);
             // Assert
             A.CallTo(
-                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                    () => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._))
                 .MustHaveHappened(Repeated.Exactly.Twice);
             A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
                 .MustHaveHappened();
             Check.That(nextNode).IsNull();
+        }
+
+        [Fact]
+        public void Should_Send_Question()
+        {
+            // Arrange
+            var state = new ImageHuntState()
+            {
+                CurrentNode = new NodeResponse()
+                {
+                    Latitude = 45.79999,
+                    Longitude = 5.86999,
+                    NodeType = NodeResponse.ChoiceNodeType,
+                    Question = "Question",
+                    
+                },
+                GameId = 45,
+                TeamId = 87,
+
+            };
+            // Act
+
+            // Assert
         }
         [Fact]
         public async Task Should_location_NOT_match_node()

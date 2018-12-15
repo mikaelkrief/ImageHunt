@@ -1,6 +1,7 @@
 ﻿using System;
 using ImageHunt.Model;
 using ImageHuntCore.Model.Node;
+using ImageHuntWebServiceClient.Responses;
 using NFluent;
 using Xunit;
 
@@ -9,12 +10,12 @@ namespace ImageHuntTest.Model
   public class NodeFactoryTest
   {
     [Theory]
-    [InlineData("TimerNode", typeof(TimerNode))]
-    [InlineData("ObjectNode", typeof(ObjectNode))]
-    [InlineData("QuestionNode", typeof(QuestionNode))]
-    [InlineData("FirstNode", typeof(FirstNode))]
-    [InlineData("LastNode", typeof(LastNode))]
-    [InlineData("PictureNode", typeof(PictureNode))]
+    [InlineData(NodeResponse.TimerNodeType, typeof(TimerNode))]
+    [InlineData(NodeResponse.ObjectNodeType, typeof(ObjectNode))]
+    [InlineData(NodeResponse.ChoiceNodeType, typeof(ChoiceNode))]
+    [InlineData(NodeResponse.FirstNodeType, typeof(FirstNode))]
+    [InlineData(NodeResponse.LastNodeType, typeof(LastNode))]
+    [InlineData(NodeResponse.PictureNodeType, typeof(PictureNode))]
     public void NodeFromNodeType(string nodeName, Type expectedType)
     {
       // Arrange

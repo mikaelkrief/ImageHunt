@@ -165,6 +165,10 @@ namespace ImageHuntBotBuilder
                                 await _telegramBotClient.SendLocationAsync(chatId, (float)location.Latitude.Value,
                                     (float)location.Longitude.Value);
                                 break;
+                            case ImageHuntActivityTypes.Wait:
+                                var delay = (int) activity.Attachments.First().Content;
+                                Task.Delay(delay * 1000).ContinueWith(t => Wait(turnContext, activity));
+                                break;
                         }
 
                         if (response == null)
@@ -181,6 +185,9 @@ namespace ImageHuntBotBuilder
             return responses;
         }
 
+        async Task Wait(ITurnContext context, IActivity activity)
+        {
+        }
         public async override Task<ResourceResponse> UpdateActivityAsync(ITurnContext turnContext, Activity activity,
             CancellationToken cancellationToken)
         {

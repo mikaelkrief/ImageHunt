@@ -189,7 +189,7 @@ namespace ImageHuntTest.Controller
                 TeamId = 5,
                 AnswerId = 3
             };
-            var questionNode = new QuestionNode()
+            var questionNode = new ChoiceNode()
             {
                 Answers = new List<Answer>() { new Answer(), new Answer() { Correct = true }, new Answer() }
             };

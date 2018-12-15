@@ -66,6 +66,7 @@ namespace ImageHuntBotBuilder
                         TeamId = state.TeamId.Value,
                         NodeId = state.CurrentNode.Id,
                     };
+                    IEnumerable<Activity> nextActivities;
                     switch (state.CurrentNode.NodeType)
                     {
                         case NodeResponse.FirstNodeType:
@@ -73,7 +74,7 @@ namespace ImageHuntBotBuilder
                         case NodeResponse.HiddenNodeType:
                             var nextNodeId = state.CurrentNode.ChildNodeIds.First();
                             nextNode = await _nodeWebService.GetNode(nextNodeId);
-                            var nextActivities = ActivitiesFromNode(nextNode);
+                            nextActivities = ActivitiesFromNode(nextNode);
                             foreach (var nextActivity in nextActivities)
                             {
                                 await context.SendActivityAsync(nextActivity);
@@ -81,7 +82,11 @@ namespace ImageHuntBotBuilder
                             actionRequest.PointsEarned = state.CurrentNode.Points;
                             break;
                         case NodeResponse.LastNodeType:
-                            await context.SendActivityAsync($"Pour valider la fin de votre chasse, prévenez un orga");
+                            nextActivities = ActivitiesFromNode(state.CurrentNode);
+                            foreach (var nextActivity in nextActivities)
+                            {
+                                await context.SendActivityAsync(nextActivity);
+                            }
                             actionRequest.PointsEarned = state.CurrentNode.Points;
 
                             break;

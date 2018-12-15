@@ -10,6 +10,8 @@ namespace ImageHuntWebServiceClient.Responses
         public const string FirstNodeType = "FirstNode";
         public const string LastNodeType = "LastNode";
         public const string HiddenNodeType = "HiddenNode";
+        public const string ChoiceNodeType = "ChoiceNode";
+        public const string PictureNodeType = "PictureNode";
 
         public int Id { get; set; }
         public string Name { get; set; }
@@ -19,6 +21,7 @@ namespace ImageHuntWebServiceClient.Responses
         public int Points { get; set; }
         public string Password { get; set; }
         public IEnumerable<int> ChildNodeIds { get; set; }
+        public IEnumerable<AnswerResponse> Answers { get; set; }
         public string Action { get; set; }
         public ImageResponse Image { get; set; }
         public string Question { get; set; }

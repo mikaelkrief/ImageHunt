@@ -111,7 +111,7 @@ namespace ImageHunt.Services
       return Context.Games.Where(g => g.IsActive && g.MapCenterLat.HasValue && GeographyComputation.Distance(lat, lng, g.MapCenterLat.Value, g.MapCenterLng.Value) < 5000);
     }
 
-    public IEnumerable<QuestionNode> GetQuestionNodeOfGame(int gameId)
+    public IEnumerable<ChoiceNode> GetChoiceNodeOfGame(int gameId)
     {
       var game = Context.Games
         .Include(g => g.Nodes)

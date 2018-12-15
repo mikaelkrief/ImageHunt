@@ -21,7 +21,7 @@ export class GUINode extends Node {
     case "ObjectNode":
         nodeIcon = "&#xf1b2;";
       break;
-    case "QuestionNode":
+    case "ChoiceNode":
         nodeIcon = "&#xf29c;";
       break;
     case "PictureNode":

@@ -1,6 +1,7 @@
 ﻿using ImageHunt.Computation;
 using ImageHunt.Model;
 using ImageHuntCore.Model.Node;
+using ImageHuntWebServiceClient.Responses;
 using NFluent;
 using Xunit;
 
@@ -28,12 +29,12 @@ namespace ImageHuntTest.Model.Node
         {
             // Arrange
             var timerNode = new TimerNode();
-            var questionNode = new QuestionNode();
+            var questionNode = new ChoiceNode();
             // Act
 
             // Assert
-            Check.That(timerNode.NodeType).Equals("TimerNode");
-            Check.That(questionNode.NodeType).Equals("QuestionNode");
+            Check.That(timerNode.NodeType).Equals(NodeResponse.TimerNodeType);
+            Check.That(questionNode.NodeType).Equals(NodeResponse.ChoiceNodeType);
         }
     }
 }
