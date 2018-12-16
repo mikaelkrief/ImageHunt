@@ -13,6 +13,8 @@ namespace ImageHunt.Model
           return new TimerNode();
         case NodeResponse.ChoiceNodeType:
           return new ChoiceNode();
+        case NodeResponse.QuestionNodeType:
+          return new QuestionNode();
         case NodeResponse.PictureNodeType:
           return new PictureNode();
         case NodeResponse.FirstNodeType:

@@ -11,6 +11,7 @@ namespace ImageHuntWebServiceClient.Responses
         public const string LastNodeType = "LastNode";
         public const string HiddenNodeType = "HiddenNode";
         public const string ChoiceNodeType = "ChoiceNode";
+        public const string QuestionNodeType = "QuestionNode";
         public const string PictureNodeType = "PictureNode";
 
         public int Id { get; set; }

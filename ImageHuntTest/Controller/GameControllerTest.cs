@@ -173,17 +173,17 @@ namespace ImageHuntTest.Controller
         public void AddNodeQuestionNode()
         {
             // Arrange
-            var node = new AddNodeRequest() { NodeType = NodeResponse.ChoiceNodeType, Question = "Selfie", Answers = new AnswerRequest[] { new AnswerRequest() { Response = "Toto" }, new AnswerRequest() { Response = "Tata" } } };
+            var node = new AddNodeRequest() { NodeType = NodeResponse.ChoiceNodeType, Question = "Selfie", Choices = new AnswerRequest[] { new AnswerRequest() { Response = "Toto" }, new AnswerRequest() { Response = "Tata" } } };
             // Act
             var result = _target.AddNode(1, node);
             // Assert
-            A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckQuestionNode(n, node.Question, node.Answers)))).MustHaveHappened();
+            A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckQuestionNode(n, node.Question, node.Choices)))).MustHaveHappened();
         }
 
         private bool CheckQuestionNode(Node node, string expectedQuestion, AnswerRequest[] nodeAnswers)
         {
             var questionNode = node as ChoiceNode;
-            Check.That(questionNode.Question).Equals(expectedQuestion);
+            Check.That(questionNode.Choice).Equals(expectedQuestion);
             Check.That(questionNode.Answers.Extracting("Response")).ContainsExactly(nodeAnswers.Extracting("Response"));
             return true;
         }
@@ -313,7 +313,7 @@ namespace ImageHuntTest.Controller
               new ChoiceNode()
               {
                   Id = 1,
-                  Question = "What",
+                  Choice = "What",
                   Answers = new List<Answer>()
                   {
                       new Answer()
@@ -339,7 +339,7 @@ namespace ImageHuntTest.Controller
               new ChoiceNode()
               {
                   Id = 2,
-                  Question = "Who",
+                  Choice = "Who",
                   Answers = new List<Answer>()
                   {
                       new Answer()

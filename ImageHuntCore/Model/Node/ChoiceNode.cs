@@ -7,7 +7,7 @@ namespace ImageHuntCore.Model.Node
   /// </summary>
     public class ChoiceNode : ImageHuntCore.Model.Node.Node
     {
-        public string Question { get; set; }
+        public string Choice { get; set; }
         public List<Answer> Answers { get; set; }
     }
 }

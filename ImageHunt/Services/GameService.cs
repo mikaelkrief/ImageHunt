@@ -116,7 +116,7 @@ namespace ImageHunt.Services
       var game = Context.Games
         .Include(g => g.Nodes)
         .Single(g => g.Id == gameId);
-      return Context.QuestionNodes
+      return Context.ChoiceNodes
         .Include(n => n.Answers)
         .Include(n => n.ChildrenRelation)
         .Where(n => game.Nodes.Contains(n));

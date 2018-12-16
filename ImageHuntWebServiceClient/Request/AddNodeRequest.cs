@@ -10,7 +10,8 @@ namespace ImageHuntWebServiceClient.Request
         public string Action { get; set; }
         public string Question { get; set; }
         public int Points { get; set; }
-        public AnswerRequest[] Answers { get; set; }
+        public string Answer { get; set; }
+        public AnswerRequest[] Choices { get; set; }
         public string Password { get; set; }
         public string Hint { get; set; }
     }

@@ -39,8 +39,9 @@ export class NodeCreateComponent implements OnInit {
       hint: form.value.hint
     };
     // Add answers
-    if (form.value.nodeType === 'QuestionNode') {
+    if (form.value.nodeType === 'ChoiceNode') {
       node.choices = new Array();
+      node.question = form.value.choiceQuestion;
       for (let i = 0; i < this.choices.length; i++) {
         node.choices.push({ response: this.choices[i], correct: i === +this.correctAnswer});
       }

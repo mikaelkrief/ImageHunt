@@ -94,8 +94,13 @@ namespace ImageHunt.Controllers
           break;
         case NodeResponse.ChoiceNodeType:
           var choiceNode = node as ChoiceNode;
-          choiceNode.Question = nodeRequest.Question;
-          choiceNode.Answers = nodeRequest.Answers.Select(a => new Answer() { Response = a.Response, Correct = a.Correct }).ToList();
+          choiceNode.Choice = nodeRequest.Question;
+          choiceNode.Answers = nodeRequest.Choices.Select(a => new Answer() { Response = a.Response, Correct = a.Correct }).ToList();
+          break;
+        case NodeResponse.QuestionNodeType:
+          var questionNode = node as QuestionNode;
+          questionNode.Question = nodeRequest.Question;
+          questionNode.Answer = nodeRequest.Answer;
           break;
       }
       _gameService.AddNode(gameId, node);

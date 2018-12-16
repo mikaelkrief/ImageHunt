@@ -32,7 +32,7 @@ namespace ImageHunt.Services
       switch (node.NodeType)
       {
         case NodeResponse.ChoiceNodeType:
-          node = Context.QuestionNodes.Include(q => q.Answers).SingleOrDefault(n => n.Id == nodeId);
+          node = Context.ChoiceNodes.Include(q => q.Answers).SingleOrDefault(n => n.Id == nodeId);
           break;
         case NodeResponse.PictureNodeType:
           node = Context.PictureNodes.Include(p => p.Image).SingleOrDefault(n => n.Id == nodeId);
@@ -134,7 +134,7 @@ namespace ImageHunt.Services
       // Remove answers for QuestionNode
       if (orgNode is ChoiceNode questionNode)
       {
-        questionNode = Context.QuestionNodes.Include(n => n.Answers).Single(n => n == questionNode);
+        questionNode = Context.ChoiceNodes.Include(n => n.Answers).Single(n => n == questionNode);
         var answerToRemove = questionNode.Answers.Single(a => a.Node == destNode);
         questionNode.Answers.Remove(answerToRemove);
         Context.Answers.Remove(answerToRemove);
