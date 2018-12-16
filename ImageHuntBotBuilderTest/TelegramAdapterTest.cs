@@ -429,5 +429,34 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _telegramBotClient.SendLocationAsync(A<ChatId>._, A<float>._, A<float>._, A<int>._,
                 A<bool>._, A<int>._, A<IReplyMarkup>._, A<CancellationToken>._)).MustHaveHappened();
         }
+
+        [Fact]
+        public async Task Should_wait_delayAsync()
+        {
+            // Arrange
+            var turnContext = A.Fake<ITurnContext>();
+            var activities = new Activity[]
+            {
+                new Activity()
+                {
+                    Type = ImageHuntActivityTypes.Wait,
+                    ChannelId = "telegram",
+                    Id = "151515",
+                    Attachments = new List<Attachment>()
+                    {
+                        new Attachment()
+                        {
+                            Content = 10
+                        }
+                    },
+                    Conversation = new ConversationAccount(),
+                },
+            };
+
+            // Act
+            await _target.SendActivitiesAsync(turnContext, activities, CancellationToken.None);
+            // Assert
+
+        }
     }
 }

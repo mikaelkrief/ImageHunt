@@ -14,7 +14,7 @@ export class NodeCreateComponent implements OnInit {
   public latitude: number;
   public longitude: number;
   correctAnswer: number;
-  answers: string[];
+  choices: string[];
   @Output() newNode = new EventEmitter<NodeRequest>();
     /** node-create ctor */
   constructor(public bsModalRef: BsModalRef) { }
@@ -31,24 +31,28 @@ export class NodeCreateComponent implements OnInit {
       duration: form.value.duration === '' ? 0 : form.value.duration,
       action: form.value.action,
       question: form.value.question,
+      answer: form.value.answer,
       points: form.value.nbPoints === '' ? 0 : form.value.nbPoints,
-      answers: null,
-      password: form.value.password 
+      choices: null,
+
+      password: form.value.password,
+      hint: form.value.hint
     };
     // Add answers
-    if (form.value.nodeType === 'QuestionNode') {
-      node.answers = new Array();
-      for (let i = 0; i < this.answers.length; i++) {
-        node.answers.push({ response: this.answers[i], correct: i === +this.correctAnswer});
+    if (form.value.nodeType === 'ChoiceNode') {
+      node.choices = new Array();
+      node.question = form.value.choiceQuestion;
+      for (let i = 0; i < this.choices.length; i++) {
+        node.choices.push({ response: this.choices[i], correct: i === +this.correctAnswer});
       }
     }
     this.newNode.emit(node);
   }
-  addAnswer(newAnswer: NgForm) {
-    if (this.answers == null) {
-      this.answers = [];
+  addChoice(newChoice: NgForm) {
+    if (this.choices == null) {
+      this.choices = [];
     }
-    this.answers.push(newAnswer.value.answer);
-    newAnswer.reset();
+    this.choices.push(newChoice.value.choice);
+    newChoice.reset();
   }
 }

@@ -16,14 +16,32 @@
         </div>
         <div class="form-group col-6">
           <label for="nodeType">Type de N&oelig;ud : </label>
-          <select class="form-control fa" ngModel name="nodeType" id="nodeType" placeholder="Type de N&oelig;ud">
-            <option value="FirstNode">&#xf024; N&oelig;ud départ</option>
-            <option value="TimerNode">&#xf017; N&oelig;ud attente</option>
-            <option value="ObjectNode">&#xf1b2; N&oelig;ud action</option>
-            <option value="QuestionNode">&#xf128; N&oelig;ud choix</option>
-            <option value="PictureNode">&#xf030; N&oelig;ud photo</option>
-            <option value="LastNode">&#xf11e; N&oelig;ud arrivée</option>
-          </select>
+          <!--<div class="btn-group" dropdown>
+            <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                    aria-controls="dropdown-basic">
+              Type de N&oelig;ud <span class="caret"></span>
+            </button>
+            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                role="menu" aria-labelledby="button-basic">
+              <li role="menuitem"><a class="dropdown-item" [nodeType]="FirstNode"><i class="fas fa-flag"></i> N&oelig;ud départ</a></li>
+              <li role="menuitem"><a class="dropdown-item" [nodeType]="TimerNode"><i class="far fa-clock"></i> N&oelig;ud attente</a></li>
+              <li role="menuitem"><a class="dropdown-item" [nodeType]="ObjectNode"><i class="fas fa-running"></i> N&oelig;ud action</a></li>
+              <li role="menuitem"><a class="dropdown-item" [nodeType]="HiddenNode"><i class="fas fa-mask"></i> N&oelig;ud caché</a></li>
+              <li role="menuitem"><a class="dropdown-item" [nodeType]="ChoiceNode"><i class="fas fa-question"></i> N&oelig;ud choix</a></li>
+              <li role="menuitem"><a class="dropdown-item" [nodeType]="PictureNode"><i class="fas fa-camera"></i> N&oelig;ud photo</a></li>
+              <li role="menuitem"><a class="dropdown-item" [nodeType]="LastNode"><i class="fas fa-flag-checkered"></i> N&oelig;ud arrivée</a></li>
+            </ul>
+          </div>-->
+        <select class="form-control fa" ngModel name="nodeType" id="nodeType" placeholder="Type de N&oelig;ud">
+          <option value="FirstNode">&#xf024; N&oelig;ud départ</option>
+          <option value="TimerNode">&#xf017; N&oelig;ud attente</option>
+          <option value="ObjectNode">&#xf70C; N&oelig;ud action</option>
+          <option value="HiddenNode">&#xf6FA; N&oelig;ud caché</option>
+          <option value="ChoiceNode">&#xf0cb; N&oelig;ud choix</option>
+          <option value="QuestionNode">&#xf128; N&oelig;ud question</option>
+          <option value="PictureNode">&#xf030; N&oelig;ud photo</option>
+          <option value="LastNode">&#xf11e; N&oelig;ud arrivée</option>
+        </select>
         </div>
       </div>
       <div class="row">
@@ -51,64 +69,110 @@
       </div>
       <div>
         <tabset>
-          <tab heading="Départ" [disabled]="form.value.nodeType !== 'FirstNode'" [active]="form.value.nodeType === 'FirstNode'">
-            <div class="form-inline">
+          <tab [disabled]="form.value.nodeType !== 'FirstNode'" [active]="form.value.nodeType === 'FirstNode'">
+            <ng-template tabHeading>
+              <i class="fas fa-flag" style="color:red"></i><span> Départ</span>
+            </ng-template>
+            <div>
               <div class="form-group">
-                <label class="col-lg-6" for="password">Mot de passe</label>
-                <input type="text" class="form-control col-lg-6" id="password" name="password"
-                       ngModel placeholder="Mot de passe à demander" />
+                <label for="password">Mot de passe</label>
+                <input type="text" class="form-control" id="password" name="password"
+                       ngModel placeholder="Mot de passe à demander"/>
               </div>
             </div>
           </tab>
-          <tab heading="Timer" [disabled]="form.value.nodeType !== 'TimerNode'" [active]="form.value.nodeType === 'TimerNode'">
-            <div class="form-inline">
-              <div class="input-group">
+          <tab [disabled]="form.value.nodeType !== 'TimerNode'" [active]="form.value.nodeType === 'TimerNode'">
+            <ng-template tabHeading>
+              <i class="far fa-clock" style="color: black"></i> Timer
+            </ng-template>
+            <div>
+              <div class="form-group">
                 <label for="duration">Durée d'attente (en secondes)</label>
-                <input type="number" class="form-control" id="duration" name="duration" ngModel placeholder="Durée en secondes" />
+                <input type="number" class="form-control" id="duration" name="duration" ngModel placeholder="Durée en secondes"/>
               </div>
             </div>
           </tab>
-          <tab heading="Action" [disabled]="form.value.nodeType !== 'ObjectNode'" [active]="form.value.nodeType === 'ObjectNode'">
-            <div class="form-inline">
-              <div class="input-group">
+          <tab [disabled]="form.value.nodeType !== 'ObjectNode'" [active]="form.value.nodeType === 'ObjectNode'">
+            <ng-template tabHeading>
+              <i class="fas fa-running" style="color: orange;"></i> Action
+            </ng-template>
+
+            <div>
+              <div class="form-group">
                 <label for="action">Action à faire sur le noeud</label>
-                <textarea class="form-control" cols="40" rows="3" id="action" ngModel name="action" placeholder="Action à effectuer par les joueurs"></textarea>
+                <textarea class="form-control" cols="40" rows="3" id="action" ngModel name="action"
+                          placeholder="Action à effectuer par les joueurs"></textarea>
               </div>
             </div>
           </tab>
-          <tab heading="Question" [disabled]="form.value.nodeType !== 'QuestionNode'" [active]="form.value.nodeType === 'QuestionNode'">
-            <div class="form-inline">
-              <div class="input-group">
-                <label for="question">Question</label>
-                <textarea class="form-control" cols="40" rows="3" id="question" ngModel name="question" placeholder="Question à poser aux joueurs"></textarea>
+          <tab [disabled]="form.value.nodeType !== 'HiddenNode'" [active]="form.value.nodeType === 'HiddenNode'">
+            <ng-template tabHeading>
+              <i class="fas fa-mask" style="color:purple"></i> Caché
+            </ng-template>
+
+            <div>
+              <div class="form-group">
+                <label for="hint">Indice pour trouver le noeud</label>
+                <textarea class="form-control" cols="40" rows="3" id="hint" ngModel name="hint"
+                          placeholder="Indice pour trouver le noeud"></textarea>
               </div>
 
             </div>
-            <br />
+          </tab>
+          <tab [disabled]="form.value.nodeType !== 'QuestionNode'" [active]="form.value.nodeType === 'QuestionNode'">
+            <ng-template tabHeading>
+              <i class="far fa-question-circle" style="color:blue"></i> Question
+            </ng-template>
+
+            <div >
+              <div class="form-group">
+                <label for="question">Question</label>
+                <textarea class="form-control" cols="40" rows="3" id="question" ngModel name="question" placeholder="Question à poser aux joueurs"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="answer">Réponse</label>
+                <textarea class="form-control" cols="40" rows="1" id="answer" ngModel name="answer" placeholder="Réponse attendue"></textarea>
+              </div>
+            </div>
+            <br/>
+          </tab>
+          <tab [disabled]="form.value.nodeType !== 'ChoiceNode'" [active]="form.value.nodeType === 'ChoiceNode'">
+            <ng-template tabHeading>
+              <i class="fas fa-list-ol" style="color: green"></i> Choix
+            </ng-template>
+
+            <div>
+              <div class="form-group">
+                <label for="choiceQuestion">Question</label>
+                <textarea class="form-control" cols="40" rows="3" id="choiceQuestion" ngModel name="choiceQuestion" placeholder="Choix à poser aux joueurs"></textarea>
+              </div>
+
+            </div>
+            <br/>
             <table class="table">
               <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Réponse</th>
-                  <th>Réponse correcte</th>
-                </tr>
+              <tr>
+                <th>#</th>
+                <th>Choix</th>
+                <th>Réponse correcte</th>
+              </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let answer of answers; let i = index">
-                  <td>{{i + 1}}</td>
-                  <td><span class="form-control">{{answer}}</span></td>
-                  <td><p-radioButton name="groupAnswers" value="{{i}}" [(ngModel)]="correctAnswer"></p-radioButton></td>
-                </tr>
+              <tr *ngFor="let choice of choices; let i = index">
+                <td>{{i + 1}}</td>
+                <td><span class="form-control">{{choice}}</span></td>
+                <td><p-radioButton name="groupAnswers" value="{{i}}" [(ngModel)]="correctAnswer"></p-radioButton></td>
+              </tr>
               </tbody>
             </table>
-            <br />
-            <form #newAnswer="ngForm">
-              <div class="form-inline">
-                <div class="input-group">
-                  <label for="answer">Réponse</label>
-                  <input type="text" ngModel name="answer" id="answer" class="form-control" />
-                  <button type="button" class="btn btn-primary pull-right" (click)="addAnswer(newAnswer)">
-                    <span class="fa fa-plus-square"> Ajouter une réponse</span>
+            <br/>
+            <form #newChoice="ngForm">
+              <div>
+                <div class="form-group">
+                  <label for="choice">Choix</label>
+                  <input type="text" ngModel name="choice" id="choice" class="form-control"/>
+                  <button type="button" class="btn btn-primary pull-right" (click)="addChoice(newChoice)">
+                    <span class="fa fa-plus-square"> Ajouter un choix</span>
                   </button>
                 </div>
               </div>

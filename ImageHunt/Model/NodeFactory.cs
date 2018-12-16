@@ -1,4 +1,5 @@
 using ImageHuntCore.Model.Node;
+using ImageHuntWebServiceClient.Responses;
 
 namespace ImageHunt.Model
 {
@@ -8,18 +9,22 @@ namespace ImageHunt.Model
     {
       switch (nodeType)
       {
-        case "TimerNode":
+        case NodeResponse.TimerNodeType:
           return new TimerNode();
-        case "QuestionNode":
+        case NodeResponse.ChoiceNodeType:
+          return new ChoiceNode();
+        case NodeResponse.QuestionNodeType:
           return new QuestionNode();
-        case "PictureNode":
+        case NodeResponse.PictureNodeType:
           return new PictureNode();
-        case "FirstNode":
+        case NodeResponse.FirstNodeType:
           return new FirstNode();
-        case "LastNode":
+        case NodeResponse.LastNodeType:
           return new LastNode();
-        case "ObjectNode":
+        case NodeResponse.ObjectNodeType:
           return new ObjectNode();
+        case NodeResponse.HiddenNodeType:
+          return new HiddenNode();
       }
       return null;
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -58,15 +59,17 @@ namespace ImageHuntBotBuilderTest
             {
                 CurrentNode = new NodeResponse()
                 {
-                    Latitude = 45.8, Longitude = 5.87, NodeType = NodeResponse.ObjectNodeType,
-                    ChildNodeIds = new List<int>() { 12},
+                    Latitude = 45.8,
+                    Longitude = 5.87,
+                    NodeType = NodeResponse.ObjectNodeType,
+                    ChildNodeIds = new List<int>() { 12 },
                 },
                 GameId = 45,
                 TeamId = 87,
 
             };
             A.CallTo(() => _turnContext.Activity).Returns(activity);
-            var nextNodeExpected = new NodeResponse();
+            var nextNodeExpected = new NodeResponse(){NodeType = "ObjectNode"};
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).Returns(nextNodeExpected);
             // Act
             var nextNode = await _target.MatchLocationAsync(_turnContext, state);
@@ -74,7 +77,7 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).MustHaveHappened();
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
-                .MustHaveHappened(Repeated.Exactly.Twice);
+                .MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._))
                 .MustHaveHappened();
             Check.That(nextNode).IsNotNull();
@@ -100,8 +103,9 @@ namespace ImageHuntBotBuilderTest
             {
                 CurrentNode = new NodeResponse()
                 {
-                    Latitude = 45.79999, Longitude = 5.86999,
-                    ChildNodeIds = new List<int>() { 15},
+                    Latitude = 45.79999,
+                    Longitude = 5.86999,
+                    ChildNodeIds = new List<int>() { 15 },
                     NodeType = NodeResponse.FirstNodeType,
                 },
                 GameId = 45,
@@ -109,7 +113,7 @@ namespace ImageHuntBotBuilderTest
 
             };
             A.CallTo(() => _turnContext.Activity).Returns(activity);
-            var nextNodeExpected = new NodeResponse(){NodeType = "FirstNode"};
+            var nextNodeExpected = new NodeResponse() { NodeType = "ObjectNode" };
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).Returns(nextNodeExpected);
             // Act
             var nextNode = await _target.MatchLocationAsync(_turnContext, state);
@@ -117,7 +121,7 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).MustHaveHappened();
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
-                .MustHaveHappened(Repeated.Exactly.Twice);
+                .MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._))
                 .MustHaveHappened();
             Check.That(nextNode).IsNotNull();
@@ -141,7 +145,8 @@ namespace ImageHuntBotBuilderTest
             {
                 CurrentNode = new NodeResponse()
                 {
-                    Latitude = 45.79999, Longitude = 5.86999,
+                    Latitude = 45.79999,
+                    Longitude = 5.86999,
                     NodeType = NodeResponse.LastNodeType,
                 },
                 GameId = 45,
@@ -149,17 +154,40 @@ namespace ImageHuntBotBuilderTest
 
             };
             A.CallTo(() => _turnContext.Activity).Returns(activity);
-            var nextNodeExpected = new NodeResponse(){NodeType = "FirstNode"};
+            var nextNodeExpected = new NodeResponse() { NodeType = "FirstNode" };
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).Returns(nextNodeExpected);
             // Act
             var nextNode = await _target.MatchLocationAsync(_turnContext, state);
             // Assert
             A.CallTo(
-                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                    () => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._))
                 .MustHaveHappened(Repeated.Exactly.Twice);
             A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
                 .MustHaveHappened();
             Check.That(nextNode).IsNull();
+        }
+
+        [Fact]
+        public void Should_Send_Question()
+        {
+            // Arrange
+            var state = new ImageHuntState()
+            {
+                CurrentNode = new NodeResponse()
+                {
+                    Latitude = 45.79999,
+                    Longitude = 5.86999,
+                    NodeType = NodeResponse.ChoiceNodeType,
+                    Question = "Question",
+                    
+                },
+                GameId = 45,
+                TeamId = 87,
+
+            };
+            // Act
+
+            // Assert
         }
         [Fact]
         public async Task Should_location_NOT_match_node()
@@ -177,7 +205,7 @@ namespace ImageHuntBotBuilderTest
             };
             var state = new ImageHuntState()
             {
-                CurrentNode = new NodeResponse() { Latitude = 5.80003, Longitude = 5.869995},
+                CurrentNode = new NodeResponse() { Latitude = 5.80003, Longitude = 5.869995 },
                 GameId = 45,
                 TeamId = 87,
 
@@ -188,5 +216,90 @@ namespace ImageHuntBotBuilderTest
             // Assert
             Check.That(nextNode).IsNull();
         }
+
+        [Fact]
+        public void Should_create_activity_from_ObjectNode()
+        {
+            // Arrange
+            var node = new NodeResponse()
+            {
+                NodeType = NodeResponse.ObjectNodeType,
+                Action = "Action to do",
+                Latitude = 56.9,
+                Longitude = 4.9,
+                Name = "Action",
+                Points = 56,
+            };
+            // Act
+            var activities = _target.ActivitiesFromNode(node);
+            // Assert
+            Check.That(activities.First().Text).Contains(node.Name);
+            var expectedLocation = new GeoCoordinates(latitude: node.Latitude, longitude: node.Longitude);
+            Check.That(((GeoCoordinates) activities.Single(a=>a.Type==ImageHuntActivityTypes.Location).Attachments
+                .Single(a => a.ContentType == ImageHuntActivityTypes.Location).Content).Latitude).IsEqualTo(expectedLocation.Latitude);
+            Check.That(((GeoCoordinates)activities.Single(a => a.Type == ImageHuntActivityTypes.Location).Attachments
+                .Single(a => a.ContentType == ImageHuntActivityTypes.Location).Content).Longitude).IsEqualTo(expectedLocation.Longitude);
+            Check.That(activities.Last().Text).Contains(node.Action);
+        }
+        [Fact]
+        public void Should_create_activity_from_HiddenNode()
+        {
+            // Arrange
+            var node = new NodeResponse()
+            {
+                NodeType = NodeResponse.HiddenNodeType,
+                Hint = "Hint to find",
+                Latitude = 56.9,
+                Longitude = 4.9,
+                Name = "Hidden",
+                Points = 56,
+            };
+            // Act
+            var activities = _target.ActivitiesFromNode(node);
+            // Assert
+            Check.That(activities.First().Text).Contains(node.Name);
+            Check.That(activities.Last().Text).Contains(node.Hint);
+        }
+        [Fact]
+        public void Should_create_activity_from_LastNode()
+        {
+            // Arrange
+            var node = new NodeResponse()
+            {
+                NodeType = NodeResponse.LastNodeType,
+                Latitude = 56.9,
+                Longitude = 4.9,
+                Name = "Last",
+                Points = 56,
+            };
+            // Act
+            var activities = _target.ActivitiesFromNode(node);
+            // Assert
+            var expectedLocation = new GeoCoordinates(latitude: node.Latitude, longitude: node.Longitude);
+
+            Check.That(((GeoCoordinates)activities.Single(a => a.Type == ImageHuntActivityTypes.Location).Attachments
+                .Single(a => a.ContentType == ImageHuntActivityTypes.Location).Content).Latitude).IsEqualTo(expectedLocation.Latitude);
+            Check.That(((GeoCoordinates)activities.Single(a => a.Type == ImageHuntActivityTypes.Location).Attachments
+                .Single(a => a.ContentType == ImageHuntActivityTypes.Location).Content).Longitude).IsEqualTo(expectedLocation.Longitude);
+
+        }
+        [Fact]
+        public void Should_create_activity_from_TimerNode()
+        {
+            // Arrange
+            var node = new NodeResponse()
+            {
+                NodeType = NodeResponse.TimerNodeType,
+                Name = "Timer",
+                Delay = 50,
+            };
+            // Act
+            var activities = _target.ActivitiesFromNode(node);
+            // Assert
+            Check.That(activities.Single(a => a.Type == ImageHuntActivityTypes.Wait).Attachments.First().Content)
+                .Equals(node.Delay);
+
+        }
+
     }
 }

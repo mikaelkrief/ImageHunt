@@ -3,14 +3,16 @@ using System;
 using ImageHunt.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
-    partial class HuntContextModelSnapshot : ModelSnapshot
+    [Migration("20181215194734_ChangeNameChoiceNode")]
+    partial class ChangeNameChoiceNode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -345,7 +347,7 @@ namespace ImageHunt.Migrations
                 {
                     b.HasBaseType("ImageHuntCore.Model.Node.Node");
 
-                    b.Property<string>("Choice");
+                    b.Property<string>("Question");
 
                     b.ToTable("ChoiceNode");
 
@@ -406,19 +408,6 @@ namespace ImageHunt.Migrations
                     b.ToTable("PictureNode");
 
                     b.HasDiscriminator().HasValue("PictureNode");
-                });
-
-            modelBuilder.Entity("ImageHuntCore.Model.Node.QuestionNode", b =>
-                {
-                    b.HasBaseType("ImageHuntCore.Model.Node.Node");
-
-                    b.Property<string>("Answer");
-
-                    b.Property<string>("Question");
-
-                    b.ToTable("QuestionNode");
-
-                    b.HasDiscriminator().HasValue("QuestionNode");
                 });
 
             modelBuilder.Entity("ImageHuntCore.Model.Node.TimerNode", b =>

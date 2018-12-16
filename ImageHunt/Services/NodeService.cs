@@ -6,6 +6,7 @@ using ImageHunt.Model;
 using ImageHuntCore.Computation;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -30,10 +31,10 @@ namespace ImageHunt.Services
         .SingleOrDefault(n => n.Id == nodeId);
       switch (node.NodeType)
       {
-        case "QuestionNode":
-          node = Context.QuestionNodes.Include(q => q.Answers).SingleOrDefault(n => n.Id == nodeId);
+        case NodeResponse.ChoiceNodeType:
+          node = Context.ChoiceNodes.Include(q => q.Answers).SingleOrDefault(n => n.Id == nodeId);
           break;
-        case "PictureNode":
+        case NodeResponse.PictureNodeType:
           node = Context.PictureNodes.Include(p => p.Image).SingleOrDefault(n => n.Id == nodeId);
           break;
       }
@@ -112,7 +113,7 @@ namespace ImageHunt.Services
     public void RemoveNode(Node nodeToRemove)
     {
       // Remove answers if node is QuestionNode
-      if (nodeToRemove is QuestionNode questionNode && questionNode.Answers != null)
+      if (nodeToRemove is ChoiceNode questionNode && questionNode.Answers != null)
       {
         Context.Answers.RemoveRange(questionNode.Answers);
         questionNode.Answers.Clear();
@@ -131,9 +132,9 @@ namespace ImageHunt.Services
       orgNode = Context.Nodes.Include(n => n.ChildrenRelation)
         .Single(n => n == orgNode);
       // Remove answers for QuestionNode
-      if (orgNode is QuestionNode questionNode)
+      if (orgNode is ChoiceNode questionNode)
       {
-        questionNode = Context.QuestionNodes.Include(n => n.Answers).Single(n => n == questionNode);
+        questionNode = Context.ChoiceNodes.Include(n => n.Answers).Single(n => n == questionNode);
         var answerToRemove = questionNode.Answers.Single(a => a.Node == destNode);
         questionNode.Answers.Remove(answerToRemove);
         Context.Answers.Remove(answerToRemove);

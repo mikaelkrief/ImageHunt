@@ -100,7 +100,7 @@ namespace ImageHuntTest.Services
             var answers = new List<Answer>() { new Answer(), new Answer() };
             _context.Answers.AddRange(answers);
             _context.SaveChanges();
-            var nodes = new List<Node>() { new TimerNode(), new QuestionNode() { Answers = answers }, new TimerNode() };
+            var nodes = new List<Node>() { new TimerNode(), new ChoiceNode() { Answers = answers }, new TimerNode() };
             foreach (var answer in _context.Answers)
             {
                 answer.Node = nodes[1];
@@ -111,8 +111,8 @@ namespace ImageHuntTest.Services
             var resultNode = _target.GetNode(nodes[1].Id);
 
             // Assert
-            Check.That(resultNode).IsInstanceOf<QuestionNode>();
-            Check.That(((QuestionNode)resultNode).Answers).HasSize(2);
+            Check.That(resultNode).IsInstanceOf<ChoiceNode>();
+            Check.That(((ChoiceNode)resultNode).Answers).HasSize(2);
         }
         [Fact]
         public void GetPictureNodeFromId()
@@ -288,12 +288,12 @@ namespace ImageHuntTest.Services
             var nodes = new List<Node>()
         {
           new TimerNode(),
-          new QuestionNode(),
+          new ChoiceNode(),
           new PictureNode(),
           new PictureNode(),
           new PictureNode(),
         };
-            ((QuestionNode)nodes[1]).ChildrenRelation = new List<ParentChildren>()
+            ((ChoiceNode)nodes[1]).ChildrenRelation = new List<ParentChildren>()
       {
         new ParentChildren(){Parent = nodes[1], Children = nodes[3]},
         new ParentChildren(){Parent = nodes[1], Children = nodes[4]},
@@ -329,7 +329,7 @@ namespace ImageHuntTest.Services
             var nodes = new List<Node>
         {
           new FirstNode(),
-          new QuestionNode(),
+          new ChoiceNode(),
           new TimerNode(),
           new ObjectNode(),
           new LastNode()
@@ -361,11 +361,11 @@ namespace ImageHuntTest.Services
             var nodes = new List<Node>
         {
           new FirstNode(),
-          new QuestionNode(){Answers = answers},
+          new ChoiceNode(){Answers = answers},
           new TimerNode(),
           new ObjectNode(),
           new LastNode(),
-          new QuestionNode(){Answers = new List<Answer>(){new Answer()}}
+          new ChoiceNode(){Answers = new List<Answer>(){new Answer()}}
         };
             _context.Nodes.AddRange(nodes);
             nodes[0].ChildrenRelation = new List<ParentChildren>() { new ParentChildren() { Parent = nodes[0], Children = nodes[1] } };
@@ -381,7 +381,7 @@ namespace ImageHuntTest.Services
             Check.That(_context.Nodes).Not.Contains(nodes[1]);
 
             Check.That(_context.ParentChildren).HasSize(2);
-            Check.That(((QuestionNode)nodes[1]).Answers).HasSize(0);
+            Check.That(((ChoiceNode)nodes[1]).Answers).HasSize(0);
             Check.That(_context.Answers).HasSize(1);
         }
 
@@ -406,7 +406,7 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var answers = new List<Answer> { new Answer(), new Answer() };
-            var nodes = new List<Node> { new FirstNode(), new QuestionNode() { Answers = answers }, new TimerNode(), new LastNode() };
+            var nodes = new List<Node> { new FirstNode(), new ChoiceNode() { Answers = answers }, new TimerNode(), new LastNode() };
             nodes[0].ChildrenRelation.Add(new ParentChildren() { Parent = nodes[0], Children = nodes[1] });
             _context.Nodes.AddRange(nodes);
             _context.SaveChanges();

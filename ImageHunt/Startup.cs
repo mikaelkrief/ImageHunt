@@ -159,8 +159,10 @@ namespace ImageHunt
           .ForMember(n=>n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c=>c.Id)));
         config.CreateMap<ObjectNode, NodeResponse>()
           .ForMember(n => n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c => c.Id)));
-        config.CreateMap<QuestionNode, QuestionNodeResponse>()
-          .ForMember(n => n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c => c.Id)));
+        config.CreateMap<ChoiceNode, NodeResponse>()
+          .ForMember(n => n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c => c.Id)))
+          .ForMember(n=>n.Question, exp=>exp.MapFrom(node =>node.Choice))
+          .ForMember(n => n.Answers, exp=>exp.MapFrom(node=>node.Answers));
         config.CreateMap<Answer, AnswerResponse>();
         config.CreateMap<GameAction, GameActionToValidate>()
           .ForMember(x=>x.Node, x=>x.Ignore());

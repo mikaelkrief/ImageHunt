@@ -23,7 +23,7 @@ export class NodeRelationComponent implements OnInit {
     this.updateNodes();
   }
   updateNodes() {
-    this.parentNodes = this.nodes.filter(n => n.nodeType !== "LastNode" && n.nodeType !== "QuestionNode");
+    this.parentNodes = this.nodes.filter(n => n.nodeType !== "LastNode" && n.nodeType !== "ChoiceNode");
     this.selectedParent = this.parentNodes[0];
     this.parentSelected(this.selectedParent);
   }
@@ -44,7 +44,7 @@ export class NodeRelationComponent implements OnInit {
       .filter(n => n.nodeType !== "FirstNode")
       .filter(n => !this.childrenNodes.find(n2 => n2 === n))
       .filter(n => n !== node);
-    this.addNodeDisabled = (node.nodeType !== "QuestionNode" && node.children.length > 0);
+    this.addNodeDisabled = (node.nodeType !== "ChoiceNode" && node.children.length > 0);
     this.removeNodeDisabled = node.children.length === 0;
   }
   addNodeDisabled: boolean;

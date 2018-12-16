@@ -76,22 +76,31 @@ namespace ImageHunt.Controllers
       var node = _mapper.Map<Node>(nodeRequest);
       switch (nodeRequest.NodeType)
       {
-        case "FirstNode":
+        case NodeResponse.FirstNodeType:
           var firstNode = node as FirstNode;
           firstNode.Password = nodeRequest.Password;
           break;
-        case "TimerNode":
+        case NodeResponse.TimerNodeType:
           var timerNode = node as TimerNode;
           timerNode.Delay = nodeRequest.Duration;
           break;
-        case "ObjectNode":
+        case NodeResponse.ObjectNodeType:
           var objectNode = node as ObjectNode;
           objectNode.Action = nodeRequest.Action;
           break;
-        case "QuestionNode":
+        case NodeResponse.HiddenNodeType:
+          var hiddenNode = node as HiddenNode;
+          hiddenNode.LocationHint = nodeRequest.Hint;
+          break;
+        case NodeResponse.ChoiceNodeType:
+          var choiceNode = node as ChoiceNode;
+          choiceNode.Choice = nodeRequest.Question;
+          choiceNode.Answers = nodeRequest.Choices.Select(a => new Answer() { Response = a.Response, Correct = a.Correct }).ToList();
+          break;
+        case NodeResponse.QuestionNodeType:
           var questionNode = node as QuestionNode;
           questionNode.Question = nodeRequest.Question;
-          questionNode.Answers = nodeRequest.Answers.Select(a => new Answer() { Response = a.Response, Correct = a.Correct }).ToList();
+          questionNode.Answer = nodeRequest.Answer;
           break;
       }
       _gameService.AddNode(gameId, node);
@@ -158,10 +167,10 @@ namespace ImageHunt.Controllers
       return Ok(_gameService.GetGamesFromPosition(lat, lng));
     }
     [HttpGet("GetQuestionNodeOfGame/{gameId}")]
-    public IActionResult GetQuestionNodeOfGame(int gameId)
+    public IActionResult GetChoiceNodeOfGame(int gameId)
     {
-      var questionNodeOfGame = _gameService.GetQuestionNodeOfGame(gameId);
-      var questionNodesResponse = _mapper.Map<IEnumerable<QuestionNodeResponse>>(questionNodeOfGame);
+      var questionNodeOfGame = _gameService.GetChoiceNodeOfGame(gameId);
+      var questionNodesResponse = _mapper.Map<IEnumerable<NodeResponse>>(questionNodeOfGame);
       return Ok(questionNodesResponse);
     }
     [HttpDelete("{gameId}")]

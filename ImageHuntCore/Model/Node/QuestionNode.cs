@@ -1,13 +1,13 @@
+﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ImageHuntCore.Model.Node
 {
-  /// <summary>
-  /// Question node. The player should choose in a set of answers to pursue the hunt. 
-  /// </summary>
-    public class QuestionNode : ImageHuntCore.Model.Node.Node
+    public class QuestionNode : Node
     {
         public string Question { get; set; }
-        public List<Answer> Answers { get; set; }
+
+        public string Answer { get; set; }
     }
 }

@@ -59,32 +59,34 @@ namespace ImageHuntBotBuilder
                         $"Vous avez rejoint le point de controle {state.CurrentNode.Name}, bravo!");
                     var actionRequest = new GameActionRequest()
                     {
-                        Action = (int) ActionFromNodeType(state.CurrentNode.NodeType),
+                        Action = (int)ActionFromNodeType(state.CurrentNode.NodeType),
                         Latitude = location.Latitude.Value,
                         Longitude = location.Longitude.Value,
                         GameId = state.GameId.Value,
                         TeamId = state.TeamId.Value,
-                        NodeId = state.CurrentNode.Id, 
+                        NodeId = state.CurrentNode.Id,
                     };
+                    IEnumerable<Activity> nextActivities;
                     switch (state.CurrentNode.NodeType)
                     {
                         case NodeResponse.FirstNodeType:
                         case NodeResponse.ObjectNodeType:
+                        case NodeResponse.HiddenNodeType:
                             var nextNodeId = state.CurrentNode.ChildNodeIds.First();
                             nextNode = await _nodeWebService.GetNode(nextNodeId);
-                            await context.SendActivityAsync($"Le prochain point de contrôle est {nextNode.Name}");
-                            var nextActivity = new Activity(type: ImageHuntActivityTypes.Location,
-                                attachments: new List<Attachment>()
-                                {
-                                    new Attachment(ImageHuntActivityTypes.Location,
-                                        content: new GeoCoordinates(latitude: nextNode.Latitude,
-                                            longitude: nextNode.Longitude))
-                                });
+                            nextActivities = ActivitiesFromNode(nextNode);
+                            foreach (var nextActivity in nextActivities)
+                            {
+                                await context.SendActivityAsync(nextActivity);
+                            }
                             actionRequest.PointsEarned = state.CurrentNode.Points;
-                            await context.SendActivityAsync(nextActivity);
                             break;
                         case NodeResponse.LastNodeType:
-                            await context.SendActivityAsync($"Pour valider la fin de votre chasse, prévenez un orga");
+                            nextActivities = ActivitiesFromNode(state.CurrentNode);
+                            foreach (var nextActivity in nextActivities)
+                            {
+                                await context.SendActivityAsync(nextActivity);
+                            }
                             actionRequest.PointsEarned = state.CurrentNode.Points;
 
                             break;
@@ -101,7 +103,7 @@ namespace ImageHuntBotBuilder
             finally
             {
                 state.CurrentNode = nextNode;
-                
+
             }
             return nextNode;
         }
@@ -119,6 +121,52 @@ namespace ImageHuntBotBuilder
                 default:
                     return Action.None;
             }
+        }
+
+        public IEnumerable<Activity> ActivitiesFromNode(NodeResponse node)
+        {
+            var activities = new List<Activity>();
+            switch (node.NodeType)
+            {
+                case NodeResponse.ObjectNodeType:
+                    activities.Add(new Activity(text: $"Le prochain noeud {node.Name} et se trouve à l'emplacement suivant:"));
+                    activities.Add(new Activity(type:ImageHuntActivityTypes.Location){Attachments = new List<Attachment>()
+                        {
+                            new Attachment(
+                                contentType: ImageHuntActivityTypes.Location,
+                                content: new GeoCoordinates(
+                                    latitude: node.Latitude,
+                                    longitude: node.Longitude)),
+                        }
+                    });
+                    activities.Add(new Activity(text: $"Vous devrez effectuer l'action suivante : {node.Action}"));
+
+                    break;
+                case NodeResponse.HiddenNodeType:
+                    activities.Add(new Activity(text: $"Le prochain noeud {node.Name} est un noeud mystère. L'indice suivant devrait vour permettre de deviner sa position"));
+                    activities.Add(new Activity(text:node.Hint));
+                    break;
+                case NodeResponse.LastNodeType:
+                    activities.Add(new Activity(text: $"Le prochain point de contrôle est l'arrivée! Il se trouve à la position suivante:"));
+                    activities.Add(new Activity(type: ImageHuntActivityTypes.Location)
+                    {
+                        Attachments = new List<Attachment>()
+                        {
+                            new Attachment(
+                                contentType: ImageHuntActivityTypes.Location,
+                                content: new GeoCoordinates(
+                                    latitude: node.Latitude,
+                                    longitude: node.Longitude)),
+                        }
+                    });
+                    break;
+                case NodeResponse.TimerNodeType:
+                    activities.Add(new Activity(text:$"Veuillez patienter pendant {node.Delay} secondes avant de poursuivre"));
+                    activities.Add(new Activity(type: ImageHuntActivityTypes.Wait, attachments: new List<Attachment>(){new Attachment(content: node.Delay)}));
+                    break;
+            }
+
+            return activities;
         }
     }
 }

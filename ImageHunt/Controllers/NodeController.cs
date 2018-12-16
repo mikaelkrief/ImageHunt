@@ -54,11 +54,11 @@ namespace ImageHunt.Controllers
       var groupsNode = relationsRequest.GroupBy(n => n.NodeId);
       foreach (var gNode in groupsNode)
       {
-        var questionNode = _nodeService.GetNode(gNode.Key);
-        _nodeService.RemoveAllChildren(questionNode);
+        var choiceNode = _nodeService.GetNode(gNode.Key);
+        _nodeService.RemoveAllChildren(choiceNode);
         foreach (var nodeRelationRequest in gNode)
         {
-          _nodeService.AddChildren(questionNode.Id, nodeRelationRequest.ChildrenId);
+          _nodeService.AddChildren(choiceNode.Id, nodeRelationRequest.ChildrenId);
           _nodeService.LinkAnswerToNode(nodeRelationRequest.AnswerId, nodeRelationRequest.ChildrenId);
         }
       }
@@ -81,7 +81,9 @@ namespace ImageHunt.Controllers
     [HttpGet("{nodeId}")]
     public IActionResult GetNodeById(int nodeId)
     {
-      return Ok(_mapper.Map<NodeResponse>(_nodeService.GetNode(nodeId)));
+      var node = _nodeService.GetNode(nodeId);
+      var nodeResponse = _mapper.Map<NodeResponse>(node);
+      return Ok(nodeResponse);
     }
     [HttpPatch]
     public IActionResult UpdateNode([FromBody]NodeUpdateRequest nodeRequest)

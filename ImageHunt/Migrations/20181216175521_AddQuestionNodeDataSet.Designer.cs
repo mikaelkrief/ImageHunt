@@ -3,14 +3,16 @@ using System;
 using ImageHunt.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
-    partial class HuntContextModelSnapshot : ModelSnapshot
+    [Migration("20181216175521_AddQuestionNodeDataSet")]
+    partial class AddQuestionNodeDataSet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -345,7 +347,7 @@ namespace ImageHunt.Migrations
                 {
                     b.HasBaseType("ImageHuntCore.Model.Node.Node");
 
-                    b.Property<string>("Choice");
+                    b.Property<string>("Question");
 
                     b.ToTable("ChoiceNode");
 
@@ -414,7 +416,8 @@ namespace ImageHunt.Migrations
 
                     b.Property<string>("Answer");
 
-                    b.Property<string>("Question");
+                    b.Property<string>("Question")
+                        .HasColumnName("QuestionNode_Question");
 
                     b.ToTable("QuestionNode");
 
