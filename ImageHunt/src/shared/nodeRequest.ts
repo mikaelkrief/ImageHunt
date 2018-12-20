@@ -11,4 +11,6 @@ export class NodeRequest {
   choices: { response: string, correct: boolean }[];
   password: string;
   hint: string;
+  bonus: number;
+  location: string;
 }

@@ -14,5 +14,7 @@ namespace ImageHuntWebServiceClient.Request
         public AnswerRequest[] Choices { get; set; }
         public string Password { get; set; }
         public string Hint { get; set; }
+        public int Bonus { get; set; }
+        public string Location { get; set; }
     }
 }

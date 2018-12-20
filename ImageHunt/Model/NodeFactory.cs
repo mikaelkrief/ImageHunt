@@ -5,7 +5,7 @@ namespace ImageHunt.Model
 {
   public static class NodeFactory
   {
-    public static ImageHuntCore.Model.Node.Node CreateNode(string nodeType)
+    public static Node CreateNode(string nodeType)
     {
       switch (nodeType)
       {
@@ -25,6 +25,8 @@ namespace ImageHunt.Model
           return new ObjectNode();
         case NodeResponse.HiddenNodeType:
           return new HiddenNode();
+        case NodeResponse.BonusNodeType:
+          return new BonusNode();
       }
       return null;
     }

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using ImageHuntCore.Model.Node;
 using Microsoft.AspNetCore.Http;
 
 namespace ImageHuntWebServiceClient.Responses
 {
-    public class NodeResponse
+    public partial class NodeResponse
     {
         public const string ObjectNodeType = "ObjectNode";
         public const string TimerNodeType = "TimerNode";
@@ -13,6 +14,7 @@ namespace ImageHuntWebServiceClient.Responses
         public const string ChoiceNodeType = "ChoiceNode";
         public const string QuestionNodeType = "QuestionNode";
         public const string PictureNodeType = "PictureNode";
+        public const string BonusNodeType = "BonusNode";
 
         public int Id { get; set; }
         public string Name { get; set; }
@@ -28,5 +30,6 @@ namespace ImageHuntWebServiceClient.Responses
         public string Question { get; set; }
         public string Hint { get; set; }
         public int Delay { get; set; }
+        public BonusNode.BONUS_TYPE BonusType { get; set; }
     }
 }
