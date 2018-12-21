@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
-using ImageHuntTelegramBot;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;

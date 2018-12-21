@@ -189,6 +189,15 @@ namespace ImageHuntTest.Controller
         }
 
         [Fact]
+        public void GetHiddenNodes()
+        {
+            // Arrange
+            var nodes = new List<Node> {new HiddenNode(), new BonusNode()};
+            // Act
+
+            // Assert
+        }
+        [Fact]
         public void GetNodes()
         {
             // Arrange
