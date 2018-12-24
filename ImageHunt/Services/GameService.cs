@@ -9,6 +9,7 @@ using ImageHuntCore.Computation;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -81,10 +82,26 @@ namespace ImageHunt.Services
       Context.SaveChanges();
     }
 
-    public IEnumerable<Node> GetNodes(int gameId)
+    public IEnumerable<Node> GetNodes(int gameId, NodeTypes nodeType = NodeTypes.All)
     {
-      var nodes = Context.Games.Include(n => n.Nodes).ThenInclude(n => n.ChildrenRelation).Single(g => g.Id == gameId).Nodes;
-      return nodes;
+      IEnumerable<Node> nodes = Context.Games.Include(n => n.Nodes).ThenInclude(n => n.ChildrenRelation).Single(g => g.Id == gameId).Nodes;
+      IEnumerable<Node> resNode = null;
+      switch (nodeType)
+      {
+        default:
+        case NodeTypes.All:
+          resNode = nodes;
+          break;
+        case NodeTypes.Picture:
+          resNode = nodes.Where(n => n.NodeType == NodeResponse.PictureNodeType);
+
+          break;
+        case NodeTypes.Hidden:
+          resNode = nodes.Where(
+            n => n.NodeType == NodeResponse.HiddenNodeType || n.NodeType == NodeResponse.BonusNodeType);
+          break;
+      }
+      return resNode;
     }
 
     public void SetGameZoom(int gameId, int zoom)

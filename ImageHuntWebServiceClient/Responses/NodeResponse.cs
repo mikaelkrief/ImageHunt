@@ -4,6 +4,12 @@ using Microsoft.AspNetCore.Http;
 
 namespace ImageHuntWebServiceClient.Responses
 {
+    public enum NodeTypes
+    {
+        All,
+        Picture,
+        Hidden
+    }
     public partial class NodeResponse
     {
         public const string ObjectNodeType = "ObjectNode";

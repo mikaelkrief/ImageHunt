@@ -10,6 +10,7 @@ using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using NFluent;
@@ -173,14 +174,14 @@ namespace ImageHuntTest.Controller
                 new ChoiceNode(),
                 new LastNode()
             };
-            A.CallTo(() => _gameService.GetNodes(A<int>._)).Returns(nodes);
+            A.CallTo(() => _gameService.GetNodes(A<int>._, NodeTypes.Picture)).Returns(nodes.Where(n=>n.NodeType == NodeResponse.PictureNodeType));
             // Act
-            var result = _target.GetNodesByType("FirstNode", 1);
+            var result = _target.GetNodesByType(NodeTypes.Picture.ToString(), 1);
             // Assert
-            A.CallTo(() => _gameService.GetNodes(1)).MustHaveHappened();
+            A.CallTo(() => _gameService.GetNodes(1, NodeTypes.Picture)).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();
             var resultNodes = (result as OkObjectResult).Value as IEnumerable<Node>;
-            Check.That(resultNodes).ContainsExactly(nodes.Single(n => n.NodeType == "FirstNode"));
+            Check.That(resultNodes).ContainsExactly(nodes.Single(n => n.NodeType == NodeResponse.PictureNodeType));
         }
         [Fact]
         public void GetNextNodeForTeam()
