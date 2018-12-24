@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Bot.Schema;
@@ -24,6 +25,7 @@ namespace ImageHuntBotBuilder
         public TeamResponse Team { get; set; }
         public NodeResponse CurrentNode { get; set; }
         public int? CurrentNodeId { get; set; }
+        public NodeResponse[] HiddenNodes { get; set; }
     }
 
     public enum Status  
