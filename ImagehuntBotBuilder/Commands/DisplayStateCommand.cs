@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,6 +51,13 @@ namespace ImageHuntBotBuilder.Commands
 
                     relyBuilder.AppendLine(
                         $"CurrentNode: (Id: {state.CurrentNode.Id}, Name: {state.CurrentNode.Name}, Location: [lat:{state.CurrentNode.Latitude}, {state.CurrentNode.Longitude}]) Childs: [{childs}]");
+                }
+
+                if (state.HiddenNodes != null && state.HiddenNodes.Any())
+                {
+                    var hiddenNodes = string.Empty;
+                    hiddenNodes = state.HiddenNodes.Aggregate(string.Empty, ((current, next) => current + ", " + next.Name));
+                    relyBuilder.AppendLine($"Hidden nodes: [{hiddenNodes}]");
                 }
 
                 await turnContext.SendActivityAsync(relyBuilder.ToString());
