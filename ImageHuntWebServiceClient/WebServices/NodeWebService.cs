@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Responses;
@@ -20,7 +21,7 @@ namespace ImageHuntWebServiceClient.WebServices
         public async Task<IEnumerable<NodeResponse>> GetNodesByType(NodeTypes nodeType, int gameId)
         {
             return await GetAsync<IEnumerable<NodeResponse>>(
-                $"{_httpClient.BaseAddress}api/Node/GetNodesByType/{gameId}/{nodeType}");
+                $"{_httpClient.BaseAddress}api/Node/GetNodesByType/{gameId}/{(int)nodeType}");
         }
     }
 }
