@@ -8,7 +8,6 @@ namespace ImageHuntCore.Model.Node
     {
         public enum BONUS_TYPE
         {
-            Points_x1,
             Points_x2,
             Points_x3,
         }

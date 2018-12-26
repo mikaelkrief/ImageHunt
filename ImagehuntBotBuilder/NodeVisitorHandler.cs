@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Autofac;
 using ImageHuntBotBuilder.Commands;
 using ImageHuntCore.Computation;
+using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Action = ImageHuntCore.Model.Action;
@@ -19,6 +21,7 @@ namespace ImageHuntBotBuilder
     public interface INodeVisitorHandler
     {
         Task<NodeResponse> MatchLocationAsync(ITurnContext context, ImageHuntState state);
+        Task MatchHiddenNodesLocationAsync(ITurnContext turnContext, ImageHuntState state);
     }
 
     public class NodeVisitorHandler : INodeVisitorHandler
@@ -53,7 +56,7 @@ namespace ImageHuntBotBuilder
             var rangeDistance = Convert.ToDouble(_configuration["NodeSettings:RangeDistance"]);
             try
             {
-                if (distance < rangeDistance)
+                if (distance <= rangeDistance)
                 {
                     await context.SendActivityAsync(
                         $"Vous avez rejoint le point de controle {state.CurrentNode.Name}, bravo!");
@@ -167,6 +170,61 @@ namespace ImageHuntBotBuilder
             }
 
             return activities;
+        }
+
+        public async Task MatchHiddenNodesLocationAsync(ITurnContext turnContext, ImageHuntState state)
+        {
+            var rangeDistance = Convert.ToDouble(_configuration["NodeSettings:RangeDistance"]);
+
+            foreach (var hiddenNode in state.HiddenNodes)
+            {
+                var activity = turnContext.Activity;
+                var location = activity.Attachments.First().Content as GeoCoordinates;
+                // Check that location match the current node
+                var distance = GeographyComputation.Distance(location.Latitude.Value, location.Longitude.Value, hiddenNode.Latitude,
+                    hiddenNode.Longitude);
+                if (distance <= rangeDistance)
+                {
+                    await turnContext.SendActivityAsync($"Vous avez découvert le point de contrôle {hiddenNode.Name}");
+                    var actionRequest = new GameActionRequest()
+                    {
+                        Latitude = location.Longitude,
+                        Longitude = location.Longitude,
+                        GameId = state.GameId.Value,
+                        TeamId = state.TeamId.Value,
+                        PointsEarned = hiddenNode.Points,
+                    };
+                    switch (hiddenNode.NodeType)
+                    {
+                        case NodeResponse.BonusNodeType:
+                            string multi;
+                            switch (hiddenNode.BonusType)
+                            {
+                                case BonusNode.BONUS_TYPE.Points_x2:
+                                    multi = "2 fois";
+                                    break;
+                                case BonusNode.BONUS_TYPE.Points_x3:
+                                    multi = "3 fois";
+                                    break;
+                                default:
+                                    throw new ArgumentOutOfRangeException();
+                            }
+
+                            actionRequest.Action = (int)Action.BonusNode;
+                            await _actionWebService.LogAction(actionRequest);
+                            await turnContext.SendActivityAsync(
+                                $"Votre équipe à gagné un bonus de {multi} des points totaux, bravo!");
+
+                            break;
+                        case NodeResponse.HiddenNodeType:
+                            actionRequest.Action = (int)Action.HiddenNode;
+                            await turnContext.SendActivityAsync(
+                                $"Votre équipe à gagné {hiddenNode.Points} points, bravo!");
+                            await _actionWebService.LogAction(actionRequest);
+                            break;
+                    }
+                }
+            }
         }
     }
 }
