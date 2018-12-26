@@ -9,6 +9,7 @@ using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Logging;
@@ -177,6 +178,45 @@ namespace ImageHuntTest.Services
       // Assert
       Check.That(resNodes).ContainsExactly(nodes);
       Check.That(nodes[0].Children).ContainsExactly(nodes[1]);
+    }
+    [Fact]
+    public void GetHiddenNodes()
+    {
+      // Arrange
+      var nodes = new List<Node>()
+      {
+          new TimerNode() { Name = "First" },
+          new HiddenNode() { Name = "Second" },
+          new TimerNode() { Name = "Third" },
+          new BonusNode() { Name = "Fourth" }
+      };
+      var games = new List<Game>() { new Game(), new Game() { Nodes = nodes } };
+      _context.Games.AddRange(games);
+      _context.SaveChanges();
+      // Act
+      var resNodes = _target.GetNodes(games[1].Id, NodeTypes.Hidden);
+      // Assert
+      Check.That(resNodes).ContainsExactly(nodes[1], nodes[3]);
+    }
+    [Fact]
+    public void GetPictureNodes()
+    {
+      // Arrange
+      var nodes = new List<Node>()
+      {
+          new TimerNode() { Name = "First" },
+          new HiddenNode() { Name = "Second" },
+          new TimerNode() { Name = "Third" },
+          new BonusNode() { Name = "Fourth" },
+          new PictureNode() { Name = "Five" }
+      };
+      var games = new List<Game>() { new Game(), new Game() { Nodes = nodes } };
+      _context.Games.AddRange(games);
+      _context.SaveChanges();
+      // Act
+      var resNodes = _target.GetNodes(games[1].Id, NodeTypes.Picture);
+      // Assert
+      Check.That(resNodes).ContainsExactly(nodes[4]);
     }
     [Fact]
     public void SetCenterOfGameByNodes()

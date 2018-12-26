@@ -92,6 +92,11 @@ namespace ImageHunt.Controllers
           var hiddenNode = node as HiddenNode;
           hiddenNode.LocationHint = nodeRequest.Hint;
           break;
+        case NodeResponse.BonusNodeType:
+          var bonusNode = node as BonusNode;
+          bonusNode.Location = nodeRequest.Location;
+          bonusNode.BonusType = Enum.Parse<BonusNode.BONUS_TYPE>(nodeRequest.Bonus.ToString());
+          break;
         case NodeResponse.ChoiceNodeType:
           var choiceNode = node as ChoiceNode;
           choiceNode.Choice = nodeRequest.Question;

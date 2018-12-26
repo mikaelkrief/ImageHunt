@@ -24,6 +24,8 @@ namespace ImageHuntBotBuilderTest.Commands
         private ITurnContext _turnContext;
         private ITeamWebService _teamWebService;
         private IGameWebService _gameWebService;
+        private INodeWebService _nodeWebService;
+
 
         public InitCommandTest()
         {
@@ -33,6 +35,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _testContainerBuilder.RegisterInstance(_gameWebService);
             _teamWebService = A.Fake<ITeamWebService>();
             _testContainerBuilder.RegisterInstance(_teamWebService);
+            _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
 
             _turnContext = A.Fake<ITurnContext>();
             Build();
@@ -54,6 +57,33 @@ namespace ImageHuntBotBuilderTest.Commands
             // Assert
             Check.That(state.GameId).Equals(15);
             Check.That(state.TeamId).Equals(66);
+            A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._)).MustHaveHappened();
+            A.CallTo(() => _teamWebService.GetTeamById(A<int>._)).MustHaveHappened();
+            Check.That(state.Status).Equals(Status.Initialized);
+            A.CallTo(
+                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                .MustHaveHappened();
+        }
+        [Fact]
+        public async Task Should_Execute_Set_HiddenNodes_in_state()
+        {
+            // Arrange
+            var activity = new Activity(text: "/init gameId=15 teamid=66");
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._))
+                .Returns(new GameResponse(){StartDate = DateTime.Now});
+            var nodes = new List<NodeResponse> {new NodeResponse(), new NodeResponse()};
+            A.CallTo(() => _nodeWebService.GetNodesByType(A<NodeTypes>._, A<int>._)).Returns(nodes);
+
+            A.CallTo(() => _teamWebService.GetTeamById(A<int>._)).Returns(new TeamResponse(){CultureInfo = "fr-fr"});
+
+            var state = new ImageHuntState();
+            // Act
+            await _target.Execute(_turnContext, state);
+            // Assert
+            Check.That(state.GameId).Equals(15);
+            Check.That(state.TeamId).Equals(66);
+            Check.That(state.HiddenNodes).Contains(nodes);
             A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._)).MustHaveHappened();
             A.CallTo(() => _teamWebService.GetTeamById(A<int>._)).MustHaveHappened();
             Check.That(state.Status).Equals(Status.Initialized);

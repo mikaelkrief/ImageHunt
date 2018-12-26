@@ -250,6 +250,8 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(
                     () => _nodevisitorHandler.MatchLocationAsync(A<ITurnContext>._, A<ImageHuntState>._))
                 .MustHaveHappened();
+            A.CallTo(() => _nodevisitorHandler.MatchHiddenNodesLocationAsync(A<ITurnContext>._, A<ImageHuntState>._))
+                .MustHaveHappened();
         }
 
     }

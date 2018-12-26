@@ -114,6 +114,7 @@ namespace ImageHuntBotBuilder
 
                     break;
                 case ImageHuntActivityTypes.Location:
+                    await _nodeVisitorHandler.MatchHiddenNodesLocationAsync(turnContext, state);
                     await _nodeVisitorHandler.MatchLocationAsync(turnContext, state);
                     break;
             }

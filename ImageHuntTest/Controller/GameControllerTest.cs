@@ -189,6 +189,15 @@ namespace ImageHuntTest.Controller
         }
 
         [Fact]
+        public void GetHiddenNodes()
+        {
+            // Arrange
+            var nodes = new List<Node> {new HiddenNode(), new BonusNode()};
+            // Act
+            
+            // Assert
+        }
+        [Fact]
         public void GetNodes()
         {
             // Arrange
@@ -211,12 +220,12 @@ namespace ImageHuntTest.Controller
             }}
           }
         };
-            A.CallTo(() => _gameService.GetNodes(1)).Returns(nodes);
+            A.CallTo(() => _gameService.GetNodes(1, NodeTypes.All)).Returns(nodes);
             // Act
             var result = _target.GetNodesRelations(1) as OkObjectResult;
             // Assert
             Check.That(result).IsNotNull();
-            A.CallTo(() => _gameService.GetNodes(1)).MustHaveHappened();
+            A.CallTo(() => _gameService.GetNodes(1, NodeTypes.All)).MustHaveHappened();
             var resNodes = result.Value as List<NodeResponse>;
             // Check that only first level nodes are populated
             Check.That(resNodes).HasSize(1);

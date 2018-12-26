@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using FakeItEasy;
+using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
@@ -29,6 +30,16 @@ namespace ImageHuntWebServiceClientTest.WebServices
 
             // Act
             await _target.GetNode(15);
+            // Assert
+        }
+
+        [Fact]
+        public async Task GetNodesbyTypes()
+        {
+            // Arrange
+            
+            // Act
+            await _target.GetNodesByType(NodeTypes.Hidden, 1);
             // Assert
         }
     }

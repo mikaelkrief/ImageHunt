@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, AfterCon
 import * as L from 'leaflet';
 import 'leaflet-polylinedecorator';
 import 'leaflet-contextmenu';
+import 'leaflet.awesome-markers';
 
 import { GameService } from '../../shared/services/game.service';
 import { GeoPoint } from '../../shared/GeoPoint';
@@ -145,11 +146,7 @@ export class MapDetail3Component implements OnInit {
   }
   createMarkers() {
     this.nodes.forEach(node => {
-      const icon = L.icon({
-        iconUrl: this.getIconForNodeType(node.nodeType),
-        iconSize: [32, 32],
-        iconAnchor: [16, 16]
-      });
+      const icon = L.AwesomeMarkers.icon(this.getIconForNodeType(node.nodeType));
       const marker = new NodeMarker([node.latitude, node.longitude],
         { icon: icon, title: node.name, draggable: this.editable, });
       marker.node = node;
@@ -162,22 +159,66 @@ export class MapDetail3Component implements OnInit {
       this.markers.push({ marker, node });
     });
   }
-  getIconForNodeType(nodeType: string): string {
+  getIconForNodeType(nodeType: string): L.AwesomeMarkers.AwesomeMarkersIconOptions {
     switch (nodeType) {
       case 'TimerNode':
-        return 'assets/timerNode.png';
+        return {
+          icon: 'clock',
+          prefix: 'fa',
+          markerColor: 'cadetblue'
+        };
       case 'PictureNode':
-        return 'assets/pictureNode.png';
+        return {
+          icon: 'camera',
+          prefix: 'fa',
+          markerColor: 'blue'
+        };
+
       case 'FirstNode':
-        return 'assets/startNode.png';
+        return {
+          icon: 'flag',
+          prefix: 'fa',
+          markerColor: 'red'
+        };
+
       case 'LastNode':
-        return 'assets/endNode.png';
+        return {
+          icon: 'flag-checkered',
+          prefix: 'fa',
+          markerColor: 'green'
+        };
+
       case 'ChoiceNode':
-        return 'assets/choiceNode.png';
+        return {
+          icon: 'list-ol',
+          prefix: 'fa',
+          markerColor: 'darkgreen'
+        };
+      case 'QuestionNode':
+        return {
+          icon: 'question-circle',
+          prefix: 'fa',
+          markerColor: 'orange'
+        };
+
       case 'ObjectNode':
-        return 'assets/objectNode.png';
+        return {
+          icon: 'running',
+          prefix: 'fa',
+          markerColor: 'darkred'
+        };
       case 'HiddenNode':
-        return 'assets/hiddenNode.png';
+        return {
+          icon: 'mask',
+          prefix: 'fa',
+          markerColor: 'purple'
+        };
+      case 'BonusNode':
+        return {
+          icon: 'gift',
+          prefix: 'fa',
+          markerColor: 'darkpurple'
+        };
       default:
         return null;
     }

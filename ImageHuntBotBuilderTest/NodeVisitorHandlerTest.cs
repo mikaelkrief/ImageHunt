@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
-using ImageHuntTelegramBot;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
@@ -41,6 +40,49 @@ namespace ImageHuntBotBuilderTest
             Build();
         }
 
+        [Fact]
+        public async Task Should_Location_match_Hidden_node()
+        {
+            // Arrange
+            var activity = new Activity(type: ImageHuntActivityTypes.Location)
+            {
+                Attachments = new List<Attachment>()
+                {
+                    new Attachment()
+                    {
+                        Content = new GeoCoordinates(latitude: 45.8, longitude: 5.87)
+                    }
+                }
+            };
+            var state = new ImageHuntState()
+            {
+                CurrentNode = new NodeResponse()
+                {
+                    Latitude = 45.8,
+                    Longitude = 5.87,
+                    NodeType = NodeResponse.ObjectNodeType,
+                    ChildNodeIds = new List<int>() { 12 },
+                },
+                HiddenNodes = new NodeResponse[]
+                {
+                    new NodeResponse(){NodeType = NodeResponse.BonusNodeType, Latitude = 45.8, Longitude = 5.87},
+                    new NodeResponse(){NodeType = NodeResponse.HiddenNodeType, Latitude = 47.8, Longitude = 5.87},
+                },
+                GameId = 45,
+                TeamId = 87,
+
+            };
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            // Act
+            await _target.MatchHiddenNodesLocationAsync(_turnContext, state);
+            // Assert
+            A.CallTo(
+                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                .MustHaveHappened();
+
+            A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
+                .MustHaveHappened();
+        }
         [Fact]
         public async Task Should_location_match_node()
         {

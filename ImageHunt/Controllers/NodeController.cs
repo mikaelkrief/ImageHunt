@@ -106,8 +106,9 @@ namespace ImageHunt.Controllers
     [HttpGet("GetNodesByType/{gameId}/{nodeType}")]
     public IActionResult GetNodesByType(string nodeType, int gameId)
     {
-      var nodes = _gameService.GetNodes(gameId);
-      return Ok(nodes.Where(n=>n.NodeType == nodeType));
+      var eNodeType = Enum.Parse<NodeTypes>(nodeType);
+      var nodes = _gameService.GetNodes(gameId, eNodeType);
+      return Ok(nodes);
     }
   }
 }

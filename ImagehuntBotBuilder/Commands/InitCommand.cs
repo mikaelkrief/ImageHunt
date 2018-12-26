@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Extensions.Logging;
@@ -13,12 +15,14 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly IGameWebService _gameWebService;
         private readonly ITeamWebService _teamWebService;
+        private readonly INodeWebService _nodeWebService;
 
         public InitCommand(ILogger<IInitCommand> logger, IGameWebService gameWebService,
-            ITeamWebService teamWebService) : base(logger)
+            ITeamWebService teamWebService, INodeWebService nodeWebService) : base(logger)
         {
             _gameWebService = gameWebService;
             _teamWebService = teamWebService;
+            _nodeWebService = nodeWebService;
         }
 
         public override bool IsAdmin => true;
@@ -51,6 +55,8 @@ namespace ImageHuntBotBuilder.Commands
                     return;
                 }
 
+                var nodeResponses = await _nodeWebService.GetNodesByType(NodeTypes.Hidden, state.GameId.Value);
+                state.HiddenNodes = new List<NodeResponse>(nodeResponses).ToArray();
                 state.Status = Status.Initialized;
                 await turnContext.SendActivityAsync(
                     $"Le groupe de l'équipe {state.Team.Name} pour la chasse {state.Game.Name} qui débute le {state.Game.StartDate.ToString(new CultureInfo(state.Team.CultureInfo))} est prêt, bon jeu!");

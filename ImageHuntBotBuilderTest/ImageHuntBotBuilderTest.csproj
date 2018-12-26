@@ -39,7 +39,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ImagehuntBotBuilder\ImageHuntBotBuilder.csproj" />
-    <ProjectReference Include="..\ImageHuntBot\ImageHuntBot.csproj" />
     <ProjectReference Include="..\TestUtilities\TestUtilities.csproj" />
   </ItemGroup>
 
