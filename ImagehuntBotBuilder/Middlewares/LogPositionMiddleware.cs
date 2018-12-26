@@ -50,18 +50,9 @@ namespace ImageHuntBotBuilder.Middlewares
                     await _accessors.ImageHuntState.SetAsync(turnContext, state);
                     // Save the new turn count into the conversation state.
                     await _accessors.ConversationState.SaveChangesAsync(turnContext);
-                    if (state.CurrentNode != null && GeographyComputation.Distance(state.CurrentNode.Latitude,
-                            state.CurrentNode.Longitude, state.CurrentLocation.Latitude.Value,
-                            state.CurrentLocation.Longitude.Value) < 40d)
-                    {
-                        await next(cancellationToken);
-                    }
                 }
             }
-            else
-            {
-                await next(cancellationToken);
-            }
+            await next(cancellationToken);
         }
     }
 }

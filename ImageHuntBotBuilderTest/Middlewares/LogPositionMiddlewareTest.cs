@@ -67,7 +67,7 @@ namespace ImageHuntBotBuilderTest.Middlewares
             // Assert
             A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._))
                 .MustHaveHappened();
-            A.CallTo(() => _nextDelegate.Invoke(A<CancellationToken>._)).MustNotHaveHappened();
+            A.CallTo(() => _nextDelegate.Invoke(A<CancellationToken>._)).MustHaveHappened();
         }
         [Fact]
         public async Task Should_Log_Position_And_Transmit_to_Bot_if_position_close_to_current_node()
