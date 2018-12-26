@@ -46,7 +46,7 @@ namespace ImageHuntBotBuilder.Commands
                     string childs = string.Empty;
                     if (state.CurrentNode.ChildNodeIds != null)
                     {
-                        childs = state.CurrentNode.ChildNodeIds.Aggregate(string.Empty, (current, next) => current.ToString() + ", " + next.ToString());
+                        childs = string.Join(',', state.CurrentNode.ChildNodeIds);
                     }
 
                     relyBuilder.AppendLine(
@@ -56,7 +56,7 @@ namespace ImageHuntBotBuilder.Commands
                 if (state.HiddenNodes != null && state.HiddenNodes.Any())
                 {
                     var hiddenNodes = string.Empty;
-                    hiddenNodes = state.HiddenNodes.Aggregate(string.Empty, ((current, next) => current + ", " + next.Name));
+                    hiddenNodes = string.Join(',', state.HiddenNodes.Select(n => n.Name));
                     relyBuilder.AppendLine($"Hidden nodes: [{hiddenNodes}]");
                 }
 
