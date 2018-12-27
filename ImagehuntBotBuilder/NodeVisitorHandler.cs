@@ -134,7 +134,7 @@ namespace ImageHuntBotBuilder
             switch (node.NodeType)
             {
                 case NodeResponse.ObjectNodeType:
-                    activities.Add(new Activity(text: $"Le prochain noeud {node.Name} et se trouve à l'emplacement suivant:"));
+                    activities.Add(new Activity(text: $"Le prochain noeud {node.Name} et se trouve à l'emplacement suivant:", type:ActivityTypes.Message));
                     activities.Add(new Activity(type:ImageHuntActivityTypes.Location){Attachments = new List<Attachment>()
                         {
                             new Attachment(
@@ -144,15 +144,15 @@ namespace ImageHuntBotBuilder
                                     longitude: node.Longitude)),
                         }
                     });
-                    activities.Add(new Activity(text: $"Vous devrez effectuer l'action suivante : {node.Action}"));
+                    activities.Add(new Activity(text: $"Vous devrez effectuer l'action suivante : {node.Action}", type: ActivityTypes.Message));
 
                     break;
                 case NodeResponse.HiddenNodeType:
-                    activities.Add(new Activity(text: $"Le prochain noeud {node.Name} est un noeud mystère. L'indice suivant devrait vour permettre de deviner sa position"));
-                    activities.Add(new Activity(text:node.Hint));
+                    activities.Add(new Activity(text: $"Le prochain noeud {node.Name} est un noeud mystère. L'indice suivant devrait vour permettre de deviner sa position", type: ActivityTypes.Message));
+                    activities.Add(new Activity(text:node.Hint, type: ActivityTypes.Message));
                     break;
                 case NodeResponse.LastNodeType:
-                    activities.Add(new Activity(text: $"Le prochain point de contrôle est l'arrivée! Il se trouve à la position suivante:"));
+                    activities.Add(new Activity(text: $"Le prochain point de contrôle est l'arrivée! Il se trouve à la position suivante:", type: ActivityTypes.Message));
                     activities.Add(new Activity(type: ImageHuntActivityTypes.Location)
                     {
                         Attachments = new List<Attachment>()
@@ -166,7 +166,7 @@ namespace ImageHuntBotBuilder
                     });
                     break;
                 case NodeResponse.TimerNodeType:
-                    activities.Add(new Activity(text:$"Veuillez patienter pendant {node.Delay} secondes avant de poursuivre"));
+                    activities.Add(new Activity(text:$"Veuillez patienter pendant {node.Delay} secondes avant de poursuivre", type: ActivityTypes.Message));
                     activities.Add(new Activity(type: ImageHuntActivityTypes.Wait, attachments: new List<Attachment>(){new Attachment(content: node.Delay)}));
                     break;
             }
