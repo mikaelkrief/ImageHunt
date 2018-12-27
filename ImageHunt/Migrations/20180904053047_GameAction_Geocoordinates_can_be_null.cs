@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageHunt.Migrations
 {
-    public partial class GameAction_Geocoordinates_can_be_null : Migration
+  [ExcludeFromCodeCoverage]
+
+  public partial class GameAction_Geocoordinates_can_be_null : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

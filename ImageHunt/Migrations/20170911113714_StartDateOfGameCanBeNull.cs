@@ -1,9 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageHunt.Migrations
 {
-    public partial class StartDateOfGameCanBeNull : Migration
+  [ExcludeFromCodeCoverage]
+
+  public partial class StartDateOfGameCanBeNull : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

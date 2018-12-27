@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageHunt.Migrations
 {
-    public partial class Add_Picture_To_Team : Migration
+  [ExcludeFromCodeCoverage]
+
+  public partial class Add_Picture_To_Team : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

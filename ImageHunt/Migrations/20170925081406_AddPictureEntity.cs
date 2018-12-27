@@ -1,9 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageHunt.Migrations
 {
-    public partial class AddPictureEntity : Migration
+  [ExcludeFromCodeCoverage]
+
+  public partial class AddPictureEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
