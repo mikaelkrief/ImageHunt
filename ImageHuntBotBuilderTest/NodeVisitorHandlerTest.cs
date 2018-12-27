@@ -84,6 +84,38 @@ namespace ImageHuntBotBuilderTest
                 .MustHaveHappened();
         }
         [Fact]
+        public async Task Should_not_crash_if_Hidden_node_null()
+        {
+            // Arrange
+            var activity = new Activity(type: ImageHuntActivityTypes.Location)
+            {
+                Attachments = new List<Attachment>()
+                {
+                    new Attachment()
+                    {
+                        Content = new GeoCoordinates(latitude: 45.8, longitude: 5.87)
+                    }
+                }
+            };
+            var state = new ImageHuntState()
+            {
+                CurrentNode = new NodeResponse()
+                {
+                    Latitude = 45.8,
+                    Longitude = 5.87,
+                    NodeType = NodeResponse.ObjectNodeType,
+                    ChildNodeIds = new List<int>() { 12 },
+                },
+                GameId = 45,
+                TeamId = 87,
+
+            };
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            // Act
+            await _target.MatchHiddenNodesLocationAsync(_turnContext, state);
+            // Assert
+        }
+        [Fact]
         public async Task Should_location_match_node()
         {
             // Arrange
@@ -168,6 +200,33 @@ namespace ImageHuntBotBuilderTest
                 .MustHaveHappened();
             Check.That(nextNode).IsNotNull();
             Check.That(state.CurrentNode).IsEqualTo(nextNode).And.IsEqualTo(nextNodeExpected);
+        }
+        [Fact]
+        public async Task Should_Not_crash_if_CurrentNode_null()
+        {
+            // Arrange
+            var activity = new Activity(type: ImageHuntActivityTypes.Location)
+            {
+                Attachments = new List<Attachment>()
+                {
+                    new Attachment()
+                    {
+                        Content = new GeoCoordinates(latitude: 45.8, longitude: 5.87)
+                    }
+                }
+            };
+            var state = new ImageHuntState()
+            {
+                GameId = 45,
+                TeamId = 87,
+
+            };
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            var nextNodeExpected = new NodeResponse() { NodeType = "ObjectNode" };
+            // Act
+            var nextNode = await _target.MatchLocationAsync(_turnContext, state);
+            // Assert
+            Check.That(nextNode).IsNull();
         }
         [Fact]
         public async Task Should_location_match_Last_node()
