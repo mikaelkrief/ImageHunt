@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ImageHunt.Migrations
 {
-    public partial class AddSelectedAnswer : Migration
+  [ExcludeFromCodeCoverage]
+
+  public partial class AddSelectedAnswer : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

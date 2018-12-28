@@ -1,9 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageHunt.Migrations
 {
-    public partial class AdminTokenExpirationDateCanBeNull : Migration
+  [ExcludeFromCodeCoverage]
+
+  public partial class AdminTokenExpirationDateCanBeNull : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

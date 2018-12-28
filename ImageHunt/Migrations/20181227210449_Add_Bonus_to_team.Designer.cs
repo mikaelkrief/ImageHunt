@@ -3,14 +3,16 @@ using System;
 using ImageHunt.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
-    partial class HuntContextModelSnapshot : ModelSnapshot
+    [Migration("20181227210449_Add_Bonus_to_team")]
+    partial class Add_Bonus_to_team
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -282,7 +284,7 @@ namespace ImageHunt.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("Bonus");
+                    b.Property<int>("Bonus");
 
                     b.Property<string>("ChatId");
 

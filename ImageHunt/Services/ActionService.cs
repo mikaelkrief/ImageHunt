@@ -170,7 +170,6 @@ namespace ImageHunt.Services
         var endDate = Context.GameActions.FirstOrDefault(ga => ga.Team == score.Team && ga.Action == Action.EndGame)
           ?.DateOccured;
         score.Points = _scoreChanger.ComputeScore(score, game);
-        //score.Points *= (1 - game.NbPlayerPenaltyValue * Math.Max(0, score.Team.TeamPlayers.Count - game.NbPlayerPenaltyThreshold));
         if (startDate.HasValue && endDate.HasValue)
         {
           score.TravelTime = endDate.Value - startDate.Value;

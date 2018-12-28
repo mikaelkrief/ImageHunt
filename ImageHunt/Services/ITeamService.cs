@@ -21,5 +21,6 @@ namespace ImageHunt.Services
       Team GetTeamForUserName(int gameId, string userName);
 
       void UploadImage(int gameId, int teamId, double latitude, double longitude, byte[] image, string imageName=null);
+      void SetBonus(int teamId, int bonusValue);
     }
 }

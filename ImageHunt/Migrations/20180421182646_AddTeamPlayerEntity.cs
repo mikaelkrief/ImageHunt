@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ImageHunt.Migrations
 {
-    public partial class AddTeamPlayerEntity : Migration
+  [ExcludeFromCodeCoverage]
+
+  public partial class AddTeamPlayerEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

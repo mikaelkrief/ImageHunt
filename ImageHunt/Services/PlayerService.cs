@@ -39,22 +39,6 @@ namespace ImageHunt.Services
       return player;
     }
 
-    private Player GetPlayer(string playerName)
-    {
-      var player = Context.Players.SingleOrDefault(p => p.Name == playerName);
-      if (player == null)
-        throw new ArgumentException($"Player {playerName} doesn't exist");
-
-      return player;
-    }
-    private Player GetPlayer(int playerId)
-    {
-      var player = Context.Players.SingleOrDefault(p => p.Id == playerId);
-      if (player == null)
-        throw new ArgumentException($"Player {playerId} doesn't exist");
-
-      return player;
-    }
 
 
     public Player GetPlayerById(int playerId)

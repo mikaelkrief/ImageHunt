@@ -1,9 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageHunt.Migrations
 {
-    public partial class ChangeKeyOfEntityParentChildren : Migration
+  [ExcludeFromCodeCoverage]
+
+  public partial class ChangeKeyOfEntityParentChildren : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

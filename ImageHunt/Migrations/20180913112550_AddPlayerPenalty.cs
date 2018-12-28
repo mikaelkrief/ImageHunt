@@ -1,8 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageHunt.Migrations
 {
-    public partial class AddPlayerPenalty : Migration
+  [ExcludeFromCodeCoverage]
+
+  public partial class AddPlayerPenalty : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -5,22 +5,22 @@ namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
 
-  public partial class AddZoomLevelToGame : Migration
+  public partial class Add_Bonus_to_team : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<double>(
-                name: "MapZoom",
-                table: "Games",
-                type: "double",
-                nullable: true);
+            migrationBuilder.AddColumn<int>(
+                name: "Bonus",
+                table: "Teams",
+                nullable: false,
+                defaultValue: 0);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "MapZoom",
-                table: "Games");
+                name: "Bonus",
+                table: "Teams");
         }
     }
 }

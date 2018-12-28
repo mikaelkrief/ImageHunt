@@ -143,6 +143,13 @@ namespace ImageHunt.Services
       Context.SaveChanges();
     }
 
+    public void SetBonus(int teamId, int bonusValue)
+    {
+      var team = Context.Teams.Single(t => t.Id == teamId);
+      team.Bonus = bonusValue;
+      Context.SaveChanges();
+    }
+
 
     private Game GetCurrentGameForTeam(Team team)
     {

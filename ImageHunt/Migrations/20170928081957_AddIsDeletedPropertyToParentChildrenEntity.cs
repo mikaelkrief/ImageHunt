@@ -1,8 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageHunt.Migrations
 {
-    public partial class AddIsDeletedPropertyToParentChildrenEntity : Migration
+  [ExcludeFromCodeCoverage]
+
+  public partial class AddIsDeletedPropertyToParentChildrenEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
