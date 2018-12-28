@@ -201,13 +201,16 @@ namespace ImageHuntBotBuilder
                     {
                         case NodeResponse.BonusNodeType:
                             string multi;
+                            actionRequest.Action = (int) Action.BonusNode;
                             switch (hiddenNode.BonusType)
                             {
                                 case BonusNode.BONUS_TYPE.Points_x2:
                                     multi = "2 fois";
+                                    actionRequest.PointsEarned = 2;
                                     break;
                                 case BonusNode.BONUS_TYPE.Points_x3:
                                     multi = "3 fois";
+                                    actionRequest.PointsEarned = 3;
                                     break;
                                 default:
                                     throw new ArgumentOutOfRangeException();

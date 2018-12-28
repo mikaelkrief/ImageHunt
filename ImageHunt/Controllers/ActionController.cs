@@ -57,7 +57,7 @@ namespace ImageHunt.Controllers
       _logger = logger;
     }
     /// <summary>
-    /// Ad a game action from players to a game
+    /// Add a game action from players to a game
     /// </summary>
     /// <param name="gameActionRequest"></param>
     [HttpPost("AddGameAction")]
@@ -85,6 +85,9 @@ namespace ImageHunt.Controllers
         case Action.GivePoints:
           gameAction.PointsEarned = gameActionRequest.PointsEarned;
           gameAction.IsValidated = true;
+          break;
+        case Action.BonusNode:
+          _teamService.SetBonus(gameAction.Team.Id, gameActionRequest.PointsEarned);
           break;
         case Action.DoAction:
         case Action.SubmitPicture:

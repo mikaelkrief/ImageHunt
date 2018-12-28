@@ -45,6 +45,23 @@ namespace ImageHuntTest.Services
         }
 
         [Fact]
+        public void Should_SetBonus_SetBonus_To_Team()
+        {
+            // Arrange
+            var teams = new List<Team>
+            {
+                new Team(),
+                new Team(),
+                new Team(),
+            };
+            _context.Teams.AddRange(teams);
+            _context.SaveChanges();
+            // Act
+            _target.SetBonus(teams[1].Id, 2);
+            // Assert
+            Check.That(teams[1].Bonus).Equals(2);
+        }
+        [Fact]
         public void DeleteTeam()
         {
             // Arrange

@@ -53,6 +53,25 @@ namespace ImageHuntTest.Controller
             _mapper = Mapper.Instance;
             _target = new ActionController(_gameService, _playerService, _imageService, _actionService, _nodeService, _teamService, _hubContext, _mapper, _logger);
         }
+
+        [Fact]
+        public async Task Should_BonusNode_Recored_in_team()
+        {
+            // Arrange
+            var gameActionRequest = new GameActionRequest()
+            {
+                Action = (int)Action.BonusNode,
+                Latitude = 1.2,
+                Longitude = 50.2,
+                GameId = 2,
+                TeamId = 5,
+                PointsEarned = 2
+            };
+            // Act
+            await _target.AddGameAction(gameActionRequest);
+            // Assert
+            A.CallTo(() => _teamService.SetBonus(A<int>._, A<int>._)).MustHaveHappened();
+        }
         [Fact]
         public async Task AddGameAction_UploadPicture()
         {

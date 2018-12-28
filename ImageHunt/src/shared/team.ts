@@ -6,4 +6,5 @@ export class Team {
   players: Player[];
   color: string;
   cultureInfo: string;
+  bonus?: number;
 }

@@ -25,5 +25,6 @@ namespace ImageHuntCore.Model
     public string CultureInfo { get; set; }
     public string Comment { get; set; }
     public Picture Picture { get; set; }
+      public int? Bonus { get; set; }
   }
 }
