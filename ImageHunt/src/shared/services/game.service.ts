@@ -27,7 +27,7 @@ export class GameService {
     return this.http.delete('api/Game/' + gameId);
   }
   addNode(gameId: number, node: NodeRequest) {
-    return this.http.post(`api/Game/AddNode/${gameId}`, node);
+    return this.http.post<NodeRequest>(`api/Game/AddNode/${gameId}`, node);
   }
   deleteNode(nodeId: number) {
     return this.http.delete(`api/Node/RemoveNode/${nodeId}`);

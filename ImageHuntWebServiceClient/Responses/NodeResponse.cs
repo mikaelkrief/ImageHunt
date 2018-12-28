@@ -21,6 +21,7 @@ namespace ImageHuntWebServiceClient.Responses
         public const string QuestionNodeType = "QuestionNode";
         public const string PictureNodeType = "PictureNode";
         public const string BonusNodeType = "BonusNode";
+        public const string WaypointNodeType = "WaypointNode";
 
         public int Id { get; set; }
         public string Name { get; set; }

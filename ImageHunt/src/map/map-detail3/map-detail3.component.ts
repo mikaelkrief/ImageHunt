@@ -219,6 +219,12 @@ export class MapDetail3Component implements OnInit {
           prefix: 'fa',
           markerColor: 'darkpurple'
         };
+      case 'WaypointNode':
+        return {
+          icon: 'fa-map-marker-alt',
+          prefix: 'fa',
+          markerColor: 'blue'
+        };
       default:
         return null;
     }

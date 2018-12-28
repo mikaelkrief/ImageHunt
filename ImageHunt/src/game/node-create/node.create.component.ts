@@ -36,7 +36,7 @@ export class NodeCreateComponent implements OnInit {
       choices: null,
       password: form.value.password,
       hint: form.value.hint,
-      bonus: form.value.bonustype,
+      bonus: form.value.bonustype === '' ? 0 : form.value.bonustype,
       location: form.value.location
 
     };

@@ -34,6 +34,7 @@
           </div>-->
         <select class="form-control fa" ngModel name="nodeType" id="nodeType" placeholder="Type de N&oelig;ud">
           <option value="FirstNode">&#xf024; N&oelig;ud départ</option>
+          <option value="WaypointNode">&#xf3c5; N&oelig;ud passage</option>
           <option value="TimerNode">&#xf017; N&oelig;ud attente</option>
           <option value="ObjectNode">&#xf70C; N&oelig;ud action</option>
           <option value="HiddenNode">&#xf6FA; N&oelig;ud caché</option>
@@ -100,7 +101,7 @@
             <div>
               <div class="form-group">
                 <label for="location">Indication pour trouver le Noeud</label>
-                <input type="text" id="location" name="location" ngModel placeholder="Indication pour trouver le noeud"/>
+                <input class="form-control" type="text" id="location" name="location" ngModel placeholder="Indication pour trouver le noeud"/>
                 <label for="bonustype">Type de bonus</label>
                 <select class="form-control" id="bonustype" name="bonustype" ngModel>
                   <option value="0">Points x 1</option>
