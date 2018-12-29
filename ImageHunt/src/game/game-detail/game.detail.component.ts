@@ -202,6 +202,7 @@ export class GameDetailComponent implements OnInit {
       if ((nodeClicked.node.nodeType === 'FirstNode' ||
           nodeClicked.node.nodeType === 'TimerNode' ||
           nodeClicked.node.nodeType === 'ImageNode' ||
+          nodeClicked.node.nodeType === 'WaypointNode' ||
           nodeClicked.node.nodeType === 'ObjectNode') &&
         nodeClicked.node.children.length > 0) {
         this.mapComponent.resetNodeClick();
