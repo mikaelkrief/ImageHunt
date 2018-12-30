@@ -27,6 +27,8 @@ namespace ImageHunt.Model
           return new HiddenNode();
         case NodeResponse.BonusNodeType:
           return new BonusNode();
+        case NodeResponse.WaypointNodeType:
+          return new WaypointNode();
       }
       return null;
     }

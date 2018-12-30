@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageHunt.Migrations
 {
-    public partial class Add_Bonus_is_nullable : Migration
+  [ExcludeFromCodeCoverage]
+
+  public partial class Add_Bonus_is_nullable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

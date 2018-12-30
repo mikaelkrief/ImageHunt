@@ -343,6 +343,27 @@ namespace ImageHuntBotBuilderTest
             Check.That(activities.Last().Text).Contains(node.Action);
         }
         [Fact]
+        public void Should_create_activity_from_WaypointNode()
+        {
+            // Arrange
+            var node = new NodeResponse()
+            {
+                NodeType = NodeResponse.WaypointNodeType,
+                Latitude = 56.9,
+                Longitude = 4.9,
+                Name = "Action",
+            };
+            // Act
+            var activities = _target.ActivitiesFromNode(node);
+            // Assert
+            Check.That(activities.First().Text).Contains(node.Name);
+            var expectedLocation = new GeoCoordinates(latitude: node.Latitude, longitude: node.Longitude);
+            Check.That(((GeoCoordinates) activities.Single(a=>a.Type==ImageHuntActivityTypes.Location).Attachments
+                .Single(a => a.ContentType == ImageHuntActivityTypes.Location).Content).Latitude).IsEqualTo(expectedLocation.Latitude);
+            Check.That(((GeoCoordinates)activities.Single(a => a.Type == ImageHuntActivityTypes.Location).Attachments
+                .Single(a => a.ContentType == ImageHuntActivityTypes.Location).Content).Longitude).IsEqualTo(expectedLocation.Longitude);
+        }
+        [Fact]
         public void Should_create_activity_from_HiddenNode()
         {
             // Arrange

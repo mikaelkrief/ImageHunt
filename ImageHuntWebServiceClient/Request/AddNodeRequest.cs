@@ -1,10 +1,15 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace ImageHuntWebServiceClient.Request
 {
     public class AddNodeRequest
     {
+        [Required]
         public string NodeType { get; set; }
         public string Name { get; set; }
+        [Required]
         public double Latitude { get; set; }
+        [Required]
         public double Longitude { get; set; }
         public int Duration { get; set; }
         public string Action { get; set; }

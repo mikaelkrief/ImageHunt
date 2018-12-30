@@ -147,6 +147,19 @@ namespace ImageHuntBotBuilder
                     activities.Add(new Activity(text: $"Vous devrez effectuer l'action suivante : {node.Action}", type: ActivityTypes.Message));
 
                     break;
+                case NodeResponse.WaypointNodeType:
+                    activities.Add(new Activity(text: $"Le prochain noeud {node.Name} et se trouve à l'emplacement suivant:", type:ActivityTypes.Message));
+                    activities.Add(new Activity(type:ImageHuntActivityTypes.Location){Attachments = new List<Attachment>()
+                        {
+                            new Attachment(
+                                contentType: ImageHuntActivityTypes.Location,
+                                content: new GeoCoordinates(
+                                    latitude: node.Latitude,
+                                    longitude: node.Longitude)),
+                        }
+                    });
+
+                    break;
                 case NodeResponse.HiddenNodeType:
                     activities.Add(new Activity(text: $"Le prochain noeud {node.Name} est un noeud mystère. L'indice suivant devrait vour permettre de deviner sa position", type: ActivityTypes.Message));
                     activities.Add(new Activity(text:node.Hint, type: ActivityTypes.Message));
