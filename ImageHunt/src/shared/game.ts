@@ -13,4 +13,5 @@ export class Game {
   teams?: Team[];
   pictureId?: number;
   description?: string;
+  code?: string;
 }
