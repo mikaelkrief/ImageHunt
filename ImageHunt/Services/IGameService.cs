@@ -25,5 +25,6 @@ namespace ImageHunt.Services
     IEnumerable<Game> GetGamesWithScore();
     Game GetActiveGameForPlayer(Player player);
     IEnumerable<Game> GetAllGame();
+    string GameCode(int gameId);
   }
 }

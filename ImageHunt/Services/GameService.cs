@@ -19,7 +19,7 @@ namespace ImageHunt.Services
   public class GameService : AbstractService, IGameService
   {
     private readonly IMapper _mapper;
-
+    private static Random random = new Random();
     public GameService(HuntContext context, ILogger<GameService> logger, IMapper mapper) : base(context, logger)
     {
       _mapper = mapper;
@@ -30,8 +30,10 @@ namespace ImageHunt.Services
       var admin = Context.Admins.Single(a => a.Id == adminId);
       if (newGame.Picture != null && newGame.Picture.Id != 0)
         newGame.Picture = Context.Pictures.Single(p => p.Id == newGame.Picture.Id);
+      newGame.Code = CreateCode();
       Context.Games.Add(newGame);
       var gameAdmin = new GameAdmin() { Admin = admin, Game = newGame };
+
       admin.GameAdmins.Add(gameAdmin);
       Context.SaveChanges();
       return newGame;
@@ -176,6 +178,31 @@ namespace ImageHunt.Services
     public IEnumerable<Game> GetAllGame()
     {
       return Context.Games.Where(g => g.IsActive);
+    }
+
+    public string GameCode(int gameId)
+    {
+      var game = Context.Games.Single(g => g.Id == gameId);
+      if (string.IsNullOrEmpty(game.Code))
+      {
+        game.Code = CreateCode();
+      }
+
+      return game.Code;
+    }
+
+    private string CreateCode()
+    {
+      const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      string code;
+      do
+      {
+        code = new string(Enumerable.Repeat(chars, 6)
+          .Select(s => s[random.Next(s.Length)]).ToArray());
+        // Check if the code is unique on database
+      } while (Context.Games.Any(g => g.Code == code));
+
+      return code;
     }
   }
 }

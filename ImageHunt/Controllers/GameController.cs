@@ -246,5 +246,10 @@ namespace ImageHunt.Controllers
     {
       return Ok(_mapper.Map<IEnumerable<GameResponse>>(_gameService.GetAllGame()));
     }
+
+    public IActionResult GetGameCode(int gameId)
+    {
+      return Ok(_gameService.GameCode(gameId));
+    }
   }
 }

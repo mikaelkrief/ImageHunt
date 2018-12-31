@@ -48,6 +48,7 @@ namespace ImageHuntTest.Services
       // Assert
       Check.That(result.Id).Not.IsEqualTo(0);
       Check.That(admins[1].Games).ContainsExactly(game);
+        Check.That(result.Code).IsNotEmpty();
     }
       [Fact]
     public void CreateGame_With_Picture()
@@ -444,5 +445,41 @@ namespace ImageHuntTest.Services
           Check.That(result).Contains(games.Where(g => g.IsActive));
       }
 
+      [Fact]
+      public void Should_Game_Code_Create_Code()
+      {
+          // Arrange
+          var games = new List<Game>
+          {
+              new Game(),
+              new Game(),
+              new Game(),
+          };
+          _context.Games.AddRange(games);
+          _context.SaveChanges();
+
+            // Act
+            var result = _target.GameCode(games[1].Id);
+          // Assert
+          Check.That(result).IsNotEmpty();
+          Check.That(result).Equals(games[1].Code);
+      }
+      [Fact]
+      public void Should_Game_Code_return_Code()
+      {
+          // Arrange
+          var games = new List<Game>
+          {
+              new Game(),
+              new Game(){Code = "jhgjhgjhg"},
+              new Game(),
+          };
+          _context.Games.AddRange(games);
+          _context.SaveChanges();
+          // Act
+          var result = _target.GameCode(games[1].Id);
+          // Assert
+          Check.That(result).Equals(games[1].Code);
+      }
     }
 }

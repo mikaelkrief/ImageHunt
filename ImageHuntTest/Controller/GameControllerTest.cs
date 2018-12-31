@@ -497,6 +497,17 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _gameService.GetPictureNode(1)).MustHaveHappened();
         }
 
+        [Fact]
+        public void Should_return_Game_Code()
+        {
+            // Arrange
+            
+            // Act
+            var result = _target.GetGameCode(1);
+            // Assert
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+            A.CallTo(() => _gameService.GameCode(A<int>._)).MustHaveHappened();
+        }
 
     }
 }
