@@ -9,6 +9,8 @@ using ImageHuntBotBuilder;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -422,6 +424,24 @@ namespace ImageHuntBotBuilderTest
                 .Equals(node.Delay);
 
         }
+        [Fact]
+        public async Task Should_create_DialogWaterfall_for_QuestionNode()
+        {
+            // Arrange
+            var node = new NodeResponse()
+            {
+                NodeType = NodeResponse.QuestionNodeType,
+                Name = "QuestionNode",
+                Question = "The question",
+                Delay = 50,
+            };
+            var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
+            // Act
+            await _target.MatchLocationDialogAsync(node, conversationState);
+            // Assert
+
+        }
+
 
     }
 }
