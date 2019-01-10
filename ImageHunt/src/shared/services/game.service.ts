@@ -141,4 +141,14 @@ export class GameService {
   getAllGame():Observable<Game[]> {
     return this.http.get<Game[]>("api/Game");
   }
+
+  uploadKml(file: File, gameId: number) {
+    let headers = new HttpHeaders();
+    headers.delete('Content-Type');
+    const formData = new FormData();
+      formData.append('file', file);
+    let options = { headers: headers };
+    return this.http.post(`api/Game/ImportKmlFile/${gameId}`, formData, options);
+
+  }
 }

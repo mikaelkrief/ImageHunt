@@ -531,7 +531,9 @@ namespace ImageHuntTest.Controller
                     // Act
                     _target.ImportKmlFile(1, file);
                     // Assert
+                    A.CallTo(() => _gameService.AddNode(A<int>._, A<FirstNode>._)).MustHaveHappened(Repeated.Exactly.Once);
                     A.CallTo(() => _gameService.AddNode(A<int>._, A<Node>._)).MustHaveHappened(Repeated.Exactly.Times(expectedNodeCount));
+                    A.CallTo(() => _gameService.AddNode(A<int>._, A<LastNode>._)).MustHaveHappened(Repeated.Exactly.Once);
                     A.CallTo(() => _nodeService.AddChildren(A<Node>._, A<Node>._))
                         .MustHaveHappened(Repeated.Exactly.Times(expectedNodeCount - 1));
                 }

@@ -286,9 +286,20 @@ namespace ImageHunt.Controllers
           var polygon = placemark.Geometry as Polygon;
           int index = 1;
           Node previousNode = null;
+          var countCoordinates = polygon.OuterBoundary.LinearRing.Coordinates.Count;
           foreach (var coordinate in polygon.OuterBoundary.LinearRing.Coordinates)
           {
-            var node = NodeFactory.CreateNode(NodeResponse.WaypointNodeType);
+             Node node;
+           if (previousNode == null)
+            {
+              node = NodeFactory.CreateNode(NodeResponse.FirstNodeType);
+            }
+            else
+            {
+              node = NodeFactory.CreateNode(NodeResponse.WaypointNodeType);
+            }
+            if (index == countCoordinates - 1)
+              node = NodeFactory.CreateNode(NodeResponse.LastNodeType);
             node.Latitude = coordinate.Latitude;
             node.Longitude = coordinate.Longitude;
             node.Name = $"Waypoint{index++}";
