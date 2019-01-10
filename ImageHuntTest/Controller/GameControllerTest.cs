@@ -21,6 +21,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using NFluent;
+using SharpKml.Dom;
+using SharpKml.Engine;
 using TestUtilities;
 using Xunit;
 
@@ -107,7 +109,7 @@ namespace ImageHuntTest.Controller
         public async Task CreateGame_WithPicture()
         {
             // Arrange
-            var gameRequest = new GameRequest(){PictureId = 15};
+            var gameRequest = new GameRequest() { PictureId = 15 };
             // Act
             var result = await _target.CreateGame(1, gameRequest);
             // Assert
@@ -192,9 +194,9 @@ namespace ImageHuntTest.Controller
         public void GetHiddenNodes()
         {
             // Arrange
-            var nodes = new List<Node> {new HiddenNode(), new BonusNode()};
+            var nodes = new List<Node> { new HiddenNode(), new BonusNode() };
             // Act
-            
+
             // Assert
         }
         [Fact]
@@ -501,7 +503,7 @@ namespace ImageHuntTest.Controller
         public void Should_return_Game_Code()
         {
             // Arrange
-            
+
             // Act
             var result = _target.GetGameCode(1);
             // Assert
@@ -509,5 +511,31 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _gameService.GameCode(A<int>._)).MustHaveHappened();
         }
 
+        [Fact]
+        public void Should_Import_kml_file()
+        {
+            // Arrange
+            var kmlFile = GetStringFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.Parcours.kml");
+            var file = A.Fake<IFormFile>();
+            using (var stream = new MemoryStream())
+            {
+                using (var writter = new StreamWriter(stream))
+                {
+                    writter.Write(kmlFile);
+                    writter.Flush();
+                    stream.Seek(0, SeekOrigin.Begin);
+                    var expectedNodeCount = 35;
+
+                    A.CallTo(() => file.OpenReadStream()).ReturnsNextFromSequence(stream);
+
+                    // Act
+                    _target.ImportKmlFile(1, file);
+                    // Assert
+                    A.CallTo(() => _gameService.AddNode(A<int>._, A<Node>._)).MustHaveHappened(Repeated.Exactly.Times(expectedNodeCount));
+                    A.CallTo(() => _nodeService.AddChildren(A<Node>._, A<Node>._))
+                        .MustHaveHappened(Repeated.Exactly.Times(expectedNodeCount - 1));
+                }
+            }
+        }
     }
 }

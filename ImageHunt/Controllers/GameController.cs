@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
+using SharpKml.Dom;
+using SharpKml.Engine;
 
 namespace ImageHunt.Controllers
 {
@@ -54,20 +56,23 @@ namespace ImageHunt.Controllers
       var gameById = _gameService.GetGameById(gameId);
       return Ok(gameById);
     }
+
     [HttpGet("ByAdminId/{adminId}")]
     public IActionResult GetGames(int adminId)
     {
       return Ok(_gameService.GetGamesForAdmin(adminId));
     }
+
     [HttpPost("{adminId}")]
     public async Task<IActionResult> CreateGame(int adminId, [FromBody] GameRequest newGame)
     {
       var game = _mapper.Map<Game>(newGame);
       if (newGame.PictureId != 0)
-        game.Picture = new Picture(){Id = newGame.PictureId};
-      
+        game.Picture = new Picture() {Id = newGame.PictureId};
+
       return CreatedAtAction("CreateGame", _gameService.CreateGame(adminId, game));
     }
+
     [HttpPost("AddNode/{gameId}")]
     public IActionResult AddNode(int gameId, [FromBody] AddNodeRequest nodeRequest)
     {
@@ -100,7 +105,8 @@ namespace ImageHunt.Controllers
         case NodeResponse.ChoiceNodeType:
           var choiceNode = node as ChoiceNode;
           choiceNode.Choice = nodeRequest.Question;
-          choiceNode.Answers = nodeRequest.Choices.Select(a => new Answer() { Response = a.Response, Correct = a.Correct }).ToList();
+          choiceNode.Answers = nodeRequest.Choices
+            .Select(a => new Answer() {Response = a.Response, Correct = a.Correct}).ToList();
           break;
         case NodeResponse.QuestionNodeType:
           var questionNode = node as QuestionNode;
@@ -108,9 +114,11 @@ namespace ImageHunt.Controllers
           questionNode.Answer = nodeRequest.Answer;
           break;
       }
+
       _gameService.AddNode(gameId, node);
       return CreatedAtAction("AddNode", node);
     }
+
     [HttpPut("AddPictures/{gameId}")]
     [DisableRequestSizeLimit]
     public IActionResult AddImageNodes(int gameId, List<IFormFile> files)
@@ -120,15 +128,15 @@ namespace ImageHunt.Controllers
         using (var fileStream = file.OpenReadStream())
         {
           byte[] bytes = new byte[fileStream.Length];
-          fileStream.Read(bytes, 0, (int)fileStream.Length);
-          var picture = new Picture() { Image = bytes };
+          fileStream.Read(bytes, 0, (int) fileStream.Length);
+          var picture = new Picture() {Image = bytes};
           //_imageService.AddPicture(picture);
           var coordinates = _imageService.ExtractLocationFromImage(picture);
           // Drop the images without coordinates
           if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
           {
             _logger.LogWarning($"The image {file.Name} is not geotagged");
-            return new BadRequestObjectResult(new { message = $"The image {file.FileName}", filename = file.FileName });
+            return new BadRequestObjectResult(new {message = $"The image {file.FileName}", filename = file.FileName});
           }
 
           var node = new PictureNode
@@ -141,13 +149,16 @@ namespace ImageHunt.Controllers
           _gameService.AddNode(gameId, node);
         }
       }
+
       return Ok();
     }
+
     [HttpPut("CenterGameByNodes/{gameId}")]
     public void SetCenterOfGameByNodes(int gameId)
     {
       _gameService.SetCenterOfGameByNodes(gameId);
     }
+
     [HttpGet("NodesRelations/{gameId}")]
     public IActionResult GetNodesRelations(int gameId)
     {
@@ -161,16 +172,19 @@ namespace ImageHunt.Controllers
       _gameService.SetGameZoom(gameId, zoom);
       return Ok();
     }
+
     [HttpGet("GetGameFromPlayerUserName/{playerUserName}")]
     public IActionResult GetGameFromPlayerUserName(string playerUserName)
     {
       return Ok(_gameService.GetGameFromPlayerChatId(playerUserName));
     }
+
     [HttpGet("FromLocation")]
     public IActionResult GetGamesFromLocation(double lat, double lng)
     {
       return Ok(_gameService.GetGamesFromPosition(lat, lng));
     }
+
     [HttpGet("GetQuestionNodeOfGame/{gameId}")]
     public IActionResult GetChoiceNodeOfGame(int gameId)
     {
@@ -178,12 +192,14 @@ namespace ImageHunt.Controllers
       var questionNodesResponse = _mapper.Map<IEnumerable<NodeResponse>>(questionNodeOfGame);
       return Ok(questionNodesResponse);
     }
+
     [HttpDelete("{gameId}")]
     public IActionResult DeleteGame(int gameId)
     {
       _gameService.DeleteGame(gameId);
       return Ok();
     }
+
     [HttpPost("UploadImage")]
     public IActionResult UploadImage(IFormFile file)
     {
@@ -192,8 +208,8 @@ namespace ImageHunt.Controllers
       using (var stream = file.OpenReadStream())
       {
         var image = new byte[stream.Length];
-        stream.Read(image, 0, (int)stream.Length);
-        var picture = new Picture() { Image = image };
+        stream.Read(image, 0, (int) stream.Length);
+        var picture = new Picture() {Image = image};
         var coordinates = _imageService.ExtractLocationFromImage(picture);
         if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
           return BadRequest();
@@ -201,23 +217,26 @@ namespace ImageHunt.Controllers
         return CreatedAtAction("UploadImage", image);
       }
     }
+
     [HttpGet("GetImages/{gameId}")]
     public IActionResult GetImagesForGame(int gameId)
     {
       try
       {
-        return Ok(_mapper.Map<IEnumerable<NodeResponse>>(_gameService.GetPictureNode(gameId).ToList()) );
+        return Ok(_mapper.Map<IEnumerable<NodeResponse>>(_gameService.GetPictureNode(gameId).ToList()));
       }
       catch (System.Exception e)
       {
         return BadRequest($"The {gameId} is not in the system or there are no images associated");
       }
     }
+
     [HttpGet("Reviewed")]
     public IActionResult GetGamesReviewed()
     {
       return Ok(_gameService.GetGamesWithScore());
     }
+
     /// <summary>
     /// Returns score of a game
     /// </summary>
@@ -227,9 +246,10 @@ namespace ImageHunt.Controllers
     public IActionResult GetScoreForGame(int gameId)
     {
       var scores = _actionService.GetScoresForGame(gameId);
-      
+
       return Ok(_mapper.Map<IEnumerable<ScoreResponse>>(scores));
     }
+
     [HttpGet("GetPictureNode/{gameId}")]
     public IActionResult GetPictureNodes(int gameId)
     {
@@ -241,15 +261,46 @@ namespace ImageHunt.Controllers
 
       return Ok(picturesNodes);
     }
+
     [HttpGet]
     public IActionResult GetAllGame()
     {
       return Ok(_mapper.Map<IEnumerable<GameResponse>>(_gameService.GetAllGame()));
     }
 
+    [HttpGet]
     public IActionResult GetGameCode(int gameId)
     {
       return Ok(_gameService.GameCode(gameId));
+    }
+
+    [HttpPost("ImportKmlFile/{gameId}")]
+    public IActionResult ImportKmlFile(int gameId, IFormFile file)
+    {
+      using (var stream = file.OpenReadStream())
+      {
+        var kmlFile = KmlFile.Load(stream) ;
+        var kml = kmlFile.Root as Kml;
+        foreach (var placemark in kml.Flatten().OfType<Placemark>())
+        {
+          var polygon = placemark.Geometry as Polygon;
+          int index = 1;
+          Node previousNode = null;
+          foreach (var coordinate in polygon.OuterBoundary.LinearRing.Coordinates)
+          {
+            var node = NodeFactory.CreateNode(NodeResponse.WaypointNodeType);
+            node.Latitude = coordinate.Latitude;
+            node.Longitude = coordinate.Longitude;
+            node.Name = $"Waypoint{index++}";
+            _gameService.AddNode(gameId, node);
+            if (previousNode != null)
+              _nodeService.AddChildren(previousNode, node);
+            previousNode = node;
+          }
+        }
+      }
+
+      return Ok();
     }
   }
 }
