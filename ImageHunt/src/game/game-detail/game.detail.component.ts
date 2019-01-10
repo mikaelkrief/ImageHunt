@@ -66,6 +66,9 @@ export class GameDetailComponent implements OnInit {
   uploadImages(template: TemplateRef<any>) {
     this.uploadModalRef = this._modalService.show(template);
   }
+  uploadKml(template: TemplateRef<any>) {
+    this.uploadModalRef = this._modalService.show(template);
+  }
 
   uploadFiles(files) {
     this._gameService.upload(files, this.game.id).subscribe(res => {
@@ -75,6 +78,16 @@ export class GameDetailComponent implements OnInit {
       this.uploadModalRef.hide();
       let errdata = error.json();
       this._alertService.sendAlert(`Une des images n'a pu être téléchargée ${errdata.filename}`, "danger", 5000);
+    });
+  }
+  uploadKmlFiles(files) {
+    this._gameService.uploadKml(files[0], this.game.id).subscribe(res => {
+      this.uploadModalRef.hide();
+      this.getGame(this.game.id);
+    }, error => {
+      this.uploadModalRef.hide();
+      let errdata = error.json();
+      this._alertService.sendAlert(`Le fichier Kml n'a pas pu être téléchargé ${errdata.filename}`, "danger", 5000);
     });
   }
   getGame(gameId: number) {
@@ -112,32 +125,6 @@ export class GameDetailComponent implements OnInit {
     }
   }
 
-  //getNodeRelations(gameId: number) {
-  //  this._gameService.getNodeRelations(gameId)
-  //    .subscribe(res => {
-  //      this.nodeRelations = res.json();
-  //      this.buildRelations();
-  //      this.newRelations = null;
-  //    });
-  //}
-  //buildRelations() {
-  //  const nodes = this.game.nodes;
-  //  for (const relation of this.nodeRelations) {
-  //    // Find the origin node
-  //    const orgNode = nodes.find(n => n.id === relation.nodeId);
-  //    const destNode = nodes.find(n => n.id === relation.childNodeId);
-  //    orgNode.children.push(destNode);
-  //  }
-  //  this.mapComponent.nodes = this.game.nodes;
-  //}
-  //createTeam(gameId: number, form: NgForm) {
-  //  var team: Team = { id: 0, name: form.value.name, players: null, color:'',  };
-  //  this._teamService.createTeam(gameId, team)
-  //    .subscribe(null, null, () => {
-  //      this._gameService.getGameById(gameId).subscribe((game:Game) => this.game = game);
-  //      form.resetForm();
-  //    });
-  //}
   centerMap(gameId: number) {
     this._gameService.centerMap(gameId).subscribe(null, null,
       () => {

@@ -97,6 +97,9 @@
               <button class="btn btn-info" (click)="uploadImages(uploadImagesTemplate)"><span class="fa fa-image"></span><span class="d-none d-md-block"> Ajouter les photos mystères</span></button>
             </div>
             <div class="btn-group">
+              <button class="btn btn-info" (click)="uploadKml(uploadKmlTemplate)"><span class="fas fa-map-marker-alt"></span><span class="d-none d-md-block"> Importer un fichier kml</span></button>
+            </div>
+            <div class="btn-group">
               <button class="btn btn-info" (click)="centerMap(game.id)"><span class="fa fa-align-center"></span><span class="d-none d-md-block"> Centrer la carte sur les n&oelig;uds</span></button>
             </div>
             <div class="btn-group">
@@ -125,6 +128,20 @@
     <br />
     <form>
       <input type="file" #fileInput placeholder="Upload file..." multiple (change)="uploadFiles(fileInput.files)" />
+    </form>
+  </div>
+</ng-template>
+<ng-template #uploadKmlTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Téléchargement de noeuds waypoints</h4>
+    <button type="button" class="close pull-right" aria-label="Fermer" (click)="uploadModalRef.hide()">
+      <span aria-hidden="true" class="fa fa-times"></span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <br />
+    <form>
+      <input type="file" #fileInput placeholder="Upload file..." multiple (change)="uploadKmlFiles(fileInput.files)" />
     </form>
   </div>
 </ng-template>
