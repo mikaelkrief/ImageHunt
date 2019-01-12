@@ -77,6 +77,7 @@ namespace ImageHuntBotBuilder
                         case NodeResponse.FirstNodeType:
                         case NodeResponse.ObjectNodeType:
                         case NodeResponse.HiddenNodeType:
+                        case NodeResponse.WaypointNodeType:
                             var nextNodeId = state.CurrentNode.ChildNodeIds.First();
                             nextNode = await _nodeWebService.GetNode(nextNodeId);
                             nextActivities = ActivitiesFromNode(nextNode);
