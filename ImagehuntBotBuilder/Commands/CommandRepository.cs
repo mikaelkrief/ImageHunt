@@ -59,8 +59,15 @@ namespace ImageHuntBotBuilder.Commands
                 throw new NotAuthorizedException("no User");
             }
 
-            var command = _scope.ResolveNamed<ICommand>(commandText);
-
+            ICommand command;
+            try
+            {
+                command = _scope.ResolveNamed<ICommand>(commandText);
+            }
+            catch (Exception e)
+            {
+                throw new CommandNotFound(commandText);
+            }
             if (command.IsAdmin && _admins.All(a => !turnContext.Activity.From.Name.Equals(a.Name, StringComparison.InvariantCultureIgnoreCase)))
             {
                 throw new NotAuthorizedException(turnContext.Activity.From.Name);
@@ -82,5 +89,15 @@ namespace ImageHuntBotBuilder.Commands
         {
             UserName = userName;
         }
+    }
+
+    public class CommandNotFound : Exception
+    {
+        public CommandNotFound(string command)
+        {
+            Command = command;
+        }
+
+        public string Command { get; set; }
     }
 }

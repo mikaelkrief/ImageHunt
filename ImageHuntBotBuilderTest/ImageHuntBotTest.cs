@@ -183,6 +183,8 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
                 .MustHaveHappened();
+            A.CallTo(() => _logger.Log(A<LogLevel>._, A<EventId>._, A<object>._, A<Exception>._,
+                A<Func<object, Exception, string>>._)).MustHaveHappened();
         }
 
         [Fact]
@@ -216,6 +218,25 @@ namespace ImageHuntBotBuilderTest
             await _target.OnTurnAsync(_turnContext);
             // Assert
             A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).MustHaveHappened();
+        }
+        [Fact]
+        public async Task Should_Bot_handle_Bad_command()
+        {
+            // Arrange
+            _activity.Type = ActivityTypes.Message;
+            _activity.Text ="/toto";
+            _activity.From = new ChannelAccount(name:"User");
+            A.CallTo(() => _turnContext.Activity).Returns(_activity);
+            var command = A.Fake<ICommand>();
+            A.CallTo(() => _commandRepository.Get(A<ITurnContext>._, A<ImageHuntState>._, A<string>._)).Throws(new CommandNotFound("toto"));
+
+            // Act
+            await _target.OnTurnAsync(_turnContext);
+            // Assert
+            A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).MustHaveHappened();
+            A.CallTo(
+                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                .MustHaveHappened();
         }
         [Fact]
         public async Task Should_Turn_Handle_position_if_close_current_node()

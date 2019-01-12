@@ -106,8 +106,15 @@ namespace ImageHuntBotBuilder
                         }
                         catch (NotAuthorizedException e)
                         {
-                            _logger.LogError(e, $"User {turnContext.Activity.From.Name} not authorized to use this command");
+                            _logger.LogError(e,
+                                $"User {turnContext.Activity.From.Name} not authorized to use this command");
                             await turnContext.SendActivityAsync("Vous n'êtes pas autorisé à utiliser cette commande");
+                        }
+                        catch (CommandNotFound e)
+                        {
+                            _logger.LogError($"Command {e.Command} not found");
+                            await turnContext.SendActivityAsync(
+                                "Cette commande n'existe pas, veuillez corriger votre saisie");
                         }
 
                     }
