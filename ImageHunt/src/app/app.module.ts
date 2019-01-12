@@ -2,7 +2,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 import { LocalStorageModule } from "angular-2-local-storage";
 import { AppComponent } from "./app.component";
-import { BsDropdownModule, ModalModule, TabsModule, ButtonsModule, TooltipModule  } from "ngx-bootstrap";
+import { BsDropdownModule, ModalModule, TabsModule, ButtonsModule, TooltipModule, AccordionModule  } from "ngx-bootstrap";
 import { AlertModule } from "ngx-bootstrap/alert";
 import '@angular/common';
 
@@ -103,6 +103,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
     TabsModule.forRoot(),
     ButtonsModule.forRoot(),
     ModalModule.forRoot(),
+    AccordionModule.forRoot(),
     RouterModule.forRoot([
       { path: "home", component: HomeComponent },
       { path: "game", component: GameListComponent },

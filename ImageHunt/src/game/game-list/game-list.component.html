@@ -2,72 +2,97 @@
   <h2>Jeux existants</h2>
 </div>
 <div class="row">
-  <table class="table">
-    <thead>
-      <tr>
-        <th style="width: 50%;">Nom</th>
-        <th style="width: 25%; vertical-align: top;" >Teams</th>
-        <th>Actions</th>
-        <th></th>
-      </tr>
-      <tr>
-        <th>Date de la chasse</th>
-        <th></th>
-        <th></th>
+  <accordion class="col-12">
+    <accordion-group heading="Parties passées">
+      <table>
+        <tr *ngFor="let game of games | dateFilter:'startDate':today:true">
+          <td>
+            <div style="float: left; margin-right: 20px;">
+              <img *ngIf="game.picture" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{game.picture.id}}&width=100" />
+              <img *ngIf="!game.picture" class="img-thumbnail" src="assets/ImageHunt.png" width="100px" />
+            </div>
+          </td>
+          <td>
+            <a [routerLink]="['/game', game.id]">{{game.name}}</a>
+          </td>
+        </tr>
+      </table>
+    </accordion-group>
+    <accordion-group heading="Parties actives" [isOpen]="true">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width: 50%;">Nom</th>
+            <th style="width: 25%; vertical-align: top;">Teams</th>
+            <th>Actions</th>
+            <th></th>
+          </tr>
+          <tr>
+            <th>Date de la chasse</th>
+            <th></th>
+            <th></th>
 
-        <th style="vertical-align: top;"><button class="btn btn-primary" (click)="showModal()"><span class="fa fa-plus-square"></span></button></th>
-      </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let game of games">
-      <td>
-        <div style="float: left; margin-right: 20px;">
-          <img *ngIf="game.picture" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{game.picture.id}}&width=100" />
-          <img *ngIf="!game.picture" class="img-thumbnail" src="assets/ImageHunt.png" width="100px" />
-        </div>
-        <div>
-          <a id="gameName" [routerLink]="['/game', game.id]">{{game.name}}</a>
-          <br />
-          <span id="gameDate">{{game.startDate | date:'medium':'CEST':'fr'}}</span>
-          <br/>
-          <span>{{game.description}}</span>
-        </div>
-        <!--<div class="row">
-          <span class="fa fa-eye fa-lg" tooltip="Partie active" *ngIf="game.isActive"></span>
-          <span class="fa fa-eye-slash fa-lg" tooltip="Partie inactive" *ngIf="!game.isActive"></span>
-        </div>-->
-      </td>
-      <td>
-          <p class="w-100" *ngFor="let team of game.teams"><i class="fa fa-users"></i>
-            <a [routerLink]="['/team',game.id, team.id]">{{team.name}}</a></p>
-      </td>
-      <td>
-        <div class="btn-group-vertical">
-          <div class="btn-group">
-            <button type="button" class="btn btn-primary" [routerLink]="['/action/', game.id]" tooltip="Actions">
-              <i class="fa fa-map-signs"></i>
-            </button>
-          </div>
-          <div class="btn-group">
-            <button class="btn btn-primary" [routerLink]="['/follow', game.id]" tooltip="Suivi">
-              <i class="fa fa-map"></i>
-            </button>
-          </div>
-          <div class="btn-group">
-            <button class="btn btn-primary" [routerLink]="['/score', game.id]" tooltip="Score">
-              <i class="fa fa-star"></i>
-            </button>
-          </div>
-        </div>
-      </td>
-      <td>              <button class="btn btn-danger" (click)="deleteGame(game.id)" tooltip="Effacer">
-          <i class="fa fa-trash"></i>
-        </button>
-      </td>
-      <!--<td><map-thumbnail [CenterLat]="game.mapCenterLat" [CenterLng]="game.mapCenterLng"></map-thumbnail></td>-->
-    </tr>
-    </tbody>
-  </table>
+            <th style="vertical-align: top;"><button class="btn btn-primary" (click)="showModal()"><span class="fa fa-plus-square"></span></button></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let game of games | dateFilter:'startDate':today:false">
+            <td>
+              <div style="float: left; margin-right: 20px;">
+                <img *ngIf="game.picture" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{game.picture.id}}&width=100" />
+                <img *ngIf="!game.picture" class="img-thumbnail" src="assets/ImageHunt.png" width="100px" />
+              </div>
+              <div>
+                <a id="gameName" [routerLink]="['/game', game.id]">{{game.name}}</a>
+                <br />
+                <span id="gameDate">{{game.startDate | date:'medium':'CEST':'fr'}}</span>
+                <br />
+                <span>{{game.description}}</span>
+              </div>
+              <!--<div class="row">
+            <span class="fa fa-eye fa-lg" tooltip="Partie active" *ngIf="game.isActive"></span>
+            <span class="fa fa-eye-slash fa-lg" tooltip="Partie inactive" *ngIf="!game.isActive"></span>
+          </div>-->
+            </td>
+            <td>
+              <p class="w-100" *ngFor="let team of game.teams">
+                <i class="fa fa-users"></i>
+                <a [routerLink]="['/team',game.id, team.id]">{{team.name}}</a>
+              </p>
+            </td>
+            <td>
+              <div class="btn-group-vertical">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-primary" [routerLink]="['/action/', game.id]" tooltip="Actions">
+                    <i class="fa fa-map-signs"></i>
+                  </button>
+                </div>
+                <div class="btn-group">
+                  <button class="btn btn-primary" [routerLink]="['/follow', game.id]" tooltip="Suivi">
+                    <i class="fa fa-map"></i>
+                  </button>
+                </div>
+                <div class="btn-group">
+                  <button class="btn btn-primary" [routerLink]="['/score', game.id]" tooltip="Score">
+                    <i class="fa fa-star"></i>
+                  </button>
+                </div>
+              </div>
+            </td>
+            <td>
+              <button class="btn btn-danger" (click)="deleteGame(game.id)" tooltip="Effacer">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+            <!--<td><map-thumbnail [CenterLat]="game.mapCenterLat" [CenterLng]="game.mapCenterLng"></map-thumbnail></td>-->
+          </tr>
+        </tbody>
+      </table>
+
+    </accordion-group>
+    
+  </accordion>
+
   <p-confirmDialog id="deleteGameConfirm"
                    header="Confirmation"
                    appendTo="body"

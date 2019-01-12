@@ -20,12 +20,15 @@ export class GameListComponent implements OnInit {
   games: Game[];
   minDate: Date;
   admin: Admin;
+  today: Date;
   /** game ctor */
   constructor(private gameService: GameService,
     private localStorageService: LocalStorageService,
     private _alertService: AlertService,
     private _confirmationService: ConfirmationService,
-    private _modalService: BsModalService) { }
+    private _modalService: BsModalService) {
+    this.today = new Date();
+  }
 
   /** Called by Angular after game component initialized */
   ngOnInit(): void {
