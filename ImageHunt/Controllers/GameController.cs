@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -16,6 +17,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 using SharpKml.Dom;
 using SharpKml.Engine;
+using ImageMagick;
+
 
 namespace ImageHunt.Controllers
 {
@@ -132,12 +135,26 @@ namespace ImageHunt.Controllers
           var picture = new Picture() {Image = bytes};
           //_imageService.AddPicture(picture);
           var coordinates = _imageService.ExtractLocationFromImage(picture);
-          // Drop the images without coordinates
-          if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
+          fileStream.Seek(0, SeekOrigin.Begin);
+          using (var magikImage = new MagickImage(fileStream))
           {
-            _logger.LogWarning($"The image {file.Name} is not geotagged");
-            return new BadRequestObjectResult(new {message = $"The image {file.FileName}", filename = file.FileName});
+            magikImage.Quality = 80;
+            magikImage.Strip();
+            using (var compressedImageStream = new MemoryStream())
+            {
+              magikImage.Write(compressedImageStream);
+              bytes = new byte[compressedImageStream.Length];
+              compressedImageStream.Seek(0, SeekOrigin.Begin);
+              compressedImageStream.Read(bytes, 0, (int)compressedImageStream.Length);
+              picture = new Picture() { Image = bytes };
+            }
           }
+            // Drop the images without coordinates
+            if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
+            {
+              _logger.LogWarning($"The image {file.Name} is not geotagged");
+              return new BadRequestObjectResult(new { message = $"The image {file.FileName}", filename = file.FileName });
+            }
 
           var node = new PictureNode
           {
