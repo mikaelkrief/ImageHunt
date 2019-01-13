@@ -142,13 +142,13 @@ export class GameService {
     return this.http.get<Game[]>("api/Game");
   }
 
-  uploadKml(file: File, gameId: number) {
+  uploadKml(file: File, gameId: number, reverse: boolean) {
     let headers = new HttpHeaders();
     headers.delete('Content-Type');
     const formData = new FormData();
       formData.append('file', file);
     let options = { headers: headers };
-    return this.http.post(`api/Game/ImportKmlFile/${gameId}`, formData, options);
+    return this.http.post(`api/Game/ImportKmlFile/${gameId}/${reverse}`, formData, options);
 
   }
 }

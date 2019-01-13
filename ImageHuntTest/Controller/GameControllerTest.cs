@@ -529,7 +529,7 @@ namespace ImageHuntTest.Controller
                     A.CallTo(() => file.OpenReadStream()).ReturnsNextFromSequence(stream);
 
                     // Act
-                    _target.ImportKmlFile(1, file);
+                    _target.ImportKmlFile(1, false, file);
                     // Assert
                     A.CallTo(() => _gameService.AddNode(A<int>._, A<FirstNode>._)).MustHaveHappened(Repeated.Exactly.Once);
                     A.CallTo(() => _gameService.AddNode(A<int>._, A<Node>._)).MustHaveHappened(Repeated.Exactly.Times(expectedNodeCount));

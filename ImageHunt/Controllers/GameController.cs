@@ -291,8 +291,8 @@ namespace ImageHunt.Controllers
       return Ok(_gameService.GameCode(gameId));
     }
 
-    [HttpPost("ImportKmlFile/{gameId}")]
-    public IActionResult ImportKmlFile(int gameId, IFormFile file)
+    [HttpPost("ImportKmlFile/{gameId}/{reverse}")]
+    public IActionResult ImportKmlFile(int gameId, bool reverse, IFormFile file)
     {
       using (var stream = file.OpenReadStream())
       {
@@ -304,7 +304,8 @@ namespace ImageHunt.Controllers
           int index = 1;
           Node previousNode = null;
           var countCoordinates = polygon.OuterBoundary.LinearRing.Coordinates.Count;
-          foreach (var coordinate in polygon.OuterBoundary.LinearRing.Coordinates)
+          var coordinates = reverse? polygon.OuterBoundary.LinearRing.Coordinates.Reverse(): polygon.OuterBoundary.LinearRing.Coordinates;
+          foreach (var coordinate in coordinates)
           {
              Node node;
            if (previousNode == null)
