@@ -180,8 +180,8 @@ namespace ImageHuntTest.Controller
             // Assert
             A.CallTo(() => _gameService.GetNodes(1, NodeTypes.Picture)).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();
-            var resultNodes = (result as OkObjectResult).Value as IEnumerable<Node>;
-            Check.That(resultNodes).ContainsExactly(nodes.Single(n => n.NodeType == NodeResponse.PictureNodeType));
+            var resultNodes = (result as OkObjectResult).Value as IEnumerable<NodeResponse>;
+            Check.That(resultNodes.Extracting("NodeType")).ContainsExactly(NodeResponse.PictureNodeType);
         }
         [Fact]
         public void GetNextNodeForTeam()
