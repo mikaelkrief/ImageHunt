@@ -11,6 +11,7 @@ namespace ImageHuntBotBuilder.Commands
     public class DisplayNodeCommand : AbstractCommand, IDisplayNodeCommand
     {
         private readonly INodeWebService _nodeWebService;
+        public override bool IsAdmin => false;
 
         public DisplayNodeCommand(ILogger<IDisplayNodeCommand> logger, INodeWebService nodeWebService) 
             : base(logger)
