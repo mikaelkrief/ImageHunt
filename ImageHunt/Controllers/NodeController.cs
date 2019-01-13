@@ -24,7 +24,8 @@ namespace ImageHunt.Controllers
     private readonly IGameService _gameService;
     private readonly ITeamService _teamService;
 
-    public NodeController(INodeService nodeService, IGameService gameService, ITeamService teamService, IMapper mapper)
+    public NodeController(INodeService nodeService, IGameService gameService,
+      ITeamService teamService, IMapper mapper)
     {
       _mapper = mapper;
       _nodeService = nodeService;
@@ -108,7 +109,7 @@ namespace ImageHunt.Controllers
     {
       var eNodeType = Enum.Parse<NodeTypes>(nodeType);
       var nodes = _gameService.GetNodes(gameId, eNodeType);
-      return Ok(nodes);
+      return Ok(_mapper.Map<IEnumerable<NodeResponse>>(nodes));
     }
   }
 }
