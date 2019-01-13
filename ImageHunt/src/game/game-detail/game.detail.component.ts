@@ -80,8 +80,9 @@ export class GameDetailComponent implements OnInit {
       this._alertService.sendAlert(`Une des images n'a pu être téléchargée ${errdata.filename}`, "danger", 5000);
     });
   }
+  reverse: boolean;
   uploadKmlFiles(files) {
-    this._gameService.uploadKml(files[0], this.game.id).subscribe(res => {
+    this._gameService.uploadKml(files[0], this.game.id, this.reverse).subscribe(res => {
       this.uploadModalRef.hide();
       this.getGame(this.game.id);
     }, error => {

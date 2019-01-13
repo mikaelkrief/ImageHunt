@@ -141,7 +141,15 @@
   <div class="modal-body">
     <br />
     <form>
-      <input type="file" #fileInput placeholder="Upload file..." multiple (change)="uploadKmlFiles(fileInput.files)" />
+      <div class="row">
+        <input type="file" #fileInput placeholder="Upload file..." multiple (change)="uploadKmlFiles(fileInput.files)" />
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <label for="reverse">Importer les noeuds dans l'ordre inverse</label>
+          <input type="checkbox" name="reverse" id="reverse" [(ngModel)]="reverse"/>
+        </div>
+      </div>
     </form>
   </div>
 </ng-template>
