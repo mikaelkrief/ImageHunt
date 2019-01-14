@@ -10,6 +10,7 @@ using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
@@ -245,6 +246,11 @@ namespace ImageHuntBotBuilder
                     }
                 }
             }
+        }
+
+        public async Task MatchLocationDialogAsync(NodeResponse node, IStatePropertyAccessor<DialogState> conversationDialogState)
+        {
+            var dialogSet = new DialogSet(conversationDialogState);
         }
     }
 }

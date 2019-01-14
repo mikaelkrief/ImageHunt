@@ -3,6 +3,7 @@
 
 using System;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace ImageHuntBotBuilder
 {
@@ -38,6 +39,7 @@ namespace ImageHuntBotBuilder
         /// The accessor stores the turn count for the conversation.
         /// </value>
         public virtual IStatePropertyAccessor<ImageHuntState> ImageHuntState { get; set; }
+        public virtual IStatePropertyAccessor<DialogState> ConversationDialogState { get; set; }
         /// <summary>
         /// return all states of all conversations
         /// </summary>

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Newtonsoft.Json.Linq;
@@ -33,6 +34,24 @@ namespace ImageHuntBotBuilder
             }
 
             return list;
+        }
+
+        public string Name { get; }
+
+        public Task<T> GetAsync(ITurnContext turnContext, Func<T> defaultValueFactory = null,
+            CancellationToken cancellationToken = new CancellationToken())
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(ITurnContext turnContext, CancellationToken cancellationToken = new CancellationToken())
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetAsync(ITurnContext turnContext, T value, CancellationToken cancellationToken = new CancellationToken())
+        {
+            throw new NotImplementedException();
         }
     }
 }
