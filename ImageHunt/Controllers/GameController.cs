@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using SharpKml.Dom;
 using SharpKml.Engine;
 using ImageMagick;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace ImageHunt.Controllers
@@ -285,7 +286,7 @@ namespace ImageHunt.Controllers
       return Ok(_mapper.Map<IEnumerable<GameResponse>>(_gameService.GetAllGame()));
     }
 
-    [HttpGet]
+    [HttpGet("GameCode/{gameId}")]
     public IActionResult GetGameCode(int gameId)
     {
       return Ok(_gameService.GameCode(gameId));
