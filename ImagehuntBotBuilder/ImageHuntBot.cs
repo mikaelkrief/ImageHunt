@@ -123,6 +123,8 @@ namespace ImageHuntBotBuilder
                 case ImageHuntActivityTypes.Location:
                     await _nodeVisitorHandler.MatchHiddenNodesLocationAsync(turnContext, state);
                     await _nodeVisitorHandler.MatchLocationAsync(turnContext, state);
+                    await _nodeVisitorHandler.MatchLocationDialogAsync(turnContext, state,
+                        _accessors.ConversationDialogState);
                     break;
             }
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using ImageHuntBotBuilder.Commands;
@@ -23,6 +25,7 @@ namespace ImageHuntBotBuilder
     {
         Task<NodeResponse> MatchLocationAsync(ITurnContext context, ImageHuntState state);
         Task MatchHiddenNodesLocationAsync(ITurnContext turnContext, ImageHuntState state);
+        Task<DialogSet> MatchLocationDialogAsync(ITurnContext turnContext, ImageHuntState state, IStatePropertyAccessor<DialogState> conversationDialogState);
     }
 
     public class NodeVisitorHandler : INodeVisitorHandler
@@ -136,8 +139,10 @@ namespace ImageHuntBotBuilder
             switch (node.NodeType)
             {
                 case NodeResponse.ObjectNodeType:
-                    activities.Add(new Activity(text: $"Le prochain noeud {node.Name} et se trouve à l'emplacement suivant:", type:ActivityTypes.Message));
-                    activities.Add(new Activity(type:ImageHuntActivityTypes.Location){Attachments = new List<Attachment>()
+                    activities.Add(new Activity(text: $"Le prochain noeud {node.Name} et se trouve à l'emplacement suivant:", type: ActivityTypes.Message));
+                    activities.Add(new Activity(type: ImageHuntActivityTypes.Location)
+                    {
+                        Attachments = new List<Attachment>()
                         {
                             new Attachment(
                                 contentType: ImageHuntActivityTypes.Location,
@@ -150,8 +155,10 @@ namespace ImageHuntBotBuilder
 
                     break;
                 case NodeResponse.WaypointNodeType:
-                    activities.Add(new Activity(text: $"Le prochain noeud {node.Name} et se trouve à l'emplacement suivant:", type:ActivityTypes.Message));
-                    activities.Add(new Activity(type:ImageHuntActivityTypes.Location){Attachments = new List<Attachment>()
+                    activities.Add(new Activity(text: $"Le prochain noeud {node.Name} et se trouve à l'emplacement suivant:", type: ActivityTypes.Message));
+                    activities.Add(new Activity(type: ImageHuntActivityTypes.Location)
+                    {
+                        Attachments = new List<Attachment>()
                         {
                             new Attachment(
                                 contentType: ImageHuntActivityTypes.Location,
@@ -164,7 +171,7 @@ namespace ImageHuntBotBuilder
                     break;
                 case NodeResponse.HiddenNodeType:
                     activities.Add(new Activity(text: $"Le prochain noeud {node.Name} est un noeud mystère. L'indice suivant devrait vour permettre de deviner sa position", type: ActivityTypes.Message));
-                    activities.Add(new Activity(text:node.Hint, type: ActivityTypes.Message));
+                    activities.Add(new Activity(text: node.Hint, type: ActivityTypes.Message));
                     break;
                 case NodeResponse.LastNodeType:
                     activities.Add(new Activity(text: $"Le prochain point de contrôle est l'arrivée! Il se trouve à la position suivante:", type: ActivityTypes.Message));
@@ -181,8 +188,8 @@ namespace ImageHuntBotBuilder
                     });
                     break;
                 case NodeResponse.TimerNodeType:
-                    activities.Add(new Activity(text:$"Veuillez patienter pendant {node.Delay} secondes avant de poursuivre", type: ActivityTypes.Message));
-                    activities.Add(new Activity(type: ImageHuntActivityTypes.Wait, attachments: new List<Attachment>(){new Attachment(content: node.Delay)}));
+                    activities.Add(new Activity(text: $"Veuillez patienter pendant {node.Delay} secondes avant de poursuivre", type: ActivityTypes.Message));
+                    activities.Add(new Activity(type: ImageHuntActivityTypes.Wait, attachments: new List<Attachment>() { new Attachment(content: node.Delay) }));
                     break;
             }
 
@@ -216,7 +223,7 @@ namespace ImageHuntBotBuilder
                     {
                         case NodeResponse.BonusNodeType:
                             string multi;
-                            actionRequest.Action = (int) Action.BonusNode;
+                            actionRequest.Action = (int)Action.BonusNode;
                             switch (hiddenNode.BonusType)
                             {
                                 case BonusNode.BONUS_TYPE.Points_x2:
@@ -248,9 +255,35 @@ namespace ImageHuntBotBuilder
             }
         }
 
-        public async Task MatchLocationDialogAsync(NodeResponse node, IStatePropertyAccessor<DialogState> conversationDialogState)
+        public async Task<DialogSet> MatchLocationDialogAsync(  ITurnContext turnContext, 
+                                                                ImageHuntState state, 
+                                                                IStatePropertyAccessor<DialogState> conversationDialogState)
         {
             var dialogSet = new DialogSet(conversationDialogState);
+            WaterfallStep[] waterfallSteps;
+            Node node = null;
+            switch (node.NodeType)
+            {
+                case NodeResponse.QuestionNodeType:
+                    waterfallSteps = new WaterfallStep[1]
+                    {
+                        QuestionStepAsync,
+                    };
+                    dialogSet.Add(new WaterfallDialog("questionNode", waterfallSteps));
+                    dialogSet.Add(new TextPrompt("question"));
+
+                    break;
+            }
+
+            return dialogSet;
+
+        }
+
+        private static async Task<DialogTurnResult> QuestionStepAsync(WaterfallStepContext stepContext,
+            CancellationToken cancellationToken)
+        {
+            return await stepContext.PromptAsync("question",
+                new PromptOptions() {Prompt = MessageFactory.Text("Question")}, cancellationToken);
         }
     }
 }

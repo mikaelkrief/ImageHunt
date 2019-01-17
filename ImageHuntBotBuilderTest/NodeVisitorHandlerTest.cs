@@ -437,7 +437,7 @@ namespace ImageHuntBotBuilderTest
             };
             var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
             // Act
-            await _target.MatchLocationDialogAsync(node, conversationState);
+            //await _target.MatchLocationDialogAsync(node, conversationState);
             // Assert
 
         }
