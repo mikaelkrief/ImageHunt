@@ -35,6 +35,7 @@ namespace ImageHuntBotBuilder
         private readonly ILifetimeScope _scope;
         private readonly IConfiguration _configuration;
         private readonly IActionWebService _actionWebService;
+        private double _rangeDistance;
 
         public NodeVisitorHandler(ILogger<NodeVisitorHandler> logger,
             INodeWebService nodeWebService,
@@ -47,6 +48,8 @@ namespace ImageHuntBotBuilder
             _scope = scope;
             _configuration = configuration;
             _actionWebService = actionWebService;
+            _rangeDistance = Convert.ToDouble(_configuration["NodeSettings:RangeDistance"]);
+
         }
 
         public async Task<NodeResponse> MatchLocationAsync(ITurnContext context, ImageHuntState state)
@@ -59,10 +62,9 @@ namespace ImageHuntBotBuilder
             var distance = GeographyComputation.Distance(location.Latitude.Value, location.Longitude.Value, state.CurrentNode.Latitude,
                 state.CurrentNode.Longitude);
             NodeResponse nextNode = null;
-            var rangeDistance = Convert.ToDouble(_configuration["NodeSettings:RangeDistance"]);
             try
             {
-                if (distance <= rangeDistance)
+                if (distance <= _rangeDistance)
                 {
                     await context.SendActivityAsync(
                         $"Vous avez rejoint le point de controle {state.CurrentNode.Name}, bravo!");
@@ -203,12 +205,7 @@ namespace ImageHuntBotBuilder
                 return;
             foreach (var hiddenNode in state.HiddenNodes)
             {
-                var activity = turnContext.Activity;
-                var location = activity.Attachments.First().Content as GeoCoordinates;
-                // Check that location match the current node
-                var distance = GeographyComputation.Distance(location.Latitude.Value, location.Longitude.Value, hiddenNode.Latitude,
-                    hiddenNode.Longitude);
-                if (distance <= rangeDistance)
+                if (MatchLocation(turnContext, hiddenNode, out var location))
                 {
                     await turnContext.SendActivityAsync($"Vous avez découvert le point de contrôle {hiddenNode.Name}");
                     var actionRequest = new GameActionRequest()
@@ -255,28 +252,48 @@ namespace ImageHuntBotBuilder
             }
         }
 
+        private bool MatchLocation(ITurnContext turnContext, NodeResponse hiddenNode, out GeoCoordinates location)
+        {
+            var activity = turnContext.Activity;
+            location = activity.Attachments.First().Content as GeoCoordinates;
+            // Check that location match the current node
+            var distance = GeographyComputation.Distance(location.Latitude.Value, location.Longitude.Value, hiddenNode.Latitude,
+                hiddenNode.Longitude);
+            return distance < _rangeDistance;
+        }
+
         public async Task<DialogSet> MatchLocationDialogAsync(  ITurnContext turnContext, 
                                                                 ImageHuntState state, 
                                                                 IStatePropertyAccessor<DialogState> conversationDialogState)
         {
             var dialogSet = new DialogSet(conversationDialogState);
             WaterfallStep[] waterfallSteps;
-            Node node = null;
-            switch (node.NodeType)
+            var node = state.CurrentNode;
+            if (MatchLocation(turnContext, node, out var location))
             {
-                case NodeResponse.QuestionNodeType:
-                    waterfallSteps = new WaterfallStep[1]
-                    {
-                        QuestionStepAsync,
-                    };
-                    dialogSet.Add(new WaterfallDialog("questionNode", waterfallSteps));
-                    dialogSet.Add(new TextPrompt("question"));
+                switch (node.NodeType)
+                {
+                    case NodeResponse.QuestionNodeType:
+                        waterfallSteps = new WaterfallStep[1]
+                        {
+                            QuestionStepAsync,
+                        };
+                        dialogSet.Add(new WaterfallDialog("questionNode", waterfallSteps));
+                        dialogSet.Add(new TextPrompt("question"));
 
-                    break;
+                        break;
+                }
+
+                var dialogContext = await dialogSet.CreateContextAsync(turnContext);
+                var results = await dialogContext.ContinueDialogAsync();
+                if (results.Status == DialogTurnStatus.Empty)
+                {
+                    await dialogContext.BeginDialogAsync("questionNode");
+                }
+                return dialogSet;
             }
 
-            return dialogSet;
-
+            return null;
         }
 
         private static async Task<DialogTurnResult> QuestionStepAsync(WaterfallStepContext stepContext,

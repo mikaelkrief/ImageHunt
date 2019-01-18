@@ -414,6 +414,8 @@ namespace ImageHuntBotBuilderTest
             var node = new NodeResponse()
             {
                 NodeType = NodeResponse.TimerNodeType,
+                Latitude = 56.9,
+                Longitude = 4.9,
                 Name = "Timer",
                 Delay = 50,
             };
@@ -433,11 +435,35 @@ namespace ImageHuntBotBuilderTest
                 NodeType = NodeResponse.QuestionNodeType,
                 Name = "QuestionNode",
                 Question = "The question",
+                Latitude = 56.9,
+                Longitude = 4.9,
+
                 Delay = 50,
             };
+            var state = new ImageHuntState()
+            {
+                CurrentNode = node,
+                GameId = 45,
+                TeamId = 87,
+
+            };
+            var activity = new Activity(type: ImageHuntActivityTypes.Location)
+            {
+                Attachments = new List<Attachment>()
+                {
+                    new Attachment()
+                    {
+                        Content = new GeoCoordinates(latitude: 45.8, longitude: 5.87)
+                    }
+                }
+            };
+
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+
             var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
+            
             // Act
-            //await _target.MatchLocationDialogAsync(node, conversationState);
+            await _target.MatchLocationDialogAsync(_turnContext, state, conversationState);
             // Assert
 
         }
