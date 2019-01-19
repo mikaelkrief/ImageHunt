@@ -266,11 +266,16 @@ namespace ImageHuntBotBuilder
                                                                 ImageHuntState state, 
                                                                 IStatePropertyAccessor<DialogState> conversationDialogState)
         {
-            var dialogSet = new DialogSet(conversationDialogState);
-            WaterfallStep[] waterfallSteps;
             var node = state.CurrentNode;
+            if (conversationDialogState == null)
+            {
+                _logger.LogError($"conversationDialogState is null");
+                return null;
+            }
             if (MatchLocation(turnContext, node, out var location))
             {
+                var dialogSet = new DialogSet(conversationDialogState);
+                WaterfallStep[] waterfallSteps;
                 switch (node.NodeType)
                 {
                     case NodeResponse.QuestionNodeType:
