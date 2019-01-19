@@ -60,78 +60,86 @@ namespace ImageHuntBotBuilder
             ITurnContext turnContext,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            // Get the conversation state from the turn context.
-            var state = await _accessors.ImageHuntState.GetAsync(turnContext, () => new ImageHuntState());
-            state.ConversationId = turnContext.Activity.Conversation.Id;
-            switch (turnContext.Activity.Type)
+            try
             {
-                case ImageHuntActivityTypes.Image:
-                    if (state.Status == Status.Started &&
-                        state.GameId.HasValue &&
-                        state.TeamId.HasValue)
-                    {
-                        var gameActionRequest = new GameActionRequest()
+                // Get the conversation state from the turn context.
+                var state = await _accessors.ImageHuntState.GetAsync(turnContext, () => new ImageHuntState());
+                state.ConversationId = turnContext.Activity.Conversation.Id;
+                switch (turnContext.Activity.Type)
+                {
+                    case ImageHuntActivityTypes.Image:
+                        if (state.Status == Status.Started &&
+                            state.GameId.HasValue &&
+                            state.TeamId.HasValue)
                         {
-                            Action = (int)Action.SubmitPicture,
-                            GameId = state.GameId.Value,
-                            TeamId = state.TeamId.Value,
-                            Latitude = state.CurrentLocation.Latitude.Value,
-                            Longitude = state.CurrentLocation.Longitude.Value,
-                            PictureId = (int)turnContext.Activity.Attachments.First().Content
-                        };
-                        await _actionWebService.LogAction(gameActionRequest);
-                        _logger.LogInformation(
-                            $"Image {turnContext.Activity.Attachments.First().Name} had been uploaded");
-                        await turnContext.SendActivityAsync(
-                            $"Votre image a bien été téléchargée, un validateur l'examinera pour vous attribuer les points", cancellationToken: cancellationToken);
-                    }
-                    else
-                    {
-                        await turnContext.SendActivityAsync(
-                            $"La chasse n'a pas encore commencée ou le groupe n'est pas encore initialisé, merci de m'envoyer les photos plus tard!", cancellationToken: cancellationToken);
-                    }
-
-                    break;
-                case ActivityTypes.Message:
-                    if (!string.IsNullOrEmpty(turnContext.Activity.Text) &&
-                        turnContext.Activity.Text.StartsWith('/'))
-                    {
-                        await _commandRepository.RefreshAdmins();
-
-                        try
-                        {
-                            var command = _commandRepository.Get(turnContext, state, turnContext.Activity.Text);
-                            await command.Execute(turnContext, state);
-
-                        }
-                        catch (NotAuthorizedException e)
-                        {
-                            _logger.LogError(e,
-                                $"User {turnContext.Activity.From.Name} not authorized to use this command");
-                            await turnContext.SendActivityAsync("Vous n'êtes pas autorisé à utiliser cette commande");
-                        }
-                        catch (CommandNotFound e)
-                        {
-                            _logger.LogError($"Command {e.Command} not found");
+                            var gameActionRequest = new GameActionRequest()
+                            {
+                                Action = (int)Action.SubmitPicture,
+                                GameId = state.GameId.Value,
+                                TeamId = state.TeamId.Value,
+                                Latitude = state.CurrentLocation.Latitude.Value,
+                                Longitude = state.CurrentLocation.Longitude.Value,
+                                PictureId = (int)turnContext.Activity.Attachments.First().Content
+                            };
+                            await _actionWebService.LogAction(gameActionRequest);
+                            _logger.LogInformation(
+                                $"Image {turnContext.Activity.Attachments.First().Name} had been uploaded");
                             await turnContext.SendActivityAsync(
-                                "Cette commande n'existe pas, veuillez corriger votre saisie");
+                                $"Votre image a bien été téléchargée, un validateur l'examinera pour vous attribuer les points", cancellationToken: cancellationToken);
+                        }
+                        else
+                        {
+                            await turnContext.SendActivityAsync(
+                                $"La chasse n'a pas encore commencée ou le groupe n'est pas encore initialisé, merci de m'envoyer les photos plus tard!", cancellationToken: cancellationToken);
                         }
 
-                    }
+                        break;
+                    case ActivityTypes.Message:
+                        if (!string.IsNullOrEmpty(turnContext.Activity.Text) &&
+                            turnContext.Activity.Text.StartsWith('/'))
+                        {
+                            await _commandRepository.RefreshAdmins();
 
-                    break;
-                case ImageHuntActivityTypes.Location:
-                    await _nodeVisitorHandler.MatchHiddenNodesLocationAsync(turnContext, state);
-                    await _nodeVisitorHandler.MatchLocationAsync(turnContext, state);
-                    await _nodeVisitorHandler.MatchLocationDialogAsync(turnContext, state,
-                        _accessors.ConversationDialogState);
-                    break;
+                            try
+                            {
+                                var command = _commandRepository.Get(turnContext, state, turnContext.Activity.Text);
+                                await command.Execute(turnContext, state);
+
+                            }
+                            catch (NotAuthorizedException e)
+                            {
+                                _logger.LogError(e,
+                                    $"User {turnContext.Activity.From.Name} not authorized to use this command");
+                                await turnContext.SendActivityAsync("Vous n'êtes pas autorisé à utiliser cette commande");
+                            }
+                            catch (CommandNotFound e)
+                            {
+                                _logger.LogError($"Command {e.Command} not found");
+                                await turnContext.SendActivityAsync(
+                                    "Cette commande n'existe pas, veuillez corriger votre saisie");
+                            }
+
+                        }
+
+                        break;
+                    case ImageHuntActivityTypes.Location:
+                        await _nodeVisitorHandler.MatchHiddenNodesLocationAsync(turnContext, state);
+                        await _nodeVisitorHandler.MatchLocationAsync(turnContext, state);
+                        await _nodeVisitorHandler.MatchLocationDialogAsync(turnContext, state,
+                            _accessors.ConversationDialogState);
+                        break;
+                }
+
+                // Set the property using the accessor.
+                await _accessors.ImageHuntState.SetAsync(turnContext, state);
+                // Save the new turn count into the conversation state.
+                await _accessors.ConversationState.SaveChangesAsync(turnContext);
+
             }
-
-            // Set the property using the accessor.
-            await _accessors.ImageHuntState.SetAsync(turnContext, state);
-            // Save the new turn count into the conversation state.
-            await _accessors.ConversationState.SaveChangesAsync(turnContext);
+            catch (Exception e)
+            {
+                _logger.LogError(e, "An exception occured while process user message");
+            }
         }
     }
 }
