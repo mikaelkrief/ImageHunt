@@ -11,6 +11,7 @@ using ImageHuntBotBuilder.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
@@ -132,6 +133,7 @@ namespace ImagehuntBotBuilder
                 {
                     ImageHuntState =
                         conversationState.CreateProperty<ImageHuntState>(ImageHuntBotAccessors.ImageHuntStateName),
+                    ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
                     AllStates = new MultiConversationState<ImageHuntState>(dataStore),
                 };
 
