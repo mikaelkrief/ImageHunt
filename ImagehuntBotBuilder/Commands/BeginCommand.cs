@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -51,7 +53,18 @@ namespace ImageHuntBotBuilder.Commands
                 Longitude = state.CurrentLocation.Longitude
             };
             await _actionWebService.LogAction(gameActionRequest);
-            await turnContext.SendActivityAsync($"La chasse commence maintenant! Bonne chance!");
+            await turnContext.SendActivityAsync($"La chasse commence maintenant!");
+            var activity = new Activity()
+            {
+                Type = ImageHuntActivityTypes.Location,
+                Text = $"Le départ de la chasse se trouve à la position suivante :",
+                Attachments = new List<Attachment>() { new Attachment()
+                {
+                    Content = new GeoCoordinates(latitude:nextNode.Latitude, longitude:nextNode.Longitude),
+                    ContentType = ImageHuntActivityTypes.Location
+                } }
+            };
+            await turnContext.SendActivityAsync(activity);
         }
     }
 }

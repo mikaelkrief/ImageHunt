@@ -59,6 +59,7 @@ namespace ImageHuntBotBuilderTest.Commands
             Check.That(_state.CurrentNode).Equals(nodeResponse);
             Check.That(_state.Status).Equals(Status.Started);
             A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._)).MustHaveHappened();
+            A.CallTo(() => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._)).MustHaveHappened();
         }
         [Fact]
         public async Task Should_Execute_BeginCommand_Not_Start_Game_if_CurrentLocation_not_set()

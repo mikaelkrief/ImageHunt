@@ -156,6 +156,7 @@ namespace ImageHuntBotBuilder
                     activities.Add(new Activity(text: $"Vous devrez effectuer l'action suivante : {node.Action}", type: ActivityTypes.Message));
 
                     break;
+                case NodeResponse.QuestionNodeType:
                 case NodeResponse.WaypointNodeType:
                     activities.Add(new Activity(text: $"Le prochain noeud {node.Name} et se trouve à l'emplacement suivant:", type: ActivityTypes.Message));
                     activities.Add(new Activity(type: ImageHuntActivityTypes.Location)
@@ -193,6 +194,7 @@ namespace ImageHuntBotBuilder
                     activities.Add(new Activity(text: $"Veuillez patienter pendant {node.Delay} secondes avant de poursuivre", type: ActivityTypes.Message));
                     activities.Add(new Activity(type: ImageHuntActivityTypes.Wait, attachments: new List<Attachment>() { new Attachment(content: node.Delay) }));
                     break;
+
             }
 
             return activities;
