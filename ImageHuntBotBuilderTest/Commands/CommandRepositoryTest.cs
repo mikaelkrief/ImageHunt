@@ -73,6 +73,27 @@ namespace ImageHuntBotBuilderTest.Commands
             // Assert
             Check.That(commandResult).IsInstanceOf<Dummy1Command>();
         }
+        [Theory]
+        [InlineData("dummy1", "Dummy1Command")]
+        [InlineData("Dummy1", "Dummy1Command")]
+        [InlineData("DumMy1", "Dummy1Command")]
+        public void Should_Get_Return_Command_case_insensitive(string text, string expectedCommandClassName)
+        {
+            // Arrange
+            var activity = new Activity() { From = new ChannelAccount(name: "toto") };
+
+            var admins = new List<AdminResponse>
+            {
+                new AdminResponse() {Name = "titi"}
+            };
+            A.CallTo(() => _adminWebService.GetAllAdmins()).Returns(admins);
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+
+            // Act
+            var commandResult = _target.Get(_turnContext, _state, text);
+            // Assert
+            Check.That(commandResult.GetType().Name).Equals(expectedCommandClassName);
+        }
         [Fact]
         public void Should_Get_Return_Command_By_command_string_with_parameter()
         {
