@@ -38,7 +38,7 @@ namespace ImageHuntBotBuilder.Commands
 
         public CommandAttribute(string command)
         {
-            Command = command;
+            Command = command.ToLowerInvariant();
         }
     }
 }

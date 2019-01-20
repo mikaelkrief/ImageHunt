@@ -62,7 +62,7 @@ namespace ImageHuntBotBuilder.Commands
             ICommand command;
             try
             {
-                command = _scope.ResolveNamed<ICommand>(commandText);
+                command = _scope.ResolveNamed<ICommand>(commandText.ToLowerInvariant());
             }
             catch (Exception e)
             {
