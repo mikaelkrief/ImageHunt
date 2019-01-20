@@ -8,5 +8,6 @@
         public const string Image = "image";
         public const string Leave = "leave";
         public const string Wait = "wait";
+        public const string RenameChat = "renameChat";
     }
 }

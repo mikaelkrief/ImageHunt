@@ -400,6 +400,31 @@ namespace ImageHuntBotBuilderTest
         }
 
         [Fact]
+        public async Task Should_Rename_Rename_Chat()
+        {
+            // Arrange
+            var turnContext = A.Fake<ITurnContext>();
+
+            var activities = new Activity[]
+            {
+                new Activity()
+                {
+                    Type = ImageHuntActivityTypes.RenameChat,
+                    ChannelId = "telegram",
+                    Id = "151515",
+                    Conversation = new ConversationAccount(),
+                    Text = "toto"
+                },
+
+            };
+            // Act
+            await _target.SendActivitiesAsync(turnContext, activities, CancellationToken.None);
+            // Assert
+            A.CallTo(
+                    () => _telegramBotClient.SetChatTitleAsync(A<ChatId>._, activities[0].Text, A<CancellationToken>._))
+                .MustHaveHappened();
+        }
+        [Fact]
         public async Task Should_Send_Location_To_Player()
         {
             // Arrange
