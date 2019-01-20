@@ -160,6 +160,9 @@ namespace ImageHuntBotBuilder
                                 await _telegramBotClient.LeaveChatAsync(chatId,
                                     cancellationToken);
                                 break;
+                            case ImageHuntActivityTypes.RenameChat:
+                                await _telegramBotClient.SetChatTitleAsync(chatId, activity.Text, cancellationToken);
+                                break;
                             case ImageHuntActivityTypes.Location:
                                 var location = activity.Attachments.First().Content as GeoCoordinates;
                                 await _telegramBotClient.SendLocationAsync(chatId, (float)location.Latitude.Value,
