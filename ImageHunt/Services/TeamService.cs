@@ -40,28 +40,28 @@ namespace ImageHunt.Services
     public IEnumerable<Team> GetTeams(int gameId)
     {
       return Context.Games
-        .Include(g => g.Teams).ThenInclude(t=>t.TeamPlayers).ThenInclude(tp=>tp.Player)
+        .Include(g => g.Teams).ThenInclude(t => t.TeamPlayers).ThenInclude(tp => tp.Player)
         .Single(g => g.Id == gameId).Teams;
     }
 
     public void AddMemberToTeam(Team team, List<Player> players)
     {
       var teamToAddPlayers = Context.Teams.Single(t => t.Id == team.Id);
-      teamToAddPlayers.TeamPlayers.AddRange(players.Select(p=>new TeamPlayer(){Team = team, Player = p}));
+      teamToAddPlayers.TeamPlayers.AddRange(players.Select(p => new TeamPlayer() { Team = team, Player = p }));
       Context.SaveChanges();
     }
 
     public void DelMemberToTeam(Team team, Player playerToDelete)
     {
-      var teamToModify = Context.Teams.Include(t=>t.TeamPlayers).Single(t => t.Id == team.Id);
+      var teamToModify = Context.Teams.Include(t => t.TeamPlayers).Single(t => t.Id == team.Id);
       var playerToRemove = Context.Players.Single(p => p.Id == playerToDelete.Id);
-      teamToModify.TeamPlayers.Remove(teamToModify.TeamPlayers.Single(tp=>tp.Player == playerToRemove));
+      teamToModify.TeamPlayers.Remove(teamToModify.TeamPlayers.Single(tp => tp.Player == playerToRemove));
       Context.SaveChanges();
     }
 
     public Team GetTeamByName(string teamName)
     {
-      return Context.Teams.Include(t => t.TeamPlayers).ThenInclude(t=>t.Player)
+      return Context.Teams.Include(t => t.TeamPlayers).ThenInclude(t => t.Player)
 
         .Single(t => t.Name == teamName);
     }
@@ -70,7 +70,8 @@ namespace ImageHunt.Services
     {
       return Context.Teams
         .Include(t => t.TeamPlayers).ThenInclude(t => t.Player)
-        .Include(t=>t.CurrentNode)
+        .Include(t => t.Picture)
+        .Include(t => t.CurrentNode)
         .Single(t => t.Id == teamId);
     }
 
@@ -78,9 +79,9 @@ namespace ImageHunt.Services
 
     public IEnumerable<Team> GetTeamsForPlayer(Player player)
     {
-      var teamsWithPlayers = Context.Teams.Include(t => t.TeamPlayers).ThenInclude(t=>t.Player);
+      var teamsWithPlayers = Context.Teams.Include(t => t.TeamPlayers).ThenInclude(t => t.Player);
       return teamsWithPlayers
-        .Where(t => t.Players.Any(p=>p.Id == player.Id));
+        .Where(t => t.Players.Any(p => p.Id == player.Id));
     }
     public Node NextNodeForTeam(int teamId, double playerLatitude, double playerLongitude)
     {
@@ -90,7 +91,7 @@ namespace ImageHunt.Services
         throw new InvalidGameException();
       Node nextNode;
       if (team.CurrentNode == null)
-          nextNode = currentGame.Nodes.Single(n=>n.NodeType == "FirstNode");
+        nextNode = currentGame.Nodes.Single(n => n.NodeType == "FirstNode");
       else
         nextNode = team.CurrentNode.Children.First();
       var gameAction = new GameAction()
@@ -111,7 +112,7 @@ namespace ImageHunt.Services
     public Team GetTeamForUserName(int gameId, string userName)
     {
       var game = Context.Games
-        .Include(g => g.Teams).ThenInclude(t=>t.TeamPlayers).ThenInclude(tp=>tp.Player)
+        .Include(g => g.Teams).ThenInclude(t => t.TeamPlayers).ThenInclude(tp => tp.Player)
         .Single(g => g.Id == gameId);
       return game.Teams.SingleOrDefault(t => t.Players.Any(p => p.ChatLogin.Equals(userName, StringComparison.InvariantCultureIgnoreCase)));
     }
@@ -122,7 +123,7 @@ namespace ImageHunt.Services
       if (image == null)
         throw new ArgumentException("Parameter image is not provided");
       var team = GetTeamById(teamId);
-      var currentGame = Context.Games.Single(g=>g.Id == gameId);
+      var currentGame = Context.Games.Single(g => g.Id == gameId);
       var closestNode =
         Context.Nodes
           .OrderBy(n => GeographyComputation.Distance(n.Latitude, n.Longitude, latitude, longitude))
@@ -155,8 +156,8 @@ namespace ImageHunt.Services
     {
       var currentGame = Context.Games
         .Include(g => g.Teams)
-        .Include(g=>g.Nodes)
-        .Single(g => g.Teams.Any(gt=>gt == team));
+        .Include(g => g.Nodes)
+        .Single(g => g.Teams.Any(gt => gt == team));
       return currentGame;
     }
 

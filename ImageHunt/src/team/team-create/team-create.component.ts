@@ -23,7 +23,8 @@ export class TeamCreateComponent implements OnInit {
     let team: Team = {
       id: 0, name: this.teamGroup.value.name, players: null,
       color: this.teamGroup.value.color,
-      cultureInfo: this.teamGroup.value.language
+      cultureInfo: this.teamGroup.value.language,
+      picture: null,
     };
     this.teamCreated.emit(team);
     //this.teamCreateForm.reset();
