@@ -98,6 +98,7 @@ namespace ImageHuntBotBuilder
 
                             break;
                     }
+                    state.CurrentNode = nextNode;
 
                     await _actionWebService.LogAction(actionRequest);
                 }
@@ -106,11 +107,6 @@ namespace ImageHuntBotBuilder
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception while handling activity: {activity.Type}");
-            }
-            finally
-            {
-                state.CurrentNode = nextNode;
-
             }
             return nextNode;
         }
