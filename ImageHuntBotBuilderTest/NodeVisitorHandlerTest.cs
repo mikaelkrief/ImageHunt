@@ -264,7 +264,7 @@ namespace ImageHuntBotBuilderTest
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._))
-                .MustHaveHappened(Repeated.Exactly.Twice);
+                .MustHaveHappened(Repeated.Exactly.Once);
             A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
                 .MustHaveHappened();
             Check.That(nextNode).IsNull();
@@ -399,12 +399,7 @@ namespace ImageHuntBotBuilderTest
             // Act
             var activities = _target.ActivitiesFromNode(node);
             // Assert
-            var expectedLocation = new GeoCoordinates(latitude: node.Latitude, longitude: node.Longitude);
-
-            Check.That(((GeoCoordinates)activities.Single(a => a.Type == ImageHuntActivityTypes.Location).Attachments
-                .Single(a => a.ContentType == ImageHuntActivityTypes.Location).Content).Latitude).IsEqualTo(expectedLocation.Latitude);
-            Check.That(((GeoCoordinates)activities.Single(a => a.Type == ImageHuntActivityTypes.Location).Attachments
-                .Single(a => a.ContentType == ImageHuntActivityTypes.Location).Content).Longitude).IsEqualTo(expectedLocation.Longitude);
+            Check.That(activities).HasSize(1);
 
         }
         [Fact]

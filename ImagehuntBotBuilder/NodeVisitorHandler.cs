@@ -87,7 +87,8 @@ namespace ImageHuntBotBuilder
                                 await context.SendActivityAsync(nextActivity);
                             }
                             actionRequest.PointsEarned = state.CurrentNode.Points;
-                            break;
+                            state.CurrentNode = nextNode;
+                          break;
                         case NodeResponse.LastNodeType:
                             nextActivities = ActivitiesFromNode(state.CurrentNode);
                             foreach (var nextActivity in nextActivities)
@@ -98,7 +99,6 @@ namespace ImageHuntBotBuilder
 
                             break;
                     }
-                    state.CurrentNode = nextNode;
 
                     await _actionWebService.LogAction(actionRequest);
                 }
@@ -163,18 +163,7 @@ namespace ImageHuntBotBuilder
                     activities.Add(new Activity(text:node.Hint, type: ActivityTypes.Message));
                     break;
                 case NodeResponse.LastNodeType:
-                    activities.Add(new Activity(text: $"Le prochain point de contrôle est l'arrivée! Il se trouve à la position suivante:", type: ActivityTypes.Message));
-                    activities.Add(new Activity(type: ImageHuntActivityTypes.Location)
-                    {
-                        Attachments = new List<Attachment>()
-                        {
-                            new Attachment(
-                                contentType: ImageHuntActivityTypes.Location,
-                                content: new GeoCoordinates(
-                                    latitude: node.Latitude,
-                                    longitude: node.Longitude)),
-                        }
-                    });
+                    activities.Add(new Activity(text: $"Vous avez atteint l'arrivée de la chasse. Trouvez un orga pour faire arrêter votre temps.", type: ActivityTypes.Message));
                     break;
                 case NodeResponse.TimerNodeType:
                     activities.Add(new Activity(text:$"Veuillez patienter pendant {node.Delay} secondes avant de poursuivre", type: ActivityTypes.Message));
