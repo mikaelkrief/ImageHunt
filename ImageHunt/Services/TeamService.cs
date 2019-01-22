@@ -45,6 +45,7 @@ namespace ImageHunt.Services
     {
       return Context.Games
         .Include(g => g.Teams).ThenInclude(t => t.TeamPlayers).ThenInclude(tp => tp.Player)
+        .Include(g => g.Teams).ThenInclude(t => t.Picture)
         .Single(g => g.Id == gameId).Teams;
     }
 
