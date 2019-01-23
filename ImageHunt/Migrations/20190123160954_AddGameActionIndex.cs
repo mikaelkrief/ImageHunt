@@ -6,7 +6,7 @@ namespace ImageHunt.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-          migrationBuilder.Sql(@"CREATE INDEX IX_GAME_TEAM on GameActions (GameId, TeamId)");
+          migrationBuilder.Sql(@"CREATE INDEX IX_GAME_TEAM on GameActions (GameId, TeamId, NodeId)");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
