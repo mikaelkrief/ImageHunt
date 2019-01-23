@@ -7,4 +7,5 @@ export class Team {
   color: string;
   cultureInfo: string;
   bonus?: number;
+  picture: any;
 }
