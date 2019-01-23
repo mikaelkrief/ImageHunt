@@ -195,6 +195,7 @@ namespace ImageHuntBotBuilder
                         GameId = state.GameId.Value,
                         TeamId = state.TeamId.Value,
                         PointsEarned = hiddenNode.Points,
+                        NodeId = hiddenNode.Id,
                     };
                     switch (hiddenNode.NodeType)
                     {
