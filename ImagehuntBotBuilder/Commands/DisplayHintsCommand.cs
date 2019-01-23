@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
 {
-    [Command("displayHints")]
+    [Command("hints")]
     public class DisplayHintsCommand : AbstractCommand, IDisplayHintsCommand
     {
         private readonly INodeWebService _nodeWebService;
@@ -43,10 +43,10 @@ namespace ImageHuntBotBuilder.Commands
                                 bonusType = "Multiplication du score final par 3";
                                 break;
                         }
-                        await turnContext.SendActivityAsync($"Nom : {nodeResponse.Name}\nIndice : {nodeResponse.Hint}\nBonus: {bonusType}");
+                        await turnContext.SendActivityAsync($"Indice : {nodeResponse.Hint}\nBonus: {bonusType}");
                         break;
                     case NodeResponse.HiddenNodeType:
-                        await turnContext.SendActivityAsync($"Nom : {nodeResponse.Name}\nIndice : {nodeResponse.Hint}\nBonus: {nodeResponse.Points} points");
+                        await turnContext.SendActivityAsync($"Indice : {nodeResponse.Hint}\nBonus: {nodeResponse.Points} points");
                         break;
                 }
             }
