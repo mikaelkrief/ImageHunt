@@ -46,6 +46,8 @@ namespace ImageHuntBotBuilder.Commands
                 return null;
             }
 
+            if (commandText.Contains('@'))
+                commandText = commandText.Split('@')[0];
             var group = regex.Matches(commandText);
             commandText = group[0].Groups[1].Value;
             if (turnContext.Activity == null)
