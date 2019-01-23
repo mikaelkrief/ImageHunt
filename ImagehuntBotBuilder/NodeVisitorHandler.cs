@@ -224,6 +224,7 @@ namespace ImageHuntBotBuilder
                             break;
                         case NodeResponse.HiddenNodeType:
                             actionRequest.Action = (int)Action.HiddenNode;
+                            actionRequest.PointsEarned = hiddenNode.Points;
                             await turnContext.SendActivityAsync(
                                 $"Votre équipe à gagné {hiddenNode.Points} points, bravo!");
                             await _actionWebService.LogAction(actionRequest);
