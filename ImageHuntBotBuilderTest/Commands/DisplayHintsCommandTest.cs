@@ -52,6 +52,20 @@ namespace ImageHuntBotBuilderTest.Commands
                 .MustHaveHappened(Repeated.Exactly.Times(_state.HiddenNodes.Length + 1));
         }
         [Fact]
+        public async Task Should_Display_Hints_Reply_nothing_if_no_hidden_node_remains()
+        {
+            // Arrange
+            _state.GameId = 1;
+
+            _state.HiddenNodes = new NodeResponse[0];
+            // Act
+            await _target.Execute(_turnContext, _state);
+            // Assert
+            A.CallTo(
+                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                .MustHaveHappened(Repeated.Exactly.Times(_state.HiddenNodes.Length + 1));
+        }
+        [Fact]
         public async Task Should_Warn_User_if_Game_Not_Started()
         {
             // Arrange

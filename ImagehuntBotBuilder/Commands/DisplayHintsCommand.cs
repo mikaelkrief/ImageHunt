@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
@@ -28,6 +29,12 @@ namespace ImageHuntBotBuilder.Commands
             }
 
             var nodes = state.HiddenNodes;
+            if (nodes == null || !nodes.Any())
+            {
+                await turnContext.SendActivityAsync("Il ne reste plus de noeuds cachés");
+                return;
+            }
+
             await turnContext.SendActivityAsync("Voici des indices vous permettant de trouver les Noeuds bonus:");
             foreach (var nodeResponse in nodes)
             {
