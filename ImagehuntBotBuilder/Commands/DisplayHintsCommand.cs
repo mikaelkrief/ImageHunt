@@ -26,7 +26,8 @@ namespace ImageHuntBotBuilder.Commands
                     $"La partie n'as pas encore commencée, veuillez demander au maitre du jeu");
                 return;
             }
-            var nodes = await _nodeWebService.GetNodesByType(NodeTypes.Hidden, state.GameId.Value);
+
+            var nodes = state.HiddenNodes;
             await turnContext.SendActivityAsync("Voici des indices vous permettant de trouver les Noeuds bonus:");
             foreach (var nodeResponse in nodes)
             {

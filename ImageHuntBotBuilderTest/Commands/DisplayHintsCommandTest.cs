@@ -38,19 +38,18 @@ namespace ImageHuntBotBuilderTest.Commands
         {
             // Arrange
             _state.GameId = 1;
-            List<NodeResponse> nodes =new List<NodeResponse>()
+
+            _state.HiddenNodes = new []
             {
                 new NodeResponse(){NodeType = NodeResponse.BonusNodeType, Name = "bonus1", BonusType = BonusNode.BONUS_TYPE.Points_x2, Hint = "Hint1"},
                 new NodeResponse(){NodeType = NodeResponse.HiddenNodeType, Name = "Hidden1", Points = 15, Hint = "Hint2"},
             };
-            A.CallTo(() => _nodeWebService.GetNodesByType(NodeTypes.Hidden, A<int>._)).Returns(nodes);
             // Act
             await _target.Execute(_turnContext, _state);
             // Assert
-            A.CallTo(() => _nodeWebService.GetNodesByType(A<NodeTypes>._, A<int>._)).MustHaveHappened();
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
-                .MustHaveHappened(Repeated.Exactly.Times(nodes.Count + 1));
+                .MustHaveHappened(Repeated.Exactly.Times(_state.HiddenNodes.Length + 1));
         }
         [Fact]
         public async Task Should_Warn_User_if_Game_Not_Started()
@@ -58,12 +57,11 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             _state.Status = Status.Initialized;
             _state.GameId = 1;
-            List<NodeResponse> nodes =new List<NodeResponse>()
+            _state.HiddenNodes = new []
             {
                 new NodeResponse(){NodeType = NodeResponse.BonusNodeType, Name = "bonus1", BonusType = BonusNode.BONUS_TYPE.Points_x2, Hint = "Hint1"},
                 new NodeResponse(){NodeType = NodeResponse.HiddenNodeType, Name = "Hidden1", Points = 15, Hint = "Hint2"},
             };
-            A.CallTo(() => _nodeWebService.GetNodesByType(NodeTypes.Hidden, A<int>._)).Returns(nodes);
             // Act
             await _target.Execute(_turnContext, _state);
             // Assert
