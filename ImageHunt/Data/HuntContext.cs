@@ -140,7 +140,8 @@ namespace ImageHunt.Data
         .HasOne(tp => tp.Team)
         .WithMany(t => t.TeamPasscodes)
         .HasForeignKey(tp => tp.TeamId);
-
+      // Indexes
+      //modelBuilder.Entity<GameAction>().HasIndex(g => new {g.Game, g.Team});
     }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)

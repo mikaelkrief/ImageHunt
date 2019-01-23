@@ -67,8 +67,8 @@ namespace ImageHuntBotBuilderTest
                 },
                 HiddenNodes = new NodeResponse[]
                 {
-                    new NodeResponse(){NodeType = NodeResponse.BonusNodeType, Latitude = 45.8, Longitude = 5.87},
-                    new NodeResponse(){NodeType = NodeResponse.HiddenNodeType, Latitude = 47.8, Longitude = 5.87},
+                    new NodeResponse(){Id = 2, NodeType = NodeResponse.BonusNodeType, Latitude = 45.8, Longitude = 5.87},
+                    new NodeResponse(){Id = 3, NodeType = NodeResponse.HiddenNodeType, Latitude = 47.8, Longitude = 5.87},
                 },
                 GameId = 45,
                 TeamId = 87,
@@ -84,6 +84,7 @@ namespace ImageHuntBotBuilderTest
 
             A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
                 .MustHaveHappened();
+            Check.That(state.HiddenNodes).HasSize(1);
         }
         [Fact]
         public async Task Should_not_crash_if_Hidden_node_null()

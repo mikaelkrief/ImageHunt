@@ -197,6 +197,7 @@ namespace ImageHuntBotBuilder
                         PointsEarned = hiddenNode.Points,
                         NodeId = hiddenNode.Id,
                     };
+                    state.HiddenNodes = state.HiddenNodes.Where(n => n.Id != hiddenNode.Id).ToArray();
                     switch (hiddenNode.NodeType)
                     {
                         case NodeResponse.BonusNodeType:
