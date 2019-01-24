@@ -16,14 +16,12 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly IActionWebService _actionWebService;
         private readonly ITeamWebService _teamWebService;
-        private IStringLocalizer _localizer;
 
-        public BeginCommand(IActionWebService actionWebService, ITeamWebService teamWebService, ILogger<IBeginCommand> logger, IStringLocalizer<BeginCommand> localizer) : base(logger)
+        public BeginCommand(IActionWebService actionWebService, ITeamWebService teamWebService, ILogger<IBeginCommand> logger, IStringLocalizer<BeginCommand> localizer) : base(logger, localizer)
         {
             _actionWebService = actionWebService;
             _teamWebService = teamWebService;
             
-            _localizer = localizer;
         }
 
         public override bool IsAdmin => true;

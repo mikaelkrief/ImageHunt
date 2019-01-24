@@ -3,6 +3,7 @@ using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -12,7 +13,7 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly IActionWebService _actionWebService;
 
-        public EndCommand(ILogger<IEndCommand> logger, IActionWebService actionWebService) : base(logger)
+        public EndCommand(ILogger<IEndCommand> logger, IActionWebService actionWebService, IStringLocalizer<EndCommand> localizer) : base(logger, localizer)
         {
             _actionWebService = actionWebService;
         }

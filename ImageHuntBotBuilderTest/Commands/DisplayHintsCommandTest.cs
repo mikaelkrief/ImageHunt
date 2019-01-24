@@ -11,6 +11,7 @@ using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
@@ -23,11 +24,14 @@ namespace ImageHuntBotBuilderTest.Commands
         private INodeWebService _nodeWebService;
         private ITurnContext _turnContext;
         private ImageHuntState _state;
+        private IStringLocalizer<DisplayHintsCommand> _localizer;
 
         public DisplayHintsCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IDisplayHintsCommand>>());
             _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<DisplayHintsCommand>>());
+
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState() { Status = Status.Started };
             Build();

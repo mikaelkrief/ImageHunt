@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -11,7 +12,7 @@ namespace ImageHuntBotBuilder.Commands
     [Command("state")]
     public class DisplayStateCommand : AbstractCommand, IDisplayStateCommand
     {
-        public DisplayStateCommand(ILogger<IDisplayStateCommand> logger) : base(logger)
+        public DisplayStateCommand(ILogger<IDisplayStateCommand> logger, IStringLocalizer<DisplayStateCommand> localizer) : base(logger, localizer)
         {
         }
 

@@ -11,6 +11,7 @@ using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
@@ -25,6 +26,7 @@ namespace ImageHuntBotBuilderTest.Commands
         private ITeamWebService _teamWebService;
         private IGameWebService _gameWebService;
         private INodeWebService _nodeWebService;
+        private IStringLocalizer<InitCommand> _localizer;
 
 
         public InitCommandTest()
@@ -36,6 +38,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _teamWebService = A.Fake<ITeamWebService>();
             _testContainerBuilder.RegisterInstance(_teamWebService);
             _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<InitCommand>>());
 
             _turnContext = A.Fake<ITurnContext>();
             Build();

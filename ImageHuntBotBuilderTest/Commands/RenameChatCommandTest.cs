@@ -10,6 +10,7 @@ using ImageHuntBotBuilder.Commands;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
@@ -23,12 +24,14 @@ namespace ImageHuntBotBuilderTest.Commands
         private ITurnContext _turnContext;
         private ImageHuntState _state;
         private ITeamWebService _teamWebService;
+        private IStringLocalizer<RenameChatCommand> _localizer;
 
         public RenameChatCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IRenameChatCommand>>());
             _testContainerBuilder.RegisterInstance(_gameWebService = A.Fake<IGameWebService>());
             _testContainerBuilder.RegisterInstance(_teamWebService = A.Fake<ITeamWebService>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<RenameChatCommand>>());
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState() { Status = Status.Initialized };
             Build();

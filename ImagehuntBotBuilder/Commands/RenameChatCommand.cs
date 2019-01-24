@@ -2,6 +2,7 @@
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -12,7 +13,7 @@ namespace ImageHuntBotBuilder.Commands
         private readonly IGameWebService _gameWebService;
         private readonly ITeamWebService _teamWebService;
 
-        public RenameChatCommand(ILogger<IRenameChatCommand> logger, IGameWebService gameWebService, ITeamWebService teamWebService) : base(logger)
+        public RenameChatCommand(ILogger<IRenameChatCommand> logger, IGameWebService gameWebService, ITeamWebService teamWebService, IStringLocalizer<RenameChatCommand> localizer) : base(logger, localizer)
         {
             _gameWebService = gameWebService;
             _teamWebService = teamWebService;

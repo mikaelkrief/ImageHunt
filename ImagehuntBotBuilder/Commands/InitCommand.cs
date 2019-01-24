@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -18,7 +19,7 @@ namespace ImageHuntBotBuilder.Commands
         private readonly INodeWebService _nodeWebService;
 
         public InitCommand(ILogger<IInitCommand> logger, IGameWebService gameWebService,
-            ITeamWebService teamWebService, INodeWebService nodeWebService) : base(logger)
+            ITeamWebService teamWebService, INodeWebService nodeWebService, IStringLocalizer<InitCommand> localizer) : base(logger, localizer)
         {
             _gameWebService = gameWebService;
             _teamWebService = teamWebService;

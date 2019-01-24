@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Autofac;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -11,7 +12,7 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly ILifetimeScope _scope;
 
-        public StartCommand(ILogger<IStartCommand> logger, ILifetimeScope scope) : base(logger)
+        public StartCommand(ILogger<IStartCommand> logger, ILifetimeScope scope, IStringLocalizer<StartCommand> localizer) : base(logger, localizer)
         {
             _scope = scope;
         }

@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -7,7 +8,7 @@ namespace ImageHuntBotBuilder.Commands
     [Command("help")]
     public class HelpCommand : AbstractCommand, IHelpCommand
     {
-        public HelpCommand(ILogger<IHelpCommand> logger) : base(logger)
+        public HelpCommand(ILogger<IHelpCommand> logger, IStringLocalizer<HelpCommand> localizer) : base(logger, localizer)
         {
         }
 

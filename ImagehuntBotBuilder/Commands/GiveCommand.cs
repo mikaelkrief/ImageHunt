@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Action = ImageHuntCore.Model.Action;
 
@@ -14,7 +15,7 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly IActionWebService _actionWebService;
 
-        public GiveCommand(ILogger<IGiveCommand> logger, IActionWebService actionWebService) : base(logger)
+        public GiveCommand(ILogger<IGiveCommand> logger, IActionWebService actionWebService, IStringLocalizer<GiveCommand> localizer) : base(logger, localizer)
         {
             _actionWebService = actionWebService;
         }

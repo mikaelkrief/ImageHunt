@@ -6,6 +6,7 @@ using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
@@ -17,11 +18,15 @@ namespace ImageHuntBotBuilderTest.Commands
         private ILogger<ILeaveCommand> _logger;
         private ImageHuntState _state;
         private ITurnContext _turnContext;
+        private IStringLocalizer<LeaveCommand> _localizer;
 
         public LeaveCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<ILeaveCommand>>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<LeaveCommand>>());
+
             _turnContext = A.Fake<ITurnContext>();
+            _state = new ImageHuntState();
             Build();
         }
 

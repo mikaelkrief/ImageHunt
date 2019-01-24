@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -14,7 +15,7 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly ImageHuntBotAccessors _accessors;
 
-        public BroadcastCommand(ILogger<IBroadcastCommand> logger, ImageHuntBotAccessors accessors) : base(logger)
+        public BroadcastCommand(ILogger<IBroadcastCommand> logger, ImageHuntBotAccessors accessors, IStringLocalizer<BroadcastCommand> localizer) : base(logger, localizer)
         {
             _accessors = accessors;
         }

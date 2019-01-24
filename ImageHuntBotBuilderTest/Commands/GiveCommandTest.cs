@@ -10,6 +10,7 @@ using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
@@ -23,11 +24,13 @@ namespace ImageHuntBotBuilderTest.Commands
         private ITurnContext _turnContext;
         private ImageHuntState _state;
         private IActionWebService _actionWebService;
+        private IStringLocalizer<GiveCommand> _localizer;
 
         public GiveCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IGiveCommand>>());
             _testContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<GiveCommand>>());
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState();
             Build();
