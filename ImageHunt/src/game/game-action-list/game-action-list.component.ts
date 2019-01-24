@@ -18,6 +18,7 @@ export class GameActionListComponent implements OnInit {
     constructor(private gameService: GameService, private route: ActivatedRoute, private alertService: AlertService) {
     }
   images: any[][] = [];
+  nbExpectedImageDisplayed = 3;
   ngOnInit(): void {
     this.gameId = this.route.snapshot.params["gameId"];
     this.teamId = this.route.snapshot.params["teamId"];
@@ -28,7 +29,7 @@ export class GameActionListComponent implements OnInit {
       });
   }
   loadData(event: LazyLoadEvent) {  
-    this.gameService.getGameActionsToValidateForGame(this.gameId, (event.first / event.rows) + 1, event.rows, 3, this.teamId)
+    this.gameService.getGameActionsToValidateForGame(this.gameId, (event.first / event.rows) + 1, event.rows, this.nbExpectedImageDisplayed, this.teamId)
       .subscribe((gameActions: GameAction[]) => {
         this.gameActions = gameActions;
         this.computeDeltas();

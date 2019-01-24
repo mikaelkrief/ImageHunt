@@ -87,6 +87,7 @@ namespace ImagehuntBotBuilder
 
             var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
             services.AddSingleton(credentialProvider);
+            services.AddLocalization(opts => opts.ResourcesPath = "Resources");
             services.AddBot<ImageHuntBot>(options =>
             {
                 options.CredentialProvider = credentialProvider;
