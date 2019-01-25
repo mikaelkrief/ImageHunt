@@ -32,7 +32,7 @@ namespace ImageHuntBotBuilder.Commands
         {
             if (state.Status != Status.None || state.GameId.HasValue || state.TeamId.HasValue)
             {
-                await turnContext.SendActivityAsync("Le groupe a déjà été initialisé!");
+                await turnContext.SendActivityAsync(_localizer["GROUP_ALREADY_INITIALIZED"]);
                 _logger.LogWarning("Group already initialized");
                 return;
             }
@@ -50,8 +50,9 @@ namespace ImageHuntBotBuilder.Commands
                 if (state.Game == null || state.Team == null)
                 {
                     _logger.LogError("Unable to find Game and/or Team");
-                    await turnContext.SendActivityAsync(
-                        $"Impossible de trouver la partie pour l'Id={state.GameId} ou l'équipe pour l'Id={state.TeamId}");
+
+                    var unableToFindGame = string.Format(_localizer["UNABLE_FIND_GAME"], state.GameId, state.TeamId);
+                    await turnContext.SendActivityAsync(unableToFindGame);
                     state.GameId = state.TeamId = null;
                     return;
                 }
@@ -59,8 +60,10 @@ namespace ImageHuntBotBuilder.Commands
                 var nodeResponses = await _nodeWebService.GetNodesByType(NodeTypes.Hidden, state.GameId.Value);
                 state.HiddenNodes = new List<NodeResponse>(nodeResponses).ToArray();
                 state.Status = Status.Initialized;
-                await turnContext.SendActivityAsync(
-                    $"Le groupe de l'équipe {state.Team.Name} pour la chasse {state.Game.Name} qui débute le {state.Game.StartDate.ToString(new CultureInfo(state.Team.CultureInfo))} est prêt, bon jeu!");
+                string confirmMessage =
+                    string.Format(_localizer["GROUP_INITIALIZED"],
+                        state.Team.Name, state.Game.Name, state.Game.StartDate.ToString(new CultureInfo(state.Team.CultureInfo)));
+                await turnContext.SendActivityAsync(confirmMessage);
                 _logger.LogInformation("Group initialized");
             }
         }
