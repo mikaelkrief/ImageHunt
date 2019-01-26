@@ -6,9 +6,11 @@ using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
@@ -23,6 +25,7 @@ namespace ImageHuntBotBuilderTest.Commands
         private ConversationState _conversationState;
         private ImageHuntBotAccessors _accessor;
         private ITurnContext _turnContext;
+        private IStringLocalizer<DisplayStateCommand> _localizer;
 
         public DisplayStateCommandTest()
         {
@@ -34,6 +37,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _accessor = new ImageHuntBotAccessors(_conversationState);
             _accessor.ImageHuntState = _statePropertyAccessor;
             _testContainerBuilder.RegisterInstance(_accessor);
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<DisplayStateCommand>>());
 
             _turnContext = A.Fake<ITurnContext>();
 

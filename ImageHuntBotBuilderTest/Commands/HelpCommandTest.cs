@@ -7,7 +7,9 @@ using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
@@ -19,10 +21,13 @@ namespace ImageHuntBotBuilderTest.Commands
         private ILogger<IHelpCommand> _logger;
         private ITurnContext _turnContext;
         private ImageHuntState _state;
+        private IStringLocalizer<HelpCommand> _localizer;
 
         public HelpCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IHelpCommand>>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<HelpCommand>>());
+
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState();
             Build();

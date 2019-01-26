@@ -6,8 +6,10 @@ using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
@@ -46,7 +48,7 @@ namespace ImageHuntBotBuilderTest.Commands
     {
         private readonly ITeamWebService _teamWebService;
 
-        public UploadTeamAvatarCommand(ILogger<IUploadTeamAvatarCommand> logger, ITeamWebService teamWebService) : base(logger)
+        public UploadTeamAvatarCommand(ILogger<IUploadTeamAvatarCommand> logger, ITeamWebService teamWebService, IStringLocalizer<UploadTeamAvatarCommand> localizer) : base(logger, localizer)
         {
             _teamWebService = teamWebService;
         }

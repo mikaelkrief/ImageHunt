@@ -5,11 +5,20 @@
     <CodeAnalysisRuleSet>EchoBotWithCounter.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Remove="Resources\Commands\HelpCommand.fr.resx" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <Content Include="BotConfiguration.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="Resources\Commands\HelpCommand.fr.resx" />
   </ItemGroup>
 
 

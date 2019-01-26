@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Castle.Core.Internal;
+using ImageHuntBotBuilder.Commands.Interfaces;
 
 namespace ImageHuntBotBuilder.Commands
 {

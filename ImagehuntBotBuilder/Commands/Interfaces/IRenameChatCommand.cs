@@ -1,4 +1,4 @@
-﻿namespace ImageHuntBotBuilder.Commands
+﻿namespace ImageHuntBotBuilder.Commands.Interfaces
 {
     public interface IRenameChatCommand : ICommand
     {

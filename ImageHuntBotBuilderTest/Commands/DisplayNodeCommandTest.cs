@@ -6,9 +6,11 @@ using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
@@ -21,11 +23,14 @@ namespace ImageHuntBotBuilderTest.Commands
         private INodeWebService _nodeWebService;
         private ITurnContext _turnContext;
         private ImageHuntState _state;
+        private IStringLocalizer<DisplayNodeCommand> _localizer;
 
         public DisplayNodeCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IDisplayNodeCommand>>());
             _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<DisplayNodeCommand>>());
+
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState(){Status = Status.Started};
             Build();

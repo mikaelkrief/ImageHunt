@@ -9,5 +9,6 @@ namespace ImageHuntWebServiceClient.Request
         Picture,
         Positions,
         ReplyQuestion,
+        HiddenNode,
     }
 }

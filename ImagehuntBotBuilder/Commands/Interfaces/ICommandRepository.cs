@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 
-namespace ImageHuntBotBuilder.Commands
+namespace ImageHuntBotBuilder.Commands.Interfaces
 {
     public interface ICommandRepository
     {

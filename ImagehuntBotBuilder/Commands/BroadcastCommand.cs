@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -14,7 +16,7 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly ImageHuntBotAccessors _accessors;
 
-        public BroadcastCommand(ILogger<IBroadcastCommand> logger, ImageHuntBotAccessors accessors) : base(logger)
+        public BroadcastCommand(ILogger<IBroadcastCommand> logger, ImageHuntBotAccessors accessors, IStringLocalizer<BroadcastCommand> localizer) : base(logger, localizer)
         {
             _accessors = accessors;
         }
@@ -57,7 +59,7 @@ namespace ImageHuntBotBuilder.Commands
             }
             else
             {
-                await turnContext.SendActivityAsync("La syntaxe de la commande est éronée, veuillez vérifier");
+                await turnContext.SendActivityAsync(_localizer["SYNTAX_ERROR"]);
                 _logger.LogError($"Syntax error for command: {turnContext.Activity.Text}");
             }
         }

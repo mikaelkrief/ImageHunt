@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Action = ImageHuntCore.Model.Action;
 
@@ -33,6 +36,7 @@ namespace ImageHuntBotBuilder
         private readonly ICommandRepository _commandRepository;
         private readonly INodeVisitorHandler _nodeVisitorHandler;
         private readonly ILogger _logger;
+        private IStringLocalizer _localizer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EchoWithCounterBot"/> class.
@@ -45,9 +49,11 @@ namespace ImageHuntBotBuilder
             ITeamWebService teamWebService,
             ICommandRepository commandRepository,
             INodeVisitorHandler nodeVisitorHandler,
-            ILogger<ImageHuntBot> logger)
+            ILogger<ImageHuntBot> logger,
+            IStringLocalizer<ImageHuntBot> localizer)
         {
             _logger = logger;
+            _localizer = localizer;
             _logger.LogTrace("ImageHuntBot turn start.");
             _accessors = accessors ?? throw new System.ArgumentNullException(nameof(accessors));
             _actionWebService = actionWebService;
@@ -63,6 +69,10 @@ namespace ImageHuntBotBuilder
             // Get the conversation state from the turn context.
             var state = await _accessors.ImageHuntState.GetAsync(turnContext, () => new ImageHuntState());
             state.ConversationId = turnContext.Activity.Conversation.Id;
+            if (state.Team != null)
+            {
+                _localizer = _localizer.WithCulture(new CultureInfo(state.Team.CultureInfo));
+            }
             switch (turnContext.Activity.Type)
             {
                 case ImageHuntActivityTypes.Image:
@@ -83,12 +93,12 @@ namespace ImageHuntBotBuilder
                         _logger.LogInformation(
                             $"Image {turnContext.Activity.Attachments.First().Name} had been uploaded");
                         await turnContext.SendActivityAsync(
-                            $"Votre image a bien été téléchargée, un validateur l'examinera pour vous attribuer les points", cancellationToken: cancellationToken);
+                            _localizer["IMAGE_RECEIVED_CONFIRM"], cancellationToken: cancellationToken);
                     }
                     else
                     {
                         await turnContext.SendActivityAsync(
-                            $"La chasse n'a pas encore commencée ou le groupe n'est pas encore initialisé, merci de m'envoyer les photos plus tard!", cancellationToken: cancellationToken);
+                            _localizer["CANNOT_RECORD_PHOTO"], cancellationToken: cancellationToken);
                     }
 
                     break;
@@ -108,13 +118,13 @@ namespace ImageHuntBotBuilder
                         {
                             _logger.LogError(e,
                                 $"User {turnContext.Activity.From.Name} not authorized to use this command");
-                            await turnContext.SendActivityAsync("Vous n'êtes pas autorisé à utiliser cette commande");
+                            await turnContext.SendActivityAsync(_localizer["COMMAND_NOT_AUTHORIZED"]);
                         }
                         catch (CommandNotFound e)
                         {
                             _logger.LogError($"Command {e.Command} not found");
                             await turnContext.SendActivityAsync(
-                                "Cette commande n'existe pas, veuillez corriger votre saisie");
+                                _localizer["COMMAND_NOT_FOUND"]);
                         }
 
                     }

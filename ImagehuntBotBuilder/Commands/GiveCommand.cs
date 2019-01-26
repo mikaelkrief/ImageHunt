@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Action = ImageHuntCore.Model.Action;
 
@@ -14,7 +16,7 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly IActionWebService _actionWebService;
 
-        public GiveCommand(ILogger<IGiveCommand> logger, IActionWebService actionWebService) : base(logger)
+        public GiveCommand(ILogger<IGiveCommand> logger, IActionWebService actionWebService, IStringLocalizer<GiveCommand> localizer) : base(logger, localizer)
         {
             _actionWebService = actionWebService;
         }
@@ -24,8 +26,7 @@ namespace ImageHuntBotBuilder.Commands
             if (!state.GameId.HasValue || !state.TeamId.HasValue)
             {
                 _logger.LogError("GameId or TeamId not set, unable to give points");
-                await turnContext.SendActivityAsync(
-                    "La chatroom n'a pas été correctement initialisée, impossible de donner des points!");
+                await turnContext.SendActivityAsync(_localizer["CHAT_NOT_INITIALIZED"]);
                 return;
             }
 
@@ -44,17 +45,18 @@ namespace ImageHuntBotBuilder.Commands
                         Action = (int)Action.GivePoints,
                         GameId = state.GameId.Value,
                         TeamId = state.TeamId.Value,
-                        PointsEarned = points
+                        PointsEarned = points,
+                        Validated = true,
                     };
                     await _actionWebService.LogAction(request);
-                    await turnContext.SendActivityAsync($"L'orga vient de vous attribuer {points} points!");
+                    await turnContext.SendActivityAsync(string.Format(_localizer["GIVE_POINTS_MESSAGE"], points));
                     _logger.LogInformation($"Admin give {points} to team {state.TeamId}");
                 }
             }
             else
             {
                 _logger.LogError("Game not started or ended, unable to give points");
-                var warningMessage = $"La partie n'a pas le bon statut, impossible de donner des points à l'équipe";
+                var warningMessage = _localizer["CHAT_NOT_INITIALIZED"];
                 await turnContext.SendActivityAsync(warningMessage);
                 return;
             }

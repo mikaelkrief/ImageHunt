@@ -2,9 +2,11 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Autofac;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -15,7 +17,7 @@ namespace ImageHuntBotBuilder.Commands
         private readonly IPasscodeWebService _passcodeWebService;
         private readonly ILifetimeScope _scope;
 
-        public RedeemCommand(ILogger<IRedeemCommand> logger, IPasscodeWebService passcodeWebService, ILifetimeScope scope) : base(logger)
+        public RedeemCommand(ILogger<IRedeemCommand> logger, IPasscodeWebService passcodeWebService, ILifetimeScope scope, IStringLocalizer<RedeemCommand> localizer) : base(logger, localizer)
         {
             _passcodeWebService = passcodeWebService;
             _scope = scope;

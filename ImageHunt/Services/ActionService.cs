@@ -46,6 +46,10 @@ namespace ImageHunt.Services
           break;
         case IncludeAction.ReplyQuestion:
           break;
+        case IncludeAction.HiddenNode:
+          gameActions = gameActions
+            .Where(ga => ga.Action == Action.HiddenNode || ga.Action == Action.BonusNode);
+          break;
       }
       foreach (var gameAction in gameActions)
       {

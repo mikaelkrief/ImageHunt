@@ -70,6 +70,7 @@ namespace ImageHunt.Controllers
       gameAction.Latitude = gameActionRequest.Latitude;
       gameAction.Longitude = gameActionRequest.Longitude;
       gameAction.Action = (Action)gameActionRequest.Action;
+      gameAction.IsValidated = gameActionRequest.Validated;
       if (gameActionRequest.NodeId != 0)
       {
         gameAction.Node = _nodeService.GetNode(gameActionRequest.NodeId);

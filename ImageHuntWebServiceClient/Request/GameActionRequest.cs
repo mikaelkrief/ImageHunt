@@ -12,5 +12,6 @@ namespace ImageHuntWebServiceClient.Request
     public int AnswerId { get; set; }
       public int PointsEarned { get; set; }
       public int PictureId { get; set; }
+      public bool Validated { get; set; }
   }
 }

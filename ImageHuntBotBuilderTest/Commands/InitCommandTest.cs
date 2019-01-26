@@ -7,10 +7,12 @@ using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
@@ -25,6 +27,7 @@ namespace ImageHuntBotBuilderTest.Commands
         private ITeamWebService _teamWebService;
         private IGameWebService _gameWebService;
         private INodeWebService _nodeWebService;
+        private IStringLocalizer<InitCommand> _localizer;
 
 
         public InitCommandTest()
@@ -36,6 +39,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _teamWebService = A.Fake<ITeamWebService>();
             _testContainerBuilder.RegisterInstance(_teamWebService);
             _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<InitCommand>>());
 
             _turnContext = A.Fake<ITurnContext>();
             Build();
@@ -125,5 +129,26 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._)).MustNotHaveHappened();
             A.CallTo(() => _teamWebService.GetTeamById(A<int>._)).MustNotHaveHappened();
         }
+        [Fact]
+        public async Task Should_Execute_Test_Localization()
+        {
+            // Arrange
+            var activity = new Activity(text: "/init gameId=15 teamid=66");
+            
+            LocalizedString localizedString = new LocalizedString("TODO", "Unable to find game for l'Id={0} and team Id={1}");
+            A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._)).Returns<GameResponse>(null);
+
+            A.CallTo(() => _localizer[A<string>._])
+                .Returns(localizedString);
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            var state = new ImageHuntState() { Status = Status.None};
+            // Act
+            await _target.Execute(_turnContext, state);
+            // Assert
+            A.CallTo(() => _localizer[A<string>._]).MustHaveHappened();
+            A.CallTo(() => _turnContext.SendActivityAsync("Unable to find game for l'Id=15 and team Id=66", A<string>._,
+                A<string>._, A<CancellationToken>._)).MustHaveHappened();
+        }
+
     }
 }

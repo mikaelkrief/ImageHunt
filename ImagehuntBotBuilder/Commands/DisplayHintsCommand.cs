@@ -1,9 +1,11 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -12,9 +14,10 @@ namespace ImageHuntBotBuilder.Commands
     public class DisplayHintsCommand : AbstractCommand, IDisplayHintsCommand
     {
         private readonly INodeWebService _nodeWebService;
+        private readonly ITeamWebService _teamWebService;
         public override bool IsAdmin => false;
 
-        public DisplayHintsCommand(ILogger<IDisplayHintsCommand> logger, INodeWebService nodeWebService) : base(logger)
+        public DisplayHintsCommand(ILogger<IDisplayHintsCommand> logger, INodeWebService nodeWebService, IStringLocalizer<DisplayHintsCommand> localizer) : base(logger, localizer)
         {
             _nodeWebService = nodeWebService;
         }

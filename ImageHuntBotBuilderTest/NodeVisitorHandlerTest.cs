@@ -13,6 +13,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
@@ -30,6 +31,7 @@ namespace ImageHuntBotBuilderTest
         private IConfiguration _configuration;
         private ITurnContext _turnContext;
         private IActionWebService _actionWebService;
+        private IStringLocalizer<NodeVisitorHandler> _localizer;
 
         public NodeVisitorHandlerTest()
         {
@@ -37,6 +39,7 @@ namespace ImageHuntBotBuilderTest
             _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
             _testContainerBuilder.RegisterInstance(_configuration = A.Fake<IConfiguration>());
             _testContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<NodeVisitorHandler>>());
             A.CallTo(() => _configuration["NodeSettings:RangeDistance"]).Returns("40");
             _turnContext = A.Fake<ITurnContext>();
             Build();
@@ -58,6 +61,8 @@ namespace ImageHuntBotBuilderTest
             };
             var state = new ImageHuntState()
             {
+                Status = Status.Started,
+                Team = new TeamResponse(),
                 CurrentNode = new NodeResponse()
                 {
                     Latitude = 45.8,
@@ -134,6 +139,9 @@ namespace ImageHuntBotBuilderTest
             };
             var state = new ImageHuntState()
             {
+                Team = new TeamResponse(){CultureInfo = "fr"},
+
+                Status = Status.Started,
                 CurrentNode = new NodeResponse()
                 {
                     Latitude = 45.8,
@@ -163,6 +171,49 @@ namespace ImageHuntBotBuilderTest
                 .MustHaveHappened();
         }
         [Fact]
+        public async Task Should_location_Do_nothing_if_game_not_started()
+        {
+            // Arrange
+            var activity = new Activity(type: ImageHuntActivityTypes.Location)
+            {
+                Attachments = new List<Attachment>()
+                {
+                    new Attachment()
+                    {
+                        Content = new GeoCoordinates(latitude: 45.8, longitude: 5.87)
+                    }
+                }
+            };
+            var state = new ImageHuntState()
+            {
+                Status = Status.Initialized,
+                Team = new TeamResponse() { CultureInfo = "fr" },
+
+                CurrentNode = new NodeResponse()
+                {
+                    Latitude = 45.8,
+                    Longitude = 5.87,
+                    NodeType = NodeResponse.ObjectNodeType,
+                    ChildNodeIds = new List<int>() { 12 },
+                },
+                GameId = 45,
+                TeamId = 87,
+
+            };
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            var nextNodeExpected = new NodeResponse(){NodeType = "ObjectNode"};
+            A.CallTo(() => _nodeWebService.GetNode(A<int>._)).Returns(nextNodeExpected);
+            // Act
+            var nextNode = await _target.MatchLocationAsync(_turnContext, state);
+            // Assert
+            A.CallTo(() => _nodeWebService.GetNode(A<int>._)).MustNotHaveHappened();
+            A.CallTo(
+                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                .MustNotHaveHappened();
+            A.CallTo(() => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._))
+                .MustNotHaveHappened();
+        }
+        [Fact]
         public async Task Should_location_match_First_node()
         {
             // Arrange
@@ -178,6 +229,9 @@ namespace ImageHuntBotBuilderTest
             };
             var state = new ImageHuntState()
             {
+                Status = Status.Started,
+                Team = new TeamResponse() { CultureInfo = "fr" },
+
                 CurrentNode = new NodeResponse()
                 {
                     Latitude = 45.79999,
@@ -222,6 +276,7 @@ namespace ImageHuntBotBuilderTest
             {
                 GameId = 45,
                 TeamId = 87,
+                Team = new TeamResponse() { CultureInfo = "fr" },
 
             };
             A.CallTo(() => _turnContext.Activity).Returns(activity);
@@ -247,6 +302,9 @@ namespace ImageHuntBotBuilderTest
             };
             var state = new ImageHuntState()
             {
+                Status = Status.Started,
+                Team = new TeamResponse() { CultureInfo = "fr" },
+
                 CurrentNode = new NodeResponse()
                 {
                     Latitude = 45.79999,
@@ -263,12 +321,8 @@ namespace ImageHuntBotBuilderTest
             // Act
             var nextNode = await _target.MatchLocationAsync(_turnContext, state);
             // Assert
-            A.CallTo(
-                    () => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._))
-                .MustHaveHappened(Repeated.Exactly.Once);
-            A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
-                .MustHaveHappened();
             Check.That(nextNode).IsNull();
+            A.CallTo(() => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._)).MustHaveHappened();
         }
 
         [Fact]
@@ -309,6 +363,8 @@ namespace ImageHuntBotBuilderTest
             };
             var state = new ImageHuntState()
             {
+                Team = new TeamResponse() { CultureInfo = "fr" },
+
                 CurrentNode = new NodeResponse() { Latitude = 5.80003, Longitude = 5.869995 },
                 GameId = 45,
                 TeamId = 87,
@@ -334,6 +390,7 @@ namespace ImageHuntBotBuilderTest
                 Name = "Action",
                 Points = 56,
             };
+            A.CallTo(() => _localizer[A<string>._]).Returns(new LocalizedString("Toto","{0}"));
             // Act
             var activities = _target.ActivitiesFromNode(node);
             // Assert
@@ -356,6 +413,8 @@ namespace ImageHuntBotBuilderTest
                 Longitude = 4.9,
                 Name = "Action",
             };
+            A.CallTo(() => _localizer[A<string>._]).Returns(new LocalizedString("Toto", "{0}"));
+
             // Act
             var activities = _target.ActivitiesFromNode(node);
             // Assert
@@ -379,6 +438,8 @@ namespace ImageHuntBotBuilderTest
                 Name = "Hidden",
                 Points = 56,
             };
+            A.CallTo(() => _localizer[A<string>._]).Returns(new LocalizedString("Toto", "{0}"));
+
             // Act
             var activities = _target.ActivitiesFromNode(node);
             // Assert
@@ -400,7 +461,7 @@ namespace ImageHuntBotBuilderTest
             // Act
             var activities = _target.ActivitiesFromNode(node);
             // Assert
-            Check.That(activities).HasSize(1);
+            Check.That(activities).HasSize(2);
 
         }
         [Fact]

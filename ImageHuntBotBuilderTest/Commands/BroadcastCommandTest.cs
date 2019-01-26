@@ -8,7 +8,9 @@ using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
@@ -22,11 +24,13 @@ namespace ImageHuntBotBuilderTest.Commands
         private ILogger<IBroadcastCommand> _logger;
         private ITurnContext _turnContext;
         private ImageHuntBotAccessors _accessors;
+        private IStringLocalizer<BroadcastCommand> _localizer;
 
         public BroadcastCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IBroadcastCommand>>());
             _testContainerBuilder.RegisterInstance(_accessors = A.Fake<ImageHuntBotAccessors>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<BroadcastCommand>>());
             _turnContext = A.Fake<ITurnContext>();
             Build();
         }

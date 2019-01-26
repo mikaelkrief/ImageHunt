@@ -1,8 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Globalization;
+using System.Threading.Tasks;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -14,27 +18,28 @@ namespace ImageHuntBotBuilder.Commands
         private readonly IActionWebService _actionWebService;
         private readonly ITeamWebService _teamWebService;
 
-        public BeginCommand(IActionWebService actionWebService, ITeamWebService teamWebService, ILogger<IBeginCommand> logger) : base(logger)
+        public BeginCommand(IActionWebService actionWebService, ITeamWebService teamWebService, ILogger<IBeginCommand> logger, IStringLocalizer<BeginCommand> localizer) : base(logger, localizer)
         {
             _actionWebService = actionWebService;
             _teamWebService = teamWebService;
+            
         }
 
         public override bool IsAdmin => true;
         protected async override Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
         {
+            
             if (state.Status != Status.Initialized)
             {
                 _logger.LogError("Game not initialized");
-                await turnContext.SendActivityAsync(
-                    "Le chat n'a pas été initialisé, impossible de commencer maintenant!");
+                await turnContext.SendActivityAsync(_localizer["CHAT_NOT_INITIALIZED"]);
                 return;
             }
+
             if (state.CurrentLocation == null)
             {
                 _logger.LogError("No location");
-                await turnContext.SendActivityAsync(
-                    "Aucun joueur n'a activé sa localisation en continu, la chasse ne peut commencer!");
+                await turnContext.SendActivityAsync(_localizer["NO_LIVE_LOCATION"]);
                 return;
             }
 
@@ -51,7 +56,7 @@ namespace ImageHuntBotBuilder.Commands
                 Longitude = state.CurrentLocation.Longitude
             };
             await _actionWebService.LogAction(gameActionRequest);
-            await turnContext.SendActivityAsync($"La chasse commence maintenant! Bonne chance!");
+            await turnContext.SendActivityAsync(_localizer["GAME_STARTED"]);
         }
     }
 }

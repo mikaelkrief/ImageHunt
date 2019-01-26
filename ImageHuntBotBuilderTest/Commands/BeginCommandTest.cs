@@ -7,11 +7,13 @@ using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
@@ -26,12 +28,14 @@ namespace ImageHuntBotBuilderTest.Commands
         private ILogger<IBeginCommand> _logger;
         private ITurnContext _turnContext;
         private ImageHuntState _state;
+        private IStringLocalizer<BeginCommand> _localizer;
 
         public BeginCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_teamWebService = A.Fake<ITeamWebService>()).AsImplementedInterfaces();
             _testContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>()).AsImplementedInterfaces();
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IBeginCommand>>()).AsImplementedInterfaces();
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<BeginCommand>>());
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState(){GameId = 13, TeamId = 443};
            Build();
@@ -49,6 +53,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _teamWebService.StartGameForTeam(A<int>._, A<int>._, A<CancellationToken>._))
                 .Returns(nodeResponse);
             _state.CurrentLocation = new GeoCoordinates();
+            _state.Team = new TeamResponse(){CultureInfo = "fr"};
             // Act
             await _target.Execute(_turnContext, _state);
             // Assert
@@ -67,6 +72,7 @@ namespace ImageHuntBotBuilderTest.Commands
             var activity = new Activity(type: ImageHuntActivityTypes.Command, text: "/begin");
             _state.Status = Status.Initialized;
             _state.CurrentLocation = null;
+            _state.Team = new TeamResponse(){CultureInfo = "fr"};
 
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             var nodeResponse = new NodeResponse();

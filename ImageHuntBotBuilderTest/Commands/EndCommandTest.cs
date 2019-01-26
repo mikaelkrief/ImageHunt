@@ -7,10 +7,12 @@ using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
@@ -24,11 +26,14 @@ namespace ImageHuntBotBuilderTest.Commands
         private IActionWebService _actionWebService;
         private ITurnContext _turnContext;
         private ImageHuntState _state;
+        private IStringLocalizer<EndCommand> _localizer;
 
         public EndCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IEndCommand>>());
             _testContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<EndCommand>>());
+
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState();
             Build();

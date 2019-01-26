@@ -6,9 +6,11 @@ using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
@@ -22,11 +24,14 @@ namespace ImageHuntBotBuilderTest.Commands
         private ImageHuntState _state;
         private IActionWebService _actionWebService;
         private IPasscodeWebService _passcodeWebService;
+        private IStringLocalizer<RedeemCommand> _localizer;
 
         public RedeemCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IRedeemCommand>>());
             _testContainerBuilder.RegisterInstance(_passcodeWebService = A.Fake<IPasscodeWebService>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<RedeemCommand>>());
+
             _testContainerBuilder.RegisterInstance(A.Fake<IBroadcastCommand>());
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState();

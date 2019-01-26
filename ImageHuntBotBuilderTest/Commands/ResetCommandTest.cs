@@ -5,7 +5,9 @@ using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
@@ -17,11 +19,13 @@ namespace ImageHuntBotBuilderTest.Commands
     {
         private ILogger<IResetCommand> _logger;
         private ITurnContext _turnContext;
+        private IStringLocalizer<ResetCommand> _localizer;
 
         public ResetCommandTest()
         {
             _logger = A.Fake<ILogger<IResetCommand>>();
             _testContainerBuilder.RegisterInstance(_logger);
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<ResetCommand>>());
             _turnContext = A.Fake<ITurnContext>();
             Build();
         }

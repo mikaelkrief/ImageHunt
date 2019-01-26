@@ -1,20 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
 {
-    [Command("displayNode")]
+    [Command("next")]
     public class DisplayNodeCommand : AbstractCommand, IDisplayNodeCommand
     {
         private readonly INodeWebService _nodeWebService;
         public override bool IsAdmin => false;
 
-        public DisplayNodeCommand(ILogger<IDisplayNodeCommand> logger, INodeWebService nodeWebService) 
-            : base(logger)
+        public DisplayNodeCommand(ILogger<IDisplayNodeCommand> logger, INodeWebService nodeWebService, IStringLocalizer<DisplayNodeCommand> localizer) 
+            : base(logger, localizer)
         {
             _nodeWebService = nodeWebService;
         }
