@@ -5,6 +5,7 @@ import { GameAction } from "../../shared/gameAction";
 import { Node } from "../../shared/node";
 import { LazyLoadEvent } from 'primeng/api';
 import { AlertService } from 'services/alert.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'game-action-list',
@@ -28,10 +29,15 @@ export class GameActionListComponent implements OnInit {
         this.totalRecords = next;
       });
   }
-  loadData(event: LazyLoadEvent) {  
-    this.gameService.getGameActionsToValidateForGame(this.gameId, (event.first / event.rows) + 1, event.rows, this.nbExpectedImageDisplayed, this.teamId)
-      .subscribe((gameActions: GameAction[]) => {
-        this.gameActions = gameActions;
+  loadData(event: LazyLoadEvent) {
+    forkJoin([
+    this.gameService.getPictureSubmissionsToValidateForGame(this.gameId, (event.first / event.rows) + 1,
+        event.rows, this.nbExpectedImageDisplayed, this.teamId),
+      this.gameService.getHiddenActionToValidateForGame(this.gameId, (event.first / event.rows) + 1,
+        event.rows, this.nbExpectedImageDisplayed, this.teamId)])
+      .subscribe(responses => {
+        this.gameActions = <GameAction[]>responses[0];
+        this.gameActions.concat(<GameAction[]>responses[1]);
         this.computeDeltas();
       });
   }

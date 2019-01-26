@@ -28,7 +28,7 @@ namespace ImageHunt.Services
       var game = Context.Games.Include(g => g.Teams).Single(g => g.Id == gameId);
       Picture picture = null;
       if (team.Picture != null)
-      picture = Context.Pictures.Single(p=>p.Id == team.Picture.Id);
+      picture = Context.Pictures.SingleOrDefault(p=>p.Id == team.Picture.Id);
       team.Picture = picture;
       game.Teams.Add(team);
       Context.SaveChanges();
