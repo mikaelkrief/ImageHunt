@@ -45,7 +45,8 @@ namespace ImageHuntBotBuilder.Commands
                         Action = (int)Action.GivePoints,
                         GameId = state.GameId.Value,
                         TeamId = state.TeamId.Value,
-                        PointsEarned = points
+                        PointsEarned = points,
+                        Validated = true,
                     };
                     await _actionWebService.LogAction(request);
                     await turnContext.SendActivityAsync($"L'orga vient de vous attribuer {points} points!");
