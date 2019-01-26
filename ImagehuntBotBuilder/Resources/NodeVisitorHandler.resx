@@ -133,7 +133,7 @@
     <value>The next node {0} is hidden, this hint should give you its location</value>
   </data>
   <data name="LASTNODE_REACHED" xml:space="preserve">
-    <value>You reached the arrival! Congrat! Meet the orga to sop your time, hurry!!</value>
+    <value>Congrat! Meet the orga to stop your running time, hurry up!!</value>
   </data>
   <data name="NEXT_LAST_NODE" xml:space="preserve">
     <value>Next node is arrival!</value>
