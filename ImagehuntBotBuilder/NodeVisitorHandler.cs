@@ -50,6 +50,8 @@ namespace ImageHuntBotBuilder
         {
             var activity = context.Activity;
             var location = activity.Attachments.First().Content as GeoCoordinates;
+            if (state.Status != Status.Started)
+                return null;
             if (state.CurrentNode == null)
                 return null;
             // Check that location match the current node
@@ -175,6 +177,9 @@ namespace ImageHuntBotBuilder
 
         public async Task MatchHiddenNodesLocationAsync(ITurnContext turnContext, ImageHuntState state)
         {
+            if (state.Status != Status.Started)
+                return ;
+
             var rangeDistance = Convert.ToDouble(_configuration["NodeSettings:RangeDistance"]);
             if (state.HiddenNodes == null || !state.HiddenNodes.Any())
                 return;
