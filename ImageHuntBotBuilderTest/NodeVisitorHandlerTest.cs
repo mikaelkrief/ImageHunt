@@ -13,6 +13,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
@@ -30,6 +31,7 @@ namespace ImageHuntBotBuilderTest
         private IConfiguration _configuration;
         private ITurnContext _turnContext;
         private IActionWebService _actionWebService;
+        private IStringLocalizer<NodeVisitorHandler> _localizer;
 
         public NodeVisitorHandlerTest()
         {
@@ -37,6 +39,7 @@ namespace ImageHuntBotBuilderTest
             _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
             _testContainerBuilder.RegisterInstance(_configuration = A.Fake<IConfiguration>());
             _testContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<NodeVisitorHandler>>());
             A.CallTo(() => _configuration["NodeSettings:RangeDistance"]).Returns("40");
             _turnContext = A.Fake<ITurnContext>();
             Build();
@@ -59,6 +62,7 @@ namespace ImageHuntBotBuilderTest
             var state = new ImageHuntState()
             {
                 Status = Status.Started,
+                Team = new TeamResponse(),
                 CurrentNode = new NodeResponse()
                 {
                     Latitude = 45.8,
@@ -135,6 +139,8 @@ namespace ImageHuntBotBuilderTest
             };
             var state = new ImageHuntState()
             {
+                Team = new TeamResponse(){CultureInfo = "fr"},
+
                 Status = Status.Started,
                 CurrentNode = new NodeResponse()
                 {
@@ -181,6 +187,8 @@ namespace ImageHuntBotBuilderTest
             var state = new ImageHuntState()
             {
                 Status = Status.Initialized,
+                Team = new TeamResponse() { CultureInfo = "fr" },
+
                 CurrentNode = new NodeResponse()
                 {
                     Latitude = 45.8,
@@ -222,6 +230,8 @@ namespace ImageHuntBotBuilderTest
             var state = new ImageHuntState()
             {
                 Status = Status.Started,
+                Team = new TeamResponse() { CultureInfo = "fr" },
+
                 CurrentNode = new NodeResponse()
                 {
                     Latitude = 45.79999,
@@ -266,6 +276,7 @@ namespace ImageHuntBotBuilderTest
             {
                 GameId = 45,
                 TeamId = 87,
+                Team = new TeamResponse() { CultureInfo = "fr" },
 
             };
             A.CallTo(() => _turnContext.Activity).Returns(activity);
@@ -292,6 +303,7 @@ namespace ImageHuntBotBuilderTest
             var state = new ImageHuntState()
             {
                 Status = Status.Started,
+                Team = new TeamResponse() { CultureInfo = "fr" },
 
                 CurrentNode = new NodeResponse()
                 {
@@ -355,6 +367,8 @@ namespace ImageHuntBotBuilderTest
             };
             var state = new ImageHuntState()
             {
+                Team = new TeamResponse() { CultureInfo = "fr" },
+
                 CurrentNode = new NodeResponse() { Latitude = 5.80003, Longitude = 5.869995 },
                 GameId = 45,
                 TeamId = 87,
@@ -380,6 +394,7 @@ namespace ImageHuntBotBuilderTest
                 Name = "Action",
                 Points = 56,
             };
+            A.CallTo(() => _localizer[A<string>._]).Returns(new LocalizedString("Toto","{0}"));
             // Act
             var activities = _target.ActivitiesFromNode(node);
             // Assert
@@ -402,6 +417,8 @@ namespace ImageHuntBotBuilderTest
                 Longitude = 4.9,
                 Name = "Action",
             };
+            A.CallTo(() => _localizer[A<string>._]).Returns(new LocalizedString("Toto", "{0}"));
+
             // Act
             var activities = _target.ActivitiesFromNode(node);
             // Assert
@@ -425,6 +442,8 @@ namespace ImageHuntBotBuilderTest
                 Name = "Hidden",
                 Points = 56,
             };
+            A.CallTo(() => _localizer[A<string>._]).Returns(new LocalizedString("Toto", "{0}"));
+
             // Act
             var activities = _target.ActivitiesFromNode(node);
             // Assert
