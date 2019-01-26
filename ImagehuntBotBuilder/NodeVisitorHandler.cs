@@ -80,7 +80,7 @@ namespace ImageHuntBotBuilder
                         TeamId = state.TeamId.Value,
                         NodeId = state.CurrentNode.Id,
                     };
-                    IEnumerable<Activity> nextActivities;
+                    IList<Activity> nextActivities = null;
                     switch (state.CurrentNode.NodeType)
                     {
                         case NodeResponse.FirstNodeType:
@@ -89,22 +89,18 @@ namespace ImageHuntBotBuilder
                             var nextNodeId = state.CurrentNode.ChildNodeIds.First();
                             nextNode = await _nodeWebService.GetNode(nextNodeId);
                             nextActivities = ActivitiesFromNode(nextNode);
-                            foreach (var nextActivity in nextActivities)
-                            {
-                                await context.SendActivityAsync(nextActivity);
-                            }
                             actionRequest.PointsEarned = state.CurrentNode.Points;
                             state.CurrentNode = nextNode;
                           break;
                         case NodeResponse.LastNodeType:
-                            nextActivities = ActivitiesFromNode(state.CurrentNode);
-                            foreach (var nextActivity in nextActivities)
-                            {
-                                await context.SendActivityAsync(nextActivity);
-                            }
+                            nextActivities.Add(new Activity(text:_localizer["LASTNODE_REACHED"]));
                             actionRequest.PointsEarned = state.CurrentNode.Points;
 
                             break;
+                    }
+                    foreach (var nextActivity in nextActivities)
+                    {
+                        await context.SendActivityAsync(nextActivity);
                     }
 
                     await _actionWebService.LogAction(actionRequest);
@@ -133,7 +129,7 @@ namespace ImageHuntBotBuilder
             }
         }
 
-        public IEnumerable<Activity> ActivitiesFromNode(NodeResponse node)
+        public IList<Activity> ActivitiesFromNode(NodeResponse node)
         {
             var activities = new List<Activity>();
             switch (node.NodeType)

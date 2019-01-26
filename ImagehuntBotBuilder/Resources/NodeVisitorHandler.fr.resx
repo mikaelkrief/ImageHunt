@@ -132,6 +132,9 @@
   <data name="HIDDEN_NODE" xml:space="preserve">
     <value>Le prochain noeud {0} est un noeud mystère. L'indice suivant devrait vour permettre de deviner sa position</value>
   </data>
+  <data name="LASTNODE_REACHED" xml:space="preserve">
+    <value>Vous venez d'atteindre l'arrivée de la chasse! Bravo! Allez faire arrêter votre temps avec l'orga</value>
+  </data>
   <data name="NEXT_LAST_NODE" xml:space="preserve">
     <value>Le prochain noeud est l'arrivée!</value>
   </data>

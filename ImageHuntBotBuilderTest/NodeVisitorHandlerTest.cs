@@ -321,11 +321,6 @@ namespace ImageHuntBotBuilderTest
             // Act
             var nextNode = await _target.MatchLocationAsync(_turnContext, state);
             // Assert
-            A.CallTo(
-                    () => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._))
-                .MustHaveHappened(Repeated.Exactly.Twice);
-            A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
-                .MustHaveHappened();
             Check.That(nextNode).IsNull();
         }
 
