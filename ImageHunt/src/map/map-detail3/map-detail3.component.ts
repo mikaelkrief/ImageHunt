@@ -56,6 +56,7 @@ export class MapDetail3Component implements OnInit {
       attribution: 'ImageHunt'
     }).addTo(this.map);
     this.updateMap();
+    this.map.on('click', event=> this.mapClicked.emit(event));
 
 
   }
@@ -89,7 +90,6 @@ export class MapDetail3Component implements OnInit {
 
     if (this.latCenter !== undefined) {
       this.map.setView(new L.LatLng(this.latCenter, this.lngCenter), this.zoom);
-      this.map.on('click', event => this.mapClicked.emit(event));
       this.createMarkers();
       this.createRelations();
       this.createNewRelations();
