@@ -17,7 +17,7 @@ using Xunit;
 
 namespace ImageHuntBotBuilderTest.Commands
 {
-    public class ListCommandTest : BaseTest<TrollCommand>
+    public class TrollCommandTest : BaseTest<TrollCommand>
     {
         private ILogger<ITrollCommand> _logger;
         private IStringLocalizer<TrollCommand> _localizer;
@@ -25,7 +25,7 @@ namespace ImageHuntBotBuilderTest.Commands
         private ImageHuntState _state;
         private IActionWebService _actionWebService;
 
-        public ListCommandTest()
+        public TrollCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>());
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<ITrollCommand>>());
