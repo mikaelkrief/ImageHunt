@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Castle.Core.Internal;
 using ImageHuntBotBuilder.Commands;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.WebServices;
 
 namespace ImageHuntBotBuilder

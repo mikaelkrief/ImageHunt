@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Autofac;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
