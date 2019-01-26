@@ -94,7 +94,7 @@ namespace ImageHuntBotBuilder
                           break;
                         case NodeResponse.LastNodeType:
                             nextActivities = new List<Activity>();
-                            nextActivities.Add(new Activity(text:_localizer["LASTNODE_REACHED"]));
+                            nextActivities.Add(new Activity(text:_localizer["LASTNODE_REACHED"].Value));
                             actionRequest.PointsEarned = state.CurrentNode.Points;
 
                             break;
