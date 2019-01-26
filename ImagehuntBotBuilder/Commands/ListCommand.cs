@@ -9,11 +9,11 @@ using Microsoft.Extensions.Logging;
 namespace ImageHuntBotBuilder.Commands
 {
     [Command("list")]
-    public class ListCommand : AbstractCommand, IListCommand
+    public class TrollCommand : AbstractCommand, ITrollCommand
     {
         private readonly IActionWebService _actionWebService;
 
-        public ListCommand(ILogger<IListCommand> logger, IStringLocalizer<ListCommand> localizer,
+        public TrollCommand(ILogger<ITrollCommand> logger, IStringLocalizer<TrollCommand> localizer,
             IActionWebService actionWebService) 
             : base(logger, localizer)
         {
@@ -37,6 +37,8 @@ namespace ImageHuntBotBuilder.Commands
                 Validated = true,
             };
             await _actionWebService.LogAction(actionRequest);
+            await turnContext.SendActivityAsync(
+                $"Félicitation! Vous avez utilisé la commande Troll! Pour votre peine, je vous fais bénéficier de {actionRequest.PointsEarned} points!");
         }
 
         public override bool IsAdmin => false;

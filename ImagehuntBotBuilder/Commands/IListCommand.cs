@@ -1,6 +1,6 @@
 ﻿namespace ImageHuntBotBuilder.Commands
 {
-    public interface IListCommand : ICommand
+    public interface ITrollCommand : ICommand
     {
     }
 }

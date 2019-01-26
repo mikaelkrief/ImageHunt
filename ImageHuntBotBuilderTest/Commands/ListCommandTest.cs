@@ -17,10 +17,10 @@ using Xunit;
 
 namespace ImageHuntBotBuilderTest.Commands
 {
-    public class ListCommandTest : BaseTest<ListCommand>
+    public class ListCommandTest : BaseTest<TrollCommand>
     {
-        private ILogger<IListCommand> _logger;
-        private IStringLocalizer<ListCommand> _localizer;
+        private ILogger<ITrollCommand> _logger;
+        private IStringLocalizer<TrollCommand> _localizer;
         private ITurnContext _turnContext;
         private ImageHuntState _state;
         private IActionWebService _actionWebService;
@@ -28,8 +28,8 @@ namespace ImageHuntBotBuilderTest.Commands
         public ListCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>());
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IListCommand>>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<ListCommand>>());
+            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<ITrollCommand>>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<TrollCommand>>());
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState() { Status = Status.Started, TeamId = 15, GameId = 5};
 
