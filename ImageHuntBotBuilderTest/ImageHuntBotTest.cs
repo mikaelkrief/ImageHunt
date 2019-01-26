@@ -11,6 +11,7 @@ using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
@@ -32,6 +33,7 @@ namespace ImageHuntBotBuilderTest
         private Activity _activity;
         private ImageHuntState _state;
         private INodeVisitorHandler _nodevisitorHandler;
+        private IStringLocalizer<ImageHuntBot> _localizer;
 
         public ImageHuntBotTest()
         {
@@ -52,6 +54,7 @@ namespace ImageHuntBotBuilderTest
             _testContainerBuilder.RegisterInstance(_accessor);
             _commandRepository = A.Fake<ICommandRepository>();
             _testContainerBuilder.RegisterInstance(_commandRepository);
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<ImageHuntBot>>());
             _activity = new Activity() {Conversation = new ConversationAccount(){Id = "toto|livechat"}};
             _state = new ImageHuntState();
             Build();

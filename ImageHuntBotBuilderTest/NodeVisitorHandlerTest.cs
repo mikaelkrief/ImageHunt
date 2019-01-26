@@ -323,7 +323,7 @@ namespace ImageHuntBotBuilderTest
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._))
-                .MustHaveHappened(Repeated.Exactly.Once);
+                .MustHaveHappened(Repeated.Exactly.Twice);
             A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
                 .MustHaveHappened();
             Check.That(nextNode).IsNull();
@@ -465,7 +465,7 @@ namespace ImageHuntBotBuilderTest
             // Act
             var activities = _target.ActivitiesFromNode(node);
             // Assert
-            Check.That(activities).HasSize(1);
+            Check.That(activities).HasSize(2);
 
         }
         [Fact]

@@ -171,6 +171,18 @@ namespace ImageHuntBotBuilder
                     break;
                 case NodeResponse.LastNodeType:
                     activities.Add(new Activity(text: _localizer["NEXT_LAST_NODE"], type: ActivityTypes.Message));
+                    activities.Add(new Activity(type: ImageHuntActivityTypes.Location)
+                    {
+                        Attachments = new List<Attachment>()
+                        {
+                            new Attachment(
+                                contentType: ImageHuntActivityTypes.Location,
+                                content: new GeoCoordinates(
+                                    latitude: node.Latitude,
+                                    longitude: node.Longitude)),
+                        }
+                    });
+
                     break;
                 case NodeResponse.TimerNodeType:
                     activities.Add(new Activity(text: string.Format(_localizer["TIMER_NODE"], node.Delay), type: ActivityTypes.Message));
