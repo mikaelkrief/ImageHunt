@@ -37,7 +37,7 @@ export class GameActionListComponent implements OnInit {
         event.rows, this.nbExpectedImageDisplayed, this.teamId)])
       .subscribe(responses => {
         this.gameActions = <GameAction[]>responses[0];
-        this.gameActions.concat(<GameAction[]>responses[1]);
+        this.gameActions = this.gameActions.concat(<GameAction[]>responses[1]);
         this.computeDeltas();
       });
   }
