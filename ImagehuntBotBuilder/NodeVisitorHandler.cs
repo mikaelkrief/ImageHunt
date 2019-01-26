@@ -164,7 +164,7 @@ namespace ImageHuntBotBuilder
                     activities.Add(new Activity(text:node.Hint, type: ActivityTypes.Message));
                     break;
                 case NodeResponse.LastNodeType:
-                    activities.Add(new Activity(text: $"Vous avez atteint l'arrivée de la chasse. Trouvez un orga pour faire arrêter votre temps.", type: ActivityTypes.Message));
+                    activities.Add(new Activity(text: $"le prochain noeud est l'arrivée!", type: ActivityTypes.Message));
                     break;
                 case NodeResponse.TimerNodeType:
                     activities.Add(new Activity(text:$"Veuillez patienter pendant {node.Delay} secondes avant de poursuivre", type: ActivityTypes.Message));
@@ -236,6 +236,8 @@ namespace ImageHuntBotBuilder
                             await _actionWebService.LogAction(actionRequest);
                             break;
                     }
+
+                    await turnContext.SendActivityAsync("Envoyez un selfie pour valider votre découverte!");
                 }
             }
         }
