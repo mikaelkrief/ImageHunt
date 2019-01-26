@@ -121,7 +121,7 @@
     <value>The group had already been initialized</value>
   </data>
   <data name="GROUP_INITIALIZED" xml:space="preserve">
-    <value>"Chat of team {0} for game {1} that start on {2} is ready, good luck!"</value>
+    <value>Chat of team {0} for game {1} that start on {2} is ready, good luck!</value>
   </data>
   <data name="UNABLE_FIND_GAME" xml:space="preserve">
     <value>Unable to find game for l'Id={state.GameId} and team Id={state.TeamId}</value>

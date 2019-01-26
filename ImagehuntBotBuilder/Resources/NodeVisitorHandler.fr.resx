@@ -117,13 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GROUP_ALREADY_INITIALIZED" xml:space="preserve">
-    <value>Le groupe a déjà été initialisé!</value>
+  <data name="ASK_SELFIE" xml:space="preserve">
+    <value>Envoyez un selfie pour valider votre découverte!</value>
   </data>
-  <data name="GROUP_INITIALIZED" xml:space="preserve">
-    <value>Le groupe de l'équipe {0} pour la chasse {1} qui débute le {2} est prêt, bon jeu!</value>
+  <data name="BONUS_NODE" xml:space="preserve">
+    <value>Votre équipe à gagné un bonus de {0} des points totaux, bravo!</value>
   </data>
-  <data name="UNABLE_FIND_GAME" xml:space="preserve">
-    <value>Impossible de trouver la partie pour l'Id={state.GameId} ou l'équipe pour l'Id={state.TeamId}</value>
+  <data name="DO_ACTION_REQUEST" xml:space="preserve">
+    <value>Vous devrez effectuer l'action suivante : {0}</value>
+  </data>
+  <data name="EARN_POINTS" xml:space="preserve">
+    <value>Votre équipe à gagné {0} points, bravo!</value>
+  </data>
+  <data name="HIDDEN_NODE" xml:space="preserve">
+    <value>Le prochain noeud {0} est un noeud mystère. L'indice suivant devrait vour permettre de deviner sa position</value>
+  </data>
+  <data name="NEXT_LAST_NODE" xml:space="preserve">
+    <value>Le prochain noeud est l'arrivée!</value>
+  </data>
+  <data name="NEXT_NODE_LOCATION" xml:space="preserve">
+    <value>Le prochain noeud {0} et se trouve à l'emplacement suivant:</value>
+  </data>
+  <data name="TIMER_NODE" xml:space="preserve">
+    <value>Veuillez patienter pendant {0} secondes avant de poursuivre</value>
+  </data>
+  <data name="WAYPOINT_REACHED" xml:space="preserve">
+    <value>Vous avez rejoint le point de controle {0}, bravo!</value>
   </data>
 </root>

@@ -35,7 +35,6 @@ namespace ImageHuntBotBuilder.Commands
                 return;
             }
 
-            _localizer = _localizer.WithCulture(new CultureInfo(state.Team.CultureInfo));
             if (state.CurrentLocation == null)
             {
                 _logger.LogError("No location");

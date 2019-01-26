@@ -58,7 +58,7 @@ namespace ImageHuntBotBuilder.Commands
             }
             else
             {
-                await turnContext.SendActivityAsync("La syntaxe de la commande est éronée, veuillez vérifier");
+                await turnContext.SendActivityAsync(_localizer["SYNTAX_ERROR"]);
                 _logger.LogError($"Syntax error for command: {turnContext.Activity.Text}");
             }
         }
