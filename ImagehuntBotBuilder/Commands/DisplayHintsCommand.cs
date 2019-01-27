@@ -27,18 +27,18 @@ namespace ImageHuntBotBuilder.Commands
             if (state.Status != Status.Started)
             {
                 await turnContext.SendActivityAsync(
-                    $"La partie n'as pas encore commencée, veuillez demander au maitre du jeu");
+                    _localizer["GAME_NOT_STARTED"]);
                 return;
             }
 
             var nodes = state.HiddenNodes;
             if (nodes == null || !nodes.Any())
             {
-                await turnContext.SendActivityAsync("Il ne reste plus de noeuds cachés");
+                await turnContext.SendActivityAsync(_localizer["NO_MORE_HIDDEN_NODE"]);
                 return;
             }
 
-            await turnContext.SendActivityAsync("Voici des indices vous permettant de trouver les Noeuds bonus:");
+            await turnContext.SendActivityAsync(_localizer["HIDDEN_NODES_TITLE"]);
             foreach (var nodeResponse in nodes)
             {
                 switch (nodeResponse.NodeType)
@@ -48,16 +48,16 @@ namespace ImageHuntBotBuilder.Commands
                         switch (nodeResponse.BonusType)
                         {
                             case BonusNode.BONUS_TYPE.Points_x2:
-                                bonusType = "Multiplication du score final par 2";
+                                bonusType = _localizer["2X_BONUS_TITLE"];
                                 break;
                             case BonusNode.BONUS_TYPE.Points_x3:
-                                bonusType = "Multiplication du score final par 3";
+                                bonusType = _localizer["3X_BONUS_TITLE"];
                                 break;
                         }
-                        await turnContext.SendActivityAsync($"Indice : {nodeResponse.Hint}\nBonus: {bonusType}");
+                        await turnContext.SendActivityAsync(string.Format(_localizer["BONUS_HINT"], nodeResponse.Hint, bonusType));
                         break;
                     case NodeResponse.HiddenNodeType:
-                        await turnContext.SendActivityAsync($"Indice : {nodeResponse.Hint}\nBonus: {nodeResponse.Points} points");
+                        await turnContext.SendActivityAsync(string.Format(_localizer["HIDDEN_HINT"], nodeResponse.Hint, nodeResponse.Points));
                         break;
                 }
             }
