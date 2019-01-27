@@ -94,6 +94,7 @@ export class MapDetail3Component implements OnInit {
       this.createRelations();
       this.createNewRelations();
       //this.createContextMenu();
+      this.fitNodes();
     }
   }
 
@@ -287,5 +288,9 @@ export class MapDetail3Component implements OnInit {
 
     this.nodeDragged.emit({ node, newPosition});
   }
-
+  fitNodes() {
+    const coords = this.markers.map(m => [m.node.latitude, m.node.longitude]);
+    
+    this.map.fitBounds(coords);
+  }
 }
