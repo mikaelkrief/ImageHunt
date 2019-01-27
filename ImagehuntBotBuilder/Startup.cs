@@ -155,7 +155,7 @@ namespace ImagehuntBotBuilder
                 {
                     var adapter = e.Instance;
                     adapter.Use(e.Context.Resolve<LogPositionMiddleware>());
-                    adapter.Use(e.Context.Resolve<NewParticipantMiddleware>());
+                    adapter.Use(e.Context.Resolve<TeamCompositionMiddleware>());
                 })
                 .AsSelf()
                 .As<IAdapterIntegration>();
@@ -199,7 +199,7 @@ namespace ImagehuntBotBuilder
 
 
             containerBuilder.RegisterType<LogPositionMiddleware>().AsSelf().As<IMiddleware>();
-            containerBuilder.RegisterType<NewParticipantMiddleware>().AsSelf().As<IMiddleware>();
+            containerBuilder.RegisterType<TeamCompositionMiddleware>().AsSelf().As<IMiddleware>();
             containerBuilder.RegisterInstance(Mapper.Instance);
             containerBuilder.Register(a => new HttpClient()
             {
@@ -318,6 +318,16 @@ namespace ImagehuntBotBuilder
                                 };
                                 attachments.Add(attachment);
                             }
+                        }
+
+                        if (message.LeftChatMember != null)
+                        {
+                            var attachment = new Attachment()
+                            {
+                                ContentType = ImageHuntActivityTypes.LeftPlayer,
+                                Content = new ConversationAccount(name: message.LeftChatMember.Username)
+                            };
+                            attachments.Add(attachment);
                         }
                         return attachments;
                     }))

@@ -69,5 +69,10 @@ namespace ImageHuntWebServiceClient.WebServices
               return await PostAsync<TeamResponse>($"{_httpClient.BaseAddress}api/Team/AddPlayer/{teamId}", content);
           }
       }
-    }
+
+      public async Task RemovePlayerFromTeam(int teamId, string chatId)
+      {
+          await DeleteAsync($"{_httpClient.BaseAddress}api/Team/RemoveByChatId/{teamId}/{chatId}");
+      }
+  }
 }

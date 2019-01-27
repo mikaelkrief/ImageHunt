@@ -178,6 +178,13 @@ namespace ImageHunt.Controllers
 
       return BadRequest();
    }
-
+    [HttpDelete("RemoveByChatId/{teamId}/{chatId}")]
+    public IActionResult RemovePlayer(int teamId, string chatId)
+    {
+      var team = _teamService.GetTeamById(teamId);
+      var player = _playerService.GetPlayerByChatId(chatId);
+      _teamService.DelMemberToTeam(team, player);
+      return Ok();
+    }
   }
 }

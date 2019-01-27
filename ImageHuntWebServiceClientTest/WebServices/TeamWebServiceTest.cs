@@ -93,5 +93,15 @@ namespace ImageHuntBotTest.WebServices
             Check.That(response.ChatId).Equals(teamRequest.ChatId);
         }
 
+        [Fact]
+        public async Task Should_GetPlayer_Return_Player()
+        {
+            // Arrange
+            
+            // Act
+            await _target.RemovePlayerFromTeam(1, "toto");
+            // Assert
+        }
+
     }
 }

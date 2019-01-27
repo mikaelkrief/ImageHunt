@@ -99,5 +99,10 @@ namespace ImageHuntWebServiceClient.WebServices
           }
           return null;
       }
+
+      protected async Task DeleteAsync(string uri, CancellationToken cancellationToken = default(CancellationToken))
+      {
+          await _httpClient.DeleteAsync(uri, cancellationToken);
+      }
   }
 }

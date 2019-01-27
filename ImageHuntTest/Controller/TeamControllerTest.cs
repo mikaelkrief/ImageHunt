@@ -124,6 +124,18 @@ namespace ImageHuntTest.Controller
         // Assert
         A.CallTo(() => _teamService.DelMemberToTeam(A<Team>._, A<Player>._)).MustHaveHappened();
       }
+
+        [Fact]
+        public void Should_Remove_Player_By_ChatId()
+        {
+            // Arrange
+
+            // Act
+            var result = _target.RemovePlayer(1, "Toto");
+            // Assert
+            A.CallTo(() => _playerService.GetPlayerByChatId(A<string>._)).MustHaveHappened();
+            A.CallTo(() => _teamService.DelMemberToTeam(A<Team>._, A<Player>._)).MustHaveHappened();
+        }
       [Fact]
       public void GetPlayerDetails()
       {
