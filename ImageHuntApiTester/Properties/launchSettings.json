@@ -2,7 +2,7 @@
   "profiles": {
     "ImageHuntApiTester": {
       "commandName": "Project",
-      "commandLineArgs": "--API AddPlayer -t 1 --Name tiuyto --ChatLogin tgjhgto -u http://localhost:55955"
+      "commandLineArgs": "-g 18 -t 40 -T 40 -a 48.847164332195206 -n 2.33487253022847 -u http://localhost:55955 -i 1000 --API LogAction"
     }
   }
 }

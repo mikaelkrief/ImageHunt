@@ -110,8 +110,12 @@ namespace ImageHunt.Controllers
         case Action.ReplyQuestion:
           var answer = _nodeService.GetAnswer(gameActionRequest.AnswerId);
           gameAction.SelectedAnswer = answer;
-          var correctAnswer = ((ChoiceNode) gameAction.Node).Answers.Single(a => a.Correct);
-          gameAction.CorrectAnswer = correctAnswer;
+          if (gameAction.Node != null)
+          {
+            var correctAnswer = ((ChoiceNode) gameAction.Node).Answers.Single(a => a.Correct);
+            gameAction.CorrectAnswer = correctAnswer;
+          }
+
           break;
       }
       _actionService.AddGameAction(gameAction);

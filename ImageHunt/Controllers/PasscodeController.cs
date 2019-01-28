@@ -62,7 +62,6 @@ namespace ImageHunt.Controllers
       return Ok(passcodeResponses);
     }
     [HttpPatch]
-
     public IActionResult Redeem([FromBody]PasscodeRedeemRequest request)
     {
       var team = _teamService.GetTeamForUserName(request.GameId, request.UserName);
@@ -116,7 +115,7 @@ namespace ImageHunt.Controllers
 
       }
     }
-
+    [HttpGet("GetPage/{gameId}/{pageNumber}")]
     public IActionResult GetPage(int gameId, int pageNumber)
     {
       var passcodes = _passcodeService.GetAll(gameId);

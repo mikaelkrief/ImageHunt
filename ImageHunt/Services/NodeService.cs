@@ -96,7 +96,7 @@ namespace ImageHunt.Services
 
     public Answer GetAnswer(int answerId)
     {
-      return Context.Answers.Single(a => a.Id == answerId);
+      return Context.Answers.SingleOrDefault(a => a.Id == answerId);
     }
 
     public Node FindPictureNodeByLocation(int gameId, (double, double) pictureCoordinates)
