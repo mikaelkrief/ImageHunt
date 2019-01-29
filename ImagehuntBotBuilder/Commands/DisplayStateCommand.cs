@@ -34,7 +34,7 @@ namespace ImageHuntBotBuilder.Commands
 
                 if (state.Team != null)
                 {
-                    relyBuilder.AppendLine($"Team: (Id: {state.Team.Id}, Name: {state.Team.Name})");
+                    relyBuilder.AppendLine($"Team: (Id: {state.Team.Id}, Name: {state.Team.Name}, Culture:{state.Team.CultureInfo})");
                 }
 
                 if (state.CurrentLocation != null)
