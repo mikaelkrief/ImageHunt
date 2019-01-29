@@ -134,7 +134,6 @@ namespace ImageHunt
       app.UseSwaggerUI(c =>
       {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImageHuntApi SwaggerDoc");
-        c.RoutePrefix = string.Empty;
       });
       app.UseMvcWithDefaultRoute();
       app.UseDefaultFiles();

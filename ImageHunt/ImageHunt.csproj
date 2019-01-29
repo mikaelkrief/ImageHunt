@@ -5,6 +5,11 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+    <Version>0.6.0</Version>
+    <Authors>Christophe Mandrillon</Authors>
+    <PackageProjectUrl>https://github.com/nimbusparis/ImageHunt</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/nimbusparis/ImageHunt</RepositoryUrl>
+    <RepositoryType>Github</RepositoryType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
