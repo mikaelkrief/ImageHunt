@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -25,27 +25,6 @@
     <None Remove="src\map\map-detail\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="src\app\app.ts" />
-    <None Remove="src\app\top-menu.config.ts" />
-    <None Remove="src\assets\ImageHunt.png" />
-    <None Remove="src\score\score-list\score.module.ts" />
-    <None Remove="src\shared\answer.ts" />
-    <None Remove="src\shared\gameAction.ts" />
-    <None Remove="src\shared\GUINode.ts" />
-    <None Remove="src\shared\NodeClicked.ts" />
-    <None Remove="src\shared\NodeDragged.ts" />
-    <None Remove="src\shared\nodeResponse.ts" />
-    <None Remove="src\shared\Passcode.ts" />
-    <None Remove="src\shared\picture.ts" />
-    <None Remove="src\shared\RelationClicked.ts" />
-    <None Remove="src\shared\player.ts" />
-    <None Remove="src\shared\QuestionNodeAnswerRelation.ts" />
-    <None Remove="src\shared\score.ts" />
-    <None Remove="src\shared\team.ts" />
-    <None Remove="src\shared\teamPosition.ts" />
-    <None Remove="src\team\team.service.ts" />
-  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
@@ -69,8 +48,6 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>

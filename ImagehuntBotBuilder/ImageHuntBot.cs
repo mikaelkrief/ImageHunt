@@ -87,7 +87,7 @@ namespace ImageHuntBotBuilder
                             TeamId = state.TeamId.Value,
                             Latitude = state.CurrentLocation.Latitude.Value,
                             Longitude = state.CurrentLocation.Longitude.Value,
-                            PictureId = (int)turnContext.Activity.Attachments.First().Content
+                            PictureId = (int)turnContext.Activity.Attachments.First().Content,
                         };
                         await _actionWebService.LogAction(gameActionRequest);
                         _logger.LogInformation(

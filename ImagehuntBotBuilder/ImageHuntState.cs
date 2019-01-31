@@ -28,13 +28,13 @@ namespace ImageHuntBotBuilder
         public int? CurrentNodeId { get; set; }
         public NodeResponse[] HiddenNodes { get; set; }
 
-                                                                                      }
+    }
 
-    public enum Status  
+    public enum Status
     {
         None,
         Initialized,
         Started,
-        Ended
+        Ended,
     }
 }
