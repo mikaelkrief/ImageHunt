@@ -124,6 +124,6 @@
     <value>Le groupe de l'équipe {0} pour la chasse {1} qui débute le {2} est prêt, bon jeu!</value>
   </data>
   <data name="UNABLE_FIND_GAME" xml:space="preserve">
-    <value>Impossible de trouver la partie pour l'Id={state.GameId} ou l'équipe pour l'Id={state.TeamId}</value>
+    <value>Impossible de trouver la partie pour l'Id={0} ou l'équipe pour l'Id={1}</value>
   </data>
 </root>

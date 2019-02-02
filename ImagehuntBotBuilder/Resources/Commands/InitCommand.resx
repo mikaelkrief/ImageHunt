@@ -124,6 +124,6 @@
     <value>Chat of team {0} for game {1} that start on {2} is ready, good luck!</value>
   </data>
   <data name="UNABLE_FIND_GAME" xml:space="preserve">
-    <value>Unable to find game for l'Id={state.GameId} and team Id={state.TeamId}</value>
+    <value>Unable to find game for l'Id={0} and team Id={1}</value>
   </data>
 </root>

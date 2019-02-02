@@ -52,8 +52,7 @@ namespace ImageHuntBotBuilder.Commands
                 {
                     _logger.LogError("Unable to find Game and/or Team");
 
-                    var unableToFindGame = string.Format("Unable to find game {0} team {1}", state.GameId??0, state.TeamId??0);
-                    //var unableToFindGame = string.Format(_localizer["UNABLE_FIND_GAME"], state.GameId??0, state.TeamId??0);
+                    var unableToFindGame = string.Format(_localizer["UNABLE_FIND_GAME"], state.GameId??0, state.TeamId??0);
                     await turnContext.SendActivityAsync(unableToFindGame);
                     state.GameId = state.TeamId = null;
                     return;
