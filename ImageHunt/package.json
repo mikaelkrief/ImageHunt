@@ -43,8 +43,8 @@
     "ngx-color-picker": "^6.7.0",
     "primeicons": "^1.0.0-beta.10",
     "primeng": "^6.1.4",
-    "rxjs": "^6.3.2",
-    "rxjs-compat": "^6.2.2",
+    "rxjs": "6.3.2",
+    "rxjs-compat": "6.2.2",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
