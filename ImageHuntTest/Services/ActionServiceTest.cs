@@ -868,7 +868,7 @@ namespace ImageHuntTest.Services
             _context.Admins.AddRange(admins);
             _context.SaveChanges();
             // Act
-            _target.Validate(gameActions[1].Id, admins[1].Id, true);
+            _target.Validate(gameActions[1].Id, gameActions[1].Node.Id, admins[1].Id, true);
             // Assert
             Check.That(gameActions.Extracting("IsValidated")).Contains(false, true);
             Check.That(gameActions.Extracting("IsReviewed")).Contains(false, true);
@@ -886,7 +886,7 @@ namespace ImageHuntTest.Services
             _context.Admins.AddRange(admins);
             _context.SaveChanges();
             // Act
-            _target.Validate(gameActions[1].Id, admins[1].Id, false);
+            _target.Validate(gameActions[1].Id, 1, admins[1].Id, false);
             // Assert
             Check.That(gameActions.Extracting("IsValidated")).Contains(false, false);
             Check.That(gameActions.Extracting("IsReviewed")).Contains(false, true);
@@ -905,7 +905,7 @@ namespace ImageHuntTest.Services
             _context.Admins.AddRange(admins);
             _context.SaveChanges();
             // Act
-            _target.Validate(gameActions[1].Id, admins[1].Id, true);
+            _target.Validate(gameActions[1].Id, nodes[1].Id, admins[1].Id, true);
             // Assert
             Check.That(gameActions.Extracting("PointsEarned")).Contains(0, 20);
         }
@@ -922,7 +922,7 @@ namespace ImageHuntTest.Services
             _context.Admins.AddRange(admins);
             _context.SaveChanges();
             // Act
-            _target.Validate(gameActions[1].Id, admins[1].Id, false);
+            _target.Validate(gameActions[1].Id, gameActions[1].Node.Id, admins[1].Id, false);
             // Assert
             Check.That(gameActions.Extracting("IsValidated")).ContainsExactly(false, false);
             Check.That(gameActions.Extracting("IsReviewed")).ContainsExactly(false, true);
@@ -937,7 +937,7 @@ namespace ImageHuntTest.Services
             _context.GameActions.AddRange(gameActions);
             _context.SaveChanges();
             // Act
-            Check.ThatCode(() => _target.Validate(gameActions[1].Id, 0, true)).Throws<InvalidOperationException>();
+            Check.ThatCode(() => _target.Validate(gameActions[1].Id, 1, 0, true)).Throws<InvalidOperationException>();
             // Assert
         }
 

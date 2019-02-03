@@ -86,11 +86,11 @@ export class GameActionListComponent implements OnInit {
       return "fa fa-check-square";
   }
   validateGameAction(action: GameAction) {
-    this.gameService.validateGameAction(action.id)
+    this.gameService.validateGameAction(action.id, action.node.id)
       .subscribe(next => {
           action.isValidated = true;
           action.isReviewed = true;
-          action.pointsEarned = action.node.points;
+          action.pointsEarned = next.pointsEarned;
         },
         error => this.handleError(error)
       );

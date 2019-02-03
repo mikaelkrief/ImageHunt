@@ -126,12 +126,12 @@ namespace ImageHunt.Controllers
       await _hubContext.Clients.All.SendAsync("ActionSubmitted", gameAction);
     }
 
-    [HttpPut("Validate/{gameActionId}")]
+    [HttpPut("Validate/{gameActionId}/{nodeId}")]
     [Authorize]
-    public IActionResult Validate(int gameActionId)
+    public IActionResult Validate(int gameActionId, int nodeId)
     {
       var validatorId = UserId;
-      _actionService.Validate(gameActionId, validatorId, true);
+      _actionService.Validate(gameActionId, nodeId, validatorId, true);
       return Ok();
     }
     [HttpPut("Reject/{gameActionId}")]
@@ -139,7 +139,7 @@ namespace ImageHunt.Controllers
     public IActionResult Reject(int gameActionId)
     {
       var validatorId = UserId;
-      _actionService.Validate(gameActionId, validatorId, false);
+      _actionService.Validate(gameActionId, 0, validatorId, false);
       return Ok();
     }
 
