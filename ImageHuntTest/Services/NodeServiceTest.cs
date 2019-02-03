@@ -10,6 +10,7 @@ using System.Reflection;
 using ImageHunt.Data;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
+using ImageHuntWebServiceClient.Responses;
 using TestUtilities;
 using Xunit;
 
@@ -458,6 +459,26 @@ namespace ImageHuntTest.Services
             var closeNodes = _target.GetGameNodesOrderByPosition(games[0].Id, 40.0, 5.0);
             // Assert
             Check.That(closeNodes).ContainsExactly(nodes[0], nodes[1], nodes[3], nodes[2]);
+        }
+        [Fact]
+        public void GetNodesCloseToPosition_strip_Waypoint_Nodes()
+        {
+            // Arrange
+            var nodes = new List<Node>()
+            {
+                new PictureNode(){Latitude = 40, Longitude = 5},
+                new WaypointNode() {Latitude = 40.0005, Longitude = 5.00008},
+                 new PictureNode() {Latitude = 42.0007, Longitude = 5.0001},
+               new HiddenNode() {Latitude = 42.0007, Longitude = 5.0001},
+            };
+            _context.Nodes.AddRange(nodes);
+            var games = new List<Game>() { new Game() { Nodes = nodes } };
+            _context.Games.AddRange(games);
+            _context.SaveChanges();
+            // Act
+            var closeNodes = _target.GetGameNodesOrderByPosition(games[0].Id, 40.0, 5.0, NodeTypes.Picture|NodeTypes.Hidden);
+            // Assert
+            Check.That(closeNodes).ContainsExactly(nodes[0], nodes[2], nodes[3]);
         }
     }
 }

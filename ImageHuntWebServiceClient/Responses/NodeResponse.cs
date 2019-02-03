@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ImageHuntCore.Model.Node;
 using Microsoft.AspNetCore.Http;
 
 namespace ImageHuntWebServiceClient.Responses
 {
-    public enum NodeTypes
+    [Flags]
+    public enum NodeTypes : short
     {
-        All,
-        Picture,
-        Hidden
+        Picture = 1,
+        Hidden = 2,
+        All = 4,
+
     }
     public partial class NodeResponse
     {

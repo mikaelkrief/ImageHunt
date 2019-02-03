@@ -192,7 +192,7 @@ namespace ImageHunt.Controllers
         if (gameAction.Latitude.HasValue && gameAction.Longitude.HasValue)
         {
           gameActionToValidate.ProbableNodes = _nodeService
-            .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value, gameAction.Longitude.Value)
+            .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value, gameAction.Longitude.Value, NodeTypes.Picture|NodeTypes.Hidden)
             .Take(gameActionListRequest.NbPotential);
           foreach (var probableNode in gameActionToValidate.ProbableNodes)
           {

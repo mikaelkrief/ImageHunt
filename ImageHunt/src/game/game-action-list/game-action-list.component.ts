@@ -19,7 +19,7 @@ export class GameActionListComponent implements OnInit {
     constructor(private gameService: GameService, private route: ActivatedRoute, private alertService: AlertService) {
     }
   images: any[][] = [];
-  nbExpectedImageDisplayed = 3;
+  nbExpectedImageDisplayed = 5;
   ngOnInit(): void {
     this.gameId = this.route.snapshot.params["gameId"];
     this.teamId = this.route.snapshot.params["teamId"];
