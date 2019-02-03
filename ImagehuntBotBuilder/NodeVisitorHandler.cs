@@ -210,7 +210,7 @@ namespace ImageHuntBotBuilder
                     await turnContext.SendActivityAsync(string.Format(_localizer["WAYPOINT_REACHED"], hiddenNode.Name));
                     var actionRequest = new GameActionRequest()
                     {
-                        Latitude = location.Longitude,
+                        Latitude = location.Latitude,
                         Longitude = location.Longitude,
                         GameId = state.GameId.Value,
                         TeamId = state.TeamId.Value,
