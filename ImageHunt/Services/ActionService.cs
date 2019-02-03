@@ -169,6 +169,7 @@ namespace ImageHunt.Services
         .Where(ga => ga.Game.Id == gameId && ga.IsValidated)
         .GroupBy(ga => ga.Team)
         .Select(g => new Score() { Team = g.Key, Points = g.Sum(_ => _.PointsEarned) }).ToList();
+      scoresForGame = scoresForGame.Where(s => s.Team != null).ToList();
       foreach (var score in scoresForGame)
       {
         var startDate = Context.GameActions.LastOrDefault(ga => ga.Team == score.Team && ga.Action == Action.StartGame)
