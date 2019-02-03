@@ -19,7 +19,7 @@ export class GameActionListComponent implements OnInit {
     constructor(private gameService: GameService, private route: ActivatedRoute, private alertService: AlertService) {
     }
   images: any[][] = [];
-  nbExpectedImageDisplayed = 3;
+  nbExpectedImageDisplayed = 5;
   ngOnInit(): void {
     this.gameId = this.route.snapshot.params["gameId"];
     this.teamId = this.route.snapshot.params["teamId"];
@@ -86,11 +86,11 @@ export class GameActionListComponent implements OnInit {
       return "fa fa-check-square";
   }
   validateGameAction(action: GameAction) {
-    this.gameService.validateGameAction(action.id)
+    this.gameService.validateGameAction(action.id, action.node.id)
       .subscribe(next => {
           action.isValidated = true;
           action.isReviewed = true;
-          action.pointsEarned = action.node.points;
+          action.pointsEarned = next.pointsEarned;
         },
         error => this.handleError(error)
       );

@@ -236,11 +236,11 @@ namespace ImageHuntTest.Controller
             _target.ControllerContext = new ControllerContext() { HttpContext = new DefaultHttpContext() };
             _target.User.AddIdentity(new ClaimsIdentity(new[] { new Claim("userId", "15"), }));
             // Act
-            var result = _target.Validate(1);
+            var result = _target.Validate(1, 1);
 
             // Assert
-            Check.That(result).IsInstanceOf<OkResult>();
-            A.CallTo(() => _actionService.Validate(1, 15, true)).MustHaveHappened();
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+            A.CallTo(() => _actionService.Validate(1, A<int>._, 15, true)).MustHaveHappened();
         }
         [Fact]
         public void Reject()
@@ -253,7 +253,7 @@ namespace ImageHuntTest.Controller
 
             // Assert
             Check.That(result).IsInstanceOf<OkResult>();
-            A.CallTo(() => _actionService.Validate(1, 15, false)).MustHaveHappened();
+            A.CallTo(() => _actionService.Validate(1, A<int>._, 15, false)).MustHaveHappened();
         }
 
         [Fact]
@@ -359,7 +359,7 @@ namespace ImageHuntTest.Controller
           };
             A.CallTo(() => _actionService.GetGameActionsForGame(A<int>._, A<int>._, A<int>._, A<IncludeAction>._, A<int?>._))
                 .Returns(Task.FromResult(new PaginatedList<GameAction>(gameActions, 2, 1, 10)));
-            A.CallTo(() => _nodeService.GetGameNodesOrderByPosition(1, 40, 5)).Returns(nodes);
+            A.CallTo(() => _nodeService.GetGameNodesOrderByPosition(1, 40, 5, A<NodeTypes>._)).Returns(nodes);
             var gameActionListRequest = new GameActionListRequest() { GameId = 1, PageIndex = 1, PageSize = 1, NbPotential = 3 };
             // Act
             var result = await _target.GetGameActionsToValidate(gameActionListRequest) as OkObjectResult;
@@ -392,7 +392,7 @@ namespace ImageHuntTest.Controller
           };
             A.CallTo(() => _actionService.GetGameActionsForGame(A<int>._, A<int>._, A<int>._, A<IncludeAction>._, A<int?>._))
                 .Returns(Task.FromResult(new PaginatedList<GameAction>(gameActions, 2, 1, 10)));
-            A.CallTo(() => _nodeService.GetGameNodesOrderByPosition(1, 40, 5)).Returns(nodes);
+            A.CallTo(() => _nodeService.GetGameNodesOrderByPosition(1, 40, 5, A<NodeTypes>._)).Returns(nodes);
             var gameActionListRequest = new GameActionListRequest() { GameId = 1, TeamId = 1, PageIndex = 1, PageSize = 1, NbPotential = 3 };
             // Act
             var result = await _target.GetGameActionsToValidate(gameActionListRequest) as OkObjectResult;
@@ -404,6 +404,9 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex,
                 gameActionListRequest.PageSize, 
                 A<IncludeAction>._, 1)).MustHaveHappened();
+            A.CallTo(() =>
+                _nodeService.GetGameNodesOrderByPosition(A<int>._, A<double>._, A<double>._,
+                    NodeTypes.Hidden | NodeTypes.Picture)).MustHaveHappened();
             Check.That(gameActionToValidate.Extracting("Node")).IsNotNull();
         }
         [Fact]

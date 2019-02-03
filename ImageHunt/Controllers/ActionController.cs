@@ -126,20 +126,20 @@ namespace ImageHunt.Controllers
       await _hubContext.Clients.All.SendAsync("ActionSubmitted", gameAction);
     }
 
-    [HttpPut("Validate/{gameActionId}")]
+    [HttpPut("Validate/{gameActionId}/{nodeId}")]
     [Authorize]
-    public IActionResult Validate(int gameActionId)
+    public IActionResult Validate(int gameActionId, int nodeId)
     {
       var validatorId = UserId;
-      _actionService.Validate(gameActionId, validatorId, true);
-      return Ok();
+      var gameAction = _actionService.Validate(gameActionId, nodeId, validatorId, true);
+      return Ok(gameAction);
     }
     [HttpPut("Reject/{gameActionId}")]
     [Authorize]
     public IActionResult Reject(int gameActionId)
     {
       var validatorId = UserId;
-      _actionService.Validate(gameActionId, validatorId, false);
+      _actionService.Validate(gameActionId, 0, validatorId, false);
       return Ok();
     }
 
@@ -192,7 +192,7 @@ namespace ImageHunt.Controllers
         if (gameAction.Latitude.HasValue && gameAction.Longitude.HasValue)
         {
           gameActionToValidate.ProbableNodes = _nodeService
-            .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value, gameAction.Longitude.Value)
+            .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value, gameAction.Longitude.Value, NodeTypes.Picture|NodeTypes.Hidden)
             .Take(gameActionListRequest.NbPotential);
           foreach (var probableNode in gameActionToValidate.ProbableNodes)
           {

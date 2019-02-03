@@ -155,10 +155,23 @@ namespace ImageHunt.Services
       Context.SaveChanges();
     }
 
-    public IEnumerable<Node> GetGameNodesOrderByPosition(int gameId, double latitude, double longitude)
+    public IEnumerable<Node> GetGameNodesOrderByPosition(int gameId, double latitude, double longitude,
+      NodeTypes nodeTypes = NodeTypes.All)
     {
       var nodes = Context.Games.Include(g => g.Nodes).Single(g => g.Id == gameId).Nodes;
-      return nodes.OrderBy(n => GeographyComputation.Distance(latitude, longitude, n.Latitude, n.Longitude));
+      IEnumerable<Node> selectedNodes = null;
+      if (nodeTypes.HasFlag(NodeTypes.All))
+        return nodes.OrderBy(n => GeographyComputation.Distance(latitude, longitude, n.Latitude, n.Longitude));
+      if (nodeTypes.HasFlag(NodeTypes.Picture))
+      {
+        selectedNodes = nodes.Where(n => n.NodeType == NodeResponse.PictureNodeType);
+      }
+      if (nodeTypes.HasFlag(NodeTypes.Hidden))
+      {
+        selectedNodes = selectedNodes.Union(nodes.Where(n => n.NodeType == NodeResponse.HiddenNodeType || n.NodeType == NodeResponse.BonusNodeType));
+      }
+
+      return selectedNodes.OrderBy(n => GeographyComputation.Distance(latitude, longitude, n.Latitude, n.Longitude));
     }
   }
 }

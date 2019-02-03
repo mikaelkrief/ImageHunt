@@ -122,18 +122,20 @@ namespace ImageHunt.Services
       return gameAction;
     }
 
-    public void Validate(int actionId, int validatorId, bool validate)
+    public GameAction Validate(int actionId, int nodeId, int validatorId, bool validate)
     {
       var gameAction = Context.GameActions
         .Include(ga => ga.Node)
         .Single(ga => ga.Id == actionId);
       var validator = Context.Admins.Single(a => a.Id == validatorId);
+      var node = Context.Nodes.SingleOrDefault(n => n.Id == nodeId);
       gameAction.Reviewer = validator;
       gameAction.IsReviewed = true;
       gameAction.DateReviewed = DateTime.Now;
       gameAction.IsValidated = validate;
-      gameAction.PointsEarned = gameAction.IsValidated ? gameAction.Node?.Points ?? 0 : 0;
+      gameAction.PointsEarned = gameAction.IsValidated ? node?.Points ?? 0 : 0;
       Context.SaveChanges();
+      return gameAction;
     }
 
     public ActionService(HuntContext context, ILogger<ActionService> logger, IScoreChanger scoreChanger)
@@ -167,6 +169,7 @@ namespace ImageHunt.Services
         .Where(ga => ga.Game.Id == gameId && ga.IsValidated)
         .GroupBy(ga => ga.Team)
         .Select(g => new Score() { Team = g.Key, Points = g.Sum(_ => _.PointsEarned) }).ToList();
+      scoresForGame = scoresForGame.Where(s => s.Team != null).ToList();
       foreach (var score in scoresForGame)
       {
         var startDate = Context.GameActions.LastOrDefault(ga => ga.Team == score.Team && ga.Action == Action.StartGame)
