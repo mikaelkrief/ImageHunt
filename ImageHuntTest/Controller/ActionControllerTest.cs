@@ -239,7 +239,7 @@ namespace ImageHuntTest.Controller
             var result = _target.Validate(1, 1);
 
             // Assert
-            Check.That(result).IsInstanceOf<OkResult>();
+            Check.That(result).IsInstanceOf<OkObjectResult>();
             A.CallTo(() => _actionService.Validate(1, A<int>._, 15, true)).MustHaveHappened();
         }
         [Fact]
