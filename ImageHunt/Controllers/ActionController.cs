@@ -131,8 +131,8 @@ namespace ImageHunt.Controllers
     public IActionResult Validate(int gameActionId, int nodeId)
     {
       var validatorId = UserId;
-      _actionService.Validate(gameActionId, nodeId, validatorId, true);
-      return Ok();
+      var gameAction = _actionService.Validate(gameActionId, nodeId, validatorId, true);
+      return Ok(gameAction);
     }
     [HttpPut("Reject/{gameActionId}")]
     [Authorize]
