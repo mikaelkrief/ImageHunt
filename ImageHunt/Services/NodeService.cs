@@ -159,16 +159,26 @@ namespace ImageHunt.Services
       NodeTypes nodeTypes = NodeTypes.All)
     {
       var nodes = Context.Games.Include(g => g.Nodes).Single(g => g.Id == gameId).Nodes;
-      IEnumerable<Node> selectedNodes = null;
+      IEnumerable<Node> selectedNodes = new List<Node>();
       if (nodeTypes.HasFlag(NodeTypes.All))
         return nodes.OrderBy(n => GeographyComputation.Distance(latitude, longitude, n.Latitude, n.Longitude));
       if (nodeTypes.HasFlag(NodeTypes.Picture))
       {
-        selectedNodes = nodes.Where(n => n.NodeType == NodeResponse.PictureNodeType);
+        selectedNodes = selectedNodes.Union(nodes.Where(n => n.NodeType == NodeResponse.PictureNodeType));
       }
       if (nodeTypes.HasFlag(NodeTypes.Hidden))
       {
         selectedNodes = selectedNodes.Union(nodes.Where(n => n.NodeType == NodeResponse.HiddenNodeType || n.NodeType == NodeResponse.BonusNodeType));
+      }
+      if (nodeTypes.HasFlag(NodeTypes.Path))
+      {
+        selectedNodes = selectedNodes.Union(nodes.Where(n => n.NodeType == NodeResponse.FirstNodeType ||
+                                                             n.NodeType == NodeResponse.LastNodeType ||
+                                                             n.NodeType == NodeResponse.ChoiceNodeType ||
+                                                             n.NodeType == NodeResponse.ObjectNodeType ||
+                                                             n.NodeType == NodeResponse.QuestionNodeType ||
+                                                             n.NodeType == NodeResponse.TimerNodeType ||
+                                                             n.NodeType == NodeResponse.WaypointNodeType));
       }
 
       return selectedNodes.OrderBy(n => GeographyComputation.Distance(latitude, longitude, n.Latitude, n.Longitude));

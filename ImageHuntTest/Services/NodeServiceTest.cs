@@ -480,5 +480,28 @@ namespace ImageHuntTest.Services
             // Assert
             Check.That(closeNodes).ContainsExactly(nodes[0], nodes[2], nodes[3]);
         }
+        [Fact]
+        public void Should_GetNodes_Path_return_only_nodes_linked()
+        {
+            // Arrange
+            var nodes = new List<Node>
+            {
+                new ObjectNode(){Latitude = 1, Longitude = 1},
+                new ObjectNode(){Latitude = 2, Longitude = 1},
+                new FirstNode(){Latitude = 3, Longitude = 1},
+                new ChoiceNode(){Latitude = 4, Longitude = 1},
+                new WaypointNode(){Latitude = 5, Longitude = 1},
+                new PictureNode(){Latitude = 6, Longitude = 1},
+                new HiddenNode(){Latitude = 7, Longitude = 1},
+            };
+            var games = new List<Game> { new Game() { Nodes = nodes } };
+            _context.Games.AddRange(games);
+            _context.SaveChanges();
+            // Act
+            var resNodes = _target.GetGameNodesOrderByPosition(games[0].Id, 1, 1, NodeTypes.Path);
+            // Assert
+            Check.That(resNodes).Not.Contains(nodes[6]);
+        }
+
     }
 }
