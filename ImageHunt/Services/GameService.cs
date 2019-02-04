@@ -87,21 +87,29 @@ namespace ImageHunt.Services
     public IEnumerable<Node> GetNodes(int gameId, NodeTypes nodeType = NodeTypes.All)
     {
       IEnumerable<Node> nodes = Context.Games.Include(n => n.Nodes).ThenInclude(n => n.ChildrenRelation).Single(g => g.Id == gameId).Nodes;
-      IEnumerable<Node> resNode = null;
-      switch (nodeType)
+      IEnumerable<Node> resNode = new List<Node>();
+      if (nodeType.HasFlag(NodeTypes.All))
       {
-        default:
-        case NodeTypes.All:
-          resNode = nodes;
-          break;
-        case NodeTypes.Picture:
-          resNode = nodes.Where(n => n.NodeType == NodeResponse.PictureNodeType);
+        return resNode;
+      }
 
-          break;
-        case NodeTypes.Hidden:
-          resNode = nodes.Where(
-            n => n.NodeType == NodeResponse.HiddenNodeType || n.NodeType == NodeResponse.BonusNodeType);
-          break;
+      if (nodeType.HasFlag(NodeTypes.Picture))
+      {
+        resNode = resNode.Union(nodes.Where(n => n.NodeType == NodeResponse.PictureNodeType));
+      }
+      if (nodeType.HasFlag(NodeTypes.Hidden))
+      {
+        resNode = resNode.Union(nodes.Where(n => n.NodeType == NodeResponse.HiddenNodeType || n.NodeType == NodeResponse.BonusNodeType));
+      }
+      if (nodeType.HasFlag(NodeTypes.Path))
+      {
+        resNode = resNode.Union(nodes.Where(n => n.NodeType == NodeResponse.FirstNodeType ||
+                                                 n.NodeType == NodeResponse.LastNodeType ||
+                                                 n.NodeType == NodeResponse.ChoiceNodeType ||
+                                                 n.NodeType == NodeResponse.ObjectNodeType ||
+                                                 n.NodeType== NodeResponse.QuestionNodeType ||
+                                                 n.NodeType == NodeResponse.TimerNodeType ||
+                                                 n.NodeType == NodeResponse.WaypointNodeType ));
       }
       return resNode;
     }

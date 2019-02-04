@@ -10,7 +10,8 @@ namespace ImageHuntWebServiceClient.Responses
     {
         Picture = 1,
         Hidden = 2,
-        All = 4,
+        Path = 4,
+        All = 8,
 
     }
     public partial class NodeResponse

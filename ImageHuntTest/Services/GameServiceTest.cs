@@ -180,6 +180,7 @@ namespace ImageHuntTest.Services
       Check.That(resNodes).ContainsExactly(nodes);
       Check.That(nodes[0].Children).ContainsExactly(nodes[1]);
     }
+
     [Fact]
     public void GetHiddenNodes()
     {

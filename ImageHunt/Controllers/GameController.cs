@@ -332,5 +332,14 @@ namespace ImageHunt.Controllers
 
       return Ok();
     }
+
+    [HttpGet("PathNodesCloseTo")]
+    public IActionResult GetPathNodesCloseTo(NodeRequest nodeRequest)
+    {
+      var nodeType = Enum.Parse<NodeTypes>(nodeRequest.NodeType);
+      var nodes = _nodeService.GetGameNodesOrderByPosition(nodeRequest.GameId, nodeRequest.Latitude, nodeRequest.Longitude,
+        nodeType);
+      return Ok(_mapper.Map<IEnumerable<NodeResponse>>(nodes));
+    }
   }
 }
