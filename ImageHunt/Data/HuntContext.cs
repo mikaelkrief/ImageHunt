@@ -4,11 +4,13 @@ using ImageHunt.Model;
 using ImageHuntCore;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ImageHunt.Data
 {
-  public class HuntContext : DbContext
+  public class HuntContext : IdentityDbContext<Identity>
   {
     public HuntContext()
     {

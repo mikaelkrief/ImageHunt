@@ -1,9 +1,11 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Text;
 using AutoMapper;
 using ImageHunt.Computation;
 using ImageHunt.Controllers;
@@ -19,7 +21,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,6 +45,44 @@ namespace ImageHunt
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      #region ===== Add Identity ========
+      services.AddIdentity<Identity, IdentityRole>()
+        .AddEntityFrameworkStores<HuntContext>()
+        .AddDefaultTokenProviders();
+      #endregion
+      #region ===== Add Jwt Authentication ========
+      JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+      services
+        .AddAuthentication(options =>
+        {
+          options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+          options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+          options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+        })
+        .AddJwtBearer(cfg =>
+        {
+          cfg.RequireHttpsMetadata = false;
+          cfg.SaveToken = true;
+          cfg.TokenValidationParameters = new TokenValidationParameters
+          {
+            ValidIssuer = Configuration["JwtIssuer"],
+            ValidAudience = Configuration["JwtIssuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"])),
+            ClockSkew = TimeSpan.Zero // remove delay of token when expire
+          };
+        });
+      #endregion
+
+      services.AddAuthorization(options =>
+      {
+        options.AddPolicy("ApiUser",
+          policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol,
+            Constants.Strings.JwtClaims.ApiAccess));
+        //options.AddPolicy("ApiUser", new AuthorizationPolicyBuilder()
+        //  .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+        //  .RequireAuthenticatedUser().Build());
+      });
       //services.AddCors();
       services.AddMvc()
         .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
@@ -65,19 +107,8 @@ namespace ImageHunt
         //... and tell Swagger to use those XML comments.
         c.IncludeXmlComments(xmlPath);
       });
-      services.AddAuthorization();
-      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(options =>
-        {
-          options.RequireHttpsMetadata = false;
-          options.SaveToken = true;
-          //options.TokenValidationParameters = new TokenValidationParameters()
-          //{
-
-          //};
-        });
-      services.AddTransient<IAuthenticationHandler, TokenAuthenticationHandler>();
-      services.AddTransient<IAuthorizationHandler, TokenAuthorizationHandler>();
+      //services.AddTransient<IAuthenticationHandler, TokenAuthenticationHandler>();
+      //services.AddTransient<IAuthorizationHandler, TokenAuthorizationHandler>();
       var dbContextBuilder = new DbContextOptionsBuilder<HuntContext>().UseMySql(Configuration.GetConnectionString("DefaultConnection"));
       services.AddTransient(s =>
         ActivableContext<HuntContext>.CreateInstance(dbContextBuilder.Options));
@@ -135,9 +166,11 @@ namespace ImageHunt
       {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImageHuntApi SwaggerDoc");
       });
+
       app.UseMvcWithDefaultRoute();
       app.UseDefaultFiles();
       app.UseStaticFiles();
+      app.UseAuthentication();
       app.UseMvc();
       app.UseSignalR(routes => { routes.MapHub<LocationHub>("/locationHub"); });
     }
