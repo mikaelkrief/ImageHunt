@@ -25,6 +25,10 @@
     <None Remove="src\map\map-detail\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="src\shared\userRegistration.ts" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
@@ -80,6 +84,7 @@
     <TypeScriptCompile Include="src\shared\team.ts" />
     <TypeScriptCompile Include="src\shared\services\team.service.ts" />
     <TypeScriptCompile Include="src\shared\teamPosition.ts" />
+    <TypeScriptCompile Include="src\shared\userRegistration.ts" />
   </ItemGroup>
 
 </Project>

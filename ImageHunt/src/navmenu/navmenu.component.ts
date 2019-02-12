@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from "ng2-ui-auth";
 import {LocalStorageService} from "angular-2-local-storage";
 
 @Component({
@@ -15,7 +14,7 @@ export class NavmenuComponent implements OnInit
 
   isCollapsed: boolean;
     /** navmenu ctor */
-  constructor(private auth: AuthService, private localStorageService: LocalStorageService) { }
+  constructor(private localStorageService: LocalStorageService) { }
 
     /** Called by Angular after navmenu component initialized */
     ngOnInit(): void {

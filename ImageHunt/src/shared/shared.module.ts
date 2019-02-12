@@ -10,14 +10,18 @@ import { UploadImageComponent } from './upload-image/upload-image.component';
 import { DualListComponent } from './dual-list/dual-list.component';
 import { ListboxModule } from 'primeng/primeng';
 import { FormsModule } from '@angular/forms';
+import { GoogleSigninComponent } from './google-signin/google-signin.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, ListboxModule],
-  declarations: [GeocoordinateComponent, GoogleButtonComponent,
-    GameActionTranslationPipe, DateFilterPipe, UserRoleComponent, DualListComponent,
-    UploadImageComponent],
-  bootstrap: [GeocoordinateComponent, GoogleButtonComponent, UserRoleComponent, UploadImageComponent, DualListComponent],
-  exports: [GeocoordinateComponent, GoogleButtonComponent, GameActionTranslationPipe, DateFilterPipe, UserRoleComponent, DualListComponent]
+  declarations: [GeocoordinateComponent, GameActionTranslationPipe,
+    DateFilterPipe, UserRoleComponent, DualListComponent,
+    UploadImageComponent, GoogleSigninComponent],
+  bootstrap: [GeocoordinateComponent, GoogleSigninComponent, UserRoleComponent, UploadImageComponent,
+    DualListComponent],
+  exports: [GeocoordinateComponent, GoogleSigninComponent, GameActionTranslationPipe, DateFilterPipe,
+    UserRoleComponent, DualListComponent],
+
 
 })
 export class SharedModule {

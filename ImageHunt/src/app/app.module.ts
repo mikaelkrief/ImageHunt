@@ -8,7 +8,7 @@ import '@angular/common';
 
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { Ng2UiAuthModule } from "ng2-ui-auth";
+//import { Ng2UiAuthModule } from "ng2-ui-auth";
 import { HomeModule } from "../home/home.module";
 import { PageNotFoundModule } from "../page-not-found/page.not.found.module";
 import { TeamModule } from "../team/team.module";
@@ -50,6 +50,9 @@ import { TeamCreateComponent } from "../team/team-create/team-create.component";
 import { MomentModule } from 'angular2-moment';
 import { GameCreateComponent } from "../game/game-create/game.create.component";
 import { PlayerCreateComponent } from "../team/player-create/player-create.component";
+import { LoginFormComponent } from "../account/login-form/login-form.component";
+import { AccountModule } from "../account/account.module";
+import { RegistrationFormComponent } from "../account/registration-form/registration-form.component";
 registerLocaleData(localeFr);
 
 export class MyAuthConfig implements IPartialConfigOptions {
@@ -61,6 +64,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
   tokenPrefix = "";
   baseUrl = environment.API_ENDPOINT;
 }
+
 
 
 @NgModule({
@@ -80,6 +84,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
     HomeModule,
     GameModule,
     TeamModule,
+    AccountModule,
     ScoreModule,
     MapModule,
     PlayerModule,
@@ -92,11 +97,6 @@ export class MyAuthConfig implements IPartialConfigOptions {
     InputTextModule,
     MomentModule,
     ListboxModule,
-    Ng2UiAuthModule.forRoot({
-      providers: { google: { clientId: environment.GOOGLE_CLIENT_ID } }, tokenName: "accessToken",
-      tokenPrefix: "",
-      baseUrl: environment.API_ENDPOINT
-    }),
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     AlertModule.forRoot(),
@@ -115,6 +115,8 @@ export class MyAuthConfig implements IPartialConfigOptions {
       { path: "teams/:gameId", component: TeamListComponent },
       { path: "team", component: TeamListComponent },
       { path: "admin", component: AdminListComponent },
+      { path: "login", component: LoginFormComponent },
+      { path: "register", component: RegistrationFormComponent },
       { path: "score/:gameId", component: ScoreListComponent },
       { path: "follow/:gameId", component: TeamFollowComponent },
       { path: "passcode/:gameId", component: PasscodeListComponent },
@@ -123,9 +125,8 @@ export class MyAuthConfig implements IPartialConfigOptions {
       { path: "**", component: PageNotFoundComponent }
     ])
   ],
-  providers: [Globals],
   entryComponents: [NodeCreateComponent, NodeRelationComponent, QuestionNodeComponent,
-    ImageNodeEditComponent, PasscodeCreateComponent, TeamCreateComponent, GameCreateComponent, PlayerCreateComponent]
+    ImageNodeEditComponent, PasscodeCreateComponent, TeamCreateComponent, GameCreateComponent, PlayerCreateComponent, RegistrationFormComponent]
 
 })
 export class AppModule {

@@ -1,0 +1,18 @@
+<div class="row">
+  <h1>Connexion</h1>
+  <div class="col-6">
+    <form #f="ngForm" (ngSubmit)="login(f)">
+      <div class="form-group">
+        <label for="login">Pseudo</label>
+        <input id="login" type="text" required name="login" class="form-control" placeholder="Pseudo" />
+      </div>
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input id="password" type="password" required name="password" class="form-control" placeholder="Mot de passe"/>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Connexion</button>
+      </div>
+    </form>
+  </div>
+</div>
