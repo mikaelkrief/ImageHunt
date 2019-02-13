@@ -12,5 +12,9 @@ export class RegistrationFormComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  register(form) {
+    let user = form.form.value;
+    this.userService.register(user.email, user.password, user.userName, user.telegram)
+      .subscribe(res => {});
+  }
 }

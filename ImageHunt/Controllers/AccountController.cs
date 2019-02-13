@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using ImageHunt.Data;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -24,16 +25,19 @@ namespace ImageHunt.Controllers
       private readonly UserManager<Identity> _userManager;
       private readonly SignInManager<Identity> _signInManager;
       private readonly IConfiguration _configuration;
+      private readonly HuntContext _context;
 
       public AccountController(
         UserManager<Identity> userManager,
         SignInManager<Identity> signInManager,
-        IConfiguration configuration
+        IConfiguration configuration,
+        HuntContext context
       )
       {
         _userManager = userManager;
         _signInManager = signInManager;
         _configuration = configuration;
+        _context = context;
       }
     [HttpPost("Login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
@@ -50,14 +54,18 @@ namespace ImageHunt.Controllers
     }
 
     [HttpPost("Register")]
-    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+    public async Task<IActionResult> Register(RegisterRequest request)
     {
       var user = new Identity
       {
-        UserName = request.Email,
+        UserName = request.Login,
         Email = request.Email,
-        
+        TelegramUser = request.Telegram
       };
+      var admin = new Admin() {Email = request.Email, Name = request.Login};
+      _context.Admins.Add(admin);
+      _context.SaveChanges();
+      user.AppUserId = admin.Id;
       var result = await _userManager.CreateAsync(user, request.Password);
 
       if (result.Succeeded)

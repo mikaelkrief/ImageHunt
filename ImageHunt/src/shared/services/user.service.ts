@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Response, Headers, RequestOptions } from '@angular/http';
-import { HttpClient } from "@angular/common/http";
+import { Response,  RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 
 import { BaseService } from "./base.service";
@@ -33,12 +33,12 @@ export class UserService extends BaseService {
     this.baseUrl = 'api/';
   }
 
-  register(email: string, password: string, firstName: string, lastName: string, location: string) {
-    let body = JSON.stringify({ email, password, firstName, lastName, location });
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+  register(email: string, password: string, username: string, telegram: string) {
+    var identity = { email: email, password: password, login: username, telegram: telegram };
+    //let body = JSON.stringify( { email, password, username, telegram });
+    //let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post(this.baseUrl + "/Account", body, options);
+    return this.http.post(this.baseUrl + "Account/Register", identity);
   }
 
   login(userName, password) {
