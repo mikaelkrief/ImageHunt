@@ -1,14 +1,17 @@
 <div class="row">
   <h1>Connexion</h1>
+</div>
+<div class="row">
+
   <div class="col-6">
     <form #f="ngForm" (ngSubmit)="login(f)">
       <div class="form-group">
-        <label for="login">Pseudo</label>
-        <input id="login" type="text" required name="login" class="form-control" placeholder="Pseudo" />
+        <label for="userName">Utilisateur</label>
+        <input id="userName" type="text" required name="userName" class="form-control" placeholder="Utilisateur" ngModel />
       </div>
       <div class="form-group">
         <label for="password">Mot de passe</label>
-        <input id="password" type="password" required name="password" class="form-control" placeholder="Mot de passe"/>
+        <input id="password" type="password" required name="password" class="form-control" placeholder="Mot de passe" ngModel />
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Connexion</button>

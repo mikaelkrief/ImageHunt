@@ -42,15 +42,15 @@ namespace ImageHunt.Controllers
     [HttpPost("Login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-      var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, false, false);
+      var result = await _signInManager.PasswordSignInAsync(request.UserName, request.Password, false, false);
 
       if (result.Succeeded)
       {
-        var appUser = _userManager.Users.SingleOrDefault(r => r.Email == request.Email);
-        return Ok(await GenerateJwtToken(request.Email, appUser));
+        var appUser = _userManager.Users.SingleOrDefault(r => r.UserName == request.UserName);
+        return Ok(await GenerateJwtToken(request.UserName, appUser));
       }
 
-      throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
+      return BadRequest(result);
     }
 
     [HttpPost("Register")]
@@ -71,10 +71,10 @@ namespace ImageHunt.Controllers
       if (result.Succeeded)
       {
         await _signInManager.SignInAsync(user, false);
-        return Ok(await GenerateJwtToken(request.Email, user));
+        return Ok("Account created");
       }
 
-      throw new ApplicationException("UNKNOWN_ERROR");
+      return BadRequest(result);
     }
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet("Protected")]
@@ -82,7 +82,7 @@ namespace ImageHunt.Controllers
       {
         return Ok("Protected area");
       }
-    private async Task<object> GenerateJwtToken(string email, IdentityUser user)
+    private async Task<IActionResult> GenerateJwtToken(string email, IdentityUser user)
     {
       var claims = new List<Claim>
             {
@@ -102,7 +102,7 @@ namespace ImageHunt.Controllers
           signingCredentials: creds
       );
 
-      return new JwtSecurityTokenHandler().WriteToken(token);
+      return Ok(new JwtSecurityTokenHandler().WriteToken(token));
     }
   }
 }

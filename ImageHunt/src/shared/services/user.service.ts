@@ -35,55 +35,13 @@ export class UserService extends BaseService {
 
   register(email: string, password: string, username: string, telegram: string) {
     var identity = { email: email, password: password, login: username, telegram: telegram };
-    //let body = JSON.stringify( { email, password, username, telegram });
-    //let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.post(this.baseUrl + "Account/Register", identity);
   }
 
-  login(userName, password) {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-
-    return this.http
-      .post(
-        this.baseUrl + '/Account/login',
-        JSON.stringify({ userName, password }), { headers }
-      )
-      .map(res => res.json())
-      .map(res => {
-        localStorage.setItem('auth_token', res.auth_token);
-        this.loggedIn = true;
-        this._authNavStatusSource.next(true);
-        return true;
-      })
-      .catch(this.handleError);
+  login(userName: string, password: string):Observable<any> {
+    return this.http.post(this.baseUrl + 'Account/Login', { userName, password });
   }
 
-  logout() {
-    localStorage.removeItem('auth_token');
-    this.loggedIn = false;
-    this._authNavStatusSource.next(false);
-  }
 
-  isLoggedIn() {
-    return this.loggedIn;
-  }
-
-  facebookLogin(accessToken: string) {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    let body = JSON.stringify({ accessToken });
-    return this.http
-      .post(
-        this.baseUrl + '/externalauth/facebook', body, { headers })
-      .map(res => res.json())
-      .map(res => {
-        localStorage.setItem('auth_token', res.auth_token);
-        this.loggedIn = true;
-        this._authNavStatusSource.next(true);
-        return true;
-      })
-      .catch(this.handleError);
-  }
 }
