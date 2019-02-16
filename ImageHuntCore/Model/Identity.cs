@@ -11,5 +11,6 @@ namespace ImageHuntCore.Model
         public string TelegramUser { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AppUserId { get; set; }
+
     }
 }

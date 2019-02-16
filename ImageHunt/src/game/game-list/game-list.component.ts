@@ -19,7 +19,6 @@ import { GameCreateComponent } from '../game-create/game.create.component';
 export class GameListComponent implements OnInit {
   games: Game[];
   minDate: Date;
-  admin: Admin;
   today: Date;
   /** game ctor */
   constructor(private gameService: GameService,
@@ -33,7 +32,6 @@ export class GameListComponent implements OnInit {
   /** Called by Angular after game component initialized */
   ngOnInit(): void {
     this.minDate = new Date();
-    this.admin = <Admin>(this.localStorageService.get('connectedAdmin'));
     this.getGames();
   }
   showModal() {
@@ -41,14 +39,13 @@ export class GameListComponent implements OnInit {
     this.modalRef.content.game.subscribe(game => this.createGame(game));
   }
   getGames() {
-    if (this.admin != null)
-      this.gameService.getGameForAdmin(this.admin.id)
+      this.gameService.getGameForConnectedUser()
         .subscribe((games: Game[]) => this.games = games,
           err => this._alertService.sendAlert("Erreur lors de la mise à jour de la liste des jeux", "danger", 10000));
   }
 
   createGame(game: Game) {
-    this.gameService.createGame(this.admin.id, game)
+    this.gameService.createGame(game)
       .subscribe(() => {
         this.getGames();
         this._alertService.sendAlert(`La partie ${game.name} a bien été créée`, "success", 5000);

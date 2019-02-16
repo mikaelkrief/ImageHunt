@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac;
 using AutoMapper;
 using FakeItEasy;
 using ImageHunt;
@@ -17,6 +19,7 @@ using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Logging;
@@ -29,27 +32,34 @@ using Xunit;
 namespace ImageHuntTest.Controller
 {
     [Collection("AutomapperFixture")]
-    public class GameControllerTest : BaseTest
+    public class GameControllerTest : BaseTest<GameController>
     {
         private IGameService _gameService;
-        private GameController _target;
         private INodeService _nodeService;
         private IImageService _imageService;
         private IActionService _actionService;
         private ILogger<GameController> _logger;
         private IImageTransformation _imageTransformation;
         private IMapper _mapper;
+        private UserManager<Identity> _userManager;
 
         public GameControllerTest()
         {
-            _gameService = A.Fake<IGameService>();
-            _nodeService = A.Fake<INodeService>();
-            _imageService = A.Fake<IImageService>();
-            _actionService = A.Fake<IActionService>();
-            _logger = A.Fake<ILogger<GameController>>();
-            _imageTransformation = A.Fake<IImageTransformation>();
-            _mapper = Mapper.Instance;
-            _target = new GameController(_gameService, _imageService, _nodeService, _actionService, _logger, _imageTransformation, _mapper);
+            _testContainerBuilder.RegisterInstance(_gameService = A.Fake<IGameService>());
+            _testContainerBuilder.RegisterInstance(_nodeService = A.Fake<INodeService>());
+            _testContainerBuilder.RegisterInstance(_imageService = A.Fake<IImageService>());
+            _testContainerBuilder.RegisterInstance(_actionService = A.Fake<IActionService>());
+            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<GameController>>());
+            _testContainerBuilder.RegisterInstance(_imageTransformation = A.Fake<IImageTransformation>());
+            _testContainerBuilder.RegisterInstance(_mapper = Mapper.Instance);
+            _testContainerBuilder.RegisterInstance(_userManager = A.Fake<UserManager<Identity>>());
+            //_target = new GameController(_gameService, _imageService, _nodeService, _actionService, _logger, _imageTransformation, _mapper);
+            Build();
+            var identities = new List<Identity> { new Identity() { Id = "15", AppUserId = 15 } };
+            A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
+            _target.ControllerContext = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            _target.User.AddIdentity(new ClaimsIdentity(new[] { new Claim(new ClaimsIdentityOptions().UserIdClaimType, "15"), }));
+
         }
 
         [Fact]
@@ -79,7 +89,7 @@ namespace ImageHuntTest.Controller
             // Arrange
 
             // Act
-            var result = _target.GetGames(1) as OkObjectResult;
+            var result = _target.GetGames() as OkObjectResult;
             // Assert
             A.CallTo(() => _gameService.GetGamesForAdmin(A<int>._)).MustHaveHappened();
             Check.That(result).IsNotNull();
@@ -91,9 +101,9 @@ namespace ImageHuntTest.Controller
             // Arrange
             var gameRequest = new GameRequest();
             // Act
-            var result = await _target.CreateGame(1, gameRequest);
+            var result = await _target.CreateGame(gameRequest);
             // Assert
-            A.CallTo(() => _gameService.CreateGame(1, A<Game>.That.Matches(g => CheckCreateGame(g, false)))).MustHaveHappened();
+            A.CallTo(() => _gameService.CreateGame(15, A<Game>.That.Matches(g => CheckCreateGame(g, false)))).MustHaveHappened();
 
         }
 
@@ -111,9 +121,9 @@ namespace ImageHuntTest.Controller
             // Arrange
             var gameRequest = new GameRequest() { PictureId = 15 };
             // Act
-            var result = await _target.CreateGame(1, gameRequest);
+            var result = await _target.CreateGame(gameRequest);
             // Assert
-            A.CallTo(() => _gameService.CreateGame(1, A<Game>.That.Matches(g => CheckCreateGame(g, true)))).MustHaveHappened();
+            A.CallTo(() => _gameService.CreateGame(15, A<Game>.That.Matches(g => CheckCreateGame(g, true)))).MustHaveHappened();
 
         }
 

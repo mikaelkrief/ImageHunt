@@ -3,9 +3,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using ImageHunt.Computation;
 using ImageHunt.Controllers;
@@ -140,9 +142,52 @@ namespace ImageHunt
       services.AddTransient<IScoreChanger, ScoreDecreaseByTeamMember>();
       services.AddSignalR();
     }
+    private async Task CreateRoles(IServiceProvider serviceProvider)
+    {
+      //var context = serviceProvider.GetService<HuntContext>();
+      //adding custom roles
+      var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+      var UserManager = serviceProvider.GetRequiredService<UserManager<Identity>>();
+      string[] roleNames = { "Admin", "GameMaster", "Validator", "Player", "Bot" };
+      IdentityResult roleResult;
 
+      foreach (var roleName in roleNames)
+      {
+        //creating the roles and seeding them to the database
+        var roleExist = await RoleManager.RoleExistsAsync(roleName);
+        if (!roleExist)
+        {
+          roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+        }
+      }
+      var context = serviceProvider.GetService<HuntContext>();
+      var admin = new Admin() {Email = Configuration["Admin:Email"], Name = Configuration["Admin:Name"] };
+      context.Admins.Add(admin);
+      context.SaveChanges();
+
+      //creating a super user who could maintain the web app
+      var poweruser = new Identity()
+      {
+        UserName = admin.Name,
+        Email = admin.Email,
+        AppUserId = admin.Id
+      };
+
+      string UserPassword = Configuration["Admin:Password"];
+      var _user = await UserManager.FindByEmailAsync(admin.Email);
+
+      if (_user == null)
+      {
+        var createPowerUser = await UserManager.CreateAsync(poweruser, UserPassword);
+        if (createPowerUser.Succeeded)
+        {
+          //here we tie the new user to the "Admin" role 
+          await UserManager.AddToRoleAsync(poweruser, "Admin");
+        }
+      }
+    }
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env, HuntContext dbContext)
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env, HuntContext dbContext, IServiceProvider serviceProvider)
     {
       if (env.IsDevelopment())
       {
@@ -173,6 +218,7 @@ namespace ImageHunt
       app.UseAuthentication();
       app.UseMvc();
       app.UseSignalR(routes => { routes.MapHub<LocationHub>("/locationHub"); });
+      CreateRoles(serviceProvider).Wait();
     }
 
     public static void ConfigureMappings()
@@ -213,6 +259,7 @@ namespace ImageHunt
         config.CreateMap<PictureNode, NodeResponse>()
           .ForPath(n=>n.Image.Id, o=>o.MapFrom(p=>p.Image.Id))  
           .ForPath(n => n.Image, o => o.Ignore());
+        config.CreateMap<Identity, UserResponse>();
       });
     }
   }

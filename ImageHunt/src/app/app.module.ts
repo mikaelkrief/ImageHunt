@@ -2,7 +2,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule } from "@angular/router";
 import { LocalStorageModule } from "angular-2-local-storage";
 import { AppComponent } from "./app.component";
-import { BsDropdownModule, ModalModule, TabsModule, ButtonsModule, TooltipModule, AccordionModule  } from "ngx-bootstrap";
+import { BsDropdownModule, ModalModule, TabsModule, ButtonsModule, TooltipModule, AccordionModule, BsModalService  } from "ngx-bootstrap";
 import { AlertModule } from "ngx-bootstrap/alert";
 import '@angular/common';
 
@@ -53,6 +53,7 @@ import { PlayerCreateComponent } from "../team/player-create/player-create.compo
 import { LoginFormComponent } from "../account/login-form/login-form.component";
 import { AccountModule } from "../account/account.module";
 import { RegistrationFormComponent } from "../account/registration-form/registration-form.component";
+import { UserRoleComponent } from "../account/user-role/user-role.component";
 registerLocaleData(localeFr);
 
 export class MyAuthConfig implements IPartialConfigOptions {
@@ -116,6 +117,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
       { path: "team", component: TeamListComponent },
       { path: "admin", component: AdminListComponent },
       { path: "login", component: LoginFormComponent },
+      { path: "users", component: UserRoleComponent },
       { path: "register", component: RegistrationFormComponent },
       { path: "score/:gameId", component: ScoreListComponent },
       { path: "follow/:gameId", component: TeamFollowComponent },
@@ -126,7 +128,8 @@ export class MyAuthConfig implements IPartialConfigOptions {
     ])
   ],
   entryComponents: [NodeCreateComponent, NodeRelationComponent, QuestionNodeComponent,
-    ImageNodeEditComponent, PasscodeCreateComponent, TeamCreateComponent, GameCreateComponent, PlayerCreateComponent, RegistrationFormComponent]
+    ImageNodeEditComponent, PasscodeCreateComponent, TeamCreateComponent, GameCreateComponent, PlayerCreateComponent, RegistrationFormComponent],
+  providers: [BsModalService]
 
 })
 export class AppModule {

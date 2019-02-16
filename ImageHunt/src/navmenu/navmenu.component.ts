@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {LocalStorageService} from "angular-2-local-storage";
+import { BsModalService } from 'ngx-bootstrap';
+import { LoginFormComponent } from '../account/login-form/login-form.component';
 
 @Component({
     selector: 'navmenu',
@@ -9,14 +11,16 @@ import {LocalStorageService} from "angular-2-local-storage";
 /** navmenu component*/
 export class NavmenuComponent implements OnInit
 {
+  constructor(private localStorageService: LocalStorageService) { }
 
-  get isAuthenticated(): boolean { return <boolean>(this.localStorageService.get('isAuthenticated')); }
+
+  get isAuthenticated(): boolean { return <boolean>(this.localStorageService.get('authToken')); }
 
   isCollapsed: boolean;
     /** navmenu ctor */
-  constructor(private localStorageService: LocalStorageService) { }
-
     /** Called by Angular after navmenu component initialized */
     ngOnInit(): void {
-    }
+  }
+
+  modalRef;
 }

@@ -10,18 +10,24 @@ import { GameAction } from '../gameAction';
 import { Passcode } from '../Passcode';
 import { NodeRelation } from '../NodeRelation';
 import { NodeResponse } from '../nodeResponse';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 @Injectable()
 export class GameService {
-  constructor(private http: HttpClient) { }
-  getGameForAdmin(adminId: number) {
-    return this.http.get('api/Game/ByAdminId/' + adminId);
+  constructor(private http: HttpClient, private _localStorageService: LocalStorageService) {
+    this.headers = new HttpHeaders();
+    this.headers = this.headers.append('Content-Type', 'application/json');
+    let authToken = _localStorageService.get('authToken');
+    this.headers = this.headers.append('Authorization', `Bearer ${authToken}`);
+  }
+  getGameForConnectedUser() {
+    return this.http.get('api/Game/ByUser', { headers: this.headers });
   }
   getGameById(gameId: number): Observable<Game> {
     return this.http.get<Game>('api/Game/byId/' + gameId);
   }
-  createGame(adminId: number, game: Game) {
-    return this.http.post('api/Game/' + adminId, game);
+  createGame(game: Game) {
+    return this.http.post('api/Game/', game, {headers: this.headers});
   }
   deleteGame(gameId: number) {
     return this.http.delete('api/Game/' + gameId);
@@ -156,4 +162,6 @@ export class GameService {
     return this.http.post(`api/Game/ImportKmlFile/${gameId}/${reverse}`, formData, options);
 
   }
+
+  headers: HttpHeaders;
 }

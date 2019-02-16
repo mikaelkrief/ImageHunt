@@ -14,6 +14,7 @@ import { UserRegistration } from '../userRegistration';
 @Injectable()
 
 export class UserService extends BaseService {
+  getUsers() { return this.http.get<any[]>(this.baseUrl + "Account"); }
 
   baseUrl: string = '';
 
@@ -26,7 +27,7 @@ export class UserService extends BaseService {
 
   constructor(private http: HttpClient) {
     super();
-    this.loggedIn = !!localStorage.getItem('auth_token');
+    this.loggedIn = !!localStorage.getItem('authToken');
     // ?? not sure if this the best way to broadcast the status but seems to resolve issue on page refresh where auth status is lost in
     // header component resulting in authed user nav links disappearing despite the fact user is still logged in
     this._authNavStatusSource.next(this.loggedIn);
@@ -44,4 +45,7 @@ export class UserService extends BaseService {
   }
 
 
+  saveUser(user) { return this.http.put(this.baseUrl + 'Account/', user); }
+
+  deleteUser(user) { return this.http.delete(this.baseUrl + "Account/" + user.id); }
 }

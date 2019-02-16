@@ -1,0 +1,8 @@
+<div>
+  <button *ngIf="!isAuthenticated" (click)="login()" class="btn btn-default">
+    <span class="fas fa-sign-in-alt"></span> Connexion
+  </button>
+  <button *ngIf="isAuthenticated" (click)="logout()" class="btn btn-default">
+    <span class="fas fa-sign-out-alt"></span> Déconnexion
+  </button>
+</div>

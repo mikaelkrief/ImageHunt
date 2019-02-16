@@ -5,6 +5,7 @@ using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +21,8 @@ namespace ImageHunt.Controllers
     private readonly ILogger _logger;
     private readonly IMapper _mapper;
 
-    public AdminController(IAdminService adminService, ILogger<AdminController> logger, IMapper mapper)
+    public AdminController(IAdminService adminService, ILogger<AdminController> logger, IMapper mapper, UserManager<Identity> userManager)
+      :base(userManager)
     {
       _adminService = adminService;
       _logger = logger;

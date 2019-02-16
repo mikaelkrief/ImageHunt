@@ -5,9 +5,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using ImageHunt.Data;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -19,26 +21,29 @@ using Microsoft.IdentityModel.Tokens;
 namespace ImageHunt.Controllers
 {
   [Route("api/[controller]")]
-    [ApiController]
-    public partial class AccountController : Controller
-    {
-      private readonly UserManager<Identity> _userManager;
-      private readonly SignInManager<Identity> _signInManager;
-      private readonly IConfiguration _configuration;
-      private readonly HuntContext _context;
+  [ApiController]
+  public partial class AccountController : Controller
+  {
+    private readonly UserManager<Identity> _userManager;
+    private readonly SignInManager<Identity> _signInManager;
+    private readonly IConfiguration _configuration;
+    private readonly IMapper _mapper;
+    private readonly HuntContext _context;
 
-      public AccountController(
-        UserManager<Identity> userManager,
-        SignInManager<Identity> signInManager,
-        IConfiguration configuration,
-        HuntContext context
-      )
-      {
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _configuration = configuration;
-        _context = context;
-      }
+    public AccountController(
+      UserManager<Identity> userManager,
+      SignInManager<Identity> signInManager,
+      IConfiguration configuration,
+      IMapper mapper,
+      HuntContext context
+    )
+    {
+      _userManager = userManager;
+      _signInManager = signInManager;
+      _configuration = configuration;
+      _mapper = mapper;
+      _context = context;
+    }
     [HttpPost("Login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
@@ -62,7 +67,7 @@ namespace ImageHunt.Controllers
         Email = request.Email,
         TelegramUser = request.Telegram
       };
-      var admin = new Admin() {Email = request.Email, Name = request.Login};
+      var admin = new Admin() { Email = request.Email, Name = request.Login };
       _context.Admins.Add(admin);
       _context.SaveChanges();
       user.AppUserId = admin.Id;
@@ -71,17 +76,11 @@ namespace ImageHunt.Controllers
       if (result.Succeeded)
       {
         await _signInManager.SignInAsync(user, false);
-        return Ok("Account created");
+        return Ok(user);
       }
 
       return BadRequest(result);
     }
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [HttpGet("Protected")]
-      public async Task<IActionResult> Protected()
-      {
-        return Ok("Protected area");
-      }
     private async Task<IActionResult> GenerateJwtToken(string email, IdentityUser user)
     {
       var claims = new List<Claim>
@@ -103,6 +102,42 @@ namespace ImageHunt.Controllers
       );
 
       return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+    }
+    [HttpGet]
+    public async Task<IActionResult> GetUsersAsync()
+    {
+      var identities = _userManager.Users.AsEnumerable();
+      List<UserResponse> users = new List<UserResponse>();
+      foreach (var identity in identities)
+      {
+        var user = _mapper.Map<UserResponse>(identity);
+        user.Role = (await _userManager.GetRolesAsync(identity)).FirstOrDefault();
+        users.Add(user);
+      }
+
+
+      return Ok(users);
+    }
+    [HttpPut]
+    public async Task<IActionResult> UpdateUser(UpdateUserRequest userRequest)
+    {
+      var identity = _userManager.Users.Single(u => u.Id == userRequest.Id);
+      await _userManager.AddToRoleAsync(identity, userRequest.Role);
+      var userResponse = _mapper.Map<UserResponse>(identity);
+      userResponse.Role = userRequest.Role;
+      return Ok(userResponse);
+    }
+    [HttpDelete("{userId}")]
+    public async Task<IActionResult> DeleteUser(string userId)
+    {
+      var identity = _userManager.Users.SingleOrDefault(u => u.Id == userId);
+      if (identity == null)
+        return NotFound(userId);
+      var admin = _context.Admins.SingleOrDefault(a => a.Id == identity.AppUserId);
+      _context.Admins.Remove(admin);
+      _context.SaveChanges();
+      var identityResult = await _userManager.DeleteAsync(identity);
+      return Ok(identityResult);
     }
   }
 }
