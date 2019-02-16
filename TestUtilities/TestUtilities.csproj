@@ -5,12 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.8.1" />
-    <PackageReference Include="Autofac.Extras.FakeItEasy" Version="4.0.0" />
+    <PackageReference Include="Autofac" Version="4.9.0" />
+    <PackageReference Include="Autofac.Extras.FakeItEasy" Version="5.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="2.2.1" />
     <PackageReference Include="NFluent" Version="2.4.0" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.109.2" />
-     <PackageReference Include="FakeItEasy" Version="5.0.1" />
+     <PackageReference Include="FakeItEasy" Version="5.1.0" />
  </ItemGroup> 
 
   <ItemGroup>

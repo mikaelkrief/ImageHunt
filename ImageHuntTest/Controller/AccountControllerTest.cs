@@ -19,7 +19,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NFluent;
-using Telegram.Bot.Types.Payments;
 using TestUtilities;
 using Xunit;
 
