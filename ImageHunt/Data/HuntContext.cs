@@ -4,6 +4,7 @@ using ImageHunt.Model;
 using ImageHuntCore;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -143,6 +144,10 @@ namespace ImageHunt.Data
         .HasForeignKey(tp => tp.TeamId);
       // Indexes
       //modelBuilder.Entity<GameAction>().HasIndex(g => new {g.Game, g.Team});
+      // ASPNET Identity
+      modelBuilder.Entity<Identity>().Property(u => u.UserName).IsUnicode(false);
+      modelBuilder.Entity<Identity>().Property(u => u.Email).IsUnicode(false);
+      modelBuilder.Entity<IdentityRole>().Property(u => u.Name).HasMaxLength(255);
     }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
