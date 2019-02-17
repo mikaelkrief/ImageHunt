@@ -13,8 +13,8 @@ namespace ImageHunt.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 255, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 255, nullable: true),
+                    Name = table.Column<string>(maxLength: 255, nullable: true, unicode:false),
+                    NormalizedName = table.Column<string>(maxLength: 255, nullable: true, unicode:false),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

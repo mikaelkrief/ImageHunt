@@ -146,8 +146,11 @@ namespace ImageHunt.Data
       //modelBuilder.Entity<GameAction>().HasIndex(g => new {g.Game, g.Team});
       // ASPNET Identity
       modelBuilder.Entity<Identity>().Property(u => u.UserName).IsUnicode(false);
+      modelBuilder.Entity<Identity>().Property(u => u.NormalizedUserName).IsUnicode(false);
       modelBuilder.Entity<Identity>().Property(u => u.Email).IsUnicode(false);
-      modelBuilder.Entity<IdentityRole>().Property(u => u.Name).HasMaxLength(255);
+      modelBuilder.Entity<Identity>().Property(u => u.NormalizedEmail).IsUnicode(false);
+      modelBuilder.Entity<IdentityRole>().Property(u => u.Name).IsUnicode(false);
+      modelBuilder.Entity<IdentityRole>().Property(u => u.NormalizedName).IsUnicode(false);
     }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
