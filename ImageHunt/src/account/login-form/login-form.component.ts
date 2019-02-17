@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../shared/services/user.service';
-import { LocalStorageService } from 'angular-2-local-storage';
 import { NgForm } from '@angular/forms';
 import { AlertService } from '../../shared/services/alert.service';
 import { BsModalRef } from 'ngx-bootstrap';
@@ -13,7 +12,6 @@ import { BsModalRef } from 'ngx-bootstrap';
 export class LoginFormComponent implements OnInit {
 
   constructor(private _userService: UserService,
-    private _localStorageService: LocalStorageService,
     private _alertService: AlertService,
     public bsModalRef: BsModalRef) {
   }
@@ -25,7 +23,7 @@ export class LoginFormComponent implements OnInit {
 
     this._userService.login(form.form.value.userName, form.form.value.password)
       .subscribe(res => {
-          this._localStorageService.set("authToken", res.value);
+          localStorage.setItem("authToken", res.value);
         this._alertService.sendAlert("Connexion réussie", "success", 3000);
           this.bsModalRef.hide();
         },

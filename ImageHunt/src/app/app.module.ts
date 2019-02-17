@@ -54,7 +54,11 @@ import { LoginFormComponent } from "../account/login-form/login-form.component";
 import { AccountModule } from "../account/account.module";
 import { RegistrationFormComponent } from "../account/registration-form/registration-form.component";
 import { UserRoleComponent } from "../account/user-role/user-role.component";
+import { JwtModule } from '@auth0/angular-jwt';
 registerLocaleData(localeFr);
+export function tokenGetter() {
+  return localStorage.getItem('authToken');
+}
 
 export class MyAuthConfig implements IPartialConfigOptions {
   defaultHeaders = { 'Content-Type': "application/json" };
@@ -82,6 +86,11 @@ export class MyAuthConfig implements IPartialConfigOptions {
     }),
     FormsModule,
     HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+      }
+    }),
     HomeModule,
     GameModule,
     TeamModule,

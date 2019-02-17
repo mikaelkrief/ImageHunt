@@ -10,16 +10,10 @@ import { GameAction } from '../gameAction';
 import { Passcode } from '../Passcode';
 import { NodeRelation } from '../NodeRelation';
 import { NodeResponse } from '../nodeResponse';
-import { LocalStorageService } from 'angular-2-local-storage';
 
 @Injectable()
 export class GameService {
-  constructor(private http: HttpClient, private _localStorageService: LocalStorageService) {
-    this.headers = new HttpHeaders();
-    this.headers = this.headers.append('Content-Type', 'application/json');
-    let authToken = _localStorageService.get('authToken');
-    this.headers = this.headers.append('Authorization', `Bearer ${authToken}`);
-  }
+  constructor(private http: HttpClient) {}
   getGameForConnectedUser() {
     return this.http.get('api/Game/ByUser', { headers: this.headers });
   }

@@ -4,16 +4,10 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import {Admin} from "../admin";
 import { Observable } from "rxjs";
-import { LocalStorageService } from "angular-2-local-storage";
 
 @Injectable()
 export class AdminService {
-  constructor(private http: HttpClient, private _localStorageService: LocalStorageService) {
-    this.headers = new HttpHeaders();
-    this.headers = this.headers.append('Content-Type', 'application/json');
-    let authToken = _localStorageService.get('authToken');
-    this.headers = this.headers.append('Authorization', `Bearer ${authToken}`);
-  }
+  constructor(private http: HttpClient) {}
   getAllAdmins() {
     return this.http.get('api/Admin/GetAllAdmins', {headers: this.headers});
   }

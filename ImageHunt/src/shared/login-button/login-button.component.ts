@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap';
 import { LoginFormComponent } from '../../account/login-form/login-form.component';
-import { LocalStorageService } from 'angular-2-local-storage';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
     selector: 'login-button',
@@ -11,15 +11,21 @@ import { LocalStorageService } from 'angular-2-local-storage';
 /** login-button component*/
 export class LoginButtonComponent {
     /** login-button ctor */
-  constructor(private _modalService: BsModalService, private localStorageService: LocalStorageService) {
+  constructor(private _modalService: BsModalService,
+    private _jwtHelperService: JwtHelperService) {
 
   }
   login() {
     this.modalRef = this._modalService.show(LoginFormComponent, { ignoreBackdropClick: true });
   }
   logout() {
-    this.localStorageService.remove('authToken');
+    localStorage.removeItem('authToken');
   }
-  get isAuthenticated(): boolean { return <boolean>(this.localStorageService.get('authToken')); }
+  get isAuthenticated(): boolean { return <boolean>(!!localStorage.getItem('authToken')); }
+  get userName(): string {
+    const rawToken = localStorage.getItem('authToken');
+    const decodedToken = this._jwtHelperService.decodeToken(rawToken);
+    return decodedToken.sub;
+  }
   modalRef;
 }

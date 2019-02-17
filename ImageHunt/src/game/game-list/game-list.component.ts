@@ -62,9 +62,9 @@ export class GameListComponent implements OnInit {
     this._confirmationService.confirm({
       message: "Voulez-vous vraiment effacer cette partie ?",
       accept: () => this.gameService.deleteGame(gameId)
-        .subscribe(null, null, () => {
+        .subscribe(() => {
           this.getGames();
-        })
+        },error => this._alertService.sendAlert("Impossible d'effacer la partie", "danger", 10000))
     });
   }
   classForActive(active: boolean) {

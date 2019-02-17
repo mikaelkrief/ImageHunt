@@ -52,7 +52,8 @@ namespace ImageHunt.Controllers
       if (result.Succeeded)
       {
         var appUser = _userManager.Users.SingleOrDefault(r => r.UserName == request.UserName);
-        return Ok(await GenerateJwtToken(request.UserName, appUser));
+        var userRole = _userManager.GetRolesAsync(appUser);
+        return Ok(await GenerateJwtToken(request.UserName, appUser, userRole));
       }
 
       return BadRequest(result);
@@ -81,14 +82,14 @@ namespace ImageHunt.Controllers
 
       return BadRequest(result);
     }
-    private async Task<IActionResult> GenerateJwtToken(string email, Identity user)
+    private async Task<IActionResult> GenerateJwtToken(string email, Identity user, Task<IList<string>> userRole)
     {
       var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
-              new Claim(ClaimTypes.Role, user.Role)
+              new Claim(ClaimTypes.Role, string.Join(",", userRole.Result))
             };
 
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
