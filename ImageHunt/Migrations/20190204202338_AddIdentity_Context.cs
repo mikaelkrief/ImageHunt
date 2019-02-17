@@ -12,7 +12,7 @@ namespace ImageHunt.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "longtext", nullable: false),
+                    Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(type:"longtext", nullable: true, unicode:false),
                     NormalizedName = table.Column<string>(type: "longtext", nullable: true, unicode:false),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
@@ -26,7 +26,7 @@ namespace ImageHunt.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "longtext", nullable: false),
+                    Id = table.Column<string>(nullable: false),
                     UserName = table.Column<string>(type: "longtext", nullable: true, unicode:false),
                     NormalizedUserName = table.Column<string>(type: "longtext", nullable: true, unicode:false),
                     Email = table.Column<string>(type: "longtext", nullable: true, unicode:false),
