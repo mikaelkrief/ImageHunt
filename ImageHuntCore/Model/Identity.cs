@@ -12,5 +12,6 @@ namespace ImageHuntCore.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AppUserId { get; set; }
 
+        public string Role { get; set; }
     }
 }

@@ -161,28 +161,31 @@ namespace ImageHunt
         }
       }
       var context = serviceProvider.GetService<HuntContext>();
-      var admin = new Admin() {Email = Configuration["Admin:Email"], Name = Configuration["Admin:Name"] };
-      context.Admins.Add(admin);
-      context.SaveChanges();
-
-      //creating a super user who could maintain the web app
-      var poweruser = new Identity()
+      var rootAdminEmail = Configuration["Admin:Email"];
+      if (!context.Admins.Any(a=>a.Email == rootAdminEmail))
       {
-        UserName = admin.Name,
-        Email = admin.Email,
-        AppUserId = admin.Id
-      };
-
-      string UserPassword = Configuration["Admin:Password"];
-      var _user = await UserManager.FindByEmailAsync(admin.Email);
-
-      if (_user == null)
-      {
-        var createPowerUser = await UserManager.CreateAsync(poweruser, UserPassword);
-        if (createPowerUser.Succeeded)
+        var admin = new Admin() {Email = rootAdminEmail, Name = Configuration["Admin:Name"] };
+        context.Admins.Add(admin);
+        context.SaveChanges();
+        //creating a super user who could maintain the web app
+        var poweruser = new Identity()
         {
-          //here we tie the new user to the "Admin" role 
-          await UserManager.AddToRoleAsync(poweruser, "Admin");
+          UserName = admin.Name,
+          Email = admin.Email,
+          AppUserId = admin.Id
+        };
+
+        string UserPassword = Configuration["Admin:Password"];
+        var _user = await UserManager.FindByEmailAsync(admin.Email);
+
+        if (_user == null)
+        {
+          var createPowerUser = await UserManager.CreateAsync(poweruser, UserPassword);
+          if (createPowerUser.Succeeded)
+          {
+            //here we tie the new user to the "Admin" role 
+            await UserManager.AddToRoleAsync(poweruser, "Admin");
+          }
         }
       }
     }

@@ -81,13 +81,14 @@ namespace ImageHunt.Controllers
 
       return BadRequest(result);
     }
-    private async Task<IActionResult> GenerateJwtToken(string email, IdentityUser user)
+    private async Task<IActionResult> GenerateJwtToken(string email, Identity user)
     {
       var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id)
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+              new Claim(ClaimTypes.Role, user.Role)
             };
 
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
@@ -122,6 +123,8 @@ namespace ImageHunt.Controllers
     public async Task<IActionResult> UpdateUser(UpdateUserRequest userRequest)
     {
       var identity = _userManager.Users.Single(u => u.Id == userRequest.Id);
+      identity.Role = userRequest.Role;
+      await _userManager.UpdateAsync(identity);
       await _userManager.AddToRoleAsync(identity, userRequest.Role);
       var userResponse = _mapper.Map<UserResponse>(identity);
       userResponse.Role = userRequest.Role;

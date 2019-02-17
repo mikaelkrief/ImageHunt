@@ -4,6 +4,7 @@ using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Responses;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace ImageHunt.Controllers
 {
   [Route("api/[Controller]")]
+  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
   #if !DEBUG
   [Authorize]
   #endif
@@ -28,7 +30,6 @@ namespace ImageHunt.Controllers
       _logger = logger;
       _mapper = mapper;
     }
-    [Authorize]
     [HttpGet("GetAllAdmins")]
     public IActionResult GetAllAdmins()
     {

@@ -72,8 +72,8 @@ namespace ImageHunt.Controllers
       return Ok(_gameService.GetGamesForAdmin(adminId));
     }
 
-    [HttpPost("{adminId}")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpPost]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,GameMaster")]
     public async Task<IActionResult> CreateGame([FromBody] GameRequest newGame)
     {
       var adminId = UserId;

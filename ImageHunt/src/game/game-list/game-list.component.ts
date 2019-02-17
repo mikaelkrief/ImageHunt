@@ -49,6 +49,13 @@ export class GameListComponent implements OnInit {
       .subscribe(() => {
         this.getGames();
         this._alertService.sendAlert(`La partie ${game.name} a bien été créée`, "success", 5000);
+      },
+      error => {
+        if (error.status == 403) {
+          this._alertService.sendAlert(`Vous n'êtes pas autorisé à créer des parties`, "danger", 10000);
+        } else {
+          this._alertService.sendAlert(`Impossible de créer la partie`, "danger", 10000);
+        }
       });
   }
   deleteGame(gameId: number) {
