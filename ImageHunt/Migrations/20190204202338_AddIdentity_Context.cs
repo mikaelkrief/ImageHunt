@@ -14,8 +14,8 @@ namespace ImageHunt.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false, maxLength:250, unicode:false),
-                    Name = table.Column<string>(type:"longtext", nullable: true, unicode:false),
-                    NormalizedName = table.Column<string>(type: "longtext", nullable: true, unicode:false),
+                    Name = table.Column<string>(type:"longtext", maxLength:256, nullable: true, unicode:false),
+                    NormalizedName = table.Column<string>(type: "longtext", maxLength:256, nullable: true, unicode:false),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -28,14 +28,14 @@ namespace ImageHunt.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false, maxLength:250, unicode:false),
-                    UserName = table.Column<string>(type: "longtext", nullable: true, unicode:false),
-                    NormalizedUserName = table.Column<string>(type: "longtext", nullable: true, unicode:false),
-                    Email = table.Column<string>(type: "longtext", nullable: true, unicode:false),
-                    NormalizedEmail = table.Column<string>(type: "longtext", nullable: true, unicode:false),
+                    UserName = table.Column<string>(type: "longtext", maxLength:256, nullable: true, unicode:false),
+                    NormalizedUserName = table.Column<string>(type: "longtext", maxLength:256, nullable: true, unicode:false),
+                    Email = table.Column<string>(type: "longtext", maxLength: 256, nullable: true, unicode:false),
+                    NormalizedEmail = table.Column<string>(type: "longtext", maxLength: 256, nullable: true, unicode:false),
                     EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(type: "longtext", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "longtext", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true),
+                    PasswordHash = table.Column<string>(type: "longtext", maxLength: 256, nullable: true),
+                    SecurityStamp = table.Column<string>(type: "longtext", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "longtext", maxLength: 256, nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
