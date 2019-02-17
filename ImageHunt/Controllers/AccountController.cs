@@ -92,12 +92,12 @@ namespace ImageHunt.Controllers
               new Claim(ClaimTypes.Role, string.Join(",", userRole.Result))
             };
 
-      var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
+      var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
       var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-      var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtExpireDays"]));
+      var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["Jwt:ExpireDays"]));
       var token = new JwtSecurityToken(
-          _configuration["JwtIssuer"],
-          _configuration["JwtIssuer"],
+          _configuration["Jwt:Issuer"],
+          _configuration["Jwt:Issuer"],
           claims,
           expires: expires,
           signingCredentials: creds
