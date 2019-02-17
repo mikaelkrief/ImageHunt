@@ -89,7 +89,6 @@ namespace ImageHuntBotBuilderTest.Commands
             // Act
             await _target.Execute(_turnContext, _state);
             // Assert
-            //Check.That(_state.CurrentNode).Equals(nodes[1]);
             A.CallTo(() => _nodeWebService.GetNodesByType(NodeTypes.Path, A<int>._)).MustHaveHappened();
             Check.That(_state.CurrentNode).Equals(nodes[1]);
             A.CallTo(
