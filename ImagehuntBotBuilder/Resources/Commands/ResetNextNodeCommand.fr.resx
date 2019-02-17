@@ -123,4 +123,7 @@
   <data name="NO_LOCALIZATION" xml:space="preserve">
     <value>Aucun jour n'a activé sa localisation, je ne sais pas où vous êtes!</value>
   </data>
+  <data name="RESET_SUCCEED" xml:space="preserve">
+    <value>Le noeud courant a été ré-initialisé. Attention, il peut se trouver dans votre dos si vous venez de le dépasser.</value>
+  </data>
 </root>

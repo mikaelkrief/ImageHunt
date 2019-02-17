@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +8,6 @@ using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
 using ImageHuntBotBuilder.Commands.Interfaces;
-using ImageHuntCore.Computation;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
@@ -85,52 +83,18 @@ namespace ImageHuntBotBuilderTest.Commands
                 new NodeResponse(){Latitude = 6, Longitude = 7},
 
             };
+            _state.CurrentLocation = new GeoCoordinates(latitude:5, longitude:6);
+            A.CallTo(() => _nodeWebService.GetNodesByType(NodeTypes.Path, A<int>._)).Returns(nodes);
             //A.CallTo(() => _gameWebService.GetPathNodesForGame(A<int>._, A<CancellationToken>._)).Returns(nodes);
             // Act
             await _target.Execute(_turnContext, _state);
             // Assert
             //Check.That(_state.CurrentNode).Equals(nodes[1]);
-            //A.CallTo(() => _gameWebService.GetPathNodesForGame(A<int>._, A<CancellationToken>._)).MustHaveHappened();
+            A.CallTo(() => _nodeWebService.GetNodesByType(NodeTypes.Path, A<int>._)).MustHaveHappened();
+            Check.That(_state.CurrentNode).Equals(nodes[1]);
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
                 .MustHaveHappened();
-
-        }
-    }
-    [Command("resetNext")]
-    public class ResetNextNodeCommand : AbstractCommand, IResetNextNodeCommand
-    {
-        private readonly INodeWebService _nodeWebService;
-        private readonly IGameWebService _gameWebService;
-
-        public ResetNextNodeCommand(ILogger<IResetNextNodeCommand> logger, 
-            IStringLocalizer<ResetNextNodeCommand> localizer, INodeWebService nodeWebService, 
-            IGameWebService gameWebService) 
-            : base(logger, localizer)
-        {
-            _nodeWebService = nodeWebService;
-            _gameWebService = gameWebService;
-        }
-
-        public override bool IsAdmin => false;
-
-        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
-        {
-            if (state.Status != Status.Started)
-            {
-                _logger.LogError("Game not started");
-                await turnContext.SendActivityAsync(string.Format(_localizer["GAME_NOT_STARTED"]));
-                return;
-            }
-
-            if (state.CurrentLocation == null)
-            {
-                _logger.LogError("No team localisation");
-                await turnContext.SendActivityAsync(string.Format(_localizer["NO_LOCALIZATION"]));
-                return;
-            }
-
-            //var nodes = await _nodeWebService.;
         }
     }
 }
