@@ -13,8 +13,8 @@ namespace ImageHunt.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: true, unicode:false),
-                    NormalizedName = table.Column<string>(maxLength: 100, nullable: true, unicode:false),
+                    Name = table.Column<string>(nullable: true, unicode:false),
+                    NormalizedName = table.Column<string>(nullable: true, unicode:false),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -27,10 +27,10 @@ namespace ImageHunt.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 100, nullable: true, unicode:false),
-                    NormalizedUserName = table.Column<string>(maxLength: 100, nullable: true, unicode:false),
-                    Email = table.Column<string>(maxLength: 230, nullable: true, unicode:false),
-                    NormalizedEmail = table.Column<string>(maxLength: 230, nullable: true, unicode:false),
+                    UserName = table.Column<string>(nullable: true, unicode:false),
+                    NormalizedUserName = table.Column<string>(nullable: true, unicode:false),
+                    Email = table.Column<string>(nullable: true, unicode:false),
+                    NormalizedEmail = table.Column<string>(nullable: true, unicode:false),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: true),
                     SecurityStamp = table.Column<string>(nullable: true),
