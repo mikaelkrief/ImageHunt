@@ -88,6 +88,7 @@ namespace ImageHunt
       //services.AddCors();
       services.AddMvc()
         .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+#if DEBUG
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1", new Info()
@@ -109,6 +110,7 @@ namespace ImageHunt
         //... and tell Swagger to use those XML comments.
         c.IncludeXmlComments(xmlPath);
       });
+#endif
       //services.AddTransient<IAuthenticationHandler, TokenAuthenticationHandler>();
       //services.AddTransient<IAuthorizationHandler, TokenAuthorizationHandler>();
       var dbContextBuilder = new DbContextOptionsBuilder<HuntContext>().UseMySql(Configuration.GetConnectionString("DefaultConnection"));
@@ -209,11 +211,13 @@ namespace ImageHunt
           await next();
         }
       });
+#if DEBUG
       app.UseSwagger();
       app.UseSwaggerUI(c =>
       {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImageHuntApi SwaggerDoc");
       });
+#endif
 
       app.UseMvcWithDefaultRoute();
       app.UseDefaultFiles();
