@@ -94,8 +94,8 @@ namespace ImageHunt.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(nullable: false),
-                    ProviderKey = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false, maxLength:250, unicode:false),
+                    ProviderKey = table.Column<string>(nullable: false, maxLength:250, unicode:false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false, maxLength: 250, unicode: false)
                 },
