@@ -90,7 +90,7 @@ namespace ImageHunt.Services
       IEnumerable<Node> resNode = new List<Node>();
       if (nodeType.HasFlag(NodeTypes.All))
       {
-        return resNode;
+        return nodes;
       }
 
       if (nodeType.HasFlag(NodeTypes.Picture))
