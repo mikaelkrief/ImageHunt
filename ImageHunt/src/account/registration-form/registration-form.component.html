@@ -1,0 +1,34 @@
+<div #createUserTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Création d'un utilisateur</h4>
+    <button type="button" class="close pull-right" aria-label="Fermer" (click)="bsModalRef.hide()">
+      <span aria-hidden="true" class="fa fa-times"></span>
+    </button>
+  </div>
+<div class="container">
+  <form #f="ngForm" (ngSubmit)="register(f)">
+    <div class="form-group">
+      <label for="userName">Pseudo</label>
+      <input class="form-control" type="text" required placeholder="Pseudo" id="userName" name="userName" ngModel/>
+    </div>
+    <div class="form-group">
+      <label for="password">Mot de passe</label>
+      <input class="form-control" type="password" required placeholder="Mot de passe" id="password" name="password" ngModel/>
+    </div>
+    <div class="form-group">
+      <label for="telegram">Login Telegram</label>
+      <input class="form-control" type="text" required placeholder="Telegram" id="telegram" name="telegram" ngModel/>
+    </div>
+    <div class="form-group">
+      <label for="email"></label>
+      <input class="form-control" type="email" required placeholder="Email" id="email" name="email" ngModel/>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-success pull-right" type="submit" aria-label="Close" [disabled]="f.invalid">
+        Créer l'utilisateur
+      </button>
+    </div>
+
+  </form>
+</div>
+</div>

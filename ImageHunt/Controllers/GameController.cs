@@ -18,7 +18,9 @@ using Microsoft.Extensions.Logging;
 using SharpKml.Dom;
 using SharpKml.Engine;
 using ImageMagick;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace ImageHunt.Controllers
@@ -43,7 +45,9 @@ namespace ImageHunt.Controllers
       IActionService actionService,
       ILogger<GameController> logger,
       IImageTransformation imageTransformation,
+      UserManager<Identity> userManager,
       IMapper mapper)
+    : base(userManager)
     {
       _gameService = gameService;
       _imageService = imageService;
@@ -60,16 +64,19 @@ namespace ImageHunt.Controllers
       var gameById = _gameService.GetGameById(gameId);
       return Ok(gameById);
     }
-
-    [HttpGet("ByAdminId/{adminId}")]
-    public IActionResult GetGames(int adminId)
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpGet("ByUser")]
+    public IActionResult GetGames()
     {
+      var adminId = UserId;
       return Ok(_gameService.GetGamesForAdmin(adminId));
     }
 
-    [HttpPost("{adminId}")]
-    public async Task<IActionResult> CreateGame(int adminId, [FromBody] GameRequest newGame)
+    [HttpPost]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,GameMaster")]
+    public async Task<IActionResult> CreateGame([FromBody] GameRequest newGame)
     {
+      var adminId = UserId;
       var game = _mapper.Map<Game>(newGame);
       if (newGame.PictureId != 0)
         game.Picture = new Picture() {Id = newGame.PictureId};

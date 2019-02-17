@@ -168,6 +168,8 @@ namespace ImageHunt.Services
         .Include(ga => ga.Team).ThenInclude(t => t.TeamPlayers).ThenInclude(tp => tp.Player)
         .Where(ga => ga.Game.Id == gameId && ga.IsValidated)
         .GroupBy(ga => ga.Team)
+        /// TODO remove this ToList in dotnet 3.0
+        .ToList()
         .Select(g => new Score() { Team = g.Key, Points = g.Sum(_ => _.PointsEarned) }).ToList();
       scoresForGame = scoresForGame.Where(s => s.Team != null).ToList();
       foreach (var score in scoresForGame)

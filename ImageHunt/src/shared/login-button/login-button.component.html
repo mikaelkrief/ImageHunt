@@ -1,0 +1,13 @@
+<div>
+  <button *ngIf="!isAuthenticated" (click)="login()" class="btn btn-default">
+    <span class="fas fa-sign-in-alt"></span> Connexion
+  </button>
+  <div *ngIf="isAuthenticated">
+    <button (click)="logout()" class="btn btn-default">
+      <span>Connecté en tant que :</span>
+      <span class="badge badge-primary">{{userName}}</span>
+      <br/>
+      <span class="fas fa-sign-out-alt"></span> Déconnexion
+    </button>
+  </div>
+</div>

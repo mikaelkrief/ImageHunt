@@ -9,6 +9,7 @@ using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
@@ -40,7 +41,9 @@ namespace ImageHunt.Controllers
       ITeamService teamService,
       IHubContext<LocationHub> hubContext,
       IMapper mapper,
-      ILogger<ActionController> logger)
+      ILogger<ActionController> logger,
+      UserManager<Identity> userManager)
+    :base(userManager)
     {
       _gameService = gameService;
       _playerService = playerService;
@@ -130,6 +133,7 @@ namespace ImageHunt.Controllers
     [Authorize]
     public IActionResult Validate(int gameActionId, int nodeId)
     {
+      //var validatorId = UserId;
       var validatorId = UserId;
       var gameAction = _actionService.Validate(gameActionId, nodeId, validatorId, true);
       return Ok(gameAction);

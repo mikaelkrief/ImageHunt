@@ -10,6 +10,9 @@
         <replacefilter token="BOT_NAME" value="${BOT_NAME}"/>
         <replacefilter token="BOT_URL" value="${BOT_URL}"/>
         <replacefilter token="BOT_STORAGE_FOLDER" value="${BOT_FOLDER}"/>
+        <replacefilter token="ADMIN_USER" value="${ADMIN_USER}"/>
+        <replacefilter token="ADMIN_EMAIL" value="${ADMIN_EMAIL}"/>
+        <replacefilter token="ADMIN_PASSWORD" value="${ADMIN_PASSWORD}"/>
     </replace>
     <move file="${INFILE}" toFile="${TOFILE}"></move>
   </target>

@@ -1,0 +1,27 @@
+<div #createUserTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Connexion</h4>
+    <button type="button" class="close pull-right" aria-label="Fermer" (click)="bsModalRef.hide()">
+      <span aria-hidden="true" class="fa fa-times"></span>
+    </button>
+  </div>
+  <div class="container">
+    <div class="row">
+
+      <form #f="ngForm" (ngSubmit)="login(f)" class="col-12">
+        <div class="form-group">
+          <label for="userName">Utilisateur</label>
+          <input id="userName" type="text" required name="userName" class="form-control" placeholder="Utilisateur" ngModel />
+        </div>
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <input id="password" type="password" required name="password" class="form-control" placeholder="Mot de passe" ngModel />
+        </div>
+        <div class="modal-footer">
+
+          <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Connexion</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

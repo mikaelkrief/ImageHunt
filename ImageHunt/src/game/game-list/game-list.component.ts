@@ -19,7 +19,6 @@ import { GameCreateComponent } from '../game-create/game.create.component';
 export class GameListComponent implements OnInit {
   games: Game[];
   minDate: Date;
-  admin: Admin;
   today: Date;
   /** game ctor */
   constructor(private gameService: GameService,
@@ -33,7 +32,6 @@ export class GameListComponent implements OnInit {
   /** Called by Angular after game component initialized */
   ngOnInit(): void {
     this.minDate = new Date();
-    this.admin = <Admin>(this.localStorageService.get('connectedAdmin'));
     this.getGames();
   }
   showModal() {
@@ -41,26 +39,32 @@ export class GameListComponent implements OnInit {
     this.modalRef.content.game.subscribe(game => this.createGame(game));
   }
   getGames() {
-    if (this.admin != null)
-      this.gameService.getGameForAdmin(this.admin.id)
+      this.gameService.getGameForConnectedUser()
         .subscribe((games: Game[]) => this.games = games,
           err => this._alertService.sendAlert("Erreur lors de la mise à jour de la liste des jeux", "danger", 10000));
   }
 
   createGame(game: Game) {
-    this.gameService.createGame(this.admin.id, game)
+    this.gameService.createGame(game)
       .subscribe(() => {
         this.getGames();
         this._alertService.sendAlert(`La partie ${game.name} a bien été créée`, "success", 5000);
+      },
+      error => {
+        if (error.status == 403) {
+          this._alertService.sendAlert(`Vous n'êtes pas autorisé à créer des parties`, "danger", 10000);
+        } else {
+          this._alertService.sendAlert(`Impossible de créer la partie`, "danger", 10000);
+        }
       });
   }
   deleteGame(gameId: number) {
     this._confirmationService.confirm({
       message: "Voulez-vous vraiment effacer cette partie ?",
       accept: () => this.gameService.deleteGame(gameId)
-        .subscribe(null, null, () => {
+        .subscribe(() => {
           this.getGames();
-        })
+        },error => this._alertService.sendAlert("Impossible d'effacer la partie", "danger", 10000))
     });
   }
   classForActive(active: boolean) {

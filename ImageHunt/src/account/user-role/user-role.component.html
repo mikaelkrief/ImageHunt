@@ -1,0 +1,40 @@
+<div class="row">
+  <h1>Rôle des utilisateurs</h1>
+</div>
+<div class="row">
+  <div class="col-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Utilisateur</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th><button class="btn btn-primary" (click)="createUser()"><i class="fa fa-user-plus"></i></button></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{user.userName}}</td>
+          <td>{{user.email}}</td>
+          <td>
+            <select [(ngModel)]="user.role">
+              <option value="">Aucun</option>
+              <option value="Admin">Administrateur</option>
+              <option value="GameMaster">Maitre du jeu</option>
+              <option value="Validator">Validateur</option>
+              <option value="Player">Joueur</option>
+            </select>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="deleteUser(user)"><i class="fa fa-user-times"></i></button>
+          </td>
+          <td>
+            <button class="btn btn-primary" (click)="saveUser(user)"><i class="fas fa-save"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<p-confirmDialog id="deleteUserConfirm" header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>

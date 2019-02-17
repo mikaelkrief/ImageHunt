@@ -13,15 +13,15 @@ import { NodeResponse } from '../nodeResponse';
 
 @Injectable()
 export class GameService {
-  constructor(private http: HttpClient) { }
-  getGameForAdmin(adminId: number) {
-    return this.http.get('api/Game/ByAdminId/' + adminId);
+  constructor(private http: HttpClient) {}
+  getGameForConnectedUser() {
+    return this.http.get('api/Game/ByUser', { headers: this.headers });
   }
   getGameById(gameId: number): Observable<Game> {
     return this.http.get<Game>('api/Game/byId/' + gameId);
   }
-  createGame(adminId: number, game: Game) {
-    return this.http.post('api/Game/' + adminId, game);
+  createGame(game: Game) {
+    return this.http.post('api/Game/', game, {headers: this.headers});
   }
   deleteGame(gameId: number) {
     return this.http.delete('api/Game/' + gameId);
@@ -156,4 +156,6 @@ export class GameService {
     return this.http.post(`api/Game/ImportKmlFile/${gameId}/${reverse}`, formData, options);
 
   }
+
+  headers: HttpHeaders;
 }
