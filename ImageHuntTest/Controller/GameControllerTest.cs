@@ -549,5 +549,20 @@ namespace ImageHuntTest.Controller
                 }
             }
         }
+
+        [Fact]
+        public void Should_return_Nodes_close_to()
+        {
+            // Arrange
+            NodeRequest nodeRequest = new NodeRequest(){GameId = 1, Longitude = 1, Latitude = 1, NodeType = NodeTypes.Path.ToString()};
+
+            // Act
+            var result = _target.GetPathNodesCloseTo(nodeRequest);
+            // Assert
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+            A.CallTo(() =>
+                _nodeService.GetGameNodesOrderByPosition(1, nodeRequest.Latitude, nodeRequest.Longitude,
+                    NodeTypes.Path)).MustHaveHappened();
+        }
     }
 }
