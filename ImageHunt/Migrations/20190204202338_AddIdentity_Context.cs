@@ -139,8 +139,8 @@ namespace ImageHunt.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false, maxLength: 250, unicode: false),
-                    LoginProvider = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false, maxLength: 250, unicode: false),
+                    Name = table.Column<string>(nullable: false, maxLength: 250, unicode: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
