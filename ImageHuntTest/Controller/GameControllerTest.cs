@@ -4,15 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using AutoMapper;
 using FakeItEasy;
-using ImageHunt;
 using ImageHunt.Computation;
 using ImageHunt.Controllers;
-using ImageHunt.Model;
+using ImageHunt.Helpers;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
@@ -21,11 +19,8 @@ using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using NFluent;
-using SharpKml.Dom;
-using SharpKml.Engine;
 using TestUtilities;
 using Xunit;
 
@@ -55,11 +50,11 @@ namespace ImageHuntTest.Controller
             _testContainerBuilder.RegisterInstance(_userManager = A.Fake<UserManager<Identity>>());
             //_target = new GameController(_gameService, _imageService, _nodeService, _actionService, _logger, _imageTransformation, _mapper);
             Build();
-            var identities = new List<Identity> { new Identity() { Id = "15", AppUserId = 15 } };
+            var identities = new List<Identity> {new Identity() {Id = "15", AppUserId = 15}};
             A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
-            _target.ControllerContext = new ControllerContext() { HttpContext = new DefaultHttpContext() };
-            _target.User.AddIdentity(new ClaimsIdentity(new[] { new Claim(new ClaimsIdentityOptions().UserIdClaimType, "15"), }));
-
+            _target.ControllerContext = new ControllerContext() {HttpContext = new DefaultHttpContext()};
+            _target.User.AddIdentity(new ClaimsIdentity(new[]
+                {new Claim(new ClaimsIdentityOptions().UserIdClaimType, "15"),}));
         }
 
         [Fact]
@@ -72,6 +67,7 @@ namespace ImageHuntTest.Controller
             // Assert
             A.CallTo(() => _gameService.GetAllGame()).MustHaveHappened();
         }
+
         [Fact]
         public void GetGameById()
         {
@@ -103,8 +99,8 @@ namespace ImageHuntTest.Controller
             // Act
             var result = await _target.CreateGame(gameRequest);
             // Assert
-            A.CallTo(() => _gameService.CreateGame(15, A<Game>.That.Matches(g => CheckCreateGame(g, false)))).MustHaveHappened();
-
+            A.CallTo(() => _gameService.CreateGame(15, A<Game>.That.Matches(g => CheckCreateGame(g, false))))
+                .MustHaveHappened();
         }
 
         private bool CheckCreateGame(Game game, bool havePicture)
@@ -115,37 +111,41 @@ namespace ImageHuntTest.Controller
                 Check.That(game.Picture).IsNull();
             return true;
         }
+
         [Fact]
         public async Task CreateGame_WithPicture()
         {
             // Arrange
-            var gameRequest = new GameRequest() { PictureId = 15 };
+            var gameRequest = new GameRequest() {PictureId = 15};
             // Act
             var result = await _target.CreateGame(gameRequest);
             // Assert
-            A.CallTo(() => _gameService.CreateGame(15, A<Game>.That.Matches(g => CheckCreateGame(g, true)))).MustHaveHappened();
-
+            A.CallTo(() => _gameService.CreateGame(15, A<Game>.That.Matches(g => CheckCreateGame(g, true))))
+                .MustHaveHappened();
         }
 
         [Fact]
         public void AddNodeTimerNode()
         {
             // Arrange
-            var node = new AddNodeRequest() { NodeType = "TimerNode", Duration = 1561 };
+            var node = new AddNodeRequest() {NodeType = "TimerNode", Duration = 1561};
             // Act
             var result = _target.AddNode(1, node);
             // Assert
-            A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckTimerNode(n, node.Duration)))).MustHaveHappened();
+            A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckTimerNode(n, node.Duration))))
+                .MustHaveHappened();
         }
+
         [Fact]
         public void AddNodeFirstNode()
         {
             // Arrange
-            var node = new AddNodeRequest() { NodeType = "FirstNode", Password = "toto" };
+            var node = new AddNodeRequest() {NodeType = "FirstNode", Password = "toto"};
             // Act
             var result = _target.AddNode(1, node);
             // Assert
-            A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckFirstNode(n, node.Password)))).MustHaveHappened();
+            A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckFirstNode(n, node.Password))))
+                .MustHaveHappened();
         }
 
         private bool CheckFirstNode(Node node, string nodePassword)
@@ -153,7 +153,6 @@ namespace ImageHuntTest.Controller
             var firstNode = node as FirstNode;
             Check.That(firstNode.Password).Equals(nodePassword);
             return true;
-
         }
 
         private bool CheckTimerNode(Node node, int expectedDuration)
@@ -167,11 +166,12 @@ namespace ImageHuntTest.Controller
         public void AddNodeObjectNode()
         {
             // Arrange
-            var node = new AddNodeRequest() { NodeType = "ObjectNode", Action = "Selfie", Points = 15 };
+            var node = new AddNodeRequest() {NodeType = "ObjectNode", Action = "Selfie", Points = 15};
             // Act
             var result = _target.AddNode(1, node);
             // Assert
-            A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckObjectNode(n, node.Action)))).MustHaveHappened();
+            A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckObjectNode(n, node.Action))))
+                .MustHaveHappened();
         }
 
         private bool CheckObjectNode(Node node, string expectedAction)
@@ -181,15 +181,25 @@ namespace ImageHuntTest.Controller
             Check.That(objectNode.Points).Equals(15);
             return true;
         }
+
         [Fact]
         public void AddNodeQuestionNode()
         {
             // Arrange
-            var node = new AddNodeRequest() { NodeType = NodeResponse.ChoiceNodeType, Question = "Selfie", Choices = new AnswerRequest[] { new AnswerRequest() { Response = "Toto" }, new AnswerRequest() { Response = "Tata" } } };
+            var node = new AddNodeRequest()
+            {
+                NodeType = NodeResponse.ChoiceNodeType,
+                Question = "Selfie",
+                Choices = new AnswerRequest[]
+                    {new AnswerRequest() {Response = "Toto"}, new AnswerRequest() {Response = "Tata"}}
+            };
             // Act
             var result = _target.AddNode(1, node);
             // Assert
-            A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckQuestionNode(n, node.Question, node.Choices)))).MustHaveHappened();
+            A.CallTo(() =>
+                    _gameService.AddNode(1,
+                        A<Node>.That.Matches(n => CheckQuestionNode(n, node.Question, node.Choices))))
+                .MustHaveHappened();
         }
 
         private bool CheckQuestionNode(Node node, string expectedQuestion, AnswerRequest[] nodeAnswers)
@@ -204,34 +214,37 @@ namespace ImageHuntTest.Controller
         public void GetHiddenNodes()
         {
             // Arrange
-            var nodes = new List<Node> { new HiddenNode(), new BonusNode() };
+            var nodes = new List<Node> {new HiddenNode(), new BonusNode()};
             // Act
 
             // Assert
         }
+
         [Fact]
         public void GetNodes()
         {
             // Arrange
             var nodes = new List<Node>()
-        {
-          new TimerNode()
-          {
-            Id = 1,
-            ChildrenRelation = new List<ParentChildren>() {new ParentChildren()
             {
-              Children = new ChoiceNode()
-              {
-                Id = 2,
-                ChildrenRelation = new List<ParentChildren>()
+                new TimerNode()
                 {
-                  new ParentChildren() { Children = new FirstNode(){Id = 3}}
+                    Id = 1,
+                    ChildrenRelation = new List<ParentChildren>()
+                    {
+                        new ParentChildren()
+                        {
+                            Children = new ChoiceNode()
+                            {
+                                Id = 2,
+                                ChildrenRelation = new List<ParentChildren>()
+                                {
+                                    new ParentChildren() {Children = new FirstNode() {Id = 3}}
+                                }
+                            }
+                        }
+                    }
                 }
-              }
-
-            }}
-          }
-        };
+            };
             A.CallTo(() => _gameService.GetNodes(1, NodeTypes.All)).Returns(nodes);
             // Act
             var result = _target.GetNodesRelations(1) as OkObjectResult;
@@ -244,18 +257,22 @@ namespace ImageHuntTest.Controller
             Check.That(resNodes[0].Id).Equals(nodes[0].Id);
             Check.That(resNodes[0].ChildNodeIds.First()).Equals(nodes[0].Children[0].Id);
         }
+
         [Fact]
         public void AddImagesNodes()
         {
             // Arrange
-            var picture = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.IMG_20170920_180905.jpg");
+            var picture = GetImageFromResource(Assembly.GetExecutingAssembly(),
+                "ImageHuntTest.TestData.IMG_20170920_180905.jpg");
             var file = A.Fake<IFormFile>();
-            A.CallTo(() => file.OpenReadStream()).ReturnsNextFromSequence(new MemoryStream(picture), new MemoryStream(picture), new MemoryStream(picture));
-            var images = new List<IFormFile>() { file, file, file };
+            A.CallTo(() => file.OpenReadStream()).ReturnsNextFromSequence(new MemoryStream(picture),
+                new MemoryStream(picture), new MemoryStream(picture));
+            var images = new List<IFormFile>() {file, file, file};
             // Act
             _target.AddImageNodes(1, images);
             // Assert
-            A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckImageNode(n)))).MustHaveHappened(Repeated.Exactly.Times(3));
+            A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckImageNode(n))))
+                .MustHaveHappened(Repeated.Exactly.Times(3));
         }
 
         private bool CheckImageNode(Node node)
@@ -268,16 +285,19 @@ namespace ImageHuntTest.Controller
         public void AddImagesNodes_without_Geotag()
         {
             // Arrange
-            var picture = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.IMG_20170920_180905.jpg");
+            var picture = GetImageFromResource(Assembly.GetExecutingAssembly(),
+                "ImageHuntTest.TestData.IMG_20170920_180905.jpg");
             var file = A.Fake<IFormFile>();
-            A.CallTo(() => file.OpenReadStream()).ReturnsNextFromSequence(new MemoryStream(picture), new MemoryStream(picture), new MemoryStream(picture));
+            A.CallTo(() => file.OpenReadStream()).ReturnsNextFromSequence(new MemoryStream(picture),
+                new MemoryStream(picture), new MemoryStream(picture));
             A.CallTo(() => _imageService.ExtractLocationFromImage(A<Picture>._)).Returns((double.NaN, double.NaN));
-            var images = new List<IFormFile>() { file, file, file };
+            var images = new List<IFormFile>() {file, file, file};
             // Act
             _target.AddImageNodes(1, images);
             // Assert
             A.CallTo(() => _gameService.AddNode(1, A<Node>._)).MustNotHaveHappened();
         }
+
         [Fact]
         public void SetCenterOfGameByNodes()
         {
@@ -330,59 +350,57 @@ namespace ImageHuntTest.Controller
         {
             // Arrange
             var questionNodes = new List<ChoiceNode>()
-          {
-              new ChoiceNode()
-              {
-                  Id = 1,
-                  Choice = "What",
-                  Answers = new List<Answer>()
-                  {
-                      new Answer()
-                      {
-                          Id = 1,
-                          Node = new PictureNode(){Id=101},
-                          Response = "A"
-                      },
-                      new Answer()
-                      {
-                          Id = 2,
-                          Response = "B"
-                      },
-                      new Answer()
-                      {
-                          Id = 3,
-                          Node = new PictureNode(){Id=102},
-                          Response = "C"
-                      },
-
-                  }
-              },
-              new ChoiceNode()
-              {
-                  Id = 2,
-                  Choice = "Who",
-                  Answers = new List<Answer>()
-                  {
-                      new Answer()
-                      {
-                          Id = 4,
-                          Response = "1"
-                      },
-                      new Answer()
-                      {
-                          Id = 5,
-                          Response = "2"
-                      },
-                      new Answer()
-                      {
-                          Id = 6,
-                          Node = new PictureNode(){Id=103},
-                          Response = "3"
-                      },
-
-                  }
-              }
-          };
+            {
+                new ChoiceNode()
+                {
+                    Id = 1,
+                    Choice = "What",
+                    Answers = new List<Answer>()
+                    {
+                        new Answer()
+                        {
+                            Id = 1,
+                            Node = new PictureNode() {Id = 101},
+                            Response = "A"
+                        },
+                        new Answer()
+                        {
+                            Id = 2,
+                            Response = "B"
+                        },
+                        new Answer()
+                        {
+                            Id = 3,
+                            Node = new PictureNode() {Id = 102},
+                            Response = "C"
+                        },
+                    }
+                },
+                new ChoiceNode()
+                {
+                    Id = 2,
+                    Choice = "Who",
+                    Answers = new List<Answer>()
+                    {
+                        new Answer()
+                        {
+                            Id = 4,
+                            Response = "1"
+                        },
+                        new Answer()
+                        {
+                            Id = 5,
+                            Response = "2"
+                        },
+                        new Answer()
+                        {
+                            Id = 6,
+                            Node = new PictureNode() {Id = 103},
+                            Response = "3"
+                        },
+                    }
+                }
+            };
             A.CallTo(() => _gameService.GetChoiceNodeOfGame(A<int>._)).Returns(questionNodes);
             // Act
             var result = _target.GetChoiceNodeOfGame(1) as OkObjectResult;
@@ -419,6 +437,7 @@ namespace ImageHuntTest.Controller
             Check.That(result).IsInstanceOf<CreatedAtActionResult>();
             A.CallTo(() => _imageService.AddPicture(A<Picture>._)).MustHaveHappened();
         }
+
         [Fact]
         public void UploadImageWithoutGeoTag()
         {
@@ -427,13 +446,14 @@ namespace ImageHuntTest.Controller
             var file = A.Fake<IFormFile>();
 
             A.CallTo(() => _imageService.ExtractLocationFromImage(A<Picture>._))
-              .Returns((Double.NaN, Double.NaN));
+                .Returns((Double.NaN, Double.NaN));
             // Act
             var result = _target.UploadImage(file);
             // Assert
             Check.That(result).IsInstanceOf<BadRequestResult>();
             A.CallTo(() => _imageService.ExtractLocationFromImage(A<Picture>._)).MustHaveHappened();
         }
+
         [Fact]
         public void UploadImageImageNull()
         {
@@ -443,7 +463,6 @@ namespace ImageHuntTest.Controller
             // Assert
             Check.That(result).IsInstanceOf<BadRequestObjectResult>();
         }
-
 
 
         [Fact]
@@ -456,6 +475,7 @@ namespace ImageHuntTest.Controller
             // Assert
             A.CallTo(() => _gameService.GetPictureNode(1)).MustHaveHappened();
         }
+
         [Fact]
         public void GetImagesForGame_Error()
         {
@@ -468,6 +488,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _gameService.GetPictureNode(1)).MustHaveHappened();
             Check.That(result).IsInstanceOf<BadRequestObjectResult>();
         }
+
         [Fact]
         public void GetGamesReviewed()
         {
@@ -486,7 +507,7 @@ namespace ImageHuntTest.Controller
             // Arrange
             var scores = new List<Score>
             {
-                new Score(){Team = new Team()}
+                new Score() {Team = new Team()}
             };
             A.CallTo(() => _actionService.GetScoresForGame(1)).Returns(scores);
             // Act
@@ -541,9 +562,12 @@ namespace ImageHuntTest.Controller
                     // Act
                     _target.ImportKmlFile(1, false, file);
                     // Assert
-                    A.CallTo(() => _gameService.AddNode(A<int>._, A<FirstNode>._)).MustHaveHappened(Repeated.Exactly.Once);
-                    A.CallTo(() => _gameService.AddNode(A<int>._, A<Node>._)).MustHaveHappened(Repeated.Exactly.Times(expectedNodeCount));
-                    A.CallTo(() => _gameService.AddNode(A<int>._, A<LastNode>._)).MustHaveHappened(Repeated.Exactly.Once);
+                    A.CallTo(() => _gameService.AddNode(A<int>._, A<FirstNode>._))
+                        .MustHaveHappened(Repeated.Exactly.Once);
+                    A.CallTo(() => _gameService.AddNode(A<int>._, A<Node>._))
+                        .MustHaveHappened(Repeated.Exactly.Times(expectedNodeCount));
+                    A.CallTo(() => _gameService.AddNode(A<int>._, A<LastNode>._))
+                        .MustHaveHappened(Repeated.Exactly.Once);
                     A.CallTo(() => _nodeService.AddChildren(A<Node>._, A<Node>._))
                         .MustHaveHappened(Repeated.Exactly.Times(expectedNodeCount - 1));
                 }
@@ -554,7 +578,13 @@ namespace ImageHuntTest.Controller
         public void Should_return_Nodes_close_to()
         {
             // Arrange
-            NodeRequest nodeRequest = new NodeRequest(){GameId = 1, Longitude = 1, Latitude = 1, NodeType = NodeTypes.Path.ToString()};
+            NodeRequest nodeRequest = new NodeRequest()
+            {
+                GameId = 1,
+                Longitude = 1,
+                Latitude = 1,
+                NodeType = NodeTypes.Path.ToString()
+            };
 
             // Act
             var result = _target.GetPathNodesCloseTo(nodeRequest);
@@ -572,12 +602,33 @@ namespace ImageHuntTest.Controller
             var duplicateGameRequest = new DuplicateGameRequest()
             {
                 GameId = 15,
-                Reverse = true
             };
+            var nodes = new List<Node>
+            {
+                new FirstNode() {Id = 1},
+                new ObjectNode() {Id = 2},
+                new TimerNode() {Id = 3},
+                new QuestionNode() {Id = 4},
+                new LastNode() {Id = 5}
+            };
+            nodes[0].HaveChild(nodes[1]);
+            nodes[1].HaveChild(nodes[2]);
+            nodes[2].HaveChild(nodes[3]);
+            nodes[3].HaveChild(nodes[4]);
+            var orgGame = new Game() {Nodes = nodes, Picture = new Picture() {Id = 56}};
+            A.CallTo(() => _gameService.GetGameById(duplicateGameRequest.GameId)).Returns(orgGame);
             // Act
             var result = _target.DuplicateGame(duplicateGameRequest);
             // Assert
-            A.CallTo(() => _gameService.Duplicate(duplicateGameRequest.GameId, duplicateGameRequest.Reverse)).MustHaveHappened();
+            A.CallTo(() => _gameService.Duplicate(orgGame)).MustHaveHappened();
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+            var newGame = ((OkObjectResult) result).Value as GameResponse;
+            Check.That(newGame.Name).Equals(orgGame.Name);
+            Check.That(newGame.IsActive).Equals(orgGame.IsActive);
+            A.CallTo(() => _gameService.AddNode(A<int>._, A<Node>._))
+                .MustHaveHappenedANumberOfTimesMatching(i => i == nodes.Count);
+            A.CallTo(() => _nodeService.AddChildren(A<Node>._, A<Node>._))
+                .MustHaveHappenedANumberOfTimesMatching(i => i == 4);
         }
     }
 }

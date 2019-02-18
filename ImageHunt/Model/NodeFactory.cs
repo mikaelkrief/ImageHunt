@@ -41,6 +41,7 @@ namespace ImageHunt.Model
       newNode.Longitude = orgNode.Longitude;
       newNode.Name = orgNode.Name;
       newNode.Points = orgNode.Points;
+      newNode.OrgId = orgNode.Id;
       switch (orgNode.NodeType)
       {
         case NodeResponse.FirstNodeType:

@@ -508,7 +508,7 @@ namespace ImageHuntTest.Services
           _context.Games.AddRange(games);
           _context.SaveChanges();
           // Act
-          var newGame = _target.Duplicate(games[1].Id, false);
+          var newGame = _target.Duplicate(games[1]);
           // Assert
           Check.That(newGame).IsNotNull();
           Check.That(_context.Games).HasSize(3);

@@ -44,6 +44,20 @@ namespace ImageHuntTest.Model
             Check.That(newNode).HasFieldsWithSameValues(node);
         }
         [Fact]
+        public void Should_Duplicate_WaypointNode()
+        {
+            // Arrange
+            var node = new WaypointNode() { Latitude = 5, Longitude = 6, Name = "toto", Points = 56,Id=68 };
+            // Act
+            var newNode = NodeFactory.DuplicateNode(node);
+            // Assert
+            Check.That(newNode.Latitude).Equals(node.Latitude);
+            Check.That(newNode.Longitude).Equals(node.Longitude);
+            Check.That(newNode.Name).Equals(node.Name);
+            Check.That(newNode.Points).Equals(node.Points);
+            Check.That(newNode.OrgId).Equals(node.Id);
+        }
+        [Fact]
         public void Should_Duplicate_FirstNode()
         {
             // Arrange
@@ -157,6 +171,7 @@ namespace ImageHuntTest.Model
             Check.That(newNode.Name).Equals(node.Name);
             Check.That(newNode.Points).Equals(node.Points);
             Check.That(newNode).HasFieldsWithSameValues(node);
+            Check.That(newNode.OrgId).Equals(node.Id);
         }
     }
 }

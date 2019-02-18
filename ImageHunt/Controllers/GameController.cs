@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ImageHunt.Computation;
+using ImageHunt.Helpers;
 using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
@@ -352,7 +353,29 @@ namespace ImageHunt.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,GameMaster")]
     public IActionResult DuplicateGame(DuplicateGameRequest duplicateGameRequest)
     {
-      return Ok(_mapper.Map<GameResponse>(_gameService.Duplicate(duplicateGameRequest.GameId, duplicateGameRequest.Reverse)));
+      var orgName = _gameService.GetGameById(duplicateGameRequest.GameId);
+      // Duplicate game
+      var newGame = _gameService.Duplicate(orgName);
+      var orgNodes = orgName.Nodes;
+      var newNode = new List<Node>();
+      // duplicate nodes
+      orgNodes.ForEach(n=>newNode.Add(NodeFactory.DuplicateNode(n)));
+      newNode.ForEach(n=>_gameService.AddNode(newGame.Id, n));
+      // Rebuild the path
+      var firstNode = newNode.First(n => n.NodeType == NodeResponse.FirstNodeType);
+      firstNode.DuplicatePath(orgNodes, newNode);
+      SaveRelation(firstNode);
+      return Ok(_mapper.Map<GameResponse>(newGame));
+    }
+
+    private void SaveRelation(Node currentNode)
+    {
+      var nextNode = currentNode.Children.FirstOrDefault();
+      if (nextNode != null)
+      {
+        _nodeService.AddChildren(currentNode, nextNode);
+        SaveRelation(nextNode);
+      }
     }
   }
 }

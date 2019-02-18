@@ -199,11 +199,8 @@ namespace ImageHunt.Services
       return game.Code;
     }
 
-    public Game Duplicate(int gameId, bool reverse)
+    public Game Duplicate(Game orgGame)
     {
-      var orgGame = Context.Games
-        .Include(g => g.Nodes).ThenInclude(n => n.ChildrenRelation)
-        .Single(g => g.Id == gameId);
       // Copy the game
       var newGame = new Game()
       {
