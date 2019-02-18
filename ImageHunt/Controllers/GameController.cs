@@ -348,5 +348,11 @@ namespace ImageHunt.Controllers
         nodeType);
       return Ok(_mapper.Map<IEnumerable<NodeResponse>>(nodes));
     }
+    [HttpPost]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,GameMaster")]
+    public IActionResult DuplicateGame(DuplicateGameRequest duplicateGameRequest)
+    {
+      return Ok(_mapper.Map<GameResponse>(_gameService.Duplicate(duplicateGameRequest.GameId, duplicateGameRequest.Reverse)));
+    }
   }
 }

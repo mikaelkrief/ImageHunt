@@ -564,5 +564,20 @@ namespace ImageHuntTest.Controller
                 _nodeService.GetGameNodesOrderByPosition(1, nodeRequest.Latitude, nodeRequest.Longitude,
                     NodeTypes.Path)).MustHaveHappened();
         }
+
+        [Fact]
+        public void Should_duplicate_Game_Succeed()
+        {
+            // Arrange
+            var duplicateGameRequest = new DuplicateGameRequest()
+            {
+                GameId = 15,
+                Reverse = true
+            };
+            // Act
+            var result = _target.DuplicateGame(duplicateGameRequest);
+            // Assert
+            A.CallTo(() => _gameService.Duplicate(duplicateGameRequest.GameId, duplicateGameRequest.Reverse)).MustHaveHappened();
+        }
     }
 }

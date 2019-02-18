@@ -199,6 +199,31 @@ namespace ImageHunt.Services
       return game.Code;
     }
 
+    public Game Duplicate(int gameId, bool reverse)
+    {
+      var orgGame = Context.Games
+        .Include(g => g.Nodes).ThenInclude(n => n.ChildrenRelation)
+        .Single(g => g.Id == gameId);
+      // Copy the game
+      var newGame = new Game()
+      {
+        Name = $"{orgGame.Name}-2",
+        Code = CreateCode(),
+        Description = orgGame.Description,
+        IsActive = true,
+        MapCenterLat = orgGame.MapCenterLat,
+        MapCenterLng = orgGame.MapCenterLng,
+        MapZoom = orgGame.MapZoom,
+        NbPlayerPenaltyThreshold = orgGame.NbPlayerPenaltyThreshold,
+        NbPlayerPenaltyValue = orgGame.NbPlayerPenaltyValue,
+        Picture = orgGame.Picture,
+        StartDate = orgGame.StartDate,
+      };
+      Context.Games.Add(newGame);
+      Context.SaveChanges();
+      return newGame;
+    }
+
     private string CreateCode()
     {
       const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
