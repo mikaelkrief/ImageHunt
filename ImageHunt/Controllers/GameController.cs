@@ -354,7 +354,12 @@ namespace ImageHunt.Controllers
     public IActionResult DuplicateGame(DuplicateGameRequest duplicateGameRequest)
     {
       var orgName = _gameService.GetGameById(duplicateGameRequest.GameId);
-      // Duplicate game
+      if (orgName.Nodes.Any(n => n.NodeType == NodeResponse.ChoiceNodeType))
+      {
+        ModelState.AddModelError("ChoiceNode", "Unable to duplicate a gae with ChoiceNode");
+        return BadRequest(ModelState);
+        
+      }      // Duplicate game
       var newGame = _gameService.Duplicate(orgName);
       var orgNodes = orgName.Nodes;
       var newNode = new List<Node>();

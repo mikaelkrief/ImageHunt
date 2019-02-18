@@ -630,5 +630,32 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _nodeService.AddChildren(A<Node>._, A<Node>._))
                 .MustHaveHappenedANumberOfTimesMatching(i => i == 4);
         }
+        [Fact]
+        public void Should_duplicate_Game_Fail_if_ChoiceNode()
+        {
+            // Arrange
+            var duplicateGameRequest = new DuplicateGameRequest()
+            {
+                GameId = 15,
+            };
+            var nodes = new List<Node>
+            {
+                new FirstNode() {Id = 1},
+                new ObjectNode() {Id = 2},
+                new ChoiceNode() {Id = 3},
+                new QuestionNode() {Id = 4},
+                new LastNode() {Id = 5}
+            };
+            nodes[0].HaveChild(nodes[1]);
+            nodes[1].HaveChild(nodes[2]);
+            nodes[2].HaveChild(nodes[3]);
+            nodes[3].HaveChild(nodes[4]);
+            var orgGame = new Game() {Nodes = nodes, Picture = new Picture() {Id = 56}};
+            A.CallTo(() => _gameService.GetGameById(duplicateGameRequest.GameId)).Returns(orgGame);
+            // Act
+            var result = _target.DuplicateGame(duplicateGameRequest);
+            // Assert
+            Check.That(result).IsInstanceOf<BadRequestObjectResult>();
+        }
     }
 }
