@@ -506,9 +506,16 @@ namespace ImageHuntTest.Services
               new Game(){Nodes = nodes}
           };
           _context.Games.AddRange(games);
-          _context.SaveChanges();
+          var admins = new List<Admin>
+          {
+              new Admin(),
+              new Admin(),
+          };
+          admins[1].GameAdmins.Add(new GameAdmin(){Admin = admins[1], Game = games[1]});
+          _context.Admins.AddRange(admins);
+            _context.SaveChanges();
           // Act
-          var newGame = _target.Duplicate(games[1]);
+          var newGame = _target.Duplicate(games[1], admins[1]);
           // Assert
           Check.That(newGame).IsNotNull();
           Check.That(_context.Games).HasSize(3);

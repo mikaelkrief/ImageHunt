@@ -37,6 +37,7 @@ namespace ImageHuntTest.Controller
         private IImageTransformation _imageTransformation;
         private IMapper _mapper;
         private UserManager<Identity> _userManager;
+        private IAdminService _adminService;
 
         public GameControllerTest()
         {
@@ -44,6 +45,7 @@ namespace ImageHuntTest.Controller
             _testContainerBuilder.RegisterInstance(_nodeService = A.Fake<INodeService>());
             _testContainerBuilder.RegisterInstance(_imageService = A.Fake<IImageService>());
             _testContainerBuilder.RegisterInstance(_actionService = A.Fake<IActionService>());
+            _testContainerBuilder.RegisterInstance(_adminService = A.Fake<IAdminService>());
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<GameController>>());
             _testContainerBuilder.RegisterInstance(_imageTransformation = A.Fake<IImageTransformation>());
             _testContainerBuilder.RegisterInstance(_mapper = Mapper.Instance);
@@ -617,10 +619,11 @@ namespace ImageHuntTest.Controller
             nodes[3].HaveChild(nodes[4]);
             var orgGame = new Game() {Nodes = nodes, Picture = new Picture() {Id = 56}};
             A.CallTo(() => _gameService.GetGameById(duplicateGameRequest.GameId)).Returns(orgGame);
+            A.CallTo(() => _gameService.GetNodes(A<int>._, A<NodeTypes>._)).Returns(nodes);
             // Act
             var result = _target.DuplicateGame(duplicateGameRequest);
             // Assert
-            A.CallTo(() => _gameService.Duplicate(orgGame)).MustHaveHappened();
+            A.CallTo(() => _gameService.Duplicate(orgGame, A<Admin>._)).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();
             var newGame = ((OkObjectResult) result).Value as GameResponse;
             Check.That(newGame.Name).Equals(orgGame.Name);

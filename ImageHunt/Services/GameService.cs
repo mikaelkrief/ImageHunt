@@ -107,9 +107,9 @@ namespace ImageHunt.Services
                                                  n.NodeType == NodeResponse.LastNodeType ||
                                                  n.NodeType == NodeResponse.ChoiceNodeType ||
                                                  n.NodeType == NodeResponse.ObjectNodeType ||
-                                                 n.NodeType== NodeResponse.QuestionNodeType ||
+                                                 n.NodeType == NodeResponse.QuestionNodeType ||
                                                  n.NodeType == NodeResponse.TimerNodeType ||
-                                                 n.NodeType == NodeResponse.WaypointNodeType ));
+                                                 n.NodeType == NodeResponse.WaypointNodeType));
       }
       return resNode;
     }
@@ -199,8 +199,10 @@ namespace ImageHunt.Services
       return game.Code;
     }
 
-    public Game Duplicate(Game orgGame)
+    public Game Duplicate(Game orgGame, Admin admin)
     {
+      Context.Attach(orgGame);
+      Context.Attach(admin);
       // Copy the game
       var newGame = new Game()
       {
@@ -214,8 +216,9 @@ namespace ImageHunt.Services
         NbPlayerPenaltyThreshold = orgGame.NbPlayerPenaltyThreshold,
         NbPlayerPenaltyValue = orgGame.NbPlayerPenaltyValue,
         Picture = orgGame.Picture,
-        StartDate = orgGame.StartDate,
+        StartDate = DateTime.Today,
       };
+      admin.GameAdmins.Add(new GameAdmin() { Game = newGame, Admin = admin });
       Context.Games.Add(newGame);
       Context.SaveChanges();
       return newGame;

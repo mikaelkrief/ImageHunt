@@ -43,7 +43,11 @@ export class GameListComponent implements OnInit {
         .subscribe((games: Game[]) => this.games = games,
           err => this._alertService.sendAlert("Erreur lors de la mise à jour de la liste des jeux", "danger", 10000));
   }
-
+  cloneGame(game: Game) {
+    this.gameService.cloneGame(game)
+      .subscribe(() => this.getGames(),
+        error => this._alertService.sendAlert("Impossible de dupliquer cette chasse", "danger", 10000));
+  }
   createGame(game: Game) {
     this.gameService.createGame(game)
       .subscribe(() => {
