@@ -69,21 +69,19 @@
                   <button type="button" class="btn btn-primary" [routerLink]="['/action/', game.id]" tooltip="Actions">
                     <i class="fa fa-map-signs"></i>
                   </button>
-                </div>
-                <div class="btn-group">
                   <button class="btn btn-primary" [routerLink]="['/follow', game.id]" tooltip="Suivi">
                     <i class="fa fa-map"></i>
                   </button>
+
                 </div>
                 <div class="btn-group">
                   <button class="btn btn-primary" [routerLink]="['/score', game.id]" tooltip="Score">
                     <i class="fa fa-star"></i>
                   </button>
-                </div>
-                <div class="btn-group">
                   <button class="btn btn-primary" (click)="cloneGame(game)" tooltip="Dupliquer">
                     <i class="fas fa-clone"></i>
                   </button>
+
                 </div>
               </div>
             </td>
