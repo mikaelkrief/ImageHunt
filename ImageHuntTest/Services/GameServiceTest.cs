@@ -5,6 +5,7 @@ using System.Text;
 using AutoMapper;
 using FakeItEasy;
 using ImageHunt.Data;
+using ImageHunt.Helpers;
 using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
@@ -481,6 +482,43 @@ namespace ImageHuntTest.Services
           var result = _target.GameCode(games[1].Id);
           // Assert
           Check.That(result).Equals(games[1].Code);
+      }
+
+      [Fact]
+      public void Should_Duplicate_Succeed()
+      {
+          // Arrange
+          var nodes = new List<Node>
+          {
+              new FirstNode(),
+              new ObjectNode(),
+              new TimerNode(),
+              new QuestionNode(),
+              new LastNode()
+          };
+          nodes[0].HaveChild(nodes[1]);
+          nodes[1].HaveChild(nodes[2]);
+          nodes[2].HaveChild(nodes[3]);
+          nodes[3].HaveChild(nodes[4]);
+          var games = new List<Game>
+          {
+              new Game(),
+              new Game(){Nodes = nodes}
+          };
+          _context.Games.AddRange(games);
+          var admins = new List<Admin>
+          {
+              new Admin(),
+              new Admin(),
+          };
+          admins[1].GameAdmins.Add(new GameAdmin(){Admin = admins[1], Game = games[1]});
+          _context.Admins.AddRange(admins);
+            _context.SaveChanges();
+          // Act
+          var newGame = _target.Duplicate(games[1], admins[1]);
+          // Assert
+          Check.That(newGame).IsNotNull();
+          Check.That(_context.Games).HasSize(3);
       }
     }
 }

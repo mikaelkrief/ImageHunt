@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ImageHunt.Computation;
+using ImageHunt.Helpers;
 using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
@@ -35,6 +36,7 @@ namespace ImageHunt.Controllers
     private readonly IImageService _imageService;
     private readonly INodeService _nodeService;
     private readonly IActionService _actionService;
+    private readonly IAdminService _adminService;
     private readonly ILogger<GameController> _logger;
     private readonly IImageTransformation _imageTransformation;
     private readonly IMapper _mapper;
@@ -43,6 +45,7 @@ namespace ImageHunt.Controllers
       IImageService imageService,
       INodeService nodeService,
       IActionService actionService,
+      IAdminService adminService,
       ILogger<GameController> logger,
       IImageTransformation imageTransformation,
       UserManager<Identity> userManager,
@@ -53,6 +56,7 @@ namespace ImageHunt.Controllers
       _imageService = imageService;
       _nodeService = nodeService;
       _actionService = actionService;
+      _adminService = adminService;
       _logger = logger;
       _imageTransformation = imageTransformation;
       _mapper = mapper;
@@ -347,6 +351,46 @@ namespace ImageHunt.Controllers
       var nodes = _nodeService.GetGameNodesOrderByPosition(nodeRequest.GameId, nodeRequest.Latitude, nodeRequest.Longitude,
         nodeType);
       return Ok(_mapper.Map<IEnumerable<NodeResponse>>(nodes));
+    }
+    [HttpPost("Duplicate")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,GameMaster")]
+    public IActionResult DuplicateGame([FromBody]DuplicateGameRequest duplicateGameRequest)
+    {
+      var orgGame = _gameService.GetGameById(duplicateGameRequest.GameId);
+      if (orgGame.Nodes.Any(n => n.NodeType == NodeResponse.ChoiceNodeType))
+      {
+        ModelState.AddModelError("ChoiceNode", "Unable to duplicate a gae with ChoiceNode");
+        return BadRequest(ModelState);
+        
+      }
+
+      var admin = _adminService.GetAdminById(UserId);
+      // Duplicate game
+      var newGame = _gameService.Duplicate(orgGame, admin);
+      
+      var orgNodes = _gameService.GetNodes(orgGame.Id);
+      var newNode = new List<Node>();
+      // duplicate nodes
+      foreach (var orgNode in orgNodes)
+      {
+        newNode.Add(NodeFactory.DuplicateNode(orgNode));
+      }
+      newNode.ForEach(n=>_gameService.AddNode(newGame.Id, n));
+      // Rebuild the path
+      var firstNode = newNode.First(n => n.NodeType == NodeResponse.FirstNodeType);
+      firstNode.DuplicatePath(orgNodes, newNode);
+      SaveRelation(firstNode);
+      return Ok(_mapper.Map<GameResponse>(newGame));
+    }
+
+    private void SaveRelation(Node currentNode)
+    {
+      var nextNode = currentNode.Children.FirstOrDefault();
+      if (nextNode != null)
+      {
+        _nodeService.AddChildren(currentNode, nextNode);
+        SaveRelation(nextNode);
+      }
     }
   }
 }

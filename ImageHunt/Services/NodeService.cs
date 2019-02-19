@@ -183,5 +183,6 @@ namespace ImageHunt.Services
 
       return selectedNodes.OrderBy(n => GeographyComputation.Distance(latitude, longitude, n.Latitude, n.Longitude));
     }
+
   }
 }

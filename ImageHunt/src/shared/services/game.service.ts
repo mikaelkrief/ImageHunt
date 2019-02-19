@@ -13,6 +13,9 @@ import { NodeResponse } from '../nodeResponse';
 
 @Injectable()
 export class GameService {
+    cloneGame(game: Game) {
+      return this.http.post('api/Game/Duplicate', { gameId: game.id });
+    }
   constructor(private http: HttpClient) {}
   getGameForConnectedUser() {
     return this.http.get('api/Game/ByUser', { headers: this.headers });

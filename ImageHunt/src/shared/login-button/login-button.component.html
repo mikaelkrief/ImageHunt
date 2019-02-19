@@ -1,7 +1,12 @@
 <div>
-  <button *ngIf="!isAuthenticated" (click)="login()" class="btn btn-default">
-    <span class="fas fa-sign-in-alt"></span> Connexion
-  </button>
+  <div *ngIf="!isAuthenticated">
+    <button  (click)="login()" class="btn btn-default">
+      <span class="fas fa-sign-in-alt"></span> Connexion
+    </button>
+    <button class="btn btn-default" (click)="register()">
+      Créer un compte
+    </button>
+  </div>
   <div *ngIf="isAuthenticated">
     <button (click)="logout()" class="btn btn-default">
       <span>Connecté en tant que :</span>
