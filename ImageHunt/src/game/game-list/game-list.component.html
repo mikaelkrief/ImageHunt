@@ -27,6 +27,7 @@
           <tr>
             <th style="width: 50%;">Nom</th>
             <th style="width: 25%; vertical-align: top;">Teams</th>
+            <th>Code</th>
             <th>Actions</th>
             <th></th>
           </tr>
@@ -63,6 +64,7 @@
                 <a [routerLink]="['/team',game.id, team.id]">{{team.name}}</a>
               </p>
             </td>
+            <td>{{game.code}}</td>
             <td>
               <div class="btn-group-vertical">
                 <div class="btn-group">
