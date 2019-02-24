@@ -2,6 +2,7 @@
   <div class="col-8">
     <h2>Détails de la team</h2>
     <h2>Nom de la team : {{team.name}}</h2>
+    <h4>Code de la team: {{team.code}}</h4>
     <h4>/init gameid={{gameId}} teamid={{teamId}}</h4>
   </div>
   <div class="col-4">
@@ -15,6 +16,7 @@
       <tr>
         <th>Nom du joueur</th>
         <th>Pseudo de chat</th>
+        <th>Role</th>
         <th><button class="btn btn-primary" (click)="createPlayer()"><i class="fa fa-user-plus"></i></button></th>
       </tr>
     </thead>
@@ -22,6 +24,12 @@
       <tr *ngFor="let player of team.players">
         <td>{{player.name}}</td>
         <td>{{player.chatLogin}}</td>
+        <td>
+          <select>
+            <option value="Player">Joueur</option>
+            <option value="TeamLeader">Chef d'équipe</option>
+          </select>
+        </td>
         <td><button class="btn btn-danger" (click)="deletePlayer(team.id, player)"><span class="fa fa-trash"></span></button></td>
 
       </tr>

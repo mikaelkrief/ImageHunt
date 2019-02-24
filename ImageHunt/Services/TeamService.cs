@@ -4,6 +4,7 @@ using System.Linq;
 using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Exception;
+using ImageHunt.Helpers;
 using ImageHunt.Model;
 using ImageHuntCore.Computation;
 using ImageHuntCore.Model;
@@ -31,6 +32,11 @@ namespace ImageHunt.Services
       picture = Context.Pictures.SingleOrDefault(p=>p.Id == team.Picture.Id);
       team.Picture = picture;
       game.Teams.Add(team);
+      string code;
+      do
+      {
+        code = EntityHelper.CreateCode(6);
+      } while (Context.Teams.Any(t => t.Code == code));
       Context.SaveChanges();
     }
 

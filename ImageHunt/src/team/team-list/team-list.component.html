@@ -9,6 +9,7 @@
         <th>Nbr joueurs</th>
         <th>Init group chat</th>
         <th>Langue</th>
+        <th>Code</th>
         <th></th>
         <th><button class="btn btn-primary" (click)="createTeam()"><span class="fa fa-plus-square"></span></button></th>
       </tr>
@@ -28,6 +29,9 @@
         </td>
         <td>
           {{team.cultureInfo}}
+        </td>
+        <td>
+          {{team.Code}}
         </td>
         <td>
           <button class="btn btn-primary" [routerLink]="['/action/', gameId, team.id]"><span class="fa fa-map-signs"></span></button>

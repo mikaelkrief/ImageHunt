@@ -9,5 +9,6 @@ namespace ImageHuntWebServiceClient.Responses
         public int GameId { get; set; }
         public string ChatId { get; set; }
         public string CultureInfo { get; set; }
+        public string Code { get; set; }
     }
 }
