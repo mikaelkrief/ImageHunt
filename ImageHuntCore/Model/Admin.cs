@@ -26,6 +26,8 @@ namespace ImageHuntCore.Model
     Validator,
     GameMaster,
     Reader,
+      TeamLeader,
+      Player,
     Bot
   }
 }

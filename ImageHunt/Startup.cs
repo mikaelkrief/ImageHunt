@@ -127,7 +127,7 @@ namespace ImageHunt
       //adding custom roles
       var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
       var UserManager = serviceProvider.GetRequiredService<UserManager<Identity>>();
-      string[] roleNames = { "Admin", "GameMaster", "Validator", "Player", "Bot" };
+      string[] roleNames = Enum.GetNames(typeof(Role));
       IdentityResult roleResult;
 
       foreach (var roleName in roleNames)
