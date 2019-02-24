@@ -37,6 +37,8 @@ namespace ImageHunt.Services
       {
         code = EntityHelper.CreateCode(6);
       } while (Context.Teams.Any(t => t.Code == code));
+
+      team.Code = code;
       Context.SaveChanges();
     }
 
