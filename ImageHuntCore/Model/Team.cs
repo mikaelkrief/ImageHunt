@@ -28,6 +28,6 @@ namespace ImageHuntCore.Model
     public Picture Picture { get; set; }
       public int? Bonus { get; set; }
       public string Code { get; set; }
-      public string InviteUri { get; set; }
+      public string ChatInviteUrl { get; set; }
   }
 }
