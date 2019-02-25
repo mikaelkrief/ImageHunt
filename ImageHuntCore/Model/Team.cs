@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -27,5 +28,6 @@ namespace ImageHuntCore.Model
     public Picture Picture { get; set; }
       public int? Bonus { get; set; }
       public string Code { get; set; }
+      public string InviteUri { get; set; }
   }
 }
