@@ -660,5 +660,17 @@ namespace ImageHuntTest.Controller
             // Assert
             Check.That(result).IsInstanceOf<BadRequestObjectResult>();
         }
+
+        [Fact]
+        public void Should_GetByCode_Return_Game_with_team()
+        {
+            // Arrange
+            
+            // Act
+            var result = _target.GetGameByCode("HJGJHJ");
+            // Assert
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+            A.CallTo(() => _gameService.GetGameByCode(A<string>._)).MustHaveHappened();
+        }
     }
 }

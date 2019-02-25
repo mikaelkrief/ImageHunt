@@ -221,7 +221,7 @@ namespace ImageHunt.Services
       do
       {
         code = EntityHelper.CreateCode(6);
-      } while (Context.Games.Any(g=>g.Code == code));
+      } while (Context.Games.Any(g => g.Code == code));
       var newGame = new Game()
       {
         Name = $"{orgGame.Name}-2",
@@ -242,5 +242,12 @@ namespace ImageHunt.Services
       return newGame;
     }
 
+    public Game GetGameByCode(string gameCode)
+    {
+      return Context.Games
+        .Include(g => g.Teams).ThenInclude(t => t.TeamPlayers)
+        .Include(g => g.Picture)
+        .Single(g => g.Code == gameCode);
+    }
   }
 }

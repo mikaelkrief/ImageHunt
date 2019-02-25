@@ -161,4 +161,8 @@ export class GameService {
   }
 
   headers: HttpHeaders;
+
+  getGameByCode(gameCode: string) : Observable<Game> {
+    return this.http.get<Game>(`api/Game/ByCode/${gameCode}`);
+  }
 }

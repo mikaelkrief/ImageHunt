@@ -1,0 +1,30 @@
+<div *ngIf="game">
+  <div style="float: left; margin-right: 20px;">
+    <img *ngIf="game.pictureId" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{game.pictureId}}&width=100" />
+    <img *ngIf="!game.pictureId" class="img-thumbnail" src="assets/ImageHunt.png" width="100px" />
+  </div>
+  <h2>{{game.name}}</h2>
+  <div class="row">
+    <span>Equipes existantes:</span>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Nom de l'équipe</th>
+            <th>Nombre de joueurs</th>
+            <th><button type="button" class="btn btn-primary" (click)="createTeam()"><i class="fa fa-plus-square"></i></button></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let team of game.teams">
+            <td></td>
+            <td>{{team.name}}</td>
+            <td>{{team.players.length}}</td>
+            <td><button type="button" class="btn btn-primary " (click)="joinTeam(team.id}"><i class="fas fa-user-plus"></i></button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

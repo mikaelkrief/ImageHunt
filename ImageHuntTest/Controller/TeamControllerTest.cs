@@ -94,7 +94,7 @@ namespace ImageHuntTest.Controller
             // Arrange
             var team = new Team();
             A.CallTo(() => _teamService.GetTeamById(A<int>._)).Returns(team);
-          A.CallTo(() => _playerService.GetPlayerByChatId(A<string>._)).Throws<InvalidOperationException>();
+          A.CallTo(() => _playerService.GetPlayerByChatId(A<string>._)).Returns(null);
             var player = new PlayerRequest(){Name = "toto", ChatLogin = "Toro"};
             // Act
             _target.AddPlayer(1, player);

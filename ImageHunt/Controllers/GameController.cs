@@ -392,5 +392,12 @@ namespace ImageHunt.Controllers
         SaveRelation(nextNode);
       }
     }
+    [HttpGet("ByCode/{gameCode}")]
+    public IActionResult GetGameByCode(string gameCode)
+    {
+      var gameByCode = _gameService.GetGameByCode(gameCode);
+      var gameResponse = _mapper.Map<GameTeamsResponse>(gameByCode);
+      return Ok(gameResponse);
+    }
   }
 }

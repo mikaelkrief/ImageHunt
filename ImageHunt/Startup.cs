@@ -237,6 +237,9 @@ namespace ImageHunt
           .ForPath(n=>n.Image.Id, o=>o.MapFrom(p=>p.Image.Id))  
           .ForPath(n => n.Image, o => o.Ignore());
         config.CreateMap<Identity, UserResponse>();
+        config.CreateMap<Game, GameTeamsResponse>()
+          .ForMember(g=>g.Teams, g=>g.MapFrom(game=>game.Teams))
+          .ForMember(g=>g.PictureId, g=>g.MapFrom(game=>game.Picture != null? game.Picture.Id:0));
       });
     }
   }
