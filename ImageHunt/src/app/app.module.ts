@@ -1,5 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { RouterModule } from "@angular/router";
+import { RouterModule, Routes } from "@angular/router";
 import { LocalStorageModule } from "angular-2-local-storage";
 import { AppComponent } from "./app.component";
 import { BsDropdownModule, ModalModule, TabsModule, ButtonsModule, TooltipModule, AccordionModule, BsModalService  } from "ngx-bootstrap";
@@ -55,6 +55,7 @@ import { AccountModule } from "../account/account.module";
 import { RegistrationFormComponent } from "../account/registration-form/registration-form.component";
 import { UserRoleComponent } from "../account/user-role/user-role.component";
 import { JwtModule } from '@auth0/angular-jwt';
+import { ImageHuntModuleRoutingModule } from "./image-hunt-module/image-hunt-module-routing.module";
 registerLocaleData(localeFr);
 export function tokenGetter() {
   return localStorage.getItem('authToken');
@@ -114,27 +115,8 @@ export class MyAuthConfig implements IPartialConfigOptions {
     ButtonsModule.forRoot(),
     ModalModule.forRoot(),
     AccordionModule.forRoot(),
-    RouterModule.forRoot([
-      { path: "home", component: HomeComponent },
-      { path: "game", component: GameListComponent },
-      { path: "game/:gameId", component: GameDetailComponent },
-      { path: "action/:gameId", component: GameActionListComponent },
-      { path: "action/:gameId/:teamId", component: GameActionListComponent },
-      { path: "action/detail/:gameActionId", component: GameActionDetailComponent },
-      { path: "team/:gameId/:teamId", component: TeamDetailComponent },
-      { path: "teams/:gameId", component: TeamListComponent },
-      { path: "team", component: TeamListComponent },
-      { path: "admin", component: AdminListComponent },
-      { path: "login", component: LoginFormComponent },
-      { path: "users", component: UserRoleComponent },
-      { path: "register", component: RegistrationFormComponent },
-      { path: "score/:gameId", component: ScoreListComponent },
-      { path: "follow/:gameId", component: TeamFollowComponent },
-      { path: "passcode/:gameId", component: PasscodeListComponent },
-      { path: "passcode/print/:gameId", component: PasscodePrintComponent },
-      { path: "", redirectTo: "home", pathMatch: "full" },
-      { path: "**", component: PageNotFoundComponent }
-    ])
+    ImageHuntModuleRoutingModule,
+
   ],
   entryComponents: [NodeCreateComponent, NodeRelationComponent, QuestionNodeComponent,
     ImageNodeEditComponent, PasscodeCreateComponent, TeamCreateComponent, GameCreateComponent, PlayerCreateComponent, RegistrationFormComponent],
