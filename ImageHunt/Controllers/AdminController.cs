@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace ImageHunt.Controllers
 {
   [Route("api/[Controller]")]
-  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, Bot")]
   #if !DEBUG
   [Authorize]
   #endif
