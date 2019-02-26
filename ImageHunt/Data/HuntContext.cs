@@ -151,6 +151,7 @@ namespace ImageHunt.Data
       modelBuilder.Entity<Identity>().Property(u => u.NormalizedEmail).IsUnicode(false);
       modelBuilder.Entity<IdentityRole>().Property(u => u.Name).IsUnicode(false);
       modelBuilder.Entity<IdentityRole>().Property(u => u.NormalizedName).IsUnicode(false);
+      modelBuilder.Entity<Game>().HasIndex(g => g.Code).IsUnique();
     }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)

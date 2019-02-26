@@ -50,7 +50,7 @@ namespace ImageHunt.Services
     {
       return Context.Players
         .Include(p=>p.TeamPlayers).ToList()
-        .Single(p => p.ChatLogin == chatId);
+        .SingleOrDefault(p => p.ChatLogin == chatId);
     }
   }
 }

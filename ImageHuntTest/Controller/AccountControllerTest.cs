@@ -68,6 +68,8 @@ namespace ImageHuntTest.Controller
                 Login = "toto"
             };
             A.CallTo(() => _userManager.CreateAsync(A<Identity>._, A<string>._)).Returns(IdentityResult.Success);
+            var identities = new List<Identity> {new Identity() {Email = "toto@titi.com"}};
+            A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
             // Act
             var result = await _target.Register(request);
             // Assert
@@ -75,6 +77,7 @@ namespace ImageHuntTest.Controller
                 .MustHaveHappened();
             A.CallTo(() => _signinManager.SignInAsync(A<Identity>._, A<bool>._, A<string>._)).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();
+            A.CallTo(() => _userManager.AddToRoleAsync(A<Identity>._, "Player")).MustHaveHappened();
         }
 
         private bool IdentityMatch(Identity identity, string expectedUserName, string expectedEmail)

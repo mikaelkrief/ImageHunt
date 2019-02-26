@@ -520,5 +520,31 @@ namespace ImageHuntTest.Services
           Check.That(newGame).IsNotNull();
           Check.That(_context.Games).HasSize(3);
       }
+      [Fact]
+      public void Should_GetGameByCode_Return_Game()
+      {
+          // Arrange
+          var teams = new List<Team>
+          {
+              new Team(),
+              new Team(),
+              new Team(),
+              new Team(),
+              new Team(),
+          };
+          _context.Teams.AddRange(teams);
+          var games = new List<Game>
+          {
+              new Game() {Code = "AZERTY", Teams = new List<Team>(){teams[0], teams[2], teams[4]}},
+              new Game() {Code = "HJGHG", Teams = new List<Team>(){teams[1], teams[3]}},
+          };
+          _context.Games.AddRange(games);
+          _context.SaveChanges();
+          // Act
+          var game = _target.GetGameByCode(games[0].Code);
+          // Assert
+          Check.That(game).Equals(games[0]);
+      }
+
     }
 }

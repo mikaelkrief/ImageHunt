@@ -9,6 +9,7 @@
   <ItemGroup>
     <None Remove="Data\createTeam.json" />
     <None Remove="Data\GetAllAdmin.json" />
+    <None Remove="Data\login_as_bot.json" />
     <None Remove="Data\UploadImage_response.json" />
   </ItemGroup>
 
@@ -16,6 +17,7 @@
     <EmbeddedResource Include="Data\createTeam.json" />
     <EmbeddedResource Include="Data\GameById1.json" />
     <EmbeddedResource Include="Data\GetAllAdmin.json" />
+    <EmbeddedResource Include="Data\login_as_bot.json" />
     <EmbeddedResource Include="Data\StartTeamFirstNode.json" />
     <EmbeddedResource Include="Data\TeamById1.json" />
     <EmbeddedResource Include="Data\UploadImage_response.json" />
