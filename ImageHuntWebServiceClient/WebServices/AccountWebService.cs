@@ -1,9 +1,11 @@
 ﻿using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace ImageHuntWebServiceClient.WebServices
 {
@@ -15,10 +17,9 @@ namespace ImageHuntWebServiceClient.WebServices
 
         public async Task<LoginResponse> Login(LoginRequest loginRequest, CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var content = new MultipartFormDataContent())
+            var jsonString = JsonConvert.SerializeObject(loginRequest);
+            using (var content = new StringContent(jsonString, Encoding.UTF8, "application/json"))
             {
-                content.Add(new StringContent(loginRequest.UserName), "userName");
-                content.Add(new StringContent(loginRequest.Password), "password");
                 var result = await PostAsync<LoginResponse>($"{_httpClient.BaseAddress}api/Account/Login/",
                     content, cancellationToken);
                 return result;
