@@ -5,6 +5,8 @@ import { GameService } from 'services/game.service';
 import { TeamService } from 'services/team.service';
 import { AlertService } from "services/alert.service";
 import { BsModalService } from 'ngx-bootstrap';
+import { TeamCreateComponent } from "../team-create/team-create.component";
+import { Team } from '../../shared/team';
 
 @Component({
     selector: 'game-teams',
@@ -26,5 +28,16 @@ export class GameTeamsComponent implements OnInit {
     private _teamService: TeamService,
     private _modalService: BsModalService,
     private _alertService: AlertService, ) {
-    }
+  }
+  createTeam() {
+    this.modalRef = this._modalService.show(TeamCreateComponent, { ignoreBackdropClick: true });
+    this.modalRef.content.teamCreated.subscribe((team: Team) => {
+      this._teamService.createTeam(this.game.id, team).subscribe((createdTeam: Team) => {
+        this.game.teams.push(createdTeam);
+      });
+    });
+
+  }
+
+  modalRef;
 }

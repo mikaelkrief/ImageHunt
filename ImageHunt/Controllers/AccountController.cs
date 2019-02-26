@@ -76,6 +76,8 @@ namespace ImageHunt.Controllers
 
       if (result.Succeeded)
       {
+        var identity = _userManager.Users.Single(u => u.Email == request.Email);
+        await _userManager.AddToRoleAsync(identity, "Player");
         await _signInManager.SignInAsync(user, false);
         return Ok(user);
       }

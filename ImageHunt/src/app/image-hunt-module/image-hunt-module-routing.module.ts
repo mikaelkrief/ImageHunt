@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: "team/:gameId/:teamId", component: TeamDetailComponent },
   { path: "teams/:gameId", component: TeamListComponent },
   { path: "team", component: TeamListComponent },
-  { path: "gameteam/:gameCode", component: GameTeamsComponent },
+  { path: "gameteam/:gameCode", component: GameTeamsComponent, canActivate: [AuthGuard], data: { roles: ["TeamLeader", "Player"] } },
   { path: "admin", component: AdminListComponent, canActivate: [AuthGuard], data: { roles: ["Admin"] } },
   { path: "login", component: LoginFormComponent },
   { path: "users", component: UserRoleComponent, canActivate: [AuthGuard], data: {roles:["Admin"]} },
