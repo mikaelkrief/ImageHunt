@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Middlewares;
+using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -32,6 +35,7 @@ namespace ImagehuntBotBuilder
     {
         private ILoggerFactory _loggerFactory;
         private bool _isProduction = false;
+        private string _jwtToken;
 
         public Startup(IHostingEnvironment env)
         {
@@ -175,6 +179,10 @@ namespace ImagehuntBotBuilder
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
+            // Login to WebApi
+            LoginApi().Wait();
+
+
             containerBuilder.RegisterModule<DefaultModule>();
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
@@ -204,8 +212,23 @@ namespace ImagehuntBotBuilder
             containerBuilder.Register(a => new HttpClient()
             {
                 BaseAddress = new Uri(Configuration.GetValue<string>("ImageHuntApi:Url")),
-                DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", "ImageHuntBotToken") }
+                DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken) }
             });
+        }
+
+        private async Task LoginApi()
+        {
+            var apiBaseAddress = Configuration["ImageHuntApi: Url"];
+            var httpLogin = new HttpClient(){BaseAddress = new Uri(apiBaseAddress)};
+            var accountService =
+                new AccountWebService(httpLogin, new LoggerFactory().CreateLogger<IAccountWebService>());
+            var logingRequest = new LoginRequest()
+            {
+                UserName = Configuration["BotConfiguration:BotName"],
+                Password = Configuration["BotConfiguration:BotPassword"],
+            };
+            var response = await accountService.Login(logingRequest);
+            _jwtToken = response.Value;
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

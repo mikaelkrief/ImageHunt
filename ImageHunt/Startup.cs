@@ -141,9 +141,9 @@ namespace ImageHunt
       }
       var context = serviceProvider.GetService<HuntContext>();
       var rootAdminEmail = Configuration["Admin:Email"];
-      if (!context.Admins.Any(a=>a.Email == rootAdminEmail))
+      if (!context.Admins.Any(a => a.Email == rootAdminEmail))
       {
-        var admin = new Admin() {Email = rootAdminEmail, Name = Configuration["Admin:Name"] };
+        var admin = new Admin() { Email = rootAdminEmail, Name = Configuration["Admin:Name"] };
         context.Admins.Add(admin);
         context.SaveChanges();
         //creating a super user who could maintain the web app
@@ -166,6 +166,33 @@ namespace ImageHunt
             await UserManager.AddToRoleAsync(poweruser, "Admin");
           }
         }
+      }
+
+      var botEmail = Configuration["BotConfiguration:BotEmail"];
+      if (!context.Admins.Any(a => a.Email == botEmail))
+      {
+        var bot = new Admin() { Email = botEmail, Name = Configuration["BotConfiguration:BotName"] };
+        context.Admins.Add(bot);
+        context.SaveChanges();
+
+        var botUser = new Identity()
+        {
+          UserName = bot.Name,
+          Email = bot.Email,
+          AppUserId = bot.Id
+        };
+        string botPassword = Configuration["BotConfiguration:BotPassword"];
+
+        var _botUser = await UserManager.FindByEmailAsync(botUser.Email);
+        if (_botUser == null)
+        {
+          var createBotUser = await UserManager.CreateAsync(botUser, botPassword);
+          if (createBotUser.Succeeded)
+          {
+            await UserManager.AddToRoleAsync(botUser, Role.Bot.ToString());
+          }
+        }
+
       }
     }
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -207,39 +234,39 @@ namespace ImageHunt
           .ConstructUsing(r => NodeFactory.CreateNode(r.NodeType));
         config.CreateMap<GameActionRequest, GameAction>()
           .ForMember(x => x.Picture, expression => expression.Ignore())
-          .ForMember(m=>m.PointsEarned, opt=>opt.MapFrom(gar=>gar.PointsEarned));
+          .ForMember(m => m.PointsEarned, opt => opt.MapFrom(gar => gar.PointsEarned));
         config.CreateMap<GameAction, GameActionResponse>();
-          //.ForMember(m=>m.GameId, opt=>opt.MapFrom(ga=>ga.Game.Id));
+        //.ForMember(m=>m.GameId, opt=>opt.MapFrom(ga=>ga.Game.Id));
         config.CreateMap<Node, Node>().ForSourceMember(x => x.Id, opt => opt.DoNotValidate());
         config.CreateMap<Node, NodeResponse>()
-          .ForMember(n=>n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c=>c.Id)))
-          .ForMember(n=>n.Hint, expr=>
-            expr.MapFrom(node => node.NodeType == NodeResponse.HiddenNodeType? (node as HiddenNode).LocationHint: (node as BonusNode).Location)
+          .ForMember(n => n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c => c.Id)))
+          .ForMember(n => n.Hint, expr =>
+              expr.MapFrom(node => node.NodeType == NodeResponse.HiddenNodeType ? (node as HiddenNode).LocationHint : (node as BonusNode).Location)
           );
         config.CreateMap<ObjectNode, NodeResponse>()
           .ForMember(n => n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c => c.Id)));
         config.CreateMap<ChoiceNode, NodeResponse>()
           .ForMember(n => n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c => c.Id)))
-          .ForMember(n=>n.Question, exp=>exp.MapFrom(node =>node.Choice))
-          .ForMember(n => n.Answers, exp=>exp.MapFrom(node=>node.Answers));
+          .ForMember(n => n.Question, exp => exp.MapFrom(node => node.Choice))
+          .ForMember(n => n.Answers, exp => exp.MapFrom(node => node.Answers));
         config.CreateMap<Answer, AnswerResponse>();
         config.CreateMap<GameAction, GameActionToValidate>()
-          .ForMember(x=>x.Node, x=>x.Ignore());
+          .ForMember(x => x.Node, x => x.Ignore());
         config.CreateMap<Team, TeamResponse>();
         config.CreateMap<Player, PlayerResponse>();
         config.CreateMap<Score, ScoreResponse>();
         config.CreateMap<Passcode, PasscodeResponse>();
         config.CreateMap<GameRequest, Game>();
         config.CreateMap<Admin, AdminResponse>()
-          .ForMember(a=>a.GameIds, a=>a.MapFrom(admin => admin.Games.Select(g=>g.Id)));
+          .ForMember(a => a.GameIds, a => a.MapFrom(admin => admin.Games.Select(g => g.Id)));
         config.CreateMap<PlayerRequest, Player>();
         config.CreateMap<PictureNode, NodeResponse>()
-          .ForPath(n=>n.Image.Id, o=>o.MapFrom(p=>p.Image.Id))  
+          .ForPath(n => n.Image.Id, o => o.MapFrom(p => p.Image.Id))
           .ForPath(n => n.Image, o => o.Ignore());
         config.CreateMap<Identity, UserResponse>();
         config.CreateMap<Game, GameTeamsResponse>()
-          .ForMember(g=>g.Teams, g=>g.MapFrom(game=>game.Teams))
-          .ForMember(g=>g.PictureId, g=>g.MapFrom(game=>game.Picture != null? game.Picture.Id:0));
+          .ForMember(g => g.Teams, g => g.MapFrom(game => game.Teams))
+          .ForMember(g => g.PictureId, g => g.MapFrom(game => game.Picture != null ? game.Picture.Id : 0));
       });
     }
   }
