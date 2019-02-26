@@ -7,6 +7,8 @@ import { AlertService } from "services/alert.service";
 import { BsModalService } from 'ngx-bootstrap';
 import { TeamCreateComponent } from "../team-create/team-create.component";
 import { Team } from '../../shared/team';
+import { PlayerCreateComponent } from '../player-create/player-create.component';
+import { Player } from '../../shared/player';
 
 @Component({
     selector: 'game-teams',
@@ -37,6 +39,14 @@ export class GameTeamsComponent implements OnInit {
       });
     });
 
+  }
+  joinTeam(teamId: number) {
+    this.modalRef = this._modalService.show(PlayerCreateComponent, { ignoreBackdropClick: true });
+    this.modalRef.content.playerCreated.subscribe((player: Player) => {
+      this._teamService.addMemberToTeam(teamId, player).subscribe(() => {
+        this.game.teams.filter(t => t.id == teamId)[0].players.push(player);
+      });
+    });
   }
 
   modalRef;
