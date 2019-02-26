@@ -218,7 +218,7 @@ namespace ImagehuntBotBuilder
 
         private async Task LoginApi()
         {
-            var apiBaseAddress = Configuration["ImageHuntApi: Url"];
+            var apiBaseAddress = Configuration["ImageHuntApi:Url"];
             var httpLogin = new HttpClient(){BaseAddress = new Uri(apiBaseAddress)};
             var accountService =
                 new AccountWebService(httpLogin, new LoggerFactory().CreateLogger<IAccountWebService>());
