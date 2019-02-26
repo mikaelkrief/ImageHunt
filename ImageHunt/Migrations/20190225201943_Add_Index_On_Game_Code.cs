@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageHunt.Migrations
 {
@@ -10,6 +10,8 @@ namespace ImageHunt.Migrations
                 name: "Code",
                 table: "Games",
                 nullable: true,
+                unicode: false,
+                maxLength:250,
                 oldClrType: typeof(string),
                 oldNullable: true);
 
