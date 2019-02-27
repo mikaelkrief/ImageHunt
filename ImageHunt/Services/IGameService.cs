@@ -28,5 +28,6 @@ namespace ImageHunt.Services
     string GameCode(int gameId);
     Game Duplicate(Game orgGame, Admin admin);
     Game GetGameByCode(string gameCode);
+    IEnumerable<Game> GetAllGameForValidation(Admin user);
   }
 }

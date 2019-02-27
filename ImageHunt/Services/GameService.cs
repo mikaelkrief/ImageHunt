@@ -191,7 +191,9 @@ namespace ImageHunt.Services
 
     public IEnumerable<Game> GetAllGame()
     {
-      return Context.Games.Where(g => g.IsActive);
+      return Context.Games
+        .Include(g=>g.Teams)
+        .Where(g => g.IsActive && g.StartDate >= DateTime.Today);
     }
 
     public string GameCode(int gameId)
@@ -248,6 +250,13 @@ namespace ImageHunt.Services
         .Include(g => g.Teams).ThenInclude(t => t.TeamPlayers)
         .Include(g => g.Picture)
         .Single(g => g.Code == gameCode);
+    }
+
+    public IEnumerable<Game> GetAllGameForValidation(Admin user)
+    {
+      Context.Attach(user);
+      var gamesToValidate = user.Games.Where(g => g.IsActive && g.StartDate >= DateTime.Today);
+      return gamesToValidate;
     }
   }
 }

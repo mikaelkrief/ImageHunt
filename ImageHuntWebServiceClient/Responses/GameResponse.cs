@@ -9,5 +9,7 @@ namespace ImageHuntWebServiceClient.Responses
         public DateTime StartDate { get; set; }
         public bool IsActive { get; set; }
         public int PictureId { get; set; }
+        public string Code { get; set; }
+        public TeamResponse[] Teams { get; set; }
     }
 }

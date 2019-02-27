@@ -37,6 +37,8 @@ import { PasscodePrintComponent } from './passcode-print/passcode-print.componen
 import { ButtonsModule } from 'ngx-bootstrap';
 import { ImageService } from 'services/image.service';
 import { MomentModule } from 'angular2-moment';
+import { GameAvailableComponent } from './game-available/game-available.component';
+import { GameValidationComponent } from './game-validation/game-validation.component';
 
 @
 NgModule({
@@ -51,14 +53,14 @@ NgModule({
     GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent,
     NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent,
     GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent, PasscodeCreateComponent,
-    PasscodePrintComponent
+    PasscodePrintComponent, GameAvailableComponent, GameValidationComponent
   ],
   exports: [
     GameCreateComponent, GameDetailComponent, GameListComponent,
     NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent,
     GameActionListComponent, GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent,
     PasscodeCreateComponent,
-    PasscodePrintComponent
+    PasscodePrintComponent, GameAvailableComponent, GameValidationComponent
   ],
   providers: [GameService, TeamService, AlertService, ConfirmationService, LiveService, ImageService]
 })

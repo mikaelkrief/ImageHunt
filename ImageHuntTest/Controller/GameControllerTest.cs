@@ -633,6 +633,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _nodeService.AddChildren(A<Node>._, A<Node>._))
                 .MustHaveHappenedANumberOfTimesMatching(i => i == 4);
         }
+
         [Fact]
         public void Should_duplicate_Game_Fail_if_ChoiceNode()
         {
@@ -665,12 +666,25 @@ namespace ImageHuntTest.Controller
         public void Should_GetByCode_Return_Game_with_team()
         {
             // Arrange
-            
+
             // Act
             var result = _target.GetGameByCode("HJGJHJ");
             // Assert
             Check.That(result).IsInstanceOf<OkObjectResult>();
             A.CallTo(() => _gameService.GetGameByCode(A<string>._)).MustHaveHappened();
+        }
+
+        [Fact]
+
+        public void Should_GetForValidation_Returns_Games_to_validate_for_user()
+        {
+            // Arrange
+
+            // Act
+            var result = _target.GetForValidation();
+            // Assert
+            A.CallTo(() => _adminService.GetAdminById(A<int>._)).MustHaveHappened();
+            A.CallTo(() => _gameService.GetAllGameForValidation(A<Admin>._)).MustHaveHappened();
         }
     }
 }

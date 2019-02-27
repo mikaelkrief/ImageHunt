@@ -399,5 +399,12 @@ namespace ImageHunt.Controllers
       var gameResponse = _mapper.Map<GameTeamsResponse>(gameByCode);
       return Ok(gameResponse);
     }
+    [HttpGet("ForValidation")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,GameMaster,Validator")]
+    public IActionResult GetForValidation()
+    {
+      var user = _adminService.GetAdminById(UserId);
+      return Ok(_gameService.GetAllGameForValidation(user));
+    }
   }
 }

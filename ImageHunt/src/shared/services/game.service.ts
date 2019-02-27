@@ -165,4 +165,8 @@ export class GameService {
   getGameByCode(gameCode: string) : Observable<Game> {
     return this.http.get<Game>(`api/Game/ByCode/${gameCode}`);
   }
+
+  gamesToValidate(user: string): Observable<Game[]> {
+    return this.http.get<Game[]>(`api/Game/ForValidation`);
+  }
 }
