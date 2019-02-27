@@ -683,7 +683,7 @@ namespace ImageHuntTest.Controller
             // Act
             var result = _target.GetForValidation();
             // Assert
-            A.CallTo(() => _adminService.GetAdminByUserName(A<string>._)).MustHaveHappened();
+            A.CallTo(() => _adminService.GetAdminById(A<int>._)).MustHaveHappened();
             A.CallTo(() => _gameService.GetAllGameForValidation(A<Admin>._)).MustHaveHappened();
         }
     }
