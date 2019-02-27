@@ -191,7 +191,9 @@ namespace ImageHunt.Services
 
     public IEnumerable<Game> GetAllGame()
     {
-      return Context.Games.Where(g => g.IsActive);
+      return Context.Games
+        .Include(g=>g.Teams)
+        .Where(g => g.IsActive && g.StartDate >= DateTime.Today);
     }
 
     public string GameCode(int gameId)

@@ -18,6 +18,7 @@ import { PageNotFoundComponent } from "../../page-not-found/page.not.found.compo
 import { UserRoleComponent } from "../../account/user-role/user-role.component";
 import { AuthGuard } from '../../shared/auth-guard';
 import { GameTeamsComponent } from '../../team/game-teams/game-teams.component';
+import { GameAvailableComponent } from '../../game/game-available/game-available.component';
 
 const routes: Routes = [
   { path: "home", component: HomeComponent },
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: "team/:gameId/:teamId", component: TeamDetailComponent },
   { path: "teams/:gameId", component: TeamListComponent },
   { path: "team", component: TeamListComponent },
+  { path: "gameavailable", component: GameAvailableComponent},
   { path: "gameteam/:gameCode", component: GameTeamsComponent, canActivate: [AuthGuard], data: { roles: ["Admin", "TeamLeader", "Player"] } },
   { path: "admin", component: AdminListComponent, canActivate: [AuthGuard], data: { roles: ["Admin"] } },
   { path: "login", component: LoginFormComponent },
