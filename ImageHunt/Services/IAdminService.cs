@@ -36,5 +36,7 @@ namespace ImageHunt.Services
     /// <param name="assign"></param>
     /// <returns></returns>
     Admin AssignGame(int adminId, int gameId, bool assign);
+
+    Admin GetAdminByUserName(string userName);
   }
 }

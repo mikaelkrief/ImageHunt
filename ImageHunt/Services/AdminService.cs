@@ -68,5 +68,10 @@ namespace ImageHunt.Services
       Context.SaveChanges();
       return admin;
     }
+
+    public Admin GetAdminByUserName(string userName)
+    {
+      throw new NotImplementedException();
+    }
   }
 }

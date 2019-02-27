@@ -19,6 +19,7 @@ import { UserRoleComponent } from "../../account/user-role/user-role.component";
 import { AuthGuard } from '../../shared/auth-guard';
 import { GameTeamsComponent } from '../../team/game-teams/game-teams.component';
 import { GameAvailableComponent } from '../../game/game-available/game-available.component';
+import { GameValidationComponent } from '../../game/game-validation/game-validation.component';
 
 const routes: Routes = [
   { path: "home", component: HomeComponent },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: "teams/:gameId", component: TeamListComponent },
   { path: "team", component: TeamListComponent },
   { path: "gameavailable", component: GameAvailableComponent},
+  { path: "gamevalidation", component: GameValidationComponent},
   { path: "gameteam/:gameCode", component: GameTeamsComponent, canActivate: [AuthGuard], data: { roles: ["Admin", "TeamLeader", "Player"] } },
   { path: "admin", component: AdminListComponent, canActivate: [AuthGuard], data: { roles: ["Admin"] } },
   { path: "login", component: LoginFormComponent },

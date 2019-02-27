@@ -251,5 +251,12 @@ namespace ImageHunt.Services
         .Include(g => g.Picture)
         .Single(g => g.Code == gameCode);
     }
+
+    public IEnumerable<Game> GetAllGameForValidation(Admin user)
+    {
+      Context.Attach(user);
+      var gamesToValidate = user.Games.Where(g => g.IsActive && g.StartDate >= DateTime.Today);
+      return gamesToValidate;
+    }
   }
 }

@@ -546,5 +546,45 @@ namespace ImageHuntTest.Services
           Check.That(game).Equals(games[0]);
       }
 
+      [Fact]
+      public void Should_GetAllGameForValidation_return_games_for_user_to_validate()
+      {
+          // Arrange
+          var games = new List<Game>
+          {
+              new Game() {IsActive = true, StartDate= DateTime.Today.AddDays(3)},
+              new Game() {IsActive = true, StartDate= DateTime.Today.AddDays(2)},
+              new Game() {IsActive = true, StartDate= DateTime.Today.AddDays(3)},
+              new Game() {IsActive = true, StartDate= DateTime.Today.AddDays(1) },
+              new Game() {IsActive = true, StartDate= DateTime.Today.AddDays(-1)},
+              new Game() {IsActive = true, StartDate= DateTime.Today.AddDays(-1)},
+              new Game() {IsActive = false, StartDate= DateTime.Today.AddDays(1) },
+          };
+          _context.Games.AddRange(games);
+          var admins = new List<Admin>
+          {
+              new Admin(),
+              new Admin(),
+          };
+          admins[0].GameAdmins = new List<GameAdmin>
+          {
+              new GameAdmin() {Admin = admins[0], Game = games[0]},
+              new GameAdmin() {Admin = admins[0], Game = games[2]},
+          };
+          admins[1].GameAdmins = new List<GameAdmin>
+          {
+              new GameAdmin() {Admin = admins[1], Game = games[1]},
+              new GameAdmin() {Admin = admins[1], Game = games[3]},
+              new GameAdmin() {Admin = admins[1], Game = games[4]},
+              new GameAdmin() {Admin = admins[1], Game = games[5]},
+              new GameAdmin() {Admin = admins[1], Game = games[6]},
+          };
+          _context.Admins.AddRange(admins);
+          _context.SaveChanges();
+          // Act
+          var result = _target.GetAllGameForValidation(admins[1]);
+          // Assert
+          Check.That(result).ContainsExactly(games[1], games[3]);
+      }
     }
 }
