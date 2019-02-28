@@ -126,6 +126,7 @@ namespace ImageHunt.Controllers
     public async Task<IActionResult> UpdateUser(UpdateUserRequest userRequest)
     {
       var identity = _userManager.Users.Single(u => u.Id == userRequest.Id);
+      await _userManager.RemoveFromRoleAsync(identity, identity.Role);
       identity.Role = userRequest.Role;
       await _userManager.UpdateAsync(identity);
       await _userManager.AddToRoleAsync(identity, userRequest.Role);
