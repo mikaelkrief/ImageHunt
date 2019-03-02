@@ -270,6 +270,29 @@ namespace ImageHuntTest.Controller
           .MustHaveHappened();
       }
 
-  }
+        [Fact]
+        public void Should_UpdateTeam_Succeed()
+        {
+            // Arrange
+            var updateRequest = new UpdateTeamRequest()
+            {
+                TeamId = 56,
+                Name = "dfhkjfhsjkdf",
+                InviteUrl = "https://toto"
+            };
+            // Act
+            _target.UpdateTeam(updateRequest);
+            // Assert
+            A.CallTo(() => _teamService.GetTeamById(A<int>._)).MustHaveHappened();
+            A.CallTo(() => _teamService.Update(A<Team>.That.Matches(t=>CheckTeam(t, updateRequest)))).MustHaveHappened();
+        }
+
+        private bool CheckTeam(Team team, UpdateTeamRequest updateRequest)
+        {
+            Check.That(team.Name).Equals(updateRequest.Name);
+            Check.That(team.ChatInviteUrl).Equals(updateRequest.InviteUrl);
+            return true;
+        }
+    }
 
 }

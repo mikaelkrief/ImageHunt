@@ -182,5 +182,14 @@ namespace ImageHunt.Controllers
       _teamService.DelMemberToTeam(team, player);
       return Ok();
     }
+    [HttpPatch]
+    public IActionResult UpdateTeam(UpdateTeamRequest updateRequest)
+    {
+      var team = _teamService.GetTeamById(updateRequest.TeamId);
+      team.Name = updateRequest.Name;
+      team.ChatInviteUrl = updateRequest.InviteUrl;
+      _teamService.Update(team);
+      return Ok();
+    }
   }
 }

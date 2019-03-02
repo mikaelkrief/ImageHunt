@@ -8,8 +8,10 @@ using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
@@ -57,9 +59,15 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             _state.Status = Status.Initialized;
             _state.TeamId = 15;
+            var activity = new Activity(type: ImageHuntActivityTypes.GetInviteLink);
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            
             // Act
             await _target.Execute(_turnContext, _state);
             // Assert
+            A.CallTo(() => _turnContext.SendActivitiesAsync(A<Activity[]>._, A<CancellationToken>._))
+                .MustHaveHappened();
+            A.CallTo(() => _teamWebService.UpdateTeam(A<UpdateTeamRequest>._)).MustHaveHappened();
         }
     }
 
@@ -79,6 +87,11 @@ namespace ImageHuntBotBuilderTest.Commands
                 return;
             }
 
+            var activities = new Activity[]
+            {
+                new Activity(type: ImageHuntActivityTypes.GetInviteLink),
+            };
+            await turnContext.SendActivitiesAsync(activities);
         }
     }
 }

@@ -16,5 +16,6 @@ namespace ImageHuntWebServiceClient.WebServices
       Task<NodeResponse> StartGameForTeam(int gameId, int teamId, CancellationToken cancellationToken = default(CancellationToken));
 
       Task RemovePlayerFromTeam(int teamId, string chatId);
+      Task UpdateTeam(UpdateTeamRequest updateTeamRequest);
   }
 }
