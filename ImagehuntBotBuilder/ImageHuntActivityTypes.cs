@@ -10,5 +10,6 @@
         public const string Leave = "leave";
         public const string Wait = "wait";
         public const string RenameChat = "renameChat";
+        public const string GetInviteLink = "getInviteLink";
     }
 }
