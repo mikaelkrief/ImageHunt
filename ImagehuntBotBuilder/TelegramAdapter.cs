@@ -213,12 +213,34 @@ namespace ImageHuntBotBuilder
                 //activity.ServiceUrl = _configuration["BotConfiguration:BotUrl"];
             }
 
-            await DownloadPicture(activity);
+            switch (activity.Type)
+            {
+                case ImageHuntActivityTypes.Image:
+                 await DownloadPicture(activity);
+                   break;
+                case ImageHuntActivityTypes.GetInviteLink:
+                    await ExtractInviteLink(activity, cancellationToken);
+                    break;
+
+            }
             using (var turnContext = new TurnContext(this, activity))
             {
                 await RunPipelineAsync(turnContext, callback, cancellationToken).ConfigureAwait(false);
                 return null;
             }
         }
+
+        private async Task ExtractInviteLink(Activity activity, CancellationToken cancellationToken)
+        {
+            var inviteLink = await _telegramBotClient.ExportChatInviteLinkAsync(new ChatId(activity.ChannelId),
+                cancellationToken);
+            if (activity.Attachments == null)
+            {
+                activity.Attachments = new List<Attachment>();
+            }
+
+            activity.Attachments.Add(new Attachment(contentUrl: inviteLink));
+        }
+
     }
 }

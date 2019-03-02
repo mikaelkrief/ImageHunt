@@ -483,5 +483,28 @@ namespace ImageHuntBotBuilderTest
             // Assert
 
         }
+
+        [Fact]
+        public async Task Should_Return_InviteUrlAsync()
+        {
+            // Arrange
+            string authHeader = null;
+            var callback = A.Fake<BotCallbackHandler>();
+            var inviteUrl = "https://tg.telegrame.com/invite";
+            A.CallTo(() => _telegramBotClient.ExportChatInviteLinkAsync(A<ChatId>._, A<CancellationToken>._))
+                .Returns(inviteUrl);
+            Activity activity = new Activity()
+            {
+                ChannelId = "565656",
+                Type = ImageHuntActivityTypes.GetInviteLink,
+            };
+
+            // Act
+            var result = await _target.ProcessActivityAsync(authHeader, activity, callback, CancellationToken.None);
+            // Assert
+            A.CallTo(() => _telegramBotClient.ExportChatInviteLinkAsync(A<ChatId>._, A<CancellationToken>._))
+                .MustHaveHappened();
+            Check.That(activity.Attachments[0].ContentUrl).Equals(inviteUrl);
+        }
     }
 }
