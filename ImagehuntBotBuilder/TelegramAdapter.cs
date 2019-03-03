@@ -160,6 +160,11 @@ namespace ImageHuntBotBuilder
                                 await _telegramBotClient.LeaveChatAsync(chatId,
                                     cancellationToken);
                                 break;
+                            case ImageHuntActivityTypes.GetInviteLink:
+                                var inviteLink = await ExtractInviteLink(chatId, cancellationToken);
+                                activity.Attachments = new List<Attachment> { new Attachment(contentUrl: inviteLink) };
+                                break;
+
                             case ImageHuntActivityTypes.RenameChat:
                                 await _telegramBotClient.SetChatTitleAsync(chatId, activity.Text, cancellationToken);
                                 break;
@@ -213,12 +218,26 @@ namespace ImageHuntBotBuilder
                 //activity.ServiceUrl = _configuration["BotConfiguration:BotUrl"];
             }
 
-            await DownloadPicture(activity);
+            switch (activity.Type)
+            {
+                case ActivityTypes.Message:
+                 await DownloadPicture(activity);
+                   break;
+
+            }
             using (var turnContext = new TurnContext(this, activity))
             {
                 await RunPipelineAsync(turnContext, callback, cancellationToken).ConfigureAwait(false);
                 return null;
             }
         }
+
+        private async Task<string> ExtractInviteLink(ChatId chatId, CancellationToken cancellationToken)
+        {
+            var inviteLink = await _telegramBotClient.ExportChatInviteLinkAsync(chatId,
+                cancellationToken);
+            return inviteLink;
+        }
+
     }
 }

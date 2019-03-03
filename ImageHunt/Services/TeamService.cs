@@ -164,6 +164,12 @@ namespace ImageHunt.Services
       Context.SaveChanges();
     }
 
+    public void Update(Team team)
+    { 
+      Context.Attach(team);
+      Context.SaveChanges();
+    }
+
 
     private Game GetCurrentGameForTeam(Team team)
     {

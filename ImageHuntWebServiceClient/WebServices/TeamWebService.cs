@@ -74,5 +74,14 @@ namespace ImageHuntWebServiceClient.WebServices
       {
           await DeleteAsync($"{_httpClient.BaseAddress}api/Team/RemoveByChatId/{teamId}/{chatId}");
       }
+
+      public async Task UpdateTeam(UpdateTeamRequest updateTeamRequest)
+      {
+          using (var content = new StringContent(JsonConvert.SerializeObject(updateTeamRequest), Encoding.UTF8,
+              "Application/json"))
+          {
+              await PatchAsync<object>($"{_httpClient.BaseAddress}api/Team", content);
+          }
+      }
   }
 }

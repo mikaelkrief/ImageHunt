@@ -114,6 +114,7 @@ namespace ImageHuntTest.Controller
             // Act
             await _target.UpdateUser(userRequest);
             // Assert
+            A.CallTo(() => _userManager.RemoveFromRoleAsync(A<Identity>._, A<string>._)).MustHaveHappened();
             A.CallTo(() => _userManager.AddToRoleAsync(A<Identity>._, userRequest.Role)).MustHaveHappened();
         }
 

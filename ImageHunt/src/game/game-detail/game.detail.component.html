@@ -51,11 +51,11 @@
       <div heading="Configuration">
         <h4>Configuration</h4>
         <div class="btn-group-vertical w-100" role="group">
-          <div class="btn-group">
+          <!--<div class="btn-group">
             <button class="btn btn-primary" [routerLink]="['/passcode/', game.id]">
               <span class="fa fa-qrcode"></span><span class="d-none d-md-block"> Passcodes</span>
             </button>
-          </div>
+          </div>-->
           <div class="btn-group">
             <button class="btn btn-primary" [routerLink]="['/teams/', game.id]">
               <span class="fa fa-users"></span><span class="d-none d-md-block"> Equipes</span>
@@ -99,9 +99,9 @@
             <div class="btn-group">
               <button class="btn btn-info" (click)="uploadKml(uploadKmlTemplate)"><span class="fas fa-map-marker-alt"></span><span class="d-none d-md-block"> Importer un fichier kml</span></button>
             </div>
-            <div class="btn-group">
+            <!--<div class="btn-group">
               <button class="btn btn-info" (click)="centerMap(game.id)"><span class="fa fa-align-center"></span><span class="d-none d-md-block"> Centrer la carte sur les n&oelig;uds</span></button>
-            </div>
+            </div>-->
             <div class="btn-group">
               <button class="btn btn-primary" (click)="editNodeRelations()"><span class="fa fa-link"></span><span class="d-none d-md-block"> Editer les relations</span></button>
             </div>

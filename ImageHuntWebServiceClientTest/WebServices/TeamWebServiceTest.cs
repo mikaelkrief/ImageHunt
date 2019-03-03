@@ -103,5 +103,14 @@ namespace ImageHuntBotTest.WebServices
             // Assert
         }
 
+        [Fact]
+        public async Task Should_UpdateTeam_Succeed()
+        {
+            // Arrange
+            var updateRequest = new UpdateTeamRequest();
+            // Act
+            await _target.UpdateTeam(updateRequest);
+            // Assert
+        }
     }
 }
