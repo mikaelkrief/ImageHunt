@@ -26,10 +26,13 @@ namespace ImageHuntBotBuilderTest.Commands
         private ImageHuntBotAccessors _accessor;
         private ITurnContext _turnContext;
         private IStringLocalizer<DisplayStateCommand> _localizer;
+        private ImageHuntBotAccessors _accessors;
 
         public DisplayStateCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IDisplayStateCommand>>());
+            _testContainerBuilder.RegisterInstance(_accessors = A.Fake<ImageHuntBotAccessors>());
+
             _statePropertyAccessor = A.Fake<IStatePropertyAccessor<ImageHuntState>>();
 
             _storage = A.Fake<IStorage>();
@@ -63,6 +66,25 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
                 .MustHaveHappened();
+        }
+
+        [Fact]
+        public void Should_Display_All_State()
+        {
+            // Arrange
+            var activity = new Activity(type: ActivityTypes.Message, text: "/broadcast gmeid=15 Toto");
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            var states = new List<ImageHuntState>
+            {
+                new ImageHuntState() {GameId = 15, TeamId = 6, ConversationId = "Conv1"},
+                new ImageHuntState() {GameId = 15, TeamId = 7, ConversationId = "Conv2"},
+                new ImageHuntState() {GameId = 16, TeamId = 15, ConversationId = "Conv3"},
+            };
+            A.CallTo(() => _accessors.AllStates.GetAllAsync()).Returns(states);
+            var state = new ImageHuntState();
+            // Act
+            await _target.Execute(_turnContext, state);
+            // Assert
         }
     }
 }

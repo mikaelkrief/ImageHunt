@@ -13,8 +13,13 @@ namespace ImageHuntBotBuilder.Commands
     [Command("state")]
     public class DisplayStateCommand : AbstractCommand, IDisplayStateCommand
     {
-        public DisplayStateCommand(ILogger<IDisplayStateCommand> logger, IStringLocalizer<DisplayStateCommand> localizer) : base(logger, localizer)
+        private readonly ImageHuntBotAccessors _accessors;
+
+        public DisplayStateCommand(ILogger<IDisplayStateCommand> logger, 
+            IStringLocalizer<DisplayStateCommand> localizer,
+            ImageHuntBotAccessors accessors) : base(logger, localizer)
         {
+            _accessors = accessors;
         }
 
         public override bool IsAdmin => true;
