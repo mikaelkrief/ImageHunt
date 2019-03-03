@@ -28,47 +28,64 @@ namespace ImageHuntBotBuilder.Commands
         {
             if (state != null)
             {
-                var relyBuilder = new StringBuilder();
-                relyBuilder.AppendLine($"ConversationId: {state.ConversationId}");
-                relyBuilder.AppendLine($"Game Status: {state.Status}");
-                if (state.Game != null)
+                if (turnContext.Activity.Text.Contains("All", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    relyBuilder.AppendLine(
-                        $"Game: (Id:{state.Game.Id}, Name: {state.Game.Name}, StartDate: {state.Game.StartDate})");
-                }
-
-                if (state.Team != null)
-                {
-                    relyBuilder.AppendLine($"Team: (Id: {state.Team.Id}, Name: {state.Team.Name}, Culture:{state.Team.CultureInfo})");
-                }
-
-                if (state.CurrentLocation != null)
-                {
-                    relyBuilder.AppendLine(
-                        $"CurrentLocation: (Lat:{state.CurrentLocation.Latitude}, Lng: {state.CurrentLocation.Longitude})");
-                }
-
-                if (state.CurrentNode != null)
-                {
-                    string childs = string.Empty;
-                    if (state.CurrentNode.ChildNodeIds != null)
+                    var states = await _accessors.AllStates.GetAllAsync();
+                    foreach (var imageHuntState in states)
                     {
-                        childs = string.Join(',', state.CurrentNode.ChildNodeIds);
+                        await ComposeReplyAsync(turnContext, imageHuntState);
                     }
-
-                    relyBuilder.AppendLine(
-                        $"CurrentNode: (Id: {state.CurrentNode.Id}, Name: {state.CurrentNode.Name}, Location: [lat:{state.CurrentNode.Latitude}, {state.CurrentNode.Longitude}]) Childs: [{childs}]");
                 }
-
-                if (state.HiddenNodes != null && state.HiddenNodes.Any())
+                else
                 {
-                    var hiddenNodes = string.Empty;
-                    hiddenNodes = string.Join(',', state.HiddenNodes.Select(n => n.Name));
-                    relyBuilder.AppendLine($"Hidden nodes: [{hiddenNodes}]");
+                    await ComposeReplyAsync(turnContext, state);
+                }
+            }
+        }
+
+        private async Task ComposeReplyAsync(ITurnContext turnContext, ImageHuntState state)
+        {
+            var relyBuilder = new StringBuilder();
+            relyBuilder.AppendLine($"ConversationId: {state.ConversationId}");
+            relyBuilder.AppendLine($"Game Status: {state.Status}");
+            if (state.Game != null)
+            {
+                relyBuilder.AppendLine(
+                    $"Game: (Id:{state.Game.Id}, Name: {state.Game.Name}, StartDate: {state.Game.StartDate})");
+            }
+
+            if (state.Team != null)
+            {
+                relyBuilder.AppendLine(
+                    $"Team: (Id: {state.Team.Id}, Name: {state.Team.Name}, Culture:{state.Team.CultureInfo})");
+            }
+
+            if (state.CurrentLocation != null)
+            {
+                relyBuilder.AppendLine(
+                    $"CurrentLocation: (Lat:{state.CurrentLocation.Latitude}, Lng: {state.CurrentLocation.Longitude})");
+            }
+
+            if (state.CurrentNode != null)
+            {
+                string childs = string.Empty;
+                if (state.CurrentNode.ChildNodeIds != null)
+                {
+                    childs = string.Join(',', state.CurrentNode.ChildNodeIds);
                 }
 
-                await turnContext.SendActivityAsync(relyBuilder.ToString());
+                relyBuilder.AppendLine(
+                    $"CurrentNode: (Id: {state.CurrentNode.Id}, Name: {state.CurrentNode.Name}, Location: [lat:{state.CurrentNode.Latitude}, {state.CurrentNode.Longitude}]) Childs: [{childs}]");
             }
+
+            if (state.HiddenNodes != null && state.HiddenNodes.Any())
+            {
+                var hiddenNodes = string.Empty;
+                hiddenNodes = string.Join(',', state.HiddenNodes.Select(n => n.Name));
+                relyBuilder.AppendLine($"Hidden nodes: [{hiddenNodes}]");
+            }
+
+            await turnContext.SendActivityAsync(relyBuilder.ToString());
         }
     }
 }
