@@ -47,12 +47,12 @@ namespace ImageHuntBotBuilder.Commands
         {
             var relyBuilder = new StringBuilder();
             relyBuilder.AppendLine($"ConversationId: {state.ConversationId}");
-            relyBuilder.AppendLine($"Game Status: {state.Status}");
             if (state.Game != null)
             {
                 relyBuilder.AppendLine(
                     $"Game: (Id:{state.Game.Id}, Name: {state.Game.Name}, StartDate: {state.Game.StartDate})");
             }
+            relyBuilder.AppendLine($"Game Status: {state.Status}");
 
             if (state.Team != null)
             {
