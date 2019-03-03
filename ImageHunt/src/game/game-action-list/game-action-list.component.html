@@ -33,13 +33,13 @@
                     (onChange)="probableNodeChanged($event, action)"
                     autoWidth="false">
           <ng-template let-item pTemplate="selectedItem" style="width: 100%">
-            <img *ngIf="action.node.image !== undefined" src="api/Image/Thumbnail?pictureId={{action.node.image.id}}&width=40&height=40" />
+            <img *ngIf="action.node && action.node.image" src="api/Image/Thumbnail?pictureId={{action.node.image.id}}&width=40&height=40" />
             <span style="vertical-align: middle;float: right"> {{item.label}}</span>
           </ng-template>
           <ng-template let-item pTemplate="item">
             <!--<div class="ui-helper-clearfix" style="position: relative; height: 50px;">-->
             <div class="row">
-              <img class="col-4" *ngIf="item.value.image !== undefined" src="api/Image/Thumbnail?pictureId={{item.value.image.id}}&width=40&height=40" />
+              <img class="col-4" *ngIf="item.value && item.value.image" src="api/Image/Thumbnail?pictureId={{item.value.image.id}}&width=40&height=40" />
               <span class="col-4" style="font-size: 14px;">{{item.label}}</span>
               <span class="col-4" style="vertical-align: middle">{{item.value.points}}</span>
             </div>
