@@ -186,8 +186,10 @@ namespace ImageHunt.Controllers
     public IActionResult UpdateTeam(UpdateTeamRequest updateRequest)
     {
       var team = _teamService.GetTeamById(updateRequest.TeamId);
-      team.Name = updateRequest.Name;
-      team.ChatInviteUrl = updateRequest.InviteUrl;
+      if (!string.IsNullOrEmpty(updateRequest.Name))
+        team.Name = updateRequest.Name;
+      if (!string.IsNullOrEmpty(updateRequest.InviteUrl))
+        team.ChatInviteUrl = updateRequest.InviteUrl;
       _teamService.Update(team);
       return Ok();
     }

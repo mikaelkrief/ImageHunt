@@ -61,7 +61,9 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.TeamId = 15;
             var activity = new Activity(type: ImageHuntActivityTypes.GetInviteLink);
             A.CallTo(() => _turnContext.Activity).Returns(activity);
-            
+            A.CallTo(() => _turnContext.SendActivitiesAsync(A<IActivity[]>._, A<CancellationToken>._))
+                .Invokes(x =>
+                    x.GetArgument<Activity[]>(0)[0].Attachments = new List<Attachment>() {new Attachment(contentUrl: "https://toto")});
             // Act
             await _target.Execute(_turnContext, _state);
             // Assert
@@ -73,9 +75,12 @@ namespace ImageHuntBotBuilderTest.Commands
 
     public class ExtractInviteLinkCommand : AbstractCommand, IExtractInviteLinkCommand
     {
+        private readonly ITeamWebService _teamWebService;
+
         public ExtractInviteLinkCommand(ILogger<IExtractInviteLinkCommand> logger, 
-            IStringLocalizer<ExtractInviteLinkCommand> localizer) : base(logger, localizer)
+            IStringLocalizer<ExtractInviteLinkCommand> localizer, ITeamWebService teamWebService) : base(logger, localizer)
         {
+            _teamWebService = teamWebService;
         }
 
         protected async override Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
@@ -92,6 +97,12 @@ namespace ImageHuntBotBuilderTest.Commands
                 new Activity(type: ImageHuntActivityTypes.GetInviteLink),
             };
             await turnContext.SendActivitiesAsync(activities);
+            var updateTeamRequest = new UpdateTeamRequest()
+            {
+                TeamId = state.TeamId.Value,
+                InviteUrl = activities[0].Attachments[0].ContentUrl
+            };
+            await _teamWebService.UpdateTeam(updateTeamRequest);
         }
     }
 }
