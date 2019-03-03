@@ -8,6 +8,7 @@ using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,7 @@ using Action = ImageHuntCore.Model.Action;
 namespace ImageHunt.Controllers
 {
   [Route("api/[Controller]")]
-  #if !DEBUG
-  [Authorize]
-  #endif
+  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,GameMaster,Validator")]
   public class ActionController : BaseController
   {
     private readonly IGameService _gameService;
