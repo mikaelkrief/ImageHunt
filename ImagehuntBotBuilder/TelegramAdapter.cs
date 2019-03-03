@@ -220,7 +220,7 @@ namespace ImageHuntBotBuilder
 
             switch (activity.Type)
             {
-                case ImageHuntActivityTypes.Image:
+                case ActivityTypes.Message:
                  await DownloadPicture(activity);
                    break;
 
