@@ -198,13 +198,13 @@ namespace ImageHunt.Controllers
           gameActionToValidate.ProbableNodes = _nodeService
             .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value, gameAction.Longitude.Value, NodeTypes.Picture|NodeTypes.Hidden)
             .Take(gameActionListRequest.NbPotential);
-          foreach (var probableNode in gameActionToValidate.ProbableNodes)
-          {
-            if (probableNode is PictureNode)
-              ((PictureNode)probableNode).Image = _imageService.GetImageForNode(probableNode);
-          }
+          //foreach (var probableNode in gameActionToValidate.ProbableNodes)
+          //{
+          //  if (probableNode is PictureNode)
+          //    ((PictureNode)probableNode).Image = _imageService.GetImageForNode(probableNode);
+          //}
 
-          gameActionToValidate.Node = gameActionToValidate.ProbableNodes.FirstOrDefault();
+          //gameActionToValidate.Node = gameActionToValidate.ProbableNodes.FirstOrDefault();
           gameActionsToValidate.Add(gameActionToValidate);
         }
       }
