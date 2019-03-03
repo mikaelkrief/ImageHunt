@@ -30,12 +30,13 @@ namespace ImageHuntBotBuilderTest.Commands
         public DisplayStateCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IDisplayStateCommand>>());
+            _testContainerBuilder.RegisterInstance(_accessor = A.Fake<ImageHuntBotAccessors>());
+
             _statePropertyAccessor = A.Fake<IStatePropertyAccessor<ImageHuntState>>();
 
             _storage = A.Fake<IStorage>();
             _conversationState = new ConversationState(_storage);
-            _accessor = new ImageHuntBotAccessors(_conversationState);
-            _accessor.ImageHuntState = _statePropertyAccessor;
+            A.CallTo(() => _accessor.ImageHuntState).Returns(_statePropertyAccessor);
             _testContainerBuilder.RegisterInstance(_accessor);
             _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<DisplayStateCommand>>());
 
@@ -57,12 +58,35 @@ namespace ImageHuntBotBuilderTest.Commands
                 HiddenNodes = new[] {new NodeResponse() { Name = "Hidden1"}, new NodeResponse() { Name = "Hidden2"} },
                 Status = Status.Started,
             };
+            A.CallTo(() => _turnContext.Activity).Returns(new Activity(text: "/state"));
             // Act
             await _target.Execute(_turnContext, state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
                 .MustHaveHappened();
+        }
+
+        [Fact]
+        public async Task Should_Display_All_State()
+        {
+            // Arrange
+            var activity = new Activity(type: ActivityTypes.Message, text: "/state all");
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            var states = new List<ImageHuntState>
+            {
+                new ImageHuntState() {GameId = 15, TeamId = 6, ConversationId = "Conv1"},
+                new ImageHuntState() {GameId = 15, TeamId = 7, ConversationId = "Conv2"},
+                new ImageHuntState() {GameId = 16, TeamId = 15, ConversationId = "Conv3"},
+            };
+            A.CallTo(() => _accessor.AllStates.GetAllAsync()).Returns(states);
+            var state = new ImageHuntState();
+            // Act
+            await _target.Execute(_turnContext, state);
+            // Assert
+            A.CallTo(
+                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                .MustHaveHappened(states.Count, Times.Exactly);
         }
     }
 }
