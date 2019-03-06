@@ -1,7 +1,7 @@
 <div #imageNodeEdit>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Edition de Noeud image</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <h4 class="modal-title pull-left" i18n>Image Node edition</h4>
+    <button type="button" class="close pull-right" i18n-aria-label="Close" (click)="bsModalRef.hide()">
       <span aria-hidden="true" class="fa fa-times"></span>
 
     </button>
@@ -11,14 +11,14 @@
       <div class="row">
         <div class="form-inline">
           <div class="col-6 form-group">
-            <label for="name">Nom du N&oelig;ud</label>
+            <label for="name" i18n>Node's name</label>
             <input id="name" type="text" class="form-control" [value]="_node!==undefined?_node.name:''"
                    ngModel
                    name="name"
-                   placeholder="Entrez le nom du noeud"/>
+                   i18n-placeholder="Node name"/>
           </div>
           <div class="col-6 form-group">
-            <label for="points">Nombre de points</label>
+            <label for="points" i18n>Number of points</label>
             <input id="points" name="points" ngModel [value]="_node!==undefined?_node.points:0" type="number" class="form-control"/>
 
           </div>
@@ -27,11 +27,11 @@
       <div class="row">
         <div class="form-inline">
           <div class="col-6 form-group">
-            <label for="location">Position</label>
+            <label for="location" i18n>Position</label>
             <div id="location" name="location"></div>
           </div>
           <div class="col-6 form-group">
-            <label for="nodeThumbnail">Image associée</label>
+            <label for="nodeThumbnail" i18n>Node's picture</label>
             <img class="img-thumbnail" id="nodeThumbnail" name="nodeThumbnail" *ngIf="_node!==undefined"
                  src="api/Image/Thumbnail?pictureId={{_node.image.id}}&width=300&height=300"/>
 
@@ -42,11 +42,11 @@
     <div class="modal-footer">
       <button class="btn btn-success pull-right" type="submit" aria-label="Close"
               (click)="bsModalRef.hide()">
-        <span class="fa fa-edit"></span> Modifier le Noeud
+        <i class="fa fa-edit"></i><span i18n> Modifier le Noeud</span>
       </button>
       <button class="btn btn-danger pull-right" type="button" aria-label="Close"
-              (click)="bsModalRef.hide()">
-        Annuler
+              (click)="bsModalRef.hide()" i18n>
+        Cancel
       </button>
     </div>
   </form>

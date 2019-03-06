@@ -1,6 +1,6 @@
 <div #createUserTemplate>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Connexion</h4>
+    <h4 class="modal-title pull-left" i18n>Connection</h4>
     <button type="button" class="close pull-right" aria-label="Fermer" (click)="bsModalRef.hide()">
       <span aria-hidden="true" class="fa fa-times"></span>
     </button>
@@ -10,16 +10,16 @@
 
       <form #f="ngForm" (ngSubmit)="login(f)" class="col-12">
         <div class="form-group">
-          <label for="userName">Utilisateur</label>
-          <input id="userName" type="text" required name="userName" class="form-control" placeholder="Utilisateur" ngModel />
+          <label for="userName" i18n>Username</label>
+          <input id="userName" type="text" required name="userName" class="form-control" i18n-placehorder placeholder="Username" ngModel />
         </div>
         <div class="form-group">
-          <label for="password">Mot de passe</label>
-          <input id="password" type="password" required name="password" class="form-control" placeholder="Mot de passe" ngModel />
+          <label for="password" i18n>Password</label>
+          <input id="password" type="password" required name="password" class="form-control" i18n-placehorder placeholder="Password" ngModel />
         </div>
         <div class="modal-footer">
 
-          <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Connexion</button>
+          <button type="submit" class="btn btn-primary" [disabled]="f.invalid" i18n>Connection</button>
         </div>
       </form>
     </div>

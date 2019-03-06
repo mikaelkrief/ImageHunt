@@ -1,9 +1,9 @@
 <div class="row">
-  <h2>Jeux existants</h2>
+  <h2 i18n>Existing games</h2>
 </div>
 <div class="row">
   <accordion class="col-12">
-    <accordion-group heading="Parties passées">
+    <accordion-group i18n-heading="Old games">
       <table>
         <tr *ngFor="let game of games | dateFilter:'startDate':today:true">
           <td>
@@ -21,18 +21,18 @@
         </tr>
       </table>
     </accordion-group>
-    <accordion-group heading="Parties actives" [isOpen]="true">
+    <accordion-group i18n-heading="Active games" [isOpen]="true">
       <table class="table">
         <thead>
           <tr>
-            <th style="width: 50%;">Nom</th>
-            <th style="width: 25%; vertical-align: top;">Teams</th>
-            <th>Code</th>
-            <th>Actions</th>
+            <th i18n style="width: 50%;">Name</th>
+            <th i18n style="width: 25%; vertical-align: top;">Teams</th>
+            <th i18n>Code</th>
+            <th i18n>Actions</th>
             <th></th>
           </tr>
           <tr>
-            <th>Date de la chasse</th>
+            <th i18n>Game date</th>
             <th></th>
             <th></th>
 

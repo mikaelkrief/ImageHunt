@@ -1,7 +1,7 @@
 <div #createTeamTemplate>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Création d'une partie</h4>
-    <button type="button" class="close pull-right" aria-label="Fermer" (click)="bsModalRef.hide()">
+    <h4 class="modal-title pull-left" i18n>Create a Game</h4>
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Fermer" (click)="bsModalRef.hide()">
       <span aria-hidden="true" class="fa fa-times"></span>
     </button>
   </div>
@@ -9,13 +9,13 @@
     <form #form="ngForm" (submit)="createGame()">
       <div class="modal-body">
         <div class="form-group row">
-          <label for="gameName">Nom de la partie</label>
-          <input class="form-control" [(ngModel)]="name" id="gameName" name="gameName" placeholder="Nom de la partie" />
+          <label for="gameName" i18n>Name of the Game</label>
+          <input class="form-control" [(ngModel)]="name" id="gameName" name="gameName" i18n-placeholder placeholder="Nom de la partie" />
         </div>
         <div class="form-group row">
-          <label for="gameDescription">Description de la partie</label>
+          <label for="gameDescription" i18n>Description of the game</label>
           <textarea  class="form-control" [(ngModel)]="description" id="gameDescription" name="gameDescription"
-                 placeholder="Description de la partie"
+                 i18n-placeholder placeholder="Description de la partie"
                  rows="2"></textarea>
         </div>
         <div class="row">
@@ -34,11 +34,11 @@
           </div>
           <div class="col-6">
             <div class="form-group row">
-              <label for="startDate">Date de démarrage de la partie</label>
+              <label for="startDate" i18n>Start date of the Game</label>
               <input class="form-control" type="date" [(ngModel)]="startDate" id="startDate" name="startDate" />
             </div>
             <div class="form-group row">
-              <label for="startTime">Heure de départ</label>
+              <label for="startTime" i18n>Start Time of the game</label>
               <input class="form-control" id="startTime" name="startTime" [(ngModel)]="startTime" type="time" />
             </div>
 

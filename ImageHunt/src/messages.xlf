@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="b982f88c482c11e7259fc533b394c239dddc488f" datatype="html">
+        <source>Create a Game</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-create/game.create.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1a7391c494239efe2ad440cff51f17e9a03bc6b0" datatype="html">
+        <source>Fermer</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-create/game.create.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="615d052af8908ca9cf9d036979ea678ef831b1c7" datatype="html">
+        <source>Name of the Game</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-create/game.create.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cbc50a30df6bf45425caa209666af26a3535f9f6" datatype="html">
+        <source>Nom de la partie</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-create/game.create.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8dedf5a527c6583846560a7c5ef85f561702045a" datatype="html">
+        <source>Description of the game</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-create/game.create.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="afc704af0c7cd5d1f2cdc45b3aed2a83df186cd9" datatype="html">
+        <source>Description de la partie</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-create/game.create.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2d1fb66667310be9f5e82b7ab437653252681340" datatype="html">
+        <source>Start date of the Game</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-create/game.create.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="845a46b4fdbecf3b382efc0a5f92a0790e8477f2" datatype="html">
+        <source>Start Time of the game</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-create/game.create.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="687265b33a903f34e9a3af9771074d9c72c9c1a5" datatype="html">
+        <source>Game details</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8809b83fb987af0d809ccb25679804e86bb1df78" datatype="html">
+        <source>Game name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eec715de352a6b114713b30b640d319fa78207a0" datatype="html">
+        <source>Description</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5234b7b6c96ebf1720991285ddd07e0337bf268d" datatype="html">
+        <source>Game Code</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d29764bcbaad3ef69b6be92be35bdf25972ce246" datatype="html">
+        <source>Follow</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cf001cbe2ef76c01a3b9c4f90427c58a1dc94ac3" datatype="html">
+        <source> Actions</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0057ccccd64d86efdabdd27d2bd98e16d11a57dc" datatype="html">
+        <source> Scores</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4a41f824a35ba01d5bd7be61aa06b3e8145209d0" datatype="html">
+        <source>Configuration</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9e1f7ee1b19581dd4a0b234da9205c47fcf074b8" datatype="html">
+        <source> Teams</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="030b4423b92167200e39519599f9b863b4f7c62c" datatype="html">
+        <source>Actions</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">93</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-list/game-list.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e9cf30eccc36c567eeeed397c6107f08b678d71f" datatype="html">
+        <source> Add mystery pictures</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0f38b74e1888158184205b4d0d0ade9a6ad1067a" datatype="html">
+        <source> Import Kml file</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="372eb5a181b4dca5468dc745cb9f4cd38a6908ed" datatype="html">
+        <source> Edit links</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">106</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9133765782293e9208fa541cee830bdf478c6064" datatype="html">
+        <source> Edit question&apos;s Answers</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">109</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d893ac844df756a0dcb0e396cbb77bd49006566e" datatype="html">
+        <source> Save Changes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="952066a790ff1128e52f54f9bb3c54fc88d7a701" datatype="html">
+        <source>Upload image nodes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">122</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="96c2ad8466d78f70a8556bbb0323b6d9c250a3a9" datatype="html">
+        <source>Upload Kml as waypoints</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0512a8e835999e843cf922742f5e1d2c319ee013" datatype="html">
+        <source>Import nodes in reverse way</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-detail/game.detail.component.html</context>
+          <context context-type="linenumber">149</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c21c6f5873e68c3ef70cf3f52334ec799730b9c2" datatype="html">
+        <source>Existing games</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-list/game-list.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cff1428d10d59d14e45edec3c735a27b5482db59" datatype="html">
+        <source>Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-list/game-list.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8a6afcf38cbb3107a31ae8636805be7f65182dc8" datatype="html">
+        <source>Teams</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-list/game-list.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="68572de01b84c678be4bf8a27b990ecac2f41ce9" datatype="html">
+        <source>Code</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-list/game-list.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="85f729c67b99b6ddf3c78b98b3aba427ade50fab" datatype="html">
+        <source>Game date</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-list/game-list.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5df206c21aebeda19210c0ccc8840b701483241e" datatype="html">
+        <source>Validate game action</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-list/game-action-list.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b24f1cd32cbc1ec9537af28c4fe1b8204097714b" datatype="html">
+        <source>Time</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-list/game-action-list.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="828d0e48d2d970fb5d6b2846d15e1041ee942fae" datatype="html">
+        <source>Delta</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-list/game-action-list.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="764a8a101f8ee5a4b98844e93406182fb078507b" datatype="html">
+        <source>Team</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-list/game-action-list.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1bd5e17c9582661e20763a7634ef07881e33bbd7" datatype="html">
+        <source>Action</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-list/game-action-list.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a405710150e71c9e3440bc98f78e83c5bf4e1bcc" datatype="html">
+        <source>Probable node</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-list/game-action-list.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5b87209fcbabaa24d6e437616f96b284166ceb37" datatype="html">
+        <source>Submitted picture</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-list/game-action-list.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a4a1911975d1421d0a019e902c93e29f540ada91" datatype="html">
+        <source>Reviewed</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-list/game-action-list.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="88cdc92c39ffe81c9102cf3582e5d9c9bb0c1911" datatype="html">
+        <source>Validate</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-list/game-action-list.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="20c3d69c0b67a74df0aa3920485016b2080578f6" datatype="html">
+        <source>Reject</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-list/game-action-list.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8b4bb9bd0228fff7fc4f4da2a0f8037763ae5bf7" datatype="html">
+        <source>Points</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-list/game-action-list.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d26d40e09f854b2853e349b9af678799d1a1ac78" datatype="html">
+        <source>Player:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-detail/game-action-detail.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5459e0416dfbf7afe5417e95e94db5168e9e8e4c" datatype="html">
+        <source>Time of the action:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-detail/game-action-detail.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e62a296ba228de357455dc6aae4b3a3afc11b005" datatype="html">
+        <source>Position of the action</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-detail/game-action-detail.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7a66ec1e6151e49fda4914dd46883f2b1df1b4bd" datatype="html">
+        <source>Position of the node</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-detail/game-action-detail.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="db7f179f7c423c8feeff75f12216b59f8703b63c" datatype="html">
+        <source>Delta between action and node: <x id="INTERPOLATION" equiv-text="{{gameAction.delta}}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-action-detail/game-action-detail.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fa74400b73799e12867f30258c0ed811beb65939" datatype="html">
+        <source>Available games</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-available/game-available.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="04aed042d9551b91e787dec4803a42f275afd39b" datatype="html">
+        <source>Name of the game</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-available/game-available.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b8b4eaad33819d59c67bbf838249d822d2b4bd7d" datatype="html">
+        <source>Date of the game</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-available/game-available.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eef908f516d92afa8fb9acdfcb503299a580f799" datatype="html">
+        <source>Count of teams</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-available/game-available.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d17879a417bae22a4414f7c21ddc8b1bb79de6b6" datatype="html">
+        <source>Game code</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-available/game-available.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="31cf824034489eb42f6a388d5980b98b8e1de015" datatype="html">
+        <source>Create user</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/registration-form/registration-form.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f4e529ae5ffd73001d1ff4bbdeeb0a72e342e5c8" datatype="html">
+        <source>Close</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/registration-form/registration-form.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-create/admin-create.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="08c74dc9762957593b91f6eb5d65efdfc975bf48" datatype="html">
+        <source>Username</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/registration-form/registration-form.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/registration-form/registration-form.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/login-form/login-form.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/user-role/user-role.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-create/admin-create.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c32ef07f8803a223a83ed17024b38e8d82292407" datatype="html">
+        <source>Password</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/registration-form/registration-form.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/login-form/login-form.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c8f5b00a17d38831130018f5b0e14b853ff133f4" datatype="html">
+        <source>Telegram</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/registration-form/registration-form.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="244aae9346da82b0922506c2d2581373a15641cc" datatype="html">
+        <source>Email</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/registration-form/registration-form.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/user-role/user-role.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-create/admin-create.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-list/admin-list.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d8e92bf6863ce9e75b563b2e9c9f3c5ae5c7732c" datatype="html">
+        <source>
+        Créer l&apos;utilisateur
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/registration-form/registration-form.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="827fb6485b0596c939c543ba4156f5e4e7acb8d4" datatype="html">
+        <source>Connection</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/login-form/login-form.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/login-form/login-form.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2f7e2d06f8d6547b5de88dc129f0631b79208f1c" datatype="html">
+        <source>Role of users</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/user-role/user-role.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c36a66f2107e8da5371ebc9d15c2008dff567f46" datatype="html">
+        <source>Role</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/user-role/user-role.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-create/admin-create.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-list/admin-list.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a2f14a73f7a6e94479f67423cc51102da8d6f524" datatype="html">
+        <source>None</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/user-role/user-role.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ca2283fc765b9f44b69f0175d685dc2443da6011" datatype="html">
+        <source>Administrator</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/user-role/user-role.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="af49054e51cc683598c07c29ca1ba608132d9e42" datatype="html">
+        <source>Game Master</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/user-role/user-role.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e9989acc7c8ce4e53c98e725c4ccddb26500a12c" datatype="html">
+        <source>Validator</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/user-role/user-role.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fafa0e46f07caa6582fd36000f11f6fcc9dcc2c7" datatype="html">
+        <source>Team Leader</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/user-role/user-role.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="59bdc3dfa4075f92c734588899485db702c8f120" datatype="html">
+        <source>Player</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/user-role/user-role.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52df2d3f8b760faacbf1fb54980570c10e80dbac" datatype="html">
+        <source>Bot</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">account/user-role/user-role.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f8d7acd9065218293f0ff4e5c9d6f5c7bfde60f2" datatype="html">
+        <source>Create Administrator</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-create/admin-create.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="024886ca34a6f309e3e51c2ed849320592c3faaa" datatype="html">
+        <source>User name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-create/admin-create.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-list/admin-list.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b1376996381b4d8329f60359b3c6fe9dfe37217e" datatype="html">
+        <source>User email</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-create/admin-create.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e94c822b167d933da3a0a92c7acde3ce527e74df" datatype="html">
+        <source>Administrateur</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-create/admin-create.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c33614d4e09d318c00512856f93e33ea53999cab" datatype="html">
+        <source>Valodator</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-create/admin-create.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="838a5376b794a21bd309e4867895cce3c56cada6" datatype="html">
+        <source>GameMaster</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-create/admin-create.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="67285728e08cc77a7c44c7e31c695eec6485d355" datatype="html">
+        <source>Reader</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-create/admin-create.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ed270ebb9d9e81c414ccb625751b12b14f3e3de8" datatype="html">
+        <source>
+          Create user
+        </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-create/admin-create.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="15c21d669332de538a0a9832054ff6f2919ddb6f" datatype="html">
+        <source>Assign game to user <x id="INTERPOLATION" equiv-text="{{admin.name}}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/game-assign/game-assign.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7421cda95c322bc39952ebe6f1aa98760f76f9e7" datatype="html">
+        <source>
+      <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/><x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/game-assign/game-assign.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">aria-label</note>
+      </trans-unit>
+      <trans-unit id="f6755cff4957d5c3c89bafce5651f1b6fa2b1fd9" datatype="html">
+        <source>Add</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/game-assign/game-assign.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="019d4bd6a5690f0cfa0ecf346a4e6bf7f0d8debb" datatype="html">
+        <source>Remove</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/game-assign/game-assign.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dfc3c34e182ea73c5d784ff7c8135f087992dac1" datatype="html">
+        <source>All</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/game-assign/game-assign.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="09a2527d2b6e604ceb3fcb41a5a3a75fa2d42da8" datatype="html">
+        <source>Aucun</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/game-assign/game-assign.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d7b35c384aecd25a516200d6921836374613dfe7" datatype="html">
+        <source>Cancel</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/game-assign/game-assign.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52c9a103b812f258bcddc3d90a6e3f46871d25fe" datatype="html">
+        <source>Save</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/game-assign/game-assign.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ba489af521b8114daf67fd3167043d0d6581171c" datatype="html">
+        <source>Associated games</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-list/admin-list.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0295e37c88ba1f28e569a35e3c6871b90529f8fa" datatype="html">
+        <source>Confirmation</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">admin/admin-list/admin-list.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

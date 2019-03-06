@@ -8,4 +8,5 @@ export class Team {
   cultureInfo: string;
   bonus?: number;
   picture: any;
+  code?:string;
 }

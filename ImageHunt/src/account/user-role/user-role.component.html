@@ -1,14 +1,14 @@
 <div class="row">
-  <h1>Rôle des utilisateurs</h1>
+  <h1 i18n>Role of users</h1>
 </div>
 <div class="row">
   <div class="col-6">
     <table class="table">
       <thead>
         <tr>
-          <th>Utilisateur</th>
-          <th>Email</th>
-          <th>Role</th>
+          <th i18n>Username</th>
+          <th i18n>Email</th>
+          <th i18n>Role</th>
           <th><button class="btn btn-primary" (click)="createUser()"><i class="fa fa-user-plus"></i></button></th>
           <th></th>
         </tr>
@@ -19,13 +19,13 @@
           <td>{{user.email}}</td>
           <td>
             <select [(ngModel)]="user.role">
-              <option value="">Aucun</option>
-              <option value="Admin">Administrateur</option>
-              <option value="GameMaster">Maitre du jeu</option>
-              <option value="Validator">Validateur</option>
-              <option value="TeamLeader">Chef d'équipe</option>
-              <option value="Player">Joueur</option>
-              <option value="Bot">Bot</option>
+              <option i18n value="">None</option>
+              <option i18n value="Admin">Administrator</option>
+              <option i18n value="GameMaster">Game Master</option>
+              <option i18n value="Validator">Validator</option>
+              <option i18n value="TeamLeader">Team Leader</option>
+              <option i18n value="Player">Player</option>
+              <option i18n value="Bot">Bot</option>
             </select>
           </td>
           <td>
