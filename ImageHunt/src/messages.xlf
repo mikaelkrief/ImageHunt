@@ -23,25 +23,11 @@
           <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="1a7391c494239efe2ad440cff51f17e9a03bc6b0" datatype="html">
-        <source>Fermer</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">game/game-create/game.create.component.html</context>
-          <context context-type="linenumber">4</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="615d052af8908ca9cf9d036979ea678ef831b1c7" datatype="html">
         <source>Name of the Game</source>
         <context-group purpose="location">
           <context context-type="sourcefile">game/game-create/game.create.component.html</context>
           <context context-type="linenumber">12</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="cbc50a30df6bf45425caa209666af26a3535f9f6" datatype="html">
-        <source>Nom de la partie</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">game/game-create/game.create.component.html</context>
-          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8dedf5a527c6583846560a7c5ef85f561702045a" datatype="html">
@@ -51,11 +37,11 @@
           <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="afc704af0c7cd5d1f2cdc45b3aed2a83df186cd9" datatype="html">
-        <source>Description de la partie</source>
+      <trans-unit id="f94bbeb0fd501dd36977b3873bf968b4545e6512" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Add a picture</source>
         <context-group purpose="location">
           <context context-type="sourcefile">game/game-create/game.create.component.html</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2d1fb66667310be9f5e82b7ab437653252681340" datatype="html">

@@ -66,8 +66,21 @@
           <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="f94bbeb0fd501dd36977b3873bf968b4545e6512" datatype="html">
+        <source>
+          <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Add a picture
+        </source>
+        <target>
+          <x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Ajouter une image
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">game/game-create/game.create.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="2d1fb66667310be9f5e82b7ab437653252681340" datatype="html">
         <source>Start date of the Game</source>
+        <target>Date de la partie</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/game-create/game.create.component.html</context>
           <context context-type="linenumber">37</context>
@@ -79,6 +92,7 @@
       </trans-unit>
       <trans-unit id="845a46b4fdbecf3b382efc0a5f92a0790e8477f2" datatype="html">
         <source>Start Time of the game</source>
+        <target>Heure de la partie</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/game-create/game.create.component.html</context>
           <context context-type="linenumber">41</context>
@@ -86,6 +100,7 @@
       </trans-unit>
       <trans-unit id="f989f010c46d93ca8e09ebc653652e7628026ed6" datatype="html">
         <source>Node name: </source>
+        <target>Nom du noeud : </target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">13</context>
@@ -93,6 +108,7 @@
       </trans-unit>
       <trans-unit id="cb8371b7808cfce3c09d1706bfd17b8f47a4981b" datatype="html">
         <source>Node type: </source>
+        <target>Type de noeud: </target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">18</context>
@@ -100,6 +116,7 @@
       </trans-unit>
       <trans-unit id="a6433aa22dcc38bd0566d4d63ce63be4908abeeb" datatype="html">
         <source> Start node</source>
+        <target> Noeud départ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">37</context>
@@ -107,6 +124,7 @@
       </trans-unit>
       <trans-unit id="0e756e62f45f0bc4fb609df7fe278f4b16ebf56f" datatype="html">
         <source> Waypoint node</source>
+        <target> Noeud de passage</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">38</context>
@@ -114,6 +132,7 @@
       </trans-unit>
       <trans-unit id="29e5c039ff8ead8bf6b17e04f7cf44f44be8bd69" datatype="html">
         <source> Wait node</source>
+        <source> Noeud d'attente</source>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">39</context>
@@ -121,6 +140,7 @@
       </trans-unit>
       <trans-unit id="fac1e1932b35309d837ffa6dcd3230b30521194d" datatype="html">
         <source> Action node</source>
+        <target> Noeud action</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">40</context>
@@ -128,6 +148,7 @@
       </trans-unit>
       <trans-unit id="ebd258a40e1d8c58d98f7a544dc16eb6ec7ec593" datatype="html">
         <source> Hidden node</source>
+        <target> Noeud caché</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">41</context>
@@ -135,6 +156,7 @@
       </trans-unit>
       <trans-unit id="05b66c4761b7cf12e36a78cc3966f1ce2e761816" datatype="html">
         <source> Choice node</source>
+        <target> Noeud choix</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">42</context>
@@ -142,6 +164,7 @@
       </trans-unit>
       <trans-unit id="f9833e0ac1e83fe91d54279899a8a71862f0b799" datatype="html">
         <source> Question node</source>
+        <target> Noeud question</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">43</context>
@@ -149,6 +172,7 @@
       </trans-unit>
       <trans-unit id="b20226b1cb1ee0a61c6503f3ac6583c8dff9997e" datatype="html">
         <source> Picture node</source>
+        <target> Noeud image</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">44</context>
@@ -156,6 +180,7 @@
       </trans-unit>
       <trans-unit id="3d0fa818494f7ab9728ae64667624fa253930420" datatype="html">
         <source> Bonus node</source>
+        <target> Noeud bonus</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">45</context>
@@ -163,6 +188,7 @@
       </trans-unit>
       <trans-unit id="d3e4b62d09ec82afba83d49fbf7a41436674c969" datatype="html">
         <source> End node</source>
+        <target> Noeud arrivé</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">46</context>
@@ -195,6 +221,7 @@
       </trans-unit>
       <trans-unit id="2a5862b65e65c5250070fc022994da3693adfcff" datatype="html">
         <source>Point to earn</source>
+        <target>Points à gagner</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">68</context>
@@ -202,6 +229,7 @@
       </trans-unit>
       <trans-unit id="b46eaed77ae1de349f384abf4ef76326360acb1c" datatype="html">
         <source> Start</source>
+        <target> Départ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">77</context>
@@ -209,6 +237,7 @@
       </trans-unit>
       <trans-unit id="c32ef07f8803a223a83ed17024b38e8d82292407" datatype="html">
         <source>Password</source>
+        <target>Mot de passe</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">81</context>
@@ -232,6 +261,7 @@
       </trans-unit>
       <trans-unit id="27d6457a7bb5b10bb548bde2b7032da5a36b4e35" datatype="html">
         <source> Timer</source>
+        <target> Attente</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">89</context>
@@ -239,6 +269,7 @@
       </trans-unit>
       <trans-unit id="9d154fd07b8a631eb911a247a4d29624d20c6d3a" datatype="html">
         <source>Wait delay (in second)</source>
+        <target>Délais d'attente (en secondes)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">93</context>
@@ -253,6 +284,7 @@
       </trans-unit>
       <trans-unit id="5f89604196cf742efac0ee9abd231b4da8c5f67a" datatype="html">
         <source>Hint to find the node</source>
+        <source>indice pour trouver le noeud</source>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">105</context>
@@ -260,6 +292,7 @@
       </trans-unit>
       <trans-unit id="96694510d9a684bd9295bfad3f016cd46fb6bcb0" datatype="html">
         <source>Bonus type</source>
+        <source>Type de bonus</source>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">108</context>
@@ -288,6 +321,7 @@
       </trans-unit>
       <trans-unit id="ac770457cfccd35eb4d8f287e0bd9051698ae11a" datatype="html">
         <source>Action to do by players</source>
+        <target>Actions à faire par les joueurs</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/node-create/node.create.component.html</context>
           <context context-type="linenumber">123</context>
