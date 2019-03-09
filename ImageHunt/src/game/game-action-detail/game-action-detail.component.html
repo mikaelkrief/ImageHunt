@@ -1,24 +1,25 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-3">Joueur :</div>
+    <div class="col-lg-3" i18n>Player:</div>
     <div class="col-lg-3">{{gameAction.team.name}}</div>
-    <div class="col-lg-3">Heure de l'action :</div>
+    <div class="col-lg-3" i18n>Time of the action:</div>
     <div class="col-lg-3">{{gameAction.dateOccured | date:'short'}}</div>
   </div>
   <div class="row">
-    <div class="col-lg-3">Position de l'action:</div>
+    <div class="col-lg-3" i18n>Position of the action</div>
     <div class="col-lg-3">
       <geocoordinate [Point]="{'latitude':gameAction.latitude, 'longitude':gameAction.longitude}"></geocoordinate>
     </div>
   </div>
     <div class="row">
-    <div class="col-lg-3">Position du noeud :</div>
+    <div class="col-lg-3" i18n>Position of the node</div>
       <div class="col-lg-3" >
         <geocoordinate *ngIf="gameAction.node!=null" [Point]="{'latitude':gameAction.node.latitude, 'longitude':gameAction.node.longitude}"></geocoordinate>
       </div>
   </div>
 </div>
 <img [src]="gameAction.picture.imageData"/>
-Delta entre la position de l'action et le noeud potentiel : {{gameAction.delta}}
-<p-toggleButton (click)="validate(gameAction.id)" [(ngModel)]="gameAction.isValidated" [style]="{'width':'150px'}" onLabel="Valide" offLabel="Invalide" onIcon="fa-check-square"></p-toggleButton>
+<span i18n>Delta between action and node: {{gameAction.delta}}</span>
+<p-toggleButton (click)="validate(gameAction.id)" [(ngModel)]="gameAction.isValidated" [style]="{'width':'150px'}"
+                onLabel="Valide" offLabel="Invalide" onIcon="fa-check-square"></p-toggleButton>
 

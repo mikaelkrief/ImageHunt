@@ -3,13 +3,13 @@
 <table class="table">
   <thead>
   <tr>
-    <th>Nom</th>
-    <th>Email</th>
-    <th>Role</th>
+    <th i18n>User name</th>
+    <th i18n>Email</th>
+    <th i18n>Role</th>
     <th>
       <button class="btn btn-primary" (click)="createUser()"><i class="fa fa-user-plus"></i></button>
     </th>
-    <th>Jeux associés</th>
+    <th i18n>Associated games</th>
     <th></th>
   </tr>
   </thead>
@@ -30,6 +30,6 @@
   </tr>
   </tbody>
 </table>
-<p-confirmDialog id="deleteAdminConfirm" header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+<p-confirmDialog id="deleteAdminConfirm" i18n-header header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
 
 

@@ -1,7 +1,7 @@
 <div #createNodeTemplate>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Création d'un Noeud</h4>
-    <button type="button" class="close pull-right" aria-label="Fermer" (click)="bsModalRef.hide()">
+    <button type="button" class="close pull-right" i18n-aria-label="Close" (click)="bsModalRef.hide()">
       <span aria-hidden="true" class="fa fa-times"></span>
     </button>
   </div>
@@ -10,12 +10,12 @@
     <div class="modal-body">
       <div class="row">
         <div class="form-group col-6">
-          <label for="name">Nom du n&oelig;ud : </label>
+          <label i18n for="name">Node name: </label>
           <input type="text" class="form-control" id="name" ngModel name="name"
-                 placeholder="Entrez le nom du noeud" />
+                 i18n-placeholder="Entrez le nom du noeud" />
         </div>
         <div class="form-group col-6">
-          <label for="nodeType">Type de N&oelig;ud : </label>
+          <label for="nodeType" i18n>Node type: </label>
           <!--<div class="btn-group" dropdown>
             <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
                     aria-controls="dropdown-basic">
@@ -32,17 +32,18 @@
               <li role="menuitem"><a class="dropdown-item" [nodeType]="LastNode"><i class="fas fa-flag-checkered"></i> N&oelig;ud arrivée</a></li>
             </ul>
           </div>-->
-        <select class="form-control fa" ngModel name="nodeType" id="nodeType" placeholder="Type de N&oelig;ud">
-          <option value="FirstNode">&#xf024; N&oelig;ud départ</option>
-          <option value="WaypointNode">&#xf3c5; N&oelig;ud passage</option>
-          <option value="TimerNode">&#xf017; N&oelig;ud attente</option>
-          <option value="ObjectNode">&#xf70C; N&oelig;ud action</option>
-          <option value="HiddenNode">&#xf6FA; N&oelig;ud caché</option>
-          <option value="ChoiceNode">&#xf0cb; N&oelig;ud choix</option>
-          <option value="QuestionNode">&#xf128; N&oelig;ud question</option>
-          <option value="PictureNode">&#xf030; N&oelig;ud photo</option>
-          <option value="BonusNode">&#xf06b; N&oelig;ud bonus</option>
-          <option value="LastNode">&#xf11e; N&oelig;ud arrivée</option>
+          <select class="form-control fa" ngModel name="nodeType" id="nodeType"
+                  i18n-placeholder="Node type">
+          <option i18n value="FirstNode">&#xf024; Start node</option>
+          <option i18n value="WaypointNode">&#xf3c5; Waypoint node</option>
+          <option i18n value="TimerNode">&#xf017; Wait node</option>
+          <option i18n value="ObjectNode">&#xf70C; Action node</option>
+          <option i18n value="HiddenNode">&#xf6FA; Hidden node</option>
+          <option i18n value="ChoiceNode">&#xf0cb; Choice node</option>
+          <option i18n value="QuestionNode">&#xf128; Question node</option>
+          <option i18n value="PictureNode">&#xf030; Picture node</option>
+          <option i18n value="BonusNode">&#xf06b; Bonus node</option>
+          <option i18n value="LastNode">&#xf11e; End node</option>
         </select>
         </div>
       </div>
@@ -50,12 +51,12 @@
         <div class="form-group col-lg-12">
           <table class="table">
             <tr>
-              <th rowspan="2"><label>Position</label></th>
-              <th><label>Latitude</label></th>
+              <th rowspan="2"><label i18n>Position</label></th>
+              <th><label i18n>Latitude</label></th>
               <td>{{latitude}}</td>
             </tr>
             <tr>
-              <th><label>Longitude</label></th>
+              <th><label i18n>Longitude</label></th>
               <td>{{longitude}}</td>
             </tr>
           </table>
@@ -64,119 +65,124 @@
       </div>
       <div class="row">
         <div class="form-group col-lg-12">
-          <label for="nbPoints">Nombre de points</label>
+          <label for="nbPoints" i18n>Point to earn</label>
           <input type="number" class="form-control" ngModel
-                 id="nbPoints" name="nbPoints" placeholder="Nombre de points gagnés sur ce noeud" />
+                 id="nbPoints" name="nbPoints" i18n-placeholder="Point earn if node is validated" />
         </div>
       </div>
       <div>
         <tabset>
           <tab [disabled]="form.value.nodeType !== 'FirstNode'" [active]="form.value.nodeType === 'FirstNode'">
             <ng-template tabHeading>
-              <i class="fas fa-flag" style="color:red"></i><span> Départ</span>
+              <i class="fas fa-flag" style="color:red"></i><span i18n> Start</span>
             </ng-template>
             <div>
               <div class="form-group">
-                <label for="password">Mot de passe</label>
+                <label for="password" i18n>Password</label>
                 <input type="text" class="form-control" id="password" name="password"
-                       ngModel placeholder="Mot de passe à demander"/>
+                       ngModel i18n-placeholder="Password of node"/>
               </div>
             </div>
           </tab>
           <tab [disabled]="form.value.nodeType !== 'TimerNode'" [active]="form.value.nodeType === 'TimerNode'">
             <ng-template tabHeading>
-              <i class="far fa-clock" style="color: cadetblue"></i> Timer
+              <i class="far fa-clock" style="color: cadetblue"></i><span i18n> Timer</span>
             </ng-template>
             <div>
               <div class="form-group">
-                <label for="duration">Durée d'attente (en secondes)</label>
-                <input type="number" class="form-control" id="duration" name="duration" ngModel placeholder="Durée en secondes"/>
+                <label for="duration" i18n>Wait delay (in second)</label>
+                <input type="number" class="form-control" id="duration" name="duration" ngModel
+                       i18n-placeholder="Delay"/>
               </div>
             </div>
           </tab>
           <tab [disabled]="form.value.nodeType !== 'BonusNode'" [active]="form.value.nodeType === 'BonusNode'">
             <ng-template tabHeading>
-              <i class="fas fa-gift" style="color: darkmagenta"></i> Bonus
+              <i class="fas fa-gift" style="color: darkmagenta"></i><span i18n> Bonus</span>
             </ng-template>
             <div>
               <div class="form-group">
-                <label for="location">Indication pour trouver le Noeud</label>
-                <input class="form-control" type="text" id="location" name="location" ngModel placeholder="Indication pour trouver le noeud"/>
-                <label for="bonustype">Type de bonus</label>
+                <label for="location" i18n>Hint to find the node</label>
+                <input class="form-control" type="text" id="location" name="location" ngModel
+                       i18n-placeholder="Hint to find the node"/>
+                <label for="bonustype" i18n>Bonus type</label>
                 <select class="form-control" id="bonustype" name="bonustype" ngModel>
-                  <option value="0">Points x 2</option>
-                  <option value="1">Points x 3</option>
+                  <option value="0" i18n>Points x 2</option>
+                  <option value="1" i18n>Points x 3</option>
                 </select>
               </div>
             </div>
           </tab>
           <tab [disabled]="form.value.nodeType !== 'ObjectNode'" [active]="form.value.nodeType === 'ObjectNode'">
             <ng-template tabHeading>
-              <i class="fas fa-running" style="color: darkred;"></i> Action
+              <i class="fas fa-running" style="color: darkred;"></i><span i18n> Action</span>
             </ng-template>
 
             <div>
               <div class="form-group">
-                <label for="action">Action à faire sur le noeud</label>
+                <label for="action"i18n>Action to do by players</label>
                 <textarea class="form-control" cols="40" rows="3" id="action" ngModel name="action"
-                          placeholder="Action à effectuer par les joueurs"></textarea>
+                          i18n-placeholder="Action to do by players"></textarea>
               </div>
             </div>
           </tab>
           <tab [disabled]="form.value.nodeType !== 'HiddenNode'" [active]="form.value.nodeType === 'HiddenNode'">
             <ng-template tabHeading>
-              <i class="fas fa-mask" style="color:purple"></i> Caché
+              <i class="fas fa-mask" style="color:purple"></i><span i18n> Caché</span>
             </ng-template>
 
             <div>
               <div class="form-group">
-                <label for="hint">Indice pour trouver le noeud</label>
+                <label for="hint" i18n>Hint to find node</label>
                 <textarea class="form-control" cols="40" rows="3" id="hint" ngModel name="hint"
-                          placeholder="Indice pour trouver le noeud"></textarea>
+                          i18n-placeholder="Hint to find node"></textarea>
               </div>
 
             </div>
           </tab>
           <tab [disabled]="form.value.nodeType !== 'PictureNode'" [active]="form.value.nodeType === 'PictureNode'">
             <ng-template tabHeading>
-              <i class="fas fa-camera" style="color:blue"></i> Image
+              <i class="fas fa-camera" style="color:blue"></i><span i18n> Image</span>
             </ng-template>
 
             <div>
               <div class="form-group">
-                <label for="pictureName">Nom de la photo</label>
+                <label for="pictureName" i18n>Name of the picture</label>
                 <input class="form-control" id="pictureName" type="text" ngModel name="pictureName"
-                       placeholder="Nom de l'image"/>
+                       i18n-placeholder="Name of the picture"/>
               </div>
 
             </div>
           </tab>
           <tab [disabled]="form.value.nodeType !== 'QuestionNode'" [active]="form.value.nodeType === 'QuestionNode'">
             <ng-template tabHeading>
-              <i class="far fa-question-circle" style="color:blue"></i> Question
+              <i class="far fa-question-circle" style="color:blue"></i><span i18n> Question</span>
             </ng-template>
 
             <div >
               <div class="form-group">
-                <label for="question">Question</label>
-                <textarea class="form-control" cols="40" rows="3" id="question" ngModel name="question" placeholder="Question à poser aux joueurs"></textarea>
+                <label for="question" i18n>Question</label>
+                <textarea class="form-control" cols="40" rows="3" id="question" ngModel name="question"
+                          i18n-placeholder="Question to ask to players"></textarea>
               </div>
               <div class="form-group">
-                <label for="answer">Réponse</label>
-                <textarea class="form-control" cols="40" rows="1" id="answer" ngModel name="answer" placeholder="Réponse attendue"></textarea>
+                <label for="answer" i18n>Answer</label>
+                <textarea class="form-control" cols="40" rows="1" id="answer" ngModel name="answer"
+                          i18n-placeholder="Expected answer"></textarea>
               </div>
             </div>
             <br/>
           </tab>
           <tab [disabled]="form.value.nodeType !== 'ChoiceNode'" [active]="form.value.nodeType === 'ChoiceNode'">
             <ng-template tabHeading>
-              <i class="fas fa-list-ol" style="color: green"></i> Choix
+              <i class="fas fa-list-ol" style="color: green"></i><span i18n> Choix</span>
             </ng-template>
 
             <div>
               <div class="form-group">
-                <label for="choiceQuestion">Question</label>
-                <textarea class="form-control" cols="40" rows="3" id="choiceQuestion" ngModel name="choiceQuestion" placeholder="Choix à poser aux joueurs"></textarea>
+                <label for="choiceQuestion" i18n>Question</label>
+                <textarea class="form-control" cols="40" rows="3" id="choiceQuestion" ngModel
+                          name="choiceQuestion" i18n-placeholder="Choice label"></textarea>
               </div>
 
             </div>
@@ -185,8 +191,8 @@
               <thead>
               <tr>
                 <th>#</th>
-                <th>Choix</th>
-                <th>Réponse correcte</th>
+                <th i18n>Choice</th>
+                <th i18n>Correct answer</th>
               </tr>
               </thead>
               <tbody>
@@ -201,10 +207,10 @@
             <form #newChoice="ngForm">
               <div>
                 <div class="form-group">
-                  <label for="choice">Choix</label>
+                  <label for="choice" i18n>Choice</label>
                   <input type="text" ngModel name="choice" id="choice" class="form-control"/>
                   <button type="button" class="btn btn-primary pull-right" (click)="addChoice(newChoice)">
-                    <span class="fa fa-plus-square"> Ajouter un choix</span>
+                    <span class="fa fa-plus-square" i18n> Add a choice</span>
                   </button>
                 </div>
               </div>
@@ -214,9 +220,9 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-success pull-right" type="submit" aria-label="Close"
+      <button class="btn btn-success pull-right" type="submit" i18n-aria-label="Close"
               (click)="bsModalRef.hide()">
-        Créer le Noeud
+        <span i18n>Create node</span>
       </button>
     </div>
   </form>
