@@ -4,6 +4,7 @@
     <body>
       <trans-unit id="7f81692584477713c4e30474edc809ae5daaad9f" datatype="html">
         <source>Welcome of Pixhint game!</source>
+        <target>Bienveue dans Pixhint!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">home/home.component.html</context>
           <context context-type="linenumber">1</context>
@@ -11,6 +12,7 @@
       </trans-unit>
       <trans-unit id="753649a79ae23f46c9c433d1daf4629d6d68bb1a" datatype="html">
         <source>Picture upload</source>
+        <target>Téléchargement d'une image</target>
         <context-group purpose="location">
           <context context-type="sourcefile">shared/upload-image/upload-image.component.html</context>
           <context context-type="linenumber">3</context>
@@ -18,13 +20,15 @@
       </trans-unit>
       <trans-unit id="b982f88c482c11e7259fc533b394c239dddc488f" datatype="html">
         <source>Create a Game</source>
+        <target>Créer une partie</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/game-create/game.create.component.html</context>
           <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1a7391c494239efe2ad440cff51f17e9a03bc6b0" datatype="html">
-        <source>Fermer</source>
+        <source>Close</source>
+        <target>Fermer</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/game-create/game.create.component.html</context>
           <context context-type="linenumber">4</context>
@@ -32,13 +36,15 @@
       </trans-unit>
       <trans-unit id="615d052af8908ca9cf9d036979ea678ef831b1c7" datatype="html">
         <source>Name of the Game</source>
+        <target>Nom de la partie</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/game-create/game.create.component.html</context>
           <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="cbc50a30df6bf45425caa209666af26a3535f9f6" datatype="html">
-        <source>Nom de la partie</source>
+        <source>Name of the game</source>
+        <target>Nom de la partie</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/game-create/game.create.component.html</context>
           <context context-type="linenumber">13</context>
@@ -46,13 +52,15 @@
       </trans-unit>
       <trans-unit id="8dedf5a527c6583846560a7c5ef85f561702045a" datatype="html">
         <source>Description of the game</source>
+        <target>Description de la partie</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/game-create/game.create.component.html</context>
           <context context-type="linenumber">16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="afc704af0c7cd5d1f2cdc45b3aed2a83df186cd9" datatype="html">
-        <source>Description de la partie</source>
+        <source>Description of the game</source>
+        <target>Description de la partie</target>
         <context-group purpose="location">
           <context context-type="sourcefile">game/game-create/game.create.component.html</context>
           <context context-type="linenumber">18</context>

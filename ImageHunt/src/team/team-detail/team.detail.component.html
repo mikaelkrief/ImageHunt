@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-8">
-    <h2>Détails de la team</h2>
-    <h2>Nom de la team : {{team.name}}</h2>
-    <h4>Code de la team: {{team.code}}</h4>
+    <h2 i18n>Team details</h2>
+    <h2 i18n>Team's name {{team.name}}</h2>
+    <h4 i18n>Team's code: {{team.code}}</h4>
     <h4>/init gameid={{gameId}} teamid={{teamId}}</h4>
   </div>
   <div class="col-4">
@@ -14,9 +14,9 @@
   <table class="table col-10" *ngIf="team.players != null">
     <thead>
       <tr>
-        <th>Nom du joueur</th>
-        <th>Pseudo de chat</th>
-        <th>Role</th>
+        <th i18n>Nom du joueur</th>
+        <th i18n>Pseudo de chat</th>
+        <th i18n>Role</th>
         <th><button class="btn btn-primary" (click)="createPlayer()"><i class="fa fa-user-plus"></i></button></th>
       </tr>
     </thead>
