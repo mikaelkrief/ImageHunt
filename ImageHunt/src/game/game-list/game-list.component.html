@@ -3,7 +3,7 @@
 </div>
 <div class="row">
   <accordion class="col-12">
-    <accordion-group i18n-heading="Old games">
+    <accordion-group heading="Old games" i18n>
       <table>
         <tr *ngFor="let game of games | dateFilter:'startDate':today:true">
           <td>
@@ -21,7 +21,7 @@
         </tr>
       </table>
     </accordion-group>
-    <accordion-group i18n-heading="Active games" [isOpen]="true">
+    <accordion-group heading="Active games" [isOpen]="true" i18n>
       <table class="table">
         <thead>
           <tr>
