@@ -10,15 +10,15 @@ import { DualListComponent } from './dual-list/dual-list.component';
 import { ListboxModule } from 'primeng/primeng';
 import { FormsModule } from '@angular/forms';
 import { LoginButtonComponent } from './login-button/login-button.component';
-
+import { SortPipe } from "./pipes/sortPipe";
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, ListboxModule],
   declarations: [GeocoordinateComponent, GameActionTranslationPipe,
-    DateFilterPipe, UserRoleComponent, DualListComponent,
+    DateFilterPipe, UserRoleComponent, DualListComponent, SortPipe,
     UploadImageComponent, LoginButtonComponent],
   bootstrap: [GeocoordinateComponent, UserRoleComponent, UploadImageComponent,
     DualListComponent, LoginButtonComponent],
-  exports: [GeocoordinateComponent, GameActionTranslationPipe, DateFilterPipe,
+  exports: [GeocoordinateComponent, GameActionTranslationPipe, DateFilterPipe, SortPipe,
     UserRoleComponent, DualListComponent, LoginButtonComponent],
 
 
