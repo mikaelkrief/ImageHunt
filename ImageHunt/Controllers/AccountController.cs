@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -116,6 +117,11 @@ namespace ImageHunt.Controllers
       {
         var user = _mapper.Map<UserResponse>(identity);
         user.Role = (await _userManager.GetRolesAsync(identity)).FirstOrDefault();
+        var admin = _context.Admins
+          .Include(a=>a.GameAdmins).ThenInclude(ga=>ga.Game).ThenInclude(g=>g.Picture)
+          .Single(a => a.Id == identity.AppUserId);
+
+        user.Games = _mapper.Map<GameResponse[]>(admin.Games.Where(g=>g.IsActive && g.StartDate>=DateTime.Now));
         users.Add(user);
       }
 

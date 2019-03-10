@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'services/user.service';
 import { AlertService } from 'services/alert.service';
-import { BsModalService } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { RegistrationFormComponent } from '../registration-form/registration-form.component';
 import { ConfirmationService } from 'primeng/api';
+import { GameAssignComponent } from "../game-assign/game-assign.component";
+import { User } from 'shared/user';
 
 @Component({
     selector: 'user-role',
@@ -49,5 +51,13 @@ export class UserRoleComponent implements OnInit {
           error => {this._alertService.sendAlert("Erreur lors de l'effacement de l'utilisateur", "danger", 10000);})
     });
   }
+  assignGame(user: User) {
+    this.modalRef = this._modalService.show(GameAssignComponent, { ignoreBackdropClick: true, initialState: { user } });
+    this.modalRef.content.user = user;
+    this._modalService.onHidden.subscribe(() =>
+      this._userService.getUsers()
+      .subscribe(res => { this.users = res; }));
+  }
+
   modalRef;
 }
