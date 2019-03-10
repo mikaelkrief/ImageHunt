@@ -10,7 +10,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let score of scores | sortByField : 'points' : false; let i = index">
+      <tr *ngFor="let score of scores | sortByField : 'points' : true; let i = index">
         <td><i class="fa fa-star" [style.color]="colorFromRank(i)"></i></td>
         <td>{{score.team.name}}</td>
         <td><ul>
@@ -30,7 +30,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let score of scores | sortByField : 'travelTime' : true; let i = index">
+      <tr *ngFor="let score of scores | sortByField : 'travelTime' : false; let i = index">
         <td><i class="fa fa-star" [style.color]="colorFromRank(i)"></i></td>
         <td>{{score.team.name}}</td>
         <td>{{score.travelTime | momentFormat:'' }}</td>
