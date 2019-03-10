@@ -40,6 +40,7 @@
     "leaflet-contextmenu": "^1.4.0",
     "leaflet-polylinedecorator": "^1.6.0",
     "leaflet.awesome-markers": "^2.0.5",
+    "moment": "^2.24.0",
     "ng2-ui-auth": "^9.2.1",
     "ngx-bootstrap": "^3.2.0",
     "ngx-color-picker": "^6.8.0",

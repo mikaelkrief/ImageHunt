@@ -33,8 +33,7 @@
       <tr *ngFor="let score of scores | sortByField : 'travelTime' : true; let i = index">
         <td><i class="fa fa-star" [style.color]="colorFromRank(i)"></i></td>
         <td>{{score.team.name}}</td>
-        <!--<td>{{score.travelTime | amDuration:'23:59:59'}}</td>-->
-        <td>{{score.travelTime }}</td>
+        <td>{{score.travelTime | momentFormat:'' }}</td>
       </tr>
       </tbody>
     </table>

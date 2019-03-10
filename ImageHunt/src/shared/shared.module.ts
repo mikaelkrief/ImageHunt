@@ -11,14 +11,15 @@ import { ListboxModule } from 'primeng/primeng';
 import { FormsModule } from '@angular/forms';
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { SortPipe } from "./pipes/sortPipe";
+import { MomentFormatPipe } from "./pipes/momentFormatPipe";
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, ListboxModule],
   declarations: [GeocoordinateComponent, GameActionTranslationPipe,
-    DateFilterPipe, UserRoleComponent, DualListComponent, SortPipe,
+    DateFilterPipe, UserRoleComponent, DualListComponent, SortPipe, MomentFormatPipe,
     UploadImageComponent, LoginButtonComponent],
   bootstrap: [GeocoordinateComponent, UserRoleComponent, UploadImageComponent,
     DualListComponent, LoginButtonComponent],
-  exports: [GeocoordinateComponent, GameActionTranslationPipe, DateFilterPipe, SortPipe,
+  exports: [GeocoordinateComponent, GameActionTranslationPipe, DateFilterPipe, SortPipe, MomentFormatPipe,
     UserRoleComponent, DualListComponent, LoginButtonComponent],
 
 
