@@ -8,15 +8,20 @@ import { UserRoleComponent } from './user-role/user-role.component';
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
 import { BsModalService } from 'ngx-bootstrap';
+import { ListboxModule } from 'primeng/listbox';
+import { RouterModule } from '@angular/router';
+import { AdminModule } from "../admin/admin.module";
+import { GameAssignComponent } from './game-assign/game-assign.component';
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
   imports: [
-    CommonModule, FormsModule, ConfirmDialogModule, 
+    CommonModule, FormsModule, ConfirmDialogModule, ListboxModule, RouterModule, AdminModule, SharedModule,
   ],
 
-  declarations: [RegistrationFormComponent, LoginFormComponent, UserRoleComponent],
-  exports: [RegistrationFormComponent, LoginFormComponent, UserRoleComponent],
-  bootstrap: [RegistrationFormComponent, LoginFormComponent, UserRoleComponent],
+  declarations: [RegistrationFormComponent, LoginFormComponent, UserRoleComponent, GameAssignComponent],
+  exports: [RegistrationFormComponent, LoginFormComponent, UserRoleComponent, GameAssignComponent],
+  bootstrap: [RegistrationFormComponent, LoginFormComponent, UserRoleComponent, GameAssignComponent],
   providers: [UserService, ConfirmationService, BsModalService]
 })
 export class AccountModule { }

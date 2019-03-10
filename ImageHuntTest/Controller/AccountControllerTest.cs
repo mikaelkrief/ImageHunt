@@ -91,8 +91,11 @@ namespace ImageHuntTest.Controller
         public async Task Should_Return_Users()
         {
             // Arrange
-            var identities = new List<Identity>() {new Identity(), new Identity()};
+            var identities = new List<Identity>() {new Identity(){AppUserId = 15}, new Identity(){AppUserId = 16}};
             A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
+            var admins = new List<Admin> {new Admin() {Id = 15}, new Admin() {Id = 16}};
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
             // Act
             var result = await _target.GetUsersAsync();
             // Assert
