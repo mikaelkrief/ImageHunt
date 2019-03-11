@@ -1,7 +1,7 @@
 <div>
   <div>
     <div class="row">
-      <h2 class="col-12"i18n>Game details</h2>
+      <h2 class="col-12" i18n>Game details</h2>
     </div>
     <div class="row">
       <div *ngIf="game" class="col-md-3 col-lg-3">
@@ -11,7 +11,7 @@
       <div class="col-md-9 col-lg-9">
           <div class="form-group">
             <label for="gameName" i18n>Game name</label>
-            <input class="form-control" type="text" [value]="game.name" id="gameName" name="gameName" readonly="readonly"/>
+            <input class="form-control" type="text" [value]="game.name" id="gameName" name="gameName" readonly="readonly" i18n-placeholder placeholder="Game's name"/>
           </div>
 
         <div class="form-group">
@@ -20,7 +20,8 @@
         </div>
         <div class="form-group">
           <label for="description" i18n>Description</label>
-          <textarea class="form-control" [value]="game.description" name="description" readonly="readonly"></textarea>
+          <textarea class="form-control" [value]="game.description" name="description" readonly="readonly"
+                    i18n-placeholder placeholder="Description"></textarea>
         </div>
         <div class="form-group">
           <label for="code" i18n>Game Code</label>
@@ -99,9 +100,6 @@
             <div class="btn-group">
               <button class="btn btn-info" (click)="uploadKml(uploadKmlTemplate)"><i class="fas fa-map-marker-alt"></i><span class="d-none d-md-block" i18n> Import Kml file</span></button>
             </div>
-            <!--<div class="btn-group">
-              <button class="btn btn-info" (click)="centerMap(game.id)"><span class="fa fa-align-center"></span><span class="d-none d-md-block"> Centrer la carte sur les n&oelig;uds</span></button>
-            </div>-->
             <div class="btn-group">
               <button class="btn btn-primary" (click)="editNodeRelations()"><i class="fa fa-link"></i><span class="d-none d-md-block" i18n> Edit links</span></button>
             </div>
@@ -120,29 +118,29 @@
 <ng-template #uploadImagesTemplate>
   <div class="modal-header">
     <h4 class="modal-title pull-left" i18n>Upload image nodes</h4>
-    <button type="button" class="close pull-right" aria-label="Fermer" (click)="uploadModalRef.hide()">
-      <span aria-hidden="true" class="fa fa-times"></span>
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="uploadModalRef.hide()">
+      <i aria-hidden="true" class="fa fa-times"></i>
     </button>
   </div>
   <div class="modal-body">
     <br />
     <form>
-      <input type="file" #fileInput placeholder="Upload file..." multiple (change)="uploadFiles(fileInput.files)" />
+      <input type="file" #fileInput i18n-placeholder placeholder="Upload file..." multiple (change)="uploadFiles(fileInput.files)" />
     </form>
   </div>
 </ng-template>
 <ng-template #uploadKmlTemplate>
   <div class="modal-header">
     <h4 class="modal-title pull-left" i18n>Upload Kml as waypoints</h4>
-    <button type="button" class="close pull-right" aria-label="Fermer" (click)="uploadModalRef.hide()">
-      <span aria-hidden="true" class="fa fa-times"></span>
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="uploadModalRef.hide()">
+      <i aria-hidden="true" class="fa fa-times"></i>
     </button>
   </div>
   <div class="modal-body">
     <br />
     <form>
       <div class="row">
-        <input type="file" #fileInput placeholder="Upload file..." multiple (change)="uploadKmlFiles(fileInput.files)" />
+        <input type="file" #fileInput i18n-placeholder placeholder="Upload file..." multiple (change)="uploadKmlFiles(fileInput.files)" />
       </div>
       <div class="row">
         <div class="form-group">

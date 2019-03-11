@@ -586,5 +586,24 @@ namespace ImageHuntTest.Services
           // Assert
           Check.That(result).ContainsExactly(games[1], games[3]);
       }
+
+      [Fact]
+      public void Should_Toggle_Game()
+      {
+          // Arrange
+          var games = new List<Game>
+          {
+              new Game() {IsActive = false},
+              new Game() {IsActive = true},
+              new Game() {IsActive = true},
+              new Game() {IsActive = false},
+          };
+          _context.Games.AddRange(games);
+          _context.SaveChanges();
+          // Act
+          var result = _target.Toogle(games[1].Id);
+          // Assert
+          Check.That(games[1].IsActive).Equals(result.IsActive);
+      }
     }
 }

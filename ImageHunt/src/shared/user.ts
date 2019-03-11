@@ -5,6 +5,6 @@ export interface User {
   email: string;
   telegram: string;
   role: string;
-  games?: Game[];
+  games: Game[];
   appUserId?: number;
 };

@@ -258,5 +258,13 @@ namespace ImageHunt.Services
       var gamesToValidate = user.Games.Where(g => g.IsActive && g.StartDate >= DateTime.Today);
       return gamesToValidate;
     }
+
+    public Game Toogle(int gameId)
+    {
+      var game = Context.Games.Single(g => g.Id == gameId);
+      game.IsActive = !game.IsActive;
+      Context.SaveChanges();
+      return game;
+    }
   }
 }

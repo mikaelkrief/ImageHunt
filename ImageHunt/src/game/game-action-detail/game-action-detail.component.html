@@ -21,5 +21,5 @@
 <img [src]="gameAction.picture.imageData"/>
 <span i18n>Delta between action and node: {{gameAction.delta}}</span>
 <p-toggleButton (click)="validate(gameAction.id)" [(ngModel)]="gameAction.isValidated" [style]="{'width':'150px'}"
-                onLabel="Valide" offLabel="Invalide" onIcon="fa-check-square"></p-toggleButton>
+                i18n-onLabel onLabel="Valid" i18n-offLabel offLabel="Invalid" onIcon="fa-check-square"></p-toggleButton>
 

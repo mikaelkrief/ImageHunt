@@ -3,7 +3,7 @@
 </div>
 <div class="row">
   <accordion class="col-12">
-    <accordion-group heading="Old games" i18n>
+    <accordion-group i18n-heading heading="Old games">
       <table>
         <tr *ngFor="let game of games | dateFilter:'startDate':today:true">
           <td>
@@ -21,7 +21,7 @@
         </tr>
       </table>
     </accordion-group>
-    <accordion-group heading="Active games" [isOpen]="true" i18n>
+    <accordion-group i18n-heading heading="Active games" [isOpen]="true">
       <table class="table">
         <thead>
           <tr>
@@ -53,10 +53,6 @@
                 <br />
                 <span>{{game.description}}</span>
               </div>
-              <!--<div class="row">
-            <span class="fa fa-eye fa-lg" tooltip="Partie active" *ngIf="game.isActive"></span>
-            <span class="fa fa-eye-slash fa-lg" tooltip="Partie inactive" *ngIf="!game.isActive"></span>
-          </div>-->
             </td>
             <td>
               <p class="w-100" *ngFor="let team of game.teams">
@@ -68,22 +64,28 @@
             <td>
               <div class="btn-group-vertical">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-primary" [routerLink]="['/action/', game.id]" tooltip="Actions">
+                  <button type="button" class="btn btn-primary" [routerLink]="['/action/', game.id]" i18n-tooltip tooltip="Actions">
                     <i class="fa fa-map-signs"></i>
                   </button>
-                  <button class="btn btn-primary" [routerLink]="['/follow', game.id]" tooltip="Suivi">
+                  <button class="btn btn-primary" [routerLink]="['/follow', game.id]" i18n-tooltip tooltip="Suivi">
                     <i class="fa fa-map"></i>
                   </button>
 
                 </div>
                 <div class="btn-group">
-                  <button class="btn btn-primary" [routerLink]="['/score', game.id]" tooltip="Score">
+                  <button class="btn btn-primary" [routerLink]="['/score', game.id]" i18n-tooltip tooltip="Score">
                     <i class="fa fa-star"></i>
                   </button>
-                  <button class="btn btn-primary" (click)="cloneGame(game)" tooltip="Dupliquer">
+                  <button class="btn btn-primary" (click)="cloneGame(game)" i18n-tooltip tooltip="Dupliquate">
                     <i class="fas fa-clone"></i>
                   </button>
+                  <button class="btn btn-primary" i18n-tooltip tooltip="Activate/Desactivate" (click)="toggleGame(game)">
+                    <div>
+                      <span class="fa fa-eye" *ngIf="game.isActive"></span>
+                      <span class="fa fa-eye-slash" *ngIf="!game.isActive"></span>
+                    </div>
 
+                  </button>
                 </div>
               </div>
             </td>
