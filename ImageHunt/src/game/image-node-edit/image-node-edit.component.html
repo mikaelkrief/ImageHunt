@@ -1,9 +1,8 @@
 <div #imageNodeEdit>
   <div class="modal-header">
     <h4 class="modal-title pull-left" i18n>Image Node edition</h4>
-    <button type="button" class="close pull-right" i18n-aria-label="Close" (click)="bsModalRef.hide()">
-      <span aria-hidden="true" class="fa fa-times"></span>
-
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="bsModalRef.hide()">
+      <i aria-hidden="true" class="fa fa-times"></i>
     </button>
   </div>
   <form #form="ngForm" (submit)="saveChanges(form)">
@@ -15,7 +14,7 @@
             <input id="name" type="text" class="form-control" [value]="_node!==undefined?_node.name:''"
                    ngModel
                    name="name"
-                   i18n-placeholder="Node name"/>
+                   i18n-placeholder placeholder="Node name"/>
           </div>
           <div class="col-6 form-group">
             <label for="points" i18n>Number of points</label>
@@ -40,11 +39,11 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-success pull-right" type="submit" aria-label="Close"
+      <button class="btn btn-success pull-right" type="submit" i18n-aria-label aria-label="Close"
               (click)="bsModalRef.hide()">
         <i class="fa fa-edit"></i><span i18n> Modifier le Noeud</span>
       </button>
-      <button class="btn btn-danger pull-right" type="button" aria-label="Close"
+      <button class="btn btn-danger pull-right" type="button" i18n-aria-label aria-label="Close"
               (click)="bsModalRef.hide()" i18n>
         Cancel
       </button>

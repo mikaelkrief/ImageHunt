@@ -1,7 +1,7 @@
 <div #createPlayerTemplate>
   <div class="modal-header">
     <h4 class="modal-title pull-left" i18n>Player create</h4>
-    <button type="button" class="close pull-right" i18n-aria-label="Close" (click)="bsModalRef.hide()">
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="bsModalRef.hide()">
       <span aria-hidden="true" class="fa fa-times"></span>
     </button>
   </div>
@@ -11,7 +11,7 @@
         <div class="form-group row">
           <label for="playerName" i18n>Player's name</label>
           <input class="form-control" required formControlName="name" id="playerName" name="playerName"
-                 i18n-placeholder="Player's name" minlength="4" />
+                 i18n-placeholder placeholder="Player's name" minlength="4" />
         </div>
         <div class="form-group row">
           <label for="playerTG" i18n>Player telegram</label>

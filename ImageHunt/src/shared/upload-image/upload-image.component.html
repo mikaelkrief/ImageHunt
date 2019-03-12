@@ -1,7 +1,7 @@
 <div #uploadImagesTemplate>
   <div class="modal-header">
     <h4 class="modal-title pull-left" i18n>Picture upload</h4>
-    <button type="button" class="close pull-right" i18n-aria-label="Close" (click)="bsModalRef.hide()">
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="bsModalRef.hide()">
       <i aria-hidden="true" class="fa fa-times"></i>
     </button>
   </div>
@@ -9,7 +9,7 @@
     <br />
     <form>
       <input class="btn btn-primary" type="file"
-             #fileInput i18n-placeholder="Upload file..." (change)="uploadFiles(fileInput.files)" />
+             #fileInput i18n-placeholder placeholder="Upload file..." (change)="uploadFiles(fileInput.files)" />
     </form>
   </div>
 </div>

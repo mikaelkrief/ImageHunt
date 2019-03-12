@@ -1,8 +1,8 @@
 <div #questionNodeTemplate>
   <div class="modal-header">
     <h4 class="modal-title pull-left" i18n>Edit of choice node</h4>
-    <button type="button" class="close pull-right" i18n-aria-label="Close" (click)="bsModalRef.hide()">
-      <span aria-hidden="true" class="fa fa-times"></span>
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="bsModalRef.hide()">
+      <i aria-hidden="true" class="fa fa-times"></i>
     </button>
   </div>
   <div class="modal-body">
@@ -17,7 +17,7 @@
     <div class="form-inline">
       <div class="input-group" *ngIf="selectedNode">
         <label i18n>Question</label>
-        <textarea class="form-control" cols="40" rows="3" readonly [value]="selectedNode.question"></textarea>
+        <textarea class="form-control" cols="40" rows="3" readonly [value]="selectedNode.question" i18n-placeholder placeholder="Question"></textarea>
       </div>
     </div>
     <div class="row" *ngIf="selectedNode!=null">
@@ -47,10 +47,10 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-danger" type="reset" aria-label="Cancel" (click)="bsModalRef.hide()" i18n>
+    <button class="btn btn-danger" type="reset" i18n-aria-label aria-label="Cancel" (click)="bsModalRef.hide()" i18n>
       Cancel
     </button>
-    <button class="btn btn-success pull-right" type="submit" i18n-aria-label="Close"
+    <button class="btn btn-success pull-right" type="submit" i18n-aria-label aria-label="Close"
             (click)="saveRelations()" i18n> Save
     </button>
   </div>
