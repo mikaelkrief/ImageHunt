@@ -16,35 +16,18 @@
         </div>
         <div class="form-group col-6">
           <label for="nodeType" i18n>Node type: </label>
-          <!--<div class="btn-group" dropdown>
-            <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-                    aria-controls="dropdown-basic">
-              Type de N&oelig;ud <span class="caret"></span>
-            </button>
-            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
-                role="menu" aria-labelledby="button-basic">
-              <li role="menuitem"><a class="dropdown-item" [nodeType]="FirstNode"><i class="fas fa-flag"></i> N&oelig;ud départ</a></li>
-              <li role="menuitem"><a class="dropdown-item" [nodeType]="TimerNode"><i class="far fa-clock"></i> N&oelig;ud attente</a></li>
-              <li role="menuitem"><a class="dropdown-item" [nodeType]="ObjectNode"><i class="fas fa-running"></i> N&oelig;ud action</a></li>
-              <li role="menuitem"><a class="dropdown-item" [nodeType]="HiddenNode"><i class="fas fa-mask"></i> N&oelig;ud caché</a></li>
-              <li role="menuitem"><a class="dropdown-item" [nodeType]="ChoiceNode"><i class="fas fa-question"></i> N&oelig;ud choix</a></li>
-              <li role="menuitem"><a class="dropdown-item" [nodeType]="PictureNode"><i class="fas fa-camera"></i> N&oelig;ud photo</a></li>
-              <li role="menuitem"><a class="dropdown-item" [nodeType]="LastNode"><i class="fas fa-flag-checkered"></i> N&oelig;ud arrivée</a></li>
-            </ul>
-          </div>-->
-          <select class="form-control fa" ngModel name="nodeType" id="nodeType"
-                  i18n-placeholder="Node type">
-          <option i18n value="FirstNode">&#xf024; Start node</option>
-          <option i18n value="WaypointNode">&#xf3c5; Waypoint node</option>
-          <option i18n value="TimerNode">&#xf017; Wait node</option>
-          <option i18n value="ObjectNode">&#xf70C; Action node</option>
-          <option i18n value="HiddenNode">&#xf6FA; Hidden node</option>
-          <option i18n value="ChoiceNode">&#xf0cb; Choice node</option>
-          <option i18n value="QuestionNode">&#xf128; Question node</option>
-          <option i18n value="PictureNode">&#xf030; Picture node</option>
-          <option i18n value="BonusNode">&#xf06b; Bonus node</option>
-          <option i18n value="LastNode">&#xf11e; End node</option>
-        </select>
+          <p-dropdown [options]="nodeTypes" [(ngModel)]="nodeType" name="nodeType" id="nodeType" i18n-placeholder placeholder="Select a node type">
+            <ng-template let-item pTemplate="selectedItem">
+                <span class="{{item.icon}}" style="width:16px; vertical-align: middle;color:{{item.color}}"></span>
+              <span style="vertical-align:middle">{{item.label}}</span>
+            </ng-template>
+            <ng-template let-type pTemplate="item">
+              <div class="ui-helper-clearfix" style="position: relative; height: 25px;">
+                <i class="{{type.icon}}" style="width: 24px; position: absolute; top: 1px; left: 5px;color:{{type.color}}"></i>
+                <div style="font-size: 14px; float: right; margin-top: 4px">{{type.label}}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
         </div>
       </div>
       <div class="row">
