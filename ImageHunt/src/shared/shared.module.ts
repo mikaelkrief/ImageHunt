@@ -12,15 +12,16 @@ import { FormsModule } from '@angular/forms';
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { SortPipe } from "./pipes/sortPipe";
 import { MomentFormatPipe } from "./pipes/momentFormatPipe";
+import { UppyComponent } from './uppy/uppy.component';
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, ListboxModule],
   declarations: [GeocoordinateComponent, GameActionTranslationPipe,
     DateFilterPipe, UserRoleComponent, DualListComponent, SortPipe, MomentFormatPipe,
-    UploadImageComponent, LoginButtonComponent],
+    UploadImageComponent, LoginButtonComponent, UppyComponent],
   bootstrap: [GeocoordinateComponent, UserRoleComponent, UploadImageComponent,
-    DualListComponent, LoginButtonComponent],
+    DualListComponent, LoginButtonComponent, UppyComponent],
   exports: [GeocoordinateComponent, GameActionTranslationPipe, DateFilterPipe, SortPipe, MomentFormatPipe,
-    UserRoleComponent, DualListComponent, LoginButtonComponent],
+    UserRoleComponent, DualListComponent, LoginButtonComponent, UppyComponent],
 
 
 })

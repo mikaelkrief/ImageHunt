@@ -5,7 +5,6 @@ import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { BsModalService } from "ngx-bootstrap";
 import { AdminCreateComponent } from "../admin-create/admin-create.component";
-import { GameAssignComponent } from "../game-assign/game-assign.component";
 import { GameService } from "services/game.service";
 import { forkJoin } from "rxjs";
 
@@ -56,10 +55,6 @@ export class AdminListComponent implements OnInit {
           this.getAdmins();
         });
     });
-  }
-  assignGame(admin: Admin) {
-    this.modalRef = this._modalService.show(GameAssignComponent, { ignoreBackdropClick: true, initialState: {admin} });
-    this._modalService.onHidden.subscribe(() => this.getAdmins());
   }
   modalRef;
   games;

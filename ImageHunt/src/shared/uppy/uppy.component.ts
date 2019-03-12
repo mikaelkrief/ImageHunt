@@ -1,4 +1,5 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
+import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({
     selector: 'uppy',
@@ -8,7 +9,7 @@
 /** uppy component*/
 export class UppyComponent {
     /** uppy ctor */
-    constructor() {
+  constructor(public bsModalRef: BsModalRef) {
 
     }
 }

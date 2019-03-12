@@ -9,7 +9,6 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
 import { SharedModule } from "../shared/shared.module";
 import { BsModalService } from 'ngx-bootstrap';
-import { GameAssignComponent } from './game-assign/game-assign.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, SharedModule],
