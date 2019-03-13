@@ -19,7 +19,7 @@
           <p-dropdown [options]="nodeTypes" [(ngModel)]="nodeType" name="nodeType" id="nodeType" i18n-placeholder placeholder="Select a node type">
             <ng-template let-item pTemplate="selectedItem">
                 <span class="{{item.icon}}" style="width:16px; vertical-align: middle;color:{{item.color}}"></span>
-              <span style="vertical-align:middle">{{item.label}}</span>
+              <span style="vertical-align: middle; position: relative; left: 10px;">{{item.label}}</span>
             </ng-template>
             <ng-template let-type pTemplate="item">
               <div class="ui-helper-clearfix" style="position: relative; height: 25px;">
