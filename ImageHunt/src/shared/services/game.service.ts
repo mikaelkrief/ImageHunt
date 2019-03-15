@@ -173,4 +173,14 @@ export class GameService {
   toogleGame(gameId: number): Observable<Game> {
      return this.http.post<Game>(`api/Game/Toggle/${gameId}`, null);
   }
+
+  modifyGameAction(gameAction: GameAction): Observable<GameAction> {
+    const gameActionRequest = {
+      id: gameAction.id,
+      pointsEarned: gameAction.pointsEarned,
+      validated: gameAction.isValidated,
+      reviewed: gameAction.isReviewed
+    };
+    return this.http.patch<GameAction>(`api/Action/`, gameActionRequest);
+  }
 }

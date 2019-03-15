@@ -81,15 +81,10 @@ namespace ImageHunt
         options.AddPolicy("ApiUser",
           policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol,
             Constants.Strings.JwtClaims.ApiAccess));
-        //options.AddPolicy("ApiUser", new AuthorizationPolicyBuilder()
-        //  .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-        //  .RequireAuthenticatedUser().Build());
       });
       //services.AddCors();
       services.AddMvc()
         .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
-      //services.AddTransient<IAuthenticationHandler, TokenAuthenticationHandler>();
-      //services.AddTransient<IAuthorizationHandler, TokenAuthorizationHandler>();
       var dbContextBuilder = new DbContextOptionsBuilder<HuntContext>().UseMySql(Configuration.GetConnectionString("DefaultConnection"));
       services.AddTransient(s =>
         ActivableContext<HuntContext>.CreateInstance(dbContextBuilder.Options));
@@ -123,7 +118,6 @@ namespace ImageHunt
     }
     private async Task CreateRoles(IServiceProvider serviceProvider)
     {
-      //var context = serviceProvider.GetService<HuntContext>();
       //adding custom roles
       var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
       var UserManager = serviceProvider.GetRequiredService<UserManager<Identity>>();

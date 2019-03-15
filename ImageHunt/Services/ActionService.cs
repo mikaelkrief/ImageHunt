@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using ImageHunt.Computation;
 using ImageHunt.Data;
@@ -193,6 +194,13 @@ namespace ImageHunt.Services
         .Include(ga => ga.Game)
         .Include(ga => ga.Team)
         .Where(ga => ga.Game.Id == gameId && ga.Latitude.HasValue && ga.Longitude.HasValue);
+    }
+
+    public GameAction Update(GameAction gameAction)
+    {
+      Context.Attach(gameAction);
+      Context.SaveChanges();
+      return gameAction;
     }
   }
 }

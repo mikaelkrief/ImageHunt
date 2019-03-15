@@ -17,5 +17,6 @@ namespace ImageHunt.Services
     int GetGameActionCountForGame(int gameId, IncludeAction includeAction, int? teamId = null);
     IEnumerable<Score> GetScoresForGame(int gameId);
     IEnumerable<GameAction> GetGamePositionsForGame(int gameId);
+    GameAction Update(GameAction gameAction);
   }
 }

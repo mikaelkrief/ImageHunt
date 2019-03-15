@@ -1064,5 +1064,24 @@ namespace ImageHuntTest.Services
             // Assert
             Check.That(results).HasSize(6).And.Contains(gameActions[0], gameActions[1], gameActions[4]);
         }
+
+        [Fact]
+        public void Should_Update_Modify_GameAction()
+        {
+            // Arrange
+            var actions = new List<GameAction>
+            {
+                new GameAction() {PointsEarned = 56},
+                new GameAction() {PointsEarned = 54},
+                new GameAction() {PointsEarned = 34},
+            };
+            _context.GameActions.AddRange(actions);
+            _context.SaveChanges();
+            actions[1].PointsEarned = 457;
+            // Act
+            var modified = _target.Update(actions[1]);
+            // Assert
+            Check.That(modified.PointsEarned).Equals(actions[1].PointsEarned);
+        }
     }
 }

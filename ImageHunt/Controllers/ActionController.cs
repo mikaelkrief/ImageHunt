@@ -224,6 +224,17 @@ namespace ImageHunt.Controllers
       //}
       return Ok(gameActions);
     }
-
+    [HttpPatch]
+    public IActionResult Modify([FromBody]GameActionModifyRequest gameActionRequest)
+    {
+      if (gameActionRequest == null || gameActionRequest.Id == 0)
+        return BadRequest();
+      var gameAction = _actionService.GetGameAction(gameActionRequest.Id);
+      gameAction.IsValidated = gameActionRequest.Validated;
+      gameAction.IsReviewed = gameActionRequest.Reviewed;
+      gameAction.PointsEarned = gameActionRequest.PointsEarned;
+      _actionService.Update(gameAction);
+      return Ok(_mapper.Map<GameActionResponse>(gameAction));
+    }
   }
 }

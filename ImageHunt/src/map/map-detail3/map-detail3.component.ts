@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, AfterContentChecked, AfterContentInit } from '@angular/core';
+  import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, AfterContentChecked, AfterContentInit } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-polylinedecorator';
 import 'leaflet-contextmenu';

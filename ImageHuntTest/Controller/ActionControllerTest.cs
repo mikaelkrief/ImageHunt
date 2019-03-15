@@ -459,5 +459,20 @@ namespace ImageHuntTest.Controller
             Check.That(result).IsNotNull();
         }
 
+        [Fact]
+        public void Should_Modify_GameAction_Succeed()
+        {
+            // Arrange
+            var gameActionRequest = new GameActionRequest()
+            {
+                Id = 67,
+                Action = 3,
+            };
+            // Act
+            var result = _target.Modify(gameActionRequest);
+            // Assert
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+            Check.That(((OkObjectResult) result).Value).IsInstanceOf<GameActionResponse>();
+        }
     }
 }
