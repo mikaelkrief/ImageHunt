@@ -1,0 +1,21 @@
+<div #createNodeTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left" i18n>Batch Nodes update</h4>
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="bsModalRef.hide()">
+      <i aria-hidden="true" class="fa fa-times"></i>
+    </button>
+  </div>
+  <form #form="ngForm">
+    <div class="modal-body">
+      <div class="row">
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-success pull-right" type="submit" i18n-aria-label aria-label="Close"
+              (click)="bsModalRef.hide()">
+        <span i18n>Update Nodes</span>
+      </button>
+    </div>
+  </form>
+</div>

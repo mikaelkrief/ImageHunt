@@ -463,10 +463,10 @@ namespace ImageHuntTest.Controller
         public void Should_Modify_GameAction_Succeed()
         {
             // Arrange
-            var gameActionRequest = new GameActionRequest()
+            var gameActionRequest = new GameActionModifyRequest()
             {
                 Id = 67,
-                Action = 3,
+                PointsEarned = 35,
             };
             // Act
             var result = _target.Modify(gameActionRequest);

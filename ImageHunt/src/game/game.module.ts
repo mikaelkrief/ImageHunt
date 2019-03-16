@@ -40,6 +40,7 @@ import { MomentModule } from 'angular2-moment';
 import { GameAvailableComponent } from './game-available/game-available.component';
 import { GameValidationComponent } from './game-validation/game-validation.component';
 import { PointsComponent } from './points/points.component';
+import { BatchNodeComponent } from "./batch-node/batch-node.component";
 
 @
 NgModule({
@@ -54,14 +55,15 @@ NgModule({
     GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent,
     NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent,
     GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent, PasscodeCreateComponent,
-    PasscodePrintComponent, GameAvailableComponent, GameValidationComponent, PointsComponent
+    PasscodePrintComponent, GameAvailableComponent, GameValidationComponent, PointsComponent,
+    BatchNodeComponent
   ],
   exports: [
     GameCreateComponent, GameDetailComponent, GameListComponent,
     NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent,
     GameActionListComponent, GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent,
     PasscodeCreateComponent,
-    PasscodePrintComponent, GameAvailableComponent, GameValidationComponent, PointsComponent
+    PasscodePrintComponent, GameAvailableComponent, GameValidationComponent, PointsComponent, BatchNodeComponent
   ],
   providers: [GameService, TeamService, AlertService, ConfirmationService, LiveService, ImageService]
 })

@@ -8,12 +8,15 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using ImageHunt.Computation;
 using ImageHunt.Controllers;
 using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using ImageHunt.Updater;
 using ImageHuntCore;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
@@ -219,6 +222,10 @@ namespace ImageHunt
       CreateRoles(serviceProvider).Wait();
     }
 
+    public void ConfigureContainer(ContainerBuilder builder)
+    {
+      builder.RegisterType<UpdateNodePointsUpdater>().As<IUpdater>().Named<IUpdater>("UpdateNodePoints");
+    }
     public static void ConfigureMappings()
     {
       Mapper.Reset();

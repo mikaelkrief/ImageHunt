@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +34,7 @@ namespace ImageHunt
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
               builder.AddEnvironmentVariables();
             })
+            .ConfigureServices(service=>service.AddAutofac())
             .ConfigureLogging((context, builder) =>
               {
                 builder.AddConfiguration(context.Configuration.GetSection("Logging"));

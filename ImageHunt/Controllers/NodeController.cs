@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Core;
 using AutoMapper;
 using ImageHunt.Services;
+using ImageHunt.Updater;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Authorization;
@@ -20,14 +23,16 @@ namespace ImageHunt.Controllers
   public class NodeController : Controller
   {
     public readonly IMapper _mapper;
+    private readonly ILifetimeScope _scope;
     private INodeService _nodeService;
     private readonly IGameService _gameService;
     private readonly ITeamService _teamService;
 
     public NodeController(INodeService nodeService, IGameService gameService,
-      ITeamService teamService, IMapper mapper)
+      ITeamService teamService, IMapper mapper, ILifetimeScope scope)
     {
       _mapper = mapper;
+      _scope = scope;
       _nodeService = nodeService;
       _gameService = gameService;
       _teamService = teamService;
@@ -110,6 +115,14 @@ namespace ImageHunt.Controllers
       var eNodeType = Enum.Parse<NodeTypes>(nodeType);
       var nodes = _gameService.GetNodes(gameId, eNodeType);
       return Ok(_mapper.Map<IEnumerable<NodeResponse>>(nodes));
+    }
+    [HttpPost("BatchUpdate")]
+    public IActionResult BatchUpdateNode([FromBody]BatchUpdateNodeRequest batchUpdateNodeRequest)
+    {
+      var game = _gameService.GetGameById(batchUpdateNodeRequest.GameId);
+      var updater = _scope.ResolveNamed<IUpdater>(batchUpdateNodeRequest.UpdaterType, new NamedParameter("arguments", batchUpdateNodeRequest.UpdaterArgument), new NamedParameter("game", game));
+      updater.Execute();
+      return Ok();
     }
   }
 }
