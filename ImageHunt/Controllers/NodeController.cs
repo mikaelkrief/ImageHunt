@@ -11,6 +11,7 @@ using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -120,7 +121,10 @@ namespace ImageHunt.Controllers
     public IActionResult BatchUpdateNode([FromBody]BatchUpdateNodeRequest batchUpdateNodeRequest)
     {
       var game = _gameService.GetGameById(batchUpdateNodeRequest.GameId);
-      var updater = _scope.ResolveNamed<IUpdater>(batchUpdateNodeRequest.UpdaterType, new NamedParameter("arguments", batchUpdateNodeRequest.UpdaterArgument), new NamedParameter("game", game));
+      //var arguments = JsonConvert.DeserializeObject<string>(batchUpdateNodeRequest.UpdaterArgument);
+      var updater = _scope.ResolveNamed<IUpdater>(batchUpdateNodeRequest.UpdaterType,
+        new NamedParameter("arguments", batchUpdateNodeRequest.UpdaterArgument),
+        new NamedParameter("game", game));
       updater.Execute();
       return Ok();
     }

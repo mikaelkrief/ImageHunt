@@ -28,6 +28,7 @@ import { ImageNodeEditComponent } from '../image-node-edit/image-node-edit.compo
 import { NodeDragged } from '../../shared/NodeDragged';
 import { map } from 'rxjs/operators';
 import { NodeResponse } from '../../shared/nodeResponse';
+import { BatchNodeComponent } from "../batch-node/batch-node.component";
 
 @Component({
   selector: 'game-detail',
@@ -261,5 +262,8 @@ export class GameDetailComponent implements OnInit {
     this._teamService.getTeams(this.game.id)
       .subscribe((teams:Team[]) => this.game.teams = teams);
   }
-
+  batchEdit() {
+    this.modalRef = this._modalService.show(BatchNodeComponent, { ignoreBackdropClick: true });
+    this.modalRef.content.game = this.game;
+  }
 }

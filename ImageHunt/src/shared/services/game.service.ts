@@ -183,4 +183,9 @@ export class GameService {
     };
     return this.http.patch<GameAction>(`api/Action/`, gameActionRequest);
   }
+
+  batchUpdate(gameId: number, updaterType: string, updaterArgument: string) {
+    const payload = { gameId, updaterType, updaterArgument };
+    return this.http.post(`api/Node/BatchUpdate`, payload);
+  }
 }
