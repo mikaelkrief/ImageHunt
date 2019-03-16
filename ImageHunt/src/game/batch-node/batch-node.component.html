@@ -1,0 +1,65 @@
+<div #createNodeTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left" i18n>Batch Nodes update</h4>
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="bsModalRef.hide()">
+      <i aria-hidden="true" class="fa fa-times"></i>
+    </button>
+  </div>
+  <form #form="ngForm" (submit)="proceed(form)">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="updaterType" i18n>Updater type</label>
+            <select class="form-control" id="updaterType" name="updaterType" ngModel>
+              <option value="UpdateNodePoints" i18n>Update Node points</option>
+            </select>
+          </div>
+          <div>
+            <tabset>
+              <tab>
+                <ng-template tabHeading>
+                  Update Node points
+                </ng-template>
+                <div class="row">
+
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="nodeUpdaterPattern" i18n>Update Pattern</label>
+                      <input type="text" id="nodeUpdaterPattern" name="nodeUpdaterPattern" ngModel class="form-control"
+                             i18n-placeholder placeholder="Seed definition"/>
+                      <span>Regular expression to extract seed. The seed should be in a named group 'seed': \w_<b>(?'seed'\d)</b>.jpg</span>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="nodeType" i18n>Node type</label>
+                      <select class="form-control" id="nodeType" name="nodeType" ngModel>
+                        <option value="PictureNode" i18n>Picture</option>
+                        <option value="WaypointNode" i18n>Waypoint</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="multiplier" i18n>Seed multiplier</label>
+                      <input class="form-control" type="number" id="multiplier" name="multiplier" ngModel/>
+                    </div>
+                  </div>
+                </div>
+              </tab>
+            </tabset>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-success pull-right" type="submit" i18n-aria-label aria-label="Close"
+              (click)="bsModalRef.hide()">
+        <span i18n>Update Nodes</span>
+      </button>
+    </div>
+  </form>
+</div>

@@ -26,11 +26,11 @@
         <td>{{player.chatLogin}}</td>
         <td>
           <select>
-            <option value="Player">Joueur</option>
-            <option value="TeamLeader">Chef d'équipe</option>
+            <option value="Player" i18n>Player</option>
+            <option value="TeamLeader" i18n>Team leader</option>
           </select>
         </td>
-        <td><button class="btn btn-danger" (click)="deletePlayer(team.id, player)"><span class="fa fa-trash"></span></button></td>
+        <td><button class="btn btn-danger" (click)="deletePlayer(team.id, player)"><i class="fa fa-trash"></i></button></td>
 
       </tr>
 

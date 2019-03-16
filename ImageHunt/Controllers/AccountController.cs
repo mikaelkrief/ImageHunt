@@ -54,7 +54,7 @@ namespace ImageHunt.Controllers
       {
         var appUser = _userManager.Users.SingleOrDefault(r => r.UserName == request.UserName);
         var userRole = _userManager.GetRolesAsync(appUser);
-        return Ok(await GenerateJwtToken(request.UserName, appUser, userRole));
+        return Ok(GenerateJwtToken(request.UserName, appUser, userRole));
       }
 
       return BadRequest(result);

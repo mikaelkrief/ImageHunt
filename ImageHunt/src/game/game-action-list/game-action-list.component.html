@@ -8,17 +8,16 @@
          [totalRecords]="totalRecords">
   <ng-template pTemplate="header">
     <tr>
-      <th i18n>Time</th>
+      <th i18n style="width: 4em">Time</th>
       <th i18n style="white-space: nowrap;">Delta</th>
       <th i18n>Team</th>
       <th i18n>Action</th>
       <th i18n style="width: 180px;">Probable node</th>
       <th i18n style="width: 180px;">Submitted picture</th>
-      <th i18n>Reviewed</th>
-      <th i18n>Validate</th>
-      <th i18n>Reject</th>
+      <th i18n style="width: 4em;">Rev.</th>
+      <th i18n style="width: 4em;">Val.</th>
+      <th i18n style="width: 4em;">Rej.</th>
       <th i18n>Points</th>
-      <th i18n></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-action let-rowData>
@@ -61,7 +60,9 @@
         </div>
       </td>
       <td>
-        <span [class]="reviewedSpanClass(action)"></span>
+        <button class="btn btn-dark">
+          <span [class]="reviewedSpanClass(action)"></span>
+        </button>
       </td>
       <td>
         <button [class]="validatedBtnClass(action)" (click)="validateGameAction(action)" [disabled]="action.isValidated">
@@ -72,12 +73,7 @@
         <button class="btn btn-danger" (click)="rejectGameAction(action)"><span class="fa fa-times"></span></button>
       </td>
       <td>
-        {{action.pointsEarned}}
-      </td>
-      <td>
-        <button class="btn btn-success" [routerLink]="['/action/detail/', action.id]" [disabled]="true">
-          <span class="fa fa-info-circle"></span>
-        </button>
+        <points [(points)]="action.pointsEarned" (pointsChange)="setPoints(action)"></points>
       </td>
     </tr>
   </ng-template>

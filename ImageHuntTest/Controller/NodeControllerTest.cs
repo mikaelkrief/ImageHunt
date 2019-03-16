@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Autofac;
 using AutoMapper;
 using FakeItEasy;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using ImageHunt.Updater;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
@@ -14,27 +16,29 @@ using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using NFluent;
+using TestUtilities;
 using Xunit;
 
 namespace ImageHuntTest.Controller
 {
   [Collection("AutomapperFixture")]
-  public class NodeControllerTest
+  public class NodeControllerTest : BaseTest<NodeController>
     {
-      private NodeController _target;
       private INodeService _nodeService;
         private IGameService _gameService;
         private ITeamService _teamService;
         private IMapper _mapper;
+        private ILifetimeScope _scope;
+        private IUpdater _updater;
 
         public NodeControllerTest()
       {
-        _nodeService = A.Fake<INodeService>();
-          _gameService = A.Fake<IGameService>();
-          _teamService = A.Fake<ITeamService>();
-          _mapper = AutoMapper.Mapper.Instance;
-
-        _target = new NodeController(_nodeService, _gameService, _teamService, _mapper);
+            _testContainerBuilder.RegisterInstance(_nodeService = A.Fake<INodeService>());
+          _testContainerBuilder.RegisterInstance(_gameService = A.Fake<IGameService>());
+          _testContainerBuilder.RegisterInstance(_teamService = A.Fake<ITeamService>());
+            _testContainerBuilder.RegisterInstance(_mapper = AutoMapper.Mapper.Instance);
+          _testContainerBuilder.RegisterInstance(_updater = A.Fake<IUpdater>()).Named<IUpdater>("UpdateNodePoints");
+            Build();
       }
 
       [Fact]
@@ -196,6 +200,23 @@ namespace ImageHuntTest.Controller
             Check.That(result).IsInstanceOf<OkObjectResult>();
             A.CallTo(() => _teamService.GetTeamById(1)).MustHaveHappened();
             A.CallTo(() => _nodeService.GetNode(A<int>._)).MustHaveHappened();
+        }
+
+        [Fact]
+        public void Should_BatchUpdateNode_Succeed()
+        {
+            // Arrange
+            BatchUpdateNodeRequest batchUpdateNodeRequest = new BatchUpdateNodeRequest()
+            {
+                GameId = 15,
+                UpdaterArgument = @"\d*_(?'seed'\d)\.jpg",
+                UpdaterType = "UpdateNodePoints"
+            };
+
+            // Act
+            var result = _target.BatchUpdateNode(batchUpdateNodeRequest);
+            // Assert
+            A.CallTo(() => _updater.Execute()).MustHaveHappened();
         }
   }
 }

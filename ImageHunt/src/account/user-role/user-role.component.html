@@ -35,7 +35,7 @@
               <ul class="list-group">
                 <li class="list-group-item" *ngFor="let game of user.games"><a [routerLink]="['/game', game.id]">
                   <img *ngIf="game.pictureId" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{game.pictureId}}&width=30" />
-                  <img *ngIf="!game.pictureId" class="img-thumbnail" src="assets/ImageHunt.png" width="30px" />
+                  <img *ngIf="!game.pictureId" class="img-thumbnail" src="assets/ImageHunt.png" width="30" />
                   {{game.name}}
                 </a></li>
               </ul>
@@ -55,4 +55,4 @@
     </table>
   </div>
 </div>
-<p-confirmDialog id="deleteUserConfirm" header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+<p-confirmDialog id="deleteUserConfirm" i18n-header header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>

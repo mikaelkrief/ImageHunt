@@ -1,8 +1,8 @@
 <div #createPasscodeTemplate>
   <div class="modal-header">
     <h4 class="modal-title pull-left" i18n>Create passcode</h4>
-    <button type="button" class="close pull-right" i18n-aria-label="Close" (click)="bsModalRef.hide()">
-      <span aria-hidden="true" class="fa fa-times"></span>
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="bsModalRef.hide()">
+      <i aria-hidden="true" class="fa fa-times"></i>
     </button>
   </div>
   <div class="container">
@@ -13,11 +13,11 @@
           <label for="pass" i18n>Password</label>
           <div class="col-11">
             <input type="text" class="form-control" id="pass" [(ngModel)]="pass" name="pass"
-                   i18n-placeholder="Password" />
+                   i18n-placeholder placeholder="Password" />
           </div>
           <div class="col-1" style="padding-left: 0">
             <button type="button" class="btn btn-success" (click)="generatePassword()">
-              <span class="fa fa-qrcode"></span>
+              <i class="fa fa-qrcode"></i>
             </button>
           </div>
         </div>
@@ -34,7 +34,7 @@
         </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-success pull-right" type="submit" i18n-aria-label="Close"
+      <button class="btn btn-success pull-right" type="submit" i18n-aria-label aria-label="Close"
               (click)="bsModalRef.hide()" i18n>
         Create passcode
       </button>

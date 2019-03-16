@@ -169,4 +169,23 @@ export class GameService {
   gamesToValidate(user: string): Observable<Game[]> {
     return this.http.get<Game[]>(`api/Game/ForValidation`);
   }
+
+  toogleGame(gameId: number): Observable<Game> {
+     return this.http.post<Game>(`api/Game/Toggle/${gameId}`, null);
+  }
+
+  modifyGameAction(gameAction: GameAction): Observable<GameAction> {
+    const gameActionRequest = {
+      id: gameAction.id,
+      pointsEarned: gameAction.pointsEarned,
+      validated: gameAction.isValidated,
+      reviewed: gameAction.isReviewed
+    };
+    return this.http.patch<GameAction>(`api/Action/`, gameActionRequest);
+  }
+
+  batchUpdate(gameId: number, updaterType: string, updaterArgument: string) {
+    const payload = { gameId, updaterType, updaterArgument };
+    return this.http.post(`api/Node/BatchUpdate`, payload);
+  }
 }

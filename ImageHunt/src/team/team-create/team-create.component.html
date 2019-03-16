@@ -1,7 +1,7 @@
 <div #createTeamTemplate>
   <div class="modal-header">
     <h4 class="modal-title pull-left" i18n>Team create</h4>
-    <button type="button" class="close pull-right" i18n-aria-label="Close" (click)="bsModalRef.hide()">
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="bsModalRef.hide()">
       <i aria-hidden="true" class="fa fa-times"></i>
     </button>
   </div>
@@ -20,7 +20,7 @@
           </div>
           <div class="form-group row">
             <a class="btn btn-primary" (click)="uploadPicture()">
-              <i class="fas fa-upload"></i><span i18n>Add a picture</span>
+              <i class="fas fa-upload"></i><span i18n> Add a picture</span>
             </a>
           </div>
 
@@ -30,7 +30,7 @@
             <div class="form-group row">
               <label for="teamName" i18n>Team's name</label>
               <input class="form-control" required formControlName="name" id="teamName"
-                     name="teamName" i18n-placeholder="Team's name" minlength="5"/>
+                     name="teamName" i18n-placeholder placeholder="Team's name" minlength="5"/>
             </div>
             <div class="form-group row">
               <label for="teamColor" i18n>Team's color</label>
@@ -52,7 +52,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-success pull-right" type="submit" i18n-aria-label="Close"
+        <button class="btn btn-success pull-right" type="submit" i18n-aria-label aria-label="Close"
                 (click)="bsModalRef.hide()" [disabled]="!teamGroup.valid" i18n>
           Create team
         </button>

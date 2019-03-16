@@ -123,12 +123,30 @@ export class GameActionListComponent implements OnInit {
         ga.probableNodes[0].longitude);
     });
   }
-
+  modifyPoints(action: GameAction) {
+    this.gameService.validateGameAction(action.id, action.node.id)
+      .subscribe(next => {
+          action.isValidated = true;
+          action.isReviewed = true;
+          action.pointsEarned = next.pointsEarned;
+        },
+        error => this.handleError(error)
+      );
+  }
   handleError(error): void {
     switch (error.status) {
     case 401:
-        this.alertService.sendAlert("Vous n'\xEAtes pas autoris\xE9 \xE0 valider les actions des joueurs", "danger", 10000);
+        this.alertService.sendAlert("You are not authorized to validate player's actions", "danger", 10000);
     default:
     }
+  }
+  setPoints(action: GameAction) {
+    this.gameService.modifyGameAction(action)
+      .subscribe(res => {
+          action.isValidated = res.isValidated;
+          action.isReviewed = res.isReviewed;
+          action.pointsEarned = res.pointsEarned;
+        },
+        error => this.handleError(error));
   }
 }

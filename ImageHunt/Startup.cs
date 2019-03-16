@@ -8,12 +8,15 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using ImageHunt.Computation;
 using ImageHunt.Controllers;
 using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHunt.Services;
+using ImageHunt.Updater;
 using ImageHuntCore;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
@@ -81,15 +84,10 @@ namespace ImageHunt
         options.AddPolicy("ApiUser",
           policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol,
             Constants.Strings.JwtClaims.ApiAccess));
-        //options.AddPolicy("ApiUser", new AuthorizationPolicyBuilder()
-        //  .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-        //  .RequireAuthenticatedUser().Build());
       });
       //services.AddCors();
       services.AddMvc()
         .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
-      //services.AddTransient<IAuthenticationHandler, TokenAuthenticationHandler>();
-      //services.AddTransient<IAuthorizationHandler, TokenAuthorizationHandler>();
       var dbContextBuilder = new DbContextOptionsBuilder<HuntContext>().UseMySql(Configuration.GetConnectionString("DefaultConnection"));
       services.AddTransient(s =>
         ActivableContext<HuntContext>.CreateInstance(dbContextBuilder.Options));
@@ -123,7 +121,6 @@ namespace ImageHunt
     }
     private async Task CreateRoles(IServiceProvider serviceProvider)
     {
-      //var context = serviceProvider.GetService<HuntContext>();
       //adding custom roles
       var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
       var UserManager = serviceProvider.GetRequiredService<UserManager<Identity>>();
@@ -225,6 +222,10 @@ namespace ImageHunt
       CreateRoles(serviceProvider).Wait();
     }
 
+    public void ConfigureContainer(ContainerBuilder builder)
+    {
+      builder.RegisterType<UpdateNodePointsUpdater>().As<IUpdater>().Named<IUpdater>("UpdateNodePoints");
+    }
     public static void ConfigureMappings()
     {
       Mapper.Reset();

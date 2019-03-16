@@ -686,5 +686,17 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _adminService.GetAdminById(A<int>._)).MustHaveHappened();
             A.CallTo(() => _gameService.GetAllGameForValidation(A<Admin>._)).MustHaveHappened();
         }
+
+        [Fact]
+        public void Should_ToggleGame_Activate_Game()
+        {
+            // Arrange
+            
+            // Act
+            var result = _target.ToggleGame(17);
+            // Assert
+            A.CallTo(() => _gameService.Toogle(A<int>._)).MustHaveHappened();
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+        }
     }
 }

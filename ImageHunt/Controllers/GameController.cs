@@ -406,5 +406,10 @@ namespace ImageHunt.Controllers
       var user = _adminService.GetAdminById(UserId);
       return Ok(_gameService.GetAllGameForValidation(user));
     }
+    [HttpPost("Toggle/{gameId}")]
+    public IActionResult ToggleGame(int gameId)
+    {
+      return Ok(_gameService.Toogle(gameId));
+    }
   }
 }

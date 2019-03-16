@@ -12,20 +12,20 @@
       <input class="form-control" type="text" required i18n-placeholder placeholder="Username" id="userName" name="userName" ngModel/>
     </div>
     <div class="form-group">
-      <label for="password">Mot de passe</label>
+      <label for="password" i18n>Password</label>
       <input class="form-control" type="password" required i18n-placeholder placeholder="Password" id="password" name="password" ngModel/>
     </div>
     <div class="form-group">
-      <label for="telegram">Login Telegram</label>
+      <label for="telegram" i18n>Telegram username</label>
       <input class="form-control" type="text" required i18n-placeholder placeholder="Telegram" id="telegram" name="telegram" ngModel/>
     </div>
     <div class="form-group">
-      <label for="email"></label>
+      <label for="email" i18n>Email</label>
       <input class="form-control" type="email" required i18n-placeholder placeholder="Email" id="email" name="email" ngModel/>
     </div>
     <div class="modal-footer">
-      <button type="submit" class="btn btn-success pull-right" type="submit" aria-label="Close" [disabled]="f.invalid" i18n>
-        Créer l'utilisateur
+      <button type="submit" class="btn btn-success pull-right" type="submit" i18n-aria-label aria-label="Close" [disabled]="f.invalid" i18n>
+        Create user
       </button>
     </div>
 

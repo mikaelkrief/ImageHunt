@@ -1,21 +1,21 @@
 ﻿/// <reference path="../../../node_modules/@types/jasmine/index.d.ts" />
 import { TestBed, async, ComponentFixture, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { BrowserModule, By } from "@angular/platform-browser";
-import { GameAssignComponent } from './game-assign.component';
+import { UppyComponent } from './uppy.component';
 
-let component: GameAssignComponent;
-let fixture: ComponentFixture<GameAssignComponent>;
+let component: UppyComponent;
+let fixture: ComponentFixture<UppyComponent>;
 
-describe('game-assign component', () => {
+describe('uppy component', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ GameAssignComponent ],
+            declarations: [ UppyComponent ],
             imports: [ BrowserModule ],
             providers: [
                 { provide: ComponentFixtureAutoDetect, useValue: true }
             ]
         });
-        fixture = TestBed.createComponent(GameAssignComponent);
+        fixture = TestBed.createComponent(UppyComponent);
         component = fixture.componentInstance;
     }));
 
