@@ -40,7 +40,7 @@ namespace ImageHuntBotBuilderTest.Commands
             var activity = new Activity(text: "/start redeem_gameId=21_pass=GFHFTF");
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             // Act
-            await _target.ExecuteAsync(_turnContext, _state);
+            await _target.Execute(_turnContext, _state);
             // Assert
         }
     }

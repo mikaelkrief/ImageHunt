@@ -51,7 +51,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             _state.Status = Status.None;
             // Act
-            await _target.ExecuteAsync(_turnContext, _state);
+            await _target.Execute(_turnContext, _state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
@@ -65,7 +65,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.Status = Status.Started;
             _state.CurrentLocation = null;
             // Act
-            await _target.ExecuteAsync(_turnContext, _state);
+            await _target.Execute(_turnContext, _state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
@@ -87,7 +87,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _nodeWebService.GetNodesByType(NodeTypes.Path, A<int>._)).Returns(nodes);
             //A.CallTo(() => _gameWebService.GetPathNodesForGame(A<int>._, A<CancellationToken>._)).Returns(nodes);
             // Act
-            await _target.ExecuteAsync(_turnContext, _state);
+            await _target.Execute(_turnContext, _state);
             // Assert
             A.CallTo(() => _nodeWebService.GetNodesByType(NodeTypes.Path, A<int>._)).MustHaveHappened();
             Check.That(_state.CurrentNode).Equals(nodes[1]);

@@ -5,64 +5,52 @@
   <div class="col-6">
     <table class="table">
       <thead>
-      <tr>
-        <th i18n>Username</th>
-        <th i18n>Email</th>
-        <th i18n>Role</th>
-        <th i18n>Associated Games</th>
-        <th></th>
-        <th>
-          <button class="btn btn-primary" (click)="createUser()">
-            <i class="fa fa-user-plus"></i>
-          </button>
-        </th>
-        <th></th>
-      </tr>
+        <tr>
+          <th i18n>Username</th>
+          <th i18n>Email</th>
+          <th i18n>Role</th>
+          <th i18n>Associated Games</th>
+          <th></th>
+          <th><button class="btn btn-primary" (click)="createUser()"><i class="fa fa-user-plus"></i></button></th>
+          <th></th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let user of users">
-        <td>{{user.userName}}</td>
-        <td>{{user.email}}</td>
-        <td>
-          <select [(ngModel)]="user.role">
-            <option i18n value="">None</option>
-            <option i18n value="Admin">Administrator</option>
-            <option i18n value="GameMaster">Game Master</option>
-            <option i18n value="Validator">Validator</option>
-            <option i18n value="TeamLeader">Team Leader</option>
-            <option i18n value="Player">Player</option>
-            <option i18n value="Bot">Bot</option>
-          </select>
-        </td>
-        <td>
-          <div *ngIf="user.games && user.games.length !== 0">
-            <ul class="list-group">
-              <li class="list-group-item" *ngFor="let game of user.games">
-                <a [routerLink]="['/game', game.id]">
-                  <img *ngIf="game.pictureId" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{game.pictureId}}&width=30"/>
-                  <img *ngIf="!game.pictureId" class="img-thumbnail" src="assets/ImageHunt.png" width="30"/>
+        <tr *ngFor="let user of users">
+          <td>{{user.userName}}</td>
+          <td>{{user.email}}</td>
+          <td>
+            <select [(ngModel)]="user.role">
+              <option i18n value="">None</option>
+              <option i18n value="Admin">Administrator</option>
+              <option i18n value="GameMaster">Game Master</option>
+              <option i18n value="Validator">Validator</option>
+              <option i18n value="TeamLeader">Team Leader</option>
+              <option i18n value="Player">Player</option>
+              <option i18n value="Bot">Bot</option>
+            </select>
+          </td>
+          <td>
+            <div *ngIf="user.games && user.games.length !== 0">
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let game of user.games"><a [routerLink]="['/game', game.id]">
+                  <img *ngIf="game.pictureId" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{game.pictureId}}&width=30" />
+                  <img *ngIf="!game.pictureId" class="img-thumbnail" src="assets/ImageHunt.png" width="30" />
                   {{game.name}}
-                </a>
-              </li>
-            </ul>
-          </div>
-        </td>
-        <td>
-          <button class="btn btn-primary" (click)="assignGame(user)">
-            <i class="fas fa-link"></i>
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-danger" (click)="deleteUser(user)">
-            <i class="fa fa-user-times"></i>
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-primary" (click)="saveUser(user)">
-            <i class="fas fa-save"></i>
-          </button>
-        </td>
-      </tr>
+                </a></li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <button class="btn btn-primary" (click)="assignGame(user)"><i class="fas fa-link"></i></button>
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="deleteUser(user)"><i class="fa fa-user-times"></i></button>
+          </td>
+          <td>
+            <button class="btn btn-primary" (click)="saveUser(user)"><i class="fas fa-save"></i></button>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>

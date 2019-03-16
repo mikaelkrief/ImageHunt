@@ -57,7 +57,7 @@ namespace ImageHuntBotBuilderTest.Commands
 
             var state = new ImageHuntState();
             // Act
-            await _target.ExecuteAsync(_turnContext, state);
+            await _target.Execute(_turnContext, state);
             // Assert
             Check.That(state.GameId).Equals(15);
             Check.That(state.TeamId).Equals(66);
@@ -83,7 +83,7 @@ namespace ImageHuntBotBuilderTest.Commands
 
             var state = new ImageHuntState();
             // Act
-            await _target.ExecuteAsync(_turnContext, state);
+            await _target.Execute(_turnContext, state);
             // Assert
             Check.That(state.GameId).Equals(15);
             Check.That(state.TeamId).Equals(66);
@@ -107,7 +107,7 @@ namespace ImageHuntBotBuilderTest.Commands
 
             var state = new ImageHuntState();
             // Act
-            await _target.ExecuteAsync(_turnContext, state);
+            await _target.Execute(_turnContext, state);
             // Assert
             Check.That(state.GameId).IsNull();
             Check.That(state.TeamId).IsNull();
@@ -124,7 +124,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             var state = new ImageHuntState() {GameId = 15, TeamId = 6, Status = Status.Initialized};
             // Act
-            await _target.ExecuteAsync(_turnContext, state);
+            await _target.Execute(_turnContext, state);
             // Assert
             A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._)).MustNotHaveHappened();
             A.CallTo(() => _teamWebService.GetTeamById(A<int>._)).MustNotHaveHappened();
@@ -143,7 +143,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             var state = new ImageHuntState() { Status = Status.None};
             // Act
-            await _target.ExecuteAsync(_turnContext, state);
+            await _target.Execute(_turnContext, state);
             // Assert
             A.CallTo(() => _localizer[A<string>._]).MustHaveHappened();
             A.CallTo(() => _turnContext.SendActivityAsync("Unable to find game for l'Id=15 and team Id=66", A<string>._,

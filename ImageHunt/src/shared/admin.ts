@@ -1,4 +1,4 @@
-import { Game } from "./game";
+import {Game} from "./game";
 
 export class Admin {
   id: number;
@@ -6,5 +6,5 @@ export class Admin {
   email: string;
   games?: Game[];
   gameIds?: number[];
-  role: any;
+  role:any;
 }

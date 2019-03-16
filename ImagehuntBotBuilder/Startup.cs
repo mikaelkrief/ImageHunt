@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Middlewares;
@@ -28,45 +29,41 @@ using Telegram.Bot.Types;
 namespace ImagehuntBotBuilder
 {
     /// <summary>
-    ///     The Startup class configures services and the request pipeline.
+    /// The Startup class configures services and the request pipeline.
     /// </summary>
     public class Startup
     {
-        private readonly bool _isProduction;
-        private string _jwtToken;
         private ILoggerFactory _loggerFactory;
+        private bool _isProduction = false;
+        private string _jwtToken;
 
         public Startup(IHostingEnvironment env)
         {
             _isProduction = env.IsProduction();
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", true, true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
         }
 
         /// <summary>
-        ///     Gets the configuration that represents a set of key/value application configuration properties.
+        /// Gets the configuration that represents a set of key/value application configuration properties.
         /// </summary>
         /// <value>
-        ///     The <see cref="IConfiguration" /> that represents a set of key/value application configuration properties.
+        /// The <see cref="IConfiguration"/> that represents a set of key/value application configuration properties.
         /// </value>
         public IConfiguration Configuration { get; }
 
         /// <summary>
-        ///     This method gets called by the runtime. Use this method to add services to the container.
+        /// This method gets called by the runtime. Use this method to add services to the container.
         /// </summary>
-        /// <param name="services">
-        ///     The <see cref="IServiceCollection" /> specifies the contract for a collection of service
-        ///     descriptors.
-        /// </param>
-        /// <seealso cref="IStatePropertyAccessor{T}" />
-        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection" />
-        /// <seealso
-        ///     cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0" />
+        /// <param name="services">The <see cref="IServiceCollection"/> specifies the contract for a collection of service descriptors.</param>
+        /// <seealso cref="IStatePropertyAccessor{T}"/>
+        /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/web-api/overview/advanced/dependency-injection"/>
+        /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureMappings();
@@ -87,8 +84,10 @@ namespace ImagehuntBotBuilder
                 Configuration.GetValue<string>("BotConfiguration:StorageFolder"));
             services.AddSingleton(dataStore);
             if (!(service is EndpointService endpointService))
+            {
                 throw new InvalidOperationException(
                     $"The .bot file does not contain an endpoint with name '{environment}'.");
+            }
 
             var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
             services.AddSingleton(credentialProvider);
@@ -96,7 +95,6 @@ namespace ImagehuntBotBuilder
             services.AddBot<ImageHuntBot>(options =>
             {
                 options.CredentialProvider = credentialProvider;
-
                 // Creates a logger for the application to use.
                 ILogger logger = _loggerFactory.CreateLogger<ImageHuntBot>();
 
@@ -107,6 +105,7 @@ namespace ImagehuntBotBuilder
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
+
                 // Create Conversation State object.
                 // The Conversation State object is where we persist anything at the conversation-scope.
                 var conversationState = new ConversationState(dataStore);
@@ -116,17 +115,21 @@ namespace ImagehuntBotBuilder
 
             // Create and register state accesssors.
             // Acessors created here are passed into the IBot-derived class on every turn.
-            services.AddSingleton(sp =>
+            services.AddSingleton<ImageHuntBotAccessors>(sp =>
             {
                 var options = sp.GetRequiredService<IOptions<BotFrameworkOptions>>().Value;
                 if (options == null)
+                {
                     throw new InvalidOperationException(
                         "BotFrameworkOptions must be configured prior to setting up the state accessors");
+                }
 
                 var conversationState = options.State.OfType<ConversationState>().FirstOrDefault();
                 if (conversationState == null)
+                {
                     throw new InvalidOperationException(
                         "ConversationState must be defined and added before adding conversation-scoped state accessors.");
+                }
 
                 // Create the custom state accessor.
                 // State accessors enable other components to read and write individual properties of state.
@@ -134,13 +137,13 @@ namespace ImagehuntBotBuilder
                 {
                     ImageHuntState =
                         conversationState.CreateProperty<ImageHuntState>(ImageHuntBotAccessors.ImageHuntStateName),
-                    AllStates = new MultiConversationState<ImageHuntState>(dataStore)
+                    AllStates = new MultiConversationState<ImageHuntState>(dataStore),
                 };
 
                 return accessors;
             });
 
-            // services.AddTransient<IAdapterIntegration, TelegramAdapter>();
+            //services.AddTransient<IAdapterIntegration, TelegramAdapter>();
         }
 
         public void ConfigureProductionContainer(ContainerBuilder containerBuilder)
@@ -177,7 +180,8 @@ namespace ImagehuntBotBuilder
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
             // Login to WebApi
-            LoginApiAsync().Wait();
+            LoginApi().Wait();
+
 
             containerBuilder.RegisterModule<DefaultModule>();
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
@@ -191,34 +195,37 @@ namespace ImagehuntBotBuilder
             var environment = _isProduction ? "production" : "development";
             var service = botConfig.Services.Where(s => s.Type == "endpoint" && s.Name == environment).FirstOrDefault();
             if (!(service is EndpointService endpointService))
+            {
                 throw new InvalidOperationException(
                     $"The .bot file does not contain an endpoint with name '{environment}'.");
+            }
 
             var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
             containerBuilder.RegisterInstance(credentialProvider).AsImplementedInterfaces();
             containerBuilder.RegisterInstance(Configuration);
-
             // Register bot client
+
+
             containerBuilder.RegisterType<LogPositionMiddleware>().AsSelf().As<IMiddleware>();
             containerBuilder.RegisterType<TeamCompositionMiddleware>().AsSelf().As<IMiddleware>();
             containerBuilder.RegisterInstance(Mapper.Instance);
-            containerBuilder.Register(a => new HttpClient
+            containerBuilder.Register(a => new HttpClient()
             {
                 BaseAddress = new Uri(Configuration.GetValue<string>("ImageHuntApi:Url")),
-                DefaultRequestHeaders = {Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken) }
+                DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken) }
             });
         }
 
-        private async Task LoginApiAsync()
+        private async Task LoginApi()
         {
             var apiBaseAddress = Configuration["ImageHuntApi:Url"];
-            var httpLogin = new HttpClient {BaseAddress = new Uri(apiBaseAddress) };
+            var httpLogin = new HttpClient(){BaseAddress = new Uri(apiBaseAddress)};
             var accountService =
                 new AccountWebService(httpLogin, new LoggerFactory().CreateLogger<IAccountWebService>());
-            var logingRequest = new LoginRequest
+            var logingRequest = new LoginRequest()
             {
                 UserName = Configuration["BotConfiguration:BotName"],
-                Password = Configuration["BotConfiguration:BotPassword"]
+                Password = Configuration["BotConfiguration:BotPassword"],
             };
             var response = await accountService.Login(logingRequest);
             _jwtToken = response.Value;
@@ -228,9 +235,13 @@ namespace ImagehuntBotBuilder
         {
             _loggerFactory = loggerFactory;
             if (env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
+            }
             else
+            {
                 app.UseHsts();
+            }
 
             app.UseDefaultFiles()
                 .UseStaticFiles()
@@ -248,9 +259,7 @@ namespace ImagehuntBotBuilder
                 Console.WriteLine(e);
             }
         }
-
         #region Mapping Stuff
-
         private static string ActivityTypeFromUpdate(Update update)
         {
             var message = MessageFromUpdate(update);
@@ -276,24 +285,22 @@ namespace ImagehuntBotBuilder
             Mapper.Initialize(config =>
             {
                 config.CreateMap<Update, Activity>()
-                    .ForMember(a => a.ChannelId, opt => opt.MapFrom(e => "telegram"))
+                    .ForMember(a => a.ChannelId, opt => opt.MapFrom(e=>"telegram"))
                     .ForMember(a => a.Value, opt => opt.MapFrom(u => u))
-                    .ForMember(
-                        a => a.Timestamp,
+                    .ForMember(a => a.Timestamp,
                         opt => opt.MapFrom(u => new DateTimeOffset(MessageFromUpdate(u).Date)))
-                    .ForMember(
-                        a => a.Id,
+                    .ForMember(a => a.Id,
                         expression => expression.MapFrom(u => MessageFromUpdate(u).Chat.Id.ToString()))
-                    .ForMember(a => a.Type, opt => opt.MapFrom(e => ActivityTypeFromUpdate(e)))
+                    .ForMember(a => a.Type, opt => opt.MapFrom(e=> ActivityTypeFromUpdate(e)))
                     .ForMember(a => a.Conversation, opt => opt.MapFrom((u, a) =>
                     {
                         var message = MessageFromUpdate(u);
-                        var conversation = new ConversationAccount {Id = message.Chat.Id.ToString() };
+                        var conversation = new ConversationAccount() { Id = message.Chat.Id.ToString() };
                         return conversation;
                     }))
                     .ForMember(a => a.From, opt => opt.MapFrom((update, a) =>
                     {
-                        var from = MessageFromUpdate(update).From;
+                        User from = MessageFromUpdate(update).From;
                         return new ChannelAccount(from.Id.ToString(), from.Username);
                     }))
                     .ForMember(a => a.Text, opt => opt.MapFrom(u => MessageFromUpdate(u).Text))
@@ -303,7 +310,7 @@ namespace ImagehuntBotBuilder
                         var attachments = new List<Attachment>();
                         if (message.Photo != null)
                         {
-                            var attachment = new Attachment
+                            var attachment = new Attachment()
                             {
                                 ContentUrl = message.Photo.OrderByDescending(p => p.FileSize).First().FileId,
                                 ContentType = "telegram/image",
@@ -314,45 +321,43 @@ namespace ImagehuntBotBuilder
 
                         if (message.Location != null)
                         {
-                            var attachment = new Attachment
+                            var attachment = new Attachment()
                             {
                                 ContentType = "location",
-                                Content = new GeoCoordinates(
-                                    latitude: message.Location.Latitude,
+                                Content = new GeoCoordinates(latitude: message.Location.Latitude,
                                     longitude: message.Location.Longitude)
                             };
                             attachments.Add(attachment);
                         }
 
                         if (message.NewChatMembers != null)
+                        {
                             foreach (var newChatMember in message.NewChatMembers)
                             {
-                                var attachment = new Attachment
+                                var attachment = new Attachment()
                                 {
                                     ContentType = ImageHuntActivityTypes.NewPlayer,
-                                    Content = new ConversationAccount(name: newChatMember.Username)
+                                    Content = new ConversationAccount(name: newChatMember.Username) 
                                 };
                                 attachments.Add(attachment);
                             }
+                        }
 
                         if (message.LeftChatMember != null)
                         {
-                            var attachment = new Attachment
+                            var attachment = new Attachment()
                             {
                                 ContentType = ImageHuntActivityTypes.LeftPlayer,
                                 Content = new ConversationAccount(name: message.LeftChatMember.Username)
                             };
                             attachments.Add(attachment);
                         }
-
                         return attachments;
                     }))
-
-                    // .ForMember(a=> a.From, expression => )
+                    //.ForMember(a=> a.From, expression => )
                     ;
             });
         }
-
         #endregion
     }
 }

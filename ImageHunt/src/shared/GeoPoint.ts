@@ -1,4 +1,4 @@
 export class GeoPoint {
   latitude: number;
-  longitude: number;
+  longitude:number;
 }

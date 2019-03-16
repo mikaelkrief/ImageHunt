@@ -5,66 +5,70 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
+
   public partial class AddPictureEntity : Migration
-  {
-    protected override void Up(MigrationBuilder migrationBuilder)
     {
-      migrationBuilder.DropColumn(
-        "Image",
-        "Nodes");
-
-      migrationBuilder.AddColumn<int>(
-        "ImageId",
-        "Nodes",
-        "int",
-        nullable: true);
-
-      migrationBuilder.CreateTable(
-        "Pictures",
-        table => new
+        protected override void Up(MigrationBuilder migrationBuilder)
         {
-          Id = table.Column<int>("int", nullable: false)
-            .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-          Image = table.Column<byte[]>("longblob", nullable: true),
-          IsDeleted = table.Column<bool>("bit", nullable: false)
-        },
-        constraints: table => { table.PrimaryKey("PK_Pictures", x => x.Id); });
+            migrationBuilder.DropColumn(
+                name: "Image",
+                table: "Nodes");
 
-      migrationBuilder.CreateIndex(
-        "IX_Nodes_ImageId",
-        "Nodes",
-        "ImageId");
+            migrationBuilder.AddColumn<int>(
+                name: "ImageId",
+                table: "Nodes",
+                type: "int",
+                nullable: true);
 
-      migrationBuilder.AddForeignKey(
-        "FK_Nodes_Pictures_ImageId",
-        "Nodes",
-        "ImageId",
-        "Pictures",
-        principalColumn: "Id",
-        onDelete: ReferentialAction.Restrict);
+            migrationBuilder.CreateTable(
+                name: "Pictures",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Image = table.Column<byte[]>(type: "longblob", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pictures", x => x.Id);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Nodes_ImageId",
+                table: "Nodes",
+                column: "ImageId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Nodes_Pictures_ImageId",
+                table: "Nodes",
+                column: "ImageId",
+                principalTable: "Pictures",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Nodes_Pictures_ImageId",
+                table: "Nodes");
+
+            migrationBuilder.DropTable(
+                name: "Pictures");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Nodes_ImageId",
+                table: "Nodes");
+
+            migrationBuilder.DropColumn(
+                name: "ImageId",
+                table: "Nodes");
+
+            migrationBuilder.AddColumn<byte[]>(
+                name: "Image",
+                table: "Nodes",
+                nullable: true);
+        }
     }
-
-    protected override void Down(MigrationBuilder migrationBuilder)
-    {
-      migrationBuilder.DropForeignKey(
-        "FK_Nodes_Pictures_ImageId",
-        "Nodes");
-
-      migrationBuilder.DropTable(
-        "Pictures");
-
-      migrationBuilder.DropIndex(
-        "IX_Nodes_ImageId",
-        "Nodes");
-
-      migrationBuilder.DropColumn(
-        "ImageId",
-        "Nodes");
-
-      migrationBuilder.AddColumn<byte[]>(
-        "Image",
-        "Nodes",
-        nullable: true);
-    }
-  }
 }

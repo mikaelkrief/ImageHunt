@@ -1,43 +1,45 @@
-﻿using System.Threading.Tasks;
+﻿using System.Globalization;
+using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
 {
     [Command("begin")]
+
     public class BeginCommand : AbstractCommand, IBeginCommand
     {
         private readonly IActionWebService _actionWebService;
         private readonly ITeamWebService _teamWebService;
 
-        public BeginCommand(IActionWebService actionWebService, ITeamWebService teamWebService,
-            ILogger<IBeginCommand> logger, IStringLocalizer<BeginCommand> localizer)
-            : base(logger, localizer)
+        public BeginCommand(IActionWebService actionWebService, ITeamWebService teamWebService, ILogger<IBeginCommand> logger, IStringLocalizer<BeginCommand> localizer) : base(logger, localizer)
         {
             _actionWebService = actionWebService;
             _teamWebService = teamWebService;
+            
         }
 
         public override bool IsAdmin => true;
-
-        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
+        protected async override Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
         {
+            
             if (state.Status != Status.Initialized)
             {
-                Logger.LogError("Game not initialized");
-                await turnContext.SendActivityAsync(Localizer["CHAT_NOT_INITIALIZED"]);
+                _logger.LogError("Game not initialized");
+                await turnContext.SendActivityAsync(_localizer["CHAT_NOT_INITIALIZED"]);
                 return;
             }
 
             if (state.CurrentLocation == null)
             {
-                Logger.LogError("No location");
-                await turnContext.SendActivityAsync(Localizer["NO_LIVE_LOCATION"]);
+                _logger.LogError("No location");
+                await turnContext.SendActivityAsync(_localizer["NO_LIVE_LOCATION"]);
                 return;
             }
 
@@ -45,7 +47,7 @@ namespace ImageHuntBotBuilder.Commands
             state.CurrentNode = nextNode;
             state.CurrentNodeId = nextNode.Id;
             state.Status = Status.Started;
-            var gameActionRequest = new GameActionRequest
+            var gameActionRequest = new GameActionRequest()
             {
                 Action = (int)Action.StartGame,
                 GameId = state.GameId.Value,
@@ -54,7 +56,7 @@ namespace ImageHuntBotBuilder.Commands
                 Longitude = state.CurrentLocation.Longitude
             };
             await _actionWebService.LogAction(gameActionRequest);
-            await turnContext.SendActivityAsync(Localizer["GAME_STARTED"]);
+            await turnContext.SendActivityAsync(_localizer["GAME_STARTED"]);
         }
     }
 }

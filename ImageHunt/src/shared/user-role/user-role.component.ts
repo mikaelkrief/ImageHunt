@@ -1,15 +1,17 @@
+import { Component, Input, OnInit } from '@angular/core';
+
 @Component({
-  selector: "user-role",
-  templateUrl: "./user-role.component.html",
-  styleUrls: ["./user-role.component.scss"]
+    selector: 'user-role',
+    templateUrl: './user-role.component.html',
+    styleUrls: ['./user-role.component.scss']
 })
 /** user-role component*/
-export class UserRoleComponent implements OnInit {
+export class UserRoleComponent implements OnInit{
   ngOnInit(): void {
     switch (this.role) {
     case 0:
-      this.label = "Administrateur";
-      break;
+        this.label = "Administrateur";
+    break;
     case 1:
       this.label = "Validateur";
       break;
@@ -21,13 +23,11 @@ export class UserRoleComponent implements OnInit {
       break;
     }
   } /** user-role ctor */
+  @Input() role: any;
 
-  @Input()
-  role: any;
+    constructor() {
 
-  constructor() {
-
-  }
+    }
 
   label: string;
 }

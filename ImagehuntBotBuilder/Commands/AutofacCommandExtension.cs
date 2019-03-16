@@ -6,8 +6,7 @@ namespace ImageHuntBotBuilder.Commands
 {
     public static class AutofacCommandExtension
     {
-        public static void RegisterCommand<C>(this ContainerBuilder containerBuilder)
-            where C : ICommand
+        public static void RegisterCommand<C>(this ContainerBuilder containerBuilder) where C : ICommand
         {
             var commandType = typeof(C);
             var commandAttribute = commandType.GetAttribute<CommandAttribute>();

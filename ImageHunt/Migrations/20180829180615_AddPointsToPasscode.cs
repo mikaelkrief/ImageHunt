@@ -4,22 +4,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
-  public partial class AddPointsToPasscode : Migration
-  {
-    protected override void Up(MigrationBuilder migrationBuilder)
-    {
-      migrationBuilder.AddColumn<int>(
-        "Points",
-        "Passcodes",
-        nullable: false,
-        defaultValue: 0);
-    }
 
-    protected override void Down(MigrationBuilder migrationBuilder)
+  public partial class AddPointsToPasscode : Migration
     {
-      migrationBuilder.DropColumn(
-        "Points",
-        "Passcodes");
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<int>(
+                name: "Points",
+                table: "Passcodes",
+                nullable: false,
+                defaultValue: 0);
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "Points",
+                table: "Passcodes");
+        }
     }
-  }
 }

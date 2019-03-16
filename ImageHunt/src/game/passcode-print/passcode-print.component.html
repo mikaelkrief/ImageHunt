@@ -1,6 +1,6 @@
 <div class="passcodeGrid">
   <div class="passcodeCell" *ngFor="let passcode of passcodes">
-    <span style="top: 5%">{{game.name}}</span>
+    <span style="top:5%">{{game.name}}</span>
     <img src="data:image/png;base64,{{passcode.qrCode}}" width="100mm" height="100mm"/>
     <span style="top: 95%;">{{passcode.points}} points</span>
   </div>

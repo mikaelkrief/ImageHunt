@@ -9,14 +9,13 @@ namespace ImageHuntBotBuilder.Commands
     [Command("reset")]
     public class ResetCommand : AbstractCommand
     {
-        public ResetCommand(ILogger<IResetCommand> logger, IStringLocalizer<ResetCommand> localizer)
-            : base(logger, localizer)
+        public override bool IsAdmin => true;
+
+        public ResetCommand(ILogger<IResetCommand> logger, IStringLocalizer<ResetCommand> localizer) : base(logger, localizer)
         {
         }
 
-        public override bool IsAdmin => true;
-
-        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
+        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
         {
             state.GameId = null;
             state.TeamId = null;

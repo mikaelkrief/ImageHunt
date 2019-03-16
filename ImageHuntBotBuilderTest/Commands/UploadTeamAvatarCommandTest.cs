@@ -39,7 +39,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             
             // Act
-            await _target.ExecuteAsync(_turnContext, _state);
+            await _target.Execute(_turnContext, _state);
             // Assert
         }
     }
@@ -53,7 +53,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _teamWebService = teamWebService;
         }
 
-        protected override Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
+        protected override Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
         {
             throw new NotImplementedException();
         }

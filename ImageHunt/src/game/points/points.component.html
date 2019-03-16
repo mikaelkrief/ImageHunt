@@ -5,16 +5,12 @@
   </div>
   <div *ngIf="_editMode" class="row">
     <div class="col-10">
-      <input class="form-control" type="number" [(ngModel)]="_points" style="padding: 0 .5em; width: 4em;"/>
+      <input class="form-control" type="number" [(ngModel)]="_points" style="width: 4em; padding: 0 .5em"/>
     </div>
     <div class="col-2">
       <div class="btn-group-sm btn-group" role="group">
-        <button class="btn btn-success btn-sm">
-          <i class="fas fa-check btn-success" (click)="validate()"></i>
-        </button>
-        <button class="btn btn-danger btn-sm">
-          <i class="fas fa-times btn-danger" (click)="cancel()"></i>
-        </button>
+      <button class="btn btn-success btn-sm"><i class="fas fa-check btn-success" (click)="validate()"></i></button>
+        <button class="btn btn-danger btn-sm"><i class="fas fa-times btn-danger" (click)="cancel()"></i></button>
       </div>
     </div>
   </div>

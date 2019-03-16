@@ -11,15 +11,15 @@
       <geocoordinate [Point]="{'latitude':gameAction.latitude, 'longitude':gameAction.longitude}"></geocoordinate>
     </div>
   </div>
-  <div class="row">
+    <div class="row">
     <div class="col-lg-3" i18n>Position of the node</div>
-    <div class="col-lg-3">
-      <geocoordinate *ngIf="gameAction.node!=null" [Point]="{'latitude':gameAction.node.latitude, 'longitude':gameAction.node.longitude}"></geocoordinate>
-    </div>
+      <div class="col-lg-3" >
+        <geocoordinate *ngIf="gameAction.node!=null" [Point]="{'latitude':gameAction.node.latitude, 'longitude':gameAction.node.longitude}"></geocoordinate>
+      </div>
   </div>
 </div>
 <img [src]="gameAction.picture.imageData"/>
 <span i18n>Delta between action and node: {{gameAction.delta}}</span>
 <p-toggleButton (click)="validate(gameAction.id)" [(ngModel)]="gameAction.isValidated" [style]="{'width':'150px'}"
-                i18n-onLabel onLabel="Valid" i18n-offLabel offLabel="Invalid" onIcon="fa-check-square">
-</p-toggleButton>
+                i18n-onLabel onLabel="Valid" i18n-offLabel offLabel="Invalid" onIcon="fa-check-square"></p-toggleButton>
+

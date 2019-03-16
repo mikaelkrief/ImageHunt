@@ -1,8 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using AutoMapper;
+using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
@@ -17,10 +21,10 @@ namespace ImageHunt.Controllers
   [Route("api/[Controller]")]
   public class PasscodeController : BaseController
   {
+    private IPasscodeService _passcodeService;
+    private readonly ITeamService _teamService;
     private readonly IConfiguration _configuration;
     private readonly IMapper _mapper;
-    private readonly ITeamService _teamService;
-    private readonly IPasscodeService _passcodeService;
 
     public PasscodeController(IPasscodeService passcodeService, ITeamService teamService, IConfiguration configuration,
       IMapper mapper, UserManager<Identity> userManager) : base(userManager)
@@ -39,6 +43,7 @@ namespace ImageHunt.Controllers
       var passcodeResponses = _mapper.Map<List<PasscodeResponse>>(passcodes);
 
       foreach (var passcodeResponse in passcodeResponses)
+      {
         //var passcodeResponse = _mapper.Map<PasscodeResponse>(passcode);
         using (var generator = new QRCodeGenerator())
         {
@@ -47,14 +52,15 @@ namespace ImageHunt.Controllers
           {
             using (var base64QrCode = new Base64QRCode(code))
             {
-              var imageStream = Assembly.GetAssembly(GetType())
+              var imageStream = Assembly.GetAssembly(this.GetType())
                 .GetManifestResourceStream("ImageHunt.src.assets.ImageHunt.png");
-              var image = base64QrCode.GetGraphic(20, Color.Black, Color.White, (Bitmap) Image.FromStream(imageStream),
+              var image = base64QrCode.GetGraphic(20, Color.Black, Color.White, (Bitmap) Bitmap.FromStream(imageStream),
                 30);
               passcodeResponse.QRCode = image;
             }
           }
         }
+      }
 
       return Ok(passcodeResponses);
     }
@@ -66,9 +72,9 @@ namespace ImageHunt.Controllers
       if (team == null)
         return NotFound(request);
       var redeemStatus = _passcodeService.Redeem(request.GameId, team.Id, request.Pass);
-      var passcodeResponse = new PasscodeResponse
+      var passcodeResponse = new PasscodeResponse()
       {
-        RedeemStatus = redeemStatus
+        RedeemStatus = redeemStatus,
       };
       var passcodes = _passcodeService.GetAll(request.GameId);
       var passcode = passcodes.SingleOrDefault(p => p.Pass == request.Pass);
@@ -92,7 +98,7 @@ namespace ImageHunt.Controllers
     [HttpPost]
     public IActionResult Add([FromBody] PasscodeRequest passcodeRequest)
     {
-      var passcode = new Passcode
+      var passcode = new Passcode()
       {
         NbRedeem = passcodeRequest.NbRedeem,
         Pass = passcodeRequest.Pass,
@@ -113,9 +119,9 @@ namespace ImageHunt.Controllers
         {
           using (var base64QrCode = new Base64QRCode(code))
           {
-            var imageStream = Assembly.GetAssembly(GetType())
+            var imageStream = Assembly.GetAssembly(this.GetType())
               .GetManifestResourceStream("ImageHunt.src.assets.ImageHunt.png");
-            var image = base64QrCode.GetGraphic(20, Color.Black, Color.White, (Bitmap) Image.FromStream(imageStream),
+            var image = base64QrCode.GetGraphic(20, Color.Black, Color.White, (Bitmap) Bitmap.FromStream(imageStream),
               30);
             return Ok(image);
           }

@@ -12,29 +12,26 @@ namespace ImageHunt.Controllers
 {
   public class AuthControllerParameters
   {
-    public AuthControllerParameters(IConfiguration configuration, HttpClient httpToken, HttpClient httpUser,
-      IAuthService authService)
+    public IConfiguration Configuration { get; }
+    public HttpClient HttpToken { get; }
+    public HttpClient HttpUser { get; }
+    public IAuthService AuthService { get; }
+
+    public AuthControllerParameters(IConfiguration configuration, HttpClient httpToken, HttpClient httpUser, IAuthService authService)
     {
       Configuration = configuration;
       HttpToken = httpToken;
       HttpUser = httpUser;
       AuthService = authService;
-    }
-
-    public IConfiguration Configuration { get; }
-    public HttpClient HttpToken { get; }
-    public HttpClient HttpUser { get; }
-    public IAuthService AuthService { get; }
+    }  
   }
-
   [Route("api/auth")]
   public class AuthController : Controller
   {
-    private readonly IAuthService _authService;
     private readonly IConfiguration _configuration;
     private readonly HttpClient _httpToken;
     private readonly HttpClient _httpUser;
-
+    private readonly IAuthService _authService;
     public AuthController(AuthControllerParameters parameters)
     {
       _configuration = parameters.Configuration;
@@ -42,9 +39,8 @@ namespace ImageHunt.Controllers
       _httpUser = parameters.HttpUser;
       _authService = parameters.AuthService;
     }
-
     [HttpPost("google")]
-    public async Task<IActionResult> GoogleSignIn([FromBody] JObject bearer)
+    public async Task<IActionResult> GoogleSignIn([FromBody]JObject bearer)
     {
       var code = bearer["oauthData"]["code"];
       var redirectUri = bearer["authorizationData"]["redirect_uri"];
@@ -54,11 +50,13 @@ namespace ImageHunt.Controllers
         new KeyValuePair<string, string>("client_id", _configuration["GoogleApi:ClientId"]),
         new KeyValuePair<string, string>("client_secret", _configuration["GoogleApi:ClientSecret"]),
         new KeyValuePair<string, string>("redirect_uri", redirectUri.Value<string>()),
-        new KeyValuePair<string, string>("grant_type", "authorization_code")
+        new KeyValuePair<string, string>("grant_type", "authorization_code"),
+
+
       });
       var result = await _httpToken.PostAsync("", content);
-      var resultContent = await result.Content.ReadAsStringAsync();
-      var resultAsObject = JsonConvert.DeserializeObject(resultContent) as JObject;
+      string resultContent = await result.Content.ReadAsStringAsync();
+      JObject resultAsObject = JsonConvert.DeserializeObject(resultContent) as JObject;
       var accessToken = resultAsObject["access_token"].Value<string>();
       var userInfo = await _httpUser.GetAsync($"?access_token={accessToken}");
       var userInfoAsString = await userInfo.Content.ReadAsStringAsync();
@@ -75,6 +73,7 @@ namespace ImageHunt.Controllers
       }
 
       return Content(resultAsObject.ToString());
+
     }
   }
 }

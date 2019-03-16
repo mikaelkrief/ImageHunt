@@ -1,6 +1,7 @@
-import { CommonModule } from "@angular/common";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-import { ImageHuntModuleRoutingModule } from "./image-hunt-module-routing.module";
+import { ImageHuntModuleRoutingModule } from './image-hunt-module-routing.module';
 
 @NgModule({
   imports: [
@@ -9,5 +10,4 @@ import { ImageHuntModuleRoutingModule } from "./image-hunt-module-routing.module
   ],
   declarations: []
 })
-export class ImageHuntModuleModule {
-}
+export class ImageHuntModuleModule { }

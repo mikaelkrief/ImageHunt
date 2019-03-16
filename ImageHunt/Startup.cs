@@ -1,11 +1,15 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using ImageHunt.Computation;
 using ImageHunt.Controllers;
@@ -18,8 +22,11 @@ using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +34,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace ImageHunt
 {
@@ -43,15 +51,11 @@ namespace ImageHunt
     public void ConfigureServices(IServiceCollection services)
     {
       #region ===== Add Identity ========
-
       services.AddIdentity<Identity, IdentityRole>()
         .AddEntityFrameworkStores<HuntContext>()
         .AddDefaultTokenProviders();
-
       #endregion
-
       #region ===== Add Jwt Authentication ========
-
       JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
       services
         .AddAuthentication(options =>
@@ -59,6 +63,7 @@ namespace ImageHunt
           options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
           options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
           options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
         })
         .AddJwtBearer(cfg =>
         {
@@ -72,7 +77,6 @@ namespace ImageHunt
             ClockSkew = TimeSpan.Zero // remove delay of token when expire
           };
         });
-
       #endregion
 
       services.AddAuthorization(options =>
@@ -84,19 +88,18 @@ namespace ImageHunt
       //services.AddCors();
       services.AddMvc()
         .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
-      var dbContextBuilder =
-        new DbContextOptionsBuilder<HuntContext>().UseMySql(Configuration.GetConnectionString("DefaultConnection"));
+      var dbContextBuilder = new DbContextOptionsBuilder<HuntContext>().UseMySql(Configuration.GetConnectionString("DefaultConnection"));
       services.AddTransient(s =>
         ActivableContext<HuntContext>.CreateInstance(dbContextBuilder.Options));
       services.AddDbContext<HuntContext>(options =>
-        options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+          options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
       services.AddSingleton(Configuration);
       services.AddTransient(s =>
       {
         var sb = services.BuildServiceProvider();
         return new AuthControllerParameters(Configuration,
-          new HttpClient {BaseAddress = new Uri(Configuration["GoogleApi:AccessTokenUrl"])},
-          new HttpClient {BaseAddress = new Uri(Configuration["GoogleApi:UserInfoUrl"])},
+          new HttpClient() { BaseAddress = new Uri(Configuration["GoogleApi:AccessTokenUrl"]) },
+          new HttpClient() { BaseAddress = new Uri(Configuration["GoogleApi:UserInfoUrl"]) },
           sb.GetService<IAuthService>()
         );
       });
@@ -116,76 +119,86 @@ namespace ImageHunt
       services.AddTransient<IScoreChanger, ScoreDecreaseByTeamMember>();
       services.AddSignalR();
     }
-
     private async Task CreateRoles(IServiceProvider serviceProvider)
     {
       //adding custom roles
       var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
       var UserManager = serviceProvider.GetRequiredService<UserManager<Identity>>();
-      var roleNames = Enum.GetNames(typeof(Role));
+      string[] roleNames = Enum.GetNames(typeof(Role));
       IdentityResult roleResult;
 
       foreach (var roleName in roleNames)
       {
         //creating the roles and seeding them to the database
         var roleExist = await RoleManager.RoleExistsAsync(roleName);
-        if (!roleExist) roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+        if (!roleExist)
+        {
+          roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+        }
       }
-
       var context = serviceProvider.GetService<HuntContext>();
       var rootAdminEmail = Configuration["Admin:Email"];
       if (!context.Admins.Any(a => a.Email == rootAdminEmail))
       {
-        var admin = new Admin {Email = rootAdminEmail, Name = Configuration["Admin:Name"]};
+        var admin = new Admin() { Email = rootAdminEmail, Name = Configuration["Admin:Name"] };
         context.Admins.Add(admin);
         context.SaveChanges();
         //creating a super user who could maintain the web app
-        var poweruser = new Identity
+        var poweruser = new Identity()
         {
           UserName = admin.Name,
           Email = admin.Email,
           AppUserId = admin.Id
         };
 
-        var UserPassword = Configuration["Admin:Password"];
+        string UserPassword = Configuration["Admin:Password"];
         var _user = await UserManager.FindByEmailAsync(admin.Email);
 
         if (_user == null)
         {
           var createPowerUser = await UserManager.CreateAsync(poweruser, UserPassword);
-          if (createPowerUser.Succeeded) await UserManager.AddToRoleAsync(poweruser, "Admin");
+          if (createPowerUser.Succeeded)
+          {
+            //here we tie the new user to the "Admin" role 
+            await UserManager.AddToRoleAsync(poweruser, "Admin");
+          }
         }
       }
 
       var botEmail = Configuration["BotConfiguration:BotEmail"];
       if (!context.Admins.Any(a => a.Email == botEmail))
       {
-        var bot = new Admin {Email = botEmail, Name = Configuration["BotConfiguration:BotName"]};
+        var bot = new Admin() { Email = botEmail, Name = Configuration["BotConfiguration:BotName"] };
         context.Admins.Add(bot);
         context.SaveChanges();
 
-        var botUser = new Identity
+        var botUser = new Identity()
         {
           UserName = bot.Name,
           Email = bot.Email,
           AppUserId = bot.Id
         };
-        var botPassword = Configuration["BotConfiguration:BotPassword"];
+        string botPassword = Configuration["BotConfiguration:BotPassword"];
 
         var _botUser = await UserManager.FindByEmailAsync(botUser.Email);
         if (_botUser == null)
         {
           var createBotUser = await UserManager.CreateAsync(botUser, botPassword);
-          if (createBotUser.Succeeded) await UserManager.AddToRoleAsync(botUser, Role.Bot.ToString());
+          if (createBotUser.Succeeded)
+          {
+            await UserManager.AddToRoleAsync(botUser, Role.Bot.ToString());
+          }
         }
+
       }
     }
-
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env, HuntContext dbContext,
-      IServiceProvider serviceProvider)
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env, HuntContext dbContext, IServiceProvider serviceProvider)
     {
-      if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+      if (env.IsDevelopment())
+      {
+        app.UseDeveloperExceptionPage();
+      }
       dbContext.Database.Migrate();
       //app.UseCors(builder=>builder.AllowAnyOrigin());
       app.Use(async (context, next) =>
@@ -213,7 +226,6 @@ namespace ImageHunt
     {
       builder.RegisterType<UpdateNodePointsUpdater>().As<IUpdater>().Named<IUpdater>("UpdateNodePoints");
     }
-
     public static void ConfigureMappings()
     {
       Mapper.Reset();
@@ -230,10 +242,7 @@ namespace ImageHunt
         config.CreateMap<Node, NodeResponse>()
           .ForMember(n => n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c => c.Id)))
           .ForMember(n => n.Hint, expr =>
-            expr.MapFrom(node =>
-              node.NodeType == NodeResponse.HiddenNodeType
-                ? (node as HiddenNode).LocationHint
-                : (node as BonusNode).Location)
+              expr.MapFrom(node => node.NodeType == NodeResponse.HiddenNodeType ? (node as HiddenNode).LocationHint : (node as BonusNode).Location)
           );
         config.CreateMap<ObjectNode, NodeResponse>()
           .ForMember(n => n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c => c.Id)));

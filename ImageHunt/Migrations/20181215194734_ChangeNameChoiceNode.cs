@@ -4,58 +4,59 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
+
   public partial class ChangeNameChoiceNode : Migration
   {
     protected override void Up(MigrationBuilder migrationBuilder)
     {
       migrationBuilder.DropForeignKey(
-        "FK_Answers_Nodes_QuestionNodeId",
-        "Answers");
+          name: "FK_Answers_Nodes_QuestionNodeId",
+          table: "Answers");
 
       migrationBuilder.RenameColumn(
-        "QuestionNodeId",
-        "Answers",
-        "ChoiceNodeId");
+                name: "QuestionNodeId",
+                table: "Answers",
+                newName: "ChoiceNodeId");
 
-      migrationBuilder.DropIndex("IX_Answers_QuestionNodeId", "Answers");
+      migrationBuilder.DropIndex("IX_Answers_QuestionNodeId", table: "Answers");
       migrationBuilder.CreateIndex(
-        "IX_Answers_ChoiceNodeId",
-        "Answers",
-        "ChoiceNodeId");
+        name: "IX_Answers_ChoiceNodeId",
+        table: "Answers",
+        column: "ChoiceNodeId");
 
 
       migrationBuilder.AddForeignKey(
-        "FK_Answers_Nodes_ChoiceNodeId",
-        "Answers",
-        "ChoiceNodeId",
-        "Nodes",
-        principalColumn: "Id",
-        onDelete: ReferentialAction.Restrict);
+          name: "FK_Answers_Nodes_ChoiceNodeId",
+          table: "Answers",
+          column: "ChoiceNodeId",
+          principalTable: "Nodes",
+          principalColumn: "Id",
+          onDelete: ReferentialAction.Restrict);
     }
 
     protected override void Down(MigrationBuilder migrationBuilder)
     {
       migrationBuilder.DropForeignKey(
-        "FK_Answers_Nodes_ChoiceNodeId",
-        "Answers");
+          name: "FK_Answers_Nodes_ChoiceNodeId",
+          table: "Answers");
 
       migrationBuilder.RenameColumn(
-        "ChoiceNodeId",
-        "Answers",
-        "QuestionNodeId");
+          name: "ChoiceNodeId",
+          table: "Answers",
+          newName: "QuestionNodeId");
 
       migrationBuilder.RenameIndex(
-        "IX_Answers_ChoiceNodeId",
-        table: "Answers",
-        newName: "IX_Answers_QuestionNodeId");
+          name: "IX_Answers_ChoiceNodeId",
+          table: "Answers",
+          newName: "IX_Answers_QuestionNodeId");
 
       migrationBuilder.AddForeignKey(
-        "FK_Answers_Nodes_QuestionNodeId",
-        "Answers",
-        "QuestionNodeId",
-        "Nodes",
-        principalColumn: "Id",
-        onDelete: ReferentialAction.Restrict);
+          name: "FK_Answers_Nodes_QuestionNodeId",
+          table: "Answers",
+          column: "QuestionNodeId",
+          principalTable: "Nodes",
+          principalColumn: "Id",
+          onDelete: ReferentialAction.Restrict);
     }
   }
 }

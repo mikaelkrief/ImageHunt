@@ -1,55 +1,58 @@
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
+
   public partial class AddIsValidatedToGameAction : Migration
-  {
-    protected override void Up(MigrationBuilder migrationBuilder)
     {
-      migrationBuilder.AddColumn<bool>(
-        "IsValidated",
-        "GameActions",
-        nullable: false,
-        defaultValue: false);
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<bool>(
+                name: "IsValidated",
+                table: "GameActions",
+                nullable: false,
+                defaultValue: false);
 
-      migrationBuilder.AddColumn<int>(
-        "NodeId",
-        "GameActions",
-        nullable: true);
+            migrationBuilder.AddColumn<int>(
+                name: "NodeId",
+                table: "GameActions",
+                nullable: true);
 
-      migrationBuilder.CreateIndex(
-        "IX_GameActions_NodeId",
-        "GameActions",
-        "NodeId");
+            migrationBuilder.CreateIndex(
+                name: "IX_GameActions_NodeId",
+                table: "GameActions",
+                column: "NodeId");
 
-      migrationBuilder.AddForeignKey(
-        "FK_GameActions_Nodes_NodeId",
-        "GameActions",
-        "NodeId",
-        "Nodes",
-        principalColumn: "Id",
-        onDelete: ReferentialAction.Restrict);
+            migrationBuilder.AddForeignKey(
+                name: "FK_GameActions_Nodes_NodeId",
+                table: "GameActions",
+                column: "NodeId",
+                principalTable: "Nodes",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropForeignKey(
+                name: "FK_GameActions_Nodes_NodeId",
+                table: "GameActions");
+
+            migrationBuilder.DropIndex(
+                name: "IX_GameActions_NodeId",
+                table: "GameActions");
+
+            migrationBuilder.DropColumn(
+                name: "IsValidated",
+                table: "GameActions");
+
+            migrationBuilder.DropColumn(
+                name: "NodeId",
+                table: "GameActions");
+        }
     }
-
-    protected override void Down(MigrationBuilder migrationBuilder)
-    {
-      migrationBuilder.DropForeignKey(
-        "FK_GameActions_Nodes_NodeId",
-        "GameActions");
-
-      migrationBuilder.DropIndex(
-        "IX_GameActions_NodeId",
-        "GameActions");
-
-      migrationBuilder.DropColumn(
-        "IsValidated",
-        "GameActions");
-
-      migrationBuilder.DropColumn(
-        "NodeId",
-        "GameActions");
-    }
-  }
 }

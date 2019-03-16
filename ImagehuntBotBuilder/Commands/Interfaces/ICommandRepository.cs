@@ -6,7 +6,6 @@ namespace ImageHuntBotBuilder.Commands.Interfaces
     public interface ICommandRepository
     {
         ICommand Get(ITurnContext turnContext, ImageHuntState state, string commandText);
-
-        Task RefreshAdminsAsync();
+        Task RefreshAdmins();
     }
 }

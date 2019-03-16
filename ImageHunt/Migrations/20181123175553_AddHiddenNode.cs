@@ -4,21 +4,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
-  public partial class AddHiddenNode : Migration
-  {
-    protected override void Up(MigrationBuilder migrationBuilder)
-    {
-      migrationBuilder.AddColumn<string>(
-        "LocationHint",
-        "Nodes",
-        nullable: true);
-    }
 
-    protected override void Down(MigrationBuilder migrationBuilder)
+  public partial class AddHiddenNode : Migration
     {
-      migrationBuilder.DropColumn(
-        "LocationHint",
-        "Nodes");
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<string>(
+                name: "LocationHint",
+                table: "Nodes",
+                nullable: true);
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "LocationHint",
+                table: "Nodes");
+        }
     }
-  }
 }

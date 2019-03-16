@@ -1,7 +1,10 @@
-import { NavmenuComponent } from "./navmenu.component";
+import { NgModule } from '@angular/core';
+import {NavmenuComponent} from "./navmenu.component";
 import { CommonModule } from "@angular/common";
-import { SharedModule } from "../shared/shared.module";
-import { AccountModule } from "../account/account.module";
+import { RouterModule } from "@angular/router";
+import { CollapseModule, BsModalService } from 'ngx-bootstrap';
+import {SharedModule} from "../shared/shared.module";
+import { AccountModule } from '../account/account.module';
 
 @NgModule({
   imports: [CommonModule, RouterModule, SharedModule, CollapseModule, AccountModule],
@@ -11,5 +14,6 @@ import { AccountModule } from "../account/account.module";
   providers: [BsModalService]
 
 })
-export class NavmenuModule {
+export class NavmenuModule
+{
 }

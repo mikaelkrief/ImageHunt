@@ -1,6 +1,6 @@
-import { Node } from "./node";
+import { Node } from './node';
 
 export class NodeClicked {
-  constructor(public node: Node, public numberClicked: number, public mouseEvent: MouseEvent) {}
+  constructor(public node: Node, public numberClicked: number, public mouseEvent:MouseEvent) { }
 
 }

@@ -16,14 +16,12 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly ImageHuntBotAccessors _accessors;
 
-        public BroadcastCommand(ILogger<IBroadcastCommand> logger, ImageHuntBotAccessors accessors,
-            IStringLocalizer<BroadcastCommand> localizer)
-            : base(logger, localizer)
+        public BroadcastCommand(ILogger<IBroadcastCommand> logger, ImageHuntBotAccessors accessors, IStringLocalizer<BroadcastCommand> localizer) : base(logger, localizer)
         {
             _accessors = accessors;
         }
 
-        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
+        protected  override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
         {
             var regex = new Regex(@"\/broadcast\s*(gameid\=(?'gameid'\d*)|teamid\=(?'teamid'\d*)) (?'text'.*)");
             if (regex.IsMatch(turnContext.Activity.Text))
@@ -47,7 +45,7 @@ namespace ImageHuntBotBuilder.Commands
                 var activities = new List<Activity>();
                 foreach (var imageHuntState in statesToBroadcast)
                 {
-                    var activity = new ImageHuntActivity
+                    var activity = new ImageHuntActivity()
                     {
                         Conversation = new ConversationAccount(id: imageHuntState.ConversationId),
                         Text = textToBroadcast,
@@ -57,13 +55,12 @@ namespace ImageHuntBotBuilder.Commands
                     };
                     activities.Add(activity);
                 }
-
-                await turnContext.SendActivitiesAsync(activities.ToArray());
+                 await turnContext.SendActivitiesAsync(activities.ToArray());
             }
             else
             {
-                await turnContext.SendActivityAsync(Localizer["SYNTAX_ERROR"]);
-                Logger.LogError($"Syntax error for command: {turnContext.Activity.Text}");
+                await turnContext.SendActivityAsync(_localizer["SYNTAX_ERROR"]);
+                _logger.LogError($"Syntax error for command: {turnContext.Activity.Text}");
             }
         }
     }

@@ -55,7 +55,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.CurrentLocation = new GeoCoordinates();
             _state.Team = new TeamResponse(){CultureInfo = "fr"};
             // Act
-            await _target.ExecuteAsync(_turnContext, _state);
+            await _target.Execute(_turnContext, _state);
             // Assert
             A.CallTo(() => _teamWebService.StartGameForTeam(A<int>._, A<int>._, A<CancellationToken>._))
                 .MustHaveHappened();
@@ -79,7 +79,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _teamWebService.StartGameForTeam(A<int>._, A<int>._, A<CancellationToken>._))
                 .Returns(nodeResponse);
             // Act
-            await _target.ExecuteAsync(_turnContext, _state);
+            await _target.Execute(_turnContext, _state);
             // Assert
             A.CallTo(() => _teamWebService.StartGameForTeam(A<int>._, A<int>._, A<CancellationToken>._))
                 .MustNotHaveHappened();
@@ -99,7 +99,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.Status = Status.None;
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             // Act
-            await _target.ExecuteAsync(_turnContext, _state);
+            await _target.Execute(_turnContext, _state);
             // Assert
             A.CallTo(() => _teamWebService.StartGameForTeam(A<int>._, A<int>._, A<CancellationToken>._))
                 .MustNotHaveHappened();

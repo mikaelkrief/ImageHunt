@@ -22,15 +22,15 @@ namespace ImageHunt.Controllers
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,GameMaster,Validator")]
   public class ActionController : BaseController
   {
-    private readonly IActionService _actionService;
     private readonly IGameService _gameService;
-    private readonly IHubContext<LocationHub> _hubContext;
-    private readonly IImageService _imageService;
-    private readonly ILogger<ActionController> _logger;
-    private readonly IMapper _mapper;
-    private readonly INodeService _nodeService;
     private readonly IPlayerService _playerService;
+    private readonly IImageService _imageService;
+    private readonly IActionService _actionService;
+    private readonly INodeService _nodeService;
     private readonly ITeamService _teamService;
+    private readonly IHubContext<LocationHub> _hubContext;
+    private readonly IMapper _mapper;
+    private readonly ILogger<ActionController> _logger;
 
     public ActionController(IGameService gameService,
       IPlayerService playerService,
@@ -42,7 +42,7 @@ namespace ImageHunt.Controllers
       IMapper mapper,
       ILogger<ActionController> logger,
       UserManager<Identity> userManager)
-      : base(userManager)
+    :base(userManager)
     {
       _gameService = gameService;
       _playerService = playerService;
@@ -54,9 +54,8 @@ namespace ImageHunt.Controllers
       _mapper = mapper;
       _logger = logger;
     }
-
     /// <summary>
-    ///   Add a game action from players to a game
+    /// Add a game action from players to a game
     /// </summary>
     /// <param name="gameActionRequest"></param>
     [HttpPost("AddGameAction")]
@@ -64,15 +63,18 @@ namespace ImageHunt.Controllers
     {
       var gameAction = _mapper.Map<GameAction>(gameActionRequest);
 
-      gameAction.Team = new Team {Id = gameActionRequest.TeamId};
+      gameAction.Team = new Team() {Id = gameActionRequest.TeamId};
       gameAction.Game = new Game {Id = gameActionRequest.GameId};
       gameAction.Latitude = gameActionRequest.Latitude;
       gameAction.Longitude = gameActionRequest.Longitude;
-      gameAction.Action = (Action) gameActionRequest.Action;
+      gameAction.Action = (Action)gameActionRequest.Action;
       gameAction.IsValidated = gameActionRequest.Validated;
-      if (gameActionRequest.NodeId != 0) gameAction.Node = _nodeService.GetNode(gameActionRequest.NodeId);
+      if (gameActionRequest.NodeId != 0)
+      {
+        gameAction.Node = _nodeService.GetNode(gameActionRequest.NodeId);
+      }
       gameAction.DateOccured = DateTime.Now;
-
+      
       switch (gameAction.Action)
       {
         case Action.StartGame:
@@ -88,7 +90,10 @@ namespace ImageHunt.Controllers
           break;
         case Action.DoAction:
         case Action.SubmitPicture:
-          if (gameActionRequest.PictureId != 0) gameAction.Picture = new Picture {Id = gameActionRequest.PictureId};
+          if (gameActionRequest.PictureId != 0)
+          {
+            gameAction.Picture = new Picture(){Id= gameActionRequest.PictureId};
+          }
 
           if (!string.IsNullOrEmpty(gameActionRequest.Picture))
           {
@@ -111,7 +116,6 @@ namespace ImageHunt.Controllers
 
           break;
       }
-
       _actionService.AddGameAction(gameAction);
       await NotifyClientsForGameAction(gameAction);
 
@@ -133,7 +137,6 @@ namespace ImageHunt.Controllers
       var gameAction = _actionService.Validate(gameActionId, nodeId, validatorId, true);
       return Ok(gameAction);
     }
-
     [HttpPut("Reject/{gameActionId}")]
     [Authorize]
     public IActionResult Reject(int gameActionId)
@@ -146,45 +149,39 @@ namespace ImageHunt.Controllers
     [HttpPost("LogPosition")]
     public async Task<IActionResult> LogPosition(LogPositionRequest logPositionRequest)
     {
-      _logger.LogInformation(
-        $"Received position gameId: {logPositionRequest.GameId}, teamId: {logPositionRequest.TeamId}, [{logPositionRequest.Latitude}, {logPositionRequest.Longitude}]");
-      var gameAction = new GameAction
-      {
-        Action = Action.SubmitPosition,
-        Game = _gameService.GetGameById(logPositionRequest.GameId),
-        Team = _teamService.GetTeamById(logPositionRequest.TeamId),
-        Longitude = logPositionRequest.Longitude,
-        Latitude = logPositionRequest.Latitude,
-        DateOccured = DateTime.Now
-      };
+      _logger.LogInformation($"Received position gameId: {logPositionRequest.GameId}, teamId: {logPositionRequest.TeamId}, [{logPositionRequest.Latitude}, {logPositionRequest.Longitude}]");
+      var gameAction = new GameAction()
+        {
+          Action = Action.SubmitPosition,
+          Game = _gameService.GetGameById(logPositionRequest.GameId),
+          Team = _teamService.GetTeamById(logPositionRequest.TeamId),
+          Longitude = logPositionRequest.Longitude,
+          Latitude = logPositionRequest.Latitude,
+          DateOccured = DateTime.Now
+        };
       _actionService.AddGameAction(gameAction);
       await NotifyClientsForGameAction(gameAction);
       return Ok();
     }
-
     [HttpGet("{gameId}")]
     public IActionResult GetGameActionsForGame(int gameId)
     {
       return Ok(_actionService.GetGamePositionsForGame(gameId));
     }
-
     [HttpGet("GetGameAction/{gameActionId}")]
     public IActionResult GetGameAction(int gameActionId)
     {
       return Ok(_actionService.GetGameAction(gameActionId));
     }
-
     [HttpGet("GameActionCount")]
-    public IActionResult GetGameActionCountForGame([FromQuery] GameActionCountRequest getGameActionCountRequest)
+    public IActionResult GetGameActionCountForGame([FromQuery]GameActionCountRequest getGameActionCountRequest)
     {
       IncludeAction includeAction;
       Enum.TryParse(getGameActionCountRequest.IncludeAction, out includeAction);
-      return Ok(_actionService.GetGameActionCountForGame(getGameActionCountRequest.GameId, includeAction,
-        getGameActionCountRequest.TeamId));
+      return Ok(_actionService.GetGameActionCountForGame(getGameActionCountRequest.GameId, includeAction, getGameActionCountRequest.TeamId));
     }
-
     [HttpGet("GameActionsToValidate")]
-    public async Task<IActionResult> GetGameActionsToValidate([FromQuery] GameActionListRequest gameActionListRequest)
+    public async Task<IActionResult> GetGameActionsToValidate([FromQuery]GameActionListRequest gameActionListRequest)
     {
       IncludeAction includeAction;
       Enum.TryParse(gameActionListRequest.IncludeAction, out includeAction);
@@ -198,23 +195,22 @@ namespace ImageHunt.Controllers
         if (gameAction.Latitude.HasValue && gameAction.Longitude.HasValue)
         {
           gameActionToValidate.ProbableNodes = _nodeService
-            .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value,
-              gameAction.Longitude.Value, NodeTypes.Picture | NodeTypes.Hidden)
+            .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value, gameAction.Longitude.Value, NodeTypes.Picture|NodeTypes.Hidden)
             .Take(gameActionListRequest.NbPotential);
           foreach (var probableNode in gameActionToValidate.ProbableNodes)
+          {
             if (probableNode is PictureNode)
-              ((PictureNode) probableNode).Image = _imageService.GetImageForNode(probableNode);
+              ((PictureNode)probableNode).Image = _imageService.GetImageForNode(probableNode);
+          }
 
           gameActionToValidate.Node = gameActionToValidate.ProbableNodes.FirstOrDefault();
           gameActionsToValidate.Add(gameActionToValidate);
         }
       }
-
       return Ok(gameActionsToValidate);
     }
-
     [HttpGet("GameActions")]
-    public async Task<IActionResult> GetGameActions([FromQuery] GameActionListRequest gameActionListRequest)
+    public async Task<IActionResult> GetGameActions([FromQuery]GameActionListRequest gameActionListRequest)
     {
       IncludeAction includeAction;
       Enum.TryParse(gameActionListRequest.IncludeAction, out includeAction);
@@ -228,9 +224,8 @@ namespace ImageHunt.Controllers
       //}
       return Ok(gameActions);
     }
-
     [HttpPatch]
-    public IActionResult Modify([FromBody] GameActionModifyRequest gameActionRequest)
+    public IActionResult Modify([FromBody]GameActionModifyRequest gameActionRequest)
     {
       if (gameActionRequest == null || gameActionRequest.Id == 0)
         return BadRequest();

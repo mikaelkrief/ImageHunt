@@ -37,7 +37,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             
             // Act
-            await _target.ExecuteAsync(_turnContext, _state);
+            await _target.Execute(_turnContext, _state);
             // Assert
             A.CallTo(() => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._))
                 .MustHaveHappened();

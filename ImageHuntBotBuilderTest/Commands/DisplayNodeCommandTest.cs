@@ -42,7 +42,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             _state.CurrentNodeId = 15;
             // Act
-            await _target.ExecuteAsync(_turnContext, _state);
+            await _target.Execute(_turnContext, _state);
             // Assert
             A.CallTo(() => _nodeWebService.GetNode(15)).MustHaveHappened();
             A.CallTo(() => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._)).MustHaveHappened();
@@ -53,7 +53,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             _state.CurrentNodeId = null;
             // Act
-            await _target.ExecuteAsync(_turnContext, _state);
+            await _target.Execute(_turnContext, _state);
             // Assert
             A.CallTo(() => _nodeWebService.GetNode(15)).MustNotHaveHappened();
             A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._)).MustHaveHappened();
@@ -65,7 +65,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.CurrentNodeId = 15;
             _state.Status = Status.None;
             // Act
-            await _target.ExecuteAsync(_turnContext, _state);
+            await _target.Execute(_turnContext, _state);
             // Assert
             A.CallTo(() => _nodeWebService.GetNode(15)).MustNotHaveHappened();
             A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._)).MustHaveHappened();

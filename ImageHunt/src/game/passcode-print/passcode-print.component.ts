@@ -1,22 +1,23 @@
-import { GameService } from "services/game.service";
-import { Passcode } from "../../shared/Passcode";
-import { environment } from "../../environments/environment";
+import { Component, OnInit } from '@angular/core';
+import { GameService } from 'services/game.service';
+import { ActivatedRoute } from '@angular/router';
+import { Passcode } from '../../shared/Passcode';
+import { environment } from '../../environments/environment';
 
 @Component({
-  selector: "passcode-print",
-  templateUrl: "./passcode-print.component.html",
-  styleUrls: ["./passcode-print.component.scss"]
+  selector: 'passcode-print',
+  templateUrl: './passcode-print.component.html',
+  styleUrls: ['./passcode-print.component.scss']
 })
 /** passcode-print component*/
 export class PasscodePrintComponent implements OnInit {
   /** passcode-print ctor */
   constructor(private _gamerService: GameService,
-    private _route: ActivatedRoute) {
+              private _route: ActivatedRoute) {
     this.botName = environment.NAME_IMAGEBOT;
   }
-
   ngOnInit(): void {
-    this.gameId = this._route.snapshot.params["gameId"];
+    this.gameId = this._route.snapshot.params['gameId'];
     this._gamerService.getPasscodesForGame(this.gameId)
       .subscribe((passcodes: Passcode[]) => {
         this.passcodes = passcodes;
@@ -27,6 +28,6 @@ export class PasscodePrintComponent implements OnInit {
 
   gameId;
   passcodes: Passcode[];
-  botName: string;
+  botName:string;
   game;
 }

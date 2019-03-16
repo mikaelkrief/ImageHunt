@@ -1,24 +1,27 @@
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
-  public partial class AddPasswordForFirstNode : Migration
-  {
-    protected override void Up(MigrationBuilder migrationBuilder)
-    {
-      migrationBuilder.AddColumn<string>(
-        "Password",
-        "Nodes",
-        nullable: true);
-    }
 
-    protected override void Down(MigrationBuilder migrationBuilder)
+  public partial class AddPasswordForFirstNode : Migration
     {
-      migrationBuilder.DropColumn(
-        "Password",
-        "Nodes");
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<string>(
+                name: "Password",
+                table: "Nodes",
+                nullable: true);
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "Password",
+                table: "Nodes");
+        }
     }
-  }
 }

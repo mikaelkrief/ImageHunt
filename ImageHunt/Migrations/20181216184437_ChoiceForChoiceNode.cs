@@ -4,21 +4,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
-  public partial class ChoiceForChoiceNode : Migration
-  {
-    protected override void Up(MigrationBuilder migrationBuilder)
-    {
-      migrationBuilder.AddColumn<string>(
-        "Choice",
-        "Nodes",
-        nullable: true);
-    }
 
-    protected override void Down(MigrationBuilder migrationBuilder)
+  public partial class ChoiceForChoiceNode : Migration
     {
-      migrationBuilder.DropColumn(
-        "Choice",
-        "Nodes");
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<string>(
+                name: "Choice",
+                table: "Nodes",
+                nullable:true);
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "Choice",
+                table: "Nodes");
+        }
     }
-  }
 }

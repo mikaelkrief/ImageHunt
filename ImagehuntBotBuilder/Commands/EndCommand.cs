@@ -14,35 +14,32 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly IActionWebService _actionWebService;
 
-        public EndCommand(ILogger<IEndCommand> logger, IActionWebService actionWebService,
-            IStringLocalizer<EndCommand> localizer)
-            : base(logger, localizer)
+        public EndCommand(ILogger<IEndCommand> logger, IActionWebService actionWebService, IStringLocalizer<EndCommand> localizer) : base(logger, localizer)
         {
             _actionWebService = actionWebService;
         }
 
         public override bool IsAdmin => true;
-
-        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
+        protected async override Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
         {
             if (state.Status != Status.Started)
             {
                 await turnContext.SendActivityAsync(
-                    Localizer["CANNOT_END_GAME_NOT_STARTED"]);
-                Logger.LogError("The game had not started!");
+                    _localizer["CANNOT_END_GAME_NOT_STARTED"]);
+                _logger.LogError("The game had not started!");
                 return;
             }
-
-            var gameActionRequest = new GameActionRequest
+            var gameActionRequest = new GameActionRequest()
             {
                 GameId = state.GameId.Value,
                 TeamId = state.TeamId.Value,
-                Action = (int)Action.EndGame
+                Action = (int)Action.EndGame,
+
             };
             await _actionWebService.LogAction(gameActionRequest);
             state.Status = Status.Ended;
-            await turnContext.SendActivityAsync(Localizer["GAME_ENDED"]);
-            Logger.LogInformation($"Game {state.GameId} ended for team {state.TeamId}");
+            await turnContext.SendActivityAsync(_localizer["GAME_ENDED"]);
+            _logger.LogInformation($"Game {state.GameId} ended for team {state.TeamId}");
         }
     }
 }

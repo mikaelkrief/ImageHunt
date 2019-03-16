@@ -1,7 +1,9 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ImageHunt.Computation;
 using ImageHunt.Data;
+using ImageHunt.Model;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
@@ -15,6 +17,7 @@ namespace ImageHunt.Services
   {
     public ImageService(HuntContext context, ILogger<ImageService> logger) : base(context, logger)
     {
+
     }
 
     public void AddPicture(Picture picture)
@@ -25,7 +28,7 @@ namespace ImageHunt.Services
 
     public async Task<Picture> GetPictureById(int pictureId)
     {
-      return Context.Pictures.Single(p => p.Id == pictureId);
+      return Queryable.Single<Picture>(Context.Pictures, p => p.Id == pictureId);
     }
 
     public virtual (double, double) ExtractLocationFromImage(Picture picture)
@@ -42,15 +45,15 @@ namespace ImageHunt.Services
           var gpsLongitude = exifProfile.Values.First(v => v.Tag == ExifTag.GPSLongitude).Value as Rational[];
           var gpsLongitudeRef = exifProfile.Values.First(v => v.Tag == ExifTag.GPSLongitudeRef).Value as string;
           double latitude, longitude;
-          var latSign = gpsLatitudeRef == "N" ? 1 : -1;
-          var lngSign = gpsLongitudeRef == "E" ? 1 : -1;
-          latitude = (double) gpsLatitude[0].Numerator / gpsLatitude[0].Denominator +
-                     (double) gpsLatitude[1].Numerator / (gpsLatitude[1].Denominator * 60) +
-                     (double) gpsLatitude[2].Numerator / (gpsLatitude[2].Denominator * 3600);
+          int latSign = gpsLatitudeRef == "N" ? 1 : -1;
+          int lngSign = gpsLongitudeRef == "E" ? 1 : -1;
+          latitude = (double)gpsLatitude[0].Numerator / gpsLatitude[0].Denominator +
+                     (double)gpsLatitude[1].Numerator / (gpsLatitude[1].Denominator * 60) +
+                     (double)gpsLatitude[2].Numerator / (gpsLatitude[2].Denominator * 3600);
           latitude *= latSign;
-          longitude = (double) gpsLongitude[0].Numerator / gpsLongitude[0].Denominator +
-                      (double) gpsLongitude[1].Numerator / (gpsLongitude[1].Denominator * 60) +
-                      (double) gpsLongitude[2].Numerator / (gpsLongitude[2].Denominator * 3600);
+          longitude = (double)gpsLongitude[0].Numerator / gpsLongitude[0].Denominator +
+                      (double)gpsLongitude[1].Numerator / (gpsLongitude[1].Denominator * 60) +
+                      (double)gpsLongitude[2].Numerator / (gpsLongitude[2].Denominator * 3600);
           longitude *= lngSign;
           return (latitude, longitude);
         }

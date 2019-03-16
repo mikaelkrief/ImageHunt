@@ -13,14 +13,14 @@ namespace ImageHuntBotBuilder.Middlewares
     public class LogFakePositionMiddleware : IMiddleware
     {
         private readonly ILogger<LogFakePositionMiddleware> _logger;
-        private readonly ImageHuntBotAccessors _accessors;
+        private ImageHuntBotAccessors _accessors;
 
         public LogFakePositionMiddleware(ILogger<LogFakePositionMiddleware> logger, ImageHuntBotAccessors accessors)
         {
             _logger = logger;
-            _accessors = accessors ?? throw new ArgumentNullException(nameof(accessors));
-        }
+            _accessors = accessors ?? throw new System.ArgumentNullException(nameof(accessors));
 
+        }
         public async Task OnTurnAsync(ITurnContext turnContext, NextDelegate next,
             CancellationToken cancellationToken = new CancellationToken())
         {
@@ -31,13 +31,12 @@ namespace ImageHuntBotBuilder.Middlewares
                 var group = regex.Matches(turnContext.Activity.Text);
                 var latitude = Convert.ToDouble(group[0].Groups[1].Value, CultureInfo.InvariantCulture);
                 var longitude = Convert.ToDouble(group[0].Groups[2].Value, CultureInfo.InvariantCulture);
-                state.CurrentLocation = new GeoCoordinates(latitude: latitude, longitude: longitude);
-
+                state.CurrentLocation = new GeoCoordinates(latitude: latitude, longitude:longitude);
                 // Set the property using the accessor.
                 await _accessors.ImageHuntState.SetAsync(turnContext, state);
-
                 // Save the new turn count into the conversation state.
                 await _accessors.ConversationState.SaveChangesAsync(turnContext);
+
             }
             else
             {

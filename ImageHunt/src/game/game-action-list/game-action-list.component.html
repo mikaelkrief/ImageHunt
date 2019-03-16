@@ -32,13 +32,13 @@
                     (onChange)="probableNodeChanged($event, action)"
                     autoWidth="false">
           <ng-template let-item pTemplate="selectedItem" style="width: 100%">
-            <img *ngIf="action.node && action.node.image" src="api/Image/Thumbnail?pictureId={{action.node.image.id}}&width=40&height=40"/>
-            <span style="float: right; vertical-align: middle;"> {{item.label}}</span>
+            <img *ngIf="action.node && action.node.image" src="api/Image/Thumbnail?pictureId={{action.node.image.id}}&width=40&height=40" />
+            <span style="vertical-align: middle;float: right"> {{item.label}}</span>
           </ng-template>
           <ng-template let-item pTemplate="item">
             <!--<div class="ui-helper-clearfix" style="position: relative; height: 50px;">-->
             <div class="row">
-              <img class="col-4" *ngIf="item.value && item.value.image" src="api/Image/Thumbnail?pictureId={{item.value.image.id}}&width=40&height=40"/>
+              <img class="col-4" *ngIf="item.value && item.value.image" src="api/Image/Thumbnail?pictureId={{item.value.image.id}}&width=40&height=40" />
               <span class="col-4" style="font-size: 14px;">{{item.label}}</span>
               <span class="col-4" style="vertical-align: middle">{{item.value.points}}</span>
             </div>
@@ -51,10 +51,10 @@
         <div class="thumbnail" *ngIf="action.picture !== null">
           <p-lightbox type="content">
             <a class="group" href="#">
-              <img class="thumbnail" src="api/Image/Thumbnail?pictureId={{action.picture.id}}&width=150&height=100"/>
+              <img class="thumbnail" src="api/Image/Thumbnail?pictureId={{action.picture.id}}&width=150&height=100" />
             </a>
             <div>
-              <img src="api/Image/{{action.picture.id}}" width="500"/>
+              <img src="api/Image/{{action.picture.id}}" width="500" />
             </div>
           </p-lightbox>
         </div>
@@ -70,9 +70,7 @@
         </button>
       </td>
       <td>
-        <button class="btn btn-danger" (click)="rejectGameAction(action)">
-          <span class="fa fa-times"></span>
-        </button>
+        <button class="btn btn-danger" (click)="rejectGameAction(action)"><span class="fa fa-times"></span></button>
       </td>
       <td>
         <points [(points)]="action.pointsEarned" (pointsChange)="setPoints(action)"></points>

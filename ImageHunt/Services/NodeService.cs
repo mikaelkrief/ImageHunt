@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using ImageHunt.Computation;
 using ImageHunt.Data;
+using ImageHunt.Model;
 using ImageHuntCore.Computation;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
@@ -12,10 +14,10 @@ namespace ImageHunt.Services
 {
   public class NodeService : AbstractService, INodeService
   {
+
     public NodeService(HuntContext context, ILogger<NodeService> logger) : base(context, logger)
     {
     }
-
     public void AddNode(Node node)
     {
       Context.Nodes.Add(node);
@@ -24,8 +26,8 @@ namespace ImageHunt.Services
 
     public Node GetNode(int nodeId)
     {
-      var node = Context.Nodes
-        .Include(n => n.ChildrenRelation).ThenInclude(cr => cr.Children)
+      Node node = Context.Nodes
+        .Include(n=>n.ChildrenRelation).ThenInclude(cr=>cr.Children)
         .SingleOrDefault(n => n.Id == nodeId);
       switch (node.NodeType)
       {
@@ -36,7 +38,6 @@ namespace ImageHunt.Services
           node = Context.PictureNodes.Include(p => p.Image).SingleOrDefault(n => n.Id == nodeId);
           break;
       }
-
       return node;
     }
 
@@ -44,7 +45,7 @@ namespace ImageHunt.Services
     {
       var node = Context.Nodes.Single(n => n.Id == nodeId);
       var childrenNode = Context.Nodes.Single(n => n.Id == childrenNodeId);
-      var parentChildren = new ParentChildren {Parent = node, Children = childrenNode};
+      var parentChildren = new ParentChildren() { Parent = node, Children = childrenNode };
       node.ChildrenRelation.Add(parentChildren);
 
       Context.SaveChanges();
@@ -54,7 +55,7 @@ namespace ImageHunt.Services
     {
       var node = Context.Nodes.Single(n => n == parentNode);
       var children = Context.Nodes.Single(n => n == childrenNode);
-      var parentChildren = new ParentChildren {Parent = node, Children = children};
+      var parentChildren = new ParentChildren() { Parent = node, Children = children };
       node.ChildrenRelation.Add(parentChildren);
       Context.SaveChanges();
     }
@@ -66,6 +67,7 @@ namespace ImageHunt.Services
       var parentChildren = node.ChildrenRelation.Single(pc => pc.Parent == node && pc.Children == childrenNode);
       node.ChildrenRelation.Remove(parentChildren);
       Context.SaveChanges();
+
     }
 
     public void LinkAnswerToNode(int answerId, int targetNodeId)
@@ -97,6 +99,17 @@ namespace ImageHunt.Services
       return Context.Answers.SingleOrDefault(a => a.Id == answerId);
     }
 
+    public Node FindPictureNodeByLocation(int gameId, (double, double) pictureCoordinates)
+    {
+      var nodes = Context.Games.Include(g => g.Nodes).Single(g => g.Id == gameId).Nodes.Where(n => n is PictureNode);
+      if (!nodes.Any())
+        return null;
+      var pictureNode = new PictureNode() { Latitude = pictureCoordinates.Item1, Longitude = pictureCoordinates.Item2 };
+      var closestNode =
+        nodes.FirstOrDefault(n => n.Distance(pictureNode) < 40);
+      return closestNode as PictureNode;
+    }
+
     public void RemoveNode(Node nodeToRemove)
     {
       // Remove answers if node is QuestionNode
@@ -105,7 +118,6 @@ namespace ImageHunt.Services
         Context.Answers.RemoveRange(questionNode.Answers);
         questionNode.Answers.Clear();
       }
-
       // remove all children of the node to remove
       nodeToRemove.ChildrenRelation.Clear();
       // Retrieve relations of node to remove
@@ -127,7 +139,6 @@ namespace ImageHunt.Services
         questionNode.Answers.Remove(answerToRemove);
         Context.Answers.Remove(answerToRemove);
       }
-
       // Remove relation
       var relationToRemove = orgNode.ChildrenRelation.Single(pc => pc.Children == destNode);
       orgNode.ChildrenRelation.Remove(relationToRemove);
@@ -152,11 +163,15 @@ namespace ImageHunt.Services
       if (nodeTypes.HasFlag(NodeTypes.All))
         return nodes.OrderBy(n => GeographyComputation.Distance(latitude, longitude, n.Latitude, n.Longitude));
       if (nodeTypes.HasFlag(NodeTypes.Picture))
+      {
         selectedNodes = selectedNodes.Union(nodes.Where(n => n.NodeType == NodeResponse.PictureNodeType));
+      }
       if (nodeTypes.HasFlag(NodeTypes.Hidden))
-        selectedNodes = selectedNodes.Union(nodes.Where(n =>
-          n.NodeType == NodeResponse.HiddenNodeType || n.NodeType == NodeResponse.BonusNodeType));
+      {
+        selectedNodes = selectedNodes.Union(nodes.Where(n => n.NodeType == NodeResponse.HiddenNodeType || n.NodeType == NodeResponse.BonusNodeType));
+      }
       if (nodeTypes.HasFlag(NodeTypes.Path))
+      {
         selectedNodes = selectedNodes.Union(nodes.Where(n => n.NodeType == NodeResponse.FirstNodeType ||
                                                              n.NodeType == NodeResponse.LastNodeType ||
                                                              n.NodeType == NodeResponse.ChoiceNodeType ||
@@ -164,19 +179,10 @@ namespace ImageHunt.Services
                                                              n.NodeType == NodeResponse.QuestionNodeType ||
                                                              n.NodeType == NodeResponse.TimerNodeType ||
                                                              n.NodeType == NodeResponse.WaypointNodeType));
+      }
 
       return selectedNodes.OrderBy(n => GeographyComputation.Distance(latitude, longitude, n.Latitude, n.Longitude));
     }
 
-    public Node FindPictureNodeByLocation(int gameId, (double, double) pictureCoordinates)
-    {
-      var nodes = Context.Games.Include(g => g.Nodes).Single(g => g.Id == gameId).Nodes.Where(n => n is PictureNode);
-      if (!nodes.Any())
-        return null;
-      var pictureNode = new PictureNode {Latitude = pictureCoordinates.Item1, Longitude = pictureCoordinates.Item2};
-      var closestNode =
-        nodes.FirstOrDefault(n => n.Distance(pictureNode) < 40);
-      return closestNode as PictureNode;
-    }
   }
 }

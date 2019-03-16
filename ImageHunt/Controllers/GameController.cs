@@ -12,15 +12,17 @@ using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
-using ImageMagick;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 using SharpKml.Dom;
 using SharpKml.Engine;
+using ImageMagick;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace ImageHunt.Controllers
 {
@@ -48,7 +50,7 @@ namespace ImageHunt.Controllers
       IImageTransformation imageTransformation,
       UserManager<Identity> userManager,
       IMapper mapper)
-      : base(userManager)
+    : base(userManager)
     {
       _gameService = gameService;
       _imageService = imageService;
@@ -66,7 +68,6 @@ namespace ImageHunt.Controllers
       var gameById = _gameService.GetGameById(gameId);
       return Ok(gameById);
     }
-
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet("ByUser")]
     public IActionResult GetGames()
@@ -82,7 +83,7 @@ namespace ImageHunt.Controllers
       var adminId = UserId;
       var game = _mapper.Map<Game>(newGame);
       if (newGame.PictureId != 0)
-        game.Picture = new Picture {Id = newGame.PictureId};
+        game.Picture = new Picture() {Id = newGame.PictureId};
 
       return CreatedAtAction("CreateGame", _gameService.CreateGame(adminId, game));
     }
@@ -120,7 +121,7 @@ namespace ImageHunt.Controllers
           var choiceNode = node as ChoiceNode;
           choiceNode.Choice = nodeRequest.Question;
           choiceNode.Answers = nodeRequest.Choices
-            .Select(a => new Answer {Response = a.Response, Correct = a.Correct}).ToList();
+            .Select(a => new Answer() {Response = a.Response, Correct = a.Correct}).ToList();
           break;
         case NodeResponse.QuestionNodeType:
           var questionNode = node as QuestionNode;
@@ -138,11 +139,12 @@ namespace ImageHunt.Controllers
     public IActionResult AddImageNodes(int gameId, List<IFormFile> files)
     {
       foreach (var file in files)
+      {
         using (var fileStream = file.OpenReadStream())
         {
-          var bytes = new byte[fileStream.Length];
+          byte[] bytes = new byte[fileStream.Length];
           fileStream.Read(bytes, 0, (int) fileStream.Length);
-          var picture = new Picture {Image = bytes};
+          var picture = new Picture() {Image = bytes};
           //_imageService.AddPicture(picture);
           var coordinates = _imageService.ExtractLocationFromImage(picture);
           fileStream.Seek(0, SeekOrigin.Begin);
@@ -155,17 +157,16 @@ namespace ImageHunt.Controllers
               magikImage.Write(compressedImageStream);
               bytes = new byte[compressedImageStream.Length];
               compressedImageStream.Seek(0, SeekOrigin.Begin);
-              compressedImageStream.Read(bytes, 0, (int) compressedImageStream.Length);
-              picture = new Picture {Image = bytes};
+              compressedImageStream.Read(bytes, 0, (int)compressedImageStream.Length);
+              picture = new Picture() { Image = bytes };
             }
           }
-
-          // Drop the images without coordinates
-          if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
-          {
-            _logger.LogWarning($"The image {file.Name} is not geotagged");
-            return new BadRequestObjectResult(new {message = $"The image {file.FileName}", filename = file.FileName});
-          }
+            // Drop the images without coordinates
+            if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
+            {
+              _logger.LogWarning($"The image {file.Name} is not geotagged");
+              return new BadRequestObjectResult(new { message = $"The image {file.FileName}", filename = file.FileName });
+            }
 
           var node = new PictureNode
           {
@@ -176,6 +177,7 @@ namespace ImageHunt.Controllers
           };
           _gameService.AddNode(gameId, node);
         }
+      }
 
       return Ok();
     }
@@ -236,7 +238,7 @@ namespace ImageHunt.Controllers
       {
         var image = new byte[stream.Length];
         stream.Read(image, 0, (int) stream.Length);
-        var picture = new Picture {Image = image};
+        var picture = new Picture() {Image = image};
         var coordinates = _imageService.ExtractLocationFromImage(picture);
         if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
           return BadRequest();
@@ -252,7 +254,7 @@ namespace ImageHunt.Controllers
       {
         return Ok(_mapper.Map<IEnumerable<NodeResponse>>(_gameService.GetPictureNode(gameId).ToList()));
       }
-      catch (System.Exception)
+      catch (System.Exception e)
       {
         return BadRequest($"The {gameId} is not in the system or there are no images associated");
       }
@@ -265,7 +267,7 @@ namespace ImageHunt.Controllers
     }
 
     /// <summary>
-    ///   Returns score of a game
+    /// Returns score of a game
     /// </summary>
     /// <param name="gameId">The gameId to get score</param>
     /// <returns>SScores ordered with teams and team's members</returns>
@@ -281,7 +283,10 @@ namespace ImageHunt.Controllers
     public IActionResult GetPictureNodes(int gameId)
     {
       var picturesNodes = _gameService.GetPictureNode(gameId);
-      foreach (var picturesNode in picturesNodes) picturesNode.Image.Image = null;
+      foreach (var picturesNode in picturesNodes)
+      {
+        picturesNode.Image.Image = null;
+      }
 
       return Ok(picturesNodes);
     }
@@ -303,24 +308,26 @@ namespace ImageHunt.Controllers
     {
       using (var stream = file.OpenReadStream())
       {
-        var kmlFile = KmlFile.Load(stream);
+        var kmlFile = KmlFile.Load(stream) ;
         var kml = kmlFile.Root as Kml;
         foreach (var placemark in kml.Flatten().OfType<Placemark>())
         {
           var polygon = placemark.Geometry as Polygon;
-          var index = 1;
+          int index = 1;
           Node previousNode = null;
           var countCoordinates = polygon.OuterBoundary.LinearRing.Coordinates.Count;
-          var coordinates = reverse
-            ? polygon.OuterBoundary.LinearRing.Coordinates.Reverse()
-            : polygon.OuterBoundary.LinearRing.Coordinates;
+          var coordinates = reverse? polygon.OuterBoundary.LinearRing.Coordinates.Reverse(): polygon.OuterBoundary.LinearRing.Coordinates;
           foreach (var coordinate in coordinates)
           {
-            Node node;
-            if (previousNode == null)
+             Node node;
+           if (previousNode == null)
+            {
               node = NodeFactory.CreateNode(NodeResponse.FirstNodeType);
+            }
             else
+            {
               node = NodeFactory.CreateNode(NodeResponse.WaypointNodeType);
+            }
             if (index == countCoordinates - 1)
               node = NodeFactory.CreateNode(NodeResponse.LastNodeType);
             node.Latitude = coordinate.Latitude;
@@ -341,32 +348,34 @@ namespace ImageHunt.Controllers
     public IActionResult GetPathNodesCloseTo(NodeRequest nodeRequest)
     {
       var nodeType = Enum.Parse<NodeTypes>(nodeRequest.NodeType);
-      var nodes = _nodeService.GetGameNodesOrderByPosition(nodeRequest.GameId, nodeRequest.Latitude,
-        nodeRequest.Longitude,
+      var nodes = _nodeService.GetGameNodesOrderByPosition(nodeRequest.GameId, nodeRequest.Latitude, nodeRequest.Longitude,
         nodeType);
       return Ok(_mapper.Map<IEnumerable<NodeResponse>>(nodes));
     }
-
     [HttpPost("Duplicate")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,GameMaster")]
-    public IActionResult DuplicateGame([FromBody] DuplicateGameRequest duplicateGameRequest)
+    public IActionResult DuplicateGame([FromBody]DuplicateGameRequest duplicateGameRequest)
     {
       var orgGame = _gameService.GetGameById(duplicateGameRequest.GameId);
       if (orgGame.Nodes.Any(n => n.NodeType == NodeResponse.ChoiceNodeType))
       {
         ModelState.AddModelError("ChoiceNode", "Unable to duplicate a gae with ChoiceNode");
         return BadRequest(ModelState);
+        
       }
 
       var admin = _adminService.GetAdminById(UserId);
       // Duplicate game
       var newGame = _gameService.Duplicate(orgGame, admin);
-
+      
       var orgNodes = _gameService.GetNodes(orgGame.Id);
       var newNode = new List<Node>();
       // duplicate nodes
-      foreach (var orgNode in orgNodes) newNode.Add(NodeFactory.DuplicateNode(orgNode));
-      newNode.ForEach(n => _gameService.AddNode(newGame.Id, n));
+      foreach (var orgNode in orgNodes)
+      {
+        newNode.Add(NodeFactory.DuplicateNode(orgNode));
+      }
+      newNode.ForEach(n=>_gameService.AddNode(newGame.Id, n));
       // Rebuild the path
       var firstNode = newNode.First(n => n.NodeType == NodeResponse.FirstNodeType);
       firstNode.DuplicatePath(orgNodes, newNode);
@@ -383,7 +392,6 @@ namespace ImageHunt.Controllers
         SaveRelation(nextNode);
       }
     }
-
     [HttpGet("ByCode/{gameCode}")]
     public IActionResult GetGameByCode(string gameCode)
     {
@@ -391,7 +399,6 @@ namespace ImageHunt.Controllers
       var gameResponse = _mapper.Map<GameTeamsResponse>(gameByCode);
       return Ok(gameResponse);
     }
-
     [HttpGet("ForValidation")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,GameMaster,Validator")]
     public IActionResult GetForValidation()
@@ -399,7 +406,6 @@ namespace ImageHunt.Controllers
       var user = _adminService.GetAdminById(UserId);
       return Ok(_gameService.GetAllGameForValidation(user));
     }
-
     [HttpPost("Toggle/{gameId}")]
     public IActionResult ToggleGame(int gameId)
     {

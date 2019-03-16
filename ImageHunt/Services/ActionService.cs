@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHuntCore.Computation;
@@ -9,6 +11,8 @@ using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Action = ImageHuntCore.Model.Action;
@@ -19,14 +23,7 @@ namespace ImageHunt.Services
   {
     private readonly IScoreChanger _scoreChanger;
 
-    public ActionService(HuntContext context, ILogger<ActionService> logger, IScoreChanger scoreChanger)
-      : base(context, logger)
-    {
-      _scoreChanger = scoreChanger;
-    }
-
-    public async Task<PaginatedList<GameAction>> GetGameActionsForGame(int gameId, int pageIndex, int pageSize,
-      IncludeAction includeAction, int? teamId = null)
+    public async Task<PaginatedList<GameAction>> GetGameActionsForGame(int gameId, int pageIndex, int pageSize, IncludeAction includeAction, int? teamId = null)
     {
       var gameActions = Context.GameActions
           .Include(ga => ga.Game)
@@ -42,8 +39,10 @@ namespace ImageHunt.Services
       {
         case IncludeAction.Picture:
           gameActions = gameActions
-              .Where(ga => ga.Action == Action.SubmitPicture)
-              .Where(ga => ga.Latitude.HasValue && ga.Longitude.HasValue)
+            .Where(ga => ga.Action == Action.SubmitPicture)
+            .Where(ga => ga.Latitude.HasValue && ga.Longitude.HasValue)
+
+
             ;
           break;
         case IncludeAction.ReplyQuestion:
@@ -53,7 +52,6 @@ namespace ImageHunt.Services
             .Where(ga => ga.Action == Action.HiddenNode || ga.Action == Action.BonusNode);
           break;
       }
-
       foreach (var gameAction in gameActions)
       {
         gameAction.Delta = ComputeDelta(gameAction);
@@ -70,9 +68,9 @@ namespace ImageHunt.Services
 
       return await PaginatedList<GameAction>.CreateAsync(gameActions, pageIndex, pageSize);
     }
-
     public int GetGameActionCountForGame(int gameId, IncludeAction includeAction, int? teamId = null)
     {
+      int gameActionCountForGame = 0;
       var gameActions = Context.GameActions
           .Include(ga => ga.Game)
           .Include(ga => ga.Team)
@@ -96,6 +94,21 @@ namespace ImageHunt.Services
         gameActions = gameActions.Where(ga => ga.Team.Id == teamId.Value);
       var count = gameActions.Count();
       return gameActions.Count();
+    }
+
+    protected virtual double ComputeDelta(GameAction gameAction)
+    {
+      if (gameAction.Node != null)
+      {
+        var delta = GeographyComputation.Distance(gameAction.Node.Latitude, gameAction.Node.Longitude,
+          gameAction.Latitude.Value, gameAction.Longitude.Value);
+        _logger.LogDebug($"Delta = {delta} for nodeId {gameAction.Node.Id}");
+        return delta;
+      }
+      else
+      {
+        return double.NaN;
+      }
     }
 
     public GameAction GetGameAction(int gameActionId)
@@ -126,11 +139,17 @@ namespace ImageHunt.Services
       return gameAction;
     }
 
+    public ActionService(HuntContext context, ILogger<ActionService> logger, IScoreChanger scoreChanger)
+      : base(context, logger)
+    {
+      _scoreChanger = scoreChanger;
+    }
+
     public void AddGameAction(GameAction gameAction)
     {
       var game = Context.Games.Single(g => g.Id == gameAction.Game.Id);
       var team = Context.Teams.Single(t => t.Id == gameAction.Team.Id);
-      var node = gameAction.Node != null ? Context.Nodes.Single(n => n.Id == gameAction.Node.Id) : null;
+      var node = gameAction.Node !=null ? Context.Nodes.Single(n => n.Id == gameAction.Node.Id) : null;
       Picture picture = null;
       if (gameAction.Picture != null && gameAction.Picture.Id != 0)
         picture = Context.Pictures.Single(p => p.Id == gameAction.Picture.Id);
@@ -152,7 +171,7 @@ namespace ImageHunt.Services
         .GroupBy(ga => ga.Team)
         /// TODO remove this ToList in dotnet 3.0
         .ToList()
-        .Select(g => new Score {Team = g.Key, Points = g.Sum(_ => _.PointsEarned)}).ToList();
+        .Select(g => new Score() { Team = g.Key, Points = g.Sum(_ => _.PointsEarned) }).ToList();
       scoresForGame = scoresForGame.Where(s => s.Team != null).ToList();
       foreach (var score in scoresForGame)
       {
@@ -161,9 +180,11 @@ namespace ImageHunt.Services
         var endDate = Context.GameActions.FirstOrDefault(ga => ga.Team == score.Team && ga.Action == Action.EndGame)
           ?.DateOccured;
         score.Points = _scoreChanger.ComputeScore(score, game);
-        if (startDate.HasValue && endDate.HasValue) score.TravelTime = endDate.Value - startDate.Value;
+        if (startDate.HasValue && endDate.HasValue)
+        {
+          score.TravelTime = endDate.Value - startDate.Value;
+        }
       }
-
       return scoresForGame;
     }
 
@@ -180,19 +201,6 @@ namespace ImageHunt.Services
       Context.Attach(gameAction);
       Context.SaveChanges();
       return gameAction;
-    }
-
-    protected virtual double ComputeDelta(GameAction gameAction)
-    {
-      if (gameAction.Node != null)
-      {
-        var delta = GeographyComputation.Distance(gameAction.Node.Latitude, gameAction.Node.Longitude,
-          gameAction.Latitude.Value, gameAction.Longitude.Value);
-        _logger.LogDebug($"Delta = {delta} for nodeId {gameAction.Node.Id}");
-        return delta;
-      }
-
-      return double.NaN;
     }
   }
 }

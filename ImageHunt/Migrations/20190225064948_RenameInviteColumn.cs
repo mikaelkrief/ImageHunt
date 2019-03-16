@@ -2,22 +2,22 @@
 
 namespace ImageHunt.Migrations
 {
-  public partial class RenameInviteColumn : Migration
-  {
-    protected override void Up(MigrationBuilder migrationBuilder)
+    public partial class RenameInviteColumn : Migration
     {
-      migrationBuilder.RenameColumn(
-        "InviteUri",
-        "Teams",
-        "ChatInviteUrl");
-    }
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.RenameColumn(
+                name: "InviteUri",
+                table: "Teams",
+                newName: "ChatInviteUrl");
+        }
 
-    protected override void Down(MigrationBuilder migrationBuilder)
-    {
-      migrationBuilder.RenameColumn(
-        "ChatInviteUrl",
-        "Teams",
-        "InviteUri");
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.RenameColumn(
+                name: "ChatInviteUrl",
+                table: "Teams",
+                newName: "InviteUri");
+        }
     }
-  }
 }

@@ -10,14 +10,13 @@ namespace ImageHuntBotBuilder.Commands
     [Command("leave")]
     public class LeaveCommand : AbstractCommand, ILeaveCommand
     {
-        public LeaveCommand(ILogger<ILeaveCommand> logger, IStringLocalizer<LeaveCommand> localizer)
-            : base(logger, localizer)
+        public LeaveCommand(ILogger<ILeaveCommand> logger, IStringLocalizer<LeaveCommand> localizer) : base(logger, localizer)
         {
         }
 
-        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
+        protected async override Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
         {
-            var activity = new Activity(ImageHuntActivityTypes.Leave);
+            var activity = new Activity(type: ImageHuntActivityTypes.Leave);
             await turnContext.SendActivityAsync(activity);
         }
     }

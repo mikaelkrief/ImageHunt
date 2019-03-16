@@ -48,7 +48,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.TeamId = 778;
             _state.Status = Status.Started;
             // Act
-            await _target.ExecuteAsync(_turnContext, _state);
+            await _target.Execute(_turnContext, _state);
             // Assert
             A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
                 .MustHaveHappened();
@@ -67,7 +67,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.TeamId = 778;
             _state.Status = Status.Initialized;
             // Act
-            await _target.ExecuteAsync(_turnContext, _state);
+            await _target.Execute(_turnContext, _state);
             // Assert
             A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
                 .MustNotHaveHappened();

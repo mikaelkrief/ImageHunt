@@ -1,4 +1,6 @@
-@Pipe({ name: "sortByField" })
+import { Pipe, PipeTransform } from "@angular/core";
+
+@Pipe({name:"sortByField"})
 export class SortPipe implements PipeTransform {
   transform(items: any[], field: string, reverse: boolean): any[] {
 

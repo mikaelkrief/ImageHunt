@@ -15,13 +15,12 @@ namespace ImagehuntBotBuilder
             BuildWebHost(args).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args)
-        {
-            return WebHost.CreateDefaultBuilder(args)
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
                 .ConfigureLogging((hostingContext, logging) =>
                 {
                     // Add Azure Logging
-                    // logging.AddAzureWebAppDiagnostics();
+                    //logging.AddAzureWebAppDiagnostics();
 
                     // Logging Options.
                     // There are other logging options available:
@@ -37,6 +36,5 @@ namespace ImagehuntBotBuilder
                 .ConfigureServices(services => services.AddAutofac())
                 .UseStartup<Startup>()
                 .Build();
-        }
     }
 }

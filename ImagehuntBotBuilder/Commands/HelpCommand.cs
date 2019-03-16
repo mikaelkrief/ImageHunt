@@ -9,17 +9,15 @@ namespace ImageHuntBotBuilder.Commands
     [Command("help")]
     public class HelpCommand : AbstractCommand, IHelpCommand
     {
-        public HelpCommand(ILogger<IHelpCommand> logger, IStringLocalizer<HelpCommand> localizer)
-            : base(logger, localizer)
+        public HelpCommand(ILogger<IHelpCommand> logger, IStringLocalizer<HelpCommand> localizer) : base(logger, localizer)
         {
         }
 
         public override bool IsAdmin => false;
-
-        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
+        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
         {
             await turnContext.SendActivityAsync(
-                Localizer["HELP"]);
+                _localizer["HELP"]);
         }
     }
 }

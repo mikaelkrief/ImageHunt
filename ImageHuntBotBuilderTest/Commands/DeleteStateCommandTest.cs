@@ -42,7 +42,7 @@ namespace ImageHuntBotBuilderTest.Commands
             Activity activity = new Activity(text:"/delState gameid=20");
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             // Act
-            await _target.ExecuteAsync(_turnContext, _state);
+            await _target.Execute(_turnContext, _state);
             // Assert
         }
     }
@@ -58,7 +58,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _accessors = accessors;
         }
 
-        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
+        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
         {
             var regex = new Regex(@"\/delState \s*(gameid\=(?'gameid'\d*)|teamid\=(?'teamid'\d*))");
             if (regex.IsMatch(turnContext.Activity.Text))

@@ -13,14 +13,12 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly ILifetimeScope _scope;
 
-        public StartCommand(ILogger<IStartCommand> logger, ILifetimeScope scope,
-            IStringLocalizer<StartCommand> localizer)
-            : base(logger, localizer)
+        public StartCommand(ILogger<IStartCommand> logger, ILifetimeScope scope, IStringLocalizer<StartCommand> localizer) : base(logger, localizer)
         {
             _scope = scope;
         }
 
-        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
+        protected async override Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
         {
             var regex = new Regex(@"(\/\w*) (.*)");
             if (regex.IsMatch(turnContext.Activity.Text))
@@ -34,7 +32,6 @@ namespace ImageHuntBotBuilder.Commands
                     var subCommand = $"/{group[0].Groups[1].Value}";
                     ICommand subDialog = null;
                     var subpayload = payload;
-
                     // Replace # by space
                     subpayload = payload.Replace('_', ' ');
                     turnContext.Activity.Text = subpayload;
@@ -42,7 +39,7 @@ namespace ImageHuntBotBuilder.Commands
                     {
                         case "/redeem":
                             subDialog = _scope.Resolve<IRedeemCommand>();
-                            await subDialog.ExecuteAsync(turnContext, state);
+                            await subDialog.Execute(turnContext, state);
                             break;
                     }
                 }

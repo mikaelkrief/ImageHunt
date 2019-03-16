@@ -9,22 +9,22 @@
     <form [formGroup]="teamGroup" (ngSubmit)="createTeam()">
       <div class="modal-body">
         <div class="row">
-          <div class="col-4">
-            <div class="form-group row">
-              <div *ngIf="pictureId">
-                <img class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{pictureId}}&width=200"/>
-              </div>
-              <div *ngIf="!pictureId">
-                <img class="img-thumbnail" src="assets/ImageHunt.png" width="80%" height="80%"/>
-              </div>
+        <div class="col-4">
+          <div class="form-group row">
+            <div *ngIf="pictureId">
+              <img class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{pictureId}}&width=200"/>
             </div>
-            <div class="form-group row">
-              <a class="btn btn-primary" (click)="uploadPicture()">
-                <i class="fas fa-upload"></i><span i18n> Add a picture</span>
-              </a>
+            <div *ngIf="!pictureId">
+              <img class="img-thumbnail" src="assets/ImageHunt.png" width="80%" height="80%"/>
             </div>
-
           </div>
+          <div class="form-group row">
+            <a class="btn btn-primary" (click)="uploadPicture()">
+              <i class="fas fa-upload"></i><span i18n> Add a picture</span>
+            </a>
+          </div>
+
+        </div>
 
           <div class="col-8">
             <div class="form-group row">
@@ -60,3 +60,4 @@
     </form>
   </div>
 </div>
+

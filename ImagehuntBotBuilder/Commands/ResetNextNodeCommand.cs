@@ -13,13 +13,12 @@ namespace ImageHuntBotBuilder.Commands
     [Command("resetNext")]
     public class ResetNextNodeCommand : AbstractCommand, IResetNextNodeCommand
     {
-        private readonly IGameWebService _gameWebService;
         private readonly INodeWebService _nodeWebService;
+        private readonly IGameWebService _gameWebService;
 
-        public ResetNextNodeCommand(
-            ILogger<IResetNextNodeCommand> logger,
-            IStringLocalizer<ResetNextNodeCommand> localizer, INodeWebService nodeWebService,
-            IGameWebService gameWebService)
+        public ResetNextNodeCommand(ILogger<IResetNextNodeCommand> logger, 
+            IStringLocalizer<ResetNextNodeCommand> localizer, INodeWebService nodeWebService, 
+            IGameWebService gameWebService) 
             : base(logger, localizer)
         {
             _nodeWebService = nodeWebService;
@@ -28,28 +27,27 @@ namespace ImageHuntBotBuilder.Commands
 
         public override bool IsAdmin => false;
 
-        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
+        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
         {
             if (state.Status != Status.Started)
             {
-                Logger.LogError("Game not started");
-                await turnContext.SendActivityAsync(string.Format(Localizer["GAME_NOT_STARTED"]));
+                _logger.LogError("Game not started");
+                await turnContext.SendActivityAsync(string.Format(_localizer["GAME_NOT_STARTED"]));
                 return;
             }
 
             if (state.CurrentLocation == null)
             {
-                Logger.LogError("No team localisation");
-                await turnContext.SendActivityAsync(string.Format(Localizer["NO_LOCALIZATION"]));
+                _logger.LogError("No team localisation");
+                await turnContext.SendActivityAsync(string.Format(_localizer["NO_LOCALIZATION"]));
                 return;
             }
 
             var nodes = await _nodeWebService.GetNodesByType(NodeTypes.Path, state.GameId.Value);
-            var closestNodes = nodes.OrderBy(n => GeographyComputation.Distance(
-                state.CurrentLocation.Latitude.Value,
+            var closestNodes = nodes.OrderBy(n => GeographyComputation.Distance(state.CurrentLocation.Latitude.Value,
                 state.CurrentLocation.Longitude.Value, n.Latitude, n.Longitude));
             state.CurrentNode = closestNodes.First();
-            await turnContext.SendActivityAsync(Localizer["RESET_SUCCEED"]);
+            await turnContext.SendActivityAsync(_localizer["RESET_SUCCEED"]);
         }
     }
 }

@@ -4,22 +4,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
-  public partial class RemoveIsDeletedForGameAdminEntity : Migration
-  {
-    protected override void Up(MigrationBuilder migrationBuilder)
-    {
-      migrationBuilder.DropColumn(
-        "IsDeleted",
-        "GameAdmin");
-    }
 
-    protected override void Down(MigrationBuilder migrationBuilder)
+  public partial class RemoveIsDeletedForGameAdminEntity : Migration
     {
-      migrationBuilder.AddColumn<bool>(
-        "IsDeleted",
-        "GameAdmin",
-        nullable: false,
-        defaultValue: false);
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "IsDeleted",
+                table: "GameAdmin");
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<bool>(
+                name: "IsDeleted",
+                table: "GameAdmin",
+                nullable: false,
+                defaultValue: false);
+        }
     }
-  }
 }

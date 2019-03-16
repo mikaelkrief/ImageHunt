@@ -1,25 +1,28 @@
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
-  public partial class AddPointsEarnedInGameAction : Migration
-  {
-    protected override void Up(MigrationBuilder migrationBuilder)
-    {
-      migrationBuilder.AddColumn<int>(
-        "PointsEarned",
-        "GameActions",
-        nullable: false,
-        defaultValue: 0);
-    }
 
-    protected override void Down(MigrationBuilder migrationBuilder)
+  public partial class AddPointsEarnedInGameAction : Migration
     {
-      migrationBuilder.DropColumn(
-        "PointsEarned",
-        "GameActions");
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<int>(
+                name: "PointsEarned",
+                table: "GameActions",
+                nullable: false,
+                defaultValue: 0);
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "PointsEarned",
+                table: "GameActions");
+        }
     }
-  }
 }

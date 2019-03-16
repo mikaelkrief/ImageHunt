@@ -14,8 +14,8 @@ namespace ImageHuntBotBuilder.Commands
 {
     public class CommandRepository : ICommandRepository
     {
-        private readonly IAdminWebService _adminWebService;
         private readonly ILogger<ICommandRepository> _logger;
+        private readonly IAdminWebService _adminWebService;
         private readonly ILifetimeScope _scope;
         private IEnumerable<AdminResponse> _admins;
         private DateTime? _refreshTime;
@@ -28,7 +28,7 @@ namespace ImageHuntBotBuilder.Commands
             _scope = scope;
         }
 
-        public async Task RefreshAdminsAsync()
+        public async Task RefreshAdmins()
         {
             var span = DateTime.Now - (_refreshTime ?? DateTime.Now);
             if (span > TimeSpan.FromMinutes(5) || _admins == null)
@@ -42,35 +42,65 @@ namespace ImageHuntBotBuilder.Commands
         {
             // Remove leading '/' if any and extract command name
             var regex = new Regex(@"\/?(\S*)");
-            if (!regex.IsMatch(commandText)) return null;
+            if (!regex.IsMatch(commandText))
+            {
+                return null;
+            }
 
             if (commandText.Contains('@'))
                 commandText = commandText.Split('@')[0];
             var group = regex.Matches(commandText);
             commandText = group[0].Groups[1].Value;
-            if (turnContext.Activity == null) throw new ArgumentNullException("turnContext.Activity");
+            if (turnContext.Activity == null)
+            {
+                throw new ArgumentNullException("turnContext.Activity");
+            }
 
             var from = turnContext.Activity.From;
-            if (from == null) throw new NotAuthorizedException("no User");
+            if (from == null)
+            {
+                throw new NotAuthorizedException("no User");
+            }
 
             ICommand command;
             try
             {
                 command = _scope.ResolveNamed<ICommand>(commandText.ToLowerInvariant());
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw new CommandNotFound(commandText);
             }
-
-            if (command.IsAdmin && _admins.All(a =>
-                    !turnContext.Activity.From.Name.Equals(a.Name, StringComparison.InvariantCultureIgnoreCase)))
+            if (command.IsAdmin && _admins.All(a => !turnContext.Activity.From.Name.Equals(a.Name, StringComparison.InvariantCultureIgnoreCase)))
+            {
                 throw new NotAuthorizedException(turnContext.Activity.From.Name);
+            }
 
-            if (state.Team != null && command.IsAdmin &&
-                state.Team.Players.Any(p => p.ChatLogin == turnContext.Activity.From.Name))
+            if (state.Team != null && command.IsAdmin && state.Team.Players.Any(p => p.ChatLogin == turnContext.Activity.From.Name))
+            {
                 throw new NotAuthorizedException(turnContext.Activity.From.Name);
+            }
             return command;
         }
+    }
+
+    public class NotAuthorizedException : Exception
+    {
+        public string UserName { get; }
+
+        public NotAuthorizedException(string userName)
+        {
+            UserName = userName;
+        }
+    }
+
+    public class CommandNotFound : Exception
+    {
+        public CommandNotFound(string command)
+        {
+            Command = command;
+        }
+
+        public string Command { get; set; }
     }
 }

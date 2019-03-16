@@ -1,6 +1,7 @@
-import { Admin } from "./admin";
+import {Admin} from "./admin";
+import { Injectable } from "@angular/core";
 
 @Injectable()
 export class Globals {
-  connectedUser: Admin;
+   connectedUser:Admin;
 }

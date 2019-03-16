@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ImageHunt.Data;
+using ImageHunt.Model;
 using ImageHuntCore.Model;
 using ImageHuntCore.Services;
 using ImageHuntWebServiceClient;
@@ -14,7 +15,7 @@ namespace ImageHunt.Services
   public class PasscodeService : AbstractService, IPasscodeService
   {
     public PasscodeService(HuntContext context, ILogger<PasscodeService> logger)
-      : base(context, logger)
+        : base(context, logger)
     {
     }
 
@@ -26,9 +27,9 @@ namespace ImageHunt.Services
     public RedeemStatus Redeem(int gameId, int teamId, string pass)
     {
       var game = Context.Games
-        .Include(g => g.Passcodes)
-        .Include(g => g.Teams).ThenInclude(t => t.TeamPasscodes)
-        .Single(g => g.Id == gameId);
+          .Include(g => g.Passcodes)
+          .Include(g => g.Teams).ThenInclude(t => t.TeamPasscodes)
+          .Single(g => g.Id == gameId);
       var team = game.Teams.Single(t => t.Id == teamId);
       var passcode = game.Passcodes.SingleOrDefault(p => p.Pass == pass);
       if (passcode == null)
@@ -37,18 +38,11 @@ namespace ImageHunt.Services
         return RedeemStatus.FullyRedeem;
       if (team.Passcodes.Contains(passcode))
         return RedeemStatus.AlreadyRedeem;
-      var gameAction = new GameAction
-      {
-        Action = Action.RedeemPasscode,
-        DateOccured = DateTime.Now,
-        Game = game,
-        Team = team,
-        PointsEarned = passcode.Points
-      };
+      var gameAction = new GameAction() { Action = Action.RedeemPasscode, DateOccured = DateTime.Now, Game = game, Team = team, PointsEarned = passcode.Points };
       Context.GameActions.Add(gameAction);
       if (passcode.NbRedeem > 0)
         passcode.NbRedeem--;
-      team.TeamPasscodes.Add(new TeamPasscode {Passcode = passcode, Team = team});
+      team.TeamPasscodes.Add(new TeamPasscode() { Passcode = passcode, Team = team });
       Context.SaveChanges();
       return RedeemStatus.Ok;
     }

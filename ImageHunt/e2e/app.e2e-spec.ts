@@ -1,16 +1,14 @@
-import { AppPage } from "./app.po";
+import { AppPage } from './app.po';
 
-describe("image-hunt App",
-  () => {
-    let page: AppPage;
+describe('image-hunt App', () => {
+  let page: AppPage;
 
-    beforeEach(() => {
-      page = new AppPage();
-    });
-
-    it("should display welcome message",
-      () => {
-        page.navigateTo();
-        //expect(page.getParagraphText()).toEqual('Welcome to app!');
-      });
+  beforeEach(() => {
+    page = new AppPage();
   });
+
+  it('should display welcome message', () => {
+    page.navigateTo();
+    //expect(page.getParagraphText()).toEqual('Welcome to app!');
+  });
+});
