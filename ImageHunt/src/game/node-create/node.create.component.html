@@ -16,7 +16,7 @@
         </div>
         <div class="form-group col-6">
           <label for="nodeType" i18n>Node type: </label>
-          <p-dropdown [options]="nodeTypes" [(ngModel)]="nodeType" name="nodeType" id="nodeType" i18n-placeholder placeholder="Select a node type">
+          <p-dropdown [options]="nodeTypes" ngModel="nodeType" name="nodeType" id="nodeType" i18n-placeholder placeholder="Select a node type">
             <ng-template let-item pTemplate="selectedItem">
                 <span class="{{item.icon}}" style="width:16px; vertical-align: middle;color:{{item.color}}"></span>
               <span style="vertical-align: middle; position: relative; left: 10px;">{{item.label}}</span>
