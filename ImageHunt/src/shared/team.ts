@@ -1,4 +1,4 @@
-import {Player} from "./player";
+import { Player } from "./player";
 
 export class Team {
   id: number;
@@ -8,5 +8,5 @@ export class Team {
   cultureInfo: string;
   bonus?: number;
   picture: any;
-  code?:string;
+  code?: string;
 }

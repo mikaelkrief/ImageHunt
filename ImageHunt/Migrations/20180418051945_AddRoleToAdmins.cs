@@ -1,28 +1,25 @@
-using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
-
   public partial class AddRoleToAdmins : Migration
+  {
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<int>(
-                name: "Role",
-                table: "Admins",
-                nullable: false,
-                defaultValue: 0);
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "Role",
-                table: "Admins");
-        }
+      migrationBuilder.AddColumn<int>(
+        "Role",
+        "Admins",
+        nullable: false,
+        defaultValue: 0);
     }
+
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+      migrationBuilder.DropColumn(
+        "Role",
+        "Admins");
+    }
+  }
 }

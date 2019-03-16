@@ -7,7 +7,9 @@
     <th i18n>Email</th>
     <th i18n>Role</th>
     <th>
-      <button class="btn btn-primary" (click)="createUser()"><i class="fa fa-user-plus"></i></button>
+      <button class="btn btn-primary" (click)="createUser()">
+        <i class="fa fa-user-plus"></i>
+      </button>
     </th>
     <th i18n>Associated games</th>
     <th></th>
@@ -17,19 +19,27 @@
   <tr *ngFor="let admin of admins">
     <td>{{admin.name}}</td>
     <td class="email">{{admin.email}}</td>
-    <td><user-role [role]="admin.role"></user-role></td>
-    <td><button class="btn btn-danger" (click)="deleteAdmin(admin.id)"><i class="fa fa-user-times"></i></button></td>
+    <td>
+      <user-role [role]="admin.role"></user-role>
+    </td>
+    <td>
+      <button class="btn btn-danger" (click)="deleteAdmin(admin.id)">
+        <i class="fa fa-user-times"></i>
+      </button>
+    </td>
     <td>
       <ul class="list-group">
-        <li class="list-group-item" *ngFor="let game of admin.games"><span class=" fa fa-gamepad"></span> <a [routerLink]="['/game', game.id]">{{game.name}}</a></li>
+        <li class="list-group-item" *ngFor="let game of admin.games">
+          <span class=" fa fa-gamepad"></span> <a [routerLink]="['/game', game.id]">{{game.name}}</a>
+        </li>
       </ul>
     </td>
     <td>
-      <button class="btn btn-primary" ><i class="fas fa-link"></i></button>
+      <button class="btn btn-primary">
+        <i class="fas fa-link"></i>
+      </button>
     </td>
   </tr>
   </tbody>
 </table>
 <p-confirmDialog id="deleteAdminConfirm" i18n-header header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
-
-

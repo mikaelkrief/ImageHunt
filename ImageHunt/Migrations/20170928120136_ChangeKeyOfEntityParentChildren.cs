@@ -5,21 +5,20 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
-
   public partial class ChangeKeyOfEntityParentChildren : Migration
+  {
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-          migrationBuilder.DropTable("ParentChildren");
+      migrationBuilder.DropTable("ParentChildren");
 
       migrationBuilder.CreateTable(
-        name: "ParentChildren",
-        columns: table => new
+        "ParentChildren",
+        table => new
         {
-          ParentId = table.Column<int>(type: "int", nullable: false),
-          ChildrenId = table.Column<int>(type: "int", nullable: false),
-          IsDeleted = table.Column<bool>(type:"bit", nullable:false),
-          Id = table.Column<int>(type: "int", nullable: false)
+          ParentId = table.Column<int>("int", nullable: false),
+          ChildrenId = table.Column<int>("int", nullable: false),
+          IsDeleted = table.Column<bool>("bit", nullable: false),
+          Id = table.Column<int>("int", nullable: false)
             .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
         },
         constraints: table =>
@@ -27,23 +26,22 @@ namespace ImageHunt.Migrations
           table.PrimaryKey("PK_ParentChildren", x => x.Id);
           table.UniqueConstraint("AK_ParentChildren_Id", x => x.Id);
           table.ForeignKey(
-            name: "FK_ParentChildren_Nodes_ChildrenId",
-            column: x => x.ChildrenId,
-            principalTable: "Nodes",
-            principalColumn: "Id",
+            "FK_ParentChildren_Nodes_ChildrenId",
+            x => x.ChildrenId,
+            "Nodes",
+            "Id",
             onDelete: ReferentialAction.Cascade);
           table.ForeignKey(
-            name: "FK_ParentChildren_Nodes_ParentId",
-            column: x => x.ParentId,
-            principalTable: "Nodes",
-            principalColumn: "Id",
+            "FK_ParentChildren_Nodes_ParentId",
+            x => x.ParentId,
+            "Nodes",
+            "Id",
             onDelete: ReferentialAction.Cascade);
         });
-
     }
 
     protected override void Down(MigrationBuilder migrationBuilder)
-        {
-        }
+    {
     }
+  }
 }

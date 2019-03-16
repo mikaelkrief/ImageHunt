@@ -10,7 +10,7 @@
       <div class="input-group">
         <label for="Noeud" i18n>Node to edit</label>
         <select class="form-control" [(ngModel)]="selectedNode" (change)="nodeSelected($event)">
-          <option *ngFor="let node of questionNodes"  [ngValue]="node">{{node.name}}</option>
+          <option *ngFor="let node of questionNodes" [ngValue]="node">{{node.name}}</option>
         </select>
       </div>
     </div>
@@ -51,7 +51,8 @@
       Cancel
     </button>
     <button class="btn btn-success pull-right" type="submit" i18n-aria-label aria-label="Close"
-            (click)="saveRelations()" i18n> Save
+            (click)="saveRelations()" i18n>
+      Save
     </button>
   </div>
 </div>

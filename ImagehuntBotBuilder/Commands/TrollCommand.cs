@@ -14,34 +14,36 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly IActionWebService _actionWebService;
 
-        public TrollCommand(ILogger<ITrollCommand> logger, IStringLocalizer<TrollCommand> localizer,
-            IActionWebService actionWebService) 
+        public TrollCommand(
+            ILogger<ITrollCommand> logger,
+            IStringLocalizer<TrollCommand> localizer,
+            IActionWebService actionWebService)
             : base(logger, localizer)
         {
             _actionWebService = actionWebService;
         }
 
-        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        public override bool IsAdmin => false;
+
+        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
-            if ((!state.TeamId.HasValue || !state.GameId.HasValue))
+            if (!state.TeamId.HasValue || !state.GameId.HasValue)
             {
-                _logger.LogError("Using ListCommand on non initialized group");
+                Logger.LogError("Using ListCommand on non initialized group");
                 return;
-                
             }
-            var actionRequest = new GameActionRequest()
+
+            var actionRequest = new GameActionRequest
             {
                 GameId = state.GameId.Value,
                 TeamId = state.TeamId.Value,
                 Action = (int)Action.GivePoints,
                 PointsEarned = -150,
-                Validated = true,
+                Validated = true
             };
             await _actionWebService.LogAction(actionRequest);
             await turnContext.SendActivityAsync(
                 $"Félicitation! Vous avez utilisé la commande Troll! Pour votre peine, je vous fais bénéficier de {actionRequest.PointsEarned} points!");
         }
-
-        public override bool IsAdmin => false;
     }
 }

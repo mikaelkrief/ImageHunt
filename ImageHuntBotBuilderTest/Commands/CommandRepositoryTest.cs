@@ -21,7 +21,7 @@ namespace ImageHuntBotBuilderTest.Commands
     class Dummy1Command : ICommand
     {
         public bool IsAdmin => false;
-        public Task Execute(ITurnContext turnContext, ImageHuntState state)
+        public Task ExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             throw new NotImplementedException();
         }
@@ -30,7 +30,7 @@ namespace ImageHuntBotBuilderTest.Commands
     class Dummy2Command : ICommand
     {
         public bool IsAdmin => true;
-        public Task Execute(ITurnContext turnContext, ImageHuntState state)
+        public Task ExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             throw new NotImplementedException();
         }
@@ -162,7 +162,7 @@ namespace ImageHuntBotBuilderTest.Commands
             };
             A.CallTo(() => _adminWebService.GetAllAdmins()).Returns(admins);
             A.CallTo(() => _turnContext.Activity).Returns(activity);
-            _target.RefreshAdmins();
+            _target.RefreshAdminsAsync();
             // Act
             Check.ThatCode(() => _target.Get(_turnContext, _state, "dummy2")).Throws<NotAuthorizedException>();
             // Assert
@@ -180,7 +180,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _adminWebService.GetAllAdmins()).Returns(admins);
             //            _turnContext.TurnState.Get<ImageHuntState>()
             A.CallTo(() => _turnContext.Activity).Returns(activity);
-            _target.RefreshAdmins();
+            _target.RefreshAdminsAsync();
             _state.Team = new TeamResponse() { Players = new PlayerResponse[] { new PlayerResponse() { ChatLogin = "titi" }, } };
             // Act
             Check.ThatCode(() => _target.Get(_turnContext, _state, "dummy2")).Throws<NotAuthorizedException>();
@@ -198,7 +198,7 @@ namespace ImageHuntBotBuilderTest.Commands
             };
             A.CallTo(() => _adminWebService.GetAllAdmins()).Returns(admins);
             A.CallTo(() => _turnContext.Activity).Returns(activity);
-            _target.RefreshAdmins();
+            _target.RefreshAdminsAsync();
             // Act
             Check.ThatCode(() => _target.Get(_turnContext, _state, "dummy2")).DoesNotThrow();
             // Assert
@@ -219,8 +219,8 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
 
             // Act
-            await _target.RefreshAdmins();
-            await _target.RefreshAdmins();
+            await _target.RefreshAdminsAsync();
+            await _target.RefreshAdminsAsync();
             // Assert
             A.CallTo(() => _adminWebService.GetAllAdmins()).MustHaveHappened(Repeated.Exactly.Once);
         }

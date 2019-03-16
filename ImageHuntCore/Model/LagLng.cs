@@ -19,7 +19,7 @@ namespace ImageHuntCore.Model
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            return obj is LatLng && Equals((LatLng)obj);
+            return obj is LatLng && Equals((LatLng) obj);
         }
 
         public override int GetHashCode()

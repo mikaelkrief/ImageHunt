@@ -1,15 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
 import { Team } from "../../shared/team";
 import { TeamService } from "../../shared/services/team.service";
 import { ConfirmationService } from "primeng/api";
-import { BsModalService } from 'ngx-bootstrap';
-import { TeamCreateComponent } from '../team-create/team-create.component';
-import { ActivatedRoute } from '@angular/router';
+import { TeamCreateComponent } from "../team-create/team-create.component";
 
 @Component({
-  selector: 'team-list',
-  templateUrl: './team-list.component.html',
-  styleUrls: ['./team-list.component.scss']
+  selector: "team-list",
+  templateUrl: "./team-list.component.html",
+  styleUrls: ["./team-list.component.scss"]
 })
 /** team component*/
 export class TeamListComponent implements OnInit {
@@ -20,7 +17,8 @@ export class TeamListComponent implements OnInit {
   constructor(private teamService: TeamService,
     private confirmationService: ConfirmationService,
     private _modalService: BsModalService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+  }
 
   /** Called by Angular after team component initialized */
   ngOnInit(): void {
@@ -35,8 +33,9 @@ export class TeamListComponent implements OnInit {
       accept: () => this.teamService.deleteTeam(teamId)
         .subscribe(() => this.teams.splice(this.teams.indexOf(this.teams.find(t => t.id === teamId)), 1))
     });
-    
+
   }
+
   createTeam() {
     this.modalRef = this._modalService.show(TeamCreateComponent, { ignoreBackdropClick: true });
     this.modalRef.content.teamCreated.subscribe((team: Team) => {

@@ -7,15 +7,16 @@ namespace ImageHuntCore.Model
     {
         public Game()
         {
-            Nodes = new List<ImageHuntCore.Model.Node.Node>();
+            Nodes = new List<Node.Node>();
             Teams = new List<Team>();
         }
+
         public bool IsActive { get; set; }
         public string Name { get; set; }
         public Picture Picture { get; set; }
         public string Description { get; set; }
         public DateTime? StartDate { get; set; }
-        public List<ImageHuntCore.Model.Node.Node> Nodes { get; set; }
+        public List<Node.Node> Nodes { get; set; }
         public List<Team> Teams { get; set; }
         public double? MapCenterLat { get; set; }
         public double? MapCenterLng { get; set; }

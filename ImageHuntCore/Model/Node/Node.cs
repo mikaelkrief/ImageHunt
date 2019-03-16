@@ -5,7 +5,7 @@ using System.Linq;
 namespace ImageHuntCore.Model.Node
 {
     /// <summary>
-    /// Base class of all node object. 
+    ///     Base class of all node object.
     /// </summary>
     public abstract class Node : DbObject
     {
@@ -27,7 +27,6 @@ namespace ImageHuntCore.Model.Node
 
         [NotMapped] public List<Node> Children => ChildrenRelation.Select(cr => cr.Children).ToList();
         [NotMapped] public int OrgId { get; set; }
-
     }
 
     public class ParentChildren : DbObject

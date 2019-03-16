@@ -9,8 +9,7 @@ namespace ImageHunt.Updater
 {
   public class UpdateNodePointsUpdater : AbstractUpdater
   {
-
-    public UpdateNodePointsUpdater(HuntContext context, Game game, string arguments) 
+    public UpdateNodePointsUpdater(HuntContext context, Game game, string arguments)
       : base(context, game, arguments)
     {
     }
@@ -26,13 +25,11 @@ namespace ImageHunt.Updater
           var nodes = _game.Nodes.Where(n => n.NodeType == nodeType);
           var multiplier = Convert.ToInt32(_arguments["multiplier"]);
           foreach (var node in nodes)
-          {
             if (regex.IsMatch(node.Name))
             {
               var seed = Convert.ToInt32(regex.Matches(node.Name)[0].Groups["seed"].Value);
               node.Points = seed * multiplier;
             }
-          }
 
           _context.SaveChanges();
           break;

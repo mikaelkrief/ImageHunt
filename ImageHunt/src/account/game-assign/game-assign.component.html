@@ -10,7 +10,8 @@
   <div class="modal-body">
     <dual-list i18n-addLabel addLabel="Add" i18n-removeLabel removeLabel="Remove" i18n-allLabel allLabel="All"
                i18n-noneLabel noneLabel="None"
-               [source]="notSelectedGames" [(destination)]="selectedGames" display="name"></dual-list>
+               [source]="notSelectedGames" [(destination)]="selectedGames" display="name">
+    </dual-list>
   </div>
   <div class="modal-footer">
     <button type="reset" class="btn btn-danger" (click)="bsModalRef.hide()" i18n>Cancel</button>

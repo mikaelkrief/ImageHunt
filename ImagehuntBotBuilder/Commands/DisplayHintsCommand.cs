@@ -15,52 +15,56 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly INodeWebService _nodeWebService;
         private readonly ITeamWebService _teamWebService;
-        public override bool IsAdmin => false;
 
-        public DisplayHintsCommand(ILogger<IDisplayHintsCommand> logger, INodeWebService nodeWebService, IStringLocalizer<DisplayHintsCommand> localizer) : base(logger, localizer)
+        public DisplayHintsCommand(ILogger<IDisplayHintsCommand> logger, INodeWebService nodeWebService,
+            IStringLocalizer<DisplayHintsCommand> localizer)
+            : base(logger, localizer)
         {
             _nodeWebService = nodeWebService;
         }
 
-        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        public override bool IsAdmin => false;
+
+        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             if (state.Status != Status.Started)
             {
                 await turnContext.SendActivityAsync(
-                    _localizer["GAME_NOT_STARTED"]);
+                    Localizer["GAME_NOT_STARTED"]);
                 return;
             }
 
             var nodes = state.HiddenNodes;
             if (nodes == null || !nodes.Any())
             {
-                await turnContext.SendActivityAsync(_localizer["NO_MORE_HIDDEN_NODE"]);
+                await turnContext.SendActivityAsync(Localizer["NO_MORE_HIDDEN_NODE"]);
                 return;
             }
 
-            await turnContext.SendActivityAsync(_localizer["HIDDEN_NODES_TITLE"]);
+            await turnContext.SendActivityAsync(Localizer["HIDDEN_NODES_TITLE"]);
             foreach (var nodeResponse in nodes)
-            {
                 switch (nodeResponse.NodeType)
                 {
                     case NodeResponse.BonusNodeType:
-                        string bonusType = string.Empty;
+                        var bonusType = string.Empty;
                         switch (nodeResponse.BonusType)
                         {
                             case BonusNode.BONUS_TYPE.Points_x2:
-                                bonusType = _localizer["2X_BONUS_TITLE"];
+                                bonusType = Localizer["2X_BONUS_TITLE"];
                                 break;
                             case BonusNode.BONUS_TYPE.Points_x3:
-                                bonusType = _localizer["3X_BONUS_TITLE"];
+                                bonusType = Localizer["3X_BONUS_TITLE"];
                                 break;
                         }
-                        await turnContext.SendActivityAsync(string.Format(_localizer["BONUS_HINT"], nodeResponse.Hint, bonusType));
+
+                        await turnContext.SendActivityAsync(string.Format(Localizer["BONUS_HINT"], nodeResponse.Hint,
+                            bonusType));
                         break;
                     case NodeResponse.HiddenNodeType:
-                        await turnContext.SendActivityAsync(string.Format(_localizer["HIDDEN_HINT"], nodeResponse.Hint, nodeResponse.Points));
+                        await turnContext.SendActivityAsync(string.Format(Localizer["HIDDEN_HINT"], nodeResponse.Hint,
+                            nodeResponse.Points));
                         break;
                 }
-            }
         }
     }
 }

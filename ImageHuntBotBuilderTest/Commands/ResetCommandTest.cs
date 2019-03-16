@@ -35,7 +35,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             var state = new ImageHuntState() {GameId = 15, TeamId = 65, Status = Status.Started};
             // Act
-            await _target.Execute(_turnContext, state);
+            await _target.ExecuteAsync(_turnContext, state);
             // Assert
             Check.That(state.GameId).IsNull();
         }
@@ -48,7 +48,7 @@ namespace ImageHuntBotBuilderTest.Commands
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
                 .Throws<Exception>();
             // Act
-            Check.ThatAsyncCode(() => _target.Execute(_turnContext, state)).Throws<Exception>();
+            Check.ThatAsyncCode(() => _target.ExecuteAsync(_turnContext, state)).Throws<Exception>();
             // Assert
             A.CallTo(() => _logger.Log(LogLevel.Error, A<EventId>._, A<object>._, A<Exception>._,
                 A < Func<object, Exception, string>>._)).MustHaveHappened();

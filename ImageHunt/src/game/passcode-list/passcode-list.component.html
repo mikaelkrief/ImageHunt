@@ -3,9 +3,11 @@
 </div>
 <div class="row">
   <div class="col-2">
-    <button class="btn btn-default" [routerLink]="['/passcode/print/', game.id]"><i class="fa fa-print" i18n>
-       Print
-    </i></button>
+    <button class="btn btn-default" [routerLink]="['/passcode/print/', game.id]">
+      <i class="fa fa-print" i18n>
+        Print
+      </i>
+    </button>
   </div>
   <div class="col-10">
     <table class="table">
@@ -14,7 +16,11 @@
         <th i18n>Password</th>
         <th i18n>Number of redeem</th>
         <th i18n>Point per usage</th>
-        <th><button class="btn btn-primary" (click)="createPassode()"><i class="fa fa-plus-square"></i></button></th>
+        <th>
+          <button class="btn btn-primary" (click)="createPassode()">
+            <i class="fa fa-plus-square"></i>
+          </button>
+        </th>
       </tr>
       </thead>
       <tbody>
@@ -22,10 +28,13 @@
         <td>{{passcode.pass}}</td>
         <td>{{passcode.nbRedeem}}</td>
         <td>{{passcode.points}}</td>
-        <td><button class="btn btn-danger" (click)="deletePasscode(passcode)"><i class="fa fa-trash"></i></button></td>
+        <td>
+          <button class="btn btn-danger" (click)="deletePasscode(passcode)">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
       </tr>
       </tbody>
     </table>
   </div>
 </div>
-

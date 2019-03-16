@@ -10,9 +10,6 @@ using ImageHunt.Data;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,13 +20,13 @@ namespace ImageHunt.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-  public partial class AccountController : Controller
+  public class AccountController : Controller
   {
-    private readonly UserManager<Identity> _userManager;
-    private readonly SignInManager<Identity> _signInManager;
     private readonly IConfiguration _configuration;
-    private readonly IMapper _mapper;
     private readonly HuntContext _context;
+    private readonly IMapper _mapper;
+    private readonly SignInManager<Identity> _signInManager;
+    private readonly UserManager<Identity> _userManager;
 
     public AccountController(
       UserManager<Identity> userManager,
@@ -45,6 +42,7 @@ namespace ImageHunt.Controllers
       _mapper = mapper;
       _context = context;
     }
+
     [HttpPost("Login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
@@ -69,7 +67,7 @@ namespace ImageHunt.Controllers
         Email = request.Email,
         TelegramUser = request.Telegram
       };
-      var admin = new Admin() { Email = request.Email, Name = request.Login };
+      var admin = new Admin {Email = request.Email, Name = request.Login};
       _context.Admins.Add(admin);
       _context.SaveChanges();
       user.AppUserId = admin.Id;
@@ -85,49 +83,52 @@ namespace ImageHunt.Controllers
 
       return BadRequest(result);
     }
-    private async Task<IActionResult> GenerateJwtToken(string email, Identity user, Task<IList<string>> userRole)
+
+    private IActionResult GenerateJwtToken(string email, Identity user, Task<IList<string>> userRole)
     {
       var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-              new Claim(ClaimTypes.Role, string.Join(",", userRole.Result))
-            };
+      {
+        new Claim(JwtRegisteredClaimNames.Sub, email),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim(ClaimTypes.NameIdentifier, user.Id),
+        new Claim(ClaimTypes.Role, string.Join(",", userRole.Result))
+      };
 
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
       var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
       var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["Jwt:ExpireDays"]));
       var token = new JwtSecurityToken(
-          _configuration["Jwt:Issuer"],
-          _configuration["Jwt:Issuer"],
-          claims,
-          expires: expires,
-          signingCredentials: creds
+        _configuration["Jwt:Issuer"],
+        _configuration["Jwt:Issuer"],
+        claims,
+        expires: expires,
+        signingCredentials: creds
       );
 
       return Ok(new JwtSecurityTokenHandler().WriteToken(token));
     }
+
     [HttpGet]
     public async Task<IActionResult> GetUsersAsync()
     {
       var identities = _userManager.Users.AsEnumerable();
-      List<UserResponse> users = new List<UserResponse>();
+      var users = new List<UserResponse>();
       foreach (var identity in identities)
       {
         var user = _mapper.Map<UserResponse>(identity);
         user.Role = (await _userManager.GetRolesAsync(identity)).FirstOrDefault();
         var admin = _context.Admins
-          .Include(a=>a.GameAdmins).ThenInclude(ga=>ga.Game).ThenInclude(g=>g.Picture)
+          .Include(a => a.GameAdmins).ThenInclude(ga => ga.Game).ThenInclude(g => g.Picture)
           .Single(a => a.Id == identity.AppUserId);
 
-        user.Games = _mapper.Map<GameResponse[]>(admin.Games.Where(g=>g.IsActive && g.StartDate>=DateTime.Now));
+        user.Games = _mapper.Map<GameResponse[]>(admin.Games.Where(g => g.IsActive && g.StartDate >= DateTime.Now));
         users.Add(user);
       }
 
 
       return Ok(users);
     }
+
     [HttpPut]
     public async Task<IActionResult> UpdateUser(UpdateUserRequest userRequest)
     {
@@ -140,6 +141,7 @@ namespace ImageHunt.Controllers
       userResponse.Role = userRequest.Role;
       return Ok(userResponse);
     }
+
     [HttpDelete("{userId}")]
     public async Task<IActionResult> DeleteUser(string userId)
     {

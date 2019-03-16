@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../shared/services/user.service';
-import { NgForm } from '@angular/forms';
-import { AlertService } from '../../shared/services/alert.service';
-import { BsModalRef } from 'ngx-bootstrap';
+import { UserService } from "../../shared/services/user.service";
+import { AlertService } from "../../shared/services/alert.service";
 
 @Component({
-  selector: 'app-login-form',
-  templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.css']
+  selector: "app-login-form",
+  templateUrl: "./login-form.component.html",
+  styleUrls: ["./login-form.component.css"]
 })
 export class LoginFormComponent implements OnInit {
 
@@ -24,7 +21,7 @@ export class LoginFormComponent implements OnInit {
     this._userService.login(form.form.value.userName, form.form.value.password)
       .subscribe(res => {
           localStorage.setItem("authToken", res.value);
-        this._alertService.sendAlert("Connexion réussie", "success", 3000);
+          this._alertService.sendAlert("Connexion réussie", "success", 3000);
           this.bsModalRef.hide();
         },
         error => {

@@ -1,18 +1,13 @@
-  import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, AfterContentChecked, AfterContentInit } from '@angular/core';
-import * as L from 'leaflet';
-import 'leaflet-polylinedecorator';
-import 'leaflet-contextmenu';
-import 'leaflet.awesome-markers';
+import * as L from "leaflet";
+import "leaflet-polylinedecorator";
+import "leaflet-contextmenu";
+import "leaflet.awesome-markers";
 
-import { GameService } from '../../shared/services/game.service';
-import { GeoPoint } from '../../shared/GeoPoint';
-import { NodeClicked } from '../../shared/NodeClicked';
-import { RelationClicked } from '../../shared/RelationClicked';
-import { NodeRelation } from '../../shared/NodeRelation';
-import { Observable } from 'rxjs';
-import { Game } from '../../shared/game';
-import { Node } from '../../shared/node';
-import { AlertService } from '../../shared/services/alert.service';
+import { GeoPoint } from "../../shared/GeoPoint";
+import { NodeClicked } from "../../shared/NodeClicked";
+import { RelationClicked } from "../../shared/RelationClicked";
+import { NodeRelation } from "../../shared/NodeRelation";
+import { Node } from "../../shared/node";
 import { NodeDragged } from "../../shared/NodeDragged";
 
 class NodeMarker extends L.Marker {
@@ -20,30 +15,47 @@ class NodeMarker extends L.Marker {
 }
 
 @Component({
-  selector: 'map-detail3',
-  templateUrl: './map-detail3.component.html',
-  styleUrls: ['./map-detail3.component.scss']
+  selector: "map-detail3",
+  templateUrl: "./map-detail3.component.html",
+  styleUrls: ["./map-detail3.component.scss"]
 })
 /** map-detail3 component*/
 export class MapDetail3Component implements OnInit {
-  @Input() gameId: number;
-  @Input() newNodesRelation: GeoPoint[];
-  @Input() nodeMode: string;
-  @Input() filterNode: string[];
-  @Input() nodeRelations: NodeRelation[];
-  @Input() latCenter: number;
-  @Input() lngCenter: number;
-  @Input() zoom: number;
-  @Input() nodes: Node[];
-  @Input() editable: boolean;
+  @Input()
+  gameId: number;
+  @Input()
+  newNodesRelation: GeoPoint[];
+  @Input()
+  nodeMode: string;
+  @Input()
+  filterNode: string[];
+  @Input()
+  nodeRelations: NodeRelation[];
+  @Input()
+  latCenter: number;
+  @Input()
+  lngCenter: number;
+  @Input()
+  zoom: number;
+  @Input()
+  nodes: Node[];
+  @Input()
+  editable: boolean;
 
-  @Output() mapClicked = new EventEmitter();
-  @Output() nodeClicked = new EventEmitter<NodeClicked>();
-  @Output() nodeRightClicked = new EventEmitter<NodeClicked>();
-  @Output() nodeDragged = new EventEmitter<NodeDragged>();
-  @Output() relationRightClicked = new EventEmitter<RelationClicked>();
-  @Output() newRelation = new EventEmitter<NodeRelation>();
-  @Output() zoomChange = new EventEmitter<number>();
+  @Output()
+  mapClicked = new EventEmitter();
+  @Output()
+  nodeClicked = new EventEmitter<NodeClicked>();
+  @Output()
+  nodeRightClicked = new EventEmitter<NodeClicked>();
+  @Output()
+  nodeDragged = new EventEmitter<NodeDragged>();
+  @Output()
+  relationRightClicked = new EventEmitter<RelationClicked>();
+  @Output()
+  newRelation = new EventEmitter<NodeRelation>();
+  @Output()
+  zoomChange = new EventEmitter<number>();
   map: any;
   markers: any[] = [];
   polylines: L.Polyline[] = [];
@@ -52,11 +64,12 @@ export class MapDetail3Component implements OnInit {
     this.map = L.map("MapDetail")
       .setView([0, 0], 12);
 
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: 'ImageHunt'
-    }).addTo(this.map);
+    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+      {
+        attribution: "ImageHunt"
+      }).addTo(this.map);
     this.updateMap();
-    this.map.on('click', event=> this.mapClicked.emit(event));
+    this.map.on("click", event => this.mapClicked.emit(event));
 
 
   }
@@ -68,6 +81,7 @@ export class MapDetail3Component implements OnInit {
     this.zoom = 1;
 
   }
+
   clearMap() {
     for (let i in this.map._layers) {
       if (this.map._layers[i] !== undefined) {
@@ -76,7 +90,7 @@ export class MapDetail3Component implements OnInit {
             this.map.removeLayer(this.map._layers[i]);
             continue;
           } catch (e) {
-            console.log("problem with " + e + this.map._layers[i]);
+            console.log(`problem with ${e}${this.map._layers[i]}`);
           }
         }
         if (this.map._layers[i].node !== undefined) {
@@ -86,6 +100,7 @@ export class MapDetail3Component implements OnInit {
       }
     }
   }
+
   updateMap() {
 
     if (this.latCenter !== undefined) {
@@ -110,7 +125,7 @@ export class MapDetail3Component implements OnInit {
                 [node.latitude, node.longitude],
                 [children.latitude, children.longitude]
               ],
-              { color: 'Blue', weight: 2 }
+              { color: "Blue", weight: 2 }
             );
             //polyline.addTo(this.map);
             this.polylines.push(polyline);
@@ -118,9 +133,9 @@ export class MapDetail3Component implements OnInit {
             const decorator = L.polylineDecorator(polyline,
               {
                 patterns:
-                  [
-                    { offset: 0, repeat: 20, symbol: symbol }
-                  ]
+                [
+                  { offset: 0, repeat: 20, symbol: symbol }
+                ]
               });
             decorator.addTo(this.map);
           });
@@ -128,6 +143,7 @@ export class MapDetail3Component implements OnInit {
       });
     }
   }
+
   createNewRelations() {
     if (this.newRelation !== undefined) {
       this.newRelation.forEach(relation => {
@@ -138,13 +154,14 @@ export class MapDetail3Component implements OnInit {
             [firstNode.latitude, firstNode.longitude],
             [secondNode.latitude, secondNode.longitude]
           ],
-          { color: 'Red', weight: 2 }
+          { color: "Red", weight: 2 }
         );
         polyline.addTo(this.map);
 
       });
     }
   }
+
   createMarkers() {
     this.nodes.forEach(node => {
       const icon = L.AwesomeMarkers.icon(this.getIconForNodeType(node.nodeType));
@@ -152,85 +169,87 @@ export class MapDetail3Component implements OnInit {
         { icon: icon, title: node.name, draggable: this.editable, });
       marker.node = node;
       marker.addTo(this.map);
-      marker.on('click', event => this.onNodeClick(event));
-      marker.on('dragend', event => this.onNodeDragged(event));
+      marker.on("click", event => this.onNodeClick(event));
+      marker.on("dragend", event => this.onNodeDragged(event));
 
       marker.on("contextmenu", event => this.markerRightClick(event));
       //marker.addEventListener("dragend")
       this.markers.push({ marker, node });
     });
   }
+
   getIconForNodeType(nodeType: string): L.AwesomeMarkers.AwesomeMarkersIconOptions {
     switch (nodeType) {
-      case 'TimerNode':
-        return {
-          icon: 'clock',
-          prefix: 'fa',
-          markerColor: 'cadetblue'
-        };
-      case 'PictureNode':
-        return {
-          icon: 'camera',
-          prefix: 'fa',
-          markerColor: 'blue'
-        };
+    case "TimerNode":
+      return {
+        icon: "clock",
+        prefix: "fa",
+        markerColor: "cadetblue"
+      };
+    case "PictureNode":
+      return {
+        icon: "camera",
+        prefix: "fa",
+        markerColor: "blue"
+      };
 
-      case 'FirstNode':
-        return {
-          icon: 'flag',
-          prefix: 'fa',
-          markerColor: 'red'
-        };
+    case "FirstNode":
+      return {
+        icon: "flag",
+        prefix: "fa",
+        markerColor: "red"
+      };
 
-      case 'LastNode':
-        return {
-          icon: 'flag-checkered',
-          prefix: 'fa',
-          markerColor: 'green'
-        };
+    case "LastNode":
+      return {
+        icon: "flag-checkered",
+        prefix: "fa",
+        markerColor: "green"
+      };
 
-      case 'ChoiceNode':
-        return {
-          icon: 'list-ol',
-          prefix: 'fa',
-          markerColor: 'darkgreen'
-        };
-      case 'QuestionNode':
-        return {
-          icon: 'question-circle',
-          prefix: 'fa',
-          markerColor: 'orange'
-        };
+    case "ChoiceNode":
+      return {
+        icon: "list-ol",
+        prefix: "fa",
+        markerColor: "darkgreen"
+      };
+    case "QuestionNode":
+      return {
+        icon: "question-circle",
+        prefix: "fa",
+        markerColor: "orange"
+      };
 
-      case 'ObjectNode':
-        return {
-          icon: 'running',
-          prefix: 'fa',
-          markerColor: 'darkred'
-        };
-      case 'HiddenNode':
-        return {
-          icon: 'mask',
-          prefix: 'fa',
-          markerColor: 'purple'
-        };
-      case 'BonusNode':
-        return {
-          icon: 'gift',
-          prefix: 'fa',
-          markerColor: 'darkpurple'
-        };
-      case 'WaypointNode':
-        return {
-          icon: 'fa-map-marker-alt',
-          prefix: 'fa',
-          markerColor: 'blue'
-        };
-      default:
-        return null;
+    case "ObjectNode":
+      return {
+        icon: "running",
+        prefix: "fa",
+        markerColor: "darkred"
+      };
+    case "HiddenNode":
+      return {
+        icon: "mask",
+        prefix: "fa",
+        markerColor: "purple"
+      };
+    case "BonusNode":
+      return {
+        icon: "gift",
+        prefix: "fa",
+        markerColor: "darkpurple"
+      };
+    case "WaypointNode":
+      return {
+        icon: "fa-map-marker-alt",
+        prefix: "fa",
+        markerColor: "blue"
+      };
+    default:
+      return null;
     }
   }
-  isFirstClick: boolean = true;
+
+  isFirstClick = true;
   firstNode: Node;
   secondNode: Node;
 
@@ -238,9 +257,9 @@ export class MapDetail3Component implements OnInit {
     this.firstNode = null;
     this.isFirstClick = true;
   }
-  
+
   onNodeClick(leafletEvent: L.LeafletEvent): void {
-    let node = leafletEvent.target.node;
+    const node = leafletEvent.target.node;
     let nClicked: NodeClicked;
     if (node.nodeType !== "PictureNode") {
       if (this.isFirstClick) {
@@ -261,36 +280,37 @@ export class MapDetail3Component implements OnInit {
 
 
   markerRightClick(leafletEvent: L.LeafletEvent): void {
-    let node = leafletEvent.target.node;
-      //const nodeMenuItems = [
-      //  { label: 'Modifier', icon: 'fa-edit', disabled: true },
-      //  { label: 'Effacer', icon: 'fa-trash', command: event => this.deleteNode(node.id) },
-      //];
-      //if (node.nodeType === 'QuestionNode') {
-      //  this.nodeMenuItems.push({
-      //    label: 'Editer les relations',
-      //    automationId: node.id,
-      //    //command: event => this.editNodeAnswers()
-      //  });
-      //}
-      //this.markerContextMenu.show(event.Ia);
-      //this.nodeRightClicked.emit(new NodeClicked(node, 0, event.Ia));
-      this.nodeRightClicked.emit(new NodeClicked(node, 0, null));
+    const node = leafletEvent.target.node;
+    //const nodeMenuItems = [
+    //  { label: 'Modifier', icon: 'fa-edit', disabled: true },
+    //  { label: 'Effacer', icon: 'fa-trash', command: event => this.deleteNode(node.id) },
+    //];
+    //if (node.nodeType === 'QuestionNode') {
+    //  this.nodeMenuItems.push({
+    //    label: 'Editer les relations',
+    //    automationId: node.id,
+    //    //command: event => this.editNodeAnswers()
+    //  });
+    //}
+    //this.markerContextMenu.show(event.Ia);
+    //this.nodeRightClicked.emit(new NodeClicked(node, 0, event.Ia));
+    this.nodeRightClicked.emit(new NodeClicked(node, 0, null));
 
   }
 
   onNodeDragged(leafletEvent: L.LeafletEvent): void {
-    var newPosition = leafletEvent.target.getLatLng();
-    var node = leafletEvent.target.node;
+    const newPosition = leafletEvent.target.getLatLng();
+    const node = leafletEvent.target.node;
     node.latitude = newPosition.lat;
     node.longitude = newPosition.lng;
     this.clearMap();
 
-    this.nodeDragged.emit({ node, newPosition});
+    this.nodeDragged.emit({ node, newPosition });
   }
+
   fitNodes() {
     const coords = this.markers.map(m => [m.node.latitude, m.node.longitude]);
-    
+
     this.map.fitBounds(coords);
   }
 }

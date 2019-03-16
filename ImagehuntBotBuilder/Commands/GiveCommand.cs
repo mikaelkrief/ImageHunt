@@ -16,49 +16,48 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly IActionWebService _actionWebService;
 
-        public GiveCommand(ILogger<IGiveCommand> logger, IActionWebService actionWebService, IStringLocalizer<GiveCommand> localizer) : base(logger, localizer)
+        public GiveCommand(ILogger<IGiveCommand> logger, IActionWebService actionWebService,
+            IStringLocalizer<GiveCommand> localizer)
+            : base(logger, localizer)
         {
             _actionWebService = actionWebService;
         }
 
-        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             if (!state.GameId.HasValue || !state.TeamId.HasValue)
             {
-                _logger.LogError("GameId or TeamId not set, unable to give points");
-                await turnContext.SendActivityAsync(_localizer["CHAT_NOT_INITIALIZED"]);
+                Logger.LogError("GameId or TeamId not set, unable to give points");
+                await turnContext.SendActivityAsync(Localizer["CHAT_NOT_INITIALIZED"]);
                 return;
             }
 
             if (state.Status == Status.Started || state.Status == Status.Ended)
             {
-
-
                 var regEx = new Regex(@"(?i)\/give points=(-?\d*)");
                 var activityText = turnContext.Activity.Text;
                 if (regEx.IsMatch(activityText))
                 {
                     var groups = regEx.Matches(activityText);
                     var points = Convert.ToInt32(groups[0].Groups[1].Value);
-                    var request = new GameActionRequest()
+                    var request = new GameActionRequest
                     {
                         Action = (int)Action.GivePoints,
                         GameId = state.GameId.Value,
                         TeamId = state.TeamId.Value,
                         PointsEarned = points,
-                        Validated = true,
+                        Validated = true
                     };
                     await _actionWebService.LogAction(request);
-                    await turnContext.SendActivityAsync(string.Format(_localizer["GIVE_POINTS_MESSAGE"], points));
-                    _logger.LogInformation($"Admin give {points} to team {state.TeamId}");
+                    await turnContext.SendActivityAsync(string.Format(Localizer["GIVE_POINTS_MESSAGE"], points));
+                    Logger.LogInformation($"Admin give {points} to team {state.TeamId}");
                 }
             }
             else
             {
-                _logger.LogError("Game not started or ended, unable to give points");
-                var warningMessage = _localizer["CHAT_NOT_INITIALIZED"];
+                Logger.LogError("Game not started or ended, unable to give points");
+                var warningMessage = Localizer["CHAT_NOT_INITIALIZED"];
                 await turnContext.SendActivityAsync(warningMessage);
-                return;
             }
         }
     }

@@ -14,7 +14,11 @@
     <tr *ngFor="let game of games">
       <td>{{game.name}}</td>
       <td>{{game.startDate | date:'medium':'CEST':'fr'}}</td>
-      <td><button class="btn btn-primary" routerLink="/action/{{game.id}}"><i class="fa fa-map-signs"></i></button></td>
+      <td>
+        <button class="btn btn-primary" routerLink="/action/{{game.id}}">
+          <i class="fa fa-map-signs"></i>
+        </button>
+      </td>
     </tr>
     </tbody>
   </table>

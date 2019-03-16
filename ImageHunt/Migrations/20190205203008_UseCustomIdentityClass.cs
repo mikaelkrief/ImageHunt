@@ -2,21 +2,21 @@
 
 namespace ImageHunt.Migrations
 {
-    public partial class UseCustomIdentityClass : Migration
+  public partial class UseCustomIdentityClass : Migration
+  {
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<string>(
-                name: "TelegramUser",
-                table: "AspNetUsers",
-                nullable: true);
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "TelegramUser",
-                table: "AspNetUsers");
-        }
+      migrationBuilder.AddColumn<string>(
+        "TelegramUser",
+        "AspNetUsers",
+        nullable: true);
     }
+
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+      migrationBuilder.DropColumn(
+        "TelegramUser",
+        "AspNetUsers");
+    }
+  }
 }

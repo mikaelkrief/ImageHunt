@@ -31,6 +31,7 @@ namespace ImageHunt.Model
         case NodeResponse.WaypointNodeType:
           return new WaypointNode();
       }
+
       return null;
     }
 
@@ -65,14 +66,16 @@ namespace ImageHunt.Model
           break;
         case NodeResponse.ChoiceNodeType:
           ((ChoiceNode) newNode).Choice = ((ChoiceNode) orgNode).Choice;
-          ((ChoiceNode)newNode).Answers = new List<Answer>();
-          ((ChoiceNode)orgNode).Answers.ForEach(a=>((ChoiceNode)newNode).Answers.Add(new Answer(){Response = a.Response, Correct = a.Correct})); 
+          ((ChoiceNode) newNode).Answers = new List<Answer>();
+          ((ChoiceNode) orgNode).Answers.ForEach(a =>
+            ((ChoiceNode) newNode).Answers.Add(new Answer {Response = a.Response, Correct = a.Correct}));
           break;
         case NodeResponse.BonusNodeType:
           ((BonusNode) newNode).Location = ((BonusNode) orgNode).Location;
           ((BonusNode) newNode).BonusType = ((BonusNode) orgNode).BonusType;
           break;
       }
+
       return newNode;
     }
   }

@@ -488,7 +488,6 @@ namespace ImageHuntBotBuilderTest
         public async Task Should_Return_InviteUrlAsync()
         {
             // Arrange
-            string authHeader = null;
             var turnContext = A.Fake<ITurnContext>();
 
             var inviteUrl = "https://tg.telegrame.com/invite";

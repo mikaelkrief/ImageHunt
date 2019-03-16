@@ -4,22 +4,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
-
   public partial class Add_game_code : Migration
+  {
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<string>(
-                name: "Code",
-                table: "Games",
-                nullable: true);
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "Code",
-                table: "Games");
-        }
+      migrationBuilder.AddColumn<string>(
+        "Code",
+        "Games",
+        nullable: true);
     }
+
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+      migrationBuilder.DropColumn(
+        "Code",
+        "Games");
+    }
+  }
 }

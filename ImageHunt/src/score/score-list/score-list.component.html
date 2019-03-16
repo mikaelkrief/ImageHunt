@@ -1,41 +1,47 @@
 <div class="row">
-    <h1 i18n>Scores</h1>
-    <table class="table">
-      <thead>
-      <tr>
-        <th></th>
-        <th i18n>Team</th>
-        <th i18n>Players</th>
-        <th i18n>Score</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let score of scores | sortByField : 'points' : true; let i = index">
-        <td><i class="fa fa-star" [style.color]="colorFromRank(i)"></i></td>
-        <td>{{score.team.name}}</td>
-        <td><ul>
+  <h1 i18n>Scores</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th></th>
+      <th i18n>Team</th>
+      <th i18n>Players</th>
+      <th i18n>Score</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let score of scores | sortByField : 'points' : true; let i = index">
+      <td>
+        <i class="fa fa-star" [style.color]="colorFromRank(i)"></i>
+      </td>
+      <td>{{score.team.name}}</td>
+      <td>
+        <ul>
           <li *ngFor="let player of score.team.players">{{player.name}}</li>
-        </ul></td>
-        <td>{{score.points | number:'1.0-0':'fr'}}</td>
-      </tr>
-      </tbody>
-    </table>
-    <h1>Temps</h1>
-    <table class="table">
-      <thead>
-      <tr>
-        <th></th>
-        <th i18n>Team</th>
-        <th i18n>Time</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let score of scores | sortByField : 'travelTime' : false; let i = index">
-        <td><i class="fa fa-star" [style.color]="colorFromRank(i)"></i></td>
-        <td>{{score.team.name}}</td>
-        <td>{{score.travelTime | momentFormat:'' }}</td>
-      </tr>
-      </tbody>
-    </table>
+        </ul>
+      </td>
+      <td>{{score.points | number:'1.0-0':'fr'}}</td>
+    </tr>
+    </tbody>
+  </table>
+  <h1>Temps</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th></th>
+      <th i18n>Team</th>
+      <th i18n>Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let score of scores | sortByField : 'travelTime' : false; let i = index">
+      <td>
+        <i class="fa fa-star" [style.color]="colorFromRank(i)"></i>
+      </td>
+      <td>{{score.team.name}}</td>
+      <td>{{score.travelTime | momentFormat:'' }}</td>
+    </tr>
+    </tbody>
+  </table>
 
-</div> 
+</div>

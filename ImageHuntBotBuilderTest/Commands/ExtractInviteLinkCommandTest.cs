@@ -44,7 +44,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             
             // Act
-            await _target.Execute(_turnContext, _state);
+            await _target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
@@ -65,7 +65,7 @@ namespace ImageHuntBotBuilderTest.Commands
                 .Invokes(x =>
                     x.GetArgument<Activity[]>(0)[0].Attachments = new List<Attachment>() {new Attachment(contentUrl: "https://toto")});
             // Act
-            await _target.Execute(_turnContext, _state);
+            await _target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _turnContext.SendActivitiesAsync(A<Activity[]>._, A<CancellationToken>._))
                 .MustHaveHappened();

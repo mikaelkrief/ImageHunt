@@ -45,7 +45,7 @@ namespace ImageHuntBotBuilderTest.Commands
             var activity = new Activity(text: "/redeem gameid=45 pass=FGFGFFGT", from: new ChannelAccount(name:"toto"));
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             // Act
-            await _target.Execute(_turnContext, _state);
+            await _target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _passcodeWebService.RedeemPasscode(45, "toto", "FGFGFFGT"));
             A.CallTo(

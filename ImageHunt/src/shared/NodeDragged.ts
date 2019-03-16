@@ -1,6 +1,6 @@
-import { Node } from './node';
+import { Node } from "./node";
 
 export class NodeDragged {
-  constructor(public node: Node, public newPosition:L.LatLng) { }
+  constructor(public node: Node, public newPosition: L.LatLng) {}
 
 }

@@ -1,18 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { LiveService } from '../../shared/services/live.service';
-import { ActivatedRoute } from '@angular/router';
-import { Team } from '../../shared/team';
-import { TeamPosition } from '../../shared/teamPosition';
-import * as L from 'leaflet';
-import { Game } from '../../shared/game';
-import { GameService } from '../../shared/services/game.service';
-import { GameAction } from '../../shared/gameAction';
-import { forkJoin } from 'rxjs';
+import { LiveService } from "../../shared/services/live.service";
+import { Team } from "../../shared/team";
+import * as L from "leaflet";
+import { Game } from "../../shared/game";
+import { GameService } from "../../shared/services/game.service";
+import { GameAction } from "../../shared/gameAction";
+import { forkJoin } from "rxjs";
 
 @Component({
-  selector: 'team-follow',
-  templateUrl: './team-follow.component.html',
-  styleUrls: ['./team-follow.component.scss']
+  selector: "team-follow",
+  templateUrl: "./team-follow.component.html",
+  styleUrls: ["./team-follow.component.scss"]
 })
 /** team-follow component*/
 export class TeamFollowComponent implements OnInit {
@@ -23,12 +20,14 @@ export class TeamFollowComponent implements OnInit {
       (gameAction) => this.handleNewPosition(gameAction));
 
   }
+
   getColorForTeam(team: Team) {
-    if (team.color === '')
-      return '#' + Math.floor(Math.random() * 16777215).toString(16);
+    if (team.color === "")
+      return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
     else
       return team.color;
   }
+
   handleNewPosition(gameAction) {
     if (gameAction.game.id === this.gameId) {
       this.handleGameAction(gameAction);
@@ -38,44 +37,44 @@ export class TeamFollowComponent implements OnInit {
   handleGameAction(gameAction: GameAction) {
     if (!this.positions.has(gameAction.team.id)) {
       this.positions.set(gameAction.team.id, new Array<GameAction>());
-      let color = this.getColorForTeam(gameAction.team);
+      const color = this.getColorForTeam(gameAction.team);
       gameAction.team.color = color;
-      let polyline = new L.Polyline(
+      const polyline = new L.Polyline(
         [[gameAction.latitude, gameAction.longitude], [gameAction.latitude, gameAction.longitude]],
         { color: color });
       polyline.addTo(this.pathLayer);
       this.paths.set(gameAction.team.id, polyline);
     }
-    let pos = this.positions.get(gameAction.team.id);
+    const pos = this.positions.get(gameAction.team.id);
     pos.push(gameAction);
-    let poly = this.paths.get(gameAction.team.id);
+    const poly = this.paths.get(gameAction.team.id);
     poly.addLatLng([gameAction.latitude, gameAction.longitude]);
     this.createMarker(gameAction);
   }
 
   createMarker(gameAction: GameAction) {
-    let icon;
-    let iconUrl;
+    let iconUrl: string;
     switch (gameAction.action) {
-      case 0:
-        iconUrl = 'assets/startNode.png';
-        break;
-      case 1:
-        iconUrl = 'assets/endNode.png';
-        break;
-      case 2:
-        iconUrl = 'assets/pictureNode.png';
-        break;
-      case 4:
-        iconUrl = 'assets/questionNode.png';
-        break;
-      case 5:
-        iconUrl = 'assets/objectNode.png';
-        break;
-      default:
-        break;
+    case 0:
+      iconUrl = "assets/startNode.png";
+      break;
+    case 1:
+      iconUrl = "assets/endNode.png";
+      break;
+    case 2:
+      iconUrl = "assets/pictureNode.png";
+      break;
+    case 4:
+      iconUrl = "assets/questionNode.png";
+      break;
+    case 5:
+      iconUrl = "assets/objectNode.png";
+      break;
+    default:
+      break;
     }
     if (iconUrl !== undefined) {
+      let icon: L.Icon<{ iconUrl: string;iconSize: [number, number];iconAnchor: [number, number] }>;
       icon = new L.Icon({
         iconUrl: iconUrl,
         iconSize: [32, 32],
@@ -90,16 +89,17 @@ export class TeamFollowComponent implements OnInit {
 
   ngOnInit(): void {
     this.map = L.map("map").setView([0, 0], 12);
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: 'ImageHunt'
-    }).addTo(this.map);
+    L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+      {
+        attribution: "ImageHunt"
+      }).addTo(this.map);
 
 
     this.gameId = +this.route.snapshot.params["gameId"];
     forkJoin<Game, GameAction[]>(
-      this._gameService.getGameById(this.gameId),
-      this._gameService.getGameActionsForGame(this.gameId)
-    )
+        this._gameService.getGameById(this.gameId),
+        this._gameService.getGameActionsForGame(this.gameId)
+      )
       .subscribe(([game, gameActions]) => {
         this.game = game;
         this.map.setView([this.game.mapCenterLat, this.game.mapCenterLng], this.map.zoom);
@@ -118,11 +118,13 @@ export class TeamFollowComponent implements OnInit {
 
       });
   }
+
   retrievePositions(gameActions: GameAction[]) {
     for (let gameAction of gameActions) {
       this.handleGameAction(gameAction);
     }
   }
+
   paths: Map<number, L.Polyline> = new Map<number, L.Polyline>();
 
   positions: Map<number, Array<GameAction>> = new Map<number, Array<GameAction>>();

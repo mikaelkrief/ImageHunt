@@ -1,8 +1,9 @@
-import {Answer} from "./answer";
+import { Answer } from "./answer";
+
 export class QuestionNode {
   nodeId: number;
   name: string;
-  question:string;
+  question: string;
   nodeType: string;
-  answers:Answer[];
+  answers: Answer[];
 }

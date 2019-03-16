@@ -5,14 +5,14 @@
     </div>
     <div class="row">
       <div *ngIf="game" class="col-md-3 col-lg-3">
-        <img *ngIf="game.picture" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{game.picture.id}}&width=150" />
-        <img *ngIf="!game.picture" class="img-thumbnail" src="assets/ImageHunt.png" />
+        <img *ngIf="game.picture" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{game.picture.id}}&width=150"/>
+        <img *ngIf="!game.picture" class="img-thumbnail" src="assets/ImageHunt.png"/>
       </div>
       <div class="col-md-9 col-lg-9">
-          <div class="form-group">
-            <label for="gameName" i18n>Game name</label>
-            <input class="form-control" type="text" [value]="game.name" id="gameName" name="gameName" readonly="readonly" i18n-placeholder placeholder="Game's name"/>
-          </div>
+        <div class="form-group">
+          <label for="gameName" i18n>Game name</label>
+          <input class="form-control" type="text" [value]="game.name" id="gameName" name="gameName" readonly="readonly" i18n-placeholder placeholder="Game's name"/>
+        </div>
 
         <div class="form-group">
           <label for="dateStart" i18n>Start date of the Game</label>
@@ -31,7 +31,7 @@
       </div>
     </div>
   </div>
-  <br/> 
+  <br/>
   <div class="row">
     <div class="col-sm-2 col-md-2 col-lg-2">
       <div heading="Follow">
@@ -53,10 +53,10 @@
         <h4 i18n>Configuration</h4>
         <div class="btn-group-vertical w-100" role="group">
           <!--<div class="btn-group">
-    <button class="btn btn-primary" [routerLink]="['/passcode/', game.id]">
-      <i class="fa fa-qrcode"></i><span class="d-none d-md-block" i18n> Passcodes</span>
-    </button>
-  </div>-->
+            <button class="btn btn-primary" [routerLink]="['/passcode/', game.id]">
+              <i class="fa fa-qrcode"></i><span class="d-none d-md-block" i18n> Passcodes</span>
+            </button>
+          </div>-->
           <div class="btn-group">
             <button class="btn btn-primary" [routerLink]="['/teams/', game.id]">
               <i class="fa fa-users"></i><span class="d-none d-md-block" i18n> Teams</span>
@@ -95,22 +95,34 @@
         <div class="btn-group-vertical w-100" role="group">
           <div class="btn-group-vertical " role="group">
             <div class="btn-group">
-              <button class="btn btn-info" (click)="uploadImages(uploadImagesTemplate)"><i class="fa fa-image"></i><span class="d-none d-md-block" i18n> Add mystery pictures</span></button>
+              <button class="btn btn-info" (click)="uploadImages(uploadImagesTemplate)">
+                <i class="fa fa-image"></i><span class="d-none d-md-block" i18n> Add mystery pictures</span>
+              </button>
             </div>
             <div class="btn-group">
-              <button class="btn btn-info" (click)="uploadKml(uploadKmlTemplate)"><i class="fas fa-map-marker-alt"></i><span class="d-none d-md-block" i18n> Import Kml file</span></button>
+              <button class="btn btn-info" (click)="uploadKml(uploadKmlTemplate)">
+                <i class="fas fa-map-marker-alt"></i><span class="d-none d-md-block" i18n> Import Kml file</span>
+              </button>
             </div>
             <div class="btn-group">
-              <button class="btn btn-primary" (click)="editNodeRelations()"><i class="fa fa-link"></i><span class="d-none d-md-block" i18n> Edit links</span></button>
+              <button class="btn btn-primary" (click)="editNodeRelations()">
+                <i class="fa fa-link"></i><span class="d-none d-md-block" i18n> Edit links</span>
+              </button>
             </div>
             <div class="btn-group">
-              <button class="btn btn-primary" (click)="editNodeAnswers()"><i class="fa fa-question"></i><span class="d-none d-md-block" i18n> Edit question's Answers</span></button>
+              <button class="btn btn-primary" (click)="editNodeAnswers()">
+                <i class="fa fa-question"></i><span class="d-none d-md-block" i18n> Edit question's Answers</span>
+              </button>
             </div>
             <div class="btn-group">
-              <button class="btn btn-primary" (click)="batchEdit()"><i class="fas fa-cogs"></i><span i18n> Batch edit</span></button>
+              <button class="btn btn-primary" (click)="batchEdit()">
+                <i class="fas fa-cogs"></i><span i18n> Batch edit</span>
+              </button>
             </div>
             <div class="btn-group">
-              <button class="btn btn-danger" (click)="saveChanges(game.id)"><i class="fas fa-save"></i><span class="d-none d-md-block" i18n> Save Changes</span></button>
+              <button class="btn btn-danger" (click)="saveChanges(game.id)">
+                <i class="fas fa-save"></i><span class="d-none d-md-block" i18n> Save Changes</span>
+              </button>
             </div>
           </div>
         </div>
@@ -126,9 +138,9 @@
     </button>
   </div>
   <div class="modal-body">
-    <br />
+    <br/>
     <form>
-      <input type="file" #fileInput i18n-placeholder placeholder="Upload file..." multiple (change)="uploadFiles(fileInput.files)" />
+      <input type="file" #fileInput i18n-placeholder placeholder="Upload file..." multiple (change)="uploadFiles(fileInput.files)"/>
     </form>
   </div>
 </ng-template>
@@ -140,10 +152,10 @@
     </button>
   </div>
   <div class="modal-body">
-    <br />
+    <br/>
     <form>
       <div class="row">
-        <input type="file" #fileInput i18n-placeholder placeholder="Upload file..." multiple (change)="uploadKmlFiles(fileInput.files)" />
+        <input type="file" #fileInput i18n-placeholder placeholder="Upload file..." multiple (change)="uploadKmlFiles(fileInput.files)"/>
       </div>
       <div class="row">
         <div class="form-group">

@@ -41,6 +41,7 @@ namespace ImageHunt.Controllers
       _actionService = actionService;
       _mapper = mapper;
     }
+
     // GET: api/Team
     [HttpGet("ByGame/{gameId}")]
     public IActionResult GetTeams(int gameId)
@@ -57,7 +58,7 @@ namespace ImageHunt.Controllers
 
     // POST api/Team
     [HttpPost("{gameId}")]
-    public IActionResult CreateTeam(int gameId, [FromBody]Team team)
+    public IActionResult CreateTeam(int gameId, [FromBody] Team team)
     {
       _teamService.CreateTeam(gameId, team);
       return CreatedAtAction("CreateTeam", team);
@@ -65,20 +66,16 @@ namespace ImageHunt.Controllers
 
     // PUT api/team/5
     [HttpPost("AddPlayer/{teamId}")]
-    public IActionResult AddPlayer(int teamId, [FromBody]PlayerRequest playerRequest)
+    public IActionResult AddPlayer(int teamId, [FromBody] PlayerRequest playerRequest)
     {
       var team = _teamService.GetTeamById(teamId);
       var player = _mapper.Map<Player>(playerRequest);
       Player dbPlayer = null;
       dbPlayer = _playerService.GetPlayerByChatId(player.ChatLogin);
       if (dbPlayer == null)
-      {
-        _teamService.AddMemberToTeam(team, new List<Player>() { player });
-      }
+        _teamService.AddMemberToTeam(team, new List<Player> {player});
       else
-      {
         _playerService.JoinTeam(teamId, dbPlayer.Id);
-      }
       return Ok(_teamService.GetTeamById(teamId));
     }
 
@@ -89,11 +86,13 @@ namespace ImageHunt.Controllers
       var team = _teamService.GetTeamById(id);
       _teamService.DeleteTeam(team);
     }
+
     [HttpGet("Player/{playerLogin}")]
     public IActionResult GetPlayer(string playerLogin)
     {
       return Ok(_playerService.GetPlayerByChatId(playerLogin));
     }
+
     [HttpDelete("Remove/{teamId}/{playerId}")]
     public IActionResult RemovePlayer(int teamId, int playerId)
     {
@@ -102,6 +101,7 @@ namespace ImageHunt.Controllers
       _teamService.DelMemberToTeam(team, player);
       return Ok();
     }
+
     [HttpGet("GetTeamsOfPlayer/{gameId}/{playerChatId}")]
     public IActionResult GetTeamsOfPlayer(int gameId, string playerChatId)
     {
@@ -109,7 +109,7 @@ namespace ImageHunt.Controllers
       //var teams = _teamService.GetTeamsForPlayer(player);
       var game = _gameService.GetGameById(gameId);
       var teamPlayer = player.TeamPlayers.Single(t => game.Teams.Any(gt => gt == t.Team));
-      var teamResponse = new TeamResponse()
+      var teamResponse = new TeamResponse
       {
         GameId = game.Id,
         Id = teamPlayer.Team.Id,
@@ -117,12 +117,14 @@ namespace ImageHunt.Controllers
       };
       return Ok(teamResponse);
     }
+
     [HttpPut("StartTeam/{gameId}/{teamId}")]
     public IActionResult StartTeam(int gameId, int teamId)
     {
       var nextNode = _mapper.Map<NodeResponse>(_teamService.StartGame(gameId, teamId));
       return Ok(nextNode);
     }
+
     [HttpGet("NextNodeForTeam/{teamId}")]
     public IActionResult NextNodeForPlayer(int teamId)
     {
@@ -138,16 +140,18 @@ namespace ImageHunt.Controllers
         using (var stream = uploadRequest.FormFile.OpenReadStream())
         {
           var image = new byte[stream.Length];
-          stream.Read(image, 0, (int)stream.Length);
-          var picture = new Picture() { Image = image };
+          stream.Read(image, 0, (int) stream.Length);
+          var picture = new Picture {Image = image};
           var location = _imageService.ExtractLocationFromImage(picture);
           if (!double.IsNaN(location.Item1) || !double.IsNaN(location.Item2))
           {
             uploadRequest.Latitude = location.Item1;
             uploadRequest.Longitude = location.Item2;
           }
-          stream.Read(image, 0, (int)stream.Length);
-          _teamService.UploadImage(uploadRequest.GameId, uploadRequest.TeamId, uploadRequest.Latitude, uploadRequest.Longitude, image, uploadRequest.ImageName);
+
+          stream.Read(image, 0, (int) stream.Length);
+          _teamService.UploadImage(uploadRequest.GameId, uploadRequest.TeamId, uploadRequest.Latitude,
+            uploadRequest.Longitude, image, uploadRequest.ImageName);
         }
 
         return Ok();
@@ -158,7 +162,7 @@ namespace ImageHunt.Controllers
         var game = _gameService.GetGameById(uploadRequest.GameId);
         var team = _teamService.GetTeamById(uploadRequest.TeamId);
         var picture = await _imageService.GetPictureById(uploadRequest.PictureId.Value);
-        var gameAction = new GameAction()
+        var gameAction = new GameAction
         {
           Action = Action.SubmitPicture,
           DateOccured = DateTime.Now,
@@ -166,7 +170,7 @@ namespace ImageHunt.Controllers
           Team = team,
           Picture = picture,
           Latitude = uploadRequest.Latitude,
-          Longitude = uploadRequest.Longitude,
+          Longitude = uploadRequest.Longitude
         };
         _actionService.AddGameAction(gameAction);
         return Ok();
@@ -174,6 +178,7 @@ namespace ImageHunt.Controllers
 
       return BadRequest();
     }
+
     [HttpDelete("RemoveByChatId/{teamId}/{chatId}")]
     public IActionResult RemovePlayer(int teamId, string chatId)
     {
@@ -182,6 +187,7 @@ namespace ImageHunt.Controllers
       _teamService.DelMemberToTeam(team, player);
       return Ok();
     }
+
     [HttpPatch]
     public IActionResult UpdateTeam(UpdateTeamRequest updateRequest)
     {

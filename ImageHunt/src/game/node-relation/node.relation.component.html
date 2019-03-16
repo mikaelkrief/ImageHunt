@@ -5,49 +5,49 @@
       <i aria-hidden="true" class="fa fa-times"></i>
     </button>
   </div>
-    <div class="modal-body">
-      <div class="container-fluid">
-        <div class="row">
-          <span class="text-danger" i18n>Warning, all changes are not saved until closing modal</span>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row">
+        <span class="text-danger" i18n>Warning, all changes are not saved until closing modal</span>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <span i18n>Parent node</span>
+          <select size="8" [(ngModel)]="selectedParent">
+            <option *ngFor="let node of parentNodes" [ngValue]="node" (click)="parentSelected(node)">{{node.name}}</option>
+          </select>
         </div>
-        <div class="row">
-          <div class="col-sm-3">
-            <span i18n>Parent node</span>
-            <select size="8" [(ngModel)]="selectedParent">
-              <option *ngFor="let node of parentNodes" [ngValue]="node" (click)="parentSelected(node)">{{node.name}}</option>
-            </select>
-          </div>
-          <div class="col-sm-3">
-            <span i18n>Children nodes</span>
-            <select size="8" [(ngModel)]="selectedChildren">
-              <option *ngFor="let node of childrenNodes" [ngValue]="node">{{node.name}}</option>
-            </select>
-          </div>
-          <div class="col-sm-3">
-            <table>
-              <tr>
-                <td>
-                  <button class="btn btn-success" [disabled]="addNodeDisabled" (click)="addChildren()" i18n>Add</button>
-                  <button class="btn btn-danger" [disabled]="removeNodeDisabled" (click)="removeChildren()" i18n>Remove</button>
-                </td>
+        <div class="col-sm-3">
+          <span i18n>Children nodes</span>
+          <select size="8" [(ngModel)]="selectedChildren">
+            <option *ngFor="let node of childrenNodes" [ngValue]="node">{{node.name}}</option>
+          </select>
+        </div>
+        <div class="col-sm-3">
+          <table>
+            <tr>
+              <td>
+                <button class="btn btn-success" [disabled]="addNodeDisabled" (click)="addChildren()" i18n>Add</button>
+                <button class="btn btn-danger" [disabled]="removeNodeDisabled" (click)="removeChildren()" i18n>Remove</button>
+              </td>
 
-              </tr>
+            </tr>
 
-            </table>
-          </div>
-          <div class="col-sm-3">
-            <span i18n>Available nodes</span>
-            <select size="8" [(ngModel)]="selectedAvailable">
-              <option *ngFor="let node of availableNodes" [ngValue]="node">{{node.name}}</option>
-            </select>
-          </div>
+          </table>
+        </div>
+        <div class="col-sm-3">
+          <span i18n>Available nodes</span>
+          <select size="8" [(ngModel)]="selectedAvailable">
+            <option *ngFor="let node of availableNodes" [ngValue]="node">{{node.name}}</option>
+          </select>
         </div>
       </div>
     </div>
+  </div>
   <div class="modal-footer">
-      <button class="btn btn-success pull-right" type="submit" i18n-aria-label aria-label="Close"
-              (click)="bsModalRef.hide()">
-        Terminer
-      </button>
-    </div>
+    <button class="btn btn-success pull-right" type="submit" i18n-aria-label aria-label="Close"
+            (click)="bsModalRef.hide()">
+      Terminer
+    </button>
+  </div>
 </div>

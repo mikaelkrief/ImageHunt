@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ImageHunt.Data;
-using ImageHunt.Model;
 using ImageHuntCore.Model;
 using ImageHuntCore.Services;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +17,7 @@ namespace ImageHunt.Services
 
     public IEnumerable<Admin> GetAllAdmins()
     {
-      return Context.Admins.Include(a => a.GameAdmins).ThenInclude(ga=>ga.Game);
+      return Context.Admins.Include(a => a.GameAdmins).ThenInclude(ga => ga.Game);
     }
 
     public void InsertAdmin(Admin admin)
@@ -36,7 +35,7 @@ namespace ImageHunt.Services
     public Admin GetAdminById(int adminId)
     {
       return Context.Admins
-        .Include(a => a.GameAdmins).ThenInclude(ga=>ga.Game)
+        .Include(a => a.GameAdmins).ThenInclude(ga => ga.Game)
         .Single(a => a.Id == adminId);
     }
 
@@ -49,15 +48,14 @@ namespace ImageHunt.Services
 
     public Admin AssignGame(int adminId, int gameId, bool assign)
     {
-      var admin = Context.Admins.Include(a=>a.GameAdmins)
+      var admin = Context.Admins.Include(a => a.GameAdmins)
         .Single(a => a.Id == adminId);
       var game = Context.Games.Single(g => g.Id == gameId);
       if (assign)
       {
         if (admin.GameAdmins.Any(ga => ga.GameId == gameId && ga.AdminId == adminId))
           return admin;
-        admin.GameAdmins.Add(new GameAdmin(){Admin = admin, Game = game});
-        
+        admin.GameAdmins.Add(new GameAdmin {Admin = admin, Game = game});
       }
       else
       {
@@ -65,6 +63,7 @@ namespace ImageHunt.Services
         if (gameAdmin != null)
           admin.GameAdmins.Remove(gameAdmin);
       }
+
       Context.SaveChanges();
       return admin;
     }

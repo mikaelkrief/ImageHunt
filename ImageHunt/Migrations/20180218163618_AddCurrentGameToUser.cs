@@ -1,48 +1,45 @@
-using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
-
   public partial class AddCurrentGameToUser : Migration
+  {
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<int>(
-                name: "CurrentGameId",
-                table: "Players",
-                nullable: true);
+      migrationBuilder.AddColumn<int>(
+        "CurrentGameId",
+        "Players",
+        nullable: true);
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Players_CurrentGameId",
-                table: "Players",
-                column: "CurrentGameId");
+      migrationBuilder.CreateIndex(
+        "IX_Players_CurrentGameId",
+        "Players",
+        "CurrentGameId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Players_Games_CurrentGameId",
-                table: "Players",
-                column: "CurrentGameId",
-                principalTable: "Games",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Players_Games_CurrentGameId",
-                table: "Players");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Players_CurrentGameId",
-                table: "Players");
-
-            migrationBuilder.DropColumn(
-                name: "CurrentGameId",
-                table: "Players");
-        }
+      migrationBuilder.AddForeignKey(
+        "FK_Players_Games_CurrentGameId",
+        "Players",
+        "CurrentGameId",
+        "Games",
+        principalColumn: "Id",
+        onDelete: ReferentialAction.Restrict);
     }
+
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+      migrationBuilder.DropForeignKey(
+        "FK_Players_Games_CurrentGameId",
+        "Players");
+
+      migrationBuilder.DropIndex(
+        "IX_Players_CurrentGameId",
+        "Players");
+
+      migrationBuilder.DropColumn(
+        "CurrentGameId",
+        "Players");
+    }
+  }
 }

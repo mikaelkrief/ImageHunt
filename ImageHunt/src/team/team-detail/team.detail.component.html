@@ -7,35 +7,42 @@
   </div>
   <div class="col-4">
     <div *ngIf="team">
-      <img *ngIf="team.picture" src="api/Image/Thumbnail?pictureId={{team.picture.id}}&width=150" />
+      <img *ngIf="team.picture" src="api/Image/Thumbnail?pictureId={{team.picture.id}}&width=150"/>
       <i *ngIf="!team.picture" class="fas fa-2x fa-users"></i>
     </div>
   </div>
   <table class="table col-10" *ngIf="team.players != null">
     <thead>
-      <tr>
-        <th i18n>Nom du joueur</th>
-        <th i18n>Pseudo de chat</th>
-        <th i18n>Role</th>
-        <th><button class="btn btn-primary" (click)="createPlayer()"><i class="fa fa-user-plus"></i></button></th>
-      </tr>
+    <tr>
+      <th i18n>Nom du joueur</th>
+      <th i18n>Pseudo de chat</th>
+      <th i18n>Role</th>
+      <th>
+        <button class="btn btn-primary" (click)="createPlayer()">
+          <i class="fa fa-user-plus"></i>
+        </button>
+      </th>
+    </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let player of team.players">
-        <td>{{player.name}}</td>
-        <td>{{player.chatLogin}}</td>
-        <td>
-          <select>
-            <option value="Player" i18n>Player</option>
-            <option value="TeamLeader" i18n>Team leader</option>
-          </select>
-        </td>
-        <td><button class="btn btn-danger" (click)="deletePlayer(team.id, player)"><i class="fa fa-trash"></i></button></td>
+    <tr *ngFor="let player of team.players">
+      <td>{{player.name}}</td>
+      <td>{{player.chatLogin}}</td>
+      <td>
+        <select>
+          <option value="Player" i18n>Player</option>
+          <option value="TeamLeader" i18n>Team leader</option>
+        </select>
+      </td>
+      <td>
+        <button class="btn btn-danger" (click)="deletePlayer(team.id, player)">
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
 
-      </tr>
+    </tr>
 
     </tbody>
   </table>
 </div>
 <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
-

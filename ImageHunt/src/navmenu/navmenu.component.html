@@ -1,22 +1,42 @@
 <div class="main-nav">
   <div class="navbar navbar-inverse">
-    <div class='navbar-header'>
-      <button type='button' class='navbar-toggle collapsed'
-              (click)="isCollapsed = !isCollapsed" >
-        <span class='sr-only'>Toggle navigation</span>
-        <span class='icon-bar'></span>
-        <span class='icon-bar'></span>
-        <span class='icon-bar'></span>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed"
+              (click)="isCollapsed = !isCollapsed">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
       </button>
-      <a class='navbar-brand' routerLink="home">Pixhint</a>
+      <a class="navbar-brand" routerLink="home">Pixhint</a>
     </div>
     <div id="bs-navigationbar" class="navbar-collapse collapse" [collapse]="isCollapsed">
       <ul class="nav navbar-nav" routerLinkActive="active" *ngIf="isAuthenticated">
-        <li class="nav-item" *ngIf="isDisplayed(['*'])" ><a class="nav-link" routerLink="home"><i class="fa fa-home"></i><span i18n> Home</span></a></li>
-        <li class="nav-item" *ngIf="isDisplayed(['Admin','GameMaster'])"><a class="nav-link" routerLink="game"><i class="fa fa-gamepad"></i><span i18n> Game</span></a></li>
-        <li class="nav-item" *ngIf="isDisplayed(['Admin','TeamLeader','Player'])"><a class="nav-link" routerLink="gameavailable"><i class="fa fa-gamepad"></i><span i18n> Games</span></a></li>
-        <li class="nav-item" *ngIf="isDisplayed(['Admin','GameMaster','Validator'])"><a class="nav-link" routerLink="gamevalidation"><i class="fas fa-clipboard-check"></i><span i18n> Validation</span></a></li>
-        <li class="nav-item" *ngIf="isDisplayed(['Admin'])"><a class="nav-link" routerLink="users"><i class="fa fa-user" i18n></i><span i18n> Users</span></a></li>
+        <li class="nav-item" *ngIf="isDisplayed(['*'])">
+          <a class="nav-link" routerLink="home">
+            <i class="fa fa-home"></i><span i18n> Home</span>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="isDisplayed(['Admin','GameMaster'])">
+          <a class="nav-link" routerLink="game">
+            <i class="fa fa-gamepad"></i><span i18n> Game</span>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="isDisplayed(['Admin','TeamLeader','Player'])">
+          <a class="nav-link" routerLink="gameavailable">
+            <i class="fa fa-gamepad"></i><span i18n> Games</span>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="isDisplayed(['Admin','GameMaster','Validator'])">
+          <a class="nav-link" routerLink="gamevalidation">
+            <i class="fas fa-clipboard-check"></i><span i18n> Validation</span>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="isDisplayed(['Admin'])">
+          <a class="nav-link" routerLink="users">
+            <i class="fa fa-user" i18n></i><span i18n> Users</span>
+          </a>
+        </li>
       </ul>
       <ul class="nav navbar-nav">
         <login-button></login-button>

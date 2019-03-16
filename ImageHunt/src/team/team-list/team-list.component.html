@@ -4,48 +4,55 @@
 
   <table class="table">
     <thead>
-      <tr>
-        <th i18n>Team</th>
-        <th i18n>Player count</th>
-        <th i18n>Init group chat</th>
-        <th i18n>Culture</th>
-        <th i18n>Code</th>
-        <th></th>
-        <th><button class="btn btn-primary" (click)="createTeam()"><span class="fa fa-plus-square"></span></button></th>
-      </tr>
+    <tr>
+      <th i18n>Team</th>
+      <th i18n>Player count</th>
+      <th i18n>Init group chat</th>
+      <th i18n>Culture</th>
+      <th i18n>Code</th>
+      <th></th>
+      <th>
+        <button class="btn btn-primary" (click)="createTeam()">
+          <span class="fa fa-plus-square"></span>
+        </button>
+      </th>
+    </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let team of teams">
-        <td>
-          <a routerLink="/team/{{gameId}}/{{team.id}}">
-            <i *ngIf="!team.picture" class="fa fa-users fa-2x" [style.color]="team.color"></i>
-            <img *ngIf="team.picture" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{team.picture.id}}&width=30"/>{{team.name}}
-          </a>
-        </td>
-        <td>{{team.players.length}}</td>
-        <td>
-          <h4>/init gameid={{gameId}} teamid={{team.id}}</h4>
-            <!--<li><qr-code [value]="'/init gameid=' + gameId + ' teamid=' + team.id" [size]="50"></qr-code></li>-->
-        </td>
-        <td>
-          {{team.cultureInfo}}
-        </td>
-        <td>
-          {{team.code}}
-        </td>
-        <td>
-          <button class="btn btn-primary" [routerLink]="['/action/', gameId, team.id]"><i class="fa fa-map-signs"></i></button>
-        </td>
-        <td>
-          <button class="btn btn-danger" (click)="deleteTeam(team.id)"><i class="fa fa-trash"></i></button>
-        </td>
-      </tr>
+    <tr *ngFor="let team of teams">
+      <td>
+        <a routerLink="/team/{{gameId}}/{{team.id}}">
+          <i *ngIf="!team.picture" class="fa fa-users fa-2x" [style.color]="team.color"></i>
+          <img *ngIf="team.picture" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{team.picture.id}}&width=30"/>{{team.name}}
+        </a>
+      </td>
+      <td>{{team.players.length}}</td>
+      <td>
+        <h4>/init gameid={{gameId}} teamid={{team.id}}</h4>
+        <!--<li><qr-code [value]="'/init gameid=' + gameId + ' teamid=' + team.id" [size]="50"></qr-code></li>-->
+      </td>
+      <td>
+        {{team.cultureInfo}}
+      </td>
+      <td>
+        {{team.code}}
+      </td>
+      <td>
+        <button class="btn btn-primary" [routerLink]="['/action/', gameId, team.id]">
+          <i class="fa fa-map-signs"></i>
+        </button>
+      </td>
+      <td>
+        <button class="btn btn-danger" (click)="deleteTeam(team.id)">
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
+    </tr>
     </tbody>
   </table>
 </div>
 <p-confirmDialog id="deleteTeamConfirm"
                  header="Confirmation"
                  appendTo="body"
-                 icon="fa fa-question-circle" width="425"></p-confirmDialog>
-
-
+                 icon="fa fa-question-circle" width="425">
+</p-confirmDialog>

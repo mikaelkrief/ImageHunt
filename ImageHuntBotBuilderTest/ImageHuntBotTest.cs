@@ -205,7 +205,7 @@ namespace ImageHuntBotBuilderTest
             await _target.OnTurnAsync(_turnContext);
             // Assert
             A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).MustHaveHappened();
-            A.CallTo(() => command.Execute(_turnContext, A<ImageHuntState>._)).MustHaveHappened();
+            A.CallTo(() => command.ExecuteAsync(_turnContext, A<ImageHuntState>._)).MustHaveHappened();
         }
         [Fact]
         public async Task Should_Bot_Not_execute_command_if_user_not_authorized()

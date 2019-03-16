@@ -1,6 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
-
-@Pipe({ name: 'gameActionTranslationPipe' })
+@Pipe({ name: "gameActionTranslationPipe" })
 export class GameActionTranslationPipe implements PipeTransform {
   transform(value: number) {
     switch (value) {

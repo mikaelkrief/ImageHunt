@@ -50,7 +50,7 @@ namespace ImageHuntBotBuilderTest.Commands
                 new NodeResponse(){NodeType = NodeResponse.HiddenNodeType, Name = "Hidden1", Points = 15, Hint = "Hint2"},
             };
             // Act
-            await _target.Execute(_turnContext, _state);
+            await _target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
@@ -64,7 +64,7 @@ namespace ImageHuntBotBuilderTest.Commands
 
             _state.HiddenNodes = new NodeResponse[0];
             // Act
-            await _target.Execute(_turnContext, _state);
+            await _target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
@@ -82,7 +82,7 @@ namespace ImageHuntBotBuilderTest.Commands
                 new NodeResponse(){NodeType = NodeResponse.HiddenNodeType, Name = "Hidden1", Points = 15, Hint = "Hint2"},
             };
             // Act
-            await _target.Execute(_turnContext, _state);
+            await _target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _nodeWebService.GetNodesByType(A<NodeTypes>._, A<int>._)).MustNotHaveHappened();
         }

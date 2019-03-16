@@ -1,7 +1,5 @@
 using System.Threading;
 using System.Threading.Tasks;
-using ImageHunt.Model;
-using ImageHuntCore;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using Microsoft.AspNetCore.Identity;
@@ -14,13 +12,12 @@ namespace ImageHunt.Data
   {
     public HuntContext()
     {
-      
     }
 
-    public HuntContext(DbContextOptions options):base(options)
+    public HuntContext(DbContextOptions options) : base(options)
     {
-      
     }
+
     public DbSet<Node> Nodes { get; set; }
     public DbSet<FirstNode> FirstNodes { get; set; }
     public DbSet<LastNode> LastNodes { get; set; }
@@ -118,7 +115,7 @@ namespace ImageHunt.Data
         .WithMany(n => n.ChildrenRelation)
         .HasForeignKey(pc => pc.ParentId);
       modelBuilder.Entity<GameAdmin>()
-        .HasKey(tp => new { tp.AdminId, tp.GameId });
+        .HasKey(tp => new {tp.AdminId, tp.GameId});
 
       modelBuilder.Entity<GameAdmin>()
         .HasOne(tp => tp.Admin)
@@ -158,10 +155,10 @@ namespace ImageHunt.Data
     {
       OnBeforeSaving();
       return base.SaveChanges(acceptAllChangesOnSuccess);
-
     }
 
-    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = new CancellationToken())
+    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
+      CancellationToken cancellationToken = new CancellationToken())
     {
       OnBeforeSaving();
       return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
@@ -170,9 +167,7 @@ namespace ImageHunt.Data
     private void OnBeforeSaving()
     {
       foreach (var entityEntry in ChangeTracker.Entries())
-      {
         if (entityEntry.Entity is DbObject)
-        {
           switch (entityEntry.State)
           {
             case EntityState.Deleted:
@@ -183,8 +178,6 @@ namespace ImageHunt.Data
               entityEntry.CurrentValues["IsDeleted"] = false;
               break;
           }
-        }
-      }
     }
   }
 }

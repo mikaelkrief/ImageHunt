@@ -1,6 +1,4 @@
-import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
 import { ScoreListComponent } from "./score-list/score-list.component";
 import { GameService } from "../shared/services/game.service";
 import { TeamService } from "../shared/services/team.service";

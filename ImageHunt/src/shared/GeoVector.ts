@@ -1,8 +1,8 @@
-import {GeoPoint} from "./GeoPoint";
+import { GeoPoint } from "./GeoPoint";
 
 export class GeoVector {
-  orgId:number;
+  orgId: number;
   org: GeoPoint;
-  destId:number;
-  dest:GeoPoint;
+  destId: number;
+  dest: GeoPoint;
 }

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ImageHuntCore.Model.Node
+﻿namespace ImageHuntCore.Model.Node
 {
     public class BonusNode : Node
     {
         public enum BONUS_TYPE
         {
             Points_x2,
-            Points_x3,
+            Points_x3
         }
 
         public string Location { get; set; }

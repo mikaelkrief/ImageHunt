@@ -1,5 +1,5 @@
-import { Node } from './node';
-import {Team} from "./team";
+import { Node } from "./node";
+import { Team } from "./team";
 
 export class Game {
   id: number;
@@ -8,7 +8,7 @@ export class Game {
   startDate?: Date;
   mapCenterLat?: number;
   mapCenterLng?: number;
-  mapZoom?:number;
+  mapZoom?: number;
   nodes?: Node[];
   teams?: Team[];
   pictureId?: number;

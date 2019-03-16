@@ -1,31 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
-using Autofac.Core;
 using AutoMapper;
 using ImageHunt.Services;
 using ImageHunt.Updater;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ImageHunt.Controllers
 {
   [Route("api/[controller]")]
-  #if !DEBUG
+#if !DEBUG
   [Authorize]
   #endif
   public class NodeController : Controller
   {
     public readonly IMapper _mapper;
     private readonly ILifetimeScope _scope;
-    private INodeService _nodeService;
+    private readonly INodeService _nodeService;
     private readonly IGameService _gameService;
     private readonly ITeamService _teamService;
 
@@ -40,23 +36,25 @@ namespace ImageHunt.Controllers
     }
 
     [HttpPut("AddRelationToNode")]
-    public IActionResult AddRelationToNode([FromBody]NodeRelationRequest relationRequest)
+    public IActionResult AddRelationToNode([FromBody] NodeRelationRequest relationRequest)
     {
       _nodeService.AddChildren(relationRequest.NodeId, relationRequest.ChildrenId);
       if (relationRequest.AnswerId != 0)
         _nodeService.LinkAnswerToNode(relationRequest.AnswerId, relationRequest.ChildrenId);
       return Ok();
     }
+
     [HttpPut("RemoveRelationToNode")]
-    public IActionResult RemoveRelationToNode([FromBody]NodeRelationRequest relationRequest)
+    public IActionResult RemoveRelationToNode([FromBody] NodeRelationRequest relationRequest)
     {
       _nodeService.RemoveChildren(relationRequest.NodeId, relationRequest.ChildrenId);
       if (relationRequest.AnswerId != 0)
         _nodeService.UnlinkAnswerToNode(relationRequest.AnswerId);
       return Ok();
     }
+
     [HttpPut("AddRelationsWithAnswers")]
-    public void AddRelationsWithAnswers([FromBody]IEnumerable<NodeRelationRequest> relationsRequest)
+    public void AddRelationsWithAnswers([FromBody] IEnumerable<NodeRelationRequest> relationsRequest)
     {
       var groupsNode = relationsRequest.GroupBy(n => n.NodeId);
       foreach (var gNode in groupsNode)
@@ -70,6 +68,7 @@ namespace ImageHunt.Controllers
         }
       }
     }
+
     [HttpDelete("RemoveNode/{nodeId}")]
     public IActionResult RemoveNode(int nodeId)
     {
@@ -77,6 +76,7 @@ namespace ImageHunt.Controllers
       _nodeService.RemoveNode(node);
       return Ok();
     }
+
     [HttpDelete("RemoveRelation/{orgNodeId}/{destNodeId}")]
     public IActionResult RemoveRelation(int orgNodeId, int destNodeId)
     {
@@ -85,6 +85,7 @@ namespace ImageHunt.Controllers
       _nodeService.RemoveRelation(orgNode, destNode);
       return Ok();
     }
+
     [HttpGet("{nodeId}")]
     public IActionResult GetNodeById(int nodeId)
     {
@@ -92,8 +93,9 @@ namespace ImageHunt.Controllers
       var nodeResponse = _mapper.Map<NodeResponse>(node);
       return Ok(nodeResponse);
     }
+
     [HttpPatch]
-    public IActionResult UpdateNode([FromBody]NodeUpdateRequest nodeRequest)
+    public IActionResult UpdateNode([FromBody] NodeUpdateRequest nodeRequest)
     {
       var node = _nodeService.GetNode(nodeRequest.Id);
       node.Name = nodeRequest.Name;
@@ -103,6 +105,7 @@ namespace ImageHunt.Controllers
       _nodeService.UpdateNode(node);
       return Ok();
     }
+
     [HttpGet("GetNextNodeForTeam/{teamId}")]
     public IActionResult GetNextNodeForTeam(int teamId)
     {
@@ -110,6 +113,7 @@ namespace ImageHunt.Controllers
       var node = _nodeService.GetNode(team.CurrentNode.Id);
       return Ok(node.Children);
     }
+
     [HttpGet("GetNodesByType/{gameId}/{nodeType}")]
     public IActionResult GetNodesByType(string nodeType, int gameId)
     {
@@ -117,8 +121,9 @@ namespace ImageHunt.Controllers
       var nodes = _gameService.GetNodes(gameId, eNodeType);
       return Ok(_mapper.Map<IEnumerable<NodeResponse>>(nodes));
     }
+
     [HttpPost("BatchUpdate")]
-    public IActionResult BatchUpdateNode([FromBody]BatchUpdateNodeRequest batchUpdateNodeRequest)
+    public IActionResult BatchUpdateNode([FromBody] BatchUpdateNodeRequest batchUpdateNodeRequest)
     {
       var game = _gameService.GetGameById(batchUpdateNodeRequest.GameId);
       //var arguments = JsonConvert.DeserializeObject<string>(batchUpdateNodeRequest.UpdaterArgument);

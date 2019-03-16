@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using AutoMapper;
-using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Responses;
@@ -14,7 +13,7 @@ namespace ImageHunt.Controllers
 {
   [Route("api/[Controller]")]
   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin, Bot")]
-  #if !DEBUG
+#if !DEBUG
   [Authorize]
   #endif
   public class AdminController : BaseController
@@ -23,13 +22,15 @@ namespace ImageHunt.Controllers
     private readonly ILogger _logger;
     private readonly IMapper _mapper;
 
-    public AdminController(IAdminService adminService, ILogger<AdminController> logger, IMapper mapper, UserManager<Identity> userManager)
-      :base(userManager)
+    public AdminController(IAdminService adminService, ILogger<AdminController> logger, IMapper mapper,
+      UserManager<Identity> userManager)
+      : base(userManager)
     {
       _adminService = adminService;
       _logger = logger;
       _mapper = mapper;
     }
+
     [HttpGet("GetAllAdmins")]
     public IActionResult GetAllAdmins()
     {
@@ -37,16 +38,19 @@ namespace ImageHunt.Controllers
       var allAdmins = _adminService.GetAllAdmins();
       return Ok(_mapper.Map<IEnumerable<AdminResponse>>(allAdmins));
     }
+
     [HttpGet("ById/{adminId}")]
     public IActionResult GetAdminById(int adminId)
     {
       return Ok(_adminService.GetAdminById(adminId));
     }
+
     [HttpGet("ByEmail/{email}")]
     public IActionResult GetAdminByEmail(string email)
     {
       return Ok(_adminService.GetAdminByEmail(email));
     }
+
     [HttpPost]
     //[Authorize(Roles = "Admin")]
     public IActionResult InsertAdmin([FromBody] Admin admin)
@@ -54,6 +58,7 @@ namespace ImageHunt.Controllers
       _adminService.InsertAdmin(admin);
       return CreatedAtAction("InsertAdmin", admin);
     }
+
     [HttpDelete("{adminId}")]
     public IActionResult DeleteAdmin(int adminId)
     {
@@ -61,11 +66,11 @@ namespace ImageHunt.Controllers
       _adminService.DeleteAdmin(admin);
       return Ok();
     }
+
     [HttpPut("Assign/{adminId}/{gameId}")]
-    public IActionResult AssignGame(int adminId, int gameId, [FromQuery]bool assign)
+    public IActionResult AssignGame(int adminId, int gameId, [FromQuery] bool assign)
     {
       return Ok(_adminService.AssignGame(adminId, gameId, assign));
     }
-
   }
 }

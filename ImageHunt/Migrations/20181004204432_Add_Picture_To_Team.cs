@@ -4,43 +4,42 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
-
   public partial class Add_Picture_To_Team : Migration
+  {
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<int>(
-                name: "PictureId",
-                table: "Teams",
-                nullable: true);
+      migrationBuilder.AddColumn<int>(
+        "PictureId",
+        "Teams",
+        nullable: true);
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Teams_PictureId",
-                table: "Teams",
-                column: "PictureId");
+      migrationBuilder.CreateIndex(
+        "IX_Teams_PictureId",
+        "Teams",
+        "PictureId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Teams_Pictures_PictureId",
-                table: "Teams",
-                column: "PictureId",
-                principalTable: "Pictures",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Teams_Pictures_PictureId",
-                table: "Teams");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Teams_PictureId",
-                table: "Teams");
-
-            migrationBuilder.DropColumn(
-                name: "PictureId",
-                table: "Teams");
-        }
+      migrationBuilder.AddForeignKey(
+        "FK_Teams_Pictures_PictureId",
+        "Teams",
+        "PictureId",
+        "Pictures",
+        principalColumn: "Id",
+        onDelete: ReferentialAction.Restrict);
     }
+
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+      migrationBuilder.DropForeignKey(
+        "FK_Teams_Pictures_PictureId",
+        "Teams");
+
+      migrationBuilder.DropIndex(
+        "IX_Teams_PictureId",
+        "Teams");
+
+      migrationBuilder.DropColumn(
+        "PictureId",
+        "Teams");
+    }
+  }
 }

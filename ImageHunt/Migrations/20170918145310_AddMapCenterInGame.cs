@@ -4,33 +4,32 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
-
   public partial class AddMapCenterInGame : Migration
+  {
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<double>(
-                name: "MapCenterLat",
-                table: "Games",
-                type: "double",
-                nullable: true);
+      migrationBuilder.AddColumn<double>(
+        "MapCenterLat",
+        "Games",
+        "double",
+        nullable: true);
 
-            migrationBuilder.AddColumn<double>(
-                name: "MapCenterLng",
-                table: "Games",
-                type: "double",
-                nullable: true);
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "MapCenterLat",
-                table: "Games");
-
-            migrationBuilder.DropColumn(
-                name: "MapCenterLng",
-                table: "Games");
-        }
+      migrationBuilder.AddColumn<double>(
+        "MapCenterLng",
+        "Games",
+        "double",
+        nullable: true);
     }
+
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+      migrationBuilder.DropColumn(
+        "MapCenterLat",
+        "Games");
+
+      migrationBuilder.DropColumn(
+        "MapCenterLng",
+        "Games");
+    }
+  }
 }

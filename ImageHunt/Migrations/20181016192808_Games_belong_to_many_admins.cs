@@ -4,76 +4,75 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
-
   public partial class Games_belong_to_many_admins : Migration
+  {
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
       migrationBuilder.DropForeignKey(
-          name: "FK_Games_Admins_AdminId",
-          table: "Games");
+        "FK_Games_Admins_AdminId",
+        "Games");
 
       migrationBuilder.DropIndex(
-          name: "IX_Games_AdminId",
-          table: "Games");
+        "IX_Games_AdminId",
+        "Games");
 
       migrationBuilder.DropColumn(
-                name: "AdminId",
-                table: "Games");
+        "AdminId",
+        "Games");
 
-            migrationBuilder.CreateTable(
-                name: "GameAdmin",
-                columns: table => new
-                {
-                    GameId = table.Column<int>(nullable: false),
-                    AdminId = table.Column<int>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GameAdmin", x => new { x.AdminId, x.GameId });
-                    table.ForeignKey(
-                        name: "FK_GameAdmin_Admins_AdminId",
-                        column: x => x.AdminId,
-                        principalTable: "Admins",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_GameAdmin_Games_GameId",
-                        column: x => x.GameId,
-                        principalTable: "Games",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GameAdmin_GameId",
-                table: "GameAdmin",
-                column: "GameId");
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
+      migrationBuilder.CreateTable(
+        "GameAdmin",
+        table => new
         {
-            migrationBuilder.DropTable(
-                name: "GameAdmin");
+          GameId = table.Column<int>(nullable: false),
+          AdminId = table.Column<int>(nullable: false),
+          IsDeleted = table.Column<bool>(nullable: false)
+        },
+        constraints: table =>
+        {
+          table.PrimaryKey("PK_GameAdmin", x => new {x.AdminId, x.GameId});
+          table.ForeignKey(
+            "FK_GameAdmin_Admins_AdminId",
+            x => x.AdminId,
+            "Admins",
+            "Id",
+            onDelete: ReferentialAction.Cascade);
+          table.ForeignKey(
+            "FK_GameAdmin_Games_GameId",
+            x => x.GameId,
+            "Games",
+            "Id",
+            onDelete: ReferentialAction.Cascade);
+        });
 
-            migrationBuilder.AddColumn<int>(
-                name: "AdminId",
-                table: "Games",
-                nullable: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Games_AdminId",
-                table: "Games",
-                column: "AdminId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Games_Admins_AdminId",
-                table: "Games",
-                column: "AdminId",
-                principalTable: "Admins",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-        }
+      migrationBuilder.CreateIndex(
+        "IX_GameAdmin_GameId",
+        "GameAdmin",
+        "GameId");
     }
+
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+      migrationBuilder.DropTable(
+        "GameAdmin");
+
+      migrationBuilder.AddColumn<int>(
+        "AdminId",
+        "Games",
+        nullable: true);
+
+      migrationBuilder.CreateIndex(
+        "IX_Games_AdminId",
+        "Games",
+        "AdminId");
+
+      migrationBuilder.AddForeignKey(
+        "FK_Games_Admins_AdminId",
+        "Games",
+        "AdminId",
+        "Admins",
+        principalColumn: "Id",
+        onDelete: ReferentialAction.Restrict);
+    }
+  }
 }

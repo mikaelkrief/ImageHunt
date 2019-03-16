@@ -1,19 +1,18 @@
 using ImageHunt.Data;
-using ImageHunt.Services;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntCore.Services
 {
-    public abstract class AbstractService : IService
+  public abstract class AbstractService : IService
+  {
+    protected ILogger _logger;
+
+    public AbstractService(HuntContext context, ILogger logger)
     {
-      protected ILogger _logger;
-      protected HuntContext Context { get; }
+      Context = context;
+      _logger = logger;
+    }
 
-        public AbstractService(HuntContext context, ILogger logger)
-        {
-            Context = context;
-          _logger = logger;
-        }
-
+    protected HuntContext Context { get; }
   }
 }

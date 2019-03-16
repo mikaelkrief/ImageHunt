@@ -1,17 +1,13 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RegistrationFormComponent } from './registration-form/registration-form.component';
-import { LoginFormComponent } from './login-form/login-form.component';
-import { FormsModule } from '@angular/forms';
+import { CommonModule } from "@angular/common";
+import { RegistrationFormComponent } from "./registration-form/registration-form.component";
+import { LoginFormComponent } from "./login-form/login-form.component";
 import { UserService } from "../shared/services/user.service";
-import { UserRoleComponent } from './user-role/user-role.component';
+import { UserRoleComponent } from "./user-role/user-role.component";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
-import { BsModalService } from 'ngx-bootstrap';
-import { ListboxModule } from 'primeng/listbox';
-import { RouterModule } from '@angular/router';
+import { ListboxModule } from "primeng/listbox";
 import { AdminModule } from "../admin/admin.module";
-import { GameAssignComponent } from './game-assign/game-assign.component';
+import { GameAssignComponent } from "./game-assign/game-assign.component";
 import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
@@ -24,4 +20,5 @@ import { SharedModule } from "../shared/shared.module";
   bootstrap: [RegistrationFormComponent, LoginFormComponent, UserRoleComponent, GameAssignComponent],
   providers: [UserService, ConfirmationService, BsModalService]
 })
-export class AccountModule { }
+export class AccountModule {
+}

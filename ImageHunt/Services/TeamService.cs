@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Exception;
 using ImageHunt.Helpers;
-using ImageHunt.Model;
 using ImageHuntCore.Computation;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
@@ -19,9 +17,8 @@ namespace ImageHunt.Services
   public class TeamService : AbstractService, ITeamService
   {
     public TeamService(HuntContext context, ILogger<TeamService> logger)
-        : base(context, logger)
+      : base(context, logger)
     {
-
     }
 
     public void CreateTeam(int gameId, Team team)
@@ -29,7 +26,7 @@ namespace ImageHunt.Services
       var game = Context.Games.Include(g => g.Teams).Single(g => g.Id == gameId);
       Picture picture = null;
       if (team.Picture != null)
-      picture = Context.Pictures.SingleOrDefault(p=>p.Id == team.Picture.Id);
+        picture = Context.Pictures.SingleOrDefault(p => p.Id == team.Picture.Id);
       team.Picture = picture;
       game.Teams.Add(team);
       string code;
@@ -60,7 +57,7 @@ namespace ImageHunt.Services
     public void AddMemberToTeam(Team team, List<Player> players)
     {
       var teamToAddPlayers = Context.Teams.Single(t => t.Id == team.Id);
-      teamToAddPlayers.TeamPlayers.AddRange(players.Select(p => new TeamPlayer() { Team = team, Player = p }));
+      teamToAddPlayers.TeamPlayers.AddRange(players.Select(p => new TeamPlayer {Team = team, Player = p}));
       Context.SaveChanges();
     }
 
@@ -75,7 +72,6 @@ namespace ImageHunt.Services
     public Team GetTeamByName(string teamName)
     {
       return Context.Teams.Include(t => t.TeamPlayers).ThenInclude(t => t.Player)
-
         .Single(t => t.Name == teamName);
     }
 
@@ -89,13 +85,13 @@ namespace ImageHunt.Services
     }
 
 
-
     public IEnumerable<Team> GetTeamsForPlayer(Player player)
     {
       var teamsWithPlayers = Context.Teams.Include(t => t.TeamPlayers).ThenInclude(t => t.Player);
       return teamsWithPlayers
         .Where(t => t.Players.Any(p => p.Id == player.Id));
     }
+
     public Node NextNodeForTeam(int teamId, double playerLatitude, double playerLongitude)
     {
       var team = GetTeamById(teamId);
@@ -107,7 +103,7 @@ namespace ImageHunt.Services
         nextNode = currentGame.Nodes.Single(n => n.NodeType == "FirstNode");
       else
         nextNode = team.CurrentNode.Children.First();
-      var gameAction = new GameAction()
+      var gameAction = new GameAction
       {
         DateOccured = DateTime.Now,
         Team = team,
@@ -127,7 +123,8 @@ namespace ImageHunt.Services
       var game = Context.Games
         .Include(g => g.Teams).ThenInclude(t => t.TeamPlayers).ThenInclude(tp => tp.Player)
         .Single(g => g.Id == gameId);
-      return game.Teams.SingleOrDefault(t => t.Players.Any(p => p.ChatLogin.Equals(userName, StringComparison.InvariantCultureIgnoreCase)));
+      return game.Teams.SingleOrDefault(t =>
+        t.Players.Any(p => p.ChatLogin.Equals(userName, StringComparison.InvariantCultureIgnoreCase)));
     }
 
     public void UploadImage(int gameId, int teamId, double latitude, double longitude, byte[] image,
@@ -140,16 +137,16 @@ namespace ImageHunt.Services
       var closestNode =
         Context.Nodes
           .OrderBy(n => GeographyComputation.Distance(n.Latitude, n.Longitude, latitude, longitude))
-        .FirstOrDefault();
+          .FirstOrDefault();
 
-      var gameAction = new GameAction()
+      var gameAction = new GameAction
       {
         DateOccured = DateTime.Now,
         Game = currentGame,
         Team = team,
         Latitude = latitude,
         Longitude = longitude,
-        Picture = new Picture() { Image = image },
+        Picture = new Picture {Image = image},
         Action = Action.SubmitPicture,
         Node = closestNode
       };
@@ -165,19 +162,9 @@ namespace ImageHunt.Services
     }
 
     public void Update(Team team)
-    { 
+    {
       Context.Attach(team);
       Context.SaveChanges();
-    }
-
-
-    private Game GetCurrentGameForTeam(Team team)
-    {
-      var currentGame = Context.Games
-        .Include(g => g.Teams)
-        .Include(g => g.Nodes)
-        .Single(g => g.Teams.Any(gt => gt == team));
-      return currentGame;
     }
 
     public Node StartGame(int gameId, int teamId)
@@ -193,5 +180,14 @@ namespace ImageHunt.Services
       return team.CurrentNode;
     }
 
+
+    private Game GetCurrentGameForTeam(Team team)
+    {
+      var currentGame = Context.Games
+        .Include(g => g.Teams)
+        .Include(g => g.Nodes)
+        .Single(g => g.Teams.Any(gt => gt == team));
+      return currentGame;
+    }
   }
 }

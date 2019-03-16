@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace ImageHunt.Exception
 {
-    public class InvalidGameException : System.Exception
-    {
-    }
+  public class InvalidGameException : System.Exception
+  {
+  }
 }

@@ -60,7 +60,7 @@ namespace ImageHuntBotBuilderTest.Commands
             };
             A.CallTo(() => _turnContext.Activity).Returns(new Activity(text: "/state"));
             // Act
-            await _target.Execute(_turnContext, state);
+            await _target.ExecuteAsync(_turnContext, state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
@@ -82,7 +82,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _accessor.AllStates.GetAllAsync()).Returns(states);
             var state = new ImageHuntState();
             // Act
-            await _target.Execute(_turnContext, state);
+            await _target.ExecuteAsync(_turnContext, state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))

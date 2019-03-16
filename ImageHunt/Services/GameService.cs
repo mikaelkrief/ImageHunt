@@ -2,16 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Helpers;
-using ImageHunt.Model;
 using ImageHuntCore.Computation;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
 using ImageHuntWebServiceClient.Responses;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -20,6 +17,7 @@ namespace ImageHunt.Services
   public class GameService : AbstractService, IGameService
   {
     private readonly IMapper _mapper;
+
     public GameService(HuntContext context, ILogger<GameService> logger, IMapper mapper) : base(context, logger)
     {
       _mapper = mapper;
@@ -38,7 +36,7 @@ namespace ImageHunt.Services
 
       newGame.Code = code;
       Context.Games.Add(newGame);
-      var gameAdmin = new GameAdmin() { Admin = admin, Game = newGame };
+      var gameAdmin = new GameAdmin {Admin = admin, Game = newGame};
 
       admin.GameAdmins.Add(gameAdmin);
       Context.SaveChanges();
@@ -92,23 +90,17 @@ namespace ImageHunt.Services
 
     public IEnumerable<Node> GetNodes(int gameId, NodeTypes nodeType = NodeTypes.All)
     {
-      IEnumerable<Node> nodes = Context.Games.Include(n => n.Nodes).ThenInclude(n => n.ChildrenRelation).Single(g => g.Id == gameId).Nodes;
+      IEnumerable<Node> nodes = Context.Games.Include(n => n.Nodes).ThenInclude(n => n.ChildrenRelation)
+        .Single(g => g.Id == gameId).Nodes;
       IEnumerable<Node> resNode = new List<Node>();
-      if (nodeType.HasFlag(NodeTypes.All))
-      {
-        return nodes;
-      }
+      if (nodeType.HasFlag(NodeTypes.All)) return nodes;
 
       if (nodeType.HasFlag(NodeTypes.Picture))
-      {
         resNode = resNode.Union(nodes.Where(n => n.NodeType == NodeResponse.PictureNodeType));
-      }
       if (nodeType.HasFlag(NodeTypes.Hidden))
-      {
-        resNode = resNode.Union(nodes.Where(n => n.NodeType == NodeResponse.HiddenNodeType || n.NodeType == NodeResponse.BonusNodeType));
-      }
+        resNode = resNode.Union(nodes.Where(n =>
+          n.NodeType == NodeResponse.HiddenNodeType || n.NodeType == NodeResponse.BonusNodeType));
       if (nodeType.HasFlag(NodeTypes.Path))
-      {
         resNode = resNode.Union(nodes.Where(n => n.NodeType == NodeResponse.FirstNodeType ||
                                                  n.NodeType == NodeResponse.LastNodeType ||
                                                  n.NodeType == NodeResponse.ChoiceNodeType ||
@@ -116,7 +108,6 @@ namespace ImageHunt.Services
                                                  n.NodeType == NodeResponse.QuestionNodeType ||
                                                  n.NodeType == NodeResponse.TimerNodeType ||
                                                  n.NodeType == NodeResponse.WaypointNodeType));
-      }
       return resNode;
     }
 
@@ -134,14 +125,16 @@ namespace ImageHunt.Services
     }
 
     /// <summary>
-    /// Returns all the games in a specific radius (5km)
+    ///   Returns all the games in a specific radius (5km)
     /// </summary>
     /// <param name="lat">latitude of the point to check games for</param>
     /// <param name="lng">longitude of the point to check games for</param>
     /// <returns>List of games where the center is less than 5km from the position</returns>
     public IEnumerable<Game> GetGamesFromPosition(double lat, double lng)
     {
-      return Context.Games.Where(g => g.IsActive && g.MapCenterLat.HasValue && GeographyComputation.Distance(lat, lng, g.MapCenterLat.Value, g.MapCenterLng.Value) < 5000);
+      return Context.Games.Where(g =>
+        g.IsActive && g.MapCenterLat.HasValue &&
+        GeographyComputation.Distance(lat, lng, g.MapCenterLat.Value, g.MapCenterLng.Value) < 5000);
     }
 
     public IEnumerable<ChoiceNode> GetChoiceNodeOfGame(int gameId)
@@ -192,7 +185,7 @@ namespace ImageHunt.Services
     public IEnumerable<Game> GetAllGame()
     {
       return Context.Games
-        .Include(g=>g.Teams)
+        .Include(g => g.Teams)
         .Where(g => g.IsActive && g.StartDate >= DateTime.Today);
     }
 
@@ -205,10 +198,7 @@ namespace ImageHunt.Services
         code = EntityHelper.CreateCode(6);
       } while (Context.Games.Any(g => g.Code == code));
 
-      if (string.IsNullOrEmpty(game.Code))
-      {
-        game.Code = code;
-      }
+      if (string.IsNullOrEmpty(game.Code)) game.Code = code;
 
       return game.Code;
     }
@@ -224,7 +214,8 @@ namespace ImageHunt.Services
       {
         code = EntityHelper.CreateCode(6);
       } while (Context.Games.Any(g => g.Code == code));
-      var newGame = new Game()
+
+      var newGame = new Game
       {
         Name = $"{orgGame.Name}-2",
         Code = code,
@@ -236,9 +227,9 @@ namespace ImageHunt.Services
         NbPlayerPenaltyThreshold = orgGame.NbPlayerPenaltyThreshold,
         NbPlayerPenaltyValue = orgGame.NbPlayerPenaltyValue,
         Picture = orgGame.Picture,
-        StartDate = DateTime.Today,
+        StartDate = DateTime.Today
       };
-      admin.GameAdmins.Add(new GameAdmin() { Game = newGame, Admin = admin });
+      admin.GameAdmins.Add(new GameAdmin {Game = newGame, Admin = admin});
       Context.Games.Add(newGame);
       Context.SaveChanges();
       return newGame;
