@@ -31,7 +31,7 @@ export class TeamListComponent implements OnInit {
 
   deleteTeam(teamId: number) {
     this.confirmationService.confirm({
-      message: "Voulez-vous vraiment effacer cette équipe ?",
+      message: "Do you really want to delete this team?",
       accept: () => this.teamService.deleteTeam(teamId)
         .subscribe(() => this.teams.splice(this.teams.indexOf(this.teams.find(t => t.id === teamId)), 1))
     });

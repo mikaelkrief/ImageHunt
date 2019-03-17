@@ -30,10 +30,11 @@
             <div id="location" name="location"></div>
           </div>
           <div class="col-6 form-group">
-            <label for="nodeThumbnail" i18n>Node's picture</label>
-            <img class="img-thumbnail" id="nodeThumbnail" name="nodeThumbnail" *ngIf="_node!==undefined"
-                 src="api/Image/Thumbnail?pictureId={{_node.image.id}}&width=300&height=300"/>
-
+            <div *ngIf="_node && _node.image">
+              <label for="nodeThumbnail" i18n>Node's picture</label>
+              <img class="img-thumbnail" id="nodeThumbnail" name="nodeThumbnail" *ngIf="_node!==undefined"
+                   src="api/Image/Thumbnail?pictureId={{_node.image.id}}&width=300&height=300" />
+            </div>
           </div>
         </div>
       </div>

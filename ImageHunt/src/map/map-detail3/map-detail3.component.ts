@@ -14,6 +14,7 @@ import { Game } from '../../shared/game';
 import { Node } from '../../shared/node';
 import { AlertService } from '../../shared/services/alert.service';
 import { NodeDragged } from "../../shared/NodeDragged";
+import { ConfirmationService } from 'primeng/api';
 
 class NodeMarker extends L.Marker {
   node: Node;
@@ -44,12 +45,15 @@ export class MapDetail3Component implements OnInit {
   @Output() relationRightClicked = new EventEmitter<RelationClicked>();
   @Output() newRelation = new EventEmitter<NodeRelation>();
   @Output() zoomChange = new EventEmitter<number>();
+  @Output() deleteNode = new EventEmitter<Node>();
+  @Output() editNode = new EventEmitter<Node>();
+
   map: any;
   markers: any[] = [];
   polylines: L.Polyline[] = [];
 
   ngOnInit(): void {
-    this.map = L.map("MapDetail")
+    this.map = L.map("MapDetail", <any>{contextmenu: true})
       .setView([0, 0], 12);
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -62,7 +66,7 @@ export class MapDetail3Component implements OnInit {
   }
 
   /** map-detail3 ctor */
-  constructor() {
+  constructor(private confirmationService: ConfirmationService) {
     this.latCenter = 0;
     this.lngCenter = 0;
     this.zoom = 1;
@@ -149,13 +153,28 @@ export class MapDetail3Component implements OnInit {
     this.nodes.forEach(node => {
       const icon = L.AwesomeMarkers.icon(this.getIconForNodeType(node.nodeType));
       const marker = new NodeMarker([node.latitude, node.longitude],
-        { icon: icon, title: node.name, draggable: this.editable, });
+        <any>{
+          icon: icon, title: node.name, draggable: this.editable,
+          contextmenu: true,
+          contextmenuItems: [{
+            text: 'Edit Node',
+            iconCls: 'fas fa-edit',
+            context: this,
+            callback: this.editNodeHandler
+          },
+            {separator: true},{
+            text: 'Delete Node',
+            iconCls: 'fas fa-trash-alt',
+            context: this,
+            callback: this.deleteNodeHandler
+            }]
+        });
       marker.node = node;
       marker.addTo(this.map);
       marker.on('click', event => this.onNodeClick(event));
       marker.on('dragend', event => this.onNodeDragged(event));
 
-      marker.on("contextmenu", event => this.markerRightClick(event));
+      //marker.on("contextmenu", event => this.markerRightClick(event));
       //marker.addEventListener("dragend")
       this.markers.push({ marker, node });
     });
@@ -262,10 +281,10 @@ export class MapDetail3Component implements OnInit {
 
   markerRightClick(leafletEvent: L.LeafletEvent): void {
     let node = leafletEvent.target.node;
-      const nodeMenuItems = [
-        { label: 'Modifier', icon: 'fa-edit', disabled: true },
-        { label: 'Effacer', icon: 'fa-trash', command: event => this.deleteNode(node.id) },
-      ];
+    //  const nodeMenuItems = [
+    //    { label: 'Modifier', icon: 'fa-edit', disabled: true },
+    //    { label: 'Effacer', icon: 'fa-trash', command: event => this.deleteNode(node.id) },
+    //  ];
       //if (node.nodeType === 'QuestionNode') {
       //  this.nodeMenuItems.push({
       //    label: 'Editer les relations',
@@ -273,13 +292,30 @@ export class MapDetail3Component implements OnInit {
       //    //command: event => this.editNodeAnswers()
       //  });
       //}
-      this.markerContextMenu.show(event.Ia);
+      //this.markerContextMenu.show(event.Ia);
       //this.nodeRightClicked.emit(new NodeClicked(node, 0, event.Ia));
       this.nodeRightClicked.emit(new NodeClicked(node, 0, null));
 
   }
-  deleteNode(nodeId: number) {
+  deleteNodeHandler(marker) {
+    const node = marker.relatedTarget.node;
+    this.confirmationService.confirm({
+      message: "Do you really want to delete this node?",
+      accept: () => {
+        const index: number = this.nodes.indexOf(node);
+        this.nodes.splice(index, 1);
+        this.clearMap();
+        this.updateMap();
+        if (this.deleteNode)
+          this.deleteNode.emit(node);
+      }
+    });
 
+  }
+  editNodeHandler(marker) {
+    const node = marker.relatedTarget.node;
+    if (this.editNode)
+      this.editNode.emit(node);
   }
   onNodeDragged(leafletEvent: L.LeafletEvent): void {
     var newPosition = leafletEvent.target.getLatLng();
