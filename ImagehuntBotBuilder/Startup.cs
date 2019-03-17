@@ -228,7 +228,7 @@ namespace ImagehuntBotBuilder
             try
             {
                 var response = await accountService.Login(logingRequest);
-                _jwtToken = response.Value;
+                _jwtToken = response.result.value;
             }
             catch (Exception e)
             {
