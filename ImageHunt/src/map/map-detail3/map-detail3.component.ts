@@ -262,10 +262,10 @@ export class MapDetail3Component implements OnInit {
 
   markerRightClick(leafletEvent: L.LeafletEvent): void {
     let node = leafletEvent.target.node;
-      //const nodeMenuItems = [
-      //  { label: 'Modifier', icon: 'fa-edit', disabled: true },
-      //  { label: 'Effacer', icon: 'fa-trash', command: event => this.deleteNode(node.id) },
-      //];
+      const nodeMenuItems = [
+        { label: 'Modifier', icon: 'fa-edit', disabled: true },
+        { label: 'Effacer', icon: 'fa-trash', command: event => this.deleteNode(node.id) },
+      ];
       //if (node.nodeType === 'QuestionNode') {
       //  this.nodeMenuItems.push({
       //    label: 'Editer les relations',
@@ -273,12 +273,14 @@ export class MapDetail3Component implements OnInit {
       //    //command: event => this.editNodeAnswers()
       //  });
       //}
-      //this.markerContextMenu.show(event.Ia);
+      this.markerContextMenu.show(event.Ia);
       //this.nodeRightClicked.emit(new NodeClicked(node, 0, event.Ia));
       this.nodeRightClicked.emit(new NodeClicked(node, 0, null));
 
   }
+  deleteNode(nodeId: number) {
 
+  }
   onNodeDragged(leafletEvent: L.LeafletEvent): void {
     var newPosition = leafletEvent.target.getLatLng();
     var node = leafletEvent.target.node;
