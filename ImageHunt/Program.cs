@@ -39,12 +39,6 @@ namespace ImageHunt
               .ReadFrom
               .Configuration(context.Configuration))
             .ConfigureServices(service=>service.AddAutofac())
-            //.ConfigureLogging((context, builder) =>
-            //  {
-            //    builder.AddConfiguration(context.Configuration.GetSection("Logging"));
-            //    builder.AddConsole();
-            //    builder.AddDebug();
-            //  })
              .UseStartup<Startup>()
              
            .Build();

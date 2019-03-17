@@ -15,6 +15,7 @@
         <replacefilter token="ADMIN_USER" value="${ADMIN_USER}"/>
         <replacefilter token="ADMIN_EMAIL" value="${ADMIN_EMAIL}"/>
         <replacefilter token="ADMIN_PASSWORD" value="${ADMIN_PASSWORD}"/>
+        <replacefilter token="API_LOGFILE" value="${API_LOGFILE}"/>
     </replace>
     <move file="${INFILE}" toFile="${TOFILE}"></move>
   </target>
