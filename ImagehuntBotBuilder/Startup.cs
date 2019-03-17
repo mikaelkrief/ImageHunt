@@ -33,12 +33,14 @@ namespace ImagehuntBotBuilder
     /// </summary>
     public class Startup
     {
+        private readonly ILogger<Startup> _logger;
         private ILoggerFactory _loggerFactory;
         private bool _isProduction = false;
         private string _jwtToken;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
+            _logger = logger;
             Configuration = configuration;
         }
 
@@ -211,7 +213,9 @@ namespace ImagehuntBotBuilder
 
         private async Task LoginApi()
         {
+            _logger.LogTrace("LoginApi");
             var apiBaseAddress = Configuration["ImageHuntApi:Url"];
+            _logger.LogDebug($"Connect to {apiBaseAddress}");
             var httpLogin = new HttpClient(){BaseAddress = new Uri(apiBaseAddress)};
             var accountService =
                 new AccountWebService(httpLogin, new LoggerFactory().CreateLogger<IAccountWebService>());
@@ -220,7 +224,16 @@ namespace ImagehuntBotBuilder
                 UserName = Configuration["BotConfiguration:BotName"],
                 Password = Configuration["BotConfiguration:BotPassword"],
             };
-            var response = await accountService.Login(logingRequest);
+            try
+            {
+                var response = await accountService.Login(logingRequest);
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Unable to connect to API");
+            }
+
             _jwtToken = response.Value;
         }
 
