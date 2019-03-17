@@ -38,7 +38,7 @@ namespace ImageHuntWebServiceClientTest.WebServices
             // Act
             var result = await _target.Login(loginRequest);
             // Assert
-            Check.That(result.Value).IsNotNull();
+            Check.That(result.result).IsNotNull();
         }
     }
 }
