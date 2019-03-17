@@ -10,6 +10,7 @@ using AutoMapper;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Middlewares;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -227,14 +228,13 @@ namespace ImagehuntBotBuilder
             try
             {
                 var response = await accountService.Login(logingRequest);
-
+                _jwtToken = response.Value;
             }
             catch (Exception e)
             {
                 _logger.LogError(e, "Unable to connect to API");
             }
 
-            _jwtToken = response.Value;
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
