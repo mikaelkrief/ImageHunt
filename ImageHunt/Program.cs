@@ -9,6 +9,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace ImageHunt
 {
@@ -34,13 +35,16 @@ namespace ImageHunt
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
               builder.AddEnvironmentVariables();
             })
+            .UseSerilog((context, configuration) => configuration
+              .ReadFrom
+              .Configuration(context.Configuration))
             .ConfigureServices(service=>service.AddAutofac())
-            .ConfigureLogging((context, builder) =>
-              {
-                builder.AddConfiguration(context.Configuration.GetSection("Logging"));
-                builder.AddConsole();
-                builder.AddDebug();
-              })
+            //.ConfigureLogging((context, builder) =>
+            //  {
+            //    builder.AddConfiguration(context.Configuration.GetSection("Logging"));
+            //    builder.AddConsole();
+            //    builder.AddDebug();
+            //  })
              .UseStartup<Startup>()
              
            .Build();
