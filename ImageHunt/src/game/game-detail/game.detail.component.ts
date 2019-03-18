@@ -277,8 +277,8 @@ export class GameDetailComponent implements OnInit {
       this._modalService.onHide.subscribe(reason => this.getGame(this.game.id));
       this.modalRef = this._modalService.show(ImageNodeEditComponent, { ignoreBackdropClick: true });
       this.modalRef.content.node = node;
-      this.modalRef.content.subscribe(node => this._gameService.updateNode(node)
-        .subscribe(() => this.getGame(this.game.id)));
+      //this.modalRef.content.subscribe(node => this._gameService.updateNode(node)
+      //  .subscribe(() => this.getGame(this.game.id)));
     }
 }
 }
