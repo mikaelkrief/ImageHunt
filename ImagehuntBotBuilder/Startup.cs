@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -24,8 +25,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Polly;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Activity = Microsoft.Bot.Schema.Activity;
 
 namespace ImagehuntBotBuilder
 {
@@ -178,7 +181,6 @@ namespace ImagehuntBotBuilder
             // Login to WebApi
             LoginApi().Wait();
 
-
             containerBuilder.RegisterModule<DefaultModule>();
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
@@ -227,14 +229,21 @@ namespace ImagehuntBotBuilder
             };
             try
             {
-                var response = await accountService.Login(logingRequest);
-                _jwtToken = response.result.value;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Unable to connect to API");
-            }
+                await Policy
+                    .Handle<Exception>()
+                    .WaitAndRetryAsync(3, retryAttemp => TimeSpan.FromSeconds(Math.Pow(2, retryAttemp)))
+                    .ExecuteAsync(async () =>
+                    {
+                        LoginResponse response = await accountService.Login(logingRequest);
+                        _jwtToken = response.result.value;
+                    });
 
+            }
+            catch (AggregateException e)
+            {
+                _logger.LogCritical(e, "Unable to login to ImageHunt API, give-up");
+                Process.GetCurrentProcess().Kill();
+            }
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
