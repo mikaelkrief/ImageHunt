@@ -231,7 +231,7 @@ namespace ImagehuntBotBuilder
             {
                 await Policy
                     .Handle<Exception>()
-                    .WaitAndRetryAsync(3, retryAttemp => TimeSpan.FromMilliseconds(Math.Pow(10, retryAttemp)))
+                    .WaitAndRetryAsync(3, retryAttemp => TimeSpan.FromSeconds(Math.Pow(2, retryAttemp)))
                     .ExecuteAsync(async () =>
                     {
                         LoginResponse response = await accountService.Login(logingRequest);
