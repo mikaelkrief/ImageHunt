@@ -1,6 +1,6 @@
 <div #imageNodeEdit>
   <div class="modal-header">
-    <h4 class="modal-title pull-left" i18n>Image Node edition</h4>
+    <h4 class="modal-title pull-left" i18n>Node edition</h4>
     <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="bsModalRef.hide()">
       <i aria-hidden="true" class="fa fa-times"></i>
     </button>
@@ -14,27 +14,27 @@
             <input id="name" type="text" class="form-control" [value]="_node!==undefined?_node.name:''"
                    ngModel
                    name="name"
-                   i18n-placeholder placeholder="Node name"/>
+                   i18n-placeholder placeholder="Node name" />
           </div>
           <div class="col-6 form-group">
             <label for="points" i18n>Number of points</label>
-            <input id="points" name="points" ngModel [value]="_node!==undefined?_node.points:0" type="number" class="form-control"/>
+            <input id="points" name="points" ngModel [value]="_node!==undefined?_node.points:0" type="number" class="form-control" />
 
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="form-inline">
-          <div class="col-6 form-group">
-            <label for="location" i18n>Position</label>
-            <div id="location" name="location"></div>
-          </div>
-          <div class="col-6 form-group">
-            <label for="nodeThumbnail" i18n>Node's picture</label>
-            <img class="img-thumbnail" id="nodeThumbnail" name="nodeThumbnail" *ngIf="_node!==undefined"
-                 src="api/Image/Thumbnail?pictureId={{_node.image.id}}&width=300&height=300"/>
-
-          </div>
+        <div class="col-6 form-group">
+          <label for="location" i18n>Position</label>
+          <div class="img-thumbnail" id="location" name="location"></div>
+        </div>
+        <div class="col-6 form-group" *ngIf="_node && _node.image">
+          <label for="nodeThumbnail" i18n>Node's picture</label>
+          <img class="img-thumbnail" id="nodeThumbnail" name="nodeThumbnail" *ngIf="_node!==undefined"
+               src="api/Image/Thumbnail?pictureId={{_node.image.id}}&width=300&height=300" />
+        </div>
+        <div class="col-6" *ngIf="!_node || !_node.image" style="vertical-align: middle">
+          <span i18n>No picture associated with this node</span>
         </div>
       </div>
     </div>

@@ -29,6 +29,12 @@ namespace ImageHunt.Services
       Node node = Context.Nodes
         .Include(n=>n.ChildrenRelation).ThenInclude(cr=>cr.Children)
         .SingleOrDefault(n => n.Id == nodeId);
+      if (node == null)
+      {
+        _logger.LogError($"Node Id: {nodeId} not found");
+        return null;
+      }
+
       switch (node.NodeType)
       {
         case NodeResponse.ChoiceNodeType:

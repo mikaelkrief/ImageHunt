@@ -34,11 +34,7 @@ export class ImageNodeEditComponent implements OnInit{
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: 'ImageHunt'
     }).addTo(this.map);
-    const icon = L.icon({
-      iconUrl: 'assets/pictureNode.png',
-      iconSize: [32, 32],
-      iconAnchor: [16, 16]
-    });
+    const icon = L.divIcon({ className:"fas fa-2x fa-bullseye"});
 
     this.nodeMarker = new NodeMarker([this._node.latitude, this._node.longitude],
       { icon: icon, title: this._node.name, draggable: true });
