@@ -219,7 +219,7 @@ namespace ImagehuntBotBuilder
             _logger.LogTrace("LoginApi");
             var apiBaseAddress = Configuration["ImageHuntApi:Url"];
             _logger.LogDebug($"Connect to {apiBaseAddress}");
-            var httpLogin = new HttpClient(){BaseAddress = new Uri(apiBaseAddress)};
+            var httpLogin = new HttpClient() { BaseAddress = new Uri(apiBaseAddress) };
             var accountService =
                 new AccountWebService(httpLogin, new LoggerFactory().CreateLogger<IAccountWebService>());
             var logingRequest = new LoginRequest()
@@ -229,14 +229,8 @@ namespace ImagehuntBotBuilder
             };
             try
             {
-                await Policy
-                    .Handle<Exception>()
-                    .WaitAndRetryAsync(3, retryAttemp => TimeSpan.FromSeconds(Math.Pow(2, retryAttemp)))
-                    .ExecuteAsync(async () =>
-                    {
-                        LoginResponse response = await accountService.Login(logingRequest);
-                        _jwtToken = response.result.value;
-                    });
+                var response = await accountService.Login(logingRequest);
+                _jwtToken = response.result.value;
 
             }
             catch (AggregateException e)
@@ -300,13 +294,13 @@ namespace ImagehuntBotBuilder
             Mapper.Initialize(config =>
             {
                 config.CreateMap<Update, Activity>()
-                    .ForMember(a => a.ChannelId, opt => opt.MapFrom(e=>"telegram"))
+                    .ForMember(a => a.ChannelId, opt => opt.MapFrom(e => "telegram"))
                     .ForMember(a => a.Value, opt => opt.MapFrom(u => u))
                     .ForMember(a => a.Timestamp,
                         opt => opt.MapFrom(u => new DateTimeOffset(MessageFromUpdate(u).Date)))
                     .ForMember(a => a.Id,
                         expression => expression.MapFrom(u => MessageFromUpdate(u).Chat.Id.ToString()))
-                    .ForMember(a => a.Type, opt => opt.MapFrom(e=> ActivityTypeFromUpdate(e)))
+                    .ForMember(a => a.Type, opt => opt.MapFrom(e => ActivityTypeFromUpdate(e)))
                     .ForMember(a => a.Conversation, opt => opt.MapFrom((u, a) =>
                     {
                         var message = MessageFromUpdate(u);
@@ -352,7 +346,7 @@ namespace ImagehuntBotBuilder
                                 var attachment = new Attachment()
                                 {
                                     ContentType = ImageHuntActivityTypes.NewPlayer,
-                                    Content = new ConversationAccount(name: newChatMember.Username) 
+                                    Content = new ConversationAccount(name: newChatMember.Username)
                                 };
                                 attachments.Add(attachment);
                             }

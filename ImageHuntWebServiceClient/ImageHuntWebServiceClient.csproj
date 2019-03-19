@@ -14,6 +14,12 @@
     <ProjectReference Include="..\ImageHuntCore\ImageHuntCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Polly">
+      <HintPath>..\..\..\Users\ChristopheMandrillon\.nuget\packages\polly\7.0.2\lib\netstandard2.0\Polly.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 
 
 
