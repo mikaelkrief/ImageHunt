@@ -50,7 +50,7 @@ namespace ImageHuntBotBuilder.Commands
                     };
                     await _actionWebService.LogAction(request);
                     await turnContext.SendActivityAsync(string.Format(_localizer["GIVE_POINTS_MESSAGE"], points));
-                    _logger.LogInformation($"Admin give {points} to team {state.TeamId}");
+                    _logger.LogInformation("Admin give {0} to team {1}", points, state.TeamId);
                 }
             }
             else

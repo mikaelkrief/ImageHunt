@@ -73,6 +73,7 @@ namespace ImageHunt.Controllers
     public IActionResult GetGames()
     {
       var adminId = UserId;
+      _logger.LogTrace("Get Games for user {0}", adminId);
       return Ok(_gameService.GetGamesForAdmin(adminId));
     }
 

@@ -42,7 +42,7 @@ namespace ImageHuntBotBuilder.Middlewares
                 if (!state.TeamId.HasValue)
                 {
                     await turnContext.SendActivityAsync(_localizer["CHAT_NOT_INITIALIZED"]);
-                    _logger.LogError($"Unable to add an user to a team since the group had not been initialized");
+                    _logger.LogError("Unable to add an user to a team since the group had not been initialized");
                     return;
                 }
 
@@ -52,7 +52,7 @@ namespace ImageHuntBotBuilder.Middlewares
                     var playerRequest = new PlayerRequest() {ChatLogin = player.Name, Name = player.Name};
                     await _teamWebService.AddPlayer(state.TeamId.Value, playerRequest);
                     await turnContext.SendActivityAsync(string.Format(_localizer["PLAYER_ADDED"], player.Name, state.Team.Name));
-                    _logger.LogInformation($"The user {player.Name} had been added to team {state.TeamId}");
+                    _logger.LogInformation("The user {0} had been added to team {1}", player.Name, state.TeamId);
                 }
 
                     break;
@@ -63,7 +63,7 @@ namespace ImageHuntBotBuilder.Middlewares
                         await _teamWebService.RemovePlayerFromTeam(state.TeamId.Value, player.Name);
                         await turnContext.SendActivityAsync(string.Format(_localizer["PLAYER_REMOVED"], player.Name,
                             state.Team.Name));
-                        _logger.LogInformation($"The user {player.Name} had been added to team {state.TeamId}");
+                        _logger.LogInformation("The user {0} had been added to team {1}", player.Name, state.TeamId);
                     }
 
                     break;

@@ -36,7 +36,7 @@ namespace ImageHuntBotBuilder.Middlewares
                 {
                     var location = turnContext.Activity.Attachments.Single().Content as GeoCoordinates;
                     _logger.LogInformation(
-                        $"Receive location [{location.Latitude}, {location.Longitude}] for GameId={state.GameId}, TeamId={state.TeamId}");
+                        "Receive location [{0}, {1}] for GameId={2}, TeamId={3}", location.Latitude, location.Longitude, state.GameId, state.TeamId);
                     var logPositionRequest = new LogPositionRequest()
                     {
                         GameId = state.GameId.Value,

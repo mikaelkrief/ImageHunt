@@ -10,6 +10,8 @@
     <PackageProjectUrl>https://github.com/nimbusparis/ImageHunt</PackageProjectUrl>
     <RepositoryUrl>https://github.com/nimbusparis/ImageHunt</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
+    <ApplicationInsightsResourceId>/subscriptions/a03ac942-e4a3-4bc8-9590-07dd403b97d8/resourcegroups/Pixhint/providers/microsoft.insights/components/pixhint_webapi</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/a03ac942-e4a3-4bc8-9590-07dd403b97d8/resourcegroups/Pixhint/providers/microsoft.insights/components/pixhint_webapi</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -37,10 +39,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="7.11.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
-    <PackageReference Include="Serilog.Settings.Configuration" Version="3.0.1" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-    <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.1" />
     <PackageReference Include="SharpKml.Core" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
@@ -93,6 +92,11 @@
     <TypeScriptCompile Include="src\shared\services\team.service.ts" />
     <TypeScriptCompile Include="src\shared\teamPosition.ts" />
     <TypeScriptCompile Include="src\shared\userRegistration.ts" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>

@@ -42,24 +42,24 @@ namespace ImageHuntBotBuilder.Commands
                     case RedeemStatus.UserNotFound:
                         reply =
                             $"Vous ne pouvez pas utiliser cet passcode car vous ne faites pas partie de la chasse pour laquelle il est prevu";
-                        _logger.LogInformation($"User {userName} not in game {gameId}");
+                        _logger.LogInformation("User {0} not in game {1}", userName, gameId);
                         break;
                     case RedeemStatus.Ok:
                         reply =
                             $"Le passcode {pass} a été bien été utilisé, il a rapporté {passcodeResponse.Points} points à votre équipe.";
-                        _logger.LogInformation($"User {userName} correctly redeem passcode for game {gameId}");
+                        _logger.LogInformation("User {0} correctly redeem passcode for game {1}", userName, gameId);
                         break;
                     case RedeemStatus.WrongCode:
                         reply = $"Le passcode {pass} est inconnu";
-                        _logger.LogInformation($"User {userName} used wrong passcode");
+                        _logger.LogInformation("User {0} used wrong passcode", userName);
                         break;
                     case RedeemStatus.FullyRedeem:
                         reply = $"Le passcode {pass} est épuisé, désolé!";
-                        _logger.LogInformation($"User {userName} used full redeem passcode");
+                        _logger.LogInformation("User {0} used full redeem passcode", userName);
                         break;
                     case RedeemStatus.AlreadyRedeem:
                         reply = $"Le passcode {pass} a déjà été utilisé par votre équipe.";
-                        _logger.LogInformation($"User {userName} used already redeem passcode in game {gameId}");
+                        _logger.LogInformation("User {0} used already redeem passcode in game {1}", userName, gameId);
 
                         break;
                 }

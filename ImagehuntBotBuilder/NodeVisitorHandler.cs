@@ -110,7 +110,7 @@ namespace ImageHuntBotBuilder
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Exception while handling activity: {activity.Type}");
+                _logger.LogError(ex, "Exception while handling activity: {0}", activity.Type);
             }
             return nextNode;
         }

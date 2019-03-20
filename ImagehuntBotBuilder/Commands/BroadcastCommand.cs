@@ -60,7 +60,7 @@ namespace ImageHuntBotBuilder.Commands
             else
             {
                 await turnContext.SendActivityAsync(_localizer["SYNTAX_ERROR"]);
-                _logger.LogError($"Syntax error for command: {turnContext.Activity.Text}");
+                _logger.LogError("Syntax error for command: {0}", turnContext.Activity.Text);
             }
         }
     }

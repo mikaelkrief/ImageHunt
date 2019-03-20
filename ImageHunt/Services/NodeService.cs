@@ -31,7 +31,7 @@ namespace ImageHunt.Services
         .SingleOrDefault(n => n.Id == nodeId);
       if (node == null)
       {
-        _logger.LogError($"Node Id: {nodeId} not found");
+        _logger.LogError($"Node Id: {0} not found", nodeId);
         return null;
       }
 
