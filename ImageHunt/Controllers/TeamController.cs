@@ -7,6 +7,7 @@ using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Action = ImageHuntCore.Model.Action;
 
