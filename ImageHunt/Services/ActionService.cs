@@ -102,7 +102,7 @@ namespace ImageHunt.Services
       {
         var delta = GeographyComputation.Distance(gameAction.Node.Latitude, gameAction.Node.Longitude,
           gameAction.Latitude.Value, gameAction.Longitude.Value);
-        _logger.LogDebug($"Delta = {delta} for nodeId {gameAction.Node.Id}");
+        _logger.LogDebug("Delta = {0} for nodeId {1}", delta, gameAction.Node.Id);
         return delta;
       }
       else

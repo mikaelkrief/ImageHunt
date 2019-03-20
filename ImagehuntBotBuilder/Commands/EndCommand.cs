@@ -39,7 +39,7 @@ namespace ImageHuntBotBuilder.Commands
             await _actionWebService.LogAction(gameActionRequest);
             state.Status = Status.Ended;
             await turnContext.SendActivityAsync(_localizer["GAME_ENDED"]);
-            _logger.LogInformation($"Game {state.GameId} ended for team {state.TeamId}");
+            _logger.LogInformation("Game {0} ended for team {1}", state.GameId, state.TeamId);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace ImageHuntBotBuilder.Commands
         {
             if (state.Status != Status.Initialized)
             {
-                _logger.LogError($"Group not initialized, unable to extract Invite Url from non-initialzed group");
+                _logger.LogError("Group not initialized, unable to extract Invite Url from non-initialzed group");
                 await turnContext.SendActivityAsync(_localizer["NON_INITIALIZED_GROUP"]);
                 return;
             }

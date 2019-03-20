@@ -39,7 +39,7 @@ namespace ImageHuntWebServiceClient.WebServices
                 }
                 catch (KeyNotFoundException e)
                 {
-                    _logger.LogError($"In gameId={gameId} the player {userName} was not found");
+                    _logger.LogError(e, "In gameId={0} the player {1} was not found", gameId, userName);
                     return new PasscodeResponse(){RedeemStatus = RedeemStatus.UserNotFound};
                 }
             }

@@ -149,7 +149,11 @@ namespace ImageHunt.Controllers
     [HttpPost("LogPosition")]
     public async Task<IActionResult> LogPosition(LogPositionRequest logPositionRequest)
     {
-      _logger.LogInformation($"Received position gameId: {logPositionRequest.GameId}, teamId: {logPositionRequest.TeamId}, [{logPositionRequest.Latitude}, {logPositionRequest.Longitude}]");
+      _logger.LogInformation("Received position gameId: {0}, teamId: {1}, [{2}, {3}]",
+        logPositionRequest.GameId,
+        logPositionRequest.TeamId,
+        logPositionRequest.Latitude,
+        logPositionRequest.Longitude);
       var gameAction = new GameAction()
         {
           Action = Action.SubmitPosition,

@@ -100,7 +100,7 @@ namespace ImagehuntBotBuilder
                 // Catches any errors that occur during a conversation turn and logs them.
                 options.OnTurnError = async (context, exception) =>
                 {
-                    logger.LogError($"Exception caught : {exception}");
+                    logger.LogError($"Exception caught : {0}", exception);
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
@@ -218,7 +218,7 @@ namespace ImagehuntBotBuilder
         {
             _logger.LogTrace("LoginApi");
             var apiBaseAddress = Configuration["ImageHuntApi:Url"];
-            _logger.LogDebug($"Connect to {apiBaseAddress}");
+            _logger.LogDebug("Connect to {0}", apiBaseAddress);
             var httpLogin = new HttpClient() { BaseAddress = new Uri(apiBaseAddress) };
             var accountService =
                 new AccountWebService(httpLogin, new LoggerFactory().CreateLogger<IAccountWebService>());

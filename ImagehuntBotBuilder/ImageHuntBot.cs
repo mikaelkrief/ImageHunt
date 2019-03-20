@@ -91,7 +91,7 @@ namespace ImageHuntBotBuilder
                         };
                         await _actionWebService.LogAction(gameActionRequest);
                         _logger.LogInformation(
-                            $"Image {turnContext.Activity.Attachments.First().Name} had been uploaded");
+                            "Image {0} had been uploaded", turnContext.Activity.Attachments.First().Name);
                         await turnContext.SendActivityAsync(
                             _localizer["IMAGE_RECEIVED_CONFIRM"], cancellationToken: cancellationToken);
                     }
