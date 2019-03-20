@@ -6,7 +6,6 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Serilog;
 
 namespace ImagehuntBotBuilder
 {
@@ -22,14 +21,14 @@ namespace ImagehuntBotBuilder
                 .ConfigureAppConfiguration((context, builder) =>
                 {
                     var env = context.HostingEnvironment;
-                    builder.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
-                    builder.AddEnvironmentVariables();
+                    builder
+                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                        .AddJsonFile("appsettings.bot.json", optional: true, reloadOnChange: true)
+                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                        .AddEnvironmentVariables();
                 })
-                .UseSerilog((context, configuration) => configuration
-                    .ReadFrom
-                    .Configuration(context.Configuration))
                 .ConfigureServices(services => services.AddAutofac())
+                .UseApplicationInsights("a0a0097b-6283-45ab-8df8-108f2f21bcf5")
                 .UseStartup<Startup>()
                 .Build();
     }
