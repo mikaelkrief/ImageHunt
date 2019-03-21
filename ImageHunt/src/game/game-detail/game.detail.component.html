@@ -43,6 +43,11 @@
             </button>
           </div>
           <div class="btn-group">
+            <button class="btn btn-primary" [routerLink]="['/follow/', game.id]">
+              <i class="fa fa-map"></i> <span class="d-none d-md-block" i18n> Follow</span>
+            </button>
+          </div>
+          <div class="btn-group">
             <button class="btn btn-primary" [routerLink]="['/score/', game.id]">
               <i class="fa fa-star"></i><span class="d-none d-md-block" i18n> Scores</span>
             </button>
