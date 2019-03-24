@@ -22,6 +22,7 @@ using ImageMagick;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using SharpKml.Base;
 
 
 namespace ImageHunt.Controllers
@@ -314,10 +315,24 @@ namespace ImageHunt.Controllers
         foreach (var placemark in kml.Flatten().OfType<Placemark>())
         {
           var polygon = placemark.Geometry as Polygon;
+          int countCoordinates = 0;
+          IEnumerable<Vector> coordinates = null;
+          if (polygon != null)
+          {
+            countCoordinates = polygon.OuterBoundary.LinearRing.Coordinates.Count;
+            coordinates = reverse ? polygon.OuterBoundary.LinearRing.Coordinates.Reverse() : polygon.OuterBoundary.LinearRing.Coordinates;
+          }
+          else
+          {
+            var lineString = placemark.Geometry as LineString;
+            if (lineString != null)
+            {
+              countCoordinates = lineString.Coordinates.Count;
+              coordinates = reverse ? lineString.Coordinates.Reverse() : lineString.Coordinates;
+            }
+          }
           int index = 1;
           Node previousNode = null;
-          var countCoordinates = polygon.OuterBoundary.LinearRing.Coordinates.Count;
-          var coordinates = reverse? polygon.OuterBoundary.LinearRing.Coordinates.Reverse(): polygon.OuterBoundary.LinearRing.Coordinates;
           foreach (var coordinate in coordinates)
           {
              Node node;
