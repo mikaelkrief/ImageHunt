@@ -2,8 +2,9 @@ ImageHunt is a web application to manage an image hunt in real life using mobile
 
 * Web api written in C# using dotnet core
 * Front-end written in Typescript using angular 4
-* Chatbot written in C# using https://github.com/TelegramBots/Telegram.Bot
+* Chatbots written in C# using https://github.com/TelegramBots/Telegram.Bot & https://github.com/Microsoft/BotBuilder
 
 The front-end allow game-master to create game path with actions, questions, etc on the way. Geo-tagged images can be uploaded and shown on the map. The app manage teams and players and (TBD) create players/teams score.
 
 The chatbot will chat with users, asking them to go to waypoints, require specific actions and accept picture to be checked by game-master.
+Another chatbot allow game master to create a game while they pursue the path.
