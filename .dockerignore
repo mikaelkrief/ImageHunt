@@ -1,0 +1,16 @@
+.git
+.gitignore
+LICENSE
+README.md
+Changelog.md
+Makefile
+docker-compose.yml
+extra_addons/*
+node_modules/*
+_NCrunch_ImageHunt/*
+TestResults/*
+TestUtilities/*
+ImageBotBuilderBotFrameworkTest/*
+ImageHuntApiTester/*
+ImageHuntBotBuilderTest/*
+ImageHunt/node_modules/*

@@ -11,6 +11,11 @@
     <EmbeddedResource Remove="Resources\Commands\HelpCommand.fr.resx" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Dockerfile_Production" />
+  </ItemGroup>
+
+
 
   <ItemGroup>
     <Content Include="BotConfiguration.bot">
@@ -49,12 +54,6 @@
     <ProjectReference Include="..\ImageHuntWebServiceClient\ImageHuntWebServiceClient.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Reference Include="NFluent">
-      <HintPath>..\..\..\Users\ChristopheMandrillon\.nuget\packages\nfluent\2.4.0\lib\netstandard2.0\NFluent.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 
 
   <ItemGroup>
