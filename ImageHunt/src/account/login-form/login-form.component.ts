@@ -23,7 +23,7 @@ export class LoginFormComponent implements OnInit {
 
     this._userService.login(form.form.value.userName, form.form.value.password)
       .subscribe(res => {
-          localStorage.setItem("authToken", res.value);
+          localStorage.setItem("authToken", res.result.value);
         this._alertService.sendAlert("Connexion réussie", "success", 3000);
           this.bsModalRef.hide();
         },
