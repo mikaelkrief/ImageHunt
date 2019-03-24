@@ -319,6 +319,7 @@ namespace ImageHunt.Controllers
           IEnumerable<Vector> coordinates = null;
           if (polygon != null)
           {
+            _logger.LogInformation("The kml is a closed polygon");
             countCoordinates = polygon.OuterBoundary.LinearRing.Coordinates.Count;
             coordinates = reverse ? polygon.OuterBoundary.LinearRing.Coordinates.Reverse() : polygon.OuterBoundary.LinearRing.Coordinates;
           }
@@ -327,6 +328,7 @@ namespace ImageHunt.Controllers
             var lineString = placemark.Geometry as LineString;
             if (lineString != null)
             {
+              _logger.LogInformation("The kml is a lineString");
               countCoordinates = lineString.Coordinates.Count;
               coordinates = reverse ? lineString.Coordinates.Reverse() : lineString.Coordinates;
             }
