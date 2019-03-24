@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
@@ -50,5 +52,10 @@ namespace ImageHuntBotBuilder
         /// </summary>
         /// <value>The <see cref="ConversationState"/> object.</value>
         public ConversationState ConversationState { get; }
+
+        public virtual async Task DeleteStateAsync(ITurnContext context, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await ConversationState.DeleteAsync(context, cancellationToken);
+        }
     }
 }

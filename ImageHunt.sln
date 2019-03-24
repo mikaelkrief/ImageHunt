@@ -26,6 +26,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntBotBuilder", "Imag
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntBotBuilderTest", "ImageHuntBotBuilderTest\ImageHuntBotBuilderTest.csproj", "{C118EBDB-1095-46CD-A2B1-127D614C5C7D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dockerfiles", "Dockerfiles", "{9F4048C3-6CEB-4889-AF58-0F187AF34F82}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile_ImageHuntBotBuilder_Production = Dockerfile_ImageHuntBotBuilder_Production
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

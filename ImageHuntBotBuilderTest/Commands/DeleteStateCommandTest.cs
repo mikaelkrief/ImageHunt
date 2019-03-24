@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
@@ -41,32 +40,31 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             Activity activity = new Activity(text:"/delState gameid=20");
             A.CallTo(() => _turnContext.Activity).Returns(activity);
+            var states = new List<ImageHuntState>(){new ImageHuntState(){GameId = 20}, new ImageHuntState() { GameId = 20 }, new ImageHuntState() { GameId = 21 } };
+            var statePropertyAccessor = A.Fake<IStatePropertyAccessorExtended<ImageHuntState>>();
+            A.CallTo(() => statePropertyAccessor.GetAllAsync()).Returns(states);
+            A.CallTo(() => _accessors.AllStates).Returns(statePropertyAccessor);
             // Act
             await _target.Execute(_turnContext, _state);
             // Assert
+            A.CallTo(() => _accessors.DeleteStateAsync(A<ITurnContext>._, A<CancellationToken>._))
+                .MustHaveHappened(2, Times.Exactly);
         }
-    }
-
-    public class DeleteStateCommand : AbstractCommand, IDeleteStateCommand
-    {
-        private readonly ImageHuntBotAccessors _accessors;
-
-        public DeleteStateCommand(ILogger<IDeleteStateCommand> logger, 
-            IStringLocalizer<DeleteStateCommand> localizer,
-            ImageHuntBotAccessors accessors) : base(logger, localizer)
+        [Fact]
+        public async Task Should_Delete_All_States_For_Team()
         {
-            _accessors = accessors;
-        }
-
-        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
-        {
-            var regex = new Regex(@"\/delState \s*(gameid\=(?'gameid'\d*)|teamid\=(?'teamid'\d*))");
-            if (regex.IsMatch(turnContext.Activity.Text))
-            {
-                var gameIdAsString = regex.Matches(turnContext.Activity.Text)[0].Groups["gameid"].Value;
-                var teamIdAsString = regex.Matches(turnContext.Activity.Text)[0].Groups["teamid"].Value;
-            }
-            
+            // Arrange
+            Activity activity = new Activity(text:"/delState teamid=20");
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            var states = new List<ImageHuntState>(){new ImageHuntState(){TeamId = 20}, new ImageHuntState() { TeamId = 20 }, new ImageHuntState() { GameId = 21 } };
+            var statePropertyAccessor = A.Fake<IStatePropertyAccessorExtended<ImageHuntState>>();
+            A.CallTo(() => statePropertyAccessor.GetAllAsync()).Returns(states);
+            A.CallTo(() => _accessors.AllStates).Returns(statePropertyAccessor);
+            // Act
+            await _target.Execute(_turnContext, _state);
+            // Assert
+            A.CallTo(() => _accessors.DeleteStateAsync(A<ITurnContext>._, A<CancellationToken>._))
+                .MustHaveHappened(2, Times.Exactly);
         }
     }
 }
