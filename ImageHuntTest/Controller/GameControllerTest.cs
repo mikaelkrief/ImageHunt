@@ -575,6 +575,37 @@ namespace ImageHuntTest.Controller
                 }
             }
         }
+        [Fact]
+        public void Should_Import_non_closed_kml_file()
+        {
+            // Arrange
+            var kmlFile = GetStringFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.non_closed.kml");
+            var file = A.Fake<IFormFile>();
+            using (var stream = new MemoryStream())
+            {
+                using (var writter = new StreamWriter(stream))
+                {
+                    writter.Write(kmlFile);
+                    writter.Flush();
+                    stream.Seek(0, SeekOrigin.Begin);
+                    var expectedNodeCount = 28;
+
+                    A.CallTo(() => file.OpenReadStream()).ReturnsNextFromSequence(stream);
+
+                    // Act
+                    _target.ImportKmlFile(1, false, file);
+                    // Assert
+                    A.CallTo(() => _gameService.AddNode(A<int>._, A<FirstNode>._))
+                        .MustHaveHappened(Repeated.Exactly.Once);
+                    A.CallTo(() => _gameService.AddNode(A<int>._, A<Node>._))
+                        .MustHaveHappened(Repeated.Exactly.Times(expectedNodeCount));
+                    A.CallTo(() => _gameService.AddNode(A<int>._, A<LastNode>._))
+                        .MustHaveHappened(Repeated.Exactly.Once);
+                    A.CallTo(() => _nodeService.AddChildren(A<Node>._, A<Node>._))
+                        .MustHaveHappened(Repeated.Exactly.Times(expectedNodeCount - 1));
+                }
+            }
+        }
 
         [Fact]
         public void Should_return_Nodes_close_to()
