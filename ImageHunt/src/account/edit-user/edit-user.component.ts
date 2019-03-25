@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { UserService } from 'services/user.service';
 import { AlertService } from 'services/alert.service';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
     selector: 'edit-user',
@@ -16,14 +17,17 @@ export class EditUserComponent implements OnInit {
       .subscribe(res => {this.user = res});
   }
     /** edit-user ctor */
-  constructor(private _route: ActivatedRoute, private userService: UserService, private alertService: AlertService) {
+  constructor(private _route: ActivatedRoute,
+    private userService: UserService,
+    private alertService: AlertService,
+  private confirmationService: ConfirmationService) {
     this.userName = this._route.snapshot.params['username'];
   }
   save(form: NgForm) {
     const user = {
       id: this.user.id,
       userName: this.user.userName,
-      telegram: form.form.value.telegram,
+      telegram: form.form.value.tgUsername,
       currentPassword: form.form.value.currentpassword,
       newPassword: form.form.value.newpassword
     }
@@ -34,6 +38,20 @@ export class EditUserComponent implements OnInit {
         error.error.map(err => this.alertService.sendAlert(`${err.description}`, "danger", 10000));
 
       });
+  }
+  deleteUser() {
+    this.confirmationService.confirm({
+      message: `Are you sure you want to delete user ${this.userName}?`,
+      accept: () => this.userService.deleteUser(this.user)
+        .subscribe(res => this.alertService.sendAlert(`User ${this.userName} had been deleted`, "success", 5000),
+          error => {
+            this.alertService.sendAlert(`Unable to delete ${this.user.userName} for the following reason: `,
+              "danger",
+              10000);
+            error.error.map(err => this.alertService.sendAlert(`${err.description}`, "danger", 10000));
+
+          })
+    });
   }
 
   userName: string;
