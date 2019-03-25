@@ -13,15 +13,16 @@ import { RouterModule } from '@angular/router';
 import { AdminModule } from "../admin/admin.module";
 import { GameAssignComponent } from './game-assign/game-assign.component';
 import { SharedModule } from "../shared/shared.module";
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 @NgModule({
   imports: [
     CommonModule, FormsModule, ConfirmDialogModule, ListboxModule, RouterModule, AdminModule, SharedModule,
   ],
 
-  declarations: [RegistrationFormComponent, LoginFormComponent, UserRoleComponent, GameAssignComponent],
-  exports: [RegistrationFormComponent, LoginFormComponent, UserRoleComponent, GameAssignComponent],
-  bootstrap: [RegistrationFormComponent, LoginFormComponent, UserRoleComponent, GameAssignComponent],
+  declarations: [RegistrationFormComponent, LoginFormComponent, UserRoleComponent, GameAssignComponent, EditUserComponent],
+  exports: [RegistrationFormComponent, LoginFormComponent, UserRoleComponent, GameAssignComponent, EditUserComponent],
+  bootstrap: [RegistrationFormComponent, LoginFormComponent, UserRoleComponent, GameAssignComponent, EditUserComponent],
   providers: [UserService, ConfirmationService, BsModalService]
 })
 export class AccountModule { }
