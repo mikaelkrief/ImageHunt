@@ -85,7 +85,7 @@ namespace ImageHunt.Controllers
       var adminId = UserId;
       var game = _mapper.Map<Game>(newGame);
       if (newGame.PictureId != 0)
-        game.Picture = new Picture() {Id = newGame.PictureId};
+        game.Picture = new Picture() { Id = newGame.PictureId };
 
       return CreatedAtAction("CreateGame", _gameService.CreateGame(adminId, game));
     }
@@ -123,7 +123,7 @@ namespace ImageHunt.Controllers
           var choiceNode = node as ChoiceNode;
           choiceNode.Choice = nodeRequest.Question;
           choiceNode.Answers = nodeRequest.Choices
-            .Select(a => new Answer() {Response = a.Response, Correct = a.Correct}).ToList();
+            .Select(a => new Answer() { Response = a.Response, Correct = a.Correct }).ToList();
           break;
         case NodeResponse.QuestionNodeType:
           var questionNode = node as QuestionNode;
@@ -145,15 +145,40 @@ namespace ImageHunt.Controllers
         using (var fileStream = file.OpenReadStream())
         {
           byte[] bytes = new byte[fileStream.Length];
-          fileStream.Read(bytes, 0, (int) fileStream.Length);
-          var picture = new Picture() {Image = bytes};
-          //_imageService.AddPicture(picture);
+          fileStream.Read(bytes, 0, (int)fileStream.Length);
+          var picture = new Picture() { Image = bytes };
           var coordinates = _imageService.ExtractLocationFromImage(picture);
           fileStream.Seek(0, SeekOrigin.Begin);
           using (var magikImage = new MagickImage(fileStream))
           {
             magikImage.Quality = 80;
-            magikImage.Strip();
+            switch (magikImage.Orientation)
+            {
+              case OrientationType.TopRight:
+                magikImage.Flop();
+                break;
+              case OrientationType.BottomRight:
+                magikImage.Rotate(180);
+                break;
+              case OrientationType.BottomLeft:
+                magikImage.Flop();
+                magikImage.Rotate(180);
+                break;
+              case OrientationType.LeftTop:
+                magikImage.Rotate(-90);
+                break;
+              case OrientationType.RightTop:
+                magikImage.Rotate(90);
+                break;
+              case OrientationType.RightBottom:
+                magikImage.Flop();
+                magikImage.Rotate(90);
+                break;
+              case OrientationType.LeftBotom:
+                magikImage.Rotate(-90);
+                break;
+            }
+
             using (var compressedImageStream = new MemoryStream())
             {
               magikImage.Write(compressedImageStream);
@@ -163,12 +188,12 @@ namespace ImageHunt.Controllers
               picture = new Picture() { Image = bytes };
             }
           }
-            // Drop the images without coordinates
-            if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
-            {
-              _logger.LogWarning($"The image {file.Name} is not geotagged");
-              return new BadRequestObjectResult(new { message = $"The image {file.FileName}", filename = file.FileName });
-            }
+          // Drop the images without coordinates
+          if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
+          {
+            _logger.LogWarning($"The image {file.Name} is not geotagged");
+            return new BadRequestObjectResult(new { message = $"The image {file.FileName}", filename = file.FileName });
+          }
 
           var node = new PictureNode
           {
@@ -239,8 +264,8 @@ namespace ImageHunt.Controllers
       using (var stream = file.OpenReadStream())
       {
         var image = new byte[stream.Length];
-        stream.Read(image, 0, (int) stream.Length);
-        var picture = new Picture() {Image = image};
+        stream.Read(image, 0, (int)stream.Length);
+        var picture = new Picture() { Image = image };
         var coordinates = _imageService.ExtractLocationFromImage(picture);
         if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
           return BadRequest();
@@ -310,7 +335,7 @@ namespace ImageHunt.Controllers
     {
       using (var stream = file.OpenReadStream())
       {
-        var kmlFile = KmlFile.Load(stream) ;
+        var kmlFile = KmlFile.Load(stream);
         var kml = kmlFile.Root as Kml;
         foreach (var placemark in kml.Flatten().OfType<Placemark>())
         {
@@ -337,8 +362,8 @@ namespace ImageHunt.Controllers
           Node previousNode = null;
           foreach (var coordinate in coordinates)
           {
-             Node node;
-           if (previousNode == null)
+            Node node;
+            if (previousNode == null)
             {
               node = NodeFactory.CreateNode(NodeResponse.FirstNodeType);
             }
@@ -379,13 +404,13 @@ namespace ImageHunt.Controllers
       {
         ModelState.AddModelError("ChoiceNode", "Unable to duplicate a gae with ChoiceNode");
         return BadRequest(ModelState);
-        
+
       }
 
       var admin = _adminService.GetAdminById(UserId);
       // Duplicate game
       var newGame = _gameService.Duplicate(orgGame, admin);
-      
+
       var orgNodes = _gameService.GetNodes(orgGame.Id);
       var newNode = new List<Node>();
       // duplicate nodes
@@ -393,7 +418,7 @@ namespace ImageHunt.Controllers
       {
         newNode.Add(NodeFactory.DuplicateNode(orgNode));
       }
-      newNode.ForEach(n=>_gameService.AddNode(newGame.Id, n));
+      newNode.ForEach(n => _gameService.AddNode(newGame.Id, n));
       // Rebuild the path
       var firstNode = newNode.First(n => n.NodeType == NodeResponse.FirstNodeType);
       firstNode.DuplicatePath(orgNodes, newNode);
