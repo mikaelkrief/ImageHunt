@@ -2,58 +2,55 @@
   <div class="row">
     <h2>Edit user details</h2>
   </div>
-  <div class="row">
-    <form #f="ngForm" (ngSubmit)="save(f)">
-      <div class="row">
-        <div class="col-6">
-          <div class="form-group">
-            <label for="userName" i18n>User Name</label>
-            <input class="form-control" type="text" readonly name="userName" [value]="user.userName" />
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group">
-            <label for="tgUsername" i18n>Telegram user name</label>
-            <input class="form-control" type="text" name="tgUsername" [value]="user.telegram" ngModel />
-          </div>
+  <form class="container" #f="ngForm" (ngSubmit)="save(f)">
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <label for="userName" i18n>User Name</label>
+          <input class="form-control" type="text" readonly name="userName" [value]="user.userName" />
         </div>
       </div>
-      <div class="row">
-        <div class="col-6">
-          <div class="form-group">
-            <label for="currentpassword" i18n>Current Password</label>
-            <input class="form-control" type="password" name="currentpassword" ngModel />
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group">
-            <label for="role" i18n>Role</label>
-            <input class="form-control" type="text" readonly [value]="user.role" />
-          </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label for="tgUsername" i18n>Telegram user name</label>
+          <input class="form-control" type="text" name="tgUsername" [value]="user.telegram" ngModel />
         </div>
       </div>
-      <div class="row">
-        <div class="col-6">
-          <div class="form-group">
-            <label for="newpassword" i18n>New password</label>
-            <input class="form-control" type="password" name="newpassword" ngModel />
-          </div>
-        </div>
-
-      </div>
-
-      <div class="row">
-        <div class="col-6">
-          <button type="submit" class="btn btn-success"><span i18n>Save changes</span></button>
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="row">
-    <div class="col-6">
-      <button class="btn btn-danger" (click)="deleteUser()"><span i18n>Delete User</span></button>
     </div>
-  </div>
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <label for="currentpassword" i18n>Current Password</label>
+          <input class="form-control" type="password" name="currentpassword" ngModel />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label for="role" i18n>Role</label>
+          <input class="form-control" type="text" readonly [value]="user.role" />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <label for="newpassword" i18n>New password</label>
+          <input class="form-control" type="password" name="newpassword" ngModel />
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <button type="submit" class="btn btn-success"><span i18n>Save changes</span></button>
+      </div>
+      <div class="col-6">
+        <button type="button" class="btn btn-danger" (click)="deleteUser()"><span i18n>Delete User</span></button>
+      </div>
+
+    </div>
+  </form>
 </div>
 <p-confirmDialog id="deleteUserConfirm" i18n-header header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
 
