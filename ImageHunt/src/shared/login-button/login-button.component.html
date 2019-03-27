@@ -8,10 +8,11 @@
     </button>
   </div>
   <div *ngIf="isAuthenticated">
+    <span i18n>Connected as:</span>
+    <a [routerLink]="['/userEdit', userName]"><span class="badge badge-primary">{{userName}}</span></a>
     <button (click)="logout()" class="btn btn-default">
-      <span i18n>Connected as:</span>
-      <span class="badge badge-primary">{{userName}}</span>
-      <br/>
+
+      <br />
       <i class="fas fa-sign-out-alt"></i><span i18n> Logoff</span>
     </button>
   </div>

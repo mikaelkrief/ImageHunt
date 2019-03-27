@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
@@ -148,5 +149,42 @@ namespace ImageHuntTest.Controller
             Check.That(_context.Admins).HasSize(0);
         }
 
+        [Fact]
+        public async Task Should_Get_User()
+        {
+            // Arrange
+            var identities = new List<Identity>()
+            {
+                new Identity()
+                {
+                    Id = "HHGHGHG", UserName = "toto"
+                }
+            };
+            A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
+
+            // Act
+            var result = await _target.GetUser("toto");
+            // Assert
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+    
+        }
+
+        [Fact]
+        public async Task Should_Edit_User()
+        {
+            // Arrange
+            var userUpdateRequest = new UpdateUserRequest()
+            {
+                Id = "dsfsdfdfsdfsdfsd", CurrentPassword = "sdfsdfsdf", NewPassword = "sdqsff55521"
+            };
+            var identities = new List<Identity>() { new Identity() { Id = "dsfsdfdfsdfsdfsd" } };
+            A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
+
+            // Act
+            var result = await _target.UpdateUser(userUpdateRequest);
+            // Assert
+            A.CallTo(() => _userManager.ChangePasswordAsync(identities[0], userUpdateRequest.CurrentPassword,
+                userUpdateRequest.NewPassword)).MustHaveHappened();
+        }
     }
 }

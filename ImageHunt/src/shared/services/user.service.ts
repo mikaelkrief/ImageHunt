@@ -48,4 +48,8 @@ export class UserService extends BaseService {
   saveUser(user) { return this.http.put(this.baseUrl + 'Account/', user); }
 
   deleteUser(user) { return this.http.delete(this.baseUrl + "Account/" + user.id); }
+
+  getUser(userName: string) {
+    return this.http.get(`${this.baseUrl}Account/${userName}`);
+  }
 }

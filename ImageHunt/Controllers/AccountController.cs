@@ -132,13 +132,35 @@ namespace ImageHunt.Controllers
     public async Task<IActionResult> UpdateUser(UpdateUserRequest userRequest)
     {
       var identity = _userManager.Users.Single(u => u.Id == userRequest.Id);
-      await _userManager.RemoveFromRoleAsync(identity, identity.Role);
-      identity.Role = userRequest.Role;
-      await _userManager.UpdateAsync(identity);
-      await _userManager.AddToRoleAsync(identity, userRequest.Role);
-      var userResponse = _mapper.Map<UserResponse>(identity);
-      userResponse.Role = userRequest.Role;
-      return Ok(userResponse);
+      if (!string.IsNullOrEmpty(userRequest.Role))
+      {
+        await _userManager.RemoveFromRoleAsync(identity, identity.Role);
+        identity.Role = userRequest.Role;
+        await _userManager.UpdateAsync(identity);
+        await _userManager.AddToRoleAsync(identity, userRequest.Role);
+        var userResponse = _mapper.Map<UserResponse>(identity);
+        userResponse.Role = userRequest.Role;
+
+        return Ok(userResponse);
+      }
+
+      if (!string.IsNullOrEmpty(userRequest.CurrentPassword) && !string.IsNullOrEmpty(userRequest.NewPassword))
+      {
+        var result = await _userManager.ChangePasswordAsync(identity, userRequest.CurrentPassword, userRequest.NewPassword);
+        if (!result.Succeeded)
+          return BadRequest(result.Errors);
+        return Ok(_mapper.Map<UserResponse>(identity));
+      }
+
+      if (!string.IsNullOrEmpty(userRequest.Telegram))
+      {
+        identity.TelegramUser = userRequest.Telegram;
+        var result = await _userManager.UpdateAsync(identity);
+        if (!result.Succeeded)
+          return BadRequest(result.Errors);
+        return Ok(_mapper.Map<UserResponse>(identity));
+      }
+      return BadRequest();
     }
     [HttpDelete("{userId}")]
     public async Task<IActionResult> DeleteUser(string userId)
@@ -151,6 +173,15 @@ namespace ImageHunt.Controllers
       _context.SaveChanges();
       var identityResult = await _userManager.DeleteAsync(identity);
       return Ok(identityResult);
+    }
+    [HttpGet("{userName}")]
+    public async Task<IActionResult> GetUser(string userName)
+    {
+      var user = _userManager.Users.SingleOrDefault(u => u.UserName == userName);
+      if (user == null)
+        return NotFound(userName);
+
+      return Ok(_mapper.Map<UserResponse>(user));
     }
   }
 }
