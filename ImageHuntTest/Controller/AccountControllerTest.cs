@@ -113,12 +113,28 @@ namespace ImageHuntTest.Controller
                 Id = "GHGHG",
                 Role = "Admin"
             };
-            var identities = new List<Identity>() {new Identity(){Id = "GHGHG" } };
+            var identities = new List<Identity>() {new Identity(){Id = "GHGHG", Role = "admin"} };
             A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
             // Act
             await _target.UpdateUser(userRequest);
             // Assert
             A.CallTo(() => _userManager.RemoveFromRoleAsync(A<Identity>._, A<string>._)).MustHaveHappened();
+            A.CallTo(() => _userManager.AddToRoleAsync(A<Identity>._, userRequest.Role)).MustHaveHappened();
+        }
+        [Fact]
+        public async Task Should_Modify_User_Role_Without_Previous_Role()
+        {
+            // Arrange
+            var userRequest = new UpdateUserRequest()
+            {
+                Id = "GHGHG",
+                Role = "Admin"
+            };
+            var identities = new List<Identity>() {new Identity(){Id = "GHGHG"} };
+            A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
+            // Act
+            await _target.UpdateUser(userRequest);
+            // Assert
             A.CallTo(() => _userManager.AddToRoleAsync(A<Identity>._, userRequest.Role)).MustHaveHappened();
         }
 
