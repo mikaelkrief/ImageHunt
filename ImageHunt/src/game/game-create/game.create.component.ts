@@ -43,6 +43,7 @@ export class GameCreateComponent implements OnInit {
     let game: Game = {
       id: 0,
       isActive: true,
+      isPublic: false,
       name: this.name,
       startDate: startDate,
       mapCenterLng: 0,

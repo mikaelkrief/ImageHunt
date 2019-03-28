@@ -170,8 +170,8 @@ export class GameService {
     return this.http.get<Game[]>(`api/Game/ForValidation`);
   }
 
-  toogleGame(gameId: number): Observable<Game> {
-     return this.http.post<Game>(`api/Game/Toggle/${gameId}`, null);
+  toogleGame(gameId: number, flag: string ): Observable<Game> {
+     return this.http.post<Game>(`api/Game/Toggle/${gameId}/${flag}`, null);
   }
 
   modifyGameAction(gameAction: GameAction): Observable<GameAction> {

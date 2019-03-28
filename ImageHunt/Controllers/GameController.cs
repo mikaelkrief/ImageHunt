@@ -449,10 +449,12 @@ namespace ImageHunt.Controllers
       var user = _adminService.GetAdminById(UserId);
       return Ok(_gameService.GetAllGameForValidation(user));
     }
-    [HttpPost("Toggle/{gameId}")]
-    public IActionResult ToggleGame(int gameId)
+    [HttpPost("Toggle/{gameId}/{flag}")]
+    public IActionResult ToggleGame(int gameId, string flag)
     {
-      return Ok(_gameService.Toogle(gameId));
+      Flag flg = Enum.Parse<Flag>(flag);
+      return Ok(_gameService.Toogle(gameId, flg));
     }
+
   }
 }

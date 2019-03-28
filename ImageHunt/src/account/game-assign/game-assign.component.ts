@@ -13,9 +13,9 @@ import { Game } from "shared/game";
 /** game-assign component*/
 export class GameAssignComponent implements OnInit {
   user: User;
-  selectedGames: Game[] = [{ id: 1, name: "first", isActive: true }];
+  selectedGames: Game[] = [{ id: 1, name: "first", isActive: true, isPublic: true }];
   games: Game[];
-  notSelectedGames: Game[] = [{ id: 2, name: "second", isActive: true }];
+  notSelectedGames: Game[] = [{ id: 2, name: "second", isActive: true, isPublic: true }];
 
     /** game-assign ctor */
   constructor(public bsModalRef: BsModalRef,

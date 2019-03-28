@@ -74,9 +74,12 @@ export class GameListComponent implements OnInit {
   classForActive(active: boolean) {
     return active ? 'fa-eye' : 'fa-eye-slash';
   }
-  toggleGame(game: Game) {
-    this.gameService.toogleGame(game.id)
-      .subscribe(res => game.isActive = res.isActive);
+  toggleGame(game: Game, flag: string) {
+    this.gameService.toogleGame(game.id, flag)
+      .subscribe(res => {
+        game.isActive = res.isActive;
+        game.isPublic = res.isPublic;
+      });
   }
   modalRef;
 }
