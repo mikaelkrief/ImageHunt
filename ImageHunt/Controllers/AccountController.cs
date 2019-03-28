@@ -134,7 +134,7 @@ namespace ImageHunt.Controllers
       var identity = _userManager.Users.Single(u => u.Id == userRequest.Id);
       if (!string.IsNullOrEmpty(userRequest.Role))
       {
-        if (string.IsNullOrEmpty(identity.Role))
+        if (!string.IsNullOrEmpty(identity.Role))
           await _userManager.RemoveFromRoleAsync(identity, identity.Role);
         identity.Role = userRequest.Role;
         await _userManager.UpdateAsync(identity);
