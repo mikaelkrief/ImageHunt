@@ -724,10 +724,23 @@ namespace ImageHuntTest.Controller
             // Arrange
             
             // Act
-            var result = _target.ToggleGame(17);
+            var result = _target.ToggleGame(17, "Active");
             // Assert
-            A.CallTo(() => _gameService.Toogle(A<int>._)).MustHaveHappened();
+            A.CallTo(() => _gameService.Toogle(A<int>._, Flag.Active)).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();
+        }
+
+        [Fact]
+        public void Should_Make_Game_Public()
+        {
+            // Arrange
+            
+            // Act
+            var result = _target.ToggleGame(17, "Public");
+            // Assert
+            A.CallTo(() => _gameService.Toogle(A<int>._, Flag.Public)).MustHaveHappened();
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+
         }
     }
 }

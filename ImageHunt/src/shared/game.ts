@@ -4,6 +4,7 @@ import {Team} from "./team";
 export class Game {
   id: number;
   isActive: boolean;
+  isPublic: boolean;
   name: string;
   startDate?: Date;
   mapCenterLat?: number;

@@ -193,7 +193,7 @@ namespace ImageHunt.Services
     {
       return Context.Games
         .Include(g=>g.Teams)
-        .Where(g => g.IsActive && g.StartDate >= DateTime.Today);
+        .Where(g => g.IsActive && g.StartDate >= DateTime.Today && g.IsPublic);
     }
 
     public string GameCode(int gameId)
@@ -259,10 +259,18 @@ namespace ImageHunt.Services
       return gamesToValidate;
     }
 
-    public Game Toogle(int gameId)
+    public Game Toogle(int gameId, Flag flagToChange = Flag.Active)
     {
       var game = Context.Games.Single(g => g.Id == gameId);
-      game.IsActive = !game.IsActive;
+      switch (flagToChange)
+      {
+        case Flag.Public:
+          game.IsPublic = !game.IsPublic;
+          break;
+        case Flag.Active:
+          game.IsActive = !game.IsActive;
+          break;
+      }
       Context.SaveChanges();
       return game;
     }

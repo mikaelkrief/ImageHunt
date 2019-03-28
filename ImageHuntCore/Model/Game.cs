@@ -11,6 +11,7 @@ namespace ImageHuntCore.Model
             Teams = new List<Team>();
         }
         public bool IsActive { get; set; }
+        public bool IsPublic { get; set; }
         public string Name { get; set; }
         public Picture Picture { get; set; }
         public string Description { get; set; }

@@ -605,5 +605,23 @@ namespace ImageHuntTest.Services
           // Assert
           Check.That(games[1].IsActive).Equals(result.IsActive);
       }
+      [Fact]
+      public void Should_Toggle_Game_Public()
+      {
+          // Arrange
+          var games = new List<Game>
+          {
+              new Game() {IsPublic = false},
+              new Game() {IsPublic = true},
+              new Game() {IsPublic = true},
+              new Game() {IsPublic = false},
+          };
+          _context.Games.AddRange(games);
+          _context.SaveChanges();
+          // Act
+          var result = _target.Toogle(games[1].Id, Flag.Public);
+          // Assert
+          Check.That(games[1].IsPublic).Equals(result.IsPublic);
+      }
     }
 }
