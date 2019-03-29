@@ -115,6 +115,10 @@ namespace ImageHuntTest.Controller
             };
             var identities = new List<Identity>() {new Identity(){Id = "GHGHG", Role = "admin"} };
             A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
+            var admins = new List<Admin> {new Admin()};
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
+            identities[0].AppUserId = admins[0].Id;
             // Act
             await _target.UpdateUser(userRequest);
             // Assert
@@ -132,6 +136,11 @@ namespace ImageHuntTest.Controller
             };
             var identities = new List<Identity>() {new Identity(){Id = "GHGHG"} };
             A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
+            var admins = new List<Admin> { new Admin() };
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
+            identities[0].AppUserId = admins[0].Id;
+
             // Act
             await _target.UpdateUser(userRequest);
             // Assert

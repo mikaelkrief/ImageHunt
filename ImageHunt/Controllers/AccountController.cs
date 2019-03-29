@@ -69,7 +69,7 @@ namespace ImageHunt.Controllers
         Email = request.Email,
         TelegramUser = request.Telegram
       };
-      var admin = new Admin() { Email = request.Email, Name = request.Login };
+      var admin = new Admin() { Email = request.Email, Name = request.Login, Role = Role.Player};
       _context.Admins.Add(admin);
       _context.SaveChanges();
       user.AppUserId = admin.Id;
@@ -141,7 +141,9 @@ namespace ImageHunt.Controllers
         await _userManager.AddToRoleAsync(identity, userRequest.Role);
         var userResponse = _mapper.Map<UserResponse>(identity);
         userResponse.Role = userRequest.Role;
-
+        var admin = _context.Admins.Single(a => a.Id == identity.AppUserId);
+        admin.Role = Enum.Parse<Role>(userRequest.Role);
+        _context.SaveChanges();
         return Ok(userResponse);
       }
 

@@ -30,11 +30,12 @@ namespace ImageHuntTest.Services
         public void GetAllAdmins()
         {
             // Arrange
+            
             var admins = new List<Admin>()
             {
-                new Admin(),
-                new Admin(),
-                new Admin()
+                new Admin(){Role = Role.Admin},
+                new Admin() {Role = Role.GameMaster},
+                new Admin(){Role = Role.Admin}
             };
             _context.Admins.AddRange(admins);
             _context.SaveChanges();
@@ -42,6 +43,26 @@ namespace ImageHuntTest.Services
             var result = _target.GetAllAdmins();
             // Assert
             Check.That(result).ContainsExactly(admins);
+        }
+        [Fact]
+        public void Should_Get_All_Admin_Return_only_Admin_and_GameMaster()
+        {
+            // Arrange
+            
+            var admins = new List<Admin>()
+            {
+                new Admin(){Role = Role.Admin},
+                new Admin() {Role = Role.GameMaster},
+                new Admin(){Role = Role.Admin},
+                new Admin(){Role = Role.Player},
+                new Admin(){Role = Role.Validator},
+            };
+            _context.Admins.AddRange(admins);
+            _context.SaveChanges();
+            // Act
+            var result = _target.GetAllAdmins();
+            // Assert
+            Check.That(result).ContainsExactly(admins.Where(a=>a.Role == Role.Admin || a.Role == Role.GameMaster));
         }
 
         [Fact]
