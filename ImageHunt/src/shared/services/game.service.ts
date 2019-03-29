@@ -151,6 +151,7 @@ export class GameService {
   }
 
   uploadKml(file: File, gameId: number, reverse: boolean) {
+    if (!reverse) reverse = false;
     let headers = new HttpHeaders();
     headers.delete('Content-Type');
     const formData = new FormData();
