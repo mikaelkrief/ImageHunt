@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
@@ -88,6 +87,34 @@ namespace ImageHuntBotBuilderTest.Commands
             Check.That(state.GameId).Equals(15);
             Check.That(state.TeamId).Equals(66);
             Check.That(state.HiddenNodes).Contains(nodes);
+            A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._)).MustHaveHappened();
+            A.CallTo(() => _teamWebService.GetTeamById(A<int>._)).MustHaveHappened();
+            Check.That(state.Status).Equals(Status.Initialized);
+            A.CallTo(
+                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                .MustHaveHappened();
+        }
+        [Fact]
+        public async Task Should_Execute_Set_ActionNodes_in_state()
+        {
+            // Arrange
+            var activity = new Activity(text: "/init gameId=15 teamid=66");
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._))
+                .Returns(new GameResponse(){StartDate = DateTime.Now});
+            var nodes = new List<NodeResponse> {new NodeResponse(), new NodeResponse()};
+            A.CallTo(() => _nodeWebService.GetNodesByType(A<NodeTypes>._, A<int>._)).Returns(nodes);
+
+            A.CallTo(() => _teamWebService.GetTeamById(A<int>._)).Returns(new TeamResponse(){CultureInfo = "fr-fr"});
+
+            var state = new ImageHuntState();
+            // Act
+            await _target.Execute(_turnContext, state);
+            // Assert
+            Check.That(state.GameId).Equals(15);
+            Check.That(state.TeamId).Equals(66);
+            Check.That(state.HiddenNodes).Contains(nodes);
+            A.CallTo(() => _nodeWebService.GetNodesByType(NodeTypes.Action, A<int>._)).MustHaveHappened();
             A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._)).MustHaveHappened();
             A.CallTo(() => _teamWebService.GetTeamById(A<int>._)).MustHaveHappened();
             Check.That(state.Status).Equals(Status.Initialized);

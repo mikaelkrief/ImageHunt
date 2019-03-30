@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Security.Principal;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -15,13 +13,12 @@ using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Rest.TransientFaultHandling;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.InputFiles;
 
 namespace ImageHuntBotBuilder
 {
@@ -176,6 +173,17 @@ namespace ImageHuntBotBuilder
                             case ImageHuntActivityTypes.Wait:
                                 var delay = (int) activity.Attachments.First().Content;
                                 Task.Delay(delay * 1000).ContinueWith(t => Wait(turnContext, activity));
+                                break;
+                            case ImageHuntActivityTypes.Image:
+                                var imageUrl = activity.Attachments
+                                    .Single(a => a.ContentType == ImageHuntActivityTypes.Image).ContentUrl;
+                                using (var client = new HttpClient())
+                                {
+                                    var imageStream = await client.GetStreamAsync(new Uri(imageUrl));
+                                    var inputOnlineFile = new InputOnlineFile(imageStream);
+                                    await _telegramBotClient.SendPhotoAsync(chatId, inputOnlineFile, activity.Text);
+                                }
+
                                 break;
                         }
 

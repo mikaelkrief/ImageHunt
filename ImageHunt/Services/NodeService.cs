@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using ImageHunt.Computation;
 using ImageHunt.Data;
-using ImageHunt.Model;
 using ImageHuntCore.Computation;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
@@ -28,10 +26,11 @@ namespace ImageHunt.Services
     {
       Node node = Context.Nodes
         .Include(n=>n.ChildrenRelation).ThenInclude(cr=>cr.Children)
+        .Include(n=>n.Image)
         .SingleOrDefault(n => n.Id == nodeId);
       if (node == null)
       {
-        _logger.LogError($"Node Id: {0} not found", nodeId);
+        _logger.LogError("Node Id: {0} not found", nodeId);
         return null;
       }
 
@@ -39,9 +38,6 @@ namespace ImageHunt.Services
       {
         case NodeResponse.ChoiceNodeType:
           node = Context.ChoiceNodes.Include(q => q.Answers).SingleOrDefault(n => n.Id == nodeId);
-          break;
-        case NodeResponse.PictureNodeType:
-          node = Context.PictureNodes.Include(p => p.Image).SingleOrDefault(n => n.Id == nodeId);
           break;
       }
       return node;

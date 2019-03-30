@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using AutoMapper;
 using FakeItEasy;
 using ImageHunt.Controllers;
 using ImageHunt.Data;
-using ImageHunt.Migrations;
 using ImageHuntCore;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;

@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using FakeItEasy;
-using ImageHunt.Model;
+﻿using FakeItEasy;
 using ImageHunt.Services;
 using Microsoft.Extensions.Logging;
 using NFluent;

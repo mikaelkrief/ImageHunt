@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using ImageHunt.Data;
-using ImageHunt.Model;
 using ImageHuntCore.Model;
 using ImageHuntCore.Services;
 using Microsoft.Extensions.Logging;

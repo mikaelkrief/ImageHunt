@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ImageHuntWebServiceClient.Responses
+﻿namespace ImageHuntWebServiceClient.Responses
 {
     public class UserResponse
     {

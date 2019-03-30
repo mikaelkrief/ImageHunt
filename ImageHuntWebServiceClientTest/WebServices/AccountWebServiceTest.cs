@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FakeItEasy;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;

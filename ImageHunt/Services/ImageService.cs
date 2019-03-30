@@ -1,9 +1,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using ImageHunt.Computation;
 using ImageHunt.Data;
-using ImageHunt.Model;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;

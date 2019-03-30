@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
@@ -389,18 +388,19 @@ namespace ImageHuntBotBuilderTest
                 Longitude = 4.9,
                 Name = "Action",
                 Points = 56,
+                Image = new ImageResponse() { Id = 15}
             };
             A.CallTo(() => _localizer[A<string>._]).Returns(new LocalizedString("Toto","{0}"));
             // Act
             var activities = _target.ActivitiesFromNode(node);
             // Assert
-            Check.That(activities.First().Text).Contains(node.Name);
+            A.CallTo(() => _localizer["NEXT_NODE_LOCATION", A<object[]>._]).MustHaveHappened();
+            A.CallTo(() => _localizer["DO_ACTION_REQUEST", A<object[]>._]).MustHaveHappened();
             var expectedLocation = new GeoCoordinates(latitude: node.Latitude, longitude: node.Longitude);
             Check.That(((GeoCoordinates) activities.Single(a=>a.Type==ImageHuntActivityTypes.Location).Attachments
                 .Single(a => a.ContentType == ImageHuntActivityTypes.Location).Content).Latitude).IsEqualTo(expectedLocation.Latitude);
             Check.That(((GeoCoordinates)activities.Single(a => a.Type == ImageHuntActivityTypes.Location).Attachments
                 .Single(a => a.ContentType == ImageHuntActivityTypes.Location).Content).Longitude).IsEqualTo(expectedLocation.Longitude);
-            Check.That(activities.Last().Text).Contains(node.Action);
         }
         [Fact]
         public void Should_create_activity_from_WaypointNode()
@@ -418,7 +418,8 @@ namespace ImageHuntBotBuilderTest
             // Act
             var activities = _target.ActivitiesFromNode(node);
             // Assert
-            Check.That(activities.First().Text).Contains(node.Name);
+            A.CallTo(() => _localizer["NEXT_NODE_LOCATION", A<object[]>._]).MustHaveHappened();
+
             var expectedLocation = new GeoCoordinates(latitude: node.Latitude, longitude: node.Longitude);
             Check.That(((GeoCoordinates) activities.Single(a=>a.Type==ImageHuntActivityTypes.Location).Attachments
                 .Single(a => a.ContentType == ImageHuntActivityTypes.Location).Content).Latitude).IsEqualTo(expectedLocation.Latitude);
@@ -443,7 +444,7 @@ namespace ImageHuntBotBuilderTest
             // Act
             var activities = _target.ActivitiesFromNode(node);
             // Assert
-            Check.That(activities.First().Text).Contains(node.Name);
+            A.CallTo(() => _localizer["HIDDEN_NODE", A<object[]>._]).MustHaveHappened();
             Check.That(activities.Last().Text).Contains(node.Hint);
         }
         [Fact]

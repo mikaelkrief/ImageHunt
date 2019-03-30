@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using ImageHunt.Helpers;
+﻿using ImageHunt.Helpers;
 using NFluent;
 using TestUtilities;
 using Xunit;

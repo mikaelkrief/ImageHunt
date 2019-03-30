@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Middlewares;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-using NFluent;
 using TestUtilities;
 using Xunit;
 

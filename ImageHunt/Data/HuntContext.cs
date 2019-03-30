@@ -1,7 +1,5 @@
 using System.Threading;
 using System.Threading.Tasks;
-using ImageHunt.Model;
-using ImageHuntCore;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using Microsoft.AspNetCore.Identity;

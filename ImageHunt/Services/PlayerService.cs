@@ -1,13 +1,9 @@
-using System;
 using System.Linq;
 using ImageHunt.Data;
-using ImageHunt.Exception;
-using ImageHunt.Model;
 using ImageHuntCore.Model;
 using ImageHuntCore.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Action = ImageHuntCore.Model.Action;
 
 namespace ImageHunt.Services
 {

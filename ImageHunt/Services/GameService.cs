@@ -2,16 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Helpers;
-using ImageHunt.Model;
 using ImageHuntCore.Computation;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
 using ImageHuntWebServiceClient.Responses;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

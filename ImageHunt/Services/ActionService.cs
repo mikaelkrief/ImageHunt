@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHuntCore.Computation;
@@ -11,8 +9,6 @@ using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
 using ImageHuntWebServiceClient.Request;
-using ImageHuntWebServiceClient.Responses;
-using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Action = ImageHuntCore.Model.Action;

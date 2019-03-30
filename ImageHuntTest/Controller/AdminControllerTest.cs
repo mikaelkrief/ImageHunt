@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using System.Text;
 using Autofac;
 using AutoMapper;
 using FakeItEasy;
 using ImageHunt.Controllers;
-using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Responses;

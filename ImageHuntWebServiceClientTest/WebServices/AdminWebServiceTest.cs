@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FakeItEasy;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;

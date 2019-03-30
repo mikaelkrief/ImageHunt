@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using NFluent;

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FakeItEasy;
 using ImageHunt.Data;
-using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using Microsoft.Extensions.Logging;
 using NFluent;
-using SQLitePCL;
 using TestUtilities;
 using Xunit;
 

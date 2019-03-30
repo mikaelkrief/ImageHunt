@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ImageHuntWebServiceClient.Request
+﻿namespace ImageHuntWebServiceClient.Request
 {
     public class ImageRequest
     {

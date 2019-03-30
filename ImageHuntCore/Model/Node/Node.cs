@@ -27,7 +27,7 @@ namespace ImageHuntCore.Model.Node
 
         [NotMapped] public List<Node> Children => ChildrenRelation.Select(cr => cr.Children).ToList();
         [NotMapped] public int OrgId { get; set; }
-
+        public Picture Image { get; set; }
     }
 
     public class ParentChildren : DbObject
