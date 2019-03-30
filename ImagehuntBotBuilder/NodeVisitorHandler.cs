@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Action = ImageHuntCore.Model.Action;
+using Attachment = Microsoft.Bot.Schema.Attachment;
 
 namespace ImageHuntBotBuilder
 {
@@ -145,7 +146,19 @@ namespace ImageHuntBotBuilder
                                 longitude: node.Longitude)),
                     };
                     activities.Add(item);
-                    activities.Add(new Activity(text: _localizer["DO_ACTION_REQUEST", node.Action], type: ActivityTypes.Message));
+                    var imageActivity = new Activity(text: _localizer["DO_ACTION_REQUEST", node.Action], type: ImageHuntActivityTypes.Image);
+                    var apiBaseAddress = _configuration["ImageHuntApi:Url"];
+                    if (node.Image != null)
+                    {
+                        imageActivity.Attachments = new List<Attachment>
+                        {
+                            new Attachment(
+                                contentType: ImageHuntActivityTypes.Image,
+                                contentUrl: $"{apiBaseAddress}/api/Image/{node.Image?.Id}"),
+                        };
+                    }
+
+                    activities.Add(imageActivity);
 
                     break;
                 case NodeResponse.WaypointNodeType:

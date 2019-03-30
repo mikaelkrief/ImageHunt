@@ -388,6 +388,7 @@ namespace ImageHuntBotBuilderTest
                 Longitude = 4.9,
                 Name = "Action",
                 Points = 56,
+                Image = new ImageResponse() { Id = 15}
             };
             A.CallTo(() => _localizer[A<string>._]).Returns(new LocalizedString("Toto","{0}"));
             // Act
