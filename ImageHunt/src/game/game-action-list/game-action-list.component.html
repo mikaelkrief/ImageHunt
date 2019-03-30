@@ -1,8 +1,19 @@
-<h2 i18n>Validate game action</h2>
-<p-table class="table"
+<div class="row">
+  <div class="col-10">
+    <h2 i18n >Validate game action</h2>
+  </div>
+  <div class="col-2">
+    <button type="button" pButton icon="fas fa-sync" (click)="refresh(actionTable)"></button>
+
+  </div>
+
+</div>
+<p-table #actionTable
+  class="table"
          [value]="gameActions"
          [paginator]="true"
          [rows]="10"
+         [loading]="loading"
          [lazy]="true"
          (onLazyLoad)="loadData($event)"
          [totalRecords]="totalRecords">
@@ -20,7 +31,7 @@
       <th i18n>Points</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-action let-rowData>
+  <ng-template pTemplate="body" let-action let-rowData >
     <tr>
       <td>{{action.dateOccured|date:'HH:mm'}}</td>
       <td style="white-space: nowrap;">{{isNaN(action.delta)?'-':action.delta | number:'1.0-2':'fr'}} m</td>
