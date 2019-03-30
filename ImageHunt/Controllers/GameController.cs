@@ -339,47 +339,53 @@ namespace ImageHunt.Controllers
         var kml = kmlFile.Root as Kml;
         foreach (var placemark in kml.Flatten().OfType<Placemark>())
         {
-          var polygon = placemark.Geometry as Polygon;
           int countCoordinates = 0;
           IEnumerable<Vector> coordinates = null;
-          if (polygon != null)
+          switch (placemark.Geometry)
           {
-            _logger.LogInformation("The kml is a closed polygon");
-            countCoordinates = polygon.OuterBoundary.LinearRing.Coordinates.Count;
-            coordinates = reverse ? polygon.OuterBoundary.LinearRing.Coordinates.Reverse() : polygon.OuterBoundary.LinearRing.Coordinates;
-          }
-          else
-          {
-            var lineString = placemark.Geometry as LineString;
-            if (lineString != null)
-            {
-              _logger.LogInformation("The kml is a lineString");
-              countCoordinates = lineString.Coordinates.Count;
-              coordinates = reverse ? lineString.Coordinates.Reverse() : lineString.Coordinates;
-            }
+            case Polygon polygon:
+              if (polygon != null)
+              {
+                _logger.LogInformation("The kml is a closed polygon");
+                countCoordinates = polygon.OuterBoundary.LinearRing.Coordinates.Count;
+                coordinates = reverse ? polygon.OuterBoundary.LinearRing.Coordinates.Reverse() : polygon.OuterBoundary.LinearRing.Coordinates;
+              }
+              break;
+            case LineString lineString:
+              if (lineString != null)
+              {
+                _logger.LogInformation("The kml is a lineString");
+                countCoordinates = lineString.Coordinates.Count;
+                coordinates = reverse ? lineString.Coordinates.Reverse() : lineString.Coordinates;
+              }
+
+              break;
           }
           int index = 1;
           Node previousNode = null;
-          foreach (var coordinate in coordinates)
+          if (coordinates != null)
           {
-            Node node;
-            if (previousNode == null)
+            foreach (var coordinate in coordinates)
             {
-              node = NodeFactory.CreateNode(NodeResponse.FirstNodeType);
+              Node node;
+              if (previousNode == null)
+              {
+                node = NodeFactory.CreateNode(NodeResponse.FirstNodeType);
+              }
+              else
+              {
+                node = NodeFactory.CreateNode(NodeResponse.WaypointNodeType);
+              }
+              if (index == countCoordinates)
+                node = NodeFactory.CreateNode(NodeResponse.LastNodeType);
+              node.Latitude = coordinate.Latitude;
+              node.Longitude = coordinate.Longitude;
+              node.Name = $"Waypoint{index++}";
+              _gameService.AddNode(gameId, node);
+              if (previousNode != null)
+                _nodeService.AddChildren(previousNode, node);
+              previousNode = node;
             }
-            else
-            {
-              node = NodeFactory.CreateNode(NodeResponse.WaypointNodeType);
-            }
-            if (index == countCoordinates - 1)
-              node = NodeFactory.CreateNode(NodeResponse.LastNodeType);
-            node.Latitude = coordinate.Latitude;
-            node.Longitude = coordinate.Longitude;
-            node.Name = $"Waypoint{index++}";
-            _gameService.AddNode(gameId, node);
-            if (previousNode != null)
-              _nodeService.AddChildren(previousNode, node);
-            previousNode = node;
           }
         }
       }
