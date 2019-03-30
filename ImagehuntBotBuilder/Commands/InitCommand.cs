@@ -60,6 +60,8 @@ namespace ImageHuntBotBuilder.Commands
 
                 var nodeResponses = await _nodeWebService.GetNodesByType(NodeTypes.Hidden, state.GameId.Value);
                 state.HiddenNodes = new List<NodeResponse>(nodeResponses).ToArray();
+                nodeResponses = await _nodeWebService.GetNodesByType(NodeTypes.Action, state.GameId.Value);
+                state.ActionNodes = new List<NodeResponse>(nodeResponses).ToArray();
                 state.Status = Status.Initialized;
                 string confirmMessage =
                     string.Format(_localizer["GROUP_INITIALIZED"],

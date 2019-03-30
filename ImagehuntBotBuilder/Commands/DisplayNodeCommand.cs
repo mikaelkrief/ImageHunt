@@ -26,7 +26,7 @@ namespace ImageHuntBotBuilder.Commands
             if (state.Status != Status.Started)
             {
                 _logger.LogInformation("Game not initialized");
-                await turnContext.SendActivityAsync("La partie n'a pas débuté, il n'y a donc pas de noeud courant!");
+                await turnContext.SendActivityAsync(_localizer["GAME_NOT_STARTED"]);
                 return;
             }
 
@@ -34,7 +34,7 @@ namespace ImageHuntBotBuilder.Commands
             if (!state.CurrentNodeId.HasValue)
             {
                 _logger.LogInformation("No current node");
-                await turnContext.SendActivityAsync($"Aucun noeud courant, impossible de continuer. Prévenir les orga");
+                await turnContext.SendActivityAsync(_localizer["NO_CURRENT_NODE"]);
                 return;
             }
 
@@ -42,7 +42,7 @@ namespace ImageHuntBotBuilder.Commands
             var activity = new Activity()
             {
                 Type = ImageHuntActivityTypes.Location,
-                Text = $"Le prochain point de controle {node.Name} se trouve à la position suivante :",
+                Text = _localizer["NEXT_NODE_POSITION", node.Name],
                 Attachments = new List<Attachment>() { new Attachment()
                 {
                     Content = new GeoCoordinates(latitude:node.Latitude, longitude:node.Longitude),

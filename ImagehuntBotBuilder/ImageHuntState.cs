@@ -27,7 +27,7 @@ namespace ImageHuntBotBuilder
         public NodeResponse CurrentNode { get; set; }
         public int? CurrentNodeId { get; set; }
         public NodeResponse[] HiddenNodes { get; set; }
-
+        public NodeResponse[] ActionNodes { get; set; }
     }
 
     public enum Status
