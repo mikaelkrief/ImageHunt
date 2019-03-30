@@ -20,6 +20,7 @@ export class GameActionListComponent implements OnInit {
     }
   images: any[][] = [];
   nbExpectedImageDisplayed = 5;
+  loading: boolean;
   ngOnInit(): void {
     this.gameId = this.route.snapshot.params["gameId"];
     this.teamId = this.route.snapshot.params["teamId"];
@@ -30,6 +31,7 @@ export class GameActionListComponent implements OnInit {
       });
   }
   loadData(event: LazyLoadEvent) {
+    this.loading = true;
     forkJoin([
     this.gameService.getPictureSubmissionsToValidateForGame(this.gameId, (event.first / event.rows) + 1,
         event.rows, this.nbExpectedImageDisplayed, this.teamId),
@@ -39,7 +41,11 @@ export class GameActionListComponent implements OnInit {
         this.gameActions = <GameAction[]>responses[0];
         this.gameActions = this.gameActions.concat(<GameAction[]>responses[1]);
         this.computeDeltas();
+        this.loading = false;
       });
+  }
+  refresh(table) {
+    table.filter();
   }
   getDistanceFromLatLon(lat1, lon1, lat2, lon2) {
     var R = 6371000; // Radius of the earth in km
