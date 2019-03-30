@@ -33,8 +33,16 @@ namespace ImageHuntBotBuilder.Commands
             {
                 var activity = new Activity()
                 {
-                    Type = ImageHuntActivityTypes.Location, 
-
+                    Type = ImageHuntActivityTypes.Location,
+                    Text = nodeResponse.Action,
+                    Attachments = new List<Attachment>()
+                    {
+                        new Attachment(contentType: ImageHuntActivityTypes.Location,
+                            content: new GeoCoordinates(
+                                latitude: nodeResponse.Latitude,
+                                longitude: nodeResponse.Longitude
+                            )),
+                    },
                 };
                 activities.Add(activity);
             }
