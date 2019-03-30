@@ -5,7 +5,6 @@ using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Responses;
 using NFluent;
-using NFluent.Extensions;
 using Xunit;
 
 namespace ImageHuntTest.Model

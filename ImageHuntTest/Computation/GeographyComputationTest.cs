@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ImageHunt.Computation;
+﻿using System.Collections.Generic;
 using ImageHuntCore.Computation;
 using NFluent;
 using TestUtilities;

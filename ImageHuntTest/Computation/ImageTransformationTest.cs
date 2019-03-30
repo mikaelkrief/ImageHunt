@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Mime;
+﻿using System.IO;
 using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
 using ImageHunt.Computation;
 using ImageMagick;
 using NFluent;

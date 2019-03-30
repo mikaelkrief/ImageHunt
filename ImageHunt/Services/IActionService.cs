@@ -4,7 +4,6 @@ using ImageHunt.Model;
 using ImageHuntCore.Model;
 using ImageHuntCore.Services;
 using ImageHuntWebServiceClient.Request;
-using ImageHuntWebServiceClient.Responses;
 
 namespace ImageHunt.Services
 {

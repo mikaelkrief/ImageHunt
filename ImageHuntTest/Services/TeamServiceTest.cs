@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using Castle.Components.DictionaryAdapter;
 using FakeItEasy;
 using ImageHunt.Data;
 using ImageHunt.Exception;
-using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;

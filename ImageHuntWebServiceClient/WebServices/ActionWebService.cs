@@ -1,12 +1,9 @@
 ﻿using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace ImageHuntWebServiceClient.WebServices
 {

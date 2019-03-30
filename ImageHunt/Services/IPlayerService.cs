@@ -1,4 +1,3 @@
-using ImageHunt.Model;
 using ImageHuntCore.Model;
 
 namespace ImageHunt.Services

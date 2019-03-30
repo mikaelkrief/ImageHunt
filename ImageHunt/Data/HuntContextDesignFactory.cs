@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using ImageHuntCore;
 using Microsoft.EntityFrameworkCore;

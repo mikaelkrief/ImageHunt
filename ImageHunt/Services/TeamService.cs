@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Exception;
 using ImageHunt.Helpers;
-using ImageHunt.Model;
 using ImageHuntCore.Computation;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;

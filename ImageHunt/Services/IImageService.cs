@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using ImageHunt.Model;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;

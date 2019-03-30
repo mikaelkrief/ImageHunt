@@ -7,7 +7,6 @@ using CommandLine;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace ImageHuntApiTester
 {

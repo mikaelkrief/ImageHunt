@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ImageHuntCore.Model.Node;
-using Microsoft.AspNetCore.Http;
 
 namespace ImageHuntWebServiceClient.Responses
 {

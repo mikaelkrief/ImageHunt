@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ImageHuntCore.Model.Node;
-using Xunit;
+﻿using ImageHuntCore.Model.Node;
 
 namespace ImageHuntTest.Model.Node
 {

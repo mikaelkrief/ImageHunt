@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Reflection;
-using System.Text;
+﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using FakeItEasy;
-using ImageHunt.Model;
-using ImageHuntBotTest.WebServices;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;
 using NFluent;

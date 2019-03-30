@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 

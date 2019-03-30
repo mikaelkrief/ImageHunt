@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
@@ -12,7 +10,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
-using Xunit;
 
 namespace ImageHuntBotBuilderTest.Commands
 {

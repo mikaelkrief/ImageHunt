@@ -1,5 +1,4 @@
 using System;
-using ImageHunt.Model;
 using ImageHuntCore.Model;
 using ImageHuntCore.Services;
 

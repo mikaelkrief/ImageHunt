@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
-using ImageHuntBotBuilder.Commands;
 using ImageHuntCore.Computation;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
@@ -13,7 +12,6 @@ using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -70,7 +68,7 @@ namespace ImageHuntBotBuilder
                 if (distance <= rangeDistance)
                 {
                     await context.SendActivityAsync(
-                        string.Format(_localizer["WAYPOINT_REACHED"], state.CurrentNode.Name));
+                        _localizer["WAYPOINT_REACHED", state.CurrentNode.Name]);
                     var actionRequest = new GameActionRequest()
                     {
                         Action = (int)ActionFromNodeType(state.CurrentNode.NodeType),
@@ -136,53 +134,54 @@ namespace ImageHuntBotBuilder
             switch (node.NodeType)
             {
                 case NodeResponse.ObjectNodeType:
-                    activities.Add(new Activity(text: string.Format(_localizer["NEXT_NODE_LOCATION"], node.Name), type:ActivityTypes.Message));
-                    activities.Add(new Activity(type:ImageHuntActivityTypes.Location){Attachments = new List<Attachment>()
-                        {
-                            new Attachment(
-                                contentType: ImageHuntActivityTypes.Location,
-                                content: new GeoCoordinates(
-                                    latitude: node.Latitude,
-                                    longitude: node.Longitude)),
-                        }
-                    });
-                    activities.Add(new Activity(text: string.Format(_localizer["DO_ACTION_REQUEST"], node.Action), type: ActivityTypes.Message));
+                    activities.Add(new Activity(text: _localizer["NEXT_NODE_LOCATION", node.Name], type:ActivityTypes.Message));
+                    var item = new Activity(type:ImageHuntActivityTypes.Location);
+                    item.Attachments = new List<Attachment>()
+                    {
+                        new Attachment(
+                            contentType: ImageHuntActivityTypes.Location,
+                            content: new GeoCoordinates(
+                                latitude: node.Latitude,
+                                longitude: node.Longitude)),
+                    };
+                    activities.Add(item);
+                    activities.Add(new Activity(text: _localizer["DO_ACTION_REQUEST", node.Action], type: ActivityTypes.Message));
 
                     break;
                 case NodeResponse.WaypointNodeType:
-                    activities.Add(new Activity(text: string.Format(_localizer["NEXT_NODE_LOCATION"], node.Name), type:ActivityTypes.Message));
-                    activities.Add(new Activity(type:ImageHuntActivityTypes.Location){Attachments = new List<Attachment>()
-                        {
-                            new Attachment(
-                                contentType: ImageHuntActivityTypes.Location,
-                                content: new GeoCoordinates(
-                                    latitude: node.Latitude,
-                                    longitude: node.Longitude)),
-                        }
-                    });
+                    activities.Add(new Activity(text: _localizer["NEXT_NODE_LOCATION", node.Name], type: ActivityTypes.Message));
+                    var activity = new Activity(type:ImageHuntActivityTypes.Location);
+                    activity.Attachments = new List<Attachment>()
+                    {
+                        new Attachment(
+                            contentType: ImageHuntActivityTypes.Location,
+                            content: new GeoCoordinates(
+                                latitude: node.Latitude,
+                                longitude: node.Longitude)),
+                    };
+                    activities.Add(activity);
 
                     break;
                 case NodeResponse.HiddenNodeType:
-                    activities.Add(new Activity(text: string.Format(_localizer["HIDDEN_NODE"], node.Name), type: ActivityTypes.Message));
+                    activities.Add(new Activity(text: _localizer["HIDDEN_NODE", node.Name], type: ActivityTypes.Message));
                     activities.Add(new Activity(text:node.Hint, type: ActivityTypes.Message));
                     break;
                 case NodeResponse.LastNodeType:
                     activities.Add(new Activity(text: _localizer["NEXT_LAST_NODE"], type: ActivityTypes.Message));
-                    activities.Add(new Activity(type: ImageHuntActivityTypes.Location)
+                    var item1 = new Activity(type: ImageHuntActivityTypes.Location);
+                    item1.Attachments = new List<Attachment>()
                     {
-                        Attachments = new List<Attachment>()
-                        {
-                            new Attachment(
-                                contentType: ImageHuntActivityTypes.Location,
-                                content: new GeoCoordinates(
-                                    latitude: node.Latitude,
-                                    longitude: node.Longitude)),
-                        }
-                    });
+                        new Attachment(
+                            contentType: ImageHuntActivityTypes.Location,
+                            content: new GeoCoordinates(
+                                latitude: node.Latitude,
+                                longitude: node.Longitude)),
+                    };
+                    activities.Add(item1);
 
                     break;
                 case NodeResponse.TimerNodeType:
-                    activities.Add(new Activity(text: string.Format(_localizer["TIMER_NODE"], node.Delay), type: ActivityTypes.Message));
+                    activities.Add(new Activity(text: _localizer["TIMER_NODE", node.Delay], type: ActivityTypes.Message));
                     activities.Add(new Activity(type: ImageHuntActivityTypes.Wait, attachments: new List<Attachment>(){new Attachment(content: node.Delay)}));
                     break;
             }
@@ -207,7 +206,7 @@ namespace ImageHuntBotBuilder
                     hiddenNode.Longitude);
                 if (distance <= rangeDistance)
                 {
-                    await turnContext.SendActivityAsync(string.Format(_localizer["WAYPOINT_REACHED"], hiddenNode.Name));
+                    await turnContext.SendActivityAsync(_localizer["WAYPOINT_REACHED", hiddenNode.Name]);
                     var actionRequest = new GameActionRequest()
                     {
                         Latitude = location.Latitude,
@@ -240,14 +239,14 @@ namespace ImageHuntBotBuilder
                             actionRequest.Action = (int)Action.BonusNode;
                             await _actionWebService.LogAction(actionRequest);
                             await turnContext.SendActivityAsync(
-                                string.Format(_localizer["BONUS_NODE"], multi));
+                                _localizer["BONUS_NODE", multi]);
 
                             break;
                         case NodeResponse.HiddenNodeType:
                             actionRequest.Action = (int)Action.HiddenNode;
                             actionRequest.PointsEarned = hiddenNode.Points;
                             await turnContext.SendActivityAsync(
-                                string.Format(_localizer["EARN_POINTS"], hiddenNode.Points));
+                                _localizer["EARN_POINTS", hiddenNode.Points]);
                             await _actionWebService.LogAction(actionRequest);
                             break;
                     }

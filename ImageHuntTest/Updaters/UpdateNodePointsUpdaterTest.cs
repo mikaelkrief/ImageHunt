@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
-using Autofac;
 using ImageHunt.Data;
 using ImageHunt.Updater;
 using ImageHuntCore.Model;

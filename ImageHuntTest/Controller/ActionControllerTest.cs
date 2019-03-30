@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -8,7 +6,6 @@ using System.Threading.Tasks;
 using Autofac;
 using AutoMapper;
 using FakeItEasy;
-using ImageHunt;
 using ImageHunt.Controllers;
 using ImageHunt.Model;
 using ImageHunt.Services;
@@ -17,7 +14,6 @@ using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;

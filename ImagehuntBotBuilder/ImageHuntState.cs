@@ -1,10 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
 using ImageHuntWebServiceClient.Responses;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 
 namespace ImageHuntBotBuilder

@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using ImageHuntCore.Model;
 using Microsoft.AspNetCore.Identity;
