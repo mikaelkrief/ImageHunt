@@ -225,17 +225,16 @@ export class GameDetailComponent implements OnInit {
   editNodeRelations() {
     this.modalRef = this._modalService.show(NodeRelationComponent, { ignoreBackdropClick: true, animated: true, class: 'modal-lg'});
     this.modalRef.content.nodes = this.game.nodes;
-    //this.modalRef.content.editRelations.subscribe(relations => this.saveEditedRelations(relations));
+    this._modalService.onHidden.subscribe(() => {
+      this.mapComponent.clearMap();
+
+      this.getGame(this.game.id);
+    });
   }
   editNodeAnswers() {
     this.modalRef = this._modalService.show(QuestionNodeComponent, { ignoreBackdropClick: true });
     this.modalRef.content.nodes = this.game.nodes;
     this.modalRef.content.gameId = this.game.id;
-  }
-  saveEditedRelations(editedRelations: EditedRelation[]) {
-    for (var relation of editedRelations) {
-      
-    }
   }
   mapZoomChange(zoom) {
     this.currentZoom = zoom;
@@ -265,13 +264,13 @@ export class GameDetailComponent implements OnInit {
   }
 
   editNode(node: Node) {
-    //if (node.nodeType === 'PictureNode')
-    {
       this._modalService.onHide.subscribe(reason => this.getGame(this.game.id));
       this.modalRef = this._modalService.show(ImageNodeEditComponent, { ignoreBackdropClick: true });
       this.modalRef.content.node = node;
-      //this.modalRef.content.subscribe(node => this._gameService.updateNode(node)
-      //  .subscribe(() => this.getGame(this.game.id)));
-    }
-}
+      this._modalService.onHidden.subscribe(node => this._gameService.updateNode(node)
+        .subscribe(() => {
+          this.mapComponent.clearMap();
+          this.getGame(this.game.id);
+        }));
+  }
 }
