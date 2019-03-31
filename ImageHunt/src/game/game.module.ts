@@ -6,7 +6,7 @@ import {CalendarModule} from "primeng/calendar";
 import {GameCreateComponent} from "./game-create/game.create.component";
 import {GameService} from "../shared/services/game.service";
 import {MapModule} from "../map/map.module";
-import { BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule, TooltipModule, AccordionModule  } from "ngx-bootstrap";
+import { BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule, TooltipModule, AccordionModule, ModalModule  } from "ngx-bootstrap";
 import {GameDetailComponent} from "./game-detail/game.detail.component";
 import {TeamService} from "../shared/services/team.service";
 import {AlertService} from "../shared/services/alert.service";
@@ -48,7 +48,7 @@ NgModule({
     MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule,
     ToggleButtonModule, DropdownModule, ContextMenuModule, TableModule, GMapModule, SharedModule,
     RadioButtonModule, TeamModule, LightboxModule, ButtonsModule, TooltipModule, 
-    AccordionModule
+    AccordionModule, ModalModule.forRoot()
   ],
   declarations: [
     GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent,

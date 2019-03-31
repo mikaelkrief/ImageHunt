@@ -136,8 +136,6 @@ export class GameDetailComponent implements OnInit {
       });
     
   }
-  nodeMode(nodeType: string) {
-  }
   public modalRef: BsModalRef;
   currentLatitude: number;
   currentLongitude: number;
@@ -202,11 +200,6 @@ export class GameDetailComponent implements OnInit {
     }
   }
 
-  nodeRightClicked(nodeClicked: NodeClicked) {
-  }
-  relationRightClicked(relationClicked: RelationClicked) {
-
-  }
   newRelation(nodeRelation: NodeRelation) {
     var parentNode = this.game.nodes.find(n => n.id === nodeRelation.nodeId);
     var childNode = this.game.nodes.find(n => n.id === nodeRelation.childNodeId);
@@ -230,9 +223,9 @@ export class GameDetailComponent implements OnInit {
     }
   }
   editNodeRelations() {
-    this.modalRef = this._modalService.show(NodeRelationComponent, { ignoreBackdropClick: true });
+    this.modalRef = this._modalService.show(NodeRelationComponent, { ignoreBackdropClick: true, animated: true, class: 'modal-lg'});
     this.modalRef.content.nodes = this.game.nodes;
-    this.modalRef.content.editRelations.subscribe(relations => this.saveEditedRelations(relations));
+    //this.modalRef.content.editRelations.subscribe(relations => this.saveEditedRelations(relations));
   }
   editNodeAnswers() {
     this.modalRef = this._modalService.show(QuestionNodeComponent, { ignoreBackdropClick: true });
