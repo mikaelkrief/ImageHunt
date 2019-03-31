@@ -36,7 +36,6 @@ import { PasscodeCreateComponent } from './passcode-create/passcode-create.compo
 import { PasscodePrintComponent } from './passcode-print/passcode-print.component';
 import { ButtonsModule } from 'ngx-bootstrap';
 import { ImageService } from 'services/image.service';
-import { MomentModule } from 'angular2-moment';
 import { GameAvailableComponent } from './game-available/game-available.component';
 import { GameValidationComponent } from './game-validation/game-validation.component';
 import { PointsComponent } from './points/points.component';
@@ -48,7 +47,7 @@ NgModule({
     CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
     MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule,
     ToggleButtonModule, DropdownModule, ContextMenuModule, TableModule, GMapModule, SharedModule,
-    RadioButtonModule, TeamModule, LightboxModule, ButtonsModule, TooltipModule, MomentModule,
+    RadioButtonModule, TeamModule, LightboxModule, ButtonsModule, TooltipModule, 
     AccordionModule
   ],
   declarations: [

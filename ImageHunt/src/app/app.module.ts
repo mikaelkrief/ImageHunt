@@ -47,7 +47,6 @@ import { PasscodeListComponent } from "../game/passcode-list/passcode-list.compo
 import { PasscodeCreateComponent } from "../game/passcode-create/passcode-create.component";
 import { PasscodePrintComponent } from "../game/passcode-print/passcode-print.component";
 import { TeamCreateComponent } from "../team/team-create/team-create.component";
-import { MomentModule } from 'angular2-moment';
 import { GameCreateComponent } from "../game/game-create/game.create.component";
 import { PlayerCreateComponent } from "../team/player-create/player-create.component";
 import { LoginFormComponent } from "../account/login-form/login-form.component";
@@ -107,7 +106,6 @@ export class MyAuthConfig implements IPartialConfigOptions {
     PageNotFoundModule,
     SharedModule,
     InputTextModule,
-    MomentModule,
     ListboxModule,
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),

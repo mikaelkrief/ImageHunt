@@ -7,10 +7,9 @@ import { TeamService } from "../shared/services/team.service";
 import { AlertService } from "../shared/services/alert.service";
 import { ConfirmationService } from "primeng/api";
 import { SharedModule } from "../shared/shared.module";
-import { MomentModule } from "angular2-moment";
 
 @NgModule({
-  imports: [CommonModule, FormsModule, SharedModule, MomentModule],
+  imports: [CommonModule, FormsModule, SharedModule],
   declarations: [ScoreListComponent],
   exports: [ScoreListComponent],
   providers: [GameService, TeamService, AlertService, ConfirmationService]
