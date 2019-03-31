@@ -120,11 +120,22 @@ namespace ImageHunt.Services
         Context.Answers.RemoveRange(questionNode.Answers);
         questionNode.Answers.Clear();
       }
+
+      var childrenOfNode = nodeToRemove.Children.FirstOrDefault();
+
       // remove all children of the node to remove
       nodeToRemove.ChildrenRelation.Clear();
       // Retrieve relations of node to remove
       var parentsOfNode = Context.ParentChildren.Where(pc => pc.Children == nodeToRemove);
       Context.ParentChildren.RemoveRange(parentsOfNode);
+      if (childrenOfNode != null)
+      {
+        foreach (var parent in parentsOfNode)
+        {
+          Context.ParentChildren.Add(new ParentChildren() {Parent = parent.Parent, Children = childrenOfNode});
+        }
+      }
+
       Context.Nodes.Remove(nodeToRemove);
       Context.SaveChanges();
     }
