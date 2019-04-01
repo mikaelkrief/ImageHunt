@@ -11,6 +11,7 @@ import { BsModalService, BsModalRef, TabsetComponent } from 'ngx-bootstrap';
 import { NodeRelation } from '../../shared/NodeRelation';
 import { Node } from '../../shared/node';
 import { NodeCreateComponent } from '../node-create/node.create.component';
+import { NodeEditComponent } from '../node-edit/node-edit.component';
 import { NodeRelationComponent } from '../node-relation/node.relation.component';
 import { NodeListComponent } from '../node-list/node.list.component';
 import { NodeRequest } from '../../shared/nodeRequest';
@@ -140,11 +141,21 @@ export class GameDetailComponent implements OnInit {
   currentLatitude: number;
   currentLongitude: number;
 
+  //mapClicked(event) {
+
+  //  this.currentLatitude = event.latlng.lat;
+  //  this.currentLongitude = event.latlng.lng;
+  //  this.modalRef = this._modalService.show(NodeCreateComponent, { ignoreBackdropClick: true, class: 'modal-lg' });
+  //  this.modalRef.content.latitude = this.currentLatitude;
+  //  this.modalRef.content.longitude = this.currentLongitude;
+  //  this.modalRef.content.newNode.subscribe(node => this.createNode(node));
+
+  //}
   mapClicked(event) {
 
     this.currentLatitude = event.latlng.lat;
     this.currentLongitude = event.latlng.lng;
-    this.modalRef = this._modalService.show(NodeCreateComponent, { ignoreBackdropClick: true });
+    this.modalRef = this._modalService.show(NodeEditComponent, { ignoreBackdropClick: true, class: 'modal-lg' });
     this.modalRef.content.latitude = this.currentLatitude;
     this.modalRef.content.longitude = this.currentLongitude;
     this.modalRef.content.newNode.subscribe(node => this.createNode(node));

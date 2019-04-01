@@ -56,6 +56,7 @@ import { UserRoleComponent } from "../account/user-role/user-role.component";
 import { JwtModule } from '@auth0/angular-jwt';
 import { ImageHuntModuleRoutingModule } from "./image-hunt-module/image-hunt-module-routing.module";
 import { BatchNodeComponent } from "../game/batch-node/batch-node.component";
+import { NodeEditComponent } from "../game/node-edit/node-edit.component";
 registerLocaleData(localeFr);
 export function tokenGetter() {
   return localStorage.getItem('authToken');
@@ -117,7 +118,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
     ImageHuntModuleRoutingModule,
 
   ],
-  entryComponents: [NodeCreateComponent, NodeRelationComponent, QuestionNodeComponent,
+  entryComponents: [NodeCreateComponent, NodeEditComponent, NodeRelationComponent, QuestionNodeComponent,
     ImageNodeEditComponent, PasscodeCreateComponent, TeamCreateComponent, GameCreateComponent, PlayerCreateComponent, RegistrationFormComponent, BatchNodeComponent],
   providers: [BsModalService]
 
