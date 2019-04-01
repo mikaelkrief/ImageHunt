@@ -373,7 +373,7 @@ namespace ImageHuntTest.Services
             // Assert
             Check.That(_context.Nodes).Not.Contains(nodes[1]);
 
-            Check.That(_context.ParentChildren).HasSize(2);
+            Check.That(_context.ParentChildren).HasSize(3);
         }
 
         [Fact]
