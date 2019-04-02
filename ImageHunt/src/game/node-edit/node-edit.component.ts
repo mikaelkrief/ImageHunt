@@ -1,17 +1,44 @@
-import { Component, OnInit } from '@angular/core';
-import { Node } from 'shared/Node';
+import { Component, OnInit, Input, AfterViewInit, ViewChild, EventEmitter, Output } from '@angular/core';
+import { Node } from 'shared/node';
+import * as L from 'leaflet';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { GameService } from 'services/game.service';
+import { AlertService } from "services/alert.service";
+import { NgForm } from '@angular/forms';
+import { UploadImageComponent } from 'shared/upload-image/upload-image.component';
+
+class NodeMarker extends L.Marker {
+  node: Node;
+}
 
 @Component({
-    selector: 'node-edit',
-    templateUrl: './node-edit.component.html',
-    styleUrls: ['./node-edit.component.scss']
+  selector: 'node-edit',
+  templateUrl: './node-edit.component.html',
+  styleUrls: ['./node-edit.component.scss']
 })
+
 /** node-edit component*/
-export class NodeEditComponent implements OnInit {
-    ngOnInit(): void {
-      this.modeTitle = this.createMode ? "Create" : "Edit";
+export class NodeEditComponent implements OnInit, AfterViewInit {
+    pictureId: number;
+  ngAfterViewInit(): void {
+    this.setMap();
+
   }
-  public node: Node;
+
+  nodeMarker: any;
+
+  ngOnInit(): void {
+
+  }
+
+  @Input('node')
+  set node(value: Node) {
+    this._node = value;
+    this.modeTitle = !this._node.id ? "Create" : "Edit";
+  }
+  @Output('node') _nodeEmit = new EventEmitter<Node>();
+  _node: Node;
+
   public createMode: boolean;
   modeTitle: string;
   nodeTypes = [
@@ -20,16 +47,49 @@ export class NodeEditComponent implements OnInit {
     { color: "green", value: "TimerNode", label: "Timer", icon: "fas fa-clock" },
     { color: "purple", value: "ObjectNode", label: "Action", icon: "fas fa-running" },
     { color: "violet", value: "HiddenNode", label: "Hidden", icon: "fas fa-mask" },
-    { color: "green", value: "ChoiceNode", label: "Choix", icon: "fas fa-list-ul" },
+    { color: "green", value: "ChoiceNode", label: "Choice", icon: "fas fa-list-ul" },
     { color: "blue", value: "QuestionNode", label: "Question", icon: "fas fa-question" },
     { color: "blue", value: "PictureNode", label: "Picture", icon: "fas fa-camera" },
     { color: "purple", value: "BonusNode", label: "Bonus", icon: "fas fa-gift" },
     { color: "green", value: "LastNode", label: "End", icon: "fas fa-flag-checkered" },
   ];
+  map: any;
 
-    /** node-edit ctor */
-    constructor() {
-      this.modeTitle = "Create";
-      this.node = new Node();
-    }
+  /** node-edit ctor */
+  constructor(public bsModalRef: BsModalRef, private _gameService: GameService, private _modalService: BsModalService) {
+    this._node = new Node();
+    this.modeTitle = "Create";
+  }
+
+  setMap() {
+    this.map = L.map("map")
+      .setView([this._node.latitude, this._node.longitude], 15);
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+      {
+        attribution: 'Pixhint'
+      }).addTo(this.map);
+    const icon = L.divIcon({ className: "fas fa-2x fa-bullseye" });
+
+    this.nodeMarker = new NodeMarker([this._node.latitude, this._node.longitude],
+      { icon: icon, title: this._node.name, draggable: true });
+    this.nodeMarker.node = this._node;
+    this.nodeMarker.addTo(this.map);
+    this.nodeMarker.on('dragend', event => this.onNodeDragged(event));
+    this.map.invalidateSize();
+  }
+
+  onNodeDragged(leafletEvent: L.LeafletEvent): void {
+    var newPosition = leafletEvent.target.getLatLng();
+    this._node.latitude = newPosition.lat;
+    this._node.longitude = newPosition.lng;
+  }
+  modalRef: any;
+
+  uploadImage() {
+    this.modalRef = this._modalService.show(UploadImageComponent, { ignoreBackdropClick: true });
+    this.modalRef.content.pictureId.subscribe(id => this._node.image = { id: id });
+  }
+  saveChanges(form: NgForm) {
+    this.bsModalRef.hide();
+  }
 }

@@ -58,9 +58,7 @@ namespace ImageHunt.Controllers
         return BadRequest();
       using (var stream = file.OpenReadStream())
       {
-        var image = new byte[stream.Length];
-        stream.Read(image, 0, (int)stream.Length);
-        var picture = new Picture() { Image = image };
+        var picture = _imageService.GetPictureFromStream(stream);
         _imageService.AddPicture(picture);
         return CreatedAtAction("UploadImage", picture.Id);
       }
