@@ -72,6 +72,12 @@ namespace ImageHunt.Services
     public void AddNode(int gameId, Node node)
     {
       var game = Context.Games.Include(g => g.Nodes).Single(g => g.Id == gameId);
+      if (node.Image != null)
+      {
+        var picture = Context.Pictures.SingleOrDefault(p => p.Id == node.Image.Id);
+        node.Image = picture;
+      }
+
       game.Nodes.Add(node);
       Context.SaveChanges();
     }
