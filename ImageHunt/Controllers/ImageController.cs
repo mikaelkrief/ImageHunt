@@ -37,6 +37,8 @@ namespace ImageHunt.Controllers
     [HttpGet("Thumbnail")]
     public async Task<IActionResult> GetThumbailById([FromQuery]int pictureId, [FromQuery]int width, [FromQuery]int height)
     {
+      if (pictureId == 0)
+        return BadRequest(ModelState);
       var picture = await _imageService.GetPictureById(pictureId);
 
       var thumbnail = _imageTransformation.Thumbnail(picture.Image, width, height);
