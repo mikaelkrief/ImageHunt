@@ -13,7 +13,7 @@
             <div class="row">
               <div class="form-group col-12">
                 <label for="nodeType" i18n>Node type</label>
-                <p-dropdown [options]="nodeTypes" ngModel="nodeType" name="nodeType" id="nodeType" i18n-placeholder placeholder="Select a node type">
+                <p-dropdown [options]="nodeTypes" [(ngModel)]="_node.nodeType" name="nodeType" id="nodeType" i18n-placeholder placeholder="Select a node type">
                   <ng-template let-item pTemplate="selectedItem">
                     <span class="{{item.icon}}" style="width:16px; vertical-align: middle;color:{{item.color}}"></span>
                     <span style="vertical-align: middle; position: relative; left: 10px;">{{item.label}}</span>
@@ -31,7 +31,7 @@
             <div class="row">
               <div class="col-12">
                 <tabset>
-                  <tab [disabled]="form.value.nodeType !== 'FirstNode'" [active]="form.value.nodeType === 'FirstNode'">
+                  <tab [disabled]="_node.nodeType !== 'FirstNode'" [active]="_node.nodeType === 'FirstNode'">
                     <ng-template tabHeading>
                       <i class="fas fa-flag" style="color: red"></i><span i18n> Start</span>
                     </ng-template>
@@ -39,40 +39,40 @@
                       <div class="form-group">
                         <label for="password" i18n>Password</label>
                         <input type="text" class="form-control" id="password" name="password"
-                               ngModel i18n-placeholder placeholder="Password of node" />
+                               [(ngModel)]="_node.password" i18n-placeholder placeholder="Password of node" />
                       </div>
                     </div>
                   </tab>
-                  <tab [disabled]="form.value.nodeType !== 'TimerNode'" [active]="form.value.nodeType === 'TimerNode'">
+                  <tab [disabled]="_node.nodeType !== 'TimerNode'" [active]="_node.nodeType === 'TimerNode'">
                     <ng-template tabHeading>
                       <i class="far fa-clock" style="color: cadetblue"></i><span i18n> Timer</span>
                     </ng-template>
                     <div>
                       <div class="form-group">
                         <label for="duration" i18n>Wait delay (in second)</label>
-                        <input type="number" class="form-control" id="duration" name="duration" ngModel
+                        <input type="number" class="form-control" id="duration" name="duration" [(ngModel)]="_node.delay"
                                i18n-placeholder placeholder="Delay" />
                       </div>
                     </div>
                   </tab>
-                  <tab [disabled]="form.value.nodeType !== 'BonusNode'" [active]="form.value.nodeType === 'BonusNode'">
+                  <tab [disabled]="_node.nodeType !== 'BonusNode'" [active]="_node.nodeType === 'BonusNode'">
                     <ng-template tabHeading>
                       <i class="fas fa-gift" style="color: darkmagenta"></i><span i18n> Bonus</span>
                     </ng-template>
                     <div>
                       <div class="form-group">
                         <label for="location" i18n>Hint to find the node</label>
-                        <input class="form-control" type="text" id="location" name="location" ngModel
+                        <input class="form-control" type="text" id="location" name="location"  [(ngModel)]="_node.hint"
                                i18n-placeholder placeholder="Hint to find the node" />
                         <label for="bonustype" i18n>Bonus type</label>
-                        <select class="form-control" id="bonustype" name="bonustype" ngModel>
+                        <select class="form-control" id="bonustype" name="bonustype" [(ngModel)]="_node.bonus">
                           <option value="0" i18n>Points x 2</option>
                           <option value="1" i18n>Points x 3</option>
                         </select>
                       </div>
                     </div>
                   </tab>
-                  <tab [disabled]="form.value.nodeType !== 'ObjectNode'" [active]="form.value.nodeType === 'ObjectNode'">
+                  <tab [disabled]="_node.nodeType !== 'ObjectNode'" [active]="_node.nodeType === 'ObjectNode'">
                     <ng-template tabHeading>
                       <i class="fas fa-running" style="color: darkred;"></i><span i18n> Action</span>
                     </ng-template>
@@ -80,12 +80,12 @@
                     <div>
                       <div class="form-group">
                         <label for="action" i18n>Action to do by players</label>
-                        <textarea class="form-control" cols="40" rows="3" id="action" ngModel name="action"
+                        <textarea class="form-control" cols="40" rows="3" id="action" [(ngModel)]="_node.action" name="action"
                                   i18n-placeholder placeholder="Action to do by players"></textarea>
                       </div>
                     </div>
                   </tab>
-                  <tab [disabled]="form.value.nodeType !== 'HiddenNode'" [active]="form.value.nodeType === 'HiddenNode'">
+                  <tab [disabled]="_node.nodeType !== 'HiddenNode'" [active]="_node.nodeType === 'HiddenNode'">
                     <ng-template tabHeading>
                       <i class="fas fa-mask" style="color: purple"></i><span i18n> Caché</span>
                     </ng-template>
@@ -93,27 +93,27 @@
                     <div>
                       <div class="form-group">
                         <label for="hint" i18n>Hint to find node</label>
-                        <textarea class="form-control" cols="40" rows="3" id="hint" ngModel name="hint"
+                        <textarea class="form-control" cols="40" rows="3" id="hint" [(ngModel)]="_node.hint" name="hint"
                                   i18n-placeholder placeholder="Hint to find node"></textarea>
                       </div>
 
                     </div>
                   </tab>
-                  <tab [disabled]="form.value.nodeType !== 'PictureNode'" [active]="form.value.nodeType === 'PictureNode'">
+                  <tab [disabled]="_node.nodeType !== 'PictureNode'" [active]="_node.nodeType === 'PictureNode'">
                     <ng-template tabHeading>
                       <i class="fas fa-camera" style="color: blue"></i><span i18n> Image</span>
                     </ng-template>
 
                     <div>
-                      <div class="form-group">
+                      <div class="form-group" *ngIf="_node.image">
                         <label for="pictureName" i18n>Name of the picture</label>
-                        <input class="form-control" id="pictureName" type="text" ngModel name="pictureName"
+                        <input class="form-control" id="pictureName" type="text" [(ngModel)]="_node.image.name" name="pictureName"
                                i18n-placeholder placeholder="Name of the picture" />
                       </div>
 
                     </div>
                   </tab>
-                  <tab [disabled]="form.value.nodeType !== 'QuestionNode'" [active]="form.value.nodeType === 'QuestionNode'">
+                  <tab [disabled]="_node.nodeType !== 'QuestionNode'" [active]="_node.nodeType === 'QuestionNode'">
                     <ng-template tabHeading>
                       <i class="far fa-question-circle" style="color: blue"></i><span i18n> Question</span>
                     </ng-template>
@@ -121,18 +121,18 @@
                     <div>
                       <div class="form-group">
                         <label for="question" i18n>Question</label>
-                        <textarea class="form-control" cols="40" rows="3" id="question" ngModel name="question"
+                        <textarea class="form-control" cols="40" rows="3" id="question" [(ngModel)]="_node.question" name="question"
                                   i18n-placeholder placeholder="Question to ask to players"></textarea>
                       </div>
                       <div class="form-group">
                         <label for="answer" i18n>Answer</label>
-                        <textarea class="form-control" cols="40" rows="1" id="answer" ngModel name="answer"
+                        <textarea class="form-control" cols="40" rows="1" id="answer" [(ngModel)]="_node.answer" name="answer"
                                   i18n-placeholder placeholder="Expected answer"></textarea>
                       </div>
                     </div>
                     <br />
                   </tab>
-                  <tab [disabled]="form.value.nodeType !== 'ChoiceNode'" [active]="form.value.nodeType === 'ChoiceNode'">
+                  <tab [disabled]="_node.nodeType !== 'ChoiceNode'" [active]="_node.nodeType === 'ChoiceNode'">
                     <ng-template tabHeading>
                       <i class="fas fa-list-ol" style="color: green"></i><span i18n> Choice</span>
                     </ng-template>
@@ -207,12 +207,12 @@
 
                   </ng-template>
                   <div>
-                    <div class="img-thumbnail" id="picture" name="picture" *ngIf="_node && _node.image">
+                    <div class="img-thumbnail" id="picture" name="picture" *ngIf="_node && _node.image && _node.image.pictureId !== 0">
                       <img class="img-thumbnail" id="nodeThumbnail" name="nodeThumbnail"
-                           src="api/Image/Thumbnail?pictureId={{_node.image.id}}&width=300&height=300" />
+                           src="api/Image/Thumbnail?pictureId={{_node.image.pictureId}}&width=300&height=300" />
 
                     </div>
-                    <div class="img-thumbnail" id="picture" name="picture" *ngIf="!_node || !_node.image">
+                    <div class="img-thumbnail" id="picture" name="picture" *ngIf="!_node || !_node.image || _node.image.pictureId === 0">
                       <button class="btn btn-primary" type="button" (click)="uploadImage()">
                         <span i18n>No picture associated with this node, click to add one</span>
                       </button>

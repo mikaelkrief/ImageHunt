@@ -7,7 +7,13 @@ export class Node {
   children: Node[];
   nodeType: string;
   duration: number;
-  action: string;
+  action?: string;
   points: number;
   delta: number;
+  password?: string;
+  delay?: number;
+  bonus?: number;
+  hint?: string;
+  question?: string;
+  answer?:string;
 }

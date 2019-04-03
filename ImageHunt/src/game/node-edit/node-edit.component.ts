@@ -6,6 +6,7 @@ import { GameService } from 'services/game.service';
 import { AlertService } from "services/alert.service";
 import { NgForm } from '@angular/forms';
 import { UploadImageComponent } from 'shared/upload-image/upload-image.component';
+import { NodeRequest } from "shared/nodeRequest";
 
 class NodeMarker extends L.Marker {
   node: Node;
@@ -19,7 +20,8 @@ class NodeMarker extends L.Marker {
 
 /** node-edit component*/
 export class NodeEditComponent implements OnInit, AfterViewInit {
-    pictureId: number;
+  pictureId: number;
+
   ngAfterViewInit(): void {
     this.setMap();
 
@@ -31,12 +33,21 @@ export class NodeEditComponent implements OnInit, AfterViewInit {
 
   }
 
+  @Input('gameId')
+  gameId: number;
+
   @Input('node')
   set node(value: Node) {
     this._node = value;
     this.modeTitle = !this._node.id ? "Create" : "Edit";
   }
-  @Output('node') _nodeEmit = new EventEmitter<Node>();
+
+  get node() {
+    return this._node;
+  }
+
+  @Output('node')
+  nodeEmit = new EventEmitter<Node>();
   _node: Node;
 
   public createMode: boolean;
@@ -58,6 +69,7 @@ export class NodeEditComponent implements OnInit, AfterViewInit {
   /** node-edit ctor */
   constructor(public bsModalRef: BsModalRef, private _gameService: GameService, private _modalService: BsModalService) {
     this._node = new Node();
+    this._node.image = { id: 0, name: '' }
     this.modeTitle = "Create";
   }
 
@@ -83,13 +95,16 @@ export class NodeEditComponent implements OnInit, AfterViewInit {
     this._node.latitude = newPosition.lat;
     this._node.longitude = newPosition.lng;
   }
+
   modalRef: any;
 
   uploadImage() {
     this.modalRef = this._modalService.show(UploadImageComponent, { ignoreBackdropClick: true });
-    this.modalRef.content.pictureId.subscribe(id => this._node.image = { id: id });
+    this.modalRef.content.pictureId.subscribe(id => this._node.image = { pictureId: id, name: '' });
   }
+
   saveChanges(form: NgForm) {
+    this.nodeEmit.emit(this.node);
     this.bsModalRef.hide();
   }
 }

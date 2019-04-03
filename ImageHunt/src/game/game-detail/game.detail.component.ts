@@ -158,10 +158,8 @@ export class GameDetailComponent implements OnInit {
     let node = new Node();
     node.latitude = this.currentLatitude;
     node.longitude = this.currentLongitude;
-    this.modalRef = this._modalService.show(NodeEditComponent, { ignoreBackdropClick: true, class: 'modal-lg', initialState: {node:node} });
-    //this.modalRef.content.latitude = this.currentLatitude;
-    //this.modalRef.content.longitude = this.currentLongitude;
-    //this.modalRef.content.newNode.subscribe(node => this.createNode(node));
+    this.modalRef = this._modalService.show(NodeEditComponent, { ignoreBackdropClick: true, class: 'modal-lg', initialState: { node: node } });
+    this.modalRef.content.nodeEmit.subscribe(newNode => this.createNode(newNode));
 
   }
 
