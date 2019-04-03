@@ -260,6 +260,8 @@ namespace ImageHunt
         config.CreateMap<Game, GameTeamsResponse>()
           .ForMember(g => g.Teams, g => g.MapFrom(game => game.Teams))
           .ForMember(g => g.PictureId, g => g.MapFrom(game => game.Picture != null ? game.Picture.Id : 0));
+        config.CreateMap<ImageRequest, Picture>()
+          .ForMember(p=>p.Id, p=>p.MapFrom(i=>i.PictureId));
       });
     }
   }
