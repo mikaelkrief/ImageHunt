@@ -101,7 +101,6 @@ export class GameDetailComponent implements OnInit {
         this.game = <Game>(responses[0]);
         this.currentZoom = this.game.mapZoom;
         this.nodes = <NodeResponse[]>(responses[1]);
-        this.buildRelations();
         this.mapComponent.gameId = this.game.id;
         this.mapComponent.nodeRelations = this.nodeRelations;
         this.mapComponent.latCenter= this.game.mapCenterLat;
@@ -111,21 +110,6 @@ export class GameDetailComponent implements OnInit {
           this.mapComponent.updateMap();
         }
       );
-  }
-  buildRelations() {
-    for (const node of this.nodes) {
-      // Find the origin node
-      const orgNode = this.game.nodes.find(n => n.id === node.id);
-      if (node.childNodeIds) {
-        node.childNodeIds.map(c => {
-          const destNode = this.game.nodes.find(n => n.id === c);
-          if (orgNode) {
-            orgNode.children.push(destNode);
-          }
-
-        });
-      }
-    }
   }
 
   centerMap(gameId: number) {
@@ -176,17 +160,42 @@ export class GameDetailComponent implements OnInit {
       .subscribe(() => this.getGame(this.game.id));
   }
 
-  nodeClicked(nodeClicked: NodeClicked) {
-    if (nodeClicked.node.nodeType === 'PictureNode') {
-      this._modalService.onHide.subscribe(reason => this.getGame(this.game.id));
-      this.modalRef = this._modalService.show(ImageNodeEditComponent, { ignoreBackdropClick: true });
-      this.modalRef.content.node = nodeClicked.node;
-      this.modalRef.content.subscribe(node => this._gameService.updateNode(node)
-        .subscribe(() => this.getGame(this.game.id)));
+  //nodeClicked(nodeClicked: NodeClicked) {
+  //  if (nodeClicked.node.nodeType === 'PictureNode') {
+  //    this._modalService.onHide.subscribe(reason => this.getGame(this.game.id));
+  //    this.modalRef = this._modalService.show(ImageNodeEditComponent, { ignoreBackdropClick: true });
+  //    this.modalRef.content.node = nodeClicked.node;
+  //    this.modalRef.content.subscribe(node => this._gameService.updateNode(node)
+  //      .subscribe(() => this.getGame(this.game.id)));
       
-      return;
+  //    return;
 
-    }
+  //  }
+  //  if (nodeClicked.numberClicked === 1) {
+  //    if (nodeClicked.node.nodeType === 'LastNode') {
+  //      this.mapComponent.resetNodeClick();
+  //      this._alertService.sendAlert(`Le noeud ${nodeClicked.node.name} ne peut pas accepter d'enfant`, 'danger', 5000);
+  //      return;
+  //    }
+  //    if (nodeClicked.node.nodeType === 'QuestionNode') {
+  //      this.mapComponent.resetNodeClick();
+  //      this._alertService.sendAlert(`Editez les relations des noeuds Question dans le module d'édition des réponses aux questions`, 'danger', 5000);
+  //      return;
+  //    }
+  //    if ((nodeClicked.node.nodeType === 'FirstNode' ||
+  //        nodeClicked.node.nodeType === 'TimerNode' ||
+  //        nodeClicked.node.nodeType === 'ImageNode' ||
+  //        nodeClicked.node.nodeType === 'WaypointNode' ||
+  //        nodeClicked.node.nodeType === 'ObjectNode') &&
+  //      nodeClicked.node.children.length > 0) {
+  //      this.mapComponent.resetNodeClick();
+  //      this._alertService.sendAlert(`Le noeud ${nodeClicked.node.name} ne peut pas accepter d'avantage d'enfants`, 'danger', 5000);
+
+  //    }
+      
+  //  }
+  //}
+  nodeClicked(nodeClicked: NodeClicked) {
     if (nodeClicked.numberClicked === 1) {
       if (nodeClicked.node.nodeType === 'LastNode') {
         this.mapComponent.resetNodeClick();
@@ -277,9 +286,8 @@ export class GameDetailComponent implements OnInit {
 
   editNode(node: Node) {
       this._modalService.onHide.subscribe(reason => this.getGame(this.game.id));
-      this.modalRef = this._modalService.show(ImageNodeEditComponent, { ignoreBackdropClick: true });
-      this.modalRef.content.node = node;
-      this._modalService.onHidden.subscribe(node => this._gameService.updateNode(node)
+    this.modalRef = this._modalService.show(NodeEditComponent, { ignoreBackdropClick: true, class: 'modal-lg', initialState: { node: node } });
+      this.modalRef.content.nodeEmit.subscribe(node => this._gameService.updateNode(node)
         .subscribe(() => {
           this.mapComponent.clearMap();
           this.getGame(this.game.id);

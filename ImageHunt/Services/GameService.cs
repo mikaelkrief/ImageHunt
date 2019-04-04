@@ -45,7 +45,8 @@ namespace ImageHunt.Services
     public Game GetGameById(int gameId)
     {
       var game = Context.Games
-        .Include(g => g.Nodes)
+        .Include(g => g.Nodes).ThenInclude(n=>n.Image)
+        .Include(g=>g.Nodes).ThenInclude(n=>n.ChildrenRelation)
         .Include(g => g.Teams)
         .Include(g => g.Picture)
         .Single(g => g.Id == gameId);

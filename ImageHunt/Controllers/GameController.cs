@@ -66,7 +66,8 @@ namespace ImageHunt.Controllers
     public IActionResult GetGameById(int gameId)
     {
       var gameById = _gameService.GetGameById(gameId);
-      return Ok(gameById);
+      var gameResponseEx = _mapper.Map<GameResponseEx>(gameById);
+      return Ok(gameResponseEx);
     }
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet("ByUser")]
