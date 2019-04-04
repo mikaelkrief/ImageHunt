@@ -9,9 +9,9 @@ namespace ImageHuntWebServiceClient.WebServices
 {
   public class GameWebService : AbstractWebService, IGameWebService
   {
-    public async Task<GameResponse> GetGameById(int gameId, CancellationToken cancellationToken=default(CancellationToken))
+    public async Task<GameResponseEx> GetGameById(int gameId, CancellationToken cancellationToken=default(CancellationToken))
     {
-      return await GetAsync<GameResponse>($"{_httpClient.BaseAddress}api/Game/ById/{gameId}", cancellationToken);
+      return await GetAsync<GameResponseEx>($"{_httpClient.BaseAddress}api/Game/ById/{gameId}", cancellationToken);
     }
 
     public GameWebService(HttpClient httpClient, ILogger<IGameWebService> logger) : base(httpClient, logger)
