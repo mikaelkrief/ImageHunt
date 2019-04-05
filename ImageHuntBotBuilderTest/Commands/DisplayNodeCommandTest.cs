@@ -5,6 +5,7 @@ using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
@@ -38,6 +39,7 @@ namespace ImageHuntBotBuilderTest.Commands
         public async Task Should_Display_node()
         {
             // Arrange
+            _state.CurrentNode = new NodeResponse(){Id = 15};
             _state.CurrentNodeId = 15;
             // Act
             await _target.Execute(_turnContext, _state);
@@ -49,6 +51,7 @@ namespace ImageHuntBotBuilderTest.Commands
         public async Task Should_Send_error_message_if_CurrentNode_not_set()
         {
             // Arrange
+            _state.CurrentNode = null;
             _state.CurrentNodeId = null;
             // Act
             await _target.Execute(_turnContext, _state);
@@ -60,6 +63,7 @@ namespace ImageHuntBotBuilderTest.Commands
         public async Task Should_Send_error_message_Game_not_started()
         {
             // Arrange
+            _state.CurrentNode = new NodeResponse() { Id = 15 };
             _state.CurrentNodeId = 15;
             _state.Status = Status.None;
             // Act
