@@ -38,7 +38,7 @@ namespace ImageHuntBotBuilder.Commands
                 return;
             }
 
-            var node = await _nodeWebService.GetNode(state.CurrentNodeId.Value);
+            var node = await _nodeWebService.GetNode(state.CurrentNode.Id);
             var activity = new Activity()
             {
                 Type = ImageHuntActivityTypes.Location,

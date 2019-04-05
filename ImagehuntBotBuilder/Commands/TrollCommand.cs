@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
 {
-    [Command("list")]
+    [Command("troll")]
     public class TrollCommand : AbstractCommand, ITrollCommand
     {
         private readonly IActionWebService _actionWebService;

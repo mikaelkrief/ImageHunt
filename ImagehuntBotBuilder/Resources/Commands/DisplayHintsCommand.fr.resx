@@ -124,13 +124,13 @@
     <value>Multiplication du score final par 3</value>
   </data>
   <data name="BONUS_HINT" xml:space="preserve">
-    <value>Indice : {0}\nBonus: {1}</value>
+    <value>Indice : {0}{1}Bonus : {2}</value>
   </data>
   <data name="GAME_NOT_STARTED" xml:space="preserve">
     <value>La partie n'as pas encore commencée, veuillez demander au maitre du jeu</value>
   </data>
   <data name="HIDDEN_HINT" xml:space="preserve">
-    <value>Indice : {0}\nBonus: {1} points</value>
+    <value>Indice : {0}{1}Bonus : {2} points</value>
   </data>
   <data name="HIDDEN_NODES_TITLE" xml:space="preserve">
     <value>Voici des indices vous permettant de trouver les Noeuds cachés:</value>

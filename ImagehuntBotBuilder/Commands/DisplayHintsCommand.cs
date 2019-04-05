@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntCore.Model.Node;
@@ -54,10 +55,10 @@ namespace ImageHuntBotBuilder.Commands
                                 bonusType = _localizer["3X_BONUS_TITLE"];
                                 break;
                         }
-                        await turnContext.SendActivityAsync(string.Format(_localizer["BONUS_HINT"], nodeResponse.Hint, bonusType));
+                        await turnContext.SendActivityAsync(_localizer["BONUS_HINT", nodeResponse.Hint, Environment.NewLine, bonusType]);
                         break;
                     case NodeResponse.HiddenNodeType:
-                        await turnContext.SendActivityAsync(string.Format(_localizer["HIDDEN_HINT"], nodeResponse.Hint, nodeResponse.Points));
+                        await turnContext.SendActivityAsync(_localizer["HIDDEN_HINT", nodeResponse.Hint, Environment.NewLine, nodeResponse.Points]);
                         break;
                 }
             }
