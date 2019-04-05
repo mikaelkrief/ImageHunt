@@ -124,13 +124,13 @@
     <value>Multiply final score by 3</value>
   </data>
   <data name="BONUS_HINT" xml:space="preserve">
-    <value>Hint : {0}\nBonus: {1}</value>
+    <value>Hint : {0}{1}Bonus: {2}</value>
   </data>
   <data name="GAME_NOT_STARTED" xml:space="preserve">
     <value>Game not started, please ask assistance to game master</value>
   </data>
   <data name="HIDDEN_HINT" xml:space="preserve">
-    <value>Hint : {0}\nBonus: {1} points</value>
+    <value>Hint : {0}[1}Bonus: {2} points</value>
   </data>
   <data name="HIDDEN_NODES_TITLE" xml:space="preserve">
     <value>Hints to find hidden nodes:</value>
