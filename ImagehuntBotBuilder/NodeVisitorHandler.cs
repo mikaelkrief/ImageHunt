@@ -90,6 +90,7 @@ namespace ImageHuntBotBuilder
                             nextActivities = ActivitiesFromNode(nextNode);
                             actionRequest.PointsEarned = state.CurrentNode.Points;
                             state.CurrentNode = nextNode;
+                            state.CurrentNodeId = nextNode.Id;
                           break;
                         case NodeResponse.LastNodeType:
                             nextActivities = new List<Activity>();
