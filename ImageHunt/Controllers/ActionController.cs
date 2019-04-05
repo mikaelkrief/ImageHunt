@@ -19,7 +19,7 @@ using Action = ImageHuntCore.Model.Action;
 namespace ImageHunt.Controllers
 {
   [Route("api/[Controller]")]
-  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,GameMaster,Validator")]
+  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,GameMaster,Validator,Bot")]
   public class ActionController : BaseController
   {
     private readonly IGameService _gameService;
