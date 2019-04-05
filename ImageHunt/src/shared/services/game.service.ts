@@ -115,10 +115,12 @@ export class GameService {
   updateNode(node: Node) {
     const nodeRequest = {
       id: node.id,
+      nodeType: node.nodeType,
       latitude: node.latitude,
       longitude: node.longitude,
       name: node.name,
       points: node.points,
+      hint: node.hint
     };
     return this.http.patch(`api/Node/`, nodeRequest);
   }

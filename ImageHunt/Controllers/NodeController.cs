@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using AutoMapper;
+using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHunt.Updater;
 using ImageHuntWebServiceClient.Request;
