@@ -7,7 +7,7 @@ namespace ImageHuntWebServiceClient.WebServices
 {
   public interface IGameWebService
   {
-    Task<GameResponse> GetGameById(int gameId, CancellationToken cancellationToken = default (CancellationToken));
+    Task<GameResponseEx> GetGameById(int gameId, CancellationToken cancellationToken = default (CancellationToken));
       Task<IEnumerable<ScoreResponse>> GetScoresForGame(int gameId, CancellationToken cancellationToken = default(CancellationToken));
 
       Task<IEnumerable<NodeResponse>> GetPictureNodesForGame(int gameId,
