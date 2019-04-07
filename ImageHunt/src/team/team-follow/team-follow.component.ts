@@ -150,10 +150,12 @@ export class TeamFollowComponent implements OnInit {
       default:
         break;
     }
-    icon = L.AwesomeMarkers.icon(iconClass);
+    if (iconClass) {
+      icon = L.AwesomeMarkers.icon(iconClass);
       const marker = new L.Marker([gameAction.latitude, gameAction.longitude], { icon: icon, draggable: false });
       marker.addTo(this.markersLayer);
     }
+  }
 
 
   ngOnInit(): void {
