@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Extensions.Localization;
@@ -15,12 +17,17 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly IActionWebService _actionWebService;
         private readonly ITeamWebService _teamWebService;
+        private readonly INodeWebService _nodeWebService;
 
-        public BeginCommand(IActionWebService actionWebService, ITeamWebService teamWebService, ILogger<IBeginCommand> logger, IStringLocalizer<BeginCommand> localizer) : base(logger, localizer)
+        public BeginCommand(IActionWebService actionWebService, 
+            ITeamWebService teamWebService, 
+            INodeWebService nodeWebService,
+            ILogger<IBeginCommand> logger, 
+            IStringLocalizer<BeginCommand> localizer) : base(logger, localizer)
         {
             _actionWebService = actionWebService;
             _teamWebService = teamWebService;
-            
+            _nodeWebService = nodeWebService;
         }
 
         public override bool IsAdmin => true;
@@ -41,6 +48,8 @@ namespace ImageHuntBotBuilder.Commands
                 return;
             }
 
+            state.HiddenNodes = (await _nodeWebService.GetNodesByType(NodeTypes.Hidden, state.Game.Id)).ToArray();
+            state.ActionNodes = (await _nodeWebService.GetNodesByType(NodeTypes.Action, state.Game.Id)).ToArray();
             var nextNode = await _teamWebService.StartGameForTeam(state.GameId.Value, state.TeamId.Value);
             state.CurrentNode = nextNode;
             state.CurrentNodeId = nextNode.Id;

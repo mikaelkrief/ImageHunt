@@ -27,15 +27,17 @@ namespace ImageHuntBotBuilderTest.Commands
         private ITurnContext _turnContext;
         private ImageHuntState _state;
         private IStringLocalizer<BeginCommand> _localizer;
+        private INodeWebService _nodeWebService;
 
         public BeginCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_teamWebService = A.Fake<ITeamWebService>()).AsImplementedInterfaces();
             _testContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>()).AsImplementedInterfaces();
+            _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>()).AsImplementedInterfaces();
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IBeginCommand>>()).AsImplementedInterfaces();
             _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<BeginCommand>>());
             _turnContext = A.Fake<ITurnContext>();
-            _state = new ImageHuntState(){GameId = 13, TeamId = 443};
+            _state = new ImageHuntState(){GameId = 13, TeamId = 443, Game = new GameResponse()};
            Build();
         }
 
@@ -52,6 +54,11 @@ namespace ImageHuntBotBuilderTest.Commands
                 .Returns(nodeResponse);
             _state.CurrentLocation = new GeoCoordinates();
             _state.Team = new TeamResponse(){CultureInfo = "fr"};
+            var hiddenNodes = new NodeResponse[] { new NodeResponse(), new NodeResponse(), new NodeResponse() };
+            var actionNodes = new NodeResponse[] { new NodeResponse(), new NodeResponse(), new NodeResponse(), new NodeResponse() };
+            A.CallTo(() => _nodeWebService.GetNodesByType(NodeTypes.Hidden, A<int>._)).Returns(hiddenNodes);
+            A.CallTo(() => _nodeWebService.GetNodesByType(NodeTypes.Action, A<int>._)).Returns(actionNodes);
+
             // Act
             await _target.Execute(_turnContext, _state);
             // Assert
@@ -62,6 +69,8 @@ namespace ImageHuntBotBuilderTest.Commands
             Check.That(_state.CurrentNode).Equals(nodeResponse);
             Check.That(_state.Status).Equals(Status.Started);
             A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._)).MustHaveHappened();
+            A.CallTo(() => _nodeWebService.GetNodesByType(NodeTypes.Hidden, A<int>._)).MustHaveHappened();
+            A.CallTo(() => _nodeWebService.GetNodesByType(NodeTypes.Action, A<int>._)).MustHaveHappened();
         }
         [Fact]
         public async Task Should_Execute_BeginCommand_Not_Start_Game_if_CurrentLocation_not_set()
