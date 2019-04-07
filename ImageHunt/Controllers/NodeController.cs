@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using AutoMapper;
 using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHunt.Updater;
+using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -25,15 +27,17 @@ namespace ImageHunt.Controllers
     private INodeService _nodeService;
     private readonly IGameService _gameService;
     private readonly ITeamService _teamService;
+    private readonly IImageService _imageService;
 
     public NodeController(INodeService nodeService, IGameService gameService,
-      ITeamService teamService, IMapper mapper, ILifetimeScope scope)
+      ITeamService teamService, IImageService imageService, IMapper mapper, ILifetimeScope scope)
     {
       _mapper = mapper;
       _scope = scope;
       _nodeService = nodeService;
       _gameService = gameService;
       _teamService = teamService;
+      _imageService = imageService;
     }
 
     [HttpPut("AddRelationToNode")]
@@ -90,13 +94,54 @@ namespace ImageHunt.Controllers
       return Ok(nodeResponse);
     }
     [HttpPatch]
-    public IActionResult UpdateNode([FromBody]NodeUpdateRequest nodeRequest)
+    public async Task<IActionResult> UpdateNode([FromBody]NodeUpdateRequest nodeRequest)
     {
       var node = _nodeService.GetNode(nodeRequest.Id);
+      if (node.NodeType != nodeRequest.NodeType)
+      {
+        _nodeService.RemoveNode(node);
+        node = NodeFactory.UpdateNode(node, nodeRequest.NodeType);
+        _gameService.AddNode(nodeRequest.GameId, node);
+      }
       node.Name = nodeRequest.Name;
-      node.Points = nodeRequest.Points;
-      node.Longitude = nodeRequest.Longitude;
-      node.Latitude = nodeRequest.Latitude;
+      if (nodeRequest.Points.HasValue)
+        node.Points = nodeRequest.Points.Value;
+      if (nodeRequest.Longitude.HasValue)
+        node.Longitude = nodeRequest.Longitude.Value;
+      if (nodeRequest.Latitude.HasValue)
+        node.Latitude = nodeRequest.Latitude.Value;
+      if (nodeRequest.ImageId.HasValue)
+      {
+        if (node.Image == null)
+        {
+          node.Image = await _imageService.GetPictureById(nodeRequest.ImageId.Value);
+        }
+        else if (node.Image.Id != nodeRequest.ImageId.Value)
+        {
+          var image = await _imageService.GetPictureById(nodeRequest.ImageId.Value);
+          node.Image = image;
+        }
+
+      }
+
+      if (!string.IsNullOrEmpty(nodeRequest.Action) && nodeRequest.NodeType == NodeResponse.ObjectNodeType)
+      {
+        ((ObjectNode) node).Action = nodeRequest.Action;
+      }
+      if (!string.IsNullOrEmpty(nodeRequest.Hint) && nodeRequest.NodeType == NodeResponse.HiddenNodeType)
+      {
+        ((HiddenNode) node).LocationHint= nodeRequest.Hint;
+      }
+      if (!string.IsNullOrEmpty(nodeRequest.Hint) && nodeRequest.NodeType == NodeResponse.BonusNodeType)
+      {
+        ((BonusNode) node).Location= nodeRequest.Hint;
+        ((BonusNode) node).BonusType = (BonusNode.BONUS_TYPE) nodeRequest.Bonus;
+      }
+
+      if (nodeRequest.Delay.HasValue && nodeRequest.NodeType == NodeResponse.TimerNodeType)
+      {
+        ((TimerNode) node).Delay = nodeRequest.Delay.Value;
+      }
       _nodeService.UpdateNode(node);
       return Ok();
     }

@@ -125,16 +125,6 @@ export class GameDetailComponent implements OnInit {
   currentLatitude: number;
   currentLongitude: number;
 
-  //mapClicked(event) {
-
-  //  this.currentLatitude = event.latlng.lat;
-  //  this.currentLongitude = event.latlng.lng;
-  //  this.modalRef = this._modalService.show(NodeCreateComponent, { ignoreBackdropClick: true, class: 'modal-lg' });
-  //  this.modalRef.content.latitude = this.currentLatitude;
-  //  this.modalRef.content.longitude = this.currentLongitude;
-  //  this.modalRef.content.newNode.subscribe(node => this.createNode(node));
-
-  //}
   mapClicked(event) {
 
     this.currentLatitude = event.latlng.lat;
@@ -161,16 +151,6 @@ export class GameDetailComponent implements OnInit {
   }
 
   //nodeClicked(nodeClicked: NodeClicked) {
-  //  if (nodeClicked.node.nodeType === 'PictureNode') {
-  //    this._modalService.onHide.subscribe(reason => this.getGame(this.game.id));
-  //    this.modalRef = this._modalService.show(ImageNodeEditComponent, { ignoreBackdropClick: true });
-  //    this.modalRef.content.node = nodeClicked.node;
-  //    this.modalRef.content.subscribe(node => this._gameService.updateNode(node)
-  //      .subscribe(() => this.getGame(this.game.id)));
-      
-  //    return;
-
-  //  }
   //  if (nodeClicked.numberClicked === 1) {
   //    if (nodeClicked.node.nodeType === 'LastNode') {
   //      this.mapComponent.resetNodeClick();
@@ -195,31 +175,6 @@ export class GameDetailComponent implements OnInit {
       
   //  }
   //}
-  nodeClicked(nodeClicked: NodeClicked) {
-    if (nodeClicked.numberClicked === 1) {
-      if (nodeClicked.node.nodeType === 'LastNode') {
-        this.mapComponent.resetNodeClick();
-        this._alertService.sendAlert(`Le noeud ${nodeClicked.node.name} ne peut pas accepter d'enfant`, 'danger', 5000);
-        return;
-      }
-      if (nodeClicked.node.nodeType === 'QuestionNode') {
-        this.mapComponent.resetNodeClick();
-        this._alertService.sendAlert(`Editez les relations des noeuds Question dans le module d'édition des réponses aux questions`, 'danger', 5000);
-        return;
-      }
-      if ((nodeClicked.node.nodeType === 'FirstNode' ||
-          nodeClicked.node.nodeType === 'TimerNode' ||
-          nodeClicked.node.nodeType === 'ImageNode' ||
-          nodeClicked.node.nodeType === 'WaypointNode' ||
-          nodeClicked.node.nodeType === 'ObjectNode') &&
-        nodeClicked.node.children.length > 0) {
-        this.mapComponent.resetNodeClick();
-        this._alertService.sendAlert(`Le noeud ${nodeClicked.node.name} ne peut pas accepter d'avantage d'enfants`, 'danger', 5000);
-
-      }
-      
-    }
-  }
 
   newRelation(nodeRelation: NodeRelation) {
     var parentNode = this.game.nodes.find(n => n.id === nodeRelation.nodeId);
@@ -287,7 +242,7 @@ export class GameDetailComponent implements OnInit {
   editNode(node: Node) {
       this._modalService.onHide.subscribe(reason => this.getGame(this.game.id));
     this.modalRef = this._modalService.show(NodeEditComponent, { ignoreBackdropClick: true, class: 'modal-lg', initialState: { node: node } });
-      this.modalRef.content.nodeEmit.subscribe(node => this._gameService.updateNode(node)
+      this.modalRef.content.nodeEmit.subscribe(node => this._gameService.updateNode(this.game.id, node)
         .subscribe(() => {
           this.mapComponent.clearMap();
           this.getGame(this.game.id);

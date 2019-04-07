@@ -84,6 +84,10 @@ namespace ImageHunt.Model
       {
         newNode = CreateNode(nodeType);
         newNode.Name = orgNode.Name;
+        newNode.Latitude = orgNode.Latitude;
+        newNode.Longitude = orgNode.Longitude;
+        newNode.Image = orgNode.Image;
+        newNode.Points = orgNode.Points;
       }
       
       return newNode;

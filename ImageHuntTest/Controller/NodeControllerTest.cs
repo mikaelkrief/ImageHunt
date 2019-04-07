@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using AutoMapper;
 using FakeItEasy;
@@ -26,12 +28,14 @@ namespace ImageHuntTest.Controller
         private IMapper _mapper;
         private ILifetimeScope _scope;
         private IUpdater _updater;
+        private IImageService _imageService;
 
         public NodeControllerTest()
       {
             _testContainerBuilder.RegisterInstance(_nodeService = A.Fake<INodeService>());
           _testContainerBuilder.RegisterInstance(_gameService = A.Fake<IGameService>());
           _testContainerBuilder.RegisterInstance(_teamService = A.Fake<ITeamService>());
+          _testContainerBuilder.RegisterInstance(_imageService = A.Fake<IImageService>());
             _testContainerBuilder.RegisterInstance(_mapper = AutoMapper.Mapper.Instance);
           _testContainerBuilder.RegisterInstance(_updater = A.Fake<IUpdater>()).Named<IUpdater>("UpdateNodePoints");
             Build();
@@ -151,15 +155,166 @@ namespace ImageHuntTest.Controller
         }
 
         [Fact]
-        public void UpdateNode()
+        public async Task UpdateNode_ObjectNode()
         {
             // Arrange
-            var nodeRequest = new NodeUpdateRequest() {Id = 1, Name = "toto"};
+            A.CallTo(() => _nodeService.GetNode(A<int>._)).Returns(new ObjectNode());
+            var nodeRequest = new NodeUpdateRequest()
+            {
+                Id = 1, Name = "toto",
+                NodeType = NodeResponse.ObjectNodeType,
+                Points = 16,
+                Latitude = 61,
+                Longitude = 1,
+                Action = "sdffsdf"
+            };
             // Act
-            _target.UpdateNode(nodeRequest);
+            await _target.UpdateNode(nodeRequest);
+            // Assert
+            A.CallTo(() => _nodeService.GetNode(nodeRequest.Id)).MustHaveHappened();
+            var expectedNode = new ObjectNode(){Action = nodeRequest.Action};
+            A.CallTo(() => _nodeService.UpdateNode(A<Node>.That.Matches(n=>MatchNode(n, expectedNode)))).MustHaveHappened();
+        }
+        [Fact]
+        public async Task UpdateNode_TimerNode()
+        {
+            // Arrange
+            A.CallTo(() => _nodeService.GetNode(A<int>._)).Returns(new ObjectNode());
+            var nodeRequest = new NodeUpdateRequest()
+            {
+                Id = 1, Name = "toto",
+                NodeType = NodeResponse.TimerNodeType,
+                Points = 16,
+                Latitude = 61,
+                Longitude = 1,
+                Delay = 15,
+            };
+            // Act
+            await _target.UpdateNode(nodeRequest);
+            // Assert
+            A.CallTo(() => _nodeService.GetNode(nodeRequest.Id)).MustHaveHappened();
+            var expectedNode = new TimerNode(){Delay = nodeRequest.Delay.Value};
+            A.CallTo(() => _nodeService.UpdateNode(A<Node>.That.Matches(n=>MatchNode(n, expectedNode)))).MustHaveHappened();
+        }
+
+        private bool MatchNode(Node node, Node expectedNode)
+        {
+            Check.That(node.NodeType).Equals(expectedNode.NodeType);
+            switch (node.NodeType)
+            {
+                case NodeResponse.ObjectNodeType:
+                    var objectNode = node as ObjectNode;
+                    var expectedObjectNode = expectedNode as ObjectNode;
+                    Check.That(objectNode.Action).Equals(objectNode.Action);
+                    break;
+                case NodeResponse.HiddenNodeType:
+                    var hiddenNode = node as HiddenNode;
+                    var expectedHiddenNode = expectedNode as HiddenNode;
+                    Check.That(hiddenNode.LocationHint).Equals(expectedHiddenNode.LocationHint);
+                    break;
+                case NodeResponse.BonusNodeType:
+                    var bonusNode = node as BonusNode;
+                    var expectedBonusNode = expectedNode as BonusNode;
+                    Check.That(bonusNode.Location).Equals(expectedBonusNode.Location);
+                    Check.That(bonusNode.BonusType).Equals(expectedBonusNode.BonusType);
+                    break;
+                case NodeResponse.TimerNodeType:
+                    var timerNode = node as TimerNode;
+                    var expectedTimerNode = expectedNode as TimerNode;
+                    Check.That(timerNode.Delay).Equals(expectedTimerNode.Delay);
+                    break;
+            }
+            return true;
+        }
+
+        [Fact]
+        public async Task UpdateNode_HiddenNode()
+        {
+            // Arrange
+            A.CallTo(() => _nodeService.GetNode(A<int>._)).Returns(new ObjectNode());
+            var nodeRequest = new NodeUpdateRequest()
+            {
+                Id = 1, Name = "toto",
+                NodeType = NodeResponse.HiddenNodeType,
+                Points = 16,
+                Latitude = 61,
+                Longitude = 1,
+                Hint = "sdffsdf"
+            };
+            // Act
+            await _target.UpdateNode(nodeRequest);
+            // Assert
+            A.CallTo(() => _nodeService.GetNode(nodeRequest.Id)).MustHaveHappened();
+            var expectedNode = new HiddenNode() { LocationHint = nodeRequest.Hint };
+
+            A.CallTo(() => _nodeService.UpdateNode(A<Node>.That.Matches(n=>MatchNode(n, expectedNode)))).MustHaveHappened();
+
+        }
+        [Fact]
+        public async Task UpdateNode_BonusNode()
+        {
+            // Arrange
+            A.CallTo(() => _nodeService.GetNode(A<int>._)).Returns(new ObjectNode());
+            var nodeRequest = new NodeUpdateRequest()
+            {
+                Id = 1, Name = "toto",
+                NodeType = NodeResponse.BonusNodeType,
+                Points = 16,
+                Latitude = 61,
+                Longitude = 1,
+                Hint = "sdffsdf",
+                Bonus = 1,
+            };
+            // Act
+            await _target.UpdateNode(nodeRequest);
+            // Assert
+            A.CallTo(() => _nodeService.GetNode(nodeRequest.Id)).MustHaveHappened();
+            var expectedNode = new BonusNode() { Location = nodeRequest.Hint, BonusType = (BonusNode.BONUS_TYPE) nodeRequest.Bonus };
+
+            A.CallTo(() => _nodeService.UpdateNode(A<Node>.That.Matches(n=>MatchNode(n, expectedNode)))).MustHaveHappened();
+
+        }
+
+        [Fact]
+        public async Task UpdateNode_With_Change_Type()
+        {
+            // Arrange
+            A.CallTo(() => _nodeService.GetNode(A<int>._)).Returns(new ObjectNode());
+            var nodeRequest = new NodeUpdateRequest() {Id = 1, Name = "toto", NodeType = NodeResponse.BonusNodeType};
+            // Act
+            await _target.UpdateNode(nodeRequest);
             // Assert
             A.CallTo(() => _nodeService.GetNode(nodeRequest.Id)).MustHaveHappened();
             A.CallTo(() => _nodeService.UpdateNode(A<Node>._)).MustHaveHappened();
+            A.CallTo(() => _gameService.AddNode(A<int>._, A<Node>._)).MustHaveHappened();
+        }
+        [Fact]
+        public async Task UpdateNode_With_Image()
+        {
+            // Arrange
+            A.CallTo(() => _nodeService.GetNode(A<int>._)).Returns(new ObjectNode(){Image = new Picture(){Id = 15}});
+            A.CallTo(() => _imageService.GetPictureById(A<int>._)).Returns(new Picture() {Id = 16});
+            var nodeRequest = new NodeUpdateRequest() {Id = 1, Name = "toto", NodeType = NodeResponse.BonusNodeType, ImageId = 16};
+            // Act
+            await _target.UpdateNode(nodeRequest);
+            // Assert
+            A.CallTo(() => _nodeService.GetNode(nodeRequest.Id)).MustHaveHappened();
+            A.CallTo(() => _nodeService.UpdateNode(A<Node>._)).MustHaveHappened();
+            A.CallTo(() => _gameService.AddNode(A<int>._, A<Node>._)).MustHaveHappened();
+        }
+        [Fact]
+        public async Task UpdateNode_With_Image_Org_Node_Had_No_Image()
+        {
+            // Arrange
+            A.CallTo(() => _nodeService.GetNode(A<int>._)).Returns(new ObjectNode());
+            A.CallTo(() => _imageService.GetPictureById(A<int>._)).Returns(new Picture() {Id = 16});
+            var nodeRequest = new NodeUpdateRequest() {Id = 1, Name = "toto", NodeType = NodeResponse.BonusNodeType, ImageId = 16};
+            // Act
+            await _target.UpdateNode(nodeRequest);
+            // Assert
+            A.CallTo(() => _nodeService.GetNode(nodeRequest.Id)).MustHaveHappened();
+            A.CallTo(() => _nodeService.UpdateNode(A<Node>._)).MustHaveHappened();
+            A.CallTo(() => _gameService.AddNode(A<int>._, A<Node>._)).MustHaveHappened();
         }
 
         [Fact]
