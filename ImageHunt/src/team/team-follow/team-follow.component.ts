@@ -116,7 +116,7 @@ export class TeamFollowComponent implements OnInit {
         break;
       case 3:
         iconClass = {
-          icon: 'map-marker-alt',
+          icon: 'fa-map-marker-alt',
           prefix: 'fa',
           markerColor: 'blue'
         };
@@ -190,6 +190,7 @@ export class TeamFollowComponent implements OnInit {
     for (let gameAction of gameActions) {
       this.handleGameAction(gameAction);
     }
+    this.map.fitBounds();
   }
   paths: Map<number, L.Polyline> = new Map<number, L.Polyline>();
 
