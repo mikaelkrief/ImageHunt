@@ -230,6 +230,8 @@ namespace ImageHunt
           .ForMember(x => x.Picture, expression => expression.Ignore())
           .ForMember(m => m.PointsEarned, opt => opt.MapFrom(gar => gar.PointsEarned));
         config.CreateMap<GameAction, GameActionResponse>();
+        config.CreateMap<Game, GameResponseEx>();
+
         config.CreateMap<Node, Node>().ForSourceMember(x => x.Id, opt => opt.DoNotValidate());
         config.CreateMap<Node, NodeResponse>()
           .Include<BonusNode, NodeResponse>()

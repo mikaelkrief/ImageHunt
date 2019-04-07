@@ -70,7 +70,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _gameService.GetAllGame()).MustHaveHappened();
         }
 
-        [Fact(Skip = "Flacky test")]
+        [Fact]
         public void GetGameById()
         {
             // Arrange
