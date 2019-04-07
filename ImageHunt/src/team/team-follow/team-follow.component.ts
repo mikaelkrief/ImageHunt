@@ -56,39 +56,6 @@ export class TeamFollowComponent implements OnInit {
     this.createMarker(gameAction);
   }
 
-  //createMarker(gameAction: GameAction) {
-  //  let icon;
-  //  let iconUrl;
-  //  switch (gameAction.action) {
-  //    case 0:
-  //      iconUrl = 'assets/startNode.png';
-  //      break;
-  //    case 1:
-  //      iconUrl = 'assets/endNode.png';
-  //      break;
-  //    case 2:
-  //      iconUrl = 'assets/pictureNode.png';
-  //      break;
-  //    case 4:
-  //      iconUrl = 'assets/questionNode.png';
-  //      break;
-  //    case 5:
-  //      iconUrl = 'assets/objectNode.png';
-  //      break;
-  //    default:
-  //      break;
-  //  }
-  //  if (iconUrl !== undefined) {
-  //    icon = new L.Icon({
-  //      iconUrl: iconUrl,
-  //      iconSize: [32, 32],
-  //      iconAnchor: [16, 16]
-  //    });
-
-  //    const marker = new L.Marker([gameAction.latitude, gameAction.longitude], { icon: icon, draggable: false });
-  //    marker.addTo(this.markersLayer);
-  //  }
-  //}
   createMarker(gameAction: GameAction) {
     let icon;
     let iconClass;
@@ -154,6 +121,7 @@ export class TeamFollowComponent implements OnInit {
       icon = L.AwesomeMarkers.icon(iconClass);
       const marker = new L.Marker([gameAction.latitude, gameAction.longitude], { icon: icon, draggable: false });
       marker.addTo(this.markersLayer);
+      this.markers.push(marker);
     }
   }
 
@@ -192,15 +160,20 @@ export class TeamFollowComponent implements OnInit {
     for (let gameAction of gameActions) {
       this.handleGameAction(gameAction);
     }
-    this.map.fitBounds();
+    this.fitPositions();
   }
   paths: Map<number, L.Polyline> = new Map<number, L.Polyline>();
 
   positions: Map<number, Array<GameAction>> = new Map<number, Array<GameAction>>();
-
+  markers=[];
   gameId: number;
   map: any;
   game: Game;
   pathLayer: L.LayerGroup<any>;
   markersLayer: L.LayerGroup<any>;
+
+  fitPositions() {
+    const coords = this.positions.map(m => [m.latitude, m.longitude]);
+    this.map.fitBounds(coords);
+  }
 }
