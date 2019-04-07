@@ -36,6 +36,8 @@ export class TeamFollowComponent implements OnInit {
   }
 
   handleGameAction(gameAction: GameAction) {
+    if (!gameAction.team)
+      return;
     if (!this.positions.has(gameAction.team.id)) {
       this.positions.set(gameAction.team.id, new Array<GameAction>());
       let color = this.getColorForTeam(gameAction.team);
