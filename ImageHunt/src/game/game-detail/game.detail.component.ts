@@ -146,7 +146,7 @@ export class GameDetailComponent implements OnInit {
 
   }
   nodeDragged(nodeDragged: NodeDragged) {
-    this._gameService.updateNode(nodeDragged.node)
+    this._gameService.updateNode(this.game.id, nodeDragged.node)
       .subscribe(() => this.getGame(this.game.id));
   }
 
