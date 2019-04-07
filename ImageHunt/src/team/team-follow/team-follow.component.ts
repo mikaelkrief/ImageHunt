@@ -9,6 +9,7 @@ import { GameService } from '../../shared/services/game.service';
 import { GameAction } from '../../shared/gameAction';
 import { forkJoin } from 'rxjs';
 
+
 @Component({
   selector: 'team-follow',
   templateUrl: './team-follow.component.html',
@@ -55,39 +56,104 @@ export class TeamFollowComponent implements OnInit {
     this.createMarker(gameAction);
   }
 
+  //createMarker(gameAction: GameAction) {
+  //  let icon;
+  //  let iconUrl;
+  //  switch (gameAction.action) {
+  //    case 0:
+  //      iconUrl = 'assets/startNode.png';
+  //      break;
+  //    case 1:
+  //      iconUrl = 'assets/endNode.png';
+  //      break;
+  //    case 2:
+  //      iconUrl = 'assets/pictureNode.png';
+  //      break;
+  //    case 4:
+  //      iconUrl = 'assets/questionNode.png';
+  //      break;
+  //    case 5:
+  //      iconUrl = 'assets/objectNode.png';
+  //      break;
+  //    default:
+  //      break;
+  //  }
+  //  if (iconUrl !== undefined) {
+  //    icon = new L.Icon({
+  //      iconUrl: iconUrl,
+  //      iconSize: [32, 32],
+  //      iconAnchor: [16, 16]
+  //    });
+
+  //    const marker = new L.Marker([gameAction.latitude, gameAction.longitude], { icon: icon, draggable: false });
+  //    marker.addTo(this.markersLayer);
+  //  }
+  //}
   createMarker(gameAction: GameAction) {
     let icon;
-    let iconUrl;
+    let iconClass;
     switch (gameAction.action) {
       case 0:
-        iconUrl = 'assets/startNode.png';
+        iconClass = {
+          icon: 'flag',
+          prefix: 'fa',
+          markerColor: 'red'
+        };
         break;
       case 1:
-        iconUrl = 'assets/endNode.png';
+        iconClass = {
+          icon: 'flag-checkered',
+          prefix: 'fa',
+          markerColor: 'green'
+        };
         break;
       case 2:
-        iconUrl = 'assets/pictureNode.png';
+        iconClass = {
+          icon: 'camera',
+          prefix: 'fa',
+          markerColor: 'blue'
+        };
+        break;
+      case 3:
+        iconClass = {
+          icon: 'map-marker-alt',
+          prefix: 'fa',
+          markerColor: 'blue'
+        };
         break;
       case 4:
-        iconUrl = 'assets/questionNode.png';
+        iconClass = {
+          icon: 'question-circle',
+          prefix: 'fa',
+          markerColor: 'blue'
+        };
         break;
       case 5:
-        iconUrl = 'assets/objectNode.png';
+        iconClass = {
+          icon: 'running',
+          prefix: 'fa',
+          markerColor: 'darkred'
+        };
+      case 10:
+        iconClass = {
+          icon: 'gift',
+          prefix: 'fa',
+          markerColor: 'darkpurple'
+        };
+      case 11:
+        iconClass = {
+          icon: 'mask',
+          prefix: 'fa',
+          markerColor: 'purple'
+        };
         break;
       default:
         break;
     }
-    if (iconUrl !== undefined) {
-      icon = new L.Icon({
-        iconUrl: iconUrl,
-        iconSize: [32, 32],
-        iconAnchor: [16, 16]
-      });
-
+    icon = L.AwesomeMarkers.icon(iconClass);
       const marker = new L.Marker([gameAction.latitude, gameAction.longitude], { icon: icon, draggable: false });
       marker.addTo(this.markersLayer);
     }
-  }
 
 
   ngOnInit(): void {
