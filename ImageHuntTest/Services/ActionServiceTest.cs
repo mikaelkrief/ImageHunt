@@ -1013,20 +1013,23 @@ namespace ImageHuntTest.Services
         [Fact]
         public void GetPositionsForGame()
         {
+            var teams = new List<Team>() { new Team(), new Team() };
+            _context.Teams.AddRange(teams);
+
             var games = new List<Game>() { new Game(), new Game() };
             _context.Games.AddRange(games);
             // Arrange
             var gameActions = new List<GameAction>
             {
-                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.DoAction, Game = games[1]},
-                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
-                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[0]},
-                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
-                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
-                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[0]},
-                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
-                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
-                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.DoAction, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[0]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[0]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
             };
             _context.GameActions.AddRange(gameActions);
             _context.SaveChanges();
