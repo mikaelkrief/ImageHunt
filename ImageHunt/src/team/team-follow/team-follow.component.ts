@@ -173,7 +173,7 @@ export class TeamFollowComponent implements OnInit {
   markersLayer: L.LayerGroup<any>;
 
   fitPositions() {
-    const coords = this.markers.map(m => [m.latitude, m.longitude]);
+    const coords = this.markers.map(m => [m._latlng.lat, m._latlng.lng]);
     this.map.fitBounds(coords);
   }
 }
