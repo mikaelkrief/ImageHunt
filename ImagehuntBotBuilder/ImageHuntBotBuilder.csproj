@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="Resources\Commands\HelpCommand.fr.resx" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Dockerfile_Production" />
   </ItemGroup>
 
@@ -21,11 +17,6 @@
     <Content Include="BotConfiguration.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <None Include="Resources\Commands\HelpCommand.fr.resx" />
   </ItemGroup>
 
 
