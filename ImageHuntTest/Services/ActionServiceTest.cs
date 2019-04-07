@@ -1036,22 +1036,52 @@ namespace ImageHuntTest.Services
             Check.That(results).HasSize(7).And.Contains(gameActions[0], gameActions[1], gameActions[3], gameActions[4]);
         }
         [Fact]
-        public void GetPositionsForGame_Null_Latitude_Should_Be_Ignored()
+        public void GetPositionsForGame_Null_Team_Should_be_ignored()
         {
+            var teams = new List<Team>() {new Team(), new Team()};
+            _context.Teams.AddRange(teams);
             var games = new List<Game>() { new Game(), new Game() };
             _context.Games.AddRange(games);
             // Arrange
             var gameActions = new List<GameAction>
             {
-                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.DoAction, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.DoAction, Game = games[1]},
+                new GameAction(){Team=teams[1], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[0]},
+                new GameAction(){Team=teams[1], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
                 new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
-                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[0]},
-                new GameAction(){Latitude = null, Longitude=null, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Team=teams[1], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[0]},
                 new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
-                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[0]},
-                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
-                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
-                new GameAction(){Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Team=teams[1], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+            };
+            _context.GameActions.AddRange(gameActions);
+            _context.SaveChanges();
+            // Act
+            var results = _target.GetGamePositionsForGame(games[1].Id);
+            // Assert
+            Check.That(results).ContainsExactly(gameActions[0],gameActions[1],gameActions[3],gameActions[7],gameActions[8] );
+        }
+        [Fact]
+        public void GetPositionsForGame_Null_Latitude_Should_Be_Ignored()
+        {
+            var teams = new List<Team>() { new Team(), new Team() };
+            _context.Teams.AddRange(teams);
+
+            var games = new List<Game>() { new Game(), new Game() };
+            _context.Games.AddRange(games);
+            // Arrange
+            var gameActions = new List<GameAction>
+            {
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.DoAction, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[0]},
+                new GameAction(){Team=teams[0], Latitude = null, Longitude=null, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[0]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
+                new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
             };
             _context.GameActions.AddRange(gameActions);
             _context.SaveChanges();
