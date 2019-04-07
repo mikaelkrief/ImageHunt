@@ -1,25 +1,30 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup Label="MultilingualAppToolkit">
+    <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
+    <MultilingualFallbackLanguage>en</MultilingualFallbackLanguage>
+    <TranslationReport Condition="'$(Configuration)' == 'Release'">true</TranslationReport>
+    <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
+  </PropertyGroup>
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <CodeAnalysisRuleSet>EchoBotWithCounter.ruleset</CodeAnalysisRuleSet>
     <ApplicationInsightsResourceId>/subscriptions/a03ac942-e4a3-4bc8-9590-07dd403b97d8/resourcegroups/Pixhint/providers/microsoft.insights/components/pixint_bot</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/a03ac942-e4a3-4bc8-9590-07dd403b97d8/resourcegroups/Pixhint/providers/microsoft.insights/components/pixint_bot</ApplicationInsightsAnnotationResourceId>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
-
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.ResxResources.targets')" />
+  <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" Label="MultilingualAppToolkit">
+    <Warning Text="$(MSBuildProjectFile) is Multilingual build enabled, but the Multilingual App Toolkit is unavailable during the build. If building with Visual Studio, please check to ensure that toolkit is properly installed." />
+  </Target>
   <ItemGroup>
     <None Remove="Dockerfile_Production" />
   </ItemGroup>
-
-
-
   <ItemGroup>
     <Content Include="BotConfiguration.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
-
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.1" />
@@ -38,20 +43,11 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
     <PackageReference Include="Telegram.Bot" Version="14.10.0" />
   </ItemGroup>
-
-
   <ItemGroup>
     <ProjectReference Include="..\ImageHuntCore\ImageHuntCore.csproj" />
     <ProjectReference Include="..\ImageHuntWebServiceClient\ImageHuntWebServiceClient.csproj" />
   </ItemGroup>
-
-
-
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
-
-
-
-
 </Project>

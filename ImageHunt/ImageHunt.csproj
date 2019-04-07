@@ -12,6 +12,7 @@
     <RepositoryType>Github</RepositoryType>
     <ApplicationInsightsResourceId>/subscriptions/a03ac942-e4a3-4bc8-9590-07dd403b97d8/resourcegroups/Pixhint/providers/microsoft.insights/components/pixhint_webapi</ApplicationInsightsResourceId>
     <ApplicationInsightsAnnotationResourceId>/subscriptions/a03ac942-e4a3-4bc8-9590-07dd403b97d8/resourcegroups/Pixhint/providers/microsoft.insights/components/pixhint_webapi</ApplicationInsightsAnnotationResourceId>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

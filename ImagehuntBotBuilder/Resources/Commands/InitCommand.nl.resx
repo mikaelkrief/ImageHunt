@@ -117,10 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HELP" xml:space="preserve">
-    <value>Pour jouer à la chasse au trésor, vous devez d'abord envoyer votre position. 
-Le plus simple est de faire un partage en continu le temps que dure la chasse.
-Ensuite, vous pouvez envoyer les images que vous aurez devinées, je les enregistrerai et un validateur vous attribuera les points si elle correspond à une des photos mystères !
-Bon jeu !</value>
+  <data name="GROUP_ALREADY_INITIALIZED" xml:space="preserve">
+    <value>De groep was al geïnitialiseerd</value>
+  </data>
+  <data name="GROUP_INITIALIZED" xml:space="preserve">
+    <value>Chat van team {0} voor game {1} dat begint op {2} is klaar, succes!</value>
+  </data>
+  <data name="UNABLE_FIND_GAME" xml:space="preserve">
+    <value>Kan game voor l'Id = {0} en team-ID = {1} niet vinden</value>
   </data>
 </root>

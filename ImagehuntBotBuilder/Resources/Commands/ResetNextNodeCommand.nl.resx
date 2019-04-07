@@ -117,10 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HELP" xml:space="preserve">
-    <value>Pour jouer à la chasse au trésor, vous devez d'abord envoyer votre position. 
-Le plus simple est de faire un partage en continu le temps que dure la chasse.
-Ensuite, vous pouvez envoyer les images que vous aurez devinées, je les enregistrerai et un validateur vous attribuera les points si elle correspond à une des photos mystères !
-Bon jeu !</value>
+  <data name="GAME_NOT_STARTED" xml:space="preserve">
+    <value>The game had not started, unable to center on the next node!</value>
+  </data>
+  <data name="NO_LOCALIZATION" xml:space="preserve">
+    <value>Ik kan geen enkele live locatie vinden, ik weet niet waar je bent!</value>
+  </data>
+  <data name="RESET_SUCCEED" xml:space="preserve">
+    <value>Het huidige knooppunt was opnieuw ingesteld. Waarschuwing, het kan in jou terug zijn als je het gewoon doorgeeft.</value>
   </data>
 </root>

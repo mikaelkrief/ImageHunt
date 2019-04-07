@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en" target-language="fr" original="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/HELPCOMMAND.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6901.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/HELPCOMMAND.RESX" datatype="resx">
+        <trans-unit id="HELP" translate="yes" xml:space="preserve">
+          <source>To play the game, you should share your live location. Then, post your pictures in this group, I will record them. Have fun!</source>
+          <target state="translated">Pour jouer à la chasse au trésor, vous devez d'abord envoyer votre position. 
+Le plus simple est de faire un partage en continu le temps que dure la chasse.
+Ensuite, vous pouvez envoyer les images que vous aurez devinées, je les enregistrerai et un validateur vous attribuera les points si elle correspond à une des photos mystères !
+Bon jeu !</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en" target-language="fr" original="IMAGEHUNTBOTBUILDER/RESOURCES/MIDDLEWARES/TEAMCOMPOSITIONMIDDLEWARE.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6901.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="IMAGEHUNTBOTBUILDER/RESOURCES/MIDDLEWARES/TEAMCOMPOSITIONMIDDLEWARE.RESX" datatype="resx">
+        <trans-unit id="CHAT_NOT_INITIALIZED" translate="yes" xml:space="preserve">
+          <source>I cannot add a player to a team since the chat hat not been initialized. See /init command</source>
+          <target state="translated">Je ne peux ajouter un membre à une équipe que si le groupe à été initialisé! Commande /init</target>
+        </trans-unit>
+        <trans-unit id="PLAYER_ADDED" translate="yes" xml:space="preserve">
+          <source>Player {0} had been added to {1} team</source>
+          <target state="translated">Le joueur {0} vient d'être ajouté à l'équipe {1}</target>
+        </trans-unit>
+        <trans-unit id="PLAYER_REMOVED" translate="yes" xml:space="preserve">
+          <source>Player {0} had been removed from {1} team</source>
+          <target state="translated">Le joueur {0} vient d'être retiré de l'équipe {1}</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en" target-language="fr" original="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/EXTRACTINVITELINKCOMMAND.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6901.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/EXTRACTINVITELINKCOMMAND.RESX" datatype="resx">
+        <trans-unit id="NON_INITIALIZED_GROUP" translate="yes" xml:space="preserve">
+          <source>The group had not been initialized, unable to get the invite link</source>
+          <target state="new">The group had not been initialized, unable to get the invite link</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en" target-language="fr" original="IMAGEHUNTBOTBUILDER/RESOURCES/NODEVISITORHANDLER.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6901.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="IMAGEHUNTBOTBUILDER/RESOURCES/NODEVISITORHANDLER.RESX" datatype="resx">
+        <trans-unit id="ASK_SELFIE" translate="yes" xml:space="preserve">
+          <source>Send me a selfie to validate this point</source>
+          <target state="translated">Envoyez un selfie pour valider votre découverte!</target>
+        </trans-unit>
+        <trans-unit id="BONUS_NODE" translate="yes" xml:space="preserve">
+          <source>your team earned a {0} bonus on gross points, congrat!</source>
+          <target state="translated">Votre équipe à gagné un bonus de {0} des points totaux, bravo!</target>
+        </trans-unit>
+        <trans-unit id="DO_ACTION_REQUEST" translate="yes" xml:space="preserve">
+          <source>You should do the following action: {0}</source>
+          <target state="translated">Vous devrez effectuer l'action suivante : {0}</target>
+        </trans-unit>
+        <trans-unit id="EARN_POINTS" translate="yes" xml:space="preserve">
+          <source>Your team earned {0} points, congrat!</source>
+          <target state="translated">Votre équipe à gagné {0} points, bravo!</target>
+        </trans-unit>
+        <trans-unit id="HIDDEN_NODE" translate="yes" xml:space="preserve">
+          <source>The next node {0} is hidden, this hint should give you its location</source>
+          <target state="translated">Le prochain noeud {0} est un noeud mystère. L'indice suivant devrait vour permettre de deviner sa position</target>
+        </trans-unit>
+        <trans-unit id="LASTNODE_REACHED" translate="yes" xml:space="preserve">
+          <source>Congrat! Meet the orga to stop your running time, hurry up!!</source>
+          <target state="translated">Bravo! Pour valider vos exploits, allez faire arrêter votre temps avec l'orga</target>
+        </trans-unit>
+        <trans-unit id="NEXT_LAST_NODE" translate="yes" xml:space="preserve">
+          <source>Next node is arrival!</source>
+          <target state="translated">Le prochain noeud est l'arrivée!</target>
+        </trans-unit>
+        <trans-unit id="NEXT_NODE_LOCATION" translate="yes" xml:space="preserve">
+          <source>Next node {0} is at the following location:</source>
+          <target state="translated">Le prochain noeud {0} et se trouve à l'emplacement suivant:</target>
+        </trans-unit>
+        <trans-unit id="TIMER_NODE" translate="yes" xml:space="preserve">
+          <source>You should wait {0} before continue</source>
+          <target state="translated">Veuillez patienter pendant {0} secondes avant de poursuivre</target>
+        </trans-unit>
+        <trans-unit id="WAYPOINT_REACHED" translate="yes" xml:space="preserve">
+          <source>You reached the waypoint {0}, congrat!</source>
+          <target state="translated">Vous avez rejoint le point de controle {0}, bravo!</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en" target-language="fr" original="IMAGEHUNTBOTBUILDER/RESOURCES/IMAGEHUNTBOT.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6901.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="IMAGEHUNTBOTBUILDER/RESOURCES/IMAGEHUNTBOT.RESX" datatype="resx">
+        <trans-unit id="CANNOT_RECORD_PHOTO" translate="yes" xml:space="preserve">
+          <source>The game is not started, I will not record this picture</source>
+          <target state="translated">La chasse n'a pas encore commencée ou le groupe n'est pas encore initialisé, merci de m'envoyer les photos plus tard!</target>
+        </trans-unit>
+        <trans-unit id="COMMAND_NOT_AUTHORIZED" translate="yes" xml:space="preserve">
+          <source>You are not authorized to use this command</source>
+          <target state="translated">Vous n'êtes pas autorisé à utiliser cette commande</target>
+        </trans-unit>
+        <trans-unit id="COMMAND_NOT_FOUND" translate="yes" xml:space="preserve">
+          <source>This command doesn't exist, please check</source>
+          <target state="translated">Cette commande n'existe pas, veuillez corriger votre saisie</target>
+        </trans-unit>
+        <trans-unit id="IMAGE_RECEIVED_CONFIRM" translate="yes" xml:space="preserve">
+          <source>Your picture had been recorded, a modo will check it and give points to your team</source>
+          <target state="translated">Votre image a bien été téléchargée, un validateur l'examinera pour vous attribuer les points</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en" target-language="fr" original="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/BEGINCOMMAND.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6901.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/BEGINCOMMAND.RESX" datatype="resx">
+        <trans-unit id="CHAT_NOT_INITIALIZED" translate="yes" xml:space="preserve">
+          <source>Chat not initialized, unable to start game!</source>
+          <target state="translated">Le chat n'a pas été initialisé, impossible de commencer maintenant!</target>
+        </trans-unit>
+        <trans-unit id="GAME_STARTED" translate="yes" xml:space="preserve">
+          <source>Game started, good luck!</source>
+          <target state="translated">La chasse commence maintenant! Bonne chance!</target>
+        </trans-unit>
+        <trans-unit id="NO_LIVE_LOCATION" translate="yes" xml:space="preserve">
+          <source>No live location, unable to start game!</source>
+          <target state="translated">Aucun joueur n'a activé sa localisation en continu, la chasse ne peut commencer!</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en" target-language="fr" original="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/DISPLAYNODECOMMAND.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6901.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/DISPLAYNODECOMMAND.RESX" datatype="resx">
+        <trans-unit id="GAME_NOT_STARTED" translate="yes" xml:space="preserve">
+          <source>Game not started, please ask assistance to game master</source>
+          <target state="translated">La partie n'a pas débuté, il n'y a donc pas de noeud courant!</target>
+        </trans-unit>
+        <trans-unit id="NEXT_NODE_POSITION" translate="yes" xml:space="preserve">
+          <source>The next waypoint {0} is at this location</source>
+          <target state="translated">Le prochain point de controle {0} se trouve à la position suivante :</target>
+        </trans-unit>
+        <trans-unit id="NO_CURRENT_NODE" translate="yes" xml:space="preserve">
+          <source>No current node, unable to continue. Please ask assistance to game master</source>
+          <target state="translated">Aucun noeud courant, impossible de continuer. Prévenir les orgas</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en" target-language="fr" original="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/DISPLAYHINTSCOMMAND.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6901.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/DISPLAYHINTSCOMMAND.RESX" datatype="resx">
+        <trans-unit id="2X_BONUS_TITLE" translate="yes" xml:space="preserve">
+          <source>Multiply final score by 2</source>
+          <target state="translated">Multiplication du score final par 2</target>
+        </trans-unit>
+        <trans-unit id="3X_BONUS_TITLE" translate="yes" xml:space="preserve">
+          <source>Multiply final score by 3</source>
+          <target state="translated">Multiplication du score final par 3</target>
+        </trans-unit>
+        <trans-unit id="BONUS_HINT" translate="yes" xml:space="preserve">
+          <source>Hint : {0}{1}Bonus: {2}</source>
+          <target state="translated">Indice : {0}{1}Bonus : {2}</target>
+        </trans-unit>
+        <trans-unit id="GAME_NOT_STARTED" translate="yes" xml:space="preserve">
+          <source>Game not started, please ask assistance to game master</source>
+          <target state="translated">La partie n'as pas encore commencée, veuillez demander au maitre du jeu</target>
+        </trans-unit>
+        <trans-unit id="HIDDEN_HINT" translate="yes" xml:space="preserve">
+          <source>Hint : {0}[1}Bonus: {2} points</source>
+          <target state="translated">Indice : {0}{1}Bonus : {2} points</target>
+        </trans-unit>
+        <trans-unit id="HIDDEN_NODES_TITLE" translate="yes" xml:space="preserve">
+          <source>Hints to find hidden nodes:</source>
+          <target state="translated">Voici des indices vous permettant de trouver les Noeuds cachés:</target>
+        </trans-unit>
+        <trans-unit id="NO_MORE_HIDDEN_NODE" translate="yes" xml:space="preserve">
+          <source>There are no more hidden nodes</source>
+          <target state="translated">Il ne reste plus de noeuds cachés</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en" target-language="fr" original="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/INITCOMMAND.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6901.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/INITCOMMAND.RESX" datatype="resx">
+        <trans-unit id="GROUP_ALREADY_INITIALIZED" translate="yes" xml:space="preserve">
+          <source>The group had already been initialized</source>
+          <target state="translated">Le groupe a déjà été initialisé!</target>
+        </trans-unit>
+        <trans-unit id="GROUP_INITIALIZED" translate="yes" xml:space="preserve">
+          <source>Chat of team {0} for game {1} that start on {2} is ready, good luck!</source>
+          <target state="translated">Le groupe de l'équipe {0} pour la chasse {1} qui débute le {2} est prêt, bon jeu!</target>
+        </trans-unit>
+        <trans-unit id="UNABLE_FIND_GAME" translate="yes" xml:space="preserve">
+          <source>Unable to find game for l'Id={0} and team Id={1}</source>
+          <target state="translated">Impossible de trouver la partie pour l'Id={0} ou l'équipe pour l'Id={1}</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en" target-language="fr" original="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/GIVECOMMAND.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6901.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/GIVECOMMAND.RESX" datatype="resx">
+        <trans-unit id="CHAT_NOT_INITIALIZED" translate="yes" xml:space="preserve">
+          <source>The groups had not been initialize, unable to give points!</source>
+          <target state="translated">Le groupe n'a pas été correctement initialisée, impossible de donner des points!</target>
+        </trans-unit>
+        <trans-unit id="GIVE_POINTS_MESSAGE" translate="yes" xml:space="preserve">
+          <source>The modo just gave you {0} points!</source>
+          <target state="translated">L'orga vient de vous attribuer {0} points!</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en" target-language="fr" original="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/BROADCASTCOMMAND.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6901.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/BROADCASTCOMMAND.RESX" datatype="resx">
+        <trans-unit id="SYNTAX_ERROR" translate="yes" xml:space="preserve">
+          <source>Syntax error in command, please check</source>
+          <target state="translated">La syntaxe de la commande est éronée, veuillez vérifier</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en" target-language="fr" original="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/ENDCOMMAND.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6901.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/ENDCOMMAND.RESX" datatype="resx">
+        <trans-unit id="CANNOT_END_GAME_NOT_STARTED" translate="yes" xml:space="preserve">
+          <source>Cannot end an non started game!</source>
+          <target state="translated">La partie n'a pas encore commencée, vous ne pouvez par l'arrêter!</target>
+        </trans-unit>
+        <trans-unit id="GAME_ENDED" translate="yes" xml:space="preserve">
+          <source>The game just ended. Search modo to stop your running time</source>
+          <target state="translated">La chasse vient de prendre fin, vos actions ont été enregistrée et un orga va les valider.</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="en" target-language="fr" original="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/REFRESHCOMMAND.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6901.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="IMAGEHUNTBOTBUILDER/RESOURCES/COMMANDS/REFRESHCOMMAND.RESX" datatype="resx">
+        <trans-unit id="GROUP_NOT_INITIALIZED" translate="yes" xml:space="preserve">
+          <source>Group not initialized, unable to refresh nodes</source>
+          <target state="new">Group not initialized, unable to refresh nodes</target>
+        </trans-unit>
+        <trans-unit id="REFRESH_ACTION_NODES" translate="yes" xml:space="preserve">
+          <source>Action nodes had been refreshed</source>
+          <target state="new">Action nodes had been refreshed</target>
+        </trans-unit>
+        <trans-unit id="REFRESH_HIDDEN_NODES" translate="yes" xml:space="preserve">
+          <source>Hidden nodes had been refreshed</source>
+          <target state="new">Hidden nodes had been refreshed</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

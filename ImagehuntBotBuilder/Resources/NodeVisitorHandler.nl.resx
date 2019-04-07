@@ -117,10 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HELP" xml:space="preserve">
-    <value>Pour jouer à la chasse au trésor, vous devez d'abord envoyer votre position. 
-Le plus simple est de faire un partage en continu le temps que dure la chasse.
-Ensuite, vous pouvez envoyer les images que vous aurez devinées, je les enregistrerai et un validateur vous attribuera les points si elle correspond à une des photos mystères !
-Bon jeu !</value>
+  <data name="ASK_SELFIE" xml:space="preserve">
+    <value>Stuur me een selfie om dit punt te valideren</value>
+  </data>
+  <data name="BONUS_NODE" xml:space="preserve">
+    <value>je team heeft een bonus van {0} verdiend op bruto punten, gefeliciteerd!</value>
+  </data>
+  <data name="DO_ACTION_REQUEST" xml:space="preserve">
+    <value>U moet de volgende actie uitvoeren: {0}</value>
+  </data>
+  <data name="EARN_POINTS" xml:space="preserve">
+    <value>Je team heeft {0} punten verdiend, gefeliciteerd!</value>
+  </data>
+  <data name="HIDDEN_NODE" xml:space="preserve">
+    <value>Het volgende knooppunt {0} is verborgen, deze hint zou je zijn locatie moeten geven</value>
+  </data>
+  <data name="LASTNODE_REACHED" xml:space="preserve">
+    <value>Congrat! Ontmoet de orga om je looptijd te stoppen, schiet op !!</value>
+  </data>
+  <data name="NEXT_LAST_NODE" xml:space="preserve">
+    <value>Het volgende knooppunt is aankomst!</value>
+  </data>
+  <data name="NEXT_NODE_LOCATION" xml:space="preserve">
+    <value>Het volgende knooppunt {0} bevindt zich op de volgende locatie:</value>
+  </data>
+  <data name="TIMER_NODE" xml:space="preserve">
+    <value>U moet {0} wachten voordat u verdergaat</value>
+  </data>
+  <data name="WAYPOINT_REACHED" xml:space="preserve">
+    <value>U bereikte het waypoint {0}, gefeliciteerd!</value>
   </data>
 </root>
