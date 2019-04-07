@@ -12,5 +12,14 @@ namespace ImageHuntWebServiceClient.Responses
         public int PictureId { get; set; }
         public string Code { get; set; }
         public TeamResponse[] Teams { get; set; }
+        public double? MapCenterLat { get; set; }
+        public double? MapCenterLng { get; set; }
+        public int? MapZoom { get; set; }
+
+    }
+
+    public class GameResponseEx : GameResponse
+    {
+        public NodeResponse[] Nodes { get; set; }
     }
 }

@@ -66,7 +66,8 @@ namespace ImageHunt.Controllers
     public IActionResult GetGameById(int gameId)
     {
       var gameById = _gameService.GetGameById(gameId);
-      return Ok(gameById);
+      var gameResponseEx = _mapper.Map<GameResponseEx>(gameById);
+      return Ok(gameResponseEx);
     }
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet("ByUser")]
@@ -143,50 +144,9 @@ namespace ImageHunt.Controllers
       {
         using (var fileStream = file.OpenReadStream())
         {
-          byte[] bytes = new byte[fileStream.Length];
-          fileStream.Read(bytes, 0, (int)fileStream.Length);
-          var picture = new Picture() { Image = bytes };
+          var picture = _imageService.GetPictureFromStream(fileStream);
           var coordinates = _imageService.ExtractLocationFromImage(picture);
-          fileStream.Seek(0, SeekOrigin.Begin);
-          using (var magikImage = new MagickImage(fileStream))
-          {
-            magikImage.Quality = 80;
-            switch (magikImage.Orientation)
-            {
-              case OrientationType.TopRight:
-                magikImage.Flop();
-                break;
-              case OrientationType.BottomRight:
-                magikImage.Rotate(180);
-                break;
-              case OrientationType.BottomLeft:
-                magikImage.Flop();
-                magikImage.Rotate(180);
-                break;
-              case OrientationType.LeftTop:
-                magikImage.Rotate(-90);
-                break;
-              case OrientationType.RightTop:
-                magikImage.Rotate(90);
-                break;
-              case OrientationType.RightBottom:
-                magikImage.Flop();
-                magikImage.Rotate(90);
-                break;
-              case OrientationType.LeftBotom:
-                magikImage.Rotate(-90);
-                break;
-            }
 
-            using (var compressedImageStream = new MemoryStream())
-            {
-              magikImage.Write(compressedImageStream);
-              bytes = new byte[compressedImageStream.Length];
-              compressedImageStream.Seek(0, SeekOrigin.Begin);
-              compressedImageStream.Read(bytes, 0, (int)compressedImageStream.Length);
-              picture = new Picture() { Image = bytes };
-            }
-          }
           // Drop the images without coordinates
           if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
           {
@@ -207,6 +167,7 @@ namespace ImageHunt.Controllers
 
       return Ok();
     }
+
 
     [HttpPut("CenterGameByNodes/{gameId}")]
     public void SetCenterOfGameByNodes(int gameId)

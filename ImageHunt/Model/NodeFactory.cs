@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Responses;
@@ -73,6 +74,22 @@ namespace ImageHunt.Model
           ((BonusNode) newNode).BonusType = ((BonusNode) orgNode).BonusType;
           break;
       }
+      return newNode;
+    }
+
+    public static Node UpdateNode(Node orgNode, string nodeType)
+    {
+      Node newNode = null;
+      if (orgNode.NodeType != nodeType)
+      {
+        newNode = CreateNode(nodeType);
+        newNode.Name = orgNode.Name;
+        newNode.Latitude = orgNode.Latitude;
+        newNode.Longitude = orgNode.Longitude;
+        newNode.Image = orgNode.Image;
+        newNode.Points = orgNode.Points;
+      }
+      
       return newNode;
     }
   }

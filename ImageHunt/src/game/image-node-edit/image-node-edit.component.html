@@ -40,7 +40,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-success pull-right" type="submit" i18n-aria-label aria-label="Close"
-              (click)="bsModalRef.hide()">
+              (click)="bsModalRef.hide()" [disabled]="!form.valid">
         <i class="fas fa-save"></i><span i18n> Save modifications</span>
       </button>
       <button class="btn btn-danger pull-right" type="button" i18n-aria-label aria-label="Close"

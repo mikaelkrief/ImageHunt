@@ -11,13 +11,13 @@ import { RelationClicked } from '../../shared/RelationClicked';
 import { NodeRelation } from '../../shared/NodeRelation';
 import { Observable } from 'rxjs';
 import { Game } from '../../shared/game';
-import { Node } from '../../shared/node';
 import { AlertService } from '../../shared/services/alert.service';
 import { NodeDragged } from "../../shared/NodeDragged";
 import { ConfirmationService } from 'primeng/api';
+import { NodeResponse } from 'shared/nodeResponse';
 
 class NodeMarker extends L.Marker {
-  node: Node;
+  node: NodeResponse;
 }
 
 @Component({
@@ -35,7 +35,7 @@ export class MapDetail3Component implements OnInit {
   @Input() latCenter: number;
   @Input() lngCenter: number;
   @Input() zoom: number;
-  @Input() nodes: Node[];
+  @Input() nodes: NodeResponse[];
   @Input() editable: boolean;
 
   @Output() mapClicked = new EventEmitter();
@@ -45,8 +45,8 @@ export class MapDetail3Component implements OnInit {
   @Output() relationRightClicked = new EventEmitter<RelationClicked>();
   @Output() newRelation = new EventEmitter<NodeRelation>();
   @Output() zoomChange = new EventEmitter<number>();
-  @Output() deleteNode = new EventEmitter<Node>();
-  @Output() editNode = new EventEmitter<Node>();
+  @Output() deleteNode = new EventEmitter<NodeResponse>();
+  @Output() editNode = new EventEmitter<NodeResponse>();
 
   map: any;
   markers: any[] = [];
@@ -97,7 +97,6 @@ export class MapDetail3Component implements OnInit {
       this.createMarkers();
       this.createRelations();
       this.createNewRelations();
-      //this.createContextMenu();
       this.fitNodes();
     }
   }
@@ -107,12 +106,13 @@ export class MapDetail3Component implements OnInit {
 
     if (this.nodes) {
       this.nodes.forEach(node => {
-        if (node.children) {
-          node.children.forEach(children => {
+        if (node.childNodeIds) {
+          node.childNodeIds.forEach(childId => {
+            const child = this.nodes.find(n => n.id == childId);
             const polyline = L.polyline(
               [
                 [node.latitude, node.longitude],
-                [children.latitude, children.longitude]
+                [child.latitude, child.longitude]
               ],
               { color: 'Blue', weight: 2 }
             );
@@ -250,8 +250,8 @@ export class MapDetail3Component implements OnInit {
     }
   }
   isFirstClick: boolean = true;
-  firstNode: Node;
-  secondNode: Node;
+  firstNode: NodeResponse;
+  secondNode: NodeResponse;
 
   resetNodeClick() {
     this.firstNode = null;

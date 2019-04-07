@@ -112,13 +112,20 @@ export class GameService {
   getNodeById(nodeId: number) {
     return this.http.get(`api/Node/${nodeId}`);
   }
-  updateNode(node: Node) {
+  updateNode(gameId: number, node: Node) {
     const nodeRequest = {
+
       id: node.id,
+      gameId: gameId,
+      nodeType: node.nodeType,
       latitude: node.latitude,
       longitude: node.longitude,
       name: node.name,
       points: node.points,
+      delay: node.delay,
+      hint: node.hint,
+      bonus: node.bonus
+
     };
     return this.http.patch(`api/Node/`, nodeRequest);
   }

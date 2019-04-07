@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
@@ -229,19 +230,33 @@ namespace ImageHunt
           .ForMember(x => x.Picture, expression => expression.Ignore())
           .ForMember(m => m.PointsEarned, opt => opt.MapFrom(gar => gar.PointsEarned));
         config.CreateMap<GameAction, GameActionResponse>();
-        //.ForMember(m=>m.GameId, opt=>opt.MapFrom(ga=>ga.Game.Id));
         config.CreateMap<Node, Node>().ForSourceMember(x => x.Id, opt => opt.DoNotValidate());
         config.CreateMap<Node, NodeResponse>()
-          .ForMember(n => n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c => c.Id)))
-          .ForMember(n => n.Hint, expr =>
-              expr.MapFrom(node => node.NodeType == NodeResponse.HiddenNodeType ? (node as HiddenNode).LocationHint : (node as BonusNode).Location)
-          );
-        config.CreateMap<ObjectNode, NodeResponse>()
-          .ForMember(n => n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c => c.Id)));
-        config.CreateMap<ChoiceNode, NodeResponse>()
-          .ForMember(n => n.ChildNodeIds, expression => expression.MapFrom(node => node.Children.Select(c => c.Id)))
-          .ForMember(n => n.Question, exp => exp.MapFrom(node => node.Choice))
-          .ForMember(n => n.Answers, exp => exp.MapFrom(node => node.Answers));
+          .Include<BonusNode, NodeResponse>()
+          .Include<ChoiceNode, NodeResponse>()
+          .Include<FirstNode, NodeResponse>()
+          .Include<HiddenNode, NodeResponse>()
+          .Include<LastNode, NodeResponse>()
+          .Include<ObjectNode, NodeResponse>()
+          .Include<PictureNode, NodeResponse>()
+          .Include<QuestionNode, NodeResponse>()
+          .Include<TimerNode, NodeResponse>()
+          .Include<WaypointNode, NodeResponse>()
+          .ForMember(n => n.ChildNodeIds, expression => expression.MapFrom(node => MapChildId(node)))
+        ;
+        config.CreateMap<BonusNode, NodeResponse>()
+          .ForMember(n=>n.Hint, n=>n.MapFrom(node=>node.Location));
+        config.CreateMap<ChoiceNode, NodeResponse>();
+        config.CreateMap<FirstNode, NodeResponse>();
+        config.CreateMap<HiddenNode, NodeResponse>()
+          .ForMember(n => n.Hint, n => n.MapFrom(node => node.LocationHint));
+          
+        config.CreateMap<LastNode, NodeResponse>();
+        config.CreateMap<ObjectNode, NodeResponse>();
+        config.CreateMap<PictureNode, NodeResponse>();
+        config.CreateMap<QuestionNode, NodeResponse>();
+        config.CreateMap<TimerNode, NodeResponse>();
+        config.CreateMap<WaypointNode, NodeResponse>();
         config.CreateMap<Answer, AnswerResponse>();
         config.CreateMap<GameAction, GameActionToValidate>()
           .ForMember(x => x.Node, x => x.Ignore());
@@ -253,14 +268,21 @@ namespace ImageHunt
         config.CreateMap<Admin, AdminResponse>()
           .ForMember(a => a.GameIds, a => a.MapFrom(admin => admin.Games.Select(g => g.Id)));
         config.CreateMap<PlayerRequest, Player>();
-        config.CreateMap<PictureNode, NodeResponse>()
-          .ForPath(n => n.Image.Id, o => o.MapFrom(p => p.Image.Id))
-          .ForPath(n => n.Image, o => o.Ignore());
         config.CreateMap<Identity, UserResponse>();
         config.CreateMap<Game, GameTeamsResponse>()
           .ForMember(g => g.Teams, g => g.MapFrom(game => game.Teams))
           .ForMember(g => g.PictureId, g => g.MapFrom(game => game.Picture != null ? game.Picture.Id : 0));
+        config.CreateMap<ImageRequest, Picture>()
+          .ForMember(p=>p.Id, p=>p.MapFrom(i=>i.PictureId));
+        config.CreateMap<Picture, ImageResponse>()
+          .ForMember(p => p.PictureId, p => p.MapFrom(i => i.Id));
       });
+    }
+
+    private static IEnumerable<int> MapChildId(Node node)
+    {
+      var mapChildId = node.Children.Select(c => c.Id);
+      return mapChildId;
     }
   }
 }

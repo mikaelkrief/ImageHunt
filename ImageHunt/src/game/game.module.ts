@@ -25,6 +25,7 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ToggleButtonModule } from "primeng/togglebutton";
+import { PanelModule } from 'primeng/panel';
 import { DropdownModule } from "primeng/dropdown";
 import {SharedModule} from "../shared/shared.module";
 import { TeamModule } from "../team/team.module";
@@ -40,6 +41,7 @@ import { GameAvailableComponent } from './game-available/game-available.componen
 import { GameValidationComponent } from './game-validation/game-validation.component';
 import { PointsComponent } from './points/points.component';
 import { BatchNodeComponent } from "./batch-node/batch-node.component";
+import { NodeEditComponent } from "./node-edit/node-edit.component";
 
 @
 NgModule({
@@ -47,11 +49,11 @@ NgModule({
     CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
     MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule,
     ToggleButtonModule, DropdownModule, ContextMenuModule, TableModule, GMapModule, SharedModule,
-    RadioButtonModule, TeamModule, LightboxModule, ButtonsModule, TooltipModule, 
+    RadioButtonModule, TeamModule, LightboxModule, ButtonsModule, TooltipModule, PanelModule,
     AccordionModule, ModalModule.forRoot()
   ],
   declarations: [
-    GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent,
+    GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeEditComponent,
     NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent,
     GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent, PasscodeCreateComponent,
     PasscodePrintComponent, GameAvailableComponent, GameValidationComponent, PointsComponent,
@@ -59,7 +61,7 @@ NgModule({
   ],
   exports: [
     GameCreateComponent, GameDetailComponent, GameListComponent,
-    NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent,
+    NodeCreateComponent, NodeEditComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent,
     GameActionListComponent, GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent,
     PasscodeCreateComponent,
     PasscodePrintComponent, GameAvailableComponent, GameValidationComponent, PointsComponent, BatchNodeComponent

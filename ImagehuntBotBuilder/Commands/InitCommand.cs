@@ -46,7 +46,7 @@ namespace ImageHuntBotBuilder.Commands
                 state.GameId = Convert.ToInt32(groups[0].Groups[1].Value);
                 state.TeamId = Convert.ToInt32(groups[0].Groups[2].Value);
                 _logger.LogInformation("Init group for GameId={0} TeamId={1}", state.GameId, state.TeamId);
-                state.Game = await _gameWebService.GetGameById(state.GameId.Value);
+                state.Game = await _gameWebService.GetGameById(state.GameId.Value) as GameResponse;
                 state.Team = await _teamWebService.GetTeamById(state.TeamId.Value);
                 if (state.Game == null || state.Team == null)
                 {

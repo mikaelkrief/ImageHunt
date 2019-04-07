@@ -158,6 +158,21 @@ namespace ImageHuntTest.Services
       // Assert
       Check.That(games[1].Nodes).HasSize(2);
     }
+    [Fact]
+    public void AddNode_With_Image()
+    {
+      // Arrange
+      var games = new List<Game>() { new Game(), new Game() { Nodes = new List<Node>() { new TimerNode() } }, new Game() };
+      _context.Games.AddRange(games);
+        var images = new List<Picture>(){new Picture(), new Picture(), new Picture()};
+        _context.Pictures.AddRange(images);
+      _context.SaveChanges();
+      var node = new TimerNode(){Image = new Picture(){Id = images[1].Id}};
+      // Act
+      _target.AddNode(games[1].Id, node);
+      // Assert
+      Check.That(games[1].Nodes).HasSize(2);
+    }
 
     [Fact]
     public void GetNodes()

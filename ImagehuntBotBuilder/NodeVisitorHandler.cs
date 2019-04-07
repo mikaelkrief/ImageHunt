@@ -155,7 +155,7 @@ namespace ImageHuntBotBuilder
                         {
                             new Attachment(
                                 contentType: ImageHuntActivityTypes.Image,
-                                contentUrl: $"{apiBaseAddress}/api/Image/{node.Image?.Id}"),
+                                contentUrl: $"{apiBaseAddress}/api/Image/{node.Image?.PictureId}"),
                         };
                     }
 
