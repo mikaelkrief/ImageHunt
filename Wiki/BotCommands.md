@@ -13,6 +13,7 @@ This command will erase the data stored of the group. An `/init` should be done 
 
 ## `/begin`
 This command is used to start the team on the game. It logs the departure time.
+It will additionnaly reset the hidden and action nodes.
 
 ## `/end`
 This command is used to terminate the game for the team. It logs the arrival time.
@@ -83,6 +84,21 @@ This command ask to the bot to leave the group.
 _Usage_
 
     /leave
+
+## `/refresh`
+Refresh the Hidden and Action node of the team
+
+_Usage_
+	/refresh
+
+_Result_
+
+The hidden and action node of the team had been updated. _WARNING_ If the team had already visit a node, 
+the bot will allow a new visit.
+
+_Restrictions_
+
+The chat should have been initialized.
 
 # Users commands
 ## `/help`
