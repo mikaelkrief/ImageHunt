@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -63,40 +64,43 @@ namespace ImageHuntBotBuilder
             ITurnContext turnContext,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            // Get the conversation state from the turn context.
-            var state = await _accessors.ImageHuntState.GetAsync(turnContext, () => new ImageHuntState());
-            state.ConversationId = turnContext.Activity.Conversation.Id;
-            if (state.Team != null)
+            try
             {
-                _localizer = _localizer.WithCulture(new CultureInfo(state.Team.CultureInfo));
-            }
-            switch (turnContext.Activity.Type)
-            {
-                case ImageHuntActivityTypes.Image:
-                    if (state.Status == Status.Started &&
-                        state.GameId.HasValue &&
-                        state.TeamId.HasValue)
-                    {
-                        var gameActionRequest = new GameActionRequest()
+                // Get the conversation state from the turn context.
+                var state = await _accessors.ImageHuntState.GetAsync(turnContext, () => new ImageHuntState());
+                state.ConversationId = turnContext.Activity.Conversation.Id;
+                if (state.Team != null)
+                {
+                    _localizer = _localizer.WithCulture(new CultureInfo(state.Team.CultureInfo));
+                }
+
+                switch (turnContext.Activity.Type)
+                {
+                    case ImageHuntActivityTypes.Image:
+                        if (state.Status == Status.Started &&
+                            state.GameId.HasValue &&
+                            state.TeamId.HasValue)
                         {
-                            Action = (int)Action.SubmitPicture,
-                            GameId = state.GameId.Value,
-                            TeamId = state.TeamId.Value,
-                            Latitude = state.CurrentLocation.Latitude.Value,
-                            Longitude = state.CurrentLocation.Longitude.Value,
-                            PictureId = (int)turnContext.Activity.Attachments.First().Content,
-                        };
-                        await _actionWebService.LogAction(gameActionRequest);
-                        _logger.LogInformation(
-                            "Image {0} had been uploaded", turnContext.Activity.Attachments.First().Name);
-                        await turnContext.SendActivityAsync(
-                            _localizer["IMAGE_RECEIVED_CONFIRM"], cancellationToken: cancellationToken);
-                    }
-                    else
-                    {
-                        await turnContext.SendActivityAsync(
-                            _localizer["CANNOT_RECORD_PHOTO"], cancellationToken: cancellationToken);
-                    }
+                            var gameActionRequest = new GameActionRequest()
+                            {
+                                Action = (int) Action.SubmitPicture,
+                                GameId = state.GameId.Value,
+                                TeamId = state.TeamId.Value,
+                                Latitude = state.CurrentLocation.Latitude.Value,
+                                Longitude = state.CurrentLocation.Longitude.Value,
+                                PictureId = (int) turnContext.Activity.Attachments.First().Content,
+                            };
+                            await _actionWebService.LogAction(gameActionRequest);
+                            _logger.LogInformation(
+                                "Image {0} had been uploaded", turnContext.Activity.Attachments.First().Name);
+                            await turnContext.SendActivityAsync(
+                                _localizer["IMAGE_RECEIVED_CONFIRM"], cancellationToken: cancellationToken);
+                        }
+                        else
+                        {
+                            await turnContext.SendActivityAsync(
+                                _localizer["CANNOT_RECORD_PHOTO"], cancellationToken: cancellationToken);
+                        }
 
                         break;
                     case ActivityTypes.Message:
@@ -109,21 +113,19 @@ namespace ImageHuntBotBuilder
                             {
                                 var command = _commandRepository.Get(turnContext, state, turnContext.Activity.Text);
                                 await command.Execute(turnContext, state);
-
-                        }
-                        catch (NotAuthorizedException e)
-                        {
-                            _logger.LogError(e,
-                                $"User {turnContext.Activity.From.Name} not authorized to use this command");
-                            await turnContext.SendActivityAsync(_localizer["COMMAND_NOT_AUTHORIZED"]);
-                        }
-                        catch (CommandNotFound e)
-                        {
-                            _logger.LogError($"Command {e.Command} not found");
-                            await turnContext.SendActivityAsync(
-                                _localizer["COMMAND_NOT_FOUND"]);
-                        }
-
+                            }
+                            catch (NotAuthorizedException e)
+                            {
+                                _logger.LogError(e,
+                                    $"User {turnContext.Activity.From.Name} not authorized to use this command");
+                                await turnContext.SendActivityAsync(_localizer["COMMAND_NOT_AUTHORIZED"]);
+                            }
+                            catch (CommandNotFound e)
+                            {
+                                _logger.LogError($"Command {e.Command} not found");
+                                await turnContext.SendActivityAsync(
+                                    _localizer["COMMAND_NOT_FOUND"]);
+                            }
                         }
 
                         break;
@@ -139,7 +141,6 @@ namespace ImageHuntBotBuilder
                 await _accessors.ImageHuntState.SetAsync(turnContext, state);
                 // Save the new turn count into the conversation state.
                 await _accessors.ConversationState.SaveChangesAsync(turnContext);
-
             }
             catch (Exception e)
             {

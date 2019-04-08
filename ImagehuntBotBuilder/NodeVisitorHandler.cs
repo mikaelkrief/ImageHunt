@@ -26,7 +26,9 @@ namespace ImageHuntBotBuilder
     {
         Task<NodeResponse> MatchLocationAsync(ITurnContext context, ImageHuntState state);
         Task MatchHiddenNodesLocationAsync(ITurnContext turnContext, ImageHuntState state);
-        Task<DialogSet> MatchLocationDialogAsync(ITurnContext turnContext, ImageHuntState state, IStatePropertyAccessor<DialogState> conversationDialogState);
+
+        Task<DialogSet> MatchLocationDialogAsync(ITurnContext turnContext, ImageHuntState state,
+            IStatePropertyAccessor<DialogState> conversationDialogState);
     }
 
     public class NodeVisitorHandler : INodeVisitorHandler
@@ -40,7 +42,7 @@ namespace ImageHuntBotBuilder
         private double _rangeDistance;
 
         public NodeVisitorHandler(ILogger<NodeVisitorHandler> logger,
-            IStringLocalizer<NodeVisitorHandler> localizer, 
+            IStringLocalizer<NodeVisitorHandler> localizer,
             INodeWebService nodeWebService,
             ILifetimeScope scope,
             IConfiguration configuration,
@@ -53,7 +55,6 @@ namespace ImageHuntBotBuilder
             _configuration = configuration;
             _actionWebService = actionWebService;
             _rangeDistance = Convert.ToDouble(_configuration["NodeSettings:RangeDistance"]);
-
         }
 
         public async Task<NodeResponse> MatchLocationAsync(ITurnContext context, ImageHuntState state)
@@ -66,7 +67,8 @@ namespace ImageHuntBotBuilder
             if (state.CurrentNode == null)
                 return null;
             // Check that location match the current node
-            var distance = GeographyComputation.Distance(location.Latitude.Value, location.Longitude.Value, state.CurrentNode.Latitude,
+            var distance = GeographyComputation.Distance(location.Latitude.Value, location.Longitude.Value,
+                state.CurrentNode.Latitude,
                 state.CurrentNode.Longitude);
             NodeResponse nextNode = null;
             try
@@ -77,7 +79,7 @@ namespace ImageHuntBotBuilder
                         _localizer["WAYPOINT_REACHED", state.CurrentNode.Name]);
                     var actionRequest = new GameActionRequest()
                     {
-                        Action = (int)ActionFromNodeType(state.CurrentNode.NodeType),
+                        Action = (int) ActionFromNodeType(state.CurrentNode.NodeType),
                         Latitude = location.Latitude.Value,
                         Longitude = location.Longitude.Value,
                         GameId = state.GameId.Value,
@@ -85,17 +87,21 @@ namespace ImageHuntBotBuilder
                         NodeId = state.CurrentNode.Id,
                     };
                     IList<Activity> nextActivities = new List<Activity>();
+
                     #region Current node
 
                     switch (state.CurrentNode.NodeType)
                     {
                         case NodeResponse.ObjectNodeType:
-                            nextActivities.Add(new Activity(text: _localizer["DO_ACTION_REQUEST", state.CurrentNode.Action], 
+                            nextActivities.Add(new Activity(
+                                text: _localizer["DO_ACTION_REQUEST", state.CurrentNode.Action],
                                 type: ActivityTypes.Message));
 
                             break;
                     }
+
                     #endregion
+
                     #region Next node
 
                     switch (state.CurrentNode.NodeType)
@@ -111,26 +117,28 @@ namespace ImageHuntBotBuilder
                             state.CurrentNodeId = nextNode.Id;
                             break;
                         case NodeResponse.LastNodeType:
-                            nextActivities.Add(new Activity(text:_localizer["LASTNODE_REACHED"], type: ActivityTypes.Message));
+                            nextActivities.Add(new Activity(text: _localizer["LASTNODE_REACHED"],
+                                type: ActivityTypes.Message));
                             actionRequest.PointsEarned = state.CurrentNode.Points;
 
                             break;
                     }
+
                     foreach (var nextActivity in nextActivities)
                     {
                         await context.SendActivityAsync(nextActivity);
                     }
-                    
 
-                        #endregion
+                    #endregion
+
                     await _actionWebService.LogAction(actionRequest);
                 }
-
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception while handling activity: {0}", activity.Type);
             }
+
             return nextNode;
         }
 
@@ -155,8 +163,9 @@ namespace ImageHuntBotBuilder
             switch (node.NodeType)
             {
                 case NodeResponse.ObjectNodeType:
-                    activities.Add(new Activity(text: _localizer["NEXT_NODE_LOCATION", node.Name], type:ActivityTypes.Message));
-                    var item = new Activity(type:ImageHuntActivityTypes.Location);
+                    activities.Add(new Activity(text: _localizer["NEXT_NODE_LOCATION", node.Name],
+                        type: ActivityTypes.Message));
+                    var item = new Activity(type: ImageHuntActivityTypes.Location);
                     item.Attachments = new List<Attachment>()
                     {
                         new Attachment(
@@ -166,7 +175,8 @@ namespace ImageHuntBotBuilder
                                 longitude: node.Longitude)),
                     };
                     activities.Add(item);
-                    var imageActivity = new Activity(text: _localizer["DO_ACTION_REQUEST", node.Action], type: ImageHuntActivityTypes.Image);
+                    var imageActivity = new Activity(text: _localizer["DO_ACTION_REQUEST", node.Action],
+                        type: ImageHuntActivityTypes.Image);
                     var apiBaseAddress = _configuration["ImageHuntApi:Url"];
                     if (node.Image != null)
                     {
@@ -183,8 +193,9 @@ namespace ImageHuntBotBuilder
                     break;
                 case NodeResponse.QuestionNodeType:
                 case NodeResponse.WaypointNodeType:
-                    activities.Add(new Activity(text: _localizer["NEXT_NODE_LOCATION", node.Name], type: ActivityTypes.Message));
-                    var activity = new Activity(type:ImageHuntActivityTypes.Location);
+                    activities.Add(new Activity(text: _localizer["NEXT_NODE_LOCATION", node.Name],
+                        type: ActivityTypes.Message));
+                    var activity = new Activity(type: ImageHuntActivityTypes.Location);
                     activity.Attachments = new List<Attachment>()
                     {
                         new Attachment(
@@ -197,8 +208,9 @@ namespace ImageHuntBotBuilder
 
                     break;
                 case NodeResponse.HiddenNodeType:
-                    activities.Add(new Activity(text: _localizer["HIDDEN_NODE", node.Name], type: ActivityTypes.Message));
-                    activities.Add(new Activity(text:node.Hint, type: ActivityTypes.Message));
+                    activities.Add(
+                        new Activity(text: _localizer["HIDDEN_NODE", node.Name], type: ActivityTypes.Message));
+                    activities.Add(new Activity(text: node.Hint, type: ActivityTypes.Message));
                     break;
                 case NodeResponse.LastNodeType:
                     activities.Add(new Activity(text: _localizer["NEXT_LAST_NODE"], type: ActivityTypes.Message));
@@ -215,10 +227,11 @@ namespace ImageHuntBotBuilder
 
                     break;
                 case NodeResponse.TimerNodeType:
-                    activities.Add(new Activity(text: _localizer["TIMER_NODE", node.Delay], type: ActivityTypes.Message));
-                    activities.Add(new Activity(type: ImageHuntActivityTypes.Wait, attachments: new List<Attachment>(){new Attachment(content: node.Delay)}));
+                    activities.Add(
+                        new Activity(text: _localizer["TIMER_NODE", node.Delay], type: ActivityTypes.Message));
+                    activities.Add(new Activity(type: ImageHuntActivityTypes.Wait,
+                        attachments: new List<Attachment>() {new Attachment(content: node.Delay)}));
                     break;
-
             }
 
             return activities;
@@ -227,7 +240,7 @@ namespace ImageHuntBotBuilder
         public async Task MatchHiddenNodesLocationAsync(ITurnContext turnContext, ImageHuntState state)
         {
             if (state.Status != Status.Started)
-                return ;
+                return;
 
             var rangeDistance = Convert.ToDouble(_configuration["NodeSettings:RangeDistance"]);
             if (state.HiddenNodes == null || !state.HiddenNodes.Any())
@@ -251,7 +264,7 @@ namespace ImageHuntBotBuilder
                     {
                         case NodeResponse.BonusNodeType:
                             string multi;
-                            actionRequest.Action = (int)Action.BonusNode;
+                            actionRequest.Action = (int) Action.BonusNode;
                             switch (hiddenNode.BonusType)
                             {
                                 case BonusNode.BONUS_TYPE.Points_x2:
@@ -266,14 +279,14 @@ namespace ImageHuntBotBuilder
                                     throw new ArgumentOutOfRangeException();
                             }
 
-                            actionRequest.Action = (int)Action.BonusNode;
+                            actionRequest.Action = (int) Action.BonusNode;
                             await _actionWebService.LogAction(actionRequest);
                             await turnContext.SendActivityAsync(
                                 _localizer["BONUS_NODE", multi]);
 
                             break;
                         case NodeResponse.HiddenNodeType:
-                            actionRequest.Action = (int)Action.HiddenNode;
+                            actionRequest.Action = (int) Action.HiddenNode;
                             actionRequest.PointsEarned = hiddenNode.Points;
                             await turnContext.SendActivityAsync(
                                 _localizer["EARN_POINTS", hiddenNode.Points]);
@@ -291,14 +304,16 @@ namespace ImageHuntBotBuilder
             var activity = turnContext.Activity;
             location = activity.Attachments.First().Content as GeoCoordinates;
             // Check that location match the current node
-            var distance = GeographyComputation.Distance(location.Latitude.Value, location.Longitude.Value, hiddenNode.Latitude,
+            var distance = GeographyComputation.Distance(location.Latitude.Value, location.Longitude.Value,
+                hiddenNode.Latitude,
                 hiddenNode.Longitude);
             return distance < _rangeDistance;
         }
 
-        public async Task<DialogSet> MatchLocationDialogAsync(  ITurnContext turnContext, 
-                                                                ImageHuntState state, 
-                                                                IStatePropertyAccessor<DialogState> conversationDialogState)
+        public async Task<DialogSet> MatchLocationDialogAsync(
+            ITurnContext turnContext,
+            ImageHuntState state,
+            IStatePropertyAccessor<DialogState> conversationDialogState)
         {
             var node = state.CurrentNode;
             if (conversationDialogState == null)
@@ -306,6 +321,7 @@ namespace ImageHuntBotBuilder
                 _logger.LogError($"conversationDialogState is null");
                 return null;
             }
+
             if (MatchLocation(turnContext, node, out var location))
             {
                 var dialogSet = new DialogSet(conversationDialogState);
@@ -329,6 +345,7 @@ namespace ImageHuntBotBuilder
                 {
                     await dialogContext.BeginDialogAsync("questionNode");
                 }
+
                 return dialogSet;
             }
 
