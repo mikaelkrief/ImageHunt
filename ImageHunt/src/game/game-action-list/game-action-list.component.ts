@@ -5,6 +5,7 @@ import { GameAction } from "../../shared/gameAction";
 import { Node } from "../../shared/node";
 import { LazyLoadEvent } from 'primeng/api';
 import { AlertService } from 'services/alert.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'game-action-list',
@@ -18,6 +19,8 @@ export class GameActionListComponent implements OnInit {
     constructor(private gameService: GameService, private route: ActivatedRoute, private alertService: AlertService) {
     }
   images: any[][] = [];
+  nbExpectedImageDisplayed = 5;
+  loading: boolean;
   ngOnInit(): void {
     this.gameId = this.route.snapshot.params["gameId"];
     this.teamId = this.route.snapshot.params["teamId"];
@@ -27,12 +30,22 @@ export class GameActionListComponent implements OnInit {
         this.totalRecords = next;
       });
   }
-  loadData(event: LazyLoadEvent) {  
-    this.gameService.getGameActionsToValidateForGame(this.gameId, (event.first / event.rows) + 1, event.rows, 3, this.teamId)
-      .subscribe((gameActions: GameAction[]) => {
-        this.gameActions = gameActions;
+  loadData(event: LazyLoadEvent) {
+    this.loading = true;
+    forkJoin([
+    this.gameService.getPictureSubmissionsToValidateForGame(this.gameId, (event.first / event.rows) + 1,
+        event.rows, this.nbExpectedImageDisplayed, this.teamId),
+      this.gameService.getHiddenActionToValidateForGame(this.gameId, (event.first / event.rows) + 1,
+        event.rows, this.nbExpectedImageDisplayed, this.teamId)])
+      .subscribe(responses => {
+        this.gameActions = <GameAction[]>responses[0];
+        this.gameActions = this.gameActions.concat(<GameAction[]>responses[1]);
         this.computeDeltas();
+        this.loading = false;
       });
+  }
+  refresh(table) {
+    table.filter();
   }
   getDistanceFromLatLon(lat1, lon1, lat2, lon2) {
     var R = 6371000; // Radius of the earth in km
@@ -79,11 +92,11 @@ export class GameActionListComponent implements OnInit {
       return "fa fa-check-square";
   }
   validateGameAction(action: GameAction) {
-    this.gameService.validateGameAction(action.id)
+    this.gameService.validateGameAction(action.id, action.node.id)
       .subscribe(next => {
           action.isValidated = true;
           action.isReviewed = true;
-          action.pointsEarned = action.node.points;
+          action.pointsEarned = next.pointsEarned;
         },
         error => this.handleError(error)
       );
@@ -116,12 +129,30 @@ export class GameActionListComponent implements OnInit {
         ga.probableNodes[0].longitude);
     });
   }
-
+  modifyPoints(action: GameAction) {
+    this.gameService.validateGameAction(action.id, action.node.id)
+      .subscribe(next => {
+          action.isValidated = true;
+          action.isReviewed = true;
+          action.pointsEarned = next.pointsEarned;
+        },
+        error => this.handleError(error)
+      );
+  }
   handleError(error): void {
     switch (error.status) {
     case 401:
-        this.alertService.sendAlert("Vous n'\xEAtes pas autoris\xE9 \xE0 valider les actions des joueurs", "danger", 10000);
+        this.alertService.sendAlert("You are not authorized to validate player's actions", "danger", 10000);
     default:
     }
+  }
+  setPoints(action: GameAction) {
+    this.gameService.modifyGameAction(action)
+      .subscribe(res => {
+          action.isValidated = res.isValidated;
+          action.isReviewed = res.isReviewed;
+          action.pointsEarned = res.pointsEarned;
+        },
+        error => this.handleError(error));
   }
 }

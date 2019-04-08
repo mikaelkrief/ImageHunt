@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Net.Http;
-using System.Reflection;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using FakeItEasy;
-using ImageHunt.Model;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Http.Internal;
@@ -93,5 +89,24 @@ namespace ImageHuntBotTest.WebServices
             Check.That(response.ChatId).Equals(teamRequest.ChatId);
         }
 
+        [Fact]
+        public async Task Should_GetPlayer_Return_Player()
+        {
+            // Arrange
+            
+            // Act
+            await _target.RemovePlayerFromTeam(1, "toto");
+            // Assert
+        }
+
+        [Fact]
+        public async Task Should_UpdateTeam_Succeed()
+        {
+            // Arrange
+            var updateRequest = new UpdateTeamRequest();
+            // Act
+            await _target.UpdateTeam(updateRequest);
+            // Assert
+        }
     }
 }

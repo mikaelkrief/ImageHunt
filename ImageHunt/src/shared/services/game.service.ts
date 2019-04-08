@@ -13,15 +13,18 @@ import { NodeResponse } from '../nodeResponse';
 
 @Injectable()
 export class GameService {
-  constructor(private http: HttpClient) { }
-  getGameForAdmin(adminId: number) {
-    return this.http.get('api/Game/ByAdminId/' + adminId);
+    cloneGame(game: Game) {
+      return this.http.post('api/Game/Duplicate', { gameId: game.id });
+    }
+  constructor(private http: HttpClient) {}
+  getGameForConnectedUser() {
+    return this.http.get('api/Game/ByUser', { headers: this.headers });
   }
   getGameById(gameId: number): Observable<Game> {
     return this.http.get<Game>('api/Game/byId/' + gameId);
   }
-  createGame(adminId: number, game: Game) {
-    return this.http.post('api/Game/' + adminId, game);
+  createGame(game: Game) {
+    return this.http.post('api/Game/', game, {headers: this.headers});
   }
   deleteGame(gameId: number) {
     return this.http.delete('api/Game/' + gameId);
@@ -79,16 +82,21 @@ export class GameService {
 
     return this.http.get<GameAction[]>(`api/Game/GameActions/${gameId}&pageIndex=${pageIndex}&pageSize=${pageSize}`);
   }
-  getGameActionsToValidateForGame(gameId: number, pageIndex: number, pageSize: number, nbProbableNode: number, teamId?: number) {
+  getPictureSubmissionsToValidateForGame(gameId: number, pageIndex: number, pageSize: number, nbProbableNode: number, teamId?: number) {
     if (teamId)
       return this.http.get<GameAction[]>(`api/Action/GameActionsToValidate?gameId=${gameId}&teamId=${teamId}&pageIndex=${pageIndex}&pageSize=${pageSize}&nbPotential=${nbProbableNode}&includeAction=Picture`);
     return this.http.get<GameAction[]>(`api/Action/GameActionsToValidate?gameId=${gameId}&pageIndex=${pageIndex}&pageSize=${pageSize}&nbPotential=${nbProbableNode}&includeAction=Picture`);
   }
+  getHiddenActionToValidateForGame(gameId: number, pageIndex: number, pageSize: number, nbProbableNode: number, teamId?: number) {
+    if (teamId)
+      return this.http.get<GameAction[]>(`api/Action/GameActionsToValidate?gameId=${gameId}&teamId=${teamId}&pageIndex=${pageIndex}&pageSize=${pageSize}&nbPotential=${nbProbableNode}&includeAction=HiddenNode`);
+    return this.http.get<GameAction[]>(`api/Action/GameActionsToValidate?gameId=${gameId}&pageIndex=${pageIndex}&pageSize=${pageSize}&nbPotential=${nbProbableNode}&includeAction=HiddenNode`);
+  }
   getGameAction(gameActionId: number) {
     return this.http.get(`api/Action/GetGameAction/${gameActionId}`);
   }
-  validateGameAction(gameActionId: number) {
-    return this.http.put(`api/Action/Validate/${gameActionId}`, null);
+  validateGameAction(gameActionId: number, nodeId: number): Observable<GameAction> {
+    return this.http.put<GameAction>(`api/Action/Validate/${gameActionId}/${nodeId}`, null);
   }
   rejectGameAction(gameActionId: number) {
     return this.http.put(`api/Action/Reject/${gameActionId}`, null);
@@ -104,13 +112,20 @@ export class GameService {
   getNodeById(nodeId: number) {
     return this.http.get(`api/Node/${nodeId}`);
   }
-  updateNode(node: Node) {
+  updateNode(gameId: number, node: Node) {
     const nodeRequest = {
+
       id: node.id,
+      gameId: gameId,
+      nodeType: node.nodeType,
       latitude: node.latitude,
       longitude: node.longitude,
       name: node.name,
       points: node.points,
+      delay: node.delay,
+      hint: node.hint,
+      bonus: node.bonus
+
     };
     return this.http.patch(`api/Node/`, nodeRequest);
   }
@@ -143,6 +158,7 @@ export class GameService {
   }
 
   uploadKml(file: File, gameId: number, reverse: boolean) {
+    if (!reverse) reverse = false;
     let headers = new HttpHeaders();
     headers.delete('Content-Type');
     const formData = new FormData();
@@ -150,5 +166,34 @@ export class GameService {
     let options = { headers: headers };
     return this.http.post(`api/Game/ImportKmlFile/${gameId}/${reverse}`, formData, options);
 
+  }
+
+  headers: HttpHeaders;
+
+  getGameByCode(gameCode: string) : Observable<Game> {
+    return this.http.get<Game>(`api/Game/ByCode/${gameCode}`);
+  }
+
+  gamesToValidate(user: string): Observable<Game[]> {
+    return this.http.get<Game[]>(`api/Game/ForValidation`);
+  }
+
+  toogleGame(gameId: number, flag: string ): Observable<Game> {
+     return this.http.post<Game>(`api/Game/Toggle/${gameId}/${flag}`, null);
+  }
+
+  modifyGameAction(gameAction: GameAction): Observable<GameAction> {
+    const gameActionRequest = {
+      id: gameAction.id,
+      pointsEarned: gameAction.pointsEarned,
+      validated: gameAction.isValidated,
+      reviewed: gameAction.isReviewed
+    };
+    return this.http.patch<GameAction>(`api/Action/`, gameActionRequest);
+  }
+
+  batchUpdate(gameId: number, updaterType: string, updaterArgument: string) {
+    const payload = { gameId, updaterType, updaterArgument };
+    return this.http.post(`api/Node/BatchUpdate`, payload);
   }
 }

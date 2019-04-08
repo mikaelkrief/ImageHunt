@@ -1,0 +1,19 @@
+<div>
+  <div *ngIf="!isAuthenticated">
+    <button  (click)="login()" class="btn btn-default">
+      <i class="fas fa-sign-in-alt"></i><span i18n> Login</span>
+    </button>
+    <button class="btn btn-default" (click)="register()">
+      <span i18n>Sign-in</span>
+    </button>
+  </div>
+  <div *ngIf="isAuthenticated">
+    <span i18n>Connected as:</span>
+    <a [routerLink]="['/userEdit', userName]"><span class="badge badge-primary">{{userName}}</span></a>
+    <button (click)="logout()" class="btn btn-default">
+
+      <br />
+      <i class="fas fa-sign-out-alt"></i><span i18n> Logoff</span>
+    </button>
+  </div>
+</div>

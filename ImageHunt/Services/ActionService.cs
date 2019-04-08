@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Model;
 using ImageHuntCore.Computation;
@@ -10,8 +9,6 @@ using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
 using ImageHuntWebServiceClient.Request;
-using ImageHuntWebServiceClient.Responses;
-using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Action = ImageHuntCore.Model.Action;
@@ -45,6 +42,10 @@ namespace ImageHunt.Services
             ;
           break;
         case IncludeAction.ReplyQuestion:
+          break;
+        case IncludeAction.HiddenNode:
+          gameActions = gameActions
+            .Where(ga => ga.Action == Action.HiddenNode || ga.Action == Action.BonusNode);
           break;
       }
       foreach (var gameAction in gameActions)
@@ -97,7 +98,7 @@ namespace ImageHunt.Services
       {
         var delta = GeographyComputation.Distance(gameAction.Node.Latitude, gameAction.Node.Longitude,
           gameAction.Latitude.Value, gameAction.Longitude.Value);
-        _logger.LogDebug($"Delta = {delta} for nodeId {gameAction.Node.Id}");
+        _logger.LogDebug("Delta = {0} for nodeId {1}", delta, gameAction.Node.Id);
         return delta;
       }
       else
@@ -118,18 +119,20 @@ namespace ImageHunt.Services
       return gameAction;
     }
 
-    public void Validate(int actionId, int validatorId, bool validate)
+    public GameAction Validate(int actionId, int nodeId, int validatorId, bool validate)
     {
       var gameAction = Context.GameActions
         .Include(ga => ga.Node)
         .Single(ga => ga.Id == actionId);
       var validator = Context.Admins.Single(a => a.Id == validatorId);
+      var node = Context.Nodes.SingleOrDefault(n => n.Id == nodeId);
       gameAction.Reviewer = validator;
       gameAction.IsReviewed = true;
       gameAction.DateReviewed = DateTime.Now;
       gameAction.IsValidated = validate;
-      gameAction.PointsEarned = gameAction.IsValidated ? gameAction.Node?.Points ?? 0 : 0;
+      gameAction.PointsEarned = gameAction.IsValidated ? node?.Points ?? 0 : 0;
       Context.SaveChanges();
+      return gameAction;
     }
 
     public ActionService(HuntContext context, ILogger<ActionService> logger, IScoreChanger scoreChanger)
@@ -162,7 +165,10 @@ namespace ImageHunt.Services
         .Include(ga => ga.Team).ThenInclude(t => t.TeamPlayers).ThenInclude(tp => tp.Player)
         .Where(ga => ga.Game.Id == gameId && ga.IsValidated)
         .GroupBy(ga => ga.Team)
+        /// TODO remove this ToList in dotnet 3.0
+        .ToList()
         .Select(g => new Score() { Team = g.Key, Points = g.Sum(_ => _.PointsEarned) }).ToList();
+      scoresForGame = scoresForGame.Where(s => s.Team != null).ToList();
       foreach (var score in scoresForGame)
       {
         var startDate = Context.GameActions.LastOrDefault(ga => ga.Team == score.Team && ga.Action == Action.StartGame)
@@ -183,7 +189,15 @@ namespace ImageHunt.Services
       return Context.GameActions
         .Include(ga => ga.Game)
         .Include(ga => ga.Team)
-        .Where(ga => ga.Game.Id == gameId && ga.Latitude.HasValue && ga.Longitude.HasValue);
+        .Where(ga => ga.Game.Id == gameId && ga.Latitude.HasValue && ga.Longitude.HasValue)
+        .Where(ga=>ga.Team != null);
+    }
+
+    public GameAction Update(GameAction gameAction)
+    {
+      Context.Attach(gameAction);
+      Context.SaveChanges();
+      return gameAction;
     }
   }
 }

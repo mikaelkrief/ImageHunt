@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Action = ImageHuntCore.Model.Action;
 
@@ -18,9 +15,9 @@ using Action = ImageHuntCore.Model.Action;
 namespace ImageHunt.Controllers
 {
   [Route("api/[controller]")]
-  #if !DEBUG
+#if !DEBUG
   [Authorize]
-  #endif
+#endif
   public class TeamController : Controller
   {
     private readonly ITeamService _teamService;
@@ -73,16 +70,15 @@ namespace ImageHunt.Controllers
       var team = _teamService.GetTeamById(teamId);
       var player = _mapper.Map<Player>(playerRequest);
       Player dbPlayer = null;
-      try
-      {
-        dbPlayer = _playerService.GetPlayerByChatId(player.ChatLogin);
-        _playerService.JoinTeam(teamId, dbPlayer.Id);
-      }
-      catch (InvalidOperationException )
+      dbPlayer = _playerService.GetPlayerByChatId(player.ChatLogin);
+      if (dbPlayer == null)
       {
         _teamService.AddMemberToTeam(team, new List<Player>() { player });
       }
-
+      else
+      {
+        _playerService.JoinTeam(teamId, dbPlayer.Id);
+      }
       return Ok(_teamService.GetTeamById(teamId));
     }
 
@@ -124,7 +120,7 @@ namespace ImageHunt.Controllers
     [HttpPut("StartTeam/{gameId}/{teamId}")]
     public IActionResult StartTeam(int gameId, int teamId)
     {
-      var nextNode = _mapper.Map<NodeResponse>( _teamService.StartGame(gameId, teamId));
+      var nextNode = _mapper.Map<NodeResponse>(_teamService.StartGame(gameId, teamId));
       return Ok(nextNode);
     }
     [HttpGet("NextNodeForTeam/{teamId}")]
@@ -143,14 +139,14 @@ namespace ImageHunt.Controllers
         {
           var image = new byte[stream.Length];
           stream.Read(image, 0, (int)stream.Length);
-          var picture = new Picture(){Image = image};
+          var picture = new Picture() { Image = image };
           var location = _imageService.ExtractLocationFromImage(picture);
           if (!double.IsNaN(location.Item1) || !double.IsNaN(location.Item2))
           {
             uploadRequest.Latitude = location.Item1;
             uploadRequest.Longitude = location.Item2;
           }
-          stream.Read(image, 0, (int) stream.Length);
+          stream.Read(image, 0, (int)stream.Length);
           _teamService.UploadImage(uploadRequest.GameId, uploadRequest.TeamId, uploadRequest.Latitude, uploadRequest.Longitude, image, uploadRequest.ImageName);
         }
 
@@ -177,7 +173,25 @@ namespace ImageHunt.Controllers
       }
 
       return BadRequest();
-   }
-
+    }
+    [HttpDelete("RemoveByChatId/{teamId}/{chatId}")]
+    public IActionResult RemovePlayer(int teamId, string chatId)
+    {
+      var team = _teamService.GetTeamById(teamId);
+      var player = _playerService.GetPlayerByChatId(chatId);
+      _teamService.DelMemberToTeam(team, player);
+      return Ok();
+    }
+    [HttpPatch]
+    public IActionResult UpdateTeam(UpdateTeamRequest updateRequest)
+    {
+      var team = _teamService.GetTeamById(updateRequest.TeamId);
+      if (!string.IsNullOrEmpty(updateRequest.Name))
+        team.Name = updateRequest.Name;
+      if (!string.IsNullOrEmpty(updateRequest.InviteUrl))
+        team.ChatInviteUrl = updateRequest.InviteUrl;
+      _teamService.Update(team);
+      return Ok();
+    }
   }
 }

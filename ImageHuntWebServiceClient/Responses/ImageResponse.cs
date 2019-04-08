@@ -2,6 +2,6 @@
 {
     public class ImageResponse
     {
-        public int Id { get; set; }
+        public int PictureId { get; set; }
     }
 }

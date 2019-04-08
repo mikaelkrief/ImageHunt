@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ImageHunt.Data;
-using ImageHunt.Model;
 using ImageHuntCore.Model;
 using ImageHuntCore.Services;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +17,9 @@ namespace ImageHunt.Services
 
     public IEnumerable<Admin> GetAllAdmins()
     {
-      return Context.Admins.Include(a => a.GameAdmins).ThenInclude(ga=>ga.Game);
+      return Context.Admins
+        .Include(a => a.GameAdmins).ThenInclude(ga=>ga.Game)
+        .Where(a=>a.Role == Role.Admin || a.Role == Role.GameMaster);
     }
 
     public void InsertAdmin(Admin admin)
@@ -67,6 +68,11 @@ namespace ImageHunt.Services
       }
       Context.SaveChanges();
       return admin;
+    }
+
+    public Admin GetAdminByUserName(string userName)
+    {
+      throw new NotImplementedException();
     }
   }
 }

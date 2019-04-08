@@ -1,35 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using System.Text;
+using Autofac;
 using AutoMapper;
 using FakeItEasy;
 using ImageHunt.Controllers;
-using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Responses;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NFluent;
+using TestUtilities;
 using Xunit;
 
 namespace ImageHuntTest.Controller
 {
   [Collection("AutomapperFixture")]
-  public class AdminControllerTest
+  public class AdminControllerTest : BaseTest<AdminController>
     {
         private IAdminService _adminService;
-        private AdminController _target;
       private ILogger<AdminController> _logger;
         private IMapper _mapper;
+        private UserManager<Identity> _userManager;
 
         public AdminControllerTest()
         {
-            _adminService = A.Fake<IAdminService>();
-            _logger = A.Fake<ILogger<AdminController>>();
-            _mapper = AutoMapper.Mapper.Instance;
-            _target = new AdminController(_adminService, _logger, _mapper);
+            _testContainerBuilder.RegisterInstance(_adminService = A.Fake<IAdminService>());
+            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<AdminController>>());
+            _testContainerBuilder.RegisterInstance(_mapper = AutoMapper.Mapper.Instance);
+            _testContainerBuilder.RegisterInstance(_userManager = A.Fake<UserManager<Identity>>());
+            Build();
         }
 
         [Fact]

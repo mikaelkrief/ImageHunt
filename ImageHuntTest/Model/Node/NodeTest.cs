@@ -1,6 +1,4 @@
-﻿using ImageHunt.Computation;
-using ImageHunt.Model;
-using ImageHuntCore.Model.Node;
+﻿using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Responses;
 using NFluent;
 using Xunit;

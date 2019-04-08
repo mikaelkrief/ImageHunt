@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using Castle.Components.DictionaryAdapter;
 using FakeItEasy;
 using ImageHunt.Data;
 using ImageHunt.Exception;
-using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
@@ -512,5 +509,25 @@ namespace ImageHuntTest.Services
             Check.That(result).Equals(teams[1]);
         }
 
+        [Fact]
+        public void Should_Update_Succeed()
+        {
+            // Arrange
+            var teams = new List<Team>
+            {
+                new Team() {Name = "Toto"},
+                new Team() {Name = "Titi"},
+            };
+            _context.Teams.AddRange(teams);
+            _context.SaveChanges();
+            var teamUpdated = _context.Teams.Single(t => t.Id == teams[1].Id);
+            teamUpdated.Name = "Tutu";
+            teamUpdated.ChatInviteUrl = "Https://toto";
+            // Act
+            _target.Update(teamUpdated);
+            // Assert
+            var resultTeam = _context.Teams.Single(t=>t.Id == teamUpdated.Id);
+            Check.That(resultTeam.Name).Equals(teamUpdated.Name);
+        }
     }
 }

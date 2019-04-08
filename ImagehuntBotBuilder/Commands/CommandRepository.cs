@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Autofac;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
@@ -46,6 +47,8 @@ namespace ImageHuntBotBuilder.Commands
                 return null;
             }
 
+            if (commandText.Contains('@'))
+                commandText = commandText.Split('@')[0];
             var group = regex.Matches(commandText);
             commandText = group[0].Groups[1].Value;
             if (turnContext.Activity == null)
@@ -62,7 +65,7 @@ namespace ImageHuntBotBuilder.Commands
             ICommand command;
             try
             {
-                command = _scope.ResolveNamed<ICommand>(commandText);
+                command = _scope.ResolveNamed<ICommand>(commandText.ToLowerInvariant());
             }
             catch (Exception e)
             {

@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 
@@ -15,31 +19,39 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly IActionWebService _actionWebService;
         private readonly ITeamWebService _teamWebService;
+        private readonly INodeWebService _nodeWebService;
 
-        public BeginCommand(IActionWebService actionWebService, ITeamWebService teamWebService, ILogger<IBeginCommand> logger) : base(logger)
+        public BeginCommand(IActionWebService actionWebService, 
+            ITeamWebService teamWebService, 
+            INodeWebService nodeWebService,
+            ILogger<IBeginCommand> logger, 
+            IStringLocalizer<BeginCommand> localizer) : base(logger, localizer)
         {
             _actionWebService = actionWebService;
             _teamWebService = teamWebService;
+            _nodeWebService = nodeWebService;
         }
 
         public override bool IsAdmin => true;
         protected async override Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
         {
+            
             if (state.Status != Status.Initialized)
             {
                 _logger.LogError("Game not initialized");
-                await turnContext.SendActivityAsync(
-                    "Le chat n'a pas été initialisé, impossible de commencer maintenant!");
-                return;
-            }
-            if (state.CurrentLocation == null)
-            {
-                _logger.LogError("No location");
-                await turnContext.SendActivityAsync(
-                    "Aucun joueur n'a activé sa localisation en continu, la chasse ne peut commencer!");
+                await turnContext.SendActivityAsync(_localizer["CHAT_NOT_INITIALIZED"]);
                 return;
             }
 
+            if (state.CurrentLocation == null)
+            {
+                _logger.LogError("No location");
+                await turnContext.SendActivityAsync(_localizer["NO_LIVE_LOCATION"]);
+                return;
+            }
+
+            state.HiddenNodes = (await _nodeWebService.GetNodesByType(NodeTypes.Hidden, state.Game.Id)).ToArray();
+            state.ActionNodes = (await _nodeWebService.GetNodesByType(NodeTypes.Action, state.Game.Id)).ToArray();
             var nextNode = await _teamWebService.StartGameForTeam(state.GameId.Value, state.TeamId.Value);
             state.CurrentNode = nextNode;
             state.CurrentNodeId = nextNode.Id;

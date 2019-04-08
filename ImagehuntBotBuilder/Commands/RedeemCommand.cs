@@ -2,9 +2,11 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Autofac;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -15,7 +17,7 @@ namespace ImageHuntBotBuilder.Commands
         private readonly IPasscodeWebService _passcodeWebService;
         private readonly ILifetimeScope _scope;
 
-        public RedeemCommand(ILogger<IRedeemCommand> logger, IPasscodeWebService passcodeWebService, ILifetimeScope scope) : base(logger)
+        public RedeemCommand(ILogger<IRedeemCommand> logger, IPasscodeWebService passcodeWebService, ILifetimeScope scope, IStringLocalizer<RedeemCommand> localizer) : base(logger, localizer)
         {
             _passcodeWebService = passcodeWebService;
             _scope = scope;
@@ -40,24 +42,24 @@ namespace ImageHuntBotBuilder.Commands
                     case RedeemStatus.UserNotFound:
                         reply =
                             $"Vous ne pouvez pas utiliser cet passcode car vous ne faites pas partie de la chasse pour laquelle il est prevu";
-                        _logger.LogInformation($"User {userName} not in game {gameId}");
+                        _logger.LogInformation("User {0} not in game {1}", userName, gameId);
                         break;
                     case RedeemStatus.Ok:
                         reply =
                             $"Le passcode {pass} a été bien été utilisé, il a rapporté {passcodeResponse.Points} points à votre équipe.";
-                        _logger.LogInformation($"User {userName} correctly redeem passcode for game {gameId}");
+                        _logger.LogInformation("User {0} correctly redeem passcode for game {1}", userName, gameId);
                         break;
                     case RedeemStatus.WrongCode:
                         reply = $"Le passcode {pass} est inconnu";
-                        _logger.LogInformation($"User {userName} used wrong passcode");
+                        _logger.LogInformation("User {0} used wrong passcode", userName);
                         break;
                     case RedeemStatus.FullyRedeem:
                         reply = $"Le passcode {pass} est épuisé, désolé!";
-                        _logger.LogInformation($"User {userName} used full redeem passcode");
+                        _logger.LogInformation("User {0} used full redeem passcode", userName);
                         break;
                     case RedeemStatus.AlreadyRedeem:
                         reply = $"Le passcode {pass} a déjà été utilisé par votre équipe.";
-                        _logger.LogInformation($"User {userName} used already redeem passcode in game {gameId}");
+                        _logger.LogInformation("User {0} used already redeem passcode in game {1}", userName, gameId);
 
                         break;
                 }

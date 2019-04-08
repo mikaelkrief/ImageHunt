@@ -1,8 +1,0 @@
-<span class="badge badge-primary" *ngIf="admin!=null">{{admin.name}}</span>
-<br/>
-<button class="btn btn-danger" *ngIf="!authenticated" (click)="authenticate()">
-  <span class="fab fa-google"></span> Sign in with Google
-</button>
-<button class="btn btn-default" *ngIf="authenticated" (click)="logout()">
-  <span class="fab fa-google"></span> Logout
-</button>

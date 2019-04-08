@@ -1,19 +1,24 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
 {
-    [Command("displayHints")]
+    [Command("hints")]
     public class DisplayHintsCommand : AbstractCommand, IDisplayHintsCommand
     {
         private readonly INodeWebService _nodeWebService;
+        private readonly ITeamWebService _teamWebService;
         public override bool IsAdmin => false;
 
-        public DisplayHintsCommand(ILogger<IDisplayHintsCommand> logger, INodeWebService nodeWebService) : base(logger)
+        public DisplayHintsCommand(ILogger<IDisplayHintsCommand> logger, INodeWebService nodeWebService, IStringLocalizer<DisplayHintsCommand> localizer) : base(logger, localizer)
         {
             _nodeWebService = nodeWebService;
         }
@@ -23,11 +28,18 @@ namespace ImageHuntBotBuilder.Commands
             if (state.Status != Status.Started)
             {
                 await turnContext.SendActivityAsync(
-                    $"La partie n'as pas encore commencée, veuillez demander au maitre du jeu");
+                    _localizer["GAME_NOT_STARTED"]);
                 return;
             }
-            var nodes = await _nodeWebService.GetNodesByType(NodeTypes.Hidden, state.GameId.Value);
-            await turnContext.SendActivityAsync("Voici des indices vous permettant de trouver les Noeuds bonus:");
+
+            var nodes = state.HiddenNodes;
+            if (nodes == null || !nodes.Any())
+            {
+                await turnContext.SendActivityAsync(_localizer["NO_MORE_HIDDEN_NODE"]);
+                return;
+            }
+
+            await turnContext.SendActivityAsync(_localizer["HIDDEN_NODES_TITLE"]);
             foreach (var nodeResponse in nodes)
             {
                 switch (nodeResponse.NodeType)
@@ -37,16 +49,16 @@ namespace ImageHuntBotBuilder.Commands
                         switch (nodeResponse.BonusType)
                         {
                             case BonusNode.BONUS_TYPE.Points_x2:
-                                bonusType = "Multiplication du score final par 2";
+                                bonusType = _localizer["2X_BONUS_TITLE"];
                                 break;
                             case BonusNode.BONUS_TYPE.Points_x3:
-                                bonusType = "Multiplication du score final par 3";
+                                bonusType = _localizer["3X_BONUS_TITLE"];
                                 break;
                         }
-                        await turnContext.SendActivityAsync($"Nom : {nodeResponse.Name}\nIndice : {nodeResponse.Hint}\nBonus: {bonusType}");
+                        await turnContext.SendActivityAsync(_localizer["BONUS_HINT", nodeResponse.Hint, Environment.NewLine, bonusType]);
                         break;
                     case NodeResponse.HiddenNodeType:
-                        await turnContext.SendActivityAsync($"Nom : {nodeResponse.Name}\nIndice : {nodeResponse.Hint}\nBonus: {nodeResponse.Points} points");
+                        await turnContext.SendActivityAsync(_localizer["HIDDEN_HINT", nodeResponse.Hint, Environment.NewLine, nodeResponse.Points]);
                         break;
                 }
             }

@@ -1,12 +1,8 @@
-using System;
 using System.IO;
-using System.Net.Mime;
 using System.Threading.Tasks;
 using ImageHunt.Computation;
-using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
-using ImageHuntWebServiceClient.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,6 +37,8 @@ namespace ImageHunt.Controllers
     [HttpGet("Thumbnail")]
     public async Task<IActionResult> GetThumbailById([FromQuery]int pictureId, [FromQuery]int width, [FromQuery]int height)
     {
+      if (pictureId == 0)
+        return BadRequest(ModelState);
       var picture = await _imageService.GetPictureById(pictureId);
 
       var thumbnail = _imageTransformation.Thumbnail(picture.Image, width, height);
@@ -62,9 +60,7 @@ namespace ImageHunt.Controllers
         return BadRequest();
       using (var stream = file.OpenReadStream())
       {
-        var image = new byte[stream.Length];
-        stream.Read(image, 0, (int)stream.Length);
-        var picture = new Picture() { Image = image };
+        var picture = _imageService.GetPictureFromStream(stream);
         _imageService.AddPicture(picture);
         return CreatedAtAction("UploadImage", picture.Id);
       }

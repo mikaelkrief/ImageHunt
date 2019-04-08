@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FakeItEasy;
-using ImageHunt.Model;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
+﻿using System.Threading.Tasks;
 using Xunit;
 
 namespace ImageHuntTest.Model

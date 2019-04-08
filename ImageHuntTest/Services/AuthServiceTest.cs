@@ -1,5 +1,4 @@
-﻿using ImageHunt.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using FakeItEasy;
 using ImageHunt.Data;

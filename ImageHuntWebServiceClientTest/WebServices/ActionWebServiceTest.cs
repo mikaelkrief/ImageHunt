@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using FakeItEasy;
 using ImageHuntCore.Model;
-using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;
@@ -105,4 +104,5 @@ namespace ImageHuntWebServiceClientTest.WebServices
 
         }
     }
+
 }

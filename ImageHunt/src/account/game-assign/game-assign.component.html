@@ -1,0 +1,19 @@
+<div #gameAssignment>
+  <div class="modal-header">
+    <h4 class="modal-title" i18n>Assign game to user {{user.userName}}</h4>
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close"
+            (click)="bsModalRef.hide()">
+      <span aria-hidden="true" class="fa fa-times"></span>
+    </button>
+
+  </div>
+  <div class="modal-body">
+    <dual-list i18n-addLabel addLabel="Add" i18n-removeLabel removeLabel="Remove" i18n-allLabel allLabel="All"
+               i18n-noneLabel noneLabel="None"
+               [source]="notSelectedGames" [(destination)]="selectedGames" display="name"></dual-list>
+  </div>
+  <div class="modal-footer">
+    <button type="reset" class="btn btn-danger" (click)="bsModalRef.hide()" i18n>Cancel</button>
+    <button type="submit" class="btn btn-primary" (click)="saveChanges()" i18n>Save</button>
+  </div>
+</div>

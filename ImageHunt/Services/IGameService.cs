@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using ImageHunt.Model;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
@@ -26,5 +24,15 @@ namespace ImageHunt.Services
     Game GetActiveGameForPlayer(Player player);
     IEnumerable<Game> GetAllGame();
     string GameCode(int gameId);
+    Game Duplicate(Game orgGame, Admin admin);
+    Game GetGameByCode(string gameCode);
+    IEnumerable<Game> GetAllGameForValidation(Admin user);
+    Game Toogle(int gameId, Flag flagToChange = Flag.Active);
+  }
+
+  public enum Flag
+  {
+    Public,
+    Active
   }
 }

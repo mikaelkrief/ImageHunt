@@ -1,9 +1,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using ImageHunt.Computation;
 using ImageHunt.Data;
-using ImageHunt.Model;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
@@ -59,7 +57,55 @@ namespace ImageHunt.Services
         }
       }
     }
+     
+    public virtual Picture GetPictureFromStream(Stream fileStream)
+    {
+      byte[] bytes = new byte[fileStream.Length];
+      fileStream.Read(bytes, 0, (int)fileStream.Length);
+      var picture = new Picture() { Image = bytes };
+      fileStream.Seek(0, SeekOrigin.Begin);
+      using (var magikImage = new MagickImage(fileStream))
+      {
+        magikImage.Quality = 80;
+        switch (magikImage.Orientation)
+        {
+          case OrientationType.TopRight:
+            magikImage.Flop();
+            break;
+          case OrientationType.BottomRight:
+            magikImage.Rotate(180);
+            break;
+          case OrientationType.BottomLeft:
+            magikImage.Flop();
+            magikImage.Rotate(180);
+            break;
+          case OrientationType.LeftTop:
+            magikImage.Rotate(-90);
+            break;
+          case OrientationType.RightTop:
+            magikImage.Rotate(90);
+            break;
+          case OrientationType.RightBottom:
+            magikImage.Flop();
+            magikImage.Rotate(90);
+            break;
+          case OrientationType.LeftBotom:
+            magikImage.Rotate(-90);
+            break;
+        }
 
+        using (var compressedImageStream = new MemoryStream())
+        {
+          magikImage.Write(compressedImageStream);
+          bytes = new byte[compressedImageStream.Length];
+          compressedImageStream.Seek(0, SeekOrigin.Begin);
+          compressedImageStream.Read(bytes, 0, (int)compressedImageStream.Length);
+          picture = new Picture() { Image = bytes };
+        }
+      }
+
+      return picture;
+    }
     public Picture GetImageForNode(Node node, bool includePictureBytes = false)
     {
       var pictureNode = Context.PictureNodes.Include(p => p.Image).Single(p => p.Id == node.Id);

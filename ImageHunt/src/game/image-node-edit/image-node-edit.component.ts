@@ -34,11 +34,7 @@ export class ImageNodeEditComponent implements OnInit{
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: 'ImageHunt'
     }).addTo(this.map);
-    const icon = L.icon({
-      iconUrl: 'assets/pictureNode.png',
-      iconSize: [32, 32],
-      iconAnchor: [16, 16]
-    });
+    const icon = L.divIcon({ className:"fas fa-2x fa-bullseye"});
 
     this.nodeMarker = new NodeMarker([this._node.latitude, this._node.longitude],
       { icon: icon, title: this._node.name, draggable: true });
@@ -56,7 +52,7 @@ export class ImageNodeEditComponent implements OnInit{
   saveChanges(form) {
     this._node.name = form.form.value.name !== "" ? form.form.value.name:this._node.name;
     this._node.points = form.form.value.points !== "" ? form.form.value.points : this._node.points;
-    this._gameService.updateNode(this._node)
+    this._gameService.updateNode(0, this._node)
       .subscribe(() => this._alertService.sendAlert(`Le Noeud ${this._node.name} a bien été mis à jour`,
         "success",
         5000));

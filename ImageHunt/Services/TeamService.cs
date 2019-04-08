@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ImageHunt.Computation;
 using ImageHunt.Data;
 using ImageHunt.Exception;
-using ImageHunt.Model;
+using ImageHunt.Helpers;
 using ImageHuntCore.Computation;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
@@ -26,7 +25,18 @@ namespace ImageHunt.Services
     public void CreateTeam(int gameId, Team team)
     {
       var game = Context.Games.Include(g => g.Teams).Single(g => g.Id == gameId);
+      Picture picture = null;
+      if (team.Picture != null)
+      picture = Context.Pictures.SingleOrDefault(p=>p.Id == team.Picture.Id);
+      team.Picture = picture;
       game.Teams.Add(team);
+      string code;
+      do
+      {
+        code = EntityHelper.CreateCode(6);
+      } while (Context.Teams.Any(t => t.Code == code));
+
+      team.Code = code;
       Context.SaveChanges();
     }
 
@@ -40,28 +50,29 @@ namespace ImageHunt.Services
     public IEnumerable<Team> GetTeams(int gameId)
     {
       return Context.Games
-        .Include(g => g.Teams).ThenInclude(t=>t.TeamPlayers).ThenInclude(tp=>tp.Player)
+        .Include(g => g.Teams).ThenInclude(t => t.TeamPlayers).ThenInclude(tp => tp.Player)
+        .Include(g => g.Teams).ThenInclude(t => t.Picture)
         .Single(g => g.Id == gameId).Teams;
     }
 
     public void AddMemberToTeam(Team team, List<Player> players)
     {
       var teamToAddPlayers = Context.Teams.Single(t => t.Id == team.Id);
-      teamToAddPlayers.TeamPlayers.AddRange(players.Select(p=>new TeamPlayer(){Team = team, Player = p}));
+      teamToAddPlayers.TeamPlayers.AddRange(players.Select(p => new TeamPlayer() { Team = team, Player = p }));
       Context.SaveChanges();
     }
 
     public void DelMemberToTeam(Team team, Player playerToDelete)
     {
-      var teamToModify = Context.Teams.Include(t=>t.TeamPlayers).Single(t => t.Id == team.Id);
+      var teamToModify = Context.Teams.Include(t => t.TeamPlayers).Single(t => t.Id == team.Id);
       var playerToRemove = Context.Players.Single(p => p.Id == playerToDelete.Id);
-      teamToModify.TeamPlayers.Remove(teamToModify.TeamPlayers.Single(tp=>tp.Player == playerToRemove));
+      teamToModify.TeamPlayers.Remove(teamToModify.TeamPlayers.Single(tp => tp.Player == playerToRemove));
       Context.SaveChanges();
     }
 
     public Team GetTeamByName(string teamName)
     {
-      return Context.Teams.Include(t => t.TeamPlayers).ThenInclude(t=>t.Player)
+      return Context.Teams.Include(t => t.TeamPlayers).ThenInclude(t => t.Player)
 
         .Single(t => t.Name == teamName);
     }
@@ -70,7 +81,8 @@ namespace ImageHunt.Services
     {
       return Context.Teams
         .Include(t => t.TeamPlayers).ThenInclude(t => t.Player)
-        .Include(t=>t.CurrentNode)
+        .Include(t => t.Picture)
+        .Include(t => t.CurrentNode)
         .Single(t => t.Id == teamId);
     }
 
@@ -78,9 +90,9 @@ namespace ImageHunt.Services
 
     public IEnumerable<Team> GetTeamsForPlayer(Player player)
     {
-      var teamsWithPlayers = Context.Teams.Include(t => t.TeamPlayers).ThenInclude(t=>t.Player);
+      var teamsWithPlayers = Context.Teams.Include(t => t.TeamPlayers).ThenInclude(t => t.Player);
       return teamsWithPlayers
-        .Where(t => t.Players.Any(p=>p.Id == player.Id));
+        .Where(t => t.Players.Any(p => p.Id == player.Id));
     }
     public Node NextNodeForTeam(int teamId, double playerLatitude, double playerLongitude)
     {
@@ -90,7 +102,7 @@ namespace ImageHunt.Services
         throw new InvalidGameException();
       Node nextNode;
       if (team.CurrentNode == null)
-          nextNode = currentGame.Nodes.Single(n=>n.NodeType == "FirstNode");
+        nextNode = currentGame.Nodes.Single(n => n.NodeType == "FirstNode");
       else
         nextNode = team.CurrentNode.Children.First();
       var gameAction = new GameAction()
@@ -111,7 +123,7 @@ namespace ImageHunt.Services
     public Team GetTeamForUserName(int gameId, string userName)
     {
       var game = Context.Games
-        .Include(g => g.Teams).ThenInclude(t=>t.TeamPlayers).ThenInclude(tp=>tp.Player)
+        .Include(g => g.Teams).ThenInclude(t => t.TeamPlayers).ThenInclude(tp => tp.Player)
         .Single(g => g.Id == gameId);
       return game.Teams.SingleOrDefault(t => t.Players.Any(p => p.ChatLogin.Equals(userName, StringComparison.InvariantCultureIgnoreCase)));
     }
@@ -122,7 +134,7 @@ namespace ImageHunt.Services
       if (image == null)
         throw new ArgumentException("Parameter image is not provided");
       var team = GetTeamById(teamId);
-      var currentGame = Context.Games.Single(g=>g.Id == gameId);
+      var currentGame = Context.Games.Single(g => g.Id == gameId);
       var closestNode =
         Context.Nodes
           .OrderBy(n => GeographyComputation.Distance(n.Latitude, n.Longitude, latitude, longitude))
@@ -150,13 +162,19 @@ namespace ImageHunt.Services
       Context.SaveChanges();
     }
 
+    public void Update(Team team)
+    { 
+      Context.Attach(team);
+      Context.SaveChanges();
+    }
+
 
     private Game GetCurrentGameForTeam(Team team)
     {
       var currentGame = Context.Games
         .Include(g => g.Teams)
-        .Include(g=>g.Nodes)
-        .Single(g => g.Teams.Any(gt=>gt == team));
+        .Include(g => g.Nodes)
+        .Single(g => g.Teams.Any(gt => gt == team));
       return currentGame;
     }
 

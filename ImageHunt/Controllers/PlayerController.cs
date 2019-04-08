@@ -1,6 +1,4 @@
-using System;
 using ImageHunt.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ImageHunt.Controllers

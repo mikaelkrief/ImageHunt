@@ -16,12 +16,13 @@ import { TeamFollowComponent } from './team-follow/team-follow.component';
 import { BsModalService } from 'ngx-bootstrap';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { PlayerCreateComponent } from './player-create/player-create.component';
+import { GameTeamsComponent } from './game-teams/game-teams.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, ConfirmDialogModule,
     PanelModule, QRCodeModule, ReactiveFormsModule, ColorPickerModule],
-  declarations: [TeamDetailComponent, TeamListComponent, TeamCreateComponent, TeamFollowComponent, PlayerCreateComponent],
-  exports: [TeamDetailComponent, TeamListComponent, TeamCreateComponent, TeamFollowComponent, PlayerCreateComponent],
+  declarations: [TeamDetailComponent, TeamListComponent, TeamCreateComponent, TeamFollowComponent, PlayerCreateComponent, GameTeamsComponent],
+  exports: [TeamDetailComponent, TeamListComponent, TeamCreateComponent, TeamFollowComponent, PlayerCreateComponent, GameTeamsComponent],
   providers: [TeamService, ConfirmationService, LiveService, BsModalService]})
 export class TeamModule
 {

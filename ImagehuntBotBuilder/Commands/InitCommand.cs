@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -18,7 +20,7 @@ namespace ImageHuntBotBuilder.Commands
         private readonly INodeWebService _nodeWebService;
 
         public InitCommand(ILogger<IInitCommand> logger, IGameWebService gameWebService,
-            ITeamWebService teamWebService, INodeWebService nodeWebService) : base(logger)
+            ITeamWebService teamWebService, INodeWebService nodeWebService, IStringLocalizer<InitCommand> localizer) : base(logger, localizer)
         {
             _gameWebService = gameWebService;
             _teamWebService = teamWebService;
@@ -31,7 +33,7 @@ namespace ImageHuntBotBuilder.Commands
         {
             if (state.Status != Status.None || state.GameId.HasValue || state.TeamId.HasValue)
             {
-                await turnContext.SendActivityAsync("Le groupe a déjà été initialisé!");
+                await turnContext.SendActivityAsync(_localizer["GROUP_ALREADY_INITIALIZED"]);
                 _logger.LogWarning("Group already initialized");
                 return;
             }
@@ -43,23 +45,28 @@ namespace ImageHuntBotBuilder.Commands
                 var groups = regEx.Matches(text);
                 state.GameId = Convert.ToInt32(groups[0].Groups[1].Value);
                 state.TeamId = Convert.ToInt32(groups[0].Groups[2].Value);
-                _logger.LogInformation($"Init group for GameId={state.GameId} TeamId={state.TeamId}");
-                state.Game = await _gameWebService.GetGameById(state.GameId.Value);
+                _logger.LogInformation("Init group for GameId={0} TeamId={1}", state.GameId, state.TeamId);
+                state.Game = await _gameWebService.GetGameById(state.GameId.Value) as GameResponse;
                 state.Team = await _teamWebService.GetTeamById(state.TeamId.Value);
                 if (state.Game == null || state.Team == null)
                 {
                     _logger.LogError("Unable to find Game and/or Team");
-                    await turnContext.SendActivityAsync(
-                        $"Impossible de trouver la partie pour l'Id={state.GameId} ou l'équipe pour l'Id={state.TeamId}");
+
+                    var unableToFindGame = string.Format(_localizer["UNABLE_FIND_GAME"], state.GameId??0, state.TeamId??0);
+                    await turnContext.SendActivityAsync(unableToFindGame);
                     state.GameId = state.TeamId = null;
                     return;
                 }
 
                 var nodeResponses = await _nodeWebService.GetNodesByType(NodeTypes.Hidden, state.GameId.Value);
                 state.HiddenNodes = new List<NodeResponse>(nodeResponses).ToArray();
+                nodeResponses = await _nodeWebService.GetNodesByType(NodeTypes.Action, state.GameId.Value);
+                state.ActionNodes = new List<NodeResponse>(nodeResponses).ToArray();
                 state.Status = Status.Initialized;
-                await turnContext.SendActivityAsync(
-                    $"Le groupe de l'équipe {state.Team.Name} pour la chasse {state.Game.Name} qui débute le {state.Game.StartDate.ToString(new CultureInfo(state.Team.CultureInfo))} est prêt, bon jeu!");
+                string confirmMessage =
+                    string.Format(_localizer["GROUP_INITIALIZED"],
+                        state.Team.Name, state.Game.Name, state.Game.StartDate.ToString(new CultureInfo(state.Team.CultureInfo)));
+                await turnContext.SendActivityAsync(confirmMessage);
                 _logger.LogInformation("Group initialized");
             }
         }

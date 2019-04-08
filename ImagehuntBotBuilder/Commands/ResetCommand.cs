@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -9,7 +11,7 @@ namespace ImageHuntBotBuilder.Commands
     {
         public override bool IsAdmin => true;
 
-        public ResetCommand(ILogger<IResetCommand> logger) : base(logger)
+        public ResetCommand(ILogger<IResetCommand> logger, IStringLocalizer<ResetCommand> localizer) : base(logger, localizer)
         {
         }
 

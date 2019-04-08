@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AutoMapper;
 using FakeItEasy;
 using ImageHunt.Data;
-using ImageHunt.Model;
+using ImageHunt.Helpers;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Responses;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using NFluent;
-using SQLitePCL;
 using TestUtilities;
 using Xunit;
 
@@ -162,6 +158,21 @@ namespace ImageHuntTest.Services
       // Assert
       Check.That(games[1].Nodes).HasSize(2);
     }
+    [Fact]
+    public void AddNode_With_Image()
+    {
+      // Arrange
+      var games = new List<Game>() { new Game(), new Game() { Nodes = new List<Node>() { new TimerNode() } }, new Game() };
+      _context.Games.AddRange(games);
+        var images = new List<Picture>(){new Picture(), new Picture(), new Picture()};
+        _context.Pictures.AddRange(images);
+      _context.SaveChanges();
+      var node = new TimerNode(){Image = new Picture(){Id = images[1].Id}};
+      // Act
+      _target.AddNode(games[1].Id, node);
+      // Assert
+      Check.That(games[1].Nodes).HasSize(2);
+    }
 
     [Fact]
     public void GetNodes()
@@ -180,6 +191,7 @@ namespace ImageHuntTest.Services
       Check.That(resNodes).ContainsExactly(nodes);
       Check.That(nodes[0].Children).ContainsExactly(nodes[1]);
     }
+
     [Fact]
     public void GetHiddenNodes()
     {
@@ -480,6 +492,146 @@ namespace ImageHuntTest.Services
           var result = _target.GameCode(games[1].Id);
           // Assert
           Check.That(result).Equals(games[1].Code);
+      }
+
+      [Fact]
+      public void Should_Duplicate_Succeed()
+      {
+          // Arrange
+          var nodes = new List<Node>
+          {
+              new FirstNode(),
+              new ObjectNode(),
+              new TimerNode(),
+              new QuestionNode(),
+              new LastNode()
+          };
+          nodes[0].HaveChild(nodes[1]);
+          nodes[1].HaveChild(nodes[2]);
+          nodes[2].HaveChild(nodes[3]);
+          nodes[3].HaveChild(nodes[4]);
+          var games = new List<Game>
+          {
+              new Game(),
+              new Game(){Nodes = nodes}
+          };
+          _context.Games.AddRange(games);
+          var admins = new List<Admin>
+          {
+              new Admin(),
+              new Admin(),
+          };
+          admins[1].GameAdmins.Add(new GameAdmin(){Admin = admins[1], Game = games[1]});
+          _context.Admins.AddRange(admins);
+            _context.SaveChanges();
+          // Act
+          var newGame = _target.Duplicate(games[1], admins[1]);
+          // Assert
+          Check.That(newGame).IsNotNull();
+          Check.That(_context.Games).HasSize(3);
+      }
+      [Fact]
+      public void Should_GetGameByCode_Return_Game()
+      {
+          // Arrange
+          var teams = new List<Team>
+          {
+              new Team(),
+              new Team(),
+              new Team(),
+              new Team(),
+              new Team(),
+          };
+          _context.Teams.AddRange(teams);
+          var games = new List<Game>
+          {
+              new Game() {Code = "AZERTY", Teams = new List<Team>(){teams[0], teams[2], teams[4]}},
+              new Game() {Code = "HJGHG", Teams = new List<Team>(){teams[1], teams[3]}},
+          };
+          _context.Games.AddRange(games);
+          _context.SaveChanges();
+          // Act
+          var game = _target.GetGameByCode(games[0].Code);
+          // Assert
+          Check.That(game).Equals(games[0]);
+      }
+
+      [Fact]
+      public void Should_GetAllGameForValidation_return_games_for_user_to_validate()
+      {
+          // Arrange
+          var games = new List<Game>
+          {
+              new Game() {IsActive = true, StartDate= DateTime.Today.AddDays(3)},
+              new Game() {IsActive = true, StartDate= DateTime.Today.AddDays(2)},
+              new Game() {IsActive = true, StartDate= DateTime.Today.AddDays(3)},
+              new Game() {IsActive = true, StartDate= DateTime.Today.AddDays(1) },
+              new Game() {IsActive = true, StartDate= DateTime.Today.AddDays(-1)},
+              new Game() {IsActive = true, StartDate= DateTime.Today.AddDays(-1)},
+              new Game() {IsActive = false, StartDate= DateTime.Today.AddDays(1) },
+          };
+          _context.Games.AddRange(games);
+          var admins = new List<Admin>
+          {
+              new Admin(),
+              new Admin(),
+          };
+          admins[0].GameAdmins = new List<GameAdmin>
+          {
+              new GameAdmin() {Admin = admins[0], Game = games[0]},
+              new GameAdmin() {Admin = admins[0], Game = games[2]},
+          };
+          admins[1].GameAdmins = new List<GameAdmin>
+          {
+              new GameAdmin() {Admin = admins[1], Game = games[1]},
+              new GameAdmin() {Admin = admins[1], Game = games[3]},
+              new GameAdmin() {Admin = admins[1], Game = games[4]},
+              new GameAdmin() {Admin = admins[1], Game = games[5]},
+              new GameAdmin() {Admin = admins[1], Game = games[6]},
+          };
+          _context.Admins.AddRange(admins);
+          _context.SaveChanges();
+          // Act
+          var result = _target.GetAllGameForValidation(admins[1]);
+          // Assert
+          Check.That(result).ContainsExactly(games[1], games[3]);
+      }
+
+      [Fact]
+      public void Should_Toggle_Game()
+      {
+          // Arrange
+          var games = new List<Game>
+          {
+              new Game() {IsActive = false},
+              new Game() {IsActive = true},
+              new Game() {IsActive = true},
+              new Game() {IsActive = false},
+          };
+          _context.Games.AddRange(games);
+          _context.SaveChanges();
+          // Act
+          var result = _target.Toogle(games[1].Id);
+          // Assert
+          Check.That(games[1].IsActive).Equals(result.IsActive);
+      }
+      [Fact]
+      public void Should_Toggle_Game_Public()
+      {
+          // Arrange
+          var games = new List<Game>
+          {
+              new Game() {IsPublic = false},
+              new Game() {IsPublic = true},
+              new Game() {IsPublic = true},
+              new Game() {IsPublic = false},
+          };
+          _context.Games.AddRange(games);
+          _context.SaveChanges();
+          // Act
+          var result = _target.Toogle(games[1].Id, Flag.Public);
+          // Assert
+          Check.That(games[1].IsPublic).Equals(result.IsPublic);
       }
     }
 }

@@ -1,40 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Autofac;
 using AutoMapper;
 using FakeItEasy;
 using ImageHunt.Controllers;
-using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
-using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using NFluent;
+using TestUtilities;
 using Xunit;
 
 namespace ImageHuntTest.Controller
 {
     [Collection("AutomapperFixture")]
 
-    public class PasscodeControllerTest
+    public class PasscodeControllerTest : BaseTest<PasscodeController>
     {
-        private PasscodeController _target;
         private IPasscodeService _passcodeService;
         private ITeamService _teamService;
         private IConfiguration _configuration;
         private IMapper _mapper;
+        private UserManager<Identity> _userManager;
 
         public PasscodeControllerTest()
         {
-            _passcodeService = A.Fake<IPasscodeService>();
-            _teamService = A.Fake<ITeamService>();
-            _configuration = A.Fake<IConfiguration>();
-            _mapper = Mapper.Instance;
-            _target = new PasscodeController(_passcodeService, _teamService, _configuration, _mapper);
+            _testContainerBuilder.RegisterInstance(_passcodeService = A.Fake<IPasscodeService>());
+            _testContainerBuilder.RegisterInstance(_teamService = A.Fake<ITeamService>());
+            _testContainerBuilder.RegisterInstance(_configuration = A.Fake<IConfiguration>());
+            _testContainerBuilder.RegisterInstance(_mapper = Mapper.Instance);
+            _testContainerBuilder.RegisterInstance(_userManager = A.Fake<UserManager<Identity>>());
+            Build();
         }
 
         [Fact]

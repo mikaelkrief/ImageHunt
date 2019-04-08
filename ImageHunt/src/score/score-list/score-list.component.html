@@ -1,16 +1,16 @@
 <div class="row">
-    <h1>Scores</h1>
+    <h1 i18n>Scores</h1>
     <table class="table">
       <thead>
       <tr>
         <th></th>
-        <th>Equipe</th>
-        <th>Joueurs</th>
-        <th>Score</th>
+        <th i18n>Team</th>
+        <th i18n>Players</th>
+        <th i18n>Score</th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let score of scores; let i = index">
+      <tr *ngFor="let score of scores | sortByField : 'points' : true; let i = index">
         <td><i class="fa fa-star" [style.color]="colorFromRank(i)"></i></td>
         <td>{{score.team.name}}</td>
         <td><ul>
@@ -25,16 +25,15 @@
       <thead>
       <tr>
         <th></th>
-        <th>Equipe</th>
-        <th>Temps</th>
+        <th i18n>Team</th>
+        <th i18n>Time</th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let score of scores; let i = index">
+      <tr *ngFor="let score of scores | sortByField : 'travelTime' : false; let i = index">
         <td><i class="fa fa-star" [style.color]="colorFromRank(i)"></i></td>
         <td>{{score.team.name}}</td>
-        <!--<td>{{score.travelTime | amDuration:'P1Y2M3DT4H5M6S'}}</td>-->
-        <td>{{score.travelTime }}</td>
+        <td>{{score.travelTime | momentFormat:'' }}</td>
       </tr>
       </tbody>
     </table>

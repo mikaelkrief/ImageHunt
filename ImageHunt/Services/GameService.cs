@@ -2,15 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using ImageHunt.Computation;
 using ImageHunt.Data;
-using ImageHunt.Model;
+using ImageHunt.Helpers;
 using ImageHuntCore.Computation;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
 using ImageHuntWebServiceClient.Responses;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -19,7 +17,6 @@ namespace ImageHunt.Services
   public class GameService : AbstractService, IGameService
   {
     private readonly IMapper _mapper;
-    private static Random random = new Random();
     public GameService(HuntContext context, ILogger<GameService> logger, IMapper mapper) : base(context, logger)
     {
       _mapper = mapper;
@@ -30,7 +27,13 @@ namespace ImageHunt.Services
       var admin = Context.Admins.Single(a => a.Id == adminId);
       if (newGame.Picture != null && newGame.Picture.Id != 0)
         newGame.Picture = Context.Pictures.Single(p => p.Id == newGame.Picture.Id);
-      newGame.Code = CreateCode();
+      string code;
+      do
+      {
+        code = EntityHelper.CreateCode(6);
+      } while (Context.Games.Any(g => g.Code == code));
+
+      newGame.Code = code;
       Context.Games.Add(newGame);
       var gameAdmin = new GameAdmin() { Admin = admin, Game = newGame };
 
@@ -42,7 +45,8 @@ namespace ImageHunt.Services
     public Game GetGameById(int gameId)
     {
       var game = Context.Games
-        .Include(g => g.Nodes)
+        .Include(g => g.Nodes).ThenInclude(n=>n.Image)
+        .Include(g=>g.Nodes).ThenInclude(n=>n.ChildrenRelation)
         .Include(g => g.Teams)
         .Include(g => g.Picture)
         .Single(g => g.Id == gameId);
@@ -69,6 +73,12 @@ namespace ImageHunt.Services
     public void AddNode(int gameId, Node node)
     {
       var game = Context.Games.Include(g => g.Nodes).Single(g => g.Id == gameId);
+      if (node.Image != null)
+      {
+        var picture = Context.Pictures.SingleOrDefault(p => p.Id == node.Image.Id);
+        node.Image = picture;
+      }
+
       game.Nodes.Add(node);
       Context.SaveChanges();
     }
@@ -87,21 +97,29 @@ namespace ImageHunt.Services
     public IEnumerable<Node> GetNodes(int gameId, NodeTypes nodeType = NodeTypes.All)
     {
       IEnumerable<Node> nodes = Context.Games.Include(n => n.Nodes).ThenInclude(n => n.ChildrenRelation).Single(g => g.Id == gameId).Nodes;
-      IEnumerable<Node> resNode = null;
-      switch (nodeType)
+      IEnumerable<Node> resNode = new List<Node>();
+      if (nodeType.HasFlag(NodeTypes.All))
       {
-        default:
-        case NodeTypes.All:
-          resNode = nodes;
-          break;
-        case NodeTypes.Picture:
-          resNode = nodes.Where(n => n.NodeType == NodeResponse.PictureNodeType);
+        return nodes;
+      }
 
-          break;
-        case NodeTypes.Hidden:
-          resNode = nodes.Where(
-            n => n.NodeType == NodeResponse.HiddenNodeType || n.NodeType == NodeResponse.BonusNodeType);
-          break;
+      if (nodeType.HasFlag(NodeTypes.Picture))
+      {
+        resNode = resNode.Union(nodes.Where(n => n.NodeType == NodeResponse.PictureNodeType));
+      }
+      if (nodeType.HasFlag(NodeTypes.Hidden))
+      {
+        resNode = resNode.Union(nodes.Where(n => n.NodeType == NodeResponse.HiddenNodeType || n.NodeType == NodeResponse.BonusNodeType));
+      }
+      if (nodeType.HasFlag(NodeTypes.Path))
+      {
+        resNode = resNode.Union(nodes.Where(n => n.NodeType == NodeResponse.FirstNodeType ||
+                                                 n.NodeType == NodeResponse.LastNodeType ||
+                                                 n.NodeType == NodeResponse.ChoiceNodeType ||
+                                                 n.NodeType == NodeResponse.ObjectNodeType ||
+                                                 n.NodeType == NodeResponse.QuestionNodeType ||
+                                                 n.NodeType == NodeResponse.TimerNodeType ||
+                                                 n.NodeType == NodeResponse.WaypointNodeType));
       }
       return resNode;
     }
@@ -177,32 +195,88 @@ namespace ImageHunt.Services
 
     public IEnumerable<Game> GetAllGame()
     {
-      return Context.Games.Where(g => g.IsActive);
+      return Context.Games
+        .Include(g=>g.Teams)
+        .Where(g => g.IsActive && g.StartDate >= DateTime.Today && g.IsPublic);
     }
 
     public string GameCode(int gameId)
     {
       var game = Context.Games.Single(g => g.Id == gameId);
+      string code;
+      do
+      {
+        code = EntityHelper.CreateCode(6);
+      } while (Context.Games.Any(g => g.Code == code));
+
       if (string.IsNullOrEmpty(game.Code))
       {
-        game.Code = CreateCode();
+        game.Code = code;
       }
 
       return game.Code;
     }
 
-    private string CreateCode()
+    public Game Duplicate(Game orgGame, Admin admin)
     {
-      const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      Context.Attach(orgGame);
+      Context.Attach(admin);
+      // Copy the game
+
       string code;
       do
       {
-        code = new string(Enumerable.Repeat(chars, 6)
-          .Select(s => s[random.Next(s.Length)]).ToArray());
-        // Check if the code is unique on database
+        code = EntityHelper.CreateCode(6);
       } while (Context.Games.Any(g => g.Code == code));
+      var newGame = new Game()
+      {
+        Name = $"{orgGame.Name}-2",
+        Code = code,
+        Description = orgGame.Description,
+        IsActive = true,
+        MapCenterLat = orgGame.MapCenterLat,
+        MapCenterLng = orgGame.MapCenterLng,
+        MapZoom = orgGame.MapZoom,
+        NbPlayerPenaltyThreshold = orgGame.NbPlayerPenaltyThreshold,
+        NbPlayerPenaltyValue = orgGame.NbPlayerPenaltyValue,
+        Picture = orgGame.Picture,
+        StartDate = DateTime.Today,
+      };
+      admin.GameAdmins.Add(new GameAdmin() { Game = newGame, Admin = admin });
+      Context.Games.Add(newGame);
+      Context.SaveChanges();
+      return newGame;
+    }
 
-      return code;
+    public Game GetGameByCode(string gameCode)
+    {
+      return Context.Games
+        .Include(g => g.Teams).ThenInclude(t => t.TeamPlayers)
+        .Include(g => g.Picture)
+        .Single(g => g.Code == gameCode);
+    }
+
+    public IEnumerable<Game> GetAllGameForValidation(Admin user)
+    {
+      Context.Attach(user);
+      var gamesToValidate = user.Games.Where(g => g.IsActive && g.StartDate >= DateTime.Today);
+      return gamesToValidate;
+    }
+
+    public Game Toogle(int gameId, Flag flagToChange = Flag.Active)
+    {
+      var game = Context.Games.Single(g => g.Id == gameId);
+      switch (flagToChange)
+      {
+        case Flag.Public:
+          game.IsPublic = !game.IsPublic;
+          break;
+        case Flag.Active:
+          game.IsActive = !game.IsActive;
+          break;
+      }
+      Context.SaveChanges();
+      return game;
     }
   }
 }

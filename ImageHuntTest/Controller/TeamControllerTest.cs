@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using FakeItEasy;
 using ImageHunt.Controllers;
-using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
@@ -94,7 +91,7 @@ namespace ImageHuntTest.Controller
             // Arrange
             var team = new Team();
             A.CallTo(() => _teamService.GetTeamById(A<int>._)).Returns(team);
-          A.CallTo(() => _playerService.GetPlayerByChatId(A<string>._)).Throws<InvalidOperationException>();
+          A.CallTo(() => _playerService.GetPlayerByChatId(A<string>._)).Returns(null);
             var player = new PlayerRequest(){Name = "toto", ChatLogin = "Toro"};
             // Act
             _target.AddPlayer(1, player);
@@ -124,6 +121,18 @@ namespace ImageHuntTest.Controller
         // Assert
         A.CallTo(() => _teamService.DelMemberToTeam(A<Team>._, A<Player>._)).MustHaveHappened();
       }
+
+        [Fact]
+        public void Should_Remove_Player_By_ChatId()
+        {
+            // Arrange
+
+            // Act
+            var result = _target.RemovePlayer(1, "Toto");
+            // Assert
+            A.CallTo(() => _playerService.GetPlayerByChatId(A<string>._)).MustHaveHappened();
+            A.CallTo(() => _teamService.DelMemberToTeam(A<Team>._, A<Player>._)).MustHaveHappened();
+        }
       [Fact]
       public void GetPlayerDetails()
       {
@@ -258,6 +267,29 @@ namespace ImageHuntTest.Controller
           .MustHaveHappened();
       }
 
-  }
+        [Fact]
+        public void Should_UpdateTeam_Succeed()
+        {
+            // Arrange
+            var updateRequest = new UpdateTeamRequest()
+            {
+                TeamId = 56,
+                Name = "dfhkjfhsjkdf",
+                InviteUrl = "https://toto"
+            };
+            // Act
+            _target.UpdateTeam(updateRequest);
+            // Assert
+            A.CallTo(() => _teamService.GetTeamById(A<int>._)).MustHaveHappened();
+            A.CallTo(() => _teamService.Update(A<Team>.That.Matches(t=>CheckTeam(t, updateRequest)))).MustHaveHappened();
+        }
+
+        private bool CheckTeam(Team team, UpdateTeamRequest updateRequest)
+        {
+            Check.That(team.Name).Equals(updateRequest.Name);
+            Check.That(team.ChatInviteUrl).Equals(updateRequest.InviteUrl);
+            return true;
+        }
+    }
 
 }

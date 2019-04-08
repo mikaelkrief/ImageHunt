@@ -1,14 +1,14 @@
 <div #questionNodeTemplate>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Edition d'un noeud question</h4>
-    <button type="button" class="close pull-right" aria-label="Fermer" (click)="bsModalRef.hide()">
-      <span aria-hidden="true" class="fa fa-times"></span>
+    <h4 class="modal-title pull-left" i18n>Edit of choice node</h4>
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="bsModalRef.hide()">
+      <i aria-hidden="true" class="fa fa-times"></i>
     </button>
   </div>
   <div class="modal-body">
     <div class="form-inline">
       <div class="input-group">
-        <label for="Noeud">Noeud à modifier</label>
+        <label for="Noeud" i18n>Node to edit</label>
         <select class="form-control" [(ngModel)]="selectedNode" (change)="nodeSelected($event)">
           <option *ngFor="let node of questionNodes"  [ngValue]="node">{{node.name}}</option>
         </select>
@@ -16,14 +16,14 @@
     </div>
     <div class="form-inline">
       <div class="input-group" *ngIf="selectedNode">
-        <label>Question</label>
-        <textarea class="form-control" cols="40" rows="3" readonly [value]="selectedNode.question"></textarea>
+        <label i18n>Question</label>
+        <textarea class="form-control" cols="40" rows="3" readonly [value]="selectedNode.question" i18n-placeholder placeholder="Question"></textarea>
       </div>
     </div>
     <div class="row" *ngIf="selectedNode!=null">
       <div class="col-sm-4">
         <div class="input-group">
-          <label>Réponses</label>
+          <label i18n>Answers</label>
           <select class="form-control" [(ngModel)]="selectedAnswer" size="5"
                   (change)="responseSelected()">
             <option *ngFor="let answer of selectedNode.answers" [ngValue]="answer">{{answer.response}}</option>
@@ -33,8 +33,8 @@
       <div class="col-sm-4">
         <div class="row">
           <span></span>
-          <button class="btn btn-success" [disabled]="!linkBtnEnabled" (click)="associateAnswerToNode()">Associer</button>
-          <button class="btn btn-danger" [disabled]="!unlinkBtnEnabled" (click)="dissociateAnswerToNode()">Dissocier</button>
+          <button class="btn btn-success" [disabled]="!linkBtnEnabled" (click)="associateAnswerToNode()" i18n>Link</button>
+          <button class="btn btn-danger" [disabled]="!unlinkBtnEnabled" (click)="dissociateAnswerToNode()" i18n>Unlink</button>
         </div>
       </div>
       <div class="col-sm-4">
@@ -47,12 +47,11 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-danger" type="reset" aria-label="Cancel" (click)="bsModalRef.hide()">
-      Annuler
+    <button class="btn btn-danger" type="reset" i18n-aria-label aria-label="Cancel" (click)="bsModalRef.hide()" i18n>
+      Cancel
     </button>
-    <button class="btn btn-success pull-right" type="submit" aria-label="Close"
-            (click)="saveRelations()">
-      Enregistrer
+    <button class="btn btn-success pull-right" type="submit" i18n-aria-label aria-label="Close"
+            (click)="saveRelations()" i18n> Save
     </button>
   </div>
 </div>

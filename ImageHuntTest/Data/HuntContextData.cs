@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using ImageHunt.Data;
-using ImageHunt.Model;
-using ImageHuntCore;
 using ImageHuntCore.Model;
 using Microsoft.EntityFrameworkCore;
 using NFluent;

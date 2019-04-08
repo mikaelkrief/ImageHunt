@@ -6,7 +6,7 @@ import {CalendarModule} from "primeng/calendar";
 import {GameCreateComponent} from "./game-create/game.create.component";
 import {GameService} from "../shared/services/game.service";
 import {MapModule} from "../map/map.module";
-import { BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule, TooltipModule, AccordionModule  } from "ngx-bootstrap";
+import { BsDropdownModule, TabsModule, AlertModule, BsDatepickerModule, TooltipModule, AccordionModule, ModalModule  } from "ngx-bootstrap";
 import {GameDetailComponent} from "./game-detail/game.detail.component";
 import {TeamService} from "../shared/services/team.service";
 import {AlertService} from "../shared/services/alert.service";
@@ -25,6 +25,7 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ToggleButtonModule } from "primeng/togglebutton";
+import { PanelModule } from 'primeng/panel';
 import { DropdownModule } from "primeng/dropdown";
 import {SharedModule} from "../shared/shared.module";
 import { TeamModule } from "../team/team.module";
@@ -36,7 +37,11 @@ import { PasscodeCreateComponent } from './passcode-create/passcode-create.compo
 import { PasscodePrintComponent } from './passcode-print/passcode-print.component';
 import { ButtonsModule } from 'ngx-bootstrap';
 import { ImageService } from 'services/image.service';
-import { MomentModule } from 'angular2-moment';
+import { GameAvailableComponent } from './game-available/game-available.component';
+import { GameValidationComponent } from './game-validation/game-validation.component';
+import { PointsComponent } from './points/points.component';
+import { BatchNodeComponent } from "./batch-node/batch-node.component";
+import { NodeEditComponent } from "./node-edit/node-edit.component";
 
 @
 NgModule({
@@ -44,21 +49,22 @@ NgModule({
     CommonModule, FormsModule, RouterModule, CalendarModule, CommonModule, RouterModule, FormsModule,
     MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule,
     ToggleButtonModule, DropdownModule, ContextMenuModule, TableModule, GMapModule, SharedModule,
-    RadioButtonModule, TeamModule, LightboxModule, ButtonsModule, TooltipModule, MomentModule,
-    AccordionModule
+    RadioButtonModule, TeamModule, LightboxModule, ButtonsModule, TooltipModule, PanelModule,
+    AccordionModule, ModalModule.forRoot()
   ],
   declarations: [
-    GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent,
+    GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeEditComponent,
     NodeListComponent, NodeRelationComponent, QuestionNodeComponent, GameActionListComponent,
     GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent, PasscodeCreateComponent,
-    PasscodePrintComponent
+    PasscodePrintComponent, GameAvailableComponent, GameValidationComponent, PointsComponent,
+    BatchNodeComponent
   ],
   exports: [
     GameCreateComponent, GameDetailComponent, GameListComponent,
-    NodeCreateComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent,
+    NodeCreateComponent, NodeEditComponent, NodeListComponent, NodeRelationComponent, QuestionNodeComponent,
     GameActionListComponent, GameActionDetailComponent, ImageNodeEditComponent, PasscodeListComponent,
     PasscodeCreateComponent,
-    PasscodePrintComponent
+    PasscodePrintComponent, GameAvailableComponent, GameValidationComponent, PointsComponent, BatchNodeComponent
   ],
   providers: [GameService, TeamService, AlertService, ConfirmationService, LiveService, ImageService]
 })

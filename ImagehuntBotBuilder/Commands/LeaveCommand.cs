@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -8,7 +10,7 @@ namespace ImageHuntBotBuilder.Commands
     [Command("leave")]
     public class LeaveCommand : AbstractCommand, ILeaveCommand
     {
-        public LeaveCommand(ILogger<ILeaveCommand> logger) : base(logger)
+        public LeaveCommand(ILogger<ILeaveCommand> logger, IStringLocalizer<LeaveCommand> localizer) : base(logger, localizer)
         {
         }
 

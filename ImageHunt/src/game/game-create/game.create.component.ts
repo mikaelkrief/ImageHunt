@@ -4,6 +4,7 @@ import { Admin } from "../../shared/admin";
 import { Game } from '../../shared/game';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { UploadImageComponent } from '../../shared/upload-image/upload-image.component';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 
 @Component({
@@ -22,11 +23,13 @@ export class GameCreateComponent implements OnInit {
   pictureId?: number;
   description: string;
   /** game.create ctor */
-  constructor(private globals: Globals, public bsModalRef: BsModalRef, private _modalService: BsModalService) { }
+  constructor(private _localStorageService: LocalStorageService,
+    public bsModalRef: BsModalRef,
+    private _modalService: BsModalService) { }
 
   /** Called by Angular after game.create component initialized */
   ngOnInit(): void {
-    this.admin = this.globals.connectedUser;
+    
   }
   modalRef;
 
@@ -40,6 +43,7 @@ export class GameCreateComponent implements OnInit {
     let game: Game = {
       id: 0,
       isActive: true,
+      isPublic: false,
       name: this.name,
       startDate: startDate,
       mapCenterLng: 0,

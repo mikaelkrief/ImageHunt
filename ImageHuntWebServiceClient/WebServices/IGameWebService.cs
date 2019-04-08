@@ -12,5 +12,6 @@ namespace ImageHuntWebServiceClient.WebServices
 
       Task<IEnumerable<NodeResponse>> GetPictureNodesForGame(int gameId,
           CancellationToken cancellationToken = default(CancellationToken));
+
   }
 }

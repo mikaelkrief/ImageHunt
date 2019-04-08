@@ -1,9 +1,8 @@
 <div #imageNodeEdit>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Edition de Noeud image</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
-      <span aria-hidden="true" class="fa fa-times"></span>
-
+    <h4 class="modal-title pull-left" i18n>Node edition</h4>
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="bsModalRef.hide()">
+      <i aria-hidden="true" class="fa fa-times"></i>
     </button>
   </div>
   <form #form="ngForm" (submit)="saveChanges(form)">
@@ -11,42 +10,41 @@
       <div class="row">
         <div class="form-inline">
           <div class="col-6 form-group">
-            <label for="name">Nom du N&oelig;ud</label>
+            <label for="name" i18n>Node's name</label>
             <input id="name" type="text" class="form-control" [value]="_node!==undefined?_node.name:''"
                    ngModel
                    name="name"
-                   placeholder="Entrez le nom du noeud"/>
+                   i18n-placeholder placeholder="Node name" />
           </div>
           <div class="col-6 form-group">
-            <label for="points">Nombre de points</label>
-            <input id="points" name="points" ngModel [value]="_node!==undefined?_node.points:0" type="number" class="form-control"/>
+            <label for="points" i18n>Number of points</label>
+            <input id="points" name="points" ngModel [value]="_node!==undefined?_node.points:0" type="number" class="form-control" />
 
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="form-inline">
-          <div class="col-6 form-group">
-            <label for="location">Position</label>
-            <div id="location" name="location"></div>
-          </div>
-          <div class="col-6 form-group">
-            <label for="nodeThumbnail">Image associée</label>
-            <img class="img-thumbnail" id="nodeThumbnail" name="nodeThumbnail" *ngIf="_node!==undefined"
-                 src="api/Image/Thumbnail?pictureId={{_node.image.id}}&width=300&height=300"/>
-
-          </div>
+        <div class="col-6 form-group">
+          <label for="location" i18n>Position</label>
+          <div class="img-thumbnail" id="location" name="location"></div>
+        </div>
+        <div class="col-6 form-group" *ngIf="_node && _node.image">
+          <label for="nodeThumbnail" i18n>Node's picture</label>
+          <img class="img-thumbnail" id="nodeThumbnail" name="nodeThumbnail" *ngIf="_node!==undefined"
+               src="api/Image/Thumbnail?pictureId={{_node.image.id}}&width=300&height=300" />
+        </div>
+        <div class="col-6" *ngIf="!_node || !_node.image" style="vertical-align: middle">
+          <span i18n>No picture associated with this node</span>
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-success pull-right" type="submit" aria-label="Close"
-              (click)="bsModalRef.hide()">
-        <span class="fa fa-edit"></span> Modifier le Noeud
+      <button class="btn btn-success pull-right" type="submit" i18n-aria-label aria-label="Close"
+              (click)="bsModalRef.hide()" [disabled]="!form.valid">
+        <i class="fas fa-save"></i><span i18n> Save modifications</span>
       </button>
-      <button class="btn btn-danger pull-right" type="button" aria-label="Close"
-              (click)="bsModalRef.hide()">
-        Annuler
+      <button class="btn btn-danger pull-right" type="button" i18n-aria-label aria-label="Close"
+              (click)="bsModalRef.hide()"><span i18n>Cancel</span>
       </button>
     </div>
   </form>

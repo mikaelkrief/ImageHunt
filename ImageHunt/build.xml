@@ -8,8 +8,14 @@
         <replacefilter token="GOOGLE_API_MAP_KEY" value="${GOOGLE_API_MAP_KEY}"/>
         <replacefilter token="TELEGRAM_APIKEY" value="${TELEGRAM_APIKEY}"/>
         <replacefilter token="BOT_NAME" value="${BOT_NAME}"/>
+        <replacefilter token="BOT_EMAIL" value="${BOT_EMAIL}"/>
+        <replacefilter token="BOT_PASSWORD" value="${BOT_PASSWORD}"/>
         <replacefilter token="BOT_URL" value="${BOT_URL}"/>
         <replacefilter token="BOT_STORAGE_FOLDER" value="${BOT_FOLDER}"/>
+        <replacefilter token="ADMIN_USER" value="${ADMIN_USER}"/>
+        <replacefilter token="ADMIN_EMAIL" value="${ADMIN_EMAIL}"/>
+        <replacefilter token="ADMIN_PASSWORD" value="${ADMIN_PASSWORD}"/>
+        <replacefilter token="API_LOGFILE" value="${API_LOGFILE}"/>
         <replacefilter token="IMAGEHUNT_API_URL" value="${API_URL}"/>
     </replace>
     <move file="${INFILE}" toFile="${TOFILE}"></move>

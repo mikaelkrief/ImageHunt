@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using ImageHunt.Computation;
 using ImageHunt.Data;
-using ImageHunt.Model;
 using ImageHuntCore.Computation;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
@@ -28,14 +26,18 @@ namespace ImageHunt.Services
     {
       Node node = Context.Nodes
         .Include(n=>n.ChildrenRelation).ThenInclude(cr=>cr.Children)
+        .Include(n=>n.Image)
         .SingleOrDefault(n => n.Id == nodeId);
+      if (node == null)
+      {
+        _logger.LogError("Node Id: {0} not found", nodeId);
+        return null;
+      }
+
       switch (node.NodeType)
       {
         case NodeResponse.ChoiceNodeType:
           node = Context.ChoiceNodes.Include(q => q.Answers).SingleOrDefault(n => n.Id == nodeId);
-          break;
-        case NodeResponse.PictureNodeType:
-          node = Context.PictureNodes.Include(p => p.Image).SingleOrDefault(n => n.Id == nodeId);
           break;
       }
       return node;
@@ -96,7 +98,7 @@ namespace ImageHunt.Services
 
     public Answer GetAnswer(int answerId)
     {
-      return Context.Answers.Single(a => a.Id == answerId);
+      return Context.Answers.SingleOrDefault(a => a.Id == answerId);
     }
 
     public Node FindPictureNodeByLocation(int gameId, (double, double) pictureCoordinates)
@@ -118,11 +120,22 @@ namespace ImageHunt.Services
         Context.Answers.RemoveRange(questionNode.Answers);
         questionNode.Answers.Clear();
       }
+
+      var childrenOfNode = nodeToRemove.Children.FirstOrDefault();
+
       // remove all children of the node to remove
       nodeToRemove.ChildrenRelation.Clear();
       // Retrieve relations of node to remove
       var parentsOfNode = Context.ParentChildren.Where(pc => pc.Children == nodeToRemove);
       Context.ParentChildren.RemoveRange(parentsOfNode);
+      if (childrenOfNode != null)
+      {
+        foreach (var parent in parentsOfNode)
+        {
+          Context.ParentChildren.Add(new ParentChildren() {Parent = parent.Parent, Children = childrenOfNode});
+        }
+      }
+
       Context.Nodes.Remove(nodeToRemove);
       Context.SaveChanges();
     }
@@ -155,10 +168,34 @@ namespace ImageHunt.Services
       Context.SaveChanges();
     }
 
-    public IEnumerable<Node> GetGameNodesOrderByPosition(int gameId, double latitude, double longitude)
+    public IEnumerable<Node> GetGameNodesOrderByPosition(int gameId, double latitude, double longitude,
+      NodeTypes nodeTypes = NodeTypes.All)
     {
       var nodes = Context.Games.Include(g => g.Nodes).Single(g => g.Id == gameId).Nodes;
-      return nodes.OrderBy(n => GeographyComputation.Distance(latitude, longitude, n.Latitude, n.Longitude));
+      IEnumerable<Node> selectedNodes = new List<Node>();
+      if (nodeTypes.HasFlag(NodeTypes.All))
+        return nodes.OrderBy(n => GeographyComputation.Distance(latitude, longitude, n.Latitude, n.Longitude));
+      if (nodeTypes.HasFlag(NodeTypes.Picture))
+      {
+        selectedNodes = selectedNodes.Union(nodes.Where(n => n.NodeType == NodeResponse.PictureNodeType));
+      }
+      if (nodeTypes.HasFlag(NodeTypes.Hidden))
+      {
+        selectedNodes = selectedNodes.Union(nodes.Where(n => n.NodeType == NodeResponse.HiddenNodeType || n.NodeType == NodeResponse.BonusNodeType));
+      }
+      if (nodeTypes.HasFlag(NodeTypes.Path))
+      {
+        selectedNodes = selectedNodes.Union(nodes.Where(n => n.NodeType == NodeResponse.FirstNodeType ||
+                                                             n.NodeType == NodeResponse.LastNodeType ||
+                                                             n.NodeType == NodeResponse.ChoiceNodeType ||
+                                                             n.NodeType == NodeResponse.ObjectNodeType ||
+                                                             n.NodeType == NodeResponse.QuestionNodeType ||
+                                                             n.NodeType == NodeResponse.TimerNodeType ||
+                                                             n.NodeType == NodeResponse.WaypointNodeType));
+      }
+
+      return selectedNodes.OrderBy(n => GeographyComputation.Distance(latitude, longitude, n.Latitude, n.Longitude));
     }
+
   }
 }

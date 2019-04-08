@@ -1,14 +1,14 @@
 using System.Threading;
 using System.Threading.Tasks;
-using ImageHunt.Model;
-using ImageHuntCore;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ImageHunt.Data
 {
-  public class HuntContext : DbContext
+  public class HuntContext : IdentityDbContext<Identity>
   {
     public HuntContext()
     {
@@ -140,7 +140,16 @@ namespace ImageHunt.Data
         .HasOne(tp => tp.Team)
         .WithMany(t => t.TeamPasscodes)
         .HasForeignKey(tp => tp.TeamId);
-
+      // Indexes
+      //modelBuilder.Entity<GameAction>().HasIndex(g => new {g.Game, g.Team});
+      // ASPNET Identity
+      modelBuilder.Entity<Identity>().Property(u => u.UserName).IsUnicode(false);
+      modelBuilder.Entity<Identity>().Property(u => u.NormalizedUserName).IsUnicode(false);
+      modelBuilder.Entity<Identity>().Property(u => u.Email).IsUnicode(false);
+      modelBuilder.Entity<Identity>().Property(u => u.NormalizedEmail).IsUnicode(false);
+      modelBuilder.Entity<IdentityRole>().Property(u => u.Name).IsUnicode(false);
+      modelBuilder.Entity<IdentityRole>().Property(u => u.NormalizedName).IsUnicode(false);
+      modelBuilder.Entity<Game>().HasIndex(g => g.Code).IsUnique();
     }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)

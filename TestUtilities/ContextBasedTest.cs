@@ -1,5 +1,4 @@
 using System;
-using ImageHunt.Data;
 using ImageHuntCore;
 using Microsoft.EntityFrameworkCore;
 

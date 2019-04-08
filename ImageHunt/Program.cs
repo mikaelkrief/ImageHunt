@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace ImageHunt
 {
@@ -29,16 +23,14 @@ namespace ImageHunt
             .ConfigureAppConfiguration((context, builder) =>
             {
               var env = context.HostingEnvironment;
-              builder.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+              builder
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.webapi.json", optional:true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
               builder.AddEnvironmentVariables();
             })
-            .ConfigureLogging((context, builder) =>
-              {
-                builder.AddConfiguration(context.Configuration.GetSection("Logging"));
-                builder.AddConsole();
-                builder.AddDebug();
-              })
+            .UseApplicationInsights("6d5d005b-8892-4721-8d20-fd03ceec3548")
+            .ConfigureServices(service=>service.AddAutofac())
              .UseStartup<Startup>()
              
            .Build();

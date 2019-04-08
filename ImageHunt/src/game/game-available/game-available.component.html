@@ -1,0 +1,25 @@
+<div class="row">
+  <h2 i18n>Available games</h2>
+</div>
+<div class="row">
+  <table class="table">
+    <thead>
+    <tr>
+      <th i18n>Name of the game</th>
+      <th i18n>Date of the game</th>
+      <th i18n>Count of teams</th>
+      <th i18n>Game code</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let game of games">
+      <td>{{game.name}}</td>
+      <td>{{game.startDate | date:'medium':'CEST':'fr'}}</td>
+      <td><div *ngIf="game.teams">{{game.teams.length}}</div></td>
+      <td>{{game.code}}</td>
+      <td><button class="btn btn-primary" routerLink="/gameteam/{{game.code}}"><i class="fas fa-sign-in-alt"></i></button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

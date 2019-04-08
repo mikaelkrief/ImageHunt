@@ -1,14 +1,15 @@
-﻿using System;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
+using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
@@ -21,11 +22,14 @@ namespace ImageHuntBotBuilderTest.Commands
         private INodeWebService _nodeWebService;
         private ITurnContext _turnContext;
         private ImageHuntState _state;
+        private IStringLocalizer<DisplayNodeCommand> _localizer;
 
         public DisplayNodeCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IDisplayNodeCommand>>());
             _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<DisplayNodeCommand>>());
+
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState(){Status = Status.Started};
             Build();
@@ -35,6 +39,7 @@ namespace ImageHuntBotBuilderTest.Commands
         public async Task Should_Display_node()
         {
             // Arrange
+            _state.CurrentNode = new NodeResponse(){Id = 15};
             _state.CurrentNodeId = 15;
             // Act
             await _target.Execute(_turnContext, _state);
@@ -46,6 +51,7 @@ namespace ImageHuntBotBuilderTest.Commands
         public async Task Should_Send_error_message_if_CurrentNode_not_set()
         {
             // Arrange
+            _state.CurrentNode = null;
             _state.CurrentNodeId = null;
             // Act
             await _target.Execute(_turnContext, _state);
@@ -57,6 +63,7 @@ namespace ImageHuntBotBuilderTest.Commands
         public async Task Should_Send_error_message_Game_not_started()
         {
             // Arrange
+            _state.CurrentNode = new NodeResponse() { Id = 15 };
             _state.CurrentNodeId = 15;
             _state.Status = Status.None;
             // Act

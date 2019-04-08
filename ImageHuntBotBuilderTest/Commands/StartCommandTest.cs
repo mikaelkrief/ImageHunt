@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using TestUtilities;
 using Xunit;
@@ -19,12 +18,15 @@ namespace ImageHuntBotBuilderTest.Commands
         private ILogger<IStartCommand> _logger;
         private ImageHuntState _state;
         private ITurnContext _turnContext;
+        private IStringLocalizer<StartCommand> _localizer;
 
         public StartCommandTest()
         {
             _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IStartCommand>>());
             _testContainerBuilder.RegisterInstance(A.Fake<IRedeemCommand>());
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<StartCommand>>());
             _turnContext = A.Fake<ITurnContext>();
+            _state = new ImageHuntState();
             Build();
         }
 

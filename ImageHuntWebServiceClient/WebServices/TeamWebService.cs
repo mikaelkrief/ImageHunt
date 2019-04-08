@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -69,5 +68,19 @@ namespace ImageHuntWebServiceClient.WebServices
               return await PostAsync<TeamResponse>($"{_httpClient.BaseAddress}api/Team/AddPlayer/{teamId}", content);
           }
       }
-    }
+
+      public async Task RemovePlayerFromTeam(int teamId, string chatId)
+      {
+          await DeleteAsync($"{_httpClient.BaseAddress}api/Team/RemoveByChatId/{teamId}/{chatId}");
+      }
+
+      public async Task UpdateTeam(UpdateTeamRequest updateTeamRequest)
+      {
+          using (var content = new StringContent(JsonConvert.SerializeObject(updateTeamRequest), Encoding.UTF8,
+              "Application/json"))
+          {
+              await PatchAsync<object>($"{_httpClient.BaseAddress}api/Team", content);
+          }
+      }
+  }
 }

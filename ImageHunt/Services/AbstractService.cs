@@ -1,5 +1,4 @@
 using ImageHunt.Data;
-using ImageHunt.Services;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntCore.Services

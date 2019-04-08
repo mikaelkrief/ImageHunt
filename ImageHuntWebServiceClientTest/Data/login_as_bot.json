@@ -1,0 +1,18 @@
+{
+  "result": {
+    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJJbWFnZUh1bnREZXZCb3QiLCJqdGkiOiJiZDVlYTIwOC1kOTZkLTRiOTctYWQ5ZS0zOGUxMzM5M2E1ODEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImJjNmFhNDZmLTc2YTAtNDI2Yi1hMjliLTAwMTc0YTY3OTVmZCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IiIsImV4cCI6MTU1NTQzNTk5NiwiaXNzIjoiaHR0cDovL2ltYWdlaHVudC5tYW5kcmlsbG9uLmZyIiwiYXVkIjoiaHR0cDovL2ltYWdlaHVudC5tYW5kcmlsbG9uLmZyIn0.PdfH2vEEbtDDhapzPlk54Kph5XxX9WDRbDDKZWN8O2c",
+    "formatters": [],
+    "contentTypes": [],
+    "declaredType": null,
+    "statusCode": 200
+  },
+  "id": 392,
+  "exception": null,
+  "status": 5,
+  "isCanceled": false,
+  "isCompleted": true,
+  "isCompletedSuccessfully": true,
+  "creationOptions": 0,
+  "asyncState": null,
+  "isFaulted": false
+}

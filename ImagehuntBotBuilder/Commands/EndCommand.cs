@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -12,7 +14,7 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly IActionWebService _actionWebService;
 
-        public EndCommand(ILogger<IEndCommand> logger, IActionWebService actionWebService) : base(logger)
+        public EndCommand(ILogger<IEndCommand> logger, IActionWebService actionWebService, IStringLocalizer<EndCommand> localizer) : base(logger, localizer)
         {
             _actionWebService = actionWebService;
         }
@@ -23,7 +25,7 @@ namespace ImageHuntBotBuilder.Commands
             if (state.Status != Status.Started)
             {
                 await turnContext.SendActivityAsync(
-                    "La partie n'a pas encore commencée, vous ne pouvez par l'arrêter!");
+                    _localizer["CANNOT_END_GAME_NOT_STARTED"]);
                 _logger.LogError("The game had not started!");
                 return;
             }
@@ -36,8 +38,8 @@ namespace ImageHuntBotBuilder.Commands
             };
             await _actionWebService.LogAction(gameActionRequest);
             state.Status = Status.Ended;
-            await turnContext.SendActivityAsync(
-                "La chasse vient de prendre fin, vos actions ont été enregistrée et un orga va les valider.");
+            await turnContext.SendActivityAsync(_localizer["GAME_ENDED"]);
+            _logger.LogInformation("Game {0} ended for team {1}", state.GameId, state.TeamId);
         }
     }
 }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 using FakeItEasy;
-using ImageHunt.Services;
-using ImageHuntWebServiceClient;
-using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Extensions.Logging;
 using TestUtilities;

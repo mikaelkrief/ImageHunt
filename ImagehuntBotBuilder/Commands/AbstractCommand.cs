@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
@@ -8,10 +11,12 @@ namespace ImageHuntBotBuilder.Commands
     public abstract class AbstractCommand : ICommand
     {
         protected readonly ILogger _logger;
+        protected IStringLocalizer _localizer;
 
-        public AbstractCommand(ILogger logger)
+        public AbstractCommand(ILogger logger, IStringLocalizer localizer)
         {
             _logger = logger;
+            _localizer = localizer;
         }
 
         public virtual bool IsAdmin => true;
@@ -21,12 +26,15 @@ namespace ImageHuntBotBuilder.Commands
         {
             try
             {
+                if (state.Team != null && !string.IsNullOrEmpty(state.Team.CultureInfo))
+                {
+                    _localizer = _localizer.WithCulture(new CultureInfo(state.Team.CultureInfo));
+                }
                 await InternalExecute(turnContext, state);
             }
             catch (Exception e)
             {
                 _logger.LogError(e, "Exception occured while execute command");
-                throw e;
             }
         }
     }
@@ -38,7 +46,7 @@ namespace ImageHuntBotBuilder.Commands
 
         public CommandAttribute(string command)
         {
-            Command = command;
+            Command = command.ToLowerInvariant();
         }
     }
 }

@@ -5,7 +5,9 @@ using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
+using ImageHuntBotBuilder.Commands.Interfaces;
 using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
@@ -17,11 +19,13 @@ namespace ImageHuntBotBuilderTest.Commands
     {
         private ILogger<IResetCommand> _logger;
         private ITurnContext _turnContext;
+        private IStringLocalizer<ResetCommand> _localizer;
 
         public ResetCommandTest()
         {
             _logger = A.Fake<ILogger<IResetCommand>>();
             _testContainerBuilder.RegisterInstance(_logger);
+            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<ResetCommand>>());
             _turnContext = A.Fake<ITurnContext>();
             Build();
         }
@@ -44,7 +48,7 @@ namespace ImageHuntBotBuilderTest.Commands
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
                 .Throws<Exception>();
             // Act
-            Check.ThatAsyncCode(() => _target.Execute(_turnContext, state)).Throws<Exception>();
+            await _target.Execute(_turnContext, state);
             // Assert
             A.CallTo(() => _logger.Log(LogLevel.Error, A<EventId>._, A<object>._, A<Exception>._,
                 A < Func<object, Exception, string>>._)).MustHaveHappened();

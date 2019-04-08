@@ -26,5 +26,7 @@ namespace ImageHuntCore.Model
     public string Comment { get; set; }
     public Picture Picture { get; set; }
       public int? Bonus { get; set; }
+      public string Code { get; set; }
+      public string ChatInviteUrl { get; set; }
   }
 }

@@ -4,7 +4,7 @@
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
 
 namespace ImagehuntBotBuilder
 {
@@ -17,23 +17,17 @@ namespace ImagehuntBotBuilder
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureLogging((hostingContext, logging) =>
+                .ConfigureAppConfiguration((context, builder) =>
                 {
-                    // Add Azure Logging
-                    //logging.AddAzureWebAppDiagnostics();
-
-                    // Logging Options.
-                    // There are other logging options available:
-                    // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1
-                    logging.AddDebug();
-                    logging.AddConsole();
+                    var env = context.HostingEnvironment;
+                    builder
+                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                        .AddJsonFile("appsettings.bot.json", optional: true, reloadOnChange: true)
+                        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                        .AddEnvironmentVariables();
                 })
-
-                // Logging Options.
-                // Consider using Application Insights for your logging and metrics needs.
-                // https://azure.microsoft.com/en-us/services/application-insights/
-                // .UseApplicationInsights()
                 .ConfigureServices(services => services.AddAutofac())
+                .UseApplicationInsights("a0a0097b-6283-45ab-8df8-108f2f21bcf5")
                 .UseStartup<Startup>()
                 .Build();
     }

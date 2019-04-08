@@ -1,0 +1,21 @@
+<div class="row">
+  <h2 i18n>Games to validate</h2>
+</div>
+<div class="row">
+  <table class="table">
+    <thead>
+    <tr>
+      <th i18n>Game Name</th>
+      <th i18n>Game Date</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let game of games">
+      <td>{{game.name}}</td>
+      <td>{{game.startDate | date:'medium':'CEST':'fr'}}</td>
+      <td><button class="btn btn-primary" routerLink="/action/{{game.id}}"><i class="fa fa-map-signs"></i></button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Middlewares;
+using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -23,6 +26,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Activity = Microsoft.Bot.Schema.Activity;
 
 namespace ImagehuntBotBuilder
 {
@@ -31,19 +35,15 @@ namespace ImagehuntBotBuilder
     /// </summary>
     public class Startup
     {
+        private readonly ILogger<Startup> _logger;
         private ILoggerFactory _loggerFactory;
         private bool _isProduction = false;
+        private string _jwtToken;
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration, ILogger<Startup> logger)
         {
-            _isProduction = env.IsProduction();
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-
-            Configuration = builder.Build();
+            _logger = logger;
+            Configuration = configuration;
         }
 
         /// <summary>
@@ -88,6 +88,7 @@ namespace ImagehuntBotBuilder
 
             var credentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
             services.AddSingleton(credentialProvider);
+            services.AddLocalization(opts => opts.ResourcesPath = "Resources");
             services.AddBot<ImageHuntBot>(options =>
             {
                 options.CredentialProvider = credentialProvider;
@@ -97,7 +98,7 @@ namespace ImagehuntBotBuilder
                 // Catches any errors that occur during a conversation turn and logs them.
                 options.OnTurnError = async (context, exception) =>
                 {
-                    logger.LogError($"Exception caught : {exception}");
+                    logger.LogError($"Exception caught : {0}", exception);
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
@@ -156,7 +157,7 @@ namespace ImagehuntBotBuilder
                 {
                     var adapter = e.Instance;
                     adapter.Use(e.Context.Resolve<LogPositionMiddleware>());
-                    adapter.Use(e.Context.Resolve<NewParticipantMiddleware>());
+                    adapter.Use(e.Context.Resolve<TeamCompositionMiddleware>());
                 })
                 .AsSelf()
                 .As<IAdapterIntegration>();
@@ -176,6 +177,9 @@ namespace ImagehuntBotBuilder
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
+            // Login to WebApi
+            LoginApi().Wait();
+
             containerBuilder.RegisterModule<DefaultModule>();
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
@@ -200,13 +204,39 @@ namespace ImagehuntBotBuilder
 
 
             containerBuilder.RegisterType<LogPositionMiddleware>().AsSelf().As<IMiddleware>();
-            containerBuilder.RegisterType<NewParticipantMiddleware>().AsSelf().As<IMiddleware>();
+            containerBuilder.RegisterType<TeamCompositionMiddleware>().AsSelf().As<IMiddleware>();
             containerBuilder.RegisterInstance(Mapper.Instance);
             containerBuilder.Register(a => new HttpClient()
             {
                 BaseAddress = new Uri(Configuration.GetValue<string>("ImageHuntApi:Url")),
-                DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", "ImageHuntBotToken") }
+                DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken) }
             });
+        }
+
+        private async Task LoginApi()
+        {
+            _logger.LogTrace("LoginApi");
+            var apiBaseAddress = Configuration["ImageHuntApi:Url"];
+            _logger.LogDebug("Connect to {0}", apiBaseAddress);
+            var httpLogin = new HttpClient() { BaseAddress = new Uri(apiBaseAddress) };
+            var accountService =
+                new AccountWebService(httpLogin, new LoggerFactory().CreateLogger<IAccountWebService>());
+            var logingRequest = new LoginRequest()
+            {
+                UserName = Configuration["BotConfiguration:BotName"],
+                Password = Configuration["BotConfiguration:BotPassword"],
+            };
+            try
+            {
+                var response = await accountService.Login(logingRequest);
+                _jwtToken = response.result.value;
+
+            }
+            catch (AggregateException e)
+            {
+                _logger.LogCritical(e, "Unable to login to ImageHunt API, give-up");
+                Process.GetCurrentProcess().Kill();
+            }
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -263,13 +293,13 @@ namespace ImagehuntBotBuilder
             Mapper.Initialize(config =>
             {
                 config.CreateMap<Update, Activity>()
-                    .ForMember(a => a.ChannelId, opt => opt.MapFrom(e=>"telegram"))
+                    .ForMember(a => a.ChannelId, opt => opt.MapFrom(e => "telegram"))
                     .ForMember(a => a.Value, opt => opt.MapFrom(u => u))
                     .ForMember(a => a.Timestamp,
                         opt => opt.MapFrom(u => new DateTimeOffset(MessageFromUpdate(u).Date)))
                     .ForMember(a => a.Id,
                         expression => expression.MapFrom(u => MessageFromUpdate(u).Chat.Id.ToString()))
-                    .ForMember(a => a.Type, opt => opt.MapFrom(e=> ActivityTypeFromUpdate(e)))
+                    .ForMember(a => a.Type, opt => opt.MapFrom(e => ActivityTypeFromUpdate(e)))
                     .ForMember(a => a.Conversation, opt => opt.MapFrom((u, a) =>
                     {
                         var message = MessageFromUpdate(u);
@@ -315,10 +345,20 @@ namespace ImagehuntBotBuilder
                                 var attachment = new Attachment()
                                 {
                                     ContentType = ImageHuntActivityTypes.NewPlayer,
-                                    Content = new ConversationAccount(name: newChatMember.Username) 
+                                    Content = new ConversationAccount(name: newChatMember.Username)
                                 };
                                 attachments.Add(attachment);
                             }
+                        }
+
+                        if (message.LeftChatMember != null)
+                        {
+                            var attachment = new Attachment()
+                            {
+                                ContentType = ImageHuntActivityTypes.LeftPlayer,
+                                Content = new ConversationAccount(name: message.LeftChatMember.Username)
+                            };
+                            attachments.Add(attachment);
                         }
                         return attachments;
                     }))

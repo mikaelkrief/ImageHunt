@@ -1,0 +1,38 @@
+<div #createUserTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left" i18n>Create user</h4>
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true" class="fa fa-times"></span>
+    </button>
+  </div>
+<div class="container">
+  <form #f="ngForm" (ngSubmit)="register(f)">
+    <div class="form-group">
+      <label for="userName" i18n>Username</label>
+      <input class="form-control" type="text" required i18n-placeholder placeholder="Username" id="userName" name="userName" ngModel/>
+    </div>
+    <div class="form-group">
+      <label for="password" i18n>Password</label>
+      <input class="form-control" type="password" required i18n-placeholder placeholder="Password" id="password" name="password" ngModel/>
+    </div>
+    <div class="form-group">
+      <label for="repeatpassword" i18n>Repeat Password</label>
+      <input class="form-control" type="password" required i18n-placeholder placeholder="Password" id="repeatpassword" name="repeatpassword" ngModel/>
+    </div>
+    <div class="form-group">
+      <label for="telegram" i18n>Telegram username</label>
+      <input class="form-control" type="text" required i18n-placeholder placeholder="Telegram" id="telegram" name="telegram" ngModel/>
+    </div>
+    <div class="form-group">
+      <label for="email" i18n>Email</label>
+      <input class="form-control" type="email" required i18n-placeholder placeholder="Email" id="email" name="email" ngModel/>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-success pull-right" type="submit" i18n-aria-label aria-label="Close" [disabled]="f.invalid" i18n>
+        Create user
+      </button>
+    </div>
+
+  </form>
+</div>
+</div>

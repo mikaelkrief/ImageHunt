@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
-using ImageHunt.Model;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
-using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.Responses;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
@@ -21,9 +19,7 @@ using Action = ImageHuntCore.Model.Action;
 namespace ImageHunt.Controllers
 {
   [Route("api/[Controller]")]
-  #if !DEBUG
-  [Authorize]
-  #endif
+  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,GameMaster,Validator,Bot")]
   public class ActionController : BaseController
   {
     private readonly IGameService _gameService;
@@ -44,7 +40,9 @@ namespace ImageHunt.Controllers
       ITeamService teamService,
       IHubContext<LocationHub> hubContext,
       IMapper mapper,
-      ILogger<ActionController> logger)
+      ILogger<ActionController> logger,
+      UserManager<Identity> userManager)
+    :base(userManager)
     {
       _gameService = gameService;
       _playerService = playerService;
@@ -70,6 +68,7 @@ namespace ImageHunt.Controllers
       gameAction.Latitude = gameActionRequest.Latitude;
       gameAction.Longitude = gameActionRequest.Longitude;
       gameAction.Action = (Action)gameActionRequest.Action;
+      gameAction.IsValidated = gameActionRequest.Validated;
       if (gameActionRequest.NodeId != 0)
       {
         gameAction.Node = _nodeService.GetNode(gameActionRequest.NodeId);
@@ -109,8 +108,12 @@ namespace ImageHunt.Controllers
         case Action.ReplyQuestion:
           var answer = _nodeService.GetAnswer(gameActionRequest.AnswerId);
           gameAction.SelectedAnswer = answer;
-          var correctAnswer = ((ChoiceNode) gameAction.Node).Answers.Single(a => a.Correct);
-          gameAction.CorrectAnswer = correctAnswer;
+          if (gameAction.Node != null)
+          {
+            var correctAnswer = ((ChoiceNode) gameAction.Node).Answers.Single(a => a.Correct);
+            gameAction.CorrectAnswer = correctAnswer;
+          }
+
           break;
       }
       _actionService.AddGameAction(gameAction);
@@ -125,27 +128,32 @@ namespace ImageHunt.Controllers
       await _hubContext.Clients.All.SendAsync("ActionSubmitted", gameAction);
     }
 
-    [HttpPut("Validate/{gameActionId}")]
+    [HttpPut("Validate/{gameActionId}/{nodeId}")]
     [Authorize]
-    public IActionResult Validate(int gameActionId)
+    public IActionResult Validate(int gameActionId, int nodeId)
     {
+      //var validatorId = UserId;
       var validatorId = UserId;
-      _actionService.Validate(gameActionId, validatorId, true);
-      return Ok();
+      var gameAction = _actionService.Validate(gameActionId, nodeId, validatorId, true);
+      return Ok(gameAction);
     }
     [HttpPut("Reject/{gameActionId}")]
     [Authorize]
     public IActionResult Reject(int gameActionId)
     {
       var validatorId = UserId;
-      _actionService.Validate(gameActionId, validatorId, false);
+      _actionService.Validate(gameActionId, 0, validatorId, false);
       return Ok();
     }
 
     [HttpPost("LogPosition")]
     public async Task<IActionResult> LogPosition(LogPositionRequest logPositionRequest)
     {
-      _logger.LogInformation($"Received position gameId: {logPositionRequest.GameId}, teamId: {logPositionRequest.TeamId}, [{logPositionRequest.Latitude}, {logPositionRequest.Longitude}]");
+      _logger.LogInformation("Received position gameId: {0}, teamId: {1}, [{2}, {3}]",
+        logPositionRequest.GameId,
+        logPositionRequest.TeamId,
+        logPositionRequest.Latitude,
+        logPositionRequest.Longitude);
       var gameAction = new GameAction()
         {
           Action = Action.SubmitPosition,
@@ -191,7 +199,7 @@ namespace ImageHunt.Controllers
         if (gameAction.Latitude.HasValue && gameAction.Longitude.HasValue)
         {
           gameActionToValidate.ProbableNodes = _nodeService
-            .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value, gameAction.Longitude.Value)
+            .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value, gameAction.Longitude.Value, NodeTypes.Picture|NodeTypes.Hidden)
             .Take(gameActionListRequest.NbPotential);
           foreach (var probableNode in gameActionToValidate.ProbableNodes)
           {
@@ -220,6 +228,17 @@ namespace ImageHunt.Controllers
       //}
       return Ok(gameActions);
     }
-
+    [HttpPatch]
+    public IActionResult Modify([FromBody]GameActionModifyRequest gameActionRequest)
+    {
+      if (gameActionRequest == null || gameActionRequest.Id == 0)
+        return BadRequest();
+      var gameAction = _actionService.GetGameAction(gameActionRequest.Id);
+      gameAction.IsValidated = gameActionRequest.Validated;
+      gameAction.IsReviewed = gameActionRequest.Reviewed;
+      gameAction.PointsEarned = gameActionRequest.PointsEarned;
+      _actionService.Update(gameAction);
+      return Ok(_mapper.Map<GameActionResponse>(gameAction));
+    }
   }
 }

@@ -5,6 +5,7 @@ import { NgForm } from "@angular/forms";
 import { EditedRelation } from "../../shared/EditedRelation";
 import {GameService} from "../../shared/services/game.service";
 import {AlertService} from "../../shared/services/alert.service";
+import { NodeResponse } from 'shared/nodeResponse';
 
 @Component({
   selector: 'node-relation',
@@ -13,12 +14,12 @@ import {AlertService} from "../../shared/services/alert.service";
 })
 /** node.relation component*/
 export class NodeRelationComponent implements OnInit {
-  _nodes: Node[];
-  get nodes(): Node[] {
+  _nodes: NodeResponse[];
+  get nodes(): NodeResponse[] {
     return this._nodes;
   }
   @Input('nodes')
-  set nodes(value: Node[]) {
+  set nodes(value: NodeResponse[]) {
     this._nodes = value;
     this.updateNodes();
   }
@@ -27,41 +28,47 @@ export class NodeRelationComponent implements OnInit {
     this.selectedParent = this.parentNodes[0];
     this.parentSelected(this.selectedParent);
   }
-  parentNodes: Node[];
-  childrenNodes: Node[];
-  availableNodes: Node[];
+  parentNodes: NodeResponse[];
+  childrenNodes: NodeResponse[];
+  availableNodes: NodeResponse[];
   /** node.relation ctor */
   constructor(public bsModalRef: BsModalRef, private _gameService: GameService, private _alertService: AlertService) { }
 
   /** Called by Angular after node.relation component initialized */
   ngOnInit(): void {
   }
-  parentSelected(node: Node): void {
+  parentSelected(node: NodeResponse): void {
     // Set the node children
-    this.childrenNodes = node.children;
+    this.childrenNodes = this.nodes.filter(n=> node.childNodeIds.find(id => id === n.id));
     // Set the available nodes
     this.availableNodes = this.nodes
       .filter(n => n.nodeType !== "FirstNode")
       .filter(n => !this.childrenNodes.find(n2 => n2 === n))
       .filter(n => n !== node);
-    this.addNodeDisabled = (node.nodeType !== "ChoiceNode" && node.children.length > 0);
-    this.removeNodeDisabled = node.children.length === 0;
+    this.addNodeDisabled = (node.nodeType !== "ChoiceNode" && node.childNodeIds.length > 0) || (this.selectedAvailable == undefined);
+    this.removeNodeDisabled = node.childNodeIds.length === 0;
   }
   addNodeDisabled: boolean;
   removeNodeDisabled: boolean;
   addChildren() {
     if (this.selectedParent && this.selectedAvailable) {
-      this.selectedParent.children.push(this.selectedAvailable);
+      this.selectedParent.childNodeIds.push(this.selectedAvailable.id);
       this.availableNodes.splice(this.availableNodes.indexOf(this.selectedAvailable), 1);
       this.addNodeDisabled = this.removeNodeDisabled = true;
       this._gameService.addRelation(this.selectedParent.id, this.selectedAvailable.id, 0)
-        .subscribe(res => this._alertService.sendAlert(`Le noeud ${this.selectedAvailable.name} a été ajouté aux enfants de ${this.selectedParent.name}`, "success", 5000))
-        ;
+        .subscribe(res => {
+            this.parentSelected(this.selectedParent);
+            this._alertService.sendAlert(
+              `Le noeud ${this.selectedAvailable.name} a été ajouté aux enfants de ${this.selectedParent.name}`,
+              "success",
+              5000);
+          });
     }
   }
   removeChildren() {
     if (this.selectedParent && this.selectedChildren) {
-      this.selectedParent.children.splice(this.selectedParent.children.indexOf(this.selectedChildren), 1);
+      this.selectedParent.childNodeIds.splice(this.selectedParent.childNodeIds.indexOf(this.selectedChildren.id), 1);
+      this.childrenNodes.splice(this.childrenNodes.indexOf(this.selectedChildren), 1);
       this.availableNodes.push(this.selectedChildren);
       this.addNodeDisabled = this.removeNodeDisabled = true;
       this._gameService.removeRelation(this.selectedParent.id, this.selectedChildren.id)
@@ -69,7 +76,7 @@ export class NodeRelationComponent implements OnInit {
         ;
     }
   }
-  selectedParent: Node;
-  selectedChildren: Node;
-  selectedAvailable: Node;
+  selectedParent: NodeResponse;
+  selectedChildren: NodeResponse;
+  selectedAvailable: NodeResponse;
 }

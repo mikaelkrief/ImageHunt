@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using ImageHunt.Model;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
@@ -22,5 +21,6 @@ namespace ImageHunt.Services
 
       void UploadImage(int gameId, int teamId, double latitude, double longitude, byte[] image, string imageName=null);
       void SetBonus(int teamId, int bonusValue);
+      void Update(Team team);
     }
 }

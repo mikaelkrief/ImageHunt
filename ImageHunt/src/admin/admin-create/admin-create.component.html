@@ -1,7 +1,7 @@
 <div #createAdminTemplate>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Création d'un administrateur</h4>
-    <button type="button" class="close pull-right" aria-label="Fermer" (click)="bsModalRef.hide()">
+    <h4 class="modal-title pull-left" i18n>Create Administrator</h4>
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="bsModalRef.hide()">
       <span aria-hidden="true" class="fa fa-times"></span>
     </button>
   </div>
@@ -9,27 +9,27 @@
     <form [formGroup]="adminGroup" (ngSubmit)="createAdmin()">
       <div class="modal-body">
         <div class="form-group">
-          <label for="name">Nom</label>
-          <input type="text" class="form-control" formControlName="name" name="name" required placeholder="Nom de l'utilisateur" id="name" />
+          <label for="name" i18n>Username</label>
+          <input type="text" class="form-control" formControlName="name" name="name" required i18n-placeholder placeholder="User name" id="name" />
         </div>
         <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" class="form-control" formControlName="email" name="email" required placeholder="Email de l'utilisateur" id="email" email/>
+          <label for="email" i18n>Email</label>
+          <input type="email" class="form-control" formControlName="email" name="email" required i18n-placeholder placeholder="User email" id="email" email/>
         </div>
         <div class="form-group">
-          <label for="role">Role</label>
+          <label for="role" i18n>Role</label>
           <select class="form-control" id="role" formControlName="role" name="role">
-            <option value="0">Administrateur</option>
-            <option value="1">Validateur</option>
-            <option value="2">Créateur de carte</option>
-            <option value="3">Lecteur</option>
+            <option value="0" i18n>Administrateur</option>
+            <option value="1" i18n>Valodator</option>
+            <option value="2" i18n>GameMaster</option>
+            <option value="3" i18n>Reader</option>
           </select>
         </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-success pull-right" type="submit" aria-label="Close" [disabled]="!adminGroup.valid"
-                (click)="bsModalRef.hide()">
-          Créer l'utilisateur
+                (click)="bsModalRef.hide()" i18n>
+          Create user
         </button>
       </div>
 

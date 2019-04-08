@@ -1,15 +1,15 @@
 <div #uploadImagesTemplate>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Téléchargement d'une image</h4>
-    <button type="button" class="close pull-right" aria-label="Fermer" (click)="bsModalRef.hide()">
-      <span aria-hidden="true" class="fa fa-times"></span>
+    <h4 class="modal-title pull-left" i18n>Picture upload</h4>
+    <button type="button" class="close pull-right" i18n-aria-label aria-label="Close" (click)="bsModalRef.hide()">
+      <i aria-hidden="true" class="fa fa-times"></i>
     </button>
   </div>
   <div class="modal-body">
     <br />
     <form>
       <input class="btn btn-primary" type="file"
-             #fileInput placeholder="Upload file..." (change)="uploadFiles(fileInput.files)" />
+             #fileInput i18n-placeholder placeholder="Upload file..." (change)="uploadFiles(fileInput.files)" />
     </form>
   </div>
 </div>
