@@ -79,7 +79,20 @@ namespace ImageHuntBotBuilder
                         TeamId = state.TeamId.Value,
                         NodeId = state.CurrentNode.Id,
                     };
-                    IList<Activity> nextActivities = null;
+                    IList<Activity> nextActivities = new List<Activity>();
+                    #region Current node
+
+                    switch (state.CurrentNode.NodeType)
+                    {
+                        case NodeResponse.ObjectNodeType:
+                            nextActivities.Add(new Activity(text: _localizer["DO_ACTION_REQUEST", state.CurrentNode.Action], 
+                                type: ActivityTypes.Message));
+
+                            break;
+                    }
+                    #endregion
+                    #region Next node
+
                     switch (state.CurrentNode.NodeType)
                     {
                         case NodeResponse.FirstNodeType:
@@ -87,13 +100,12 @@ namespace ImageHuntBotBuilder
                         case NodeResponse.WaypointNodeType:
                             var nextNodeId = state.CurrentNode.ChildNodeIds.First();
                             nextNode = await _nodeWebService.GetNode(nextNodeId);
-                            nextActivities = ActivitiesFromNode(nextNode);
+                            nextActivities = nextActivities.Union(ActivitiesFromNode(nextNode)).ToList();
                             actionRequest.PointsEarned = state.CurrentNode.Points;
                             state.CurrentNode = nextNode;
                             state.CurrentNodeId = nextNode.Id;
-                          break;
+                            break;
                         case NodeResponse.LastNodeType:
-                            nextActivities = new List<Activity>();
                             nextActivities.Add(new Activity(text:_localizer["LASTNODE_REACHED"], type: ActivityTypes.Message));
                             actionRequest.PointsEarned = state.CurrentNode.Points;
 
@@ -103,7 +115,9 @@ namespace ImageHuntBotBuilder
                     {
                         await context.SendActivityAsync(nextActivity);
                     }
+                    
 
+                        #endregion
                     await _actionWebService.LogAction(actionRequest);
                 }
 

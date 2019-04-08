@@ -258,6 +258,52 @@ namespace ImageHuntBotBuilderTest
             Check.That(state.CurrentNode).IsEqualTo(nextNode).And.IsEqualTo(nextNodeExpected);
         }
         [Fact]
+        public async Task Should_location_match_Object_node()
+        {
+            // Arrange
+            var activity = new Activity(type: ImageHuntActivityTypes.Location)
+            {
+                Attachments = new List<Attachment>()
+                {
+                    new Attachment()
+                    {
+                        Content = new GeoCoordinates(latitude: 45.8, longitude: 5.87)
+                    }
+                }
+            };
+            var state = new ImageHuntState()
+            {
+                Status = Status.Started,
+                Team = new TeamResponse() { CultureInfo = "fr" },
+
+                CurrentNode = new NodeResponse()
+                {
+                    Latitude = 45.79999,
+                    Longitude = 5.86999,
+                    ChildNodeIds = new List<int>() { 15 },
+                    NodeType = NodeResponse.ObjectNodeType,
+                    Action = "Toto"
+                },
+                GameId = 45,
+                TeamId = 87,
+
+            };
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            var nextNodeExpected = new NodeResponse() { NodeType = "ObjectNode" };
+            A.CallTo(() => _nodeWebService.GetNode(A<int>._)).Returns(nextNodeExpected);
+            // Act
+            var nextNode = await _target.MatchLocationAsync(_turnContext, state);
+            // Assert
+            A.CallTo(() => _nodeWebService.GetNode(A<int>._)).MustHaveHappened();
+            A.CallTo(
+                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                .MustHaveHappened(Repeated.Exactly.Once);
+            A.CallTo(() => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._))
+                .MustHaveHappened();
+            Check.That(nextNode).IsNotNull();
+            Check.That(state.CurrentNode).IsEqualTo(nextNode).And.IsEqualTo(nextNodeExpected);
+        }
+        [Fact]
         public async Task Should_Not_crash_if_CurrentNode_null()
         {
             // Arrange
