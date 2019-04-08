@@ -572,6 +572,114 @@ namespace ImageHuntBotBuilderTest
 
         }
 
+        [Fact]
+        public async Task Should_MatchLocationDialog_Return_null_if_current_node_null()
+        {
+            // Arrange
+            var state = new ImageHuntState()
+            {
+                GameId = 45,
+                TeamId = 87,
 
+            };
+            var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
+
+            // Act
+            var dialog = await _target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            // Assert
+            Check.That(dialog).IsNull();
+        }
+        [Fact]
+        public async Task Should_MatchLocationDialog_Return_null_if_conversation_state_null()
+        {
+            // Arrange
+            var state = new ImageHuntState()
+            {
+                GameId = 45,
+                TeamId = 87,
+
+            };
+            var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
+
+            // Act
+            var dialog = await _target.MatchLocationDialogAsync(_turnContext, state, null);
+            // Assert
+            Check.That(dialog).IsNull();
+        }
+        [Fact]
+        public async Task Should_MatchLocationDialog_Handle_Only_Question_And_Choice_Node()
+        {
+            // Arrange
+            var state = new ImageHuntState()
+            {
+                GameId = 45,
+                TeamId = 87,
+                CurrentNode = new NodeResponse() { NodeType = NodeResponse.BonusNodeType}
+            };
+            var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
+
+            // Act
+            var dialog = await _target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            // Assert
+            Check.That(dialog).IsNull();
+        }
+        [Fact]
+        public async Task Should_MatchLocationDialog_QuestionNode_Not_Reached()
+        {
+            // Arrange
+            var state = new ImageHuntState()
+            {
+                GameId = 45,
+                TeamId = 87,
+                CurrentNode = new NodeResponse() { NodeType = NodeResponse.QuestionNodeType, Latitude = 45.8, Longitude = 0}
+            };
+            var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
+            var activity = new Activity(type: ImageHuntActivityTypes.Location)
+            {
+                Attachments = new List<Attachment>()
+                {
+                    new Attachment()
+                    {
+                        Content = new GeoCoordinates(latitude: 45.8, longitude: 5.87)
+                    }
+                }
+            };
+
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+
+            // Act
+            var dialog = await _target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            // Assert
+            Check.That(dialog).IsNull();
+        }
+        [Fact]
+        public async Task Should_MatchLocationDialog_QuestionNode_Reached()
+        {
+            // Arrange
+            var state = new ImageHuntState()
+            {
+                GameId = 45,
+                TeamId = 87,
+                CurrentNode = new NodeResponse() { NodeType = NodeResponse.QuestionNodeType, Latitude = 45.8, Longitude = 5.87 }
+            };
+            var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
+            var activity = new Activity(type: ImageHuntActivityTypes.Location)
+            {
+                Attachments = new List<Attachment>()
+                {
+                    new Attachment()
+                    {
+                        Content = new GeoCoordinates(latitude: 45.8, longitude: 5.87)
+                    }
+                }
+            };
+
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+
+            // Act
+            var dialogSet = await _target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            // Assert
+            Check.That(dialogSet).IsInstanceOf<DialogSet>();
+        }
     }
 }

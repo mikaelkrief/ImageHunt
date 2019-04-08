@@ -299,14 +299,14 @@ namespace ImageHuntBotBuilder
             }
         }
 
-        private bool MatchLocation(ITurnContext turnContext, NodeResponse hiddenNode, out GeoCoordinates location)
+        private bool MatchLocation(ITurnContext turnContext, NodeResponse node, out GeoCoordinates location)
         {
             var activity = turnContext.Activity;
             location = activity.Attachments.First().Content as GeoCoordinates;
             // Check that location match the current node
             var distance = GeographyComputation.Distance(location.Latitude.Value, location.Longitude.Value,
-                hiddenNode.Latitude,
-                hiddenNode.Longitude);
+                node.Latitude,
+                node.Longitude);
             return distance < _rangeDistance;
         }
 
@@ -316,12 +316,22 @@ namespace ImageHuntBotBuilder
             IStatePropertyAccessor<DialogState> conversationDialogState)
         {
             var node = state.CurrentNode;
+            if (node == null)
+            {
+                _logger.LogTrace("Current node is null");
+                return null;
+            }
             if (conversationDialogState == null)
             {
                 _logger.LogError($"conversationDialogState is null");
                 return null;
             }
 
+            if (node.NodeType != NodeResponse.QuestionNodeType || node.NodeType == NodeResponse.ChoiceNodeType)
+            {
+                _logger.LogTrace("Current node is not correct type: {0}", node.NodeType);
+                return null;
+            }
             if (MatchLocation(turnContext, node, out var location))
             {
                 var dialogSet = new DialogSet(conversationDialogState);
