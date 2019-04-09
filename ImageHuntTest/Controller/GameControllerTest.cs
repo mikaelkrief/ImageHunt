@@ -273,6 +273,7 @@ namespace ImageHuntTest.Controller
             // Act
             _target.AddImageNodes(1, images);
             // Assert
+            A.CallTo(() => _imageService.AddPicture(A<Picture>._)).MustHaveHappened();
             A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckImageNode(n))))
                 .MustHaveHappened(Repeated.Exactly.Times(3));
         }

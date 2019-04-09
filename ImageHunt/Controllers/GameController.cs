@@ -153,7 +153,7 @@ namespace ImageHunt.Controllers
             _logger.LogWarning($"The image {file.Name} is not geotagged");
             return new BadRequestObjectResult(new { message = $"The image {file.FileName}", filename = file.FileName });
           }
-
+          _imageService.AddPicture(picture);
           var node = new PictureNode
           {
             Image = picture,
