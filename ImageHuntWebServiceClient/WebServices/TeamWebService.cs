@@ -18,14 +18,14 @@ namespace ImageHuntWebServiceClient.WebServices
       public async Task<NodeResponse> StartGameForTeam(int gameId, int teamId,
           CancellationToken cancellationToken = default(CancellationToken))
       {
-          var result = await PutAsync<NodeResponse>($"{_httpClient.BaseAddress}api/Team/StartTeam/{gameId}/{teamId}", cancellationToken);
+          var result = await PutAsync<NodeResponse>($"{HttpClient.BaseAddress}api/Team/StartTeam/{gameId}/{teamId}", cancellationToken);
           return result;
       }
 
 
         public async Task<TeamResponse> GetTeamById(int teamId)
     {
-      return await GetAsync<TeamResponse>($"{_httpClient.BaseAddress}api/Team/{teamId}");
+      return await GetAsync<TeamResponse>($"{HttpClient.BaseAddress}api/Team/{teamId}");
     }
 
     public async Task<NodeResponse> UploadImage(UploadImageRequest uploadImageRequest)
@@ -41,7 +41,7 @@ namespace ImageHuntWebServiceClient.WebServices
         using (var fileStream = uploadImageRequest.FormFile.OpenReadStream())
         {
           content.Add(new StreamContent(fileStream), "formFile", "image.jpg");
-          return await PostAsync<NodeResponse>($"{_httpClient.BaseAddress}api/Team/UploadImage/", content);
+          return await PostAsync<NodeResponse>($"{HttpClient.BaseAddress}api/Team/UploadImage/", content);
         }
       }
         
@@ -49,14 +49,14 @@ namespace ImageHuntWebServiceClient.WebServices
 
       public async Task<TeamResponse> GetTeamForUserName(int gameId, string userName)
       {
-          return await GetAsync<TeamResponse>($"{_httpClient.BaseAddress}api/Team/GetTeamsOfPlayer/{gameId}/{userName}");
+          return await GetAsync<TeamResponse>($"{HttpClient.BaseAddress}api/Team/GetTeamsOfPlayer/{gameId}/{userName}");
       }
 
       public async Task<TeamResponse> CreateTeam(int gameId, TeamRequest teamRequest)
       {
           using (var content = new StringContent(JsonConvert.SerializeObject(teamRequest), Encoding.UTF8, "application/json"))
           {
-              return await PostAsync<TeamResponse>($"{_httpClient.BaseAddress}api/Team/{gameId}", content);
+              return await PostAsync<TeamResponse>($"{HttpClient.BaseAddress}api/Team/{gameId}", content);
           }
 
       }
@@ -65,13 +65,13 @@ namespace ImageHuntWebServiceClient.WebServices
       {
           using (var content = new StringContent(JsonConvert.SerializeObject(playerRequest), Encoding.UTF8, "application/json"))
           {
-              return await PostAsync<TeamResponse>($"{_httpClient.BaseAddress}api/Team/AddPlayer/{teamId}", content);
+              return await PostAsync<TeamResponse>($"{HttpClient.BaseAddress}api/Team/AddPlayer/{teamId}", content);
           }
       }
 
       public async Task RemovePlayerFromTeam(int teamId, string chatId)
       {
-          await DeleteAsync($"{_httpClient.BaseAddress}api/Team/RemoveByChatId/{teamId}/{chatId}");
+          await DeleteAsync($"{HttpClient.BaseAddress}api/Team/RemoveByChatId/{teamId}/{chatId}");
       }
 
       public async Task UpdateTeam(UpdateTeamRequest updateTeamRequest)
@@ -79,7 +79,7 @@ namespace ImageHuntWebServiceClient.WebServices
           using (var content = new StringContent(JsonConvert.SerializeObject(updateTeamRequest), Encoding.UTF8,
               "Application/json"))
           {
-              await PatchAsync<object>($"{_httpClient.BaseAddress}api/Team", content);
+              await PatchAsync<object>($"{HttpClient.BaseAddress}api/Team", content);
           }
       }
   }

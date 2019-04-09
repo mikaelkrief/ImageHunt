@@ -16,7 +16,7 @@ namespace ImageHuntWebServiceClientTest.WebServices
         public PasscodeWebServiceTest()
         {
             _logger = A.Fake<ILogger<PasscodeWebService>>();
-            _target = new PasscodeWebService(_httpClient, _logger);
+            _target = new PasscodeWebService(HttpClient, _logger);
         }
 
         [Fact]
@@ -28,7 +28,7 @@ namespace ImageHuntWebServiceClientTest.WebServices
                 Content = new StringContent("OK")
             };
 
-            A.CallTo(_fakeHttpMessageHandler)
+            A.CallTo(FakeHttpMessageHandler)
                 .Where(x => x.Method.Name == "PatchAsync")
                 .WithReturnType<Task<HttpResponseMessage>>()
                 .Returns(httpResponse);

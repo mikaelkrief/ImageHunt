@@ -49,20 +49,20 @@ namespace ImageHuntBotBuilderTest
             Startup.ConfigureMappings();
             _configuration = A.Fake<IConfiguration>();
             _credentialProvider = A.Fake<ICredentialProvider>();
-            _testContainerBuilder.RegisterInstance(_credentialProvider);
-            _testContainerBuilder.RegisterInstance(_configuration);
-            _testContainerBuilder.RegisterType<TelegramAdapter>();
+            TestContainerBuilder.RegisterInstance(_credentialProvider);
+            TestContainerBuilder.RegisterInstance(_configuration);
+            TestContainerBuilder.RegisterType<TelegramAdapter>();
             _logger = A.Fake<ILogger<TelegramAdapter>>();
-            _testContainerBuilder.RegisterInstance(_logger);
+            TestContainerBuilder.RegisterInstance(_logger);
             _mapper = Mapper.Instance;
-            _testContainerBuilder.RegisterInstance(_mapper);
+            TestContainerBuilder.RegisterInstance(_mapper);
             _telegramBotClient = A.Fake<ITelegramBotClient>();
-            _testContainerBuilder.RegisterInstance(_telegramBotClient);
+            TestContainerBuilder.RegisterInstance(_telegramBotClient);
             _fakeHttpMessageHandler = A.Fake<HttpMessageHandler>();
             _httpClient = new HttpClient(_fakeHttpMessageHandler) { BaseAddress = new Uri("http://test.com") };
-            _testContainerBuilder.RegisterInstance(_httpClient);
-            _testContainerBuilder.RegisterInstance(_imageWebService = A.Fake<IImageWebService>());
-            var container = _testContainerBuilder.Build();
+            TestContainerBuilder.RegisterInstance(_httpClient);
+            TestContainerBuilder.RegisterInstance(_imageWebService = A.Fake<IImageWebService>());
+            var container = TestContainerBuilder.Build();
 
             _target = container.Resolve<TelegramAdapter>();
 

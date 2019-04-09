@@ -15,7 +15,7 @@ namespace ImageHuntApiTester
         public class Options
         {
             [Option("API", Required = true)]
-            public string APIToTest { get; set; }
+            public string ApiToTest { get; set; }
             [Option('g', "gameId", Required = false)]
             public int GameId { get; set; }
             [Option('t', "minTeamId", Required = false)]
@@ -27,7 +27,7 @@ namespace ImageHuntApiTester
             [Option('n', "longitude", Required = false)]
             public double SeedLongitude { get; set; }
             [Option('u', "APIUrl", Required = true)]
-            public string APIUrl { get; set; }
+            public string ApiUrl { get; set; }
             [Option('i', "Timer", Required = false, Default = 15000)]
             public int TimerInterval { get; set; }
             [Option("Name")]
@@ -35,7 +35,7 @@ namespace ImageHuntApiTester
             [Option("ChatLogin")]
             public string ChatLogin { get; set; }
         }
-        static HttpClient httpClient = new HttpClient();
+        static HttpClient _httpClient = new HttpClient();
         private static IActionWebService _actionWebService;
         private static ITeamWebService _teamWebService;
         private static LoggerFactory _loggerFactory;
@@ -88,18 +88,18 @@ namespace ImageHuntApiTester
             Parser.Default.ParseArguments<Options>(args)
                 .WithParsed(async o =>
                 {
-                    httpClient.BaseAddress = new Uri(o.APIUrl);
-                    httpClient.DefaultRequestHeaders.Accept.Clear();
+                    _httpClient.BaseAddress = new Uri(o.ApiUrl);
+                    _httpClient.DefaultRequestHeaders.Accept.Clear();
                     try
                     {
-                        switch (o.APIToTest)
+                        switch (o.ApiToTest)
                         {
                             case "LogAction":
-                                _actionWebService = new ActionWebService(httpClient, _loggerFactory.CreateLogger<IActionWebService>());
+                                _actionWebService = new ActionWebService(_httpClient, _loggerFactory.CreateLogger<IActionWebService>());
                                 await InsertRandomPosition(o.GameId, o.MinTeamId, o.MaxTeamId, o.SeedLatitude, o.SeedLongitude, o.TimerInterval);
                                 break;
                             case "AddPlayer":
-                                _teamWebService = new TeamWebService(httpClient, _loggerFactory.CreateLogger<ITeamWebService>());
+                                _teamWebService = new TeamWebService(_httpClient, _loggerFactory.CreateLogger<ITeamWebService>());
                                 await InsertPlayerToTeam(o.MinTeamId, o.Name, o.ChatLogin);
                                 break;
                         }

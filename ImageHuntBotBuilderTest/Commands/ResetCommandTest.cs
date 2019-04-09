@@ -24,8 +24,8 @@ namespace ImageHuntBotBuilderTest.Commands
         public ResetCommandTest()
         {
             _logger = A.Fake<ILogger<IResetCommand>>();
-            _testContainerBuilder.RegisterInstance(_logger);
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<ResetCommand>>());
+            TestContainerBuilder.RegisterInstance(_logger);
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<ResetCommand>>());
             _turnContext = A.Fake<ITurnContext>();
             Build();
         }
@@ -35,7 +35,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             var state = new ImageHuntState() {GameId = 15, TeamId = 65, Status = Status.Started};
             // Act
-            await _target.Execute(_turnContext, state);
+            await Target.ExecuteAsync(_turnContext, state);
             // Assert
             Check.That(state.GameId).IsNull();
         }
@@ -48,7 +48,7 @@ namespace ImageHuntBotBuilderTest.Commands
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
                 .Throws<Exception>();
             // Act
-            await _target.Execute(_turnContext, state);
+            await Target.ExecuteAsync(_turnContext, state);
             // Assert
             A.CallTo(() => _logger.Log(LogLevel.Error, A<EventId>._, A<object>._, A<Exception>._,
                 A < Func<object, Exception, string>>._)).MustHaveHappened();

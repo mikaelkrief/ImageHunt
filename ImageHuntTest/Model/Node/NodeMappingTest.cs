@@ -45,7 +45,7 @@ namespace ImageHuntTest.Model.Node
         public void MapBonusNodeToNodeResponse()
         {
             // Arrange
-            var node = new BonusNode() { Location = "Location", BonusType = BonusNode.BONUS_TYPE.Points_x2, Name = "titi" };
+            var node = new BonusNode() { Location = "Location", BonusType = BonusNode.BONUSTYPE.PointsX2, Name = "titi" };
             // Act
             var response = _mapper.Map<NodeResponse>(node);
             // Assert

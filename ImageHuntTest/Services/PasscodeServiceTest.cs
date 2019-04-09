@@ -18,7 +18,7 @@ namespace ImageHuntTest.Services
 
         public PasscodeServiceTest()
         {
-            _target = new PasscodeService(_context, _logger);
+            _target = new PasscodeService(Context, _logger);
         }
 
         [Fact]
@@ -33,14 +33,14 @@ namespace ImageHuntTest.Services
                 new Passcode(),
                 new Passcode(),
             };
-            _context.Passcodes.AddRange(passcodes);
+            Context.Passcodes.AddRange(passcodes);
             var games = new List<Game>()
             {
                 new Game() {Passcodes = new List<Passcode>(){passcodes[0], passcodes[2]}},
                 new Game() {Passcodes = new List<Passcode>(){passcodes[1], passcodes[3], passcodes[4]}},
             };
-            _context.Games.AddRange(games);
-            _context.SaveChanges();
+            Context.Games.AddRange(games);
+            Context.SaveChanges();
             // Act
             var result = _target.GetAll(games[1].Id);
             // Assert
@@ -58,8 +58,8 @@ namespace ImageHuntTest.Services
                 new Passcode(),
                 new Passcode(),
             };
-            _context.Passcodes.AddRange(passcodes);
-            _context.SaveChanges();
+            Context.Passcodes.AddRange(passcodes);
+            Context.SaveChanges();
             // Act
             var result = _target.Get(passcodes[1].Id);
             // Assert
@@ -78,14 +78,14 @@ namespace ImageHuntTest.Services
                 new Passcode(),
                 new Passcode(),
             };
-            _context.Passcodes.AddRange(passcodes);
+            Context.Passcodes.AddRange(passcodes);
             var games = new List<Game>()
             {
                 new Game() {Passcodes = new List<Passcode>(){passcodes[0], passcodes[2]}},
                 new Game() {Passcodes = new List<Passcode>(){passcodes[1], passcodes[3], passcodes[4]}},
             };
-            _context.Games.AddRange(games);
-            _context.SaveChanges();
+            Context.Games.AddRange(games);
+            Context.SaveChanges();
             // Act
             _target.Delete(games[1].Id, games[1].Passcodes[1].Id);
             // Assert
@@ -103,25 +103,25 @@ namespace ImageHuntTest.Services
                 new Passcode(){Pass="d", NbRedeem = 4, Points = 40},
                 new Passcode(){Pass="e", NbRedeem = 5, Points = 50},
             };
-            _context.Passcodes.AddRange(passcodes);
+            Context.Passcodes.AddRange(passcodes);
             var teams = new List<Team>()
             {
                 new Team(),
                 new Team(),
                 new Team(),
             };
-            _context.Teams.AddRange(teams);
+            Context.Teams.AddRange(teams);
             var games = new List<Game>()
             {
                 new Game() {Passcodes = new List<Passcode>(){passcodes[0], passcodes[2]}},
                 new Game() {Passcodes = new List<Passcode>(){passcodes[1], passcodes[3], passcodes[4]}, Teams = teams},
             };
-            _context.Games.AddRange(games);
-            _context.SaveChanges();
+            Context.Games.AddRange(games);
+            Context.SaveChanges();
             // Act
             _target.Redeem(games[1].Id, teams[1].Id, "b");
             // Assert
-            Check.That(_context.GameActions.First().PointsEarned).IsEqualTo(20);
+            Check.That(Context.GameActions.First().PointsEarned).IsEqualTo(20);
             Check.That(passcodes[1].NbRedeem).Equals(1);
             Check.That(teams[1].Passcodes).Contains(passcodes[1]);
         }
@@ -137,25 +137,25 @@ namespace ImageHuntTest.Services
                 new Passcode(){Pass="d", NbRedeem = 4, Points = 40},
                 new Passcode(){Pass="e", NbRedeem = 5, Points = 50},
             };
-            _context.Passcodes.AddRange(passcodes);
+            Context.Passcodes.AddRange(passcodes);
             var teams = new List<Team>()
             {
                 new Team(),
                 new Team(),
                 new Team(),
             };
-            _context.Teams.AddRange(teams);
+            Context.Teams.AddRange(teams);
             var games = new List<Game>()
             {
                 new Game() {Passcodes = new List<Passcode>(){passcodes[0], passcodes[2]}},
                 new Game() {Passcodes = new List<Passcode>(){passcodes[1], passcodes[3], passcodes[4]}, Teams = teams},
             };
-            _context.Games.AddRange(games);
-            _context.SaveChanges();
+            Context.Games.AddRange(games);
+            Context.SaveChanges();
             // Act
             _target.Redeem(games[1].Id, teams[1].Id, "b");
             // Assert
-            Check.That(_context.GameActions.First().PointsEarned).IsEqualTo(20);
+            Check.That(Context.GameActions.First().PointsEarned).IsEqualTo(20);
             Check.That(passcodes[1].NbRedeem).Equals(-1);
             Check.That(teams[1].Passcodes).Contains(passcodes[1]);
         }
@@ -171,7 +171,7 @@ namespace ImageHuntTest.Services
                 new Passcode(){Pass="d", NbRedeem = 4, Points = 40},
                 new Passcode(){Pass="e", NbRedeem = 5, Points = 50},
             };
-            _context.Passcodes.AddRange(passcodes);
+            Context.Passcodes.AddRange(passcodes);
             var teams = new List<Team>()
             {
                 new Team(),
@@ -179,14 +179,14 @@ namespace ImageHuntTest.Services
                 new Team(),
             };
             teams[1].TeamPasscodes.Add(new TeamPasscode(){Passcode = passcodes[1], Team = teams[1]});
-            _context.Teams.AddRange(teams);
+            Context.Teams.AddRange(teams);
             var games = new List<Game>()
             {
                 new Game() {Passcodes = new List<Passcode>(){passcodes[0], passcodes[2]}},
                 new Game() {Passcodes = new List<Passcode>(){passcodes[1], passcodes[3], passcodes[4]}, Teams = teams},
             };
-            _context.Games.AddRange(games);
-            _context.SaveChanges();
+            Context.Games.AddRange(games);
+            Context.SaveChanges();
             // Act
             var result = _target.Redeem(games[1].Id, teams[1].Id, "b");
             // Assert
@@ -204,21 +204,21 @@ namespace ImageHuntTest.Services
                 new Passcode(){Pass="d", NbRedeem = 4, Points = 40},
                 new Passcode(){Pass="e", NbRedeem = 5, Points = 50},
             };
-            _context.Passcodes.AddRange(passcodes);
+            Context.Passcodes.AddRange(passcodes);
             var teams = new List<Team>()
             {
                 new Team(),
                 new Team(),
                 new Team(),
             };
-            _context.Teams.AddRange(teams);
+            Context.Teams.AddRange(teams);
             var games = new List<Game>()
             {
                 new Game() {Passcodes = new List<Passcode>(){passcodes[0], passcodes[2]}},
                 new Game() {Passcodes = new List<Passcode>(){passcodes[1], passcodes[3], passcodes[4]}, Teams = teams},
             };
-            _context.Games.AddRange(games);
-            _context.SaveChanges();
+            Context.Games.AddRange(games);
+            Context.SaveChanges();
             // Act
             var result = _target.Redeem(games[1].Id, teams[1].Id, "b");
             // Assert
@@ -236,21 +236,21 @@ namespace ImageHuntTest.Services
                 new Passcode(){Pass="d", NbRedeem = 4, Points = 40},
                 new Passcode(){Pass="e", NbRedeem = 5, Points = 50},
             };
-            _context.Passcodes.AddRange(passcodes);
+            Context.Passcodes.AddRange(passcodes);
             var teams = new List<Team>()
             {
                 new Team(),
                 new Team(),
                 new Team(),
             };
-            _context.Teams.AddRange(teams);
+            Context.Teams.AddRange(teams);
             var games = new List<Game>()
             {
                 new Game() {Passcodes = new List<Passcode>(){passcodes[0], passcodes[2]}},
                 new Game() {Passcodes = new List<Passcode>(){passcodes[1], passcodes[3], passcodes[4]}, Teams = teams},
             };
-            _context.Games.AddRange(games);
-            _context.SaveChanges();
+            Context.Games.AddRange(games);
+            Context.SaveChanges();
             // Act
             var result = _target.Redeem(games[1].Id, teams[1].Id, "bsdsd");
             // Assert
@@ -269,21 +269,21 @@ namespace ImageHuntTest.Services
                 new Passcode(){Pass="d", NbRedeem = 4, Points = 40},
                 new Passcode(){Pass="e", NbRedeem = 5, Points = 50},
             };
-            _context.Passcodes.AddRange(passcodes);
+            Context.Passcodes.AddRange(passcodes);
             var games = new List<Game>()
             {
                 new Game() {Passcodes = new List<Passcode>(){passcodes[0], passcodes[2]}},
                 new Game() {Passcodes = new List<Passcode>(){passcodes[1], passcodes[3], passcodes[4]}},
             };
-            _context.Games.AddRange(games);
-            _context.SaveChanges();
+            Context.Games.AddRange(games);
+            Context.SaveChanges();
             var passcode = new Passcode(){Pass="Z"};
             // Act
             var result = _target.Add(games[1].Id, passcode);
             // Assert
             Check.That(result.Id).IsNotEqualTo(0);
             Check.That(games[1].Passcodes).Contains(passcode);
-            Check.That(_context.Passcodes.Any(p => p.Pass == passcode.Pass)).IsTrue();
+            Check.That(Context.Passcodes.Any(p => p.Pass == passcode.Pass)).IsTrue();
         }
     }
 }

@@ -26,10 +26,10 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public RenameChatCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IRenameChatCommand>>());
-            _testContainerBuilder.RegisterInstance(_gameWebService = A.Fake<IGameWebService>());
-            _testContainerBuilder.RegisterInstance(_teamWebService = A.Fake<ITeamWebService>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<RenameChatCommand>>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IRenameChatCommand>>());
+            TestContainerBuilder.RegisterInstance(_gameWebService = A.Fake<IGameWebService>());
+            TestContainerBuilder.RegisterInstance(_teamWebService = A.Fake<ITeamWebService>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<RenameChatCommand>>());
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState() { Status = Status.Initialized };
             Build();
@@ -43,7 +43,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.GameId = 15;
             _state.TeamId = 6;
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._)).MustHaveHappened();
             A.CallTo(() => _teamWebService.GetTeamById(A<int>._)).MustHaveHappened();
@@ -55,7 +55,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             _state.Status = Status.None;
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._)).MustNotHaveHappened();
             A.CallTo(() => _teamWebService.GetTeamById(A<int>._)).MustNotHaveHappened();

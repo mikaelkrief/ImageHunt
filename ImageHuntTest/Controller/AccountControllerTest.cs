@@ -34,11 +34,11 @@ namespace ImageHuntTest.Controller
 
         public AccountControllerTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<AccountController>>());
-            _testContainerBuilder.RegisterInstance(_userManager = A.Fake<UserManager<Identity>>());
-            _testContainerBuilder.RegisterInstance(_signinManager = A.Fake<SignInManager<Identity>>());
-            _testContainerBuilder.RegisterInstance(_configuration = A.Fake<IConfiguration>());
-            _testContainerBuilder.RegisterInstance(_mapper = A.Fake<IMapper>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<AccountController>>());
+            TestContainerBuilder.RegisterInstance(_userManager = A.Fake<UserManager<Identity>>());
+            TestContainerBuilder.RegisterInstance(_signinManager = A.Fake<SignInManager<Identity>>());
+            TestContainerBuilder.RegisterInstance(_configuration = A.Fake<IConfiguration>());
+            TestContainerBuilder.RegisterInstance(_mapper = A.Fake<IMapper>());
 
             A.CallTo(() => _configuration["JwtKey"]).Returns("hsjhfdsfsd6767768jsdhfjh");
             A.CallTo(() => _configuration["JwtExpireDays"]).Returns("30");
@@ -50,7 +50,7 @@ namespace ImageHuntTest.Controller
             _context.Database.OpenConnection();
             _context.Database.EnsureCreated();
             _context.Database.ExecuteSqlCommand("alter table Nodes add Coordinate point null;");
-            _testContainerBuilder.RegisterInstance(_context);
+            TestContainerBuilder.RegisterInstance(_context);
             Build();
 
         }
@@ -68,7 +68,7 @@ namespace ImageHuntTest.Controller
             var identities = new List<Identity> {new Identity() {Email = "toto@titi.com"}};
             A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
             // Act
-            var result = await _target.Register(request);
+            var result = await Target.Register(request);
             // Assert
             A.CallTo(() => _userManager.CreateAsync(A<Identity>.That.Matches(i => IdentityMatch(i, request.Login, request.Email)), A<string>._))
                 .MustHaveHappened();
@@ -94,7 +94,7 @@ namespace ImageHuntTest.Controller
             _context.Admins.AddRange(admins);
             _context.SaveChanges();
             // Act
-            var result = await _target.GetUsersAsync();
+            var result = await Target.GetUsersAsync();
             // Assert
             Check.That(result).IsInstanceOf<OkObjectResult>();
             Check.That(((OkObjectResult) result).Value).IsInstanceOf<List<UserResponse>>();
@@ -116,7 +116,7 @@ namespace ImageHuntTest.Controller
             _context.SaveChanges();
             identities[0].AppUserId = admins[0].Id;
             // Act
-            await _target.UpdateUser(userRequest);
+            await Target.UpdateUser(userRequest);
             // Assert
             A.CallTo(() => _userManager.RemoveFromRoleAsync(A<Identity>._, A<string>._)).MustHaveHappened();
             A.CallTo(() => _userManager.AddToRoleAsync(A<Identity>._, userRequest.Role)).MustHaveHappened();
@@ -138,7 +138,7 @@ namespace ImageHuntTest.Controller
             identities[0].AppUserId = admins[0].Id;
 
             // Act
-            await _target.UpdateUser(userRequest);
+            await Target.UpdateUser(userRequest);
             // Assert
             A.CallTo(() => _userManager.AddToRoleAsync(A<Identity>._, userRequest.Role)).MustHaveHappened();
         }
@@ -150,7 +150,7 @@ namespace ImageHuntTest.Controller
             var identities = new List<Identity>() { new Identity() { Id = "GHGHG" } };
             A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
             // Act
-            var result = await _target.DeleteUser("HHGHGHG");
+            var result = await Target.DeleteUser("HHGHGHG");
             // Assert
             Check.That(result).IsInstanceOf<NotFoundObjectResult>();
         }
@@ -164,7 +164,7 @@ namespace ImageHuntTest.Controller
               var identities = new List<Identity>() { new Identity() { Id = "HHGHGHG", AppUserId = admin.Id} };
             A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
           // Act
-            var result = await _target.DeleteUser("HHGHGHG");
+            var result = await Target.DeleteUser("HHGHGHG");
             // Assert
             Check.That(result).IsInstanceOf<OkObjectResult>();
             Check.That(_context.Admins).HasSize(0);
@@ -184,7 +184,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
 
             // Act
-            var result = await _target.GetUser("toto");
+            var result = await Target.GetUser("toto");
             // Assert
             Check.That(result).IsInstanceOf<OkObjectResult>();
     
@@ -202,7 +202,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
 
             // Act
-            var result = await _target.UpdateUser(userUpdateRequest);
+            var result = await Target.UpdateUser(userUpdateRequest);
             // Assert
             A.CallTo(() => _userManager.ChangePasswordAsync(identities[0], userUpdateRequest.CurrentPassword,
                 userUpdateRequest.NewPassword)).MustHaveHappened();

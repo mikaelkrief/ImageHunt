@@ -31,11 +31,11 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public BeginCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_teamWebService = A.Fake<ITeamWebService>()).AsImplementedInterfaces();
-            _testContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>()).AsImplementedInterfaces();
-            _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>()).AsImplementedInterfaces();
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IBeginCommand>>()).AsImplementedInterfaces();
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<BeginCommand>>());
+            TestContainerBuilder.RegisterInstance(_teamWebService = A.Fake<ITeamWebService>()).AsImplementedInterfaces();
+            TestContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>()).AsImplementedInterfaces();
+            TestContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>()).AsImplementedInterfaces();
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IBeginCommand>>()).AsImplementedInterfaces();
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<BeginCommand>>());
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState(){GameId = 13, TeamId = 443, Game = new GameResponse()};
            Build();
@@ -60,7 +60,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _nodeWebService.GetNodesByType(NodeTypes.Action, A<int>._)).Returns(actionNodes);
 
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _teamWebService.StartGameForTeam(A<int>._, A<int>._, A<CancellationToken>._))
                 .MustHaveHappened();
@@ -87,7 +87,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _teamWebService.StartGameForTeam(A<int>._, A<int>._, A<CancellationToken>._))
                 .Returns(nodeResponse);
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _teamWebService.StartGameForTeam(A<int>._, A<int>._, A<CancellationToken>._))
                 .MustNotHaveHappened();
@@ -107,7 +107,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.Status = Status.None;
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _teamWebService.StartGameForTeam(A<int>._, A<int>._, A<CancellationToken>._))
                 .MustNotHaveHappened();

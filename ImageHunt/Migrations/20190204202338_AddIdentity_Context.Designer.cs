@@ -10,7 +10,7 @@ namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
     [Migration("20190204202338_AddIdentity_Context")]
-    partial class AddIdentity_Context
+    partial class AddIdentityContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -17,7 +17,8 @@ namespace ImageHuntBotBuilder.Middlewares
         private IStringLocalizer _localizer;
         private readonly ImageHuntBotAccessors _accessors;
 
-        public TeamCompositionMiddleware(ITeamWebService teamWebService, 
+        public TeamCompositionMiddleware(
+            ITeamWebService teamWebService, 
             ILogger<TeamCompositionMiddleware> logger,
             IStringLocalizer<TeamCompositionMiddleware> localizer,
             ImageHuntBotAccessors accessors)
@@ -28,7 +29,9 @@ namespace ImageHuntBotBuilder.Middlewares
             _accessors = accessors;
         }
 
-        public async Task OnTurnAsync(ITurnContext turnContext, NextDelegate next,
+        public async Task OnTurnAsync(
+            ITurnContext turnContext,
+            NextDelegate next,
             CancellationToken cancellationToken = new CancellationToken())
         {
             var state = await _accessors.ImageHuntState.GetAsync(turnContext, () => new ImageHuntState());
@@ -61,8 +64,8 @@ namespace ImageHuntBotBuilder.Middlewares
                     {
                         var player = activityAttachment.Content as ConversationAccount;
                         await _teamWebService.RemovePlayerFromTeam(state.TeamId.Value, player.Name);
-                        await turnContext.SendActivityAsync(string.Format(_localizer["PLAYER_REMOVED"], player.Name,
-                            state.Team.Name));
+                        await turnContext.SendActivityAsync(
+                            _localizer["PLAYER_REMOVED", player.Name, state.Team.Name]);
                         _logger.LogInformation("The user {0} had been added to team {1}", player.Name, state.TeamId);
                     }
 

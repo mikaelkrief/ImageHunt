@@ -16,14 +16,14 @@ namespace ImageHuntTest.Data
         {
             // Arrange
             var players = new List<Player>() { new Player(), new Player(), new Player(), new Player()};
-            _context.Players.AddRange(players);
-            _context.SaveChanges();
+            Context.Players.AddRange(players);
+            Context.SaveChanges();
             // Act
-            _context.Players.Remove(players[2]);
-            _context.SaveChanges();
+            Context.Players.Remove(players[2]);
+            Context.SaveChanges();
             // Assert
             long countPlayerActive, countAllPlayers;
-            var connection = _context.Database.GetDbConnection();
+            var connection = Context.Database.GetDbConnection();
             connection.Open();
             using (var command = connection.CreateCommand())
             {
@@ -34,7 +34,7 @@ namespace ImageHuntTest.Data
             }
             Check.That(countAllPlayers).IsEqualTo(4);
             Check.That(countPlayerActive).IsEqualTo(3);
-            Check.That(_context.Players).HasSize(3);
+            Check.That(Context.Players).HasSize(3);
         }
     }
 }

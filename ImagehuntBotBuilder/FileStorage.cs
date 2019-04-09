@@ -16,7 +16,7 @@ namespace ImageHuntBotBuilder
     {
         private readonly string _folder;
         private readonly object _syncroot = new object();
-        private static readonly JsonSerializerSettings serializationSettings = new JsonSerializerSettings()
+        private static readonly JsonSerializerSettings SerializationSettings = new JsonSerializerSettings()
         {
             // we use all so that we get typed roundtrip out of storage, but we don't use validation because we don't know what types are valid
             TypeNameHandling = All,
@@ -82,7 +82,7 @@ namespace ImageHuntBotBuilder
                     if (newStoreItem != null)
                         newStoreItem.ETag = Guid.NewGuid().ToString("n");
 
-                    var json = JsonConvert.SerializeObject(newValue, serializationSettings);
+                    var json = JsonConvert.SerializeObject(newValue, SerializationSettings);
                     await Policy
                         .Handle<IOException>()
                         .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromMilliseconds(Math.Pow(10, retryAttempt)))
@@ -124,8 +124,9 @@ namespace ImageHuntBotBuilder
                             json = await file.ReadToEndAsync().ConfigureAwait(false);
                         }
 
-                        retVal = JsonConvert.DeserializeObject(json,
-                            serializationSettings);
+                        retVal = JsonConvert.DeserializeObject(
+                            json,
+                            SerializationSettings);
                     });
 
             }
@@ -136,7 +137,7 @@ namespace ImageHuntBotBuilder
             return retVal;
         }
 
-        private static readonly Lazy<Dictionary<char, string>> badChars = new Lazy<Dictionary<char, string>>(() =>
+        private static readonly Lazy<Dictionary<char, string>> BadChars = new Lazy<Dictionary<char, string>>(() =>
         {
             char[] badChars = Path.GetInvalidFileNameChars();
             var dict = new Dictionary<char, string>();
@@ -150,7 +151,7 @@ namespace ImageHuntBotBuilder
             var sb = new StringBuilder();
             foreach (var ch in key)
             {
-                if (badChars.Value.TryGetValue(ch, out var val))
+                if (BadChars.Value.TryGetValue(ch, out var val))
                 {
                     sb.Append(val);
                 }

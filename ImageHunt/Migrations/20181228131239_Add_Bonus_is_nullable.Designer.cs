@@ -10,7 +10,7 @@ namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
     [Migration("20181228131239_Add_Bonus_is_nullable")]
-    partial class Add_Bonus_is_nullable
+    partial class AddBonusIsNullable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

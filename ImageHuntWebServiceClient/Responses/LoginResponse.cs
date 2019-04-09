@@ -4,24 +4,24 @@ namespace ImageHuntWebServiceClient.Responses
 {
     public class Result
     {
-        public string value { get; set; }
-        public List<object> formatters { get; set; }
-        public List<object> contentTypes { get; set; }
-        public object declaredType { get; set; }
-        public int statusCode { get; set; }
+        public string Value { get; set; }
+        public List<object> Formatters { get; set; }
+        public List<object> ContentTypes { get; set; }
+        public object DeclaredType { get; set; }
+        public int StatusCode { get; set; }
     }
 
     public class LoginResponse
     {
-        public Result result { get; set; }
-        public int id { get; set; }
-        public object exception { get; set; }
-        public int status { get; set; }
-        public bool isCanceled { get; set; }
-        public bool isCompleted { get; set; }
-        public bool isCompletedSuccessfully { get; set; }
-        public int creationOptions { get; set; }
-        public object asyncState { get; set; }
-        public bool isFaulted { get; set; }
+        public Result Result { get; set; }
+        public int Id { get; set; }
+        public object Exception { get; set; }
+        public int Status { get; set; }
+        public bool IsCanceled { get; set; }
+        public bool IsCompleted { get; set; }
+        public bool IsCompletedSuccessfully { get; set; }
+        public int CreationOptions { get; set; }
+        public object AsyncState { get; set; }
+        public bool IsFaulted { get; set; }
     }
 }

@@ -20,13 +20,13 @@ namespace ImageHuntBotBuilder.Commands
         }
 
         public override bool IsAdmin => true;
-        protected async override Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected async override Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             if (state.Status != Status.Started)
             {
                 await turnContext.SendActivityAsync(
-                    _localizer["CANNOT_END_GAME_NOT_STARTED"]);
-                _logger.LogError("The game had not started!");
+                    Localizer["CANNOT_END_GAME_NOT_STARTED"]);
+                Logger.LogError("The game had not started!");
                 return;
             }
             var gameActionRequest = new GameActionRequest()
@@ -38,8 +38,8 @@ namespace ImageHuntBotBuilder.Commands
             };
             await _actionWebService.LogAction(gameActionRequest);
             state.Status = Status.Ended;
-            await turnContext.SendActivityAsync(_localizer["GAME_ENDED"]);
-            _logger.LogInformation("Game {0} ended for team {1}", state.GameId, state.TeamId);
+            await turnContext.SendActivityAsync(Localizer["GAME_ENDED"]);
+            Logger.LogInformation("Game {0} ended for team {1}", state.GameId, state.TeamId);
         }
     }
 }

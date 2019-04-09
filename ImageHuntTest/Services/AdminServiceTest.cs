@@ -19,7 +19,7 @@ namespace ImageHuntTest.Services
       public AdminServiceTest()
       {
         _logger = A.Fake<ILogger<AdminService>>();
-            _target = new AdminService(_context, _logger);
+            _target = new AdminService(Context, _logger);
         }
 
         [Fact]
@@ -33,8 +33,8 @@ namespace ImageHuntTest.Services
                 new Admin() {Role = Role.GameMaster},
                 new Admin(){Role = Role.Admin}
             };
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             // Act
             var result = _target.GetAllAdmins();
             // Assert
@@ -53,8 +53,8 @@ namespace ImageHuntTest.Services
                 new Admin(){Role = Role.Player},
                 new Admin(){Role = Role.Validator},
             };
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             // Act
             var result = _target.GetAllAdmins();
             // Assert
@@ -74,8 +74,8 @@ namespace ImageHuntTest.Services
                 new GameAdmin(){Admin = admins[0], Game = new Game()},
                 new GameAdmin(){Admin = admins[0], Game = new Game()},
             };
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             // Act
             var result = _target.GetAllAdmins();
             // Assert
@@ -91,13 +91,13 @@ namespace ImageHuntTest.Services
                 new Admin(),
                 new Admin()
             };
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             var admin = new Admin() {Name = "Toto", Email = "toto@titi.com"};
             // Act
             _target.InsertAdmin(admin);
             // Assert
-            Check.That(_context.Admins).Contains(admin);
+            Check.That(Context.Admins).Contains(admin);
         }
 
         [Fact]
@@ -110,12 +110,12 @@ namespace ImageHuntTest.Services
                 new Admin(),
                 new Admin()
             };
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             // Act
             _target.DeleteAdmin(admins[1]);
             // Assert
-            Check.That(_context.Admins).HasSize(2);
+            Check.That(Context.Admins).HasSize(2);
         }
 
         [Fact]
@@ -128,8 +128,8 @@ namespace ImageHuntTest.Services
                 new Admin(),
                 new Admin()
             };
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             // Act
             var result = _target.GetAdminById(2);
             // Assert
@@ -146,8 +146,8 @@ namespace ImageHuntTest.Services
                 new Admin(){Email = "Tato@titi.com"},
                 new Admin(){Email = "Toto@titi.com" }
             };
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             // Act
             var result = _target.GetAdminByEmail("Tato@titi.com");
             // Assert
@@ -162,8 +162,8 @@ namespace ImageHuntTest.Services
                 new Admin(){Email = "Tato@titi.com"},
                 new Admin()
             };
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             // Act
             var result = _target.GetAdminByEmail("Tato@titi.com");
             // Assert
@@ -174,10 +174,10 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var games = new List<Game> {new Game(), new Game(), new Game()};
-            _context.Games.AddRange(games);
+            Context.Games.AddRange(games);
             var admins = new List<Admin> {new Admin(), new Admin()};
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             // Act
             var result = _target.AssignGame(admins[1].Id, games[1].Id, true);
             // Assert
@@ -189,11 +189,11 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var games = new List<Game> { new Game(), new Game(), new Game() };
-            _context.Games.AddRange(games);
+            Context.Games.AddRange(games);
             var admins = new List<Admin> { new Admin(), new Admin() };
             admins[1].GameAdmins = new List<GameAdmin>(){new GameAdmin(){Admin = admins[1], Game = games[1]}};
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             // Act
             var result = _target.AssignGame(admins[1].Id, games[1].Id, false);
             // Assert
@@ -204,11 +204,11 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var games = new List<Game> { new Game(), new Game(), new Game() };
-            _context.Games.AddRange(games);
+            Context.Games.AddRange(games);
             var admins = new List<Admin> { new Admin(), new Admin() };
             admins[1].GameAdmins = new List<GameAdmin>(){new GameAdmin(){Admin = admins[1], Game = games[1]}};
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             // Act
             var result = _target.AssignGame(admins[1].Id, games[1].Id, true);
             // Assert

@@ -49,7 +49,7 @@ namespace ImageHuntBotBuilder
             _httpClient = httpClient;
         }
 
-        private async Task DownloadPicture(Activity activity)
+        private async Task DownloadPictureAsync(Activity activity)
         {
             if (activity.Attachments != null && activity.Attachments.Any())
             {
@@ -82,14 +82,15 @@ namespace ImageHuntBotBuilder
                                     using (var stream = new MemoryStream())
                                     {
                                         var fileInfo =
-                                            await _telegramBotClient.GetInfoAndDownloadFileAsync(attachment.ContentUrl,
+                                            await _telegramBotClient.GetInfoAndDownloadFileAsync(
+                                                attachment.ContentUrl,
                                                 stream);
                                         stream.Seek(0, SeekOrigin.Begin);
                                         var imageId = await _imageWebService.UploadImage(stream);
                                         activity.Type = ImageHuntActivityTypes.Image;
                                         activity.Attachments = new List<Attachment>
                                         {
-                                            new Attachment(ImageHuntActivityTypes.Image, content: imageId)
+                                            new Attachment(ImageHuntActivityTypes.Image, content: imageId),
                                         };
                                     }
                                 }
@@ -100,8 +101,10 @@ namespace ImageHuntBotBuilder
             }
         }
 
-        public override async Task<ResourceResponse[]> SendActivitiesAsync(ITurnContext turnContext,
-            Activity[] activities, CancellationToken cancellationToken)
+        public override async Task<ResourceResponse[]> SendActivitiesAsync(
+            ITurnContext turnContext,
+            Activity[] activities, 
+            CancellationToken cancellationToken)
         {
             if (turnContext == null)
                 throw new ArgumentNullException(nameof(turnContext));
@@ -109,7 +112,8 @@ namespace ImageHuntBotBuilder
                 throw new ArgumentNullException(nameof(activities));
             if (activities.Length == 0)
             {
-                throw new ArgumentException("Expecting one or more activities, but the array was empty.",
+                throw new ArgumentException(
+                    "Expecting one or more activities, but the array was empty.",
                     nameof(activities));
             }
 
@@ -140,7 +144,8 @@ namespace ImageHuntBotBuilder
                                 Message telegramMessage = null;
                                 try
                                 {
-                                    telegramMessage = await _telegramBotClient.SendTextMessageAsync(chatId,
+                                    telegramMessage = await _telegramBotClient.SendTextMessageAsync(
+                                        chatId,
                                         activity.Text);
                                 }
                                 catch (ApiRequestException e)
@@ -154,11 +159,12 @@ namespace ImageHuntBotBuilder
 
                                 break;
                             case ImageHuntActivityTypes.Leave:
-                                await _telegramBotClient.LeaveChatAsync(chatId,
+                                await _telegramBotClient.LeaveChatAsync(
+                                    chatId,
                                     cancellationToken);
                                 break;
                             case ImageHuntActivityTypes.GetInviteLink:
-                                var inviteLink = await ExtractInviteLink(chatId, cancellationToken);
+                                var inviteLink = await ExtractInviteLinkAsync(chatId, cancellationToken);
                                 activity.Attachments = new List<Attachment> { new Attachment(contentUrl: inviteLink) };
                                 break;
 
@@ -167,12 +173,14 @@ namespace ImageHuntBotBuilder
                                 break;
                             case ImageHuntActivityTypes.Location:
                                 var location = activity.Attachments.First().Content as GeoCoordinates;
-                                await _telegramBotClient.SendLocationAsync(chatId, (float)location.Latitude.Value,
+                                await _telegramBotClient.SendLocationAsync(
+                                    chatId, 
+                                    (float)location.Latitude.Value,
                                     (float)location.Longitude.Value);
                                 break;
                             case ImageHuntActivityTypes.Wait:
                                 var delay = (int) activity.Attachments.First().Content;
-                                Task.Delay(delay * 1000).ContinueWith(t => Wait(turnContext, activity));
+                                Task.Delay(delay * 1000).ContinueWith(t => WaitAsync(turnContext, activity));
                                 break;
                             case ImageHuntActivityTypes.Image:
                                 var imageUrl = activity.Attachments
@@ -201,22 +209,29 @@ namespace ImageHuntBotBuilder
             return responses;
         }
 
-        async Task Wait(ITurnContext context, IActivity activity)
+        async Task WaitAsync(ITurnContext context, IActivity activity)
         {
         }
-        public async override Task<ResourceResponse> UpdateActivityAsync(ITurnContext turnContext, Activity activity,
+
+        public override async Task<ResourceResponse> UpdateActivityAsync(
+            ITurnContext turnContext,
+            Activity activity,
             CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public async override Task DeleteActivityAsync(ITurnContext turnContext, ConversationReference reference,
+        public override async Task DeleteActivityAsync(
+            ITurnContext turnContext, 
+            ConversationReference reference,
             CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public virtual async Task<InvokeResponse> ProcessActivityAsync(string authHeader, Activity activity,
+        public virtual async Task<InvokeResponse> ProcessActivityAsync(
+            string authHeader, 
+            Activity activity,
             BotCallbackHandler callback,
             CancellationToken cancellationToken)
         {
@@ -229,7 +244,7 @@ namespace ImageHuntBotBuilder
             switch (activity.Type)
             {
                 case ActivityTypes.Message:
-                 await DownloadPicture(activity);
+                 await DownloadPictureAsync(activity);
                    break;
 
             }
@@ -240,9 +255,10 @@ namespace ImageHuntBotBuilder
             }
         }
 
-        private async Task<string> ExtractInviteLink(ChatId chatId, CancellationToken cancellationToken)
+        private async Task<string> ExtractInviteLinkAsync(ChatId chatId, CancellationToken cancellationToken)
         {
-            var inviteLink = await _telegramBotClient.ExportChatInviteLinkAsync(chatId,
+            var inviteLink = await _telegramBotClient.ExportChatInviteLinkAsync(
+                chatId,
                 cancellationToken);
             return inviteLink;
         }

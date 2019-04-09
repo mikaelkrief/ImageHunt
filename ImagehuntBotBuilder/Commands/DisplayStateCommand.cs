@@ -14,7 +14,8 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly ImageHuntBotAccessors _accessors;
 
-        public DisplayStateCommand(ILogger<IDisplayStateCommand> logger, 
+        public DisplayStateCommand(
+            ILogger<IDisplayStateCommand> logger, 
             IStringLocalizer<DisplayStateCommand> localizer,
             ImageHuntBotAccessors accessors) : base(logger, localizer)
         {
@@ -23,7 +24,7 @@ namespace ImageHuntBotBuilder.Commands
 
         public override bool IsAdmin => true;
 
-        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             if (state != null)
             {

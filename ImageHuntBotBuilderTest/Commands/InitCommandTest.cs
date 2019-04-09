@@ -32,13 +32,13 @@ namespace ImageHuntBotBuilderTest.Commands
         public InitCommandTest()
         {
             _logger = A.Fake<ILogger<IInitCommand>>();
-            _testContainerBuilder.RegisterInstance(_logger);
+            TestContainerBuilder.RegisterInstance(_logger);
             _gameWebService = A.Fake<IGameWebService>();
-            _testContainerBuilder.RegisterInstance(_gameWebService);
+            TestContainerBuilder.RegisterInstance(_gameWebService);
             _teamWebService = A.Fake<ITeamWebService>();
-            _testContainerBuilder.RegisterInstance(_teamWebService);
-            _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<InitCommand>>());
+            TestContainerBuilder.RegisterInstance(_teamWebService);
+            TestContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<InitCommand>>());
 
             _turnContext = A.Fake<ITurnContext>();
             Build();
@@ -56,7 +56,7 @@ namespace ImageHuntBotBuilderTest.Commands
 
             var state = new ImageHuntState();
             // Act
-            await _target.Execute(_turnContext, state);
+            await Target.ExecuteAsync(_turnContext, state);
             // Assert
             Check.That(state.GameId).Equals(15);
             Check.That(state.TeamId).Equals(66);
@@ -82,7 +82,7 @@ namespace ImageHuntBotBuilderTest.Commands
 
             var state = new ImageHuntState();
             // Act
-            await _target.Execute(_turnContext, state);
+            await Target.ExecuteAsync(_turnContext, state);
             // Assert
             Check.That(state.GameId).Equals(15);
             Check.That(state.TeamId).Equals(66);
@@ -109,7 +109,7 @@ namespace ImageHuntBotBuilderTest.Commands
 
             var state = new ImageHuntState();
             // Act
-            await _target.Execute(_turnContext, state);
+            await Target.ExecuteAsync(_turnContext, state);
             // Assert
             Check.That(state.GameId).Equals(15);
             Check.That(state.TeamId).Equals(66);
@@ -134,7 +134,7 @@ namespace ImageHuntBotBuilderTest.Commands
 
             var state = new ImageHuntState();
             // Act
-            await _target.Execute(_turnContext, state);
+            await Target.ExecuteAsync(_turnContext, state);
             // Assert
             Check.That(state.GameId).IsNull();
             Check.That(state.TeamId).IsNull();
@@ -151,7 +151,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             var state = new ImageHuntState() {GameId = 15, TeamId = 6, Status = Status.Initialized};
             // Act
-            await _target.Execute(_turnContext, state);
+            await Target.ExecuteAsync(_turnContext, state);
             // Assert
             A.CallTo(() => _gameWebService.GetGameById(A<int>._, A<CancellationToken>._)).MustNotHaveHappened();
             A.CallTo(() => _teamWebService.GetTeamById(A<int>._)).MustNotHaveHappened();
@@ -170,7 +170,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             var state = new ImageHuntState() { Status = Status.None};
             // Act
-            await _target.Execute(_turnContext, state);
+            await Target.ExecuteAsync(_turnContext, state);
             // Assert
             A.CallTo(() => _localizer[A<string>._]).MustHaveHappened();
             A.CallTo(() => _turnContext.SendActivityAsync("Unable to find game for l'Id=15 and team Id=66", A<string>._,

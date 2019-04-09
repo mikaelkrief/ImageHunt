@@ -4,27 +4,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestUtilities
 {
-    public class ContextTest<TARGET, CONTEXT> : IDisposable where TARGET : class
-                                              where CONTEXT : DbContext
+    public class ContextTest<TArget, TContext> : IDisposable where TArget : class
+                                              where TContext : DbContext
     {
-        protected AutoFake _fake;
-        protected TARGET _target;
-        protected CONTEXT _context;
+        protected AutoFake Fake;
+        protected TArget Target;
+        protected TContext Context;
 
         public ContextTest()
         {
-            _fake = new AutoFake();
+            Fake = new AutoFake();
         }
 
-        public TARGET ResolveTarget()
+        public TArget ResolveTarget()
         {
-            _target = _fake.Resolve<TARGET>();
-            _context = _fake.Resolve<CONTEXT>();
-            return _target;
+            Target = Fake.Resolve<TArget>();
+            Context = Fake.Resolve<TContext>();
+            return Target;
         }
         public void Dispose()
         {
-            _fake?.Dispose();
+            Fake?.Dispose();
         }
     }
 }

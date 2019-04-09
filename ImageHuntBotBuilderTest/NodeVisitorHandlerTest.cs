@@ -34,11 +34,11 @@ namespace ImageHuntBotBuilderTest
 
         public NodeVisitorHandlerTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<NodeVisitorHandler>>());
-            _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
-            _testContainerBuilder.RegisterInstance(_configuration = A.Fake<IConfiguration>());
-            _testContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<NodeVisitorHandler>>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<NodeVisitorHandler>>());
+            TestContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
+            TestContainerBuilder.RegisterInstance(_configuration = A.Fake<IConfiguration>());
+            TestContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<NodeVisitorHandler>>());
             A.CallTo(() => _configuration["NodeSettings:RangeDistance"]).Returns("40");
             _turnContext = A.Fake<ITurnContext>();
             Build();
@@ -80,7 +80,7 @@ namespace ImageHuntBotBuilderTest
             };
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             // Act
-            await _target.MatchHiddenNodesLocationAsync(_turnContext, state);
+            await Target.MatchHiddenNodesLocationAsync(_turnContext, state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
@@ -119,7 +119,7 @@ namespace ImageHuntBotBuilderTest
             };
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             // Act
-            await _target.MatchHiddenNodesLocationAsync(_turnContext, state);
+            await Target.MatchHiddenNodesLocationAsync(_turnContext, state);
             // Assert
         }
         [Fact]
@@ -156,7 +156,7 @@ namespace ImageHuntBotBuilderTest
             var nextNodeExpected = new NodeResponse(){NodeType = "ObjectNode"};
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).Returns(nextNodeExpected);
             // Act
-            var nextNode = await _target.MatchLocationAsync(_turnContext, state);
+            var nextNode = await Target.MatchLocationAsync(_turnContext, state);
             // Assert
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).MustHaveHappened();
             A.CallTo(
@@ -203,7 +203,7 @@ namespace ImageHuntBotBuilderTest
             var nextNodeExpected = new NodeResponse(){NodeType = "ObjectNode"};
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).Returns(nextNodeExpected);
             // Act
-            var nextNode = await _target.MatchLocationAsync(_turnContext, state);
+            var nextNode = await Target.MatchLocationAsync(_turnContext, state);
             // Assert
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).MustNotHaveHappened();
             A.CallTo(
@@ -246,7 +246,7 @@ namespace ImageHuntBotBuilderTest
             var nextNodeExpected = new NodeResponse() { NodeType = "ObjectNode" };
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).Returns(nextNodeExpected);
             // Act
-            var nextNode = await _target.MatchLocationAsync(_turnContext, state);
+            var nextNode = await Target.MatchLocationAsync(_turnContext, state);
             // Assert
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).MustHaveHappened();
             A.CallTo(
@@ -292,7 +292,7 @@ namespace ImageHuntBotBuilderTest
             var nextNodeExpected = new NodeResponse() { NodeType = "ObjectNode" };
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).Returns(nextNodeExpected);
             // Act
-            var nextNode = await _target.MatchLocationAsync(_turnContext, state);
+            var nextNode = await Target.MatchLocationAsync(_turnContext, state);
             // Assert
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).MustHaveHappened();
             A.CallTo(
@@ -327,7 +327,7 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             var nextNodeExpected = new NodeResponse() { NodeType = "ObjectNode" };
             // Act
-            var nextNode = await _target.MatchLocationAsync(_turnContext, state);
+            var nextNode = await Target.MatchLocationAsync(_turnContext, state);
             // Assert
             Check.That(nextNode).IsNull();
         }
@@ -364,7 +364,7 @@ namespace ImageHuntBotBuilderTest
             var nextNodeExpected = new NodeResponse() { NodeType = "FirstNode" };
             A.CallTo(() => _nodeWebService.GetNode(A<int>._)).Returns(nextNodeExpected);
             // Act
-            var nextNode = await _target.MatchLocationAsync(_turnContext, state);
+            var nextNode = await Target.MatchLocationAsync(_turnContext, state);
             // Assert
             Check.That(nextNode).IsNull();
             A.CallTo(() => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._)).MustHaveHappened();
@@ -417,7 +417,7 @@ namespace ImageHuntBotBuilderTest
             };
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             // Act
-            var nextNode = await _target.MatchLocationAsync(_turnContext, state);
+            var nextNode = await Target.MatchLocationAsync(_turnContext, state);
             // Assert
             Check.That(nextNode).IsNull();
         }
@@ -438,7 +438,7 @@ namespace ImageHuntBotBuilderTest
             };
             A.CallTo(() => _localizer[A<string>._]).Returns(new LocalizedString("Toto","{0}"));
             // Act
-            var activities = _target.ActivitiesFromNode(node);
+            var activities = Target.ActivitiesFromNode(node);
             // Assert
             A.CallTo(() => _localizer["NEXT_NODE_LOCATION", A<object[]>._]).MustHaveHappened();
             A.CallTo(() => _localizer["DO_ACTION_REQUEST", A<object[]>._]).MustHaveHappened();
@@ -462,7 +462,7 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _localizer[A<string>._]).Returns(new LocalizedString("Toto", "{0}"));
 
             // Act
-            var activities = _target.ActivitiesFromNode(node);
+            var activities = Target.ActivitiesFromNode(node);
             // Assert
             A.CallTo(() => _localizer["NEXT_NODE_LOCATION", A<object[]>._]).MustHaveHappened();
 
@@ -488,7 +488,7 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _localizer[A<string>._]).Returns(new LocalizedString("Toto", "{0}"));
 
             // Act
-            var activities = _target.ActivitiesFromNode(node);
+            var activities = Target.ActivitiesFromNode(node);
             // Assert
             A.CallTo(() => _localizer["HIDDEN_NODE", A<object[]>._]).MustHaveHappened();
             Check.That(activities.Last().Text).Contains(node.Hint);
@@ -506,7 +506,7 @@ namespace ImageHuntBotBuilderTest
                 Points = 56,
             };
             // Act
-            var activities = _target.ActivitiesFromNode(node);
+            var activities = Target.ActivitiesFromNode(node);
             // Assert
             Check.That(activities).HasSize(2);
 
@@ -524,7 +524,7 @@ namespace ImageHuntBotBuilderTest
                 Delay = 50,
             };
             // Act
-            var activities = _target.ActivitiesFromNode(node);
+            var activities = Target.ActivitiesFromNode(node);
             // Assert
             Check.That(activities.Single(a => a.Type == ImageHuntActivityTypes.Wait).Attachments.First().Content)
                 .Equals(node.Delay);
@@ -567,7 +567,7 @@ namespace ImageHuntBotBuilderTest
             var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
             
             // Act
-            await _target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
             // Assert
 
         }
@@ -585,7 +585,7 @@ namespace ImageHuntBotBuilderTest
             var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
 
             // Act
-            var dialog = await _target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            var dialog = await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
             // Assert
             Check.That(dialog).IsNull();
         }
@@ -602,7 +602,7 @@ namespace ImageHuntBotBuilderTest
             var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
 
             // Act
-            var dialog = await _target.MatchLocationDialogAsync(_turnContext, state, null);
+            var dialog = await Target.MatchLocationDialogAsync(_turnContext, state, null);
             // Assert
             Check.That(dialog).IsNull();
         }
@@ -619,7 +619,7 @@ namespace ImageHuntBotBuilderTest
             var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
 
             // Act
-            var dialog = await _target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            var dialog = await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
             // Assert
             Check.That(dialog).IsNull();
         }
@@ -648,7 +648,7 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _turnContext.Activity).Returns(activity);
 
             // Act
-            var dialog = await _target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            var dialog = await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
             // Assert
             Check.That(dialog).IsNull();
         }
@@ -660,7 +660,12 @@ namespace ImageHuntBotBuilderTest
             {
                 GameId = 45,
                 TeamId = 87,
-                CurrentNode = new NodeResponse() { NodeType = NodeResponse.QuestionNodeType, Latitude = 45.8, Longitude = 5.87 }
+                CurrentNode = new NodeResponse()
+                {
+                    NodeType = NodeResponse.QuestionNodeType,
+                    Latitude = 45.8, Longitude = 5.87,
+                    Question = "The Question",
+                }
             };
             var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
             var activity = new Activity(type: ImageHuntActivityTypes.Location)
@@ -677,7 +682,7 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _turnContext.Activity).Returns(activity);
 
             // Act
-            var dialogSet = await _target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            var dialogSet = await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
             // Assert
             Check.That(dialogSet).IsInstanceOf<DialogSet>();
         }

@@ -23,8 +23,8 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public LeaveCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<ILeaveCommand>>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<LeaveCommand>>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<ILeaveCommand>>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<LeaveCommand>>());
 
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState();
@@ -37,7 +37,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._))
                 .MustHaveHappened();

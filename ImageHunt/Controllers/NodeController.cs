@@ -22,7 +22,7 @@ namespace ImageHunt.Controllers
   #endif
   public class NodeController : Controller
   {
-    public readonly IMapper _mapper;
+    public readonly IMapper Mapper;
     private readonly ILifetimeScope _scope;
     private INodeService _nodeService;
     private readonly IGameService _gameService;
@@ -32,7 +32,7 @@ namespace ImageHunt.Controllers
     public NodeController(INodeService nodeService, IGameService gameService,
       ITeamService teamService, IImageService imageService, IMapper mapper, ILifetimeScope scope)
     {
-      _mapper = mapper;
+      Mapper = mapper;
       _scope = scope;
       _nodeService = nodeService;
       _gameService = gameService;
@@ -90,7 +90,7 @@ namespace ImageHunt.Controllers
     public IActionResult GetNodeById(int nodeId)
     {
       var node = _nodeService.GetNode(nodeId);
-      var nodeResponse = _mapper.Map<NodeResponse>(node);
+      var nodeResponse = Mapper.Map<NodeResponse>(node);
       return Ok(nodeResponse);
     }
     [HttpPatch]
@@ -135,7 +135,7 @@ namespace ImageHunt.Controllers
       if (!string.IsNullOrEmpty(nodeRequest.Hint) && nodeRequest.NodeType == NodeResponse.BonusNodeType)
       {
         ((BonusNode) node).Location= nodeRequest.Hint;
-        ((BonusNode) node).BonusType = (BonusNode.BONUS_TYPE) nodeRequest.Bonus;
+        ((BonusNode) node).BonusType = (BonusNode.BONUSTYPE) nodeRequest.Bonus;
       }
 
       if (nodeRequest.Delay.HasValue && nodeRequest.NodeType == NodeResponse.TimerNodeType)
@@ -157,7 +157,7 @@ namespace ImageHunt.Controllers
     {
       var eNodeType = Enum.Parse<NodeTypes>(nodeType);
       var nodes = _gameService.GetNodes(gameId, eNodeType);
-      return Ok(_mapper.Map<IEnumerable<NodeResponse>>(nodes));
+      return Ok(Mapper.Map<IEnumerable<NodeResponse>>(nodes));
     }
     [HttpPost("BatchUpdate")]
     public IActionResult BatchUpdateNode([FromBody]BatchUpdateNodeRequest batchUpdateNodeRequest)

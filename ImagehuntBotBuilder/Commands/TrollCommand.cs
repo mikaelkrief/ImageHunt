@@ -21,11 +21,11 @@ namespace ImageHuntBotBuilder.Commands
             _actionWebService = actionWebService;
         }
 
-        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             if ((!state.TeamId.HasValue || !state.GameId.HasValue))
             {
-                _logger.LogError("Using ListCommand on non initialized group");
+                Logger.LogError("Using ListCommand on non initialized group");
                 return;
                 
             }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageHunt.Migrations
 {
-    public partial class AddIdentity_Context : Migration
+    public partial class AddIdentityContext : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -14,7 +14,7 @@ namespace ImageHuntWebServiceClient.WebServices
 
         public async Task<IEnumerable<AdminResponse>> GetAllAdmins()
         {
-            var result = await GetAsync<IEnumerable<AdminResponse>>($"{_httpClient.BaseAddress}api/Admin/GetAllAdmins");
+            var result = await GetAsync<IEnumerable<AdminResponse>>($"{HttpClient.BaseAddress}api/Admin/GetAllAdmins");
             return result;
         }
     }

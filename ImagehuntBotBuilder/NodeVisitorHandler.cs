@@ -27,7 +27,9 @@ namespace ImageHuntBotBuilder
         Task<NodeResponse> MatchLocationAsync(ITurnContext context, ImageHuntState state);
         Task MatchHiddenNodesLocationAsync(ITurnContext turnContext, ImageHuntState state);
 
-        Task<DialogSet> MatchLocationDialogAsync(ITurnContext turnContext, ImageHuntState state,
+        Task<DialogSet> MatchLocationDialogAsync(
+            ITurnContext turnContext, 
+            ImageHuntState state,
             IStatePropertyAccessor<DialogState> conversationDialogState);
     }
 
@@ -41,7 +43,8 @@ namespace ImageHuntBotBuilder
         private readonly IActionWebService _actionWebService;
         private double _rangeDistance;
 
-        public NodeVisitorHandler(ILogger<NodeVisitorHandler> logger,
+        public NodeVisitorHandler(
+            ILogger<NodeVisitorHandler> logger,
             IStringLocalizer<NodeVisitorHandler> localizer,
             INodeWebService nodeWebService,
             ILifetimeScope scope,
@@ -67,7 +70,9 @@ namespace ImageHuntBotBuilder
             if (state.CurrentNode == null)
                 return null;
             // Check that location match the current node
-            var distance = GeographyComputation.Distance(location.Latitude.Value, location.Longitude.Value,
+            var distance = GeographyComputation.Distance(
+                location.Latitude.Value,
+                location.Longitude.Value,
                 state.CurrentNode.Latitude,
                 state.CurrentNode.Longitude);
             NodeResponse nextNode = null;
@@ -117,7 +122,8 @@ namespace ImageHuntBotBuilder
                             state.CurrentNodeId = nextNode.Id;
                             break;
                         case NodeResponse.LastNodeType:
-                            nextActivities.Add(new Activity(text: _localizer["LASTNODE_REACHED"],
+                            nextActivities.Add(new Activity(
+                                text: _localizer["LASTNODE_REACHED"],
                                 type: ActivityTypes.Message));
                             actionRequest.PointsEarned = state.CurrentNode.Points;
 
@@ -163,7 +169,8 @@ namespace ImageHuntBotBuilder
             switch (node.NodeType)
             {
                 case NodeResponse.ObjectNodeType:
-                    activities.Add(new Activity(text: _localizer["NEXT_NODE_LOCATION", node.Name],
+                    activities.Add(new Activity(
+                        text: _localizer["NEXT_NODE_LOCATION", node.Name],
                         type: ActivityTypes.Message));
                     var item = new Activity(type: ImageHuntActivityTypes.Location);
                     item.Attachments = new List<Attachment>()
@@ -175,7 +182,8 @@ namespace ImageHuntBotBuilder
                                 longitude: node.Longitude)),
                     };
                     activities.Add(item);
-                    var imageActivity = new Activity(text: _localizer["DO_ACTION_REQUEST", node.Action],
+                    var imageActivity = new Activity(
+                        text: _localizer["DO_ACTION_REQUEST", node.Action],
                         type: ImageHuntActivityTypes.Image);
                     var apiBaseAddress = _configuration["ImageHuntApi:Url"];
                     if (node.Image != null)
@@ -193,7 +201,8 @@ namespace ImageHuntBotBuilder
                     break;
                 case NodeResponse.QuestionNodeType:
                 case NodeResponse.WaypointNodeType:
-                    activities.Add(new Activity(text: _localizer["NEXT_NODE_LOCATION", node.Name],
+                    activities.Add(new Activity(
+                        text: _localizer["NEXT_NODE_LOCATION", node.Name],
                         type: ActivityTypes.Message));
                     var activity = new Activity(type: ImageHuntActivityTypes.Location);
                     activity.Attachments = new List<Attachment>()
@@ -229,7 +238,8 @@ namespace ImageHuntBotBuilder
                 case NodeResponse.TimerNodeType:
                     activities.Add(
                         new Activity(text: _localizer["TIMER_NODE", node.Delay], type: ActivityTypes.Message));
-                    activities.Add(new Activity(type: ImageHuntActivityTypes.Wait,
+                    activities.Add(new Activity(
+                        type: ImageHuntActivityTypes.Wait,
                         attachments: new List<Attachment>() {new Attachment(content: node.Delay)}));
                     break;
             }
@@ -267,11 +277,11 @@ namespace ImageHuntBotBuilder
                             actionRequest.Action = (int) Action.BonusNode;
                             switch (hiddenNode.BonusType)
                             {
-                                case BonusNode.BONUS_TYPE.Points_x2:
+                                case BonusNode.BONUSTYPE.PointsX2:
                                     multi = "2 fois";
                                     actionRequest.PointsEarned = 2;
                                     break;
-                                case BonusNode.BONUS_TYPE.Points_x3:
+                                case BonusNode.BONUSTYPE.PointsX3:
                                     multi = "3 fois";
                                     actionRequest.PointsEarned = 3;
                                     break;
@@ -304,7 +314,9 @@ namespace ImageHuntBotBuilder
             var activity = turnContext.Activity;
             location = activity.Attachments.First().Content as GeoCoordinates;
             // Check that location match the current node
-            var distance = GeographyComputation.Distance(location.Latitude.Value, location.Longitude.Value,
+            var distance = GeographyComputation.Distance(
+                location.Latitude.Value,
+                location.Longitude.Value,
                 node.Latitude,
                 node.Longitude);
             return distance < _rangeDistance;
@@ -362,11 +374,17 @@ namespace ImageHuntBotBuilder
             return null;
         }
 
-        private static async Task<DialogTurnResult> QuestionStepAsync(WaterfallStepContext stepContext,
+        private static async Task<DialogTurnResult> QuestionStepAsync(
+            WaterfallStepContext stepContext,
             CancellationToken cancellationToken)
         {
-            return await stepContext.PromptAsync("question",
-                new PromptOptions() {Prompt = MessageFactory.Text("Question")}, cancellationToken);
+            return await stepContext.PromptAsync(
+                "question",
+                new PromptOptions()
+                {
+                    Prompt = MessageFactory.Text("Question"),
+                }, 
+                cancellationToken);
         }
     }
 }

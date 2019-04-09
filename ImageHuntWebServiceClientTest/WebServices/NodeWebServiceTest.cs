@@ -16,7 +16,7 @@ namespace ImageHuntWebServiceClientTest.WebServices
         public NodeWebServiceTest()
         {
             _logger = A.Fake<ILogger<INodeWebService>>();
-            _target = new NodeWebService(_httpClient, _logger);
+            _target = new NodeWebService(HttpClient, _logger);
 
         }
 

@@ -27,9 +27,9 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public BroadcastCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IBroadcastCommand>>());
-            _testContainerBuilder.RegisterInstance(_accessors = A.Fake<ImageHuntBotAccessors>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<BroadcastCommand>>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IBroadcastCommand>>());
+            TestContainerBuilder.RegisterInstance(_accessors = A.Fake<ImageHuntBotAccessors>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<BroadcastCommand>>());
             _turnContext = A.Fake<ITurnContext>();
             Build();
         }
@@ -49,7 +49,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _accessors.AllStates.GetAllAsync()).Returns(states);
             var state = new ImageHuntState();
             // Act
-            await _target.Execute(_turnContext, state);
+            await Target.ExecuteAsync(_turnContext, state);
             // Assert
             A.CallTo(() =>
                 _turnContext.SendActivityAsync(
@@ -72,7 +72,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _accessors.AllStates.GetAllAsync()).Returns(states);
             var state = new ImageHuntState();
             // Act
-            await _target.Execute(_turnContext, state);
+            await Target.ExecuteAsync(_turnContext, state);
             // Assert
             A.CallTo(() =>
                 _turnContext.SendActivitiesAsync(
@@ -99,7 +99,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _accessors.AllStates.GetAllAsync()).Returns(states);
             var state = new ImageHuntState();
             // Act
-            await _target.Execute(_turnContext, state);
+            await Target.ExecuteAsync(_turnContext, state);
             // Assert
             A.CallTo(() =>
                 _turnContext.SendActivitiesAsync(

@@ -21,7 +21,7 @@ namespace ImageHuntBotBuilder.Commands
             _accessors = accessors;
         }
 
-        protected  override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected  override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             var regex = new Regex(@"\/broadcast\s*(gameid\=(?'gameid'\d*)|teamid\=(?'teamid'\d*)) (?'text'.*)");
             if (regex.IsMatch(turnContext.Activity.Text))
@@ -51,7 +51,7 @@ namespace ImageHuntBotBuilder.Commands
                         Text = textToBroadcast,
                         Type = ActivityTypes.Message,
                         ServiceUrl = turnContext.Activity.ServiceUrl,
-                        ChannelId = turnContext.Activity.ChannelId
+                        ChannelId = turnContext.Activity.ChannelId,
                     };
                     activities.Add(activity);
                 }
@@ -59,8 +59,8 @@ namespace ImageHuntBotBuilder.Commands
             }
             else
             {
-                await turnContext.SendActivityAsync(_localizer["SYNTAX_ERROR"]);
-                _logger.LogError("Syntax error for command: {0}", turnContext.Activity.Text);
+                await turnContext.SendActivityAsync(Localizer["SYNTAX_ERROR"]);
+                Logger.LogError("Syntax error for command: {0}", turnContext.Activity.Text);
             }
         }
     }

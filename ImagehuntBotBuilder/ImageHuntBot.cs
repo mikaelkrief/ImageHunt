@@ -42,7 +42,8 @@ namespace ImageHuntBotBuilder
         /// <param name="accessors">A class containing <see cref="IStatePropertyAccessor{T}"/> used to manage state.</param>
         /// <param name="logger">Logger provided by injection</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
-        public ImageHuntBot(ImageHuntBotAccessors accessors,
+        public ImageHuntBot(
+            ImageHuntBotAccessors accessors,
             IActionWebService actionWebService,
             ITeamWebService teamWebService,
             ICommandRepository commandRepository,
@@ -107,16 +108,17 @@ namespace ImageHuntBotBuilder
                         if (!string.IsNullOrEmpty(turnContext.Activity.Text) &&
                             turnContext.Activity.Text.StartsWith('/'))
                         {
-                            await _commandRepository.RefreshAdmins();
+                            await _commandRepository.RefreshAdminsAsync();
 
                             try
                             {
                                 var command = _commandRepository.Get(turnContext, state, turnContext.Activity.Text);
-                                await command.Execute(turnContext, state);
+                                await command.ExecuteAsync(turnContext, state);
                             }
                             catch (NotAuthorizedException e)
                             {
-                                _logger.LogError(e,
+                                _logger.LogError(
+                                    e,
                                     $"User {turnContext.Activity.From.Name} not authorized to use this command");
                                 await turnContext.SendActivityAsync(_localizer["COMMAND_NOT_AUTHORIZED"]);
                             }
@@ -132,8 +134,7 @@ namespace ImageHuntBotBuilder
                     case ImageHuntActivityTypes.Location:
                         await _nodeVisitorHandler.MatchHiddenNodesLocationAsync(turnContext, state);
                         await _nodeVisitorHandler.MatchLocationAsync(turnContext, state);
-                        await _nodeVisitorHandler.MatchLocationDialogAsync(turnContext, state,
-                            _accessors.ConversationDialogState);
+                        await _nodeVisitorHandler.MatchLocationDialogAsync(turnContext, state, _accessors.ConversationDialogState);
                         break;
                 }
 

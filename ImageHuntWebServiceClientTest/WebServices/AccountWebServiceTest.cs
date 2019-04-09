@@ -17,7 +17,7 @@ namespace ImageHuntWebServiceClientTest.WebServices
         public AccountWebServiceTest()
         {
             _logger = A.Fake<ILogger<IAccountWebService>>();
-            _target = new AccountWebService(_httpClient, _logger);
+            _target = new AccountWebService(HttpClient, _logger);
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace ImageHuntWebServiceClientTest.WebServices
             // Act
             var result = await _target.Login(loginRequest);
             // Assert
-            Check.That(result.result).IsNotNull();
+            Check.That(result.Result).IsNotNull();
         }
     }
 }

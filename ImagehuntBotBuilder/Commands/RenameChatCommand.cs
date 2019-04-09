@@ -20,7 +20,7 @@ namespace ImageHuntBotBuilder.Commands
             _teamWebService = teamWebService;
         }
 
-        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             if (state.Status == Status.None)
             {

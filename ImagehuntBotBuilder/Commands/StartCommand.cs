@@ -18,7 +18,7 @@ namespace ImageHuntBotBuilder.Commands
             _scope = scope;
         }
 
-        protected async override Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected async override Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             var regex = new Regex(@"(\/\w*) (.*)");
             if (regex.IsMatch(turnContext.Activity.Text))
@@ -39,7 +39,7 @@ namespace ImageHuntBotBuilder.Commands
                     {
                         case "/redeem":
                             subDialog = _scope.Resolve<IRedeemCommand>();
-                            await subDialog.Execute(turnContext, state);
+                            await subDialog.ExecuteAsync(turnContext, state);
                             break;
                     }
                 }

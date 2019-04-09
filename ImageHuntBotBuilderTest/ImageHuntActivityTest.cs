@@ -22,21 +22,21 @@ namespace ImageHuntBotBuilderTest
             // Arrange
             var conversatonReference = new ConversationReference(){Conversation = new ConversationAccount()};
             // Act
-            _target.ApplyConversationReference(conversatonReference);
+            Target.ApplyConversationReference(conversatonReference);
             // Assert
-            Check.That(_target.Conversation).Equals(conversatonReference.Conversation);
+            Check.That(Target.Conversation).Equals(conversatonReference.Conversation);
 
         }
         [Fact]
         public void Should_Not_Set_Conversation_If_Not_Null()
         {
             // Arrange
-            _target.Conversation = new ConversationAccount();
+            Target.Conversation = new ConversationAccount();
             var conversatonReference = new ConversationReference(){Conversation = new ConversationAccount()};
             // Act
-            _target.ApplyConversationReference(conversatonReference);
+            Target.ApplyConversationReference(conversatonReference);
             // Assert
-            Check.That(_target.Conversation).IsNotEqualTo(conversatonReference.Conversation);
+            Check.That(Target.Conversation).IsNotEqualTo(conversatonReference.Conversation);
         }
 
         [Fact]

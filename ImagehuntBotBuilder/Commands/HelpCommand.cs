@@ -14,10 +14,10 @@ namespace ImageHuntBotBuilder.Commands
         }
 
         public override bool IsAdmin => false;
-        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             await turnContext.SendActivityAsync(
-                _localizer["HELP"]);
+                Localizer["HELP"]);
         }
     }
 }

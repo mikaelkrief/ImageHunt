@@ -117,7 +117,7 @@ namespace ImageHunt.Controllers
         case NodeResponse.BonusNodeType:
           var bonusNode = node as BonusNode;
           bonusNode.Location = nodeRequest.Location;
-          bonusNode.BonusType = Enum.Parse<BonusNode.BONUS_TYPE>(nodeRequest.Bonus.ToString());
+          bonusNode.BonusType = Enum.Parse<BonusNode.BONUSTYPE>(nodeRequest.Bonus.ToString());
           break;
         case NodeResponse.ChoiceNodeType:
           var choiceNode = node as ChoiceNode;

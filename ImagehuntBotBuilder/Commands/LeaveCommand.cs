@@ -14,7 +14,7 @@ namespace ImageHuntBotBuilder.Commands
         {
         }
 
-        protected async override Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected async override Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             var activity = new Activity(type: ImageHuntActivityTypes.Leave);
             await turnContext.SendActivityAsync(activity);

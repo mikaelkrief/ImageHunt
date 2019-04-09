@@ -13,24 +13,25 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly INodeWebService _nodeWebService;
 
-        public RefreshCommand(ILogger<IRefreshCommand> logger, 
+        public RefreshCommand(
+            ILogger<IRefreshCommand> logger, 
             IStringLocalizer<RefreshCommand> localizer, INodeWebService nodeWebService) 
             : base(logger, localizer)
         {
             _nodeWebService = nodeWebService;
         }
 
-        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             if (state.Game == null)
             {
-                await turnContext.SendActivityAsync(_localizer["GROUP_NOT_INITIALIZED"]);
+                await turnContext.SendActivityAsync(Localizer["GROUP_NOT_INITIALIZED"]);
                 return;
             }
             state.HiddenNodes = (await _nodeWebService.GetNodesByType(NodeTypes.Hidden, state.Game.Id)).ToArray();
             state.ActionNodes = (await _nodeWebService.GetNodesByType(NodeTypes.Action, state.Game.Id)).ToArray();
-            await turnContext.SendActivityAsync(_localizer["REFRESH_HIDDEN_NODES"]);
-            await turnContext.SendActivityAsync(_localizer["REFRESH_ACTION_NODES"]);
+            await turnContext.SendActivityAsync(Localizer["REFRESH_HIDDEN_NODES"]);
+            await turnContext.SendActivityAsync(Localizer["REFRESH_ACTION_NODES"]);
         }
     }
 }

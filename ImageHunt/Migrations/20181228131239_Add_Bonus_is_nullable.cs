@@ -5,7 +5,7 @@ namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
 
-  public partial class Add_Bonus_is_nullable : Migration
+  public partial class AddBonusIsNullable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

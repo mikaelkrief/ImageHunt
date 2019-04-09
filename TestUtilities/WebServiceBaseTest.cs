@@ -8,13 +8,13 @@ namespace TestUtilities
 {
   public class WebServiceBaseTest : BaseTest
   {
-    protected HttpMessageHandler _fakeHttpMessageHandler;
-    protected HttpClient _httpClient;
+    protected HttpMessageHandler FakeHttpMessageHandler;
+    protected HttpClient HttpClient;
 
     public WebServiceBaseTest()
     {
-      _fakeHttpMessageHandler = A.Fake<HttpMessageHandler>();
-      _httpClient = new HttpClient(_fakeHttpMessageHandler) { BaseAddress = new Uri("http://test.com") };
+      FakeHttpMessageHandler = A.Fake<HttpMessageHandler>();
+      HttpClient = new HttpClient(FakeHttpMessageHandler) { BaseAddress = new Uri("http://test.com") };
     }
 
     protected void FakeResponse(string resourceName)
@@ -25,7 +25,7 @@ namespace TestUtilities
           resourceName
         ))
       };
-      A.CallTo(_fakeHttpMessageHandler)
+      A.CallTo(FakeHttpMessageHandler)
         .Where(x => x.Method.Name == "SendAsync")
         .WithReturnType<Task<HttpResponseMessage>>()
         .Returns(httpResponse);

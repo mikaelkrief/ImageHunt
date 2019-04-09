@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageHunt.Migrations
 {
-    public partial class Add_AppId_In_Identity : Migration
+    public partial class AddAppIdInIdentity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

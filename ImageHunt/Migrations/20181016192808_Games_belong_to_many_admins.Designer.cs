@@ -10,7 +10,7 @@ namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
     [Migration("20181016192808_Games_belong_to_many_admins")]
-    partial class Games_belong_to_many_admins
+    partial class GamesBelongToManyAdmins
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

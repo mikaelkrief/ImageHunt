@@ -22,9 +22,9 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public StartCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IStartCommand>>());
-            _testContainerBuilder.RegisterInstance(A.Fake<IRedeemCommand>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<StartCommand>>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IStartCommand>>());
+            TestContainerBuilder.RegisterInstance(A.Fake<IRedeemCommand>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<StartCommand>>());
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState();
             Build();
@@ -37,7 +37,7 @@ namespace ImageHuntBotBuilderTest.Commands
             var activity = new Activity(text: "/start redeem_gameId=21_pass=GFHFTF");
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
         }
     }

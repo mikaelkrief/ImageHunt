@@ -25,26 +25,26 @@ namespace ImageHuntTest.Services
 
         public ActionServiceTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<ActionService>>());
-            _testContainerBuilder.RegisterInstance(_context);
-            _testContainerBuilder.RegisterInstance(_scoreChanger = A.Fake<IScoreChanger>());
-            var container = _testContainerBuilder.Build();
-            _target = new ActionService(_context, _logger, _scoreChanger);
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<ActionService>>());
+            TestContainerBuilder.RegisterInstance(Context);
+            TestContainerBuilder.RegisterInstance(_scoreChanger = A.Fake<IScoreChanger>());
+            var container = TestContainerBuilder.Build();
+            _target = new ActionService(Context, _logger, _scoreChanger);
         }
         [Fact]
         public async Task GetGameActionForGame()
         {
             // Arrange
             var teams = new List<Team> { new Team(), new Team(), new Team() };
-            _context.Teams.AddRange(teams);
-            _context.SaveChanges();
+            Context.Teams.AddRange(teams);
+            Context.SaveChanges();
             var games = new List<Game> { new Game(), new Game() };
-            _context.AddRange(games);
-            _context.SaveChanges();
+            Context.AddRange(games);
+            Context.SaveChanges();
             var nodes = new List<Node>(){new FirstNode(){Latitude = 10.0001, Longitude = 15.0001},
        new ObjectNode(){Latitude = 12, Longitude = 16}, new LastNode()};
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             var gameActions = new List<GameAction>()
       {
         new GameAction()
@@ -87,8 +87,8 @@ namespace ImageHuntTest.Services
           Team = teams[1]
         },
       };
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             // Act
             var results = await _target.GetGameActionsForGame(games[1].Id, 0, 10, IncludeAction.All);
             // Assert
@@ -103,19 +103,19 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var teams = new List<Team> { new Team(), new Team(), new Team() };
-            _context.Teams.AddRange(teams);
-            _context.SaveChanges();
+            Context.Teams.AddRange(teams);
+            Context.SaveChanges();
             var games = new List<Game> { new Game(), new Game() };
-            _context.AddRange(games);
-            _context.SaveChanges();
+            Context.AddRange(games);
+            Context.SaveChanges();
             var nodes = new List<Node>(){
           new FirstNode(){Latitude = 10.0001, Longitude = 15.0001},
           new ObjectNode(){Latitude = 12, Longitude = 16},
           new LastNode(),
           new PictureNode() {Image = new Picture(){Image = new byte[10]}}
       };
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             var gameActions = new List<GameAction>()
       {
         new GameAction()
@@ -159,8 +159,8 @@ namespace ImageHuntTest.Services
           Team = teams[1]
         },
       };
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             // Act
             var results = await _target.GetGameActionsForGame(games[1].Id, 0, 10, IncludeAction.All);
             // Assert
@@ -173,15 +173,15 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var teams = new List<Team> { new Team(), new Team(), new Team() };
-            _context.Teams.AddRange(teams);
-            _context.SaveChanges();
+            Context.Teams.AddRange(teams);
+            Context.SaveChanges();
             var games = new List<Game> { new Game(), new Game() };
-            _context.AddRange(games);
-            _context.SaveChanges();
+            Context.AddRange(games);
+            Context.SaveChanges();
             var nodes = new List<Node>(){new FirstNode(){Latitude = 10.0001, Longitude = 15.0001},
        new ObjectNode(){Latitude = 12, Longitude = 16}, new LastNode()};
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             var gameActions = new List<GameAction>()
       {
         new GameAction()
@@ -224,8 +224,8 @@ namespace ImageHuntTest.Services
           Team = teams[1]
         },
       };
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             // Act
             var results = await _target.GetGameActionsForGame(games[1].Id, 2, 2, IncludeAction.All);
             // Assert
@@ -240,15 +240,15 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var teams = new List<Team> { new Team(), new Team(), new Team() };
-            _context.Teams.AddRange(teams);
-            _context.SaveChanges();
+            Context.Teams.AddRange(teams);
+            Context.SaveChanges();
             var games = new List<Game> { new Game(), new Game() };
-            _context.AddRange(games);
-            _context.SaveChanges();
+            Context.AddRange(games);
+            Context.SaveChanges();
             var nodes = new List<Node>(){new FirstNode(){Latitude = 10.0001, Longitude = 15.0001},
        new ObjectNode(){Latitude = 12, Longitude = 16}, new LastNode()};
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             var gameActions = new List<GameAction>()
       {
         new GameAction()
@@ -381,8 +381,8 @@ namespace ImageHuntTest.Services
           },
 
       };
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             // Act
             var results = await _target.GetGameActionsForGame(games[1].Id, 1, 2, IncludeAction.Picture);
             // Assert
@@ -396,15 +396,15 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var teams = new List<Team> { new Team(), new Team(), new Team() };
-            _context.Teams.AddRange(teams);
-            _context.SaveChanges();
+            Context.Teams.AddRange(teams);
+            Context.SaveChanges();
             var games = new List<Game> { new Game(), new Game() };
-            _context.AddRange(games);
-            _context.SaveChanges();
+            Context.AddRange(games);
+            Context.SaveChanges();
             var nodes = new List<Node>(){new FirstNode(){Latitude = 10.0001, Longitude = 15.0001},
        new ObjectNode(){Latitude = 12, Longitude = 16}, new LastNode()};
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             var gameActions = new List<GameAction>()
       {
         new GameAction()
@@ -537,8 +537,8 @@ namespace ImageHuntTest.Services
           },
 
       };
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             // Act
             var results = await _target.GetGameActionsForGame(games[1].Id, 1, 2, IncludeAction.HiddenNode);
             // Assert
@@ -551,15 +551,15 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var teams = new List<Team> { new Team(), new Team(), new Team() };
-            _context.Teams.AddRange(teams);
-            _context.SaveChanges();
+            Context.Teams.AddRange(teams);
+            Context.SaveChanges();
             var games = new List<Game> { new Game(), new Game() };
-            _context.AddRange(games);
-            _context.SaveChanges();
+            Context.AddRange(games);
+            Context.SaveChanges();
             var nodes = new List<Node>(){new FirstNode(){Latitude = 10.0001, Longitude = 15.0001},
        new ObjectNode(){Latitude = 12, Longitude = 16}, new LastNode()};
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             var gameActions = new List<GameAction>()
       {
         new GameAction()
@@ -621,8 +621,8 @@ namespace ImageHuntTest.Services
           Team = teams[0]
         },
       };
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             // Act
             var results = await _target.GetGameActionsForGame(games[1].Id, 2, 2, IncludeAction.All, teams[1].Id);
             // Assert
@@ -638,15 +638,15 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var teams = new List<Team> { new Team(), new Team(), new Team() };
-            _context.Teams.AddRange(teams);
-            _context.SaveChanges();
+            Context.Teams.AddRange(teams);
+            Context.SaveChanges();
             var games = new List<Game> { new Game(), new Game() };
-            _context.AddRange(games);
-            _context.SaveChanges();
+            Context.AddRange(games);
+            Context.SaveChanges();
             var nodes = new List<Node>(){new FirstNode(){Latitude = 10.0001, Longitude = 15.0001},
                 new ObjectNode(){Latitude = 12, Longitude = 16}, new LastNode()};
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             var gameActions = new List<GameAction>()
             {
                 new GameAction()
@@ -689,8 +689,8 @@ namespace ImageHuntTest.Services
                     Team = teams[1]
                 },
             };
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             // Act
             var result = _target.GetGameActionCountForGame(games[1].Id, IncludeAction.All);
             // Assert
@@ -701,15 +701,15 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var teams = new List<Team> { new Team(), new Team(), new Team() };
-            _context.Teams.AddRange(teams);
-            _context.SaveChanges();
+            Context.Teams.AddRange(teams);
+            Context.SaveChanges();
             var games = new List<Game> { new Game(), new Game() };
-            _context.AddRange(games);
-            _context.SaveChanges();
+            Context.AddRange(games);
+            Context.SaveChanges();
             var nodes = new List<Node>(){new FirstNode(){Latitude = 10.0001, Longitude = 15.0001},
                 new ObjectNode(){Latitude = 12, Longitude = 16}, new LastNode()};
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             var gameActions = new List<GameAction>()
             {
                 new GameAction()
@@ -761,8 +761,8 @@ namespace ImageHuntTest.Services
                     Team = teams[1]
                 },
             };
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             // Act
             var result = _target.GetGameActionCountForGame(games[1].Id, IncludeAction.All, teams[1].Id);
             // Assert
@@ -773,15 +773,15 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var teams = new List<Team> { new Team(), new Team(), new Team() };
-            _context.Teams.AddRange(teams);
-            _context.SaveChanges();
+            Context.Teams.AddRange(teams);
+            Context.SaveChanges();
             var games = new List<Game> { new Game(), new Game() { Name = "Toto" } };
-            _context.AddRange(games);
-            _context.SaveChanges();
+            Context.AddRange(games);
+            Context.SaveChanges();
             var nodes = new List<Node>(){new FirstNode(){Latitude = 10.0001, Longitude = 15.0001},
         new ObjectNode(){Latitude = 12, Longitude = 16}, new LastNode()};
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             var gameActions = new List<GameAction>()
       {
         new GameAction()
@@ -824,8 +824,8 @@ namespace ImageHuntTest.Services
           Team = teams[1]
         },
       };
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             // Act
             var result = _target.GetGameAction(gameActions[1].Id);
             // Assert
@@ -839,17 +839,17 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var games = new List<Game> { new Game(), new Game() };
-            _context.Games.AddRange(games);
+            Context.Games.AddRange(games);
             var teams = new List<Team> { new Team(), new Team(), new Team() };
-            _context.Teams.AddRange(teams);
+            Context.Teams.AddRange(teams);
             var nodes = new List<Node> { new TimerNode(), new ObjectNode() };
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             var gameAction = new GameAction() { Game = games[1], Team = teams[1], Node = nodes[1] };
             // Act
             _target.AddGameAction(gameAction);
             // Assert
-            Check.That(_context.GameActions).HasSize(1).And.Contains(gameAction);
+            Check.That(Context.GameActions).HasSize(1).And.Contains(gameAction);
         }
 
         [Fact]
@@ -858,11 +858,11 @@ namespace ImageHuntTest.Services
             // Arrange
             var gameActions = new List<GameAction> {new GameAction(),
             new GameAction() {IsValidated = false, Node = new PictureNode{Points = 15}}};
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             var admins = new List<Admin> { new Admin(), new Admin() };
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             // Act
             _target.Validate(gameActions[1].Id, gameActions[1].Node.Id, admins[1].Id, true);
             // Assert
@@ -876,11 +876,11 @@ namespace ImageHuntTest.Services
             // Arrange
             var gameActions = new List<GameAction> {new GameAction(),
             new GameAction() {IsValidated = false, Node = new PictureNode{Points = 15}}};
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             var admins = new List<Admin> { new Admin(), new Admin() };
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             // Act
             _target.Validate(gameActions[1].Id, 1, admins[1].Id, false);
             // Assert
@@ -894,12 +894,12 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var nodes = new List<Node> { new TimerNode() { Points = 15 }, new ObjectNode() { Points = 20 } };
-            _context.Nodes.AddRange(nodes);
+            Context.Nodes.AddRange(nodes);
             var gameActions = new List<GameAction> { new GameAction(), new GameAction() { Node = nodes[1] } };
-            _context.GameActions.AddRange(gameActions);
+            Context.GameActions.AddRange(gameActions);
             var admins = new List<Admin> { new Admin(), new Admin() { Role = Role.Validator } };
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             // Act
             _target.Validate(gameActions[1].Id, nodes[1].Id, admins[1].Id, true);
             // Assert
@@ -912,11 +912,11 @@ namespace ImageHuntTest.Services
             var gameActions = new List<GameAction> {new GameAction(),
             new GameAction() {IsValidated = true, PointsEarned = 15,
                 Node = new PictureNode(){Points = 15}}};
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             var admins = new List<Admin> { new Admin(), new Admin() };
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             // Act
             _target.Validate(gameActions[1].Id, gameActions[1].Node.Id, admins[1].Id, false);
             // Assert
@@ -930,8 +930,8 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var gameActions = new List<GameAction> { new GameAction(), new GameAction() { IsValidated = false } };
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             // Act
             Check.ThatCode(() => _target.Validate(gameActions[1].Id, 1, 0, true)).Throws<InvalidOperationException>();
             // Assert
@@ -955,7 +955,7 @@ namespace ImageHuntTest.Services
                 new Player(),
             };
             var games = new List<Game> { new Game() { NbPlayerPenaltyThreshold = 3, NbPlayerPenaltyValue = 0.05 } };
-            _context.Games.AddRange(games);
+            Context.Games.AddRange(games);
             var teams = new List<Team> { new Team(), new Team(), new Team() };
             teams[0].TeamPlayers.Add(new TeamPlayer() { Team = teams[0], Player = players[0] });
             teams[0].TeamPlayers.Add(new TeamPlayer() { Team = teams[0], Player = players[1] });
@@ -968,7 +968,7 @@ namespace ImageHuntTest.Services
             teams[2].TeamPlayers.Add(new TeamPlayer() { Team = teams[2], Player = players[6] });
             teams[2].TeamPlayers.Add(new TeamPlayer() { Team = teams[2], Player = players[7] });
             teams[2].TeamPlayers.Add(new TeamPlayer() { Team = teams[2], Player = players[8] });
-            _context.Teams.AddRange(teams);
+            Context.Teams.AddRange(teams);
             var gameActions = new List<GameAction>
             {
                 new GameAction{ Action=Action.StartGame, Game = games[0], Team = teams[0], DateOccured = DateTime.Now.AddHours(-1)},
@@ -990,8 +990,8 @@ namespace ImageHuntTest.Services
                 new GameAction{ Action=Action.EndGame, Game = games[0], Team = teams[2], DateOccured = DateTime.Now.AddHours(3)},
 
             };
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             var expectedScores = new List<Score>
             {
                 new Score(){Team = teams[0], Points = 30, TravelTime = new TimeSpan(2, 0, 0)},
@@ -1014,10 +1014,10 @@ namespace ImageHuntTest.Services
         public void GetPositionsForGame()
         {
             var teams = new List<Team>() { new Team(), new Team() };
-            _context.Teams.AddRange(teams);
+            Context.Teams.AddRange(teams);
 
             var games = new List<Game>() { new Game(), new Game() };
-            _context.Games.AddRange(games);
+            Context.Games.AddRange(games);
             // Arrange
             var gameActions = new List<GameAction>
             {
@@ -1031,8 +1031,8 @@ namespace ImageHuntTest.Services
                 new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
                 new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
             };
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             // Act
             var results = _target.GetGamePositionsForGame(games[1].Id);
             // Assert
@@ -1042,9 +1042,9 @@ namespace ImageHuntTest.Services
         public void GetPositionsForGame_Null_Team_Should_be_ignored()
         {
             var teams = new List<Team>() {new Team(), new Team()};
-            _context.Teams.AddRange(teams);
+            Context.Teams.AddRange(teams);
             var games = new List<Game>() { new Game(), new Game() };
-            _context.Games.AddRange(games);
+            Context.Games.AddRange(games);
             // Arrange
             var gameActions = new List<GameAction>
             {
@@ -1058,8 +1058,8 @@ namespace ImageHuntTest.Services
                 new GameAction(){Team=teams[1], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
                 new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
             };
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             // Act
             var results = _target.GetGamePositionsForGame(games[1].Id);
             // Assert
@@ -1069,10 +1069,10 @@ namespace ImageHuntTest.Services
         public void GetPositionsForGame_Null_Latitude_Should_Be_Ignored()
         {
             var teams = new List<Team>() { new Team(), new Team() };
-            _context.Teams.AddRange(teams);
+            Context.Teams.AddRange(teams);
 
             var games = new List<Game>() { new Game(), new Game() };
-            _context.Games.AddRange(games);
+            Context.Games.AddRange(games);
             // Arrange
             var gameActions = new List<GameAction>
             {
@@ -1086,8 +1086,8 @@ namespace ImageHuntTest.Services
                 new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
                 new GameAction(){Team=teams[0], Latitude = 43.88, Longitude=4.86, Action=Action.SubmitPosition, Game = games[1]},
             };
-            _context.GameActions.AddRange(gameActions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
             // Act
             var results = _target.GetGamePositionsForGame(games[1].Id);
             // Assert
@@ -1104,8 +1104,8 @@ namespace ImageHuntTest.Services
                 new GameAction() {PointsEarned = 54},
                 new GameAction() {PointsEarned = 34},
             };
-            _context.GameActions.AddRange(actions);
-            _context.SaveChanges();
+            Context.GameActions.AddRange(actions);
+            Context.SaveChanges();
             actions[1].PointsEarned = 457;
             // Act
             var modified = _target.Update(actions[1]);

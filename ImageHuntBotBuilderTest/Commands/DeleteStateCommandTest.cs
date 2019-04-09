@@ -25,9 +25,9 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public DeleteStateCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IDeleteStateCommand>>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<DeleteStateCommand>>());
-            _testContainerBuilder.RegisterInstance(_accessors = A.Fake<ImageHuntBotAccessors>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IDeleteStateCommand>>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<DeleteStateCommand>>());
+            TestContainerBuilder.RegisterInstance(_accessors = A.Fake<ImageHuntBotAccessors>());
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState() { Status = Status.Started };
             Build();
@@ -44,7 +44,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => statePropertyAccessor.GetAllAsync()).Returns(states);
             A.CallTo(() => _accessors.AllStates).Returns(statePropertyAccessor);
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _accessors.DeleteStateAsync(A<ITurnContext>._, A<CancellationToken>._))
                 .MustHaveHappened(2, Times.Exactly);
@@ -60,7 +60,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => statePropertyAccessor.GetAllAsync()).Returns(states);
             A.CallTo(() => _accessors.AllStates).Returns(statePropertyAccessor);
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _accessors.DeleteStateAsync(A<ITurnContext>._, A<CancellationToken>._))
                 .MustHaveHappened(2, Times.Exactly);

@@ -26,11 +26,11 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public RedeemCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IRedeemCommand>>());
-            _testContainerBuilder.RegisterInstance(_passcodeWebService = A.Fake<IPasscodeWebService>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<RedeemCommand>>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IRedeemCommand>>());
+            TestContainerBuilder.RegisterInstance(_passcodeWebService = A.Fake<IPasscodeWebService>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<RedeemCommand>>());
 
-            _testContainerBuilder.RegisterInstance(A.Fake<IBroadcastCommand>());
+            TestContainerBuilder.RegisterInstance(A.Fake<IBroadcastCommand>());
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState();
             Build();
@@ -43,7 +43,7 @@ namespace ImageHuntBotBuilderTest.Commands
             var activity = new Activity(text: "/redeem gameid=45 pass=FGFGFFGT", from: new ChannelAccount(name:"toto"));
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _passcodeWebService.RedeemPasscode(45, "toto", "FGFGFFGT"));
             A.CallTo(

@@ -12,12 +12,12 @@ namespace ImageHuntWebServiceClient.WebServices
 {
     public abstract class AbstractWebService
     {
-        protected readonly HttpClient _httpClient;
+        protected readonly HttpClient HttpClient;
         private readonly ILogger _logger;
 
         protected AbstractWebService(HttpClient httpClient, ILogger logger)
         {
-            _httpClient = httpClient;
+            HttpClient = httpClient;
             _logger = logger;
             //_httpClient.DefaultRequestHeaders.Clear();
         }
@@ -29,7 +29,7 @@ namespace ImageHuntWebServiceClient.WebServices
             .WaitAndRetryAsync(3, retryAttemp => TimeSpan.FromSeconds(Math.Pow(2, retryAttemp)))
             .ExecuteAsync(async () =>
             {
-                var response = await _httpClient.GetAsync(url, cancellationToken);
+                var response = await HttpClient.GetAsync(url, cancellationToken);
                 if (response.IsSuccessStatusCode)
                 {
                     return await ConvertToObject<T>(response);
@@ -60,7 +60,7 @@ namespace ImageHuntWebServiceClient.WebServices
                 .ExecuteAsync(async () =>
                 {
 
-                    var result = await _httpClient.PostAsync(request, content, cancellationToken);
+                    var result = await HttpClient.PostAsync(request, content, cancellationToken);
                     if (result.IsSuccessStatusCode)
                     {
                         return await ConvertToObject<T>(result);
@@ -79,7 +79,7 @@ namespace ImageHuntWebServiceClient.WebServices
                 .ExecuteAsync(async () =>
                 {
 
-                    var result = await _httpClient.PutAsync(request, null, cancellationToken);
+                    var result = await HttpClient.PutAsync(request, null, cancellationToken);
                 });
         }
 
@@ -92,7 +92,7 @@ namespace ImageHuntWebServiceClient.WebServices
                 .ExecuteAsync(async () =>
                 {
 
-                    var response = await _httpClient.PutAsync(request, null, cancellationToken);
+                    var response = await HttpClient.PutAsync(request, null, cancellationToken);
                     if (response.IsSuccessStatusCode)
                     {
                         return await ConvertToObject<T>(response);
@@ -109,7 +109,7 @@ namespace ImageHuntWebServiceClient.WebServices
                 .WaitAndRetryAsync(3, retryAttemp => TimeSpan.FromSeconds(Math.Pow(2, retryAttemp)))
                 .ExecuteAsync(async () =>
                 {
-                    var result = await _httpClient.PatchAsync(uri, content, cancellationToken);
+                    var result = await HttpClient.PatchAsync(uri, content, cancellationToken);
                     if (result.IsSuccessStatusCode)
                     {
                         return await ConvertToObject<T>(result);
@@ -131,7 +131,7 @@ namespace ImageHuntWebServiceClient.WebServices
             await Policy
                 .Handle<Exception>()
                 .WaitAndRetryAsync(3, retryAttemp => TimeSpan.FromSeconds(Math.Pow(2, retryAttemp)))
-                .ExecuteAsync(async () => { await _httpClient.DeleteAsync(uri, cancellationToken); });
+                .ExecuteAsync(async () => { await HttpClient.DeleteAsync(uri, cancellationToken); });
         }
     }
 }

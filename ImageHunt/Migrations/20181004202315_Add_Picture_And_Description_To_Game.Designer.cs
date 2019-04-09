@@ -10,7 +10,7 @@ namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
     [Migration("20181004202315_Add_Picture_And_Description_To_Game")]
-    partial class Add_Picture_And_Description_To_Game
+    partial class AddPictureAndDescriptionToGame
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

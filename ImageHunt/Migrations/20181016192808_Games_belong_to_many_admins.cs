@@ -5,7 +5,7 @@ namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
 
-  public partial class Games_belong_to_many_admins : Migration
+  public partial class GamesBelongToManyAdmins : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

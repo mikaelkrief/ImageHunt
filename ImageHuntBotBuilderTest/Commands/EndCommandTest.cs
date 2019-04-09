@@ -27,9 +27,9 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public EndCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IEndCommand>>());
-            _testContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<EndCommand>>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IEndCommand>>());
+            TestContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<EndCommand>>());
 
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState();
@@ -45,7 +45,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.TeamId = 778;
             _state.Status = Status.Started;
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
                 .MustHaveHappened();
@@ -64,7 +64,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.TeamId = 778;
             _state.Status = Status.Initialized;
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
                 .MustNotHaveHappened();

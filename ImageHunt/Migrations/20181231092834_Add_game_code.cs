@@ -5,7 +5,7 @@ namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
 
-  public partial class Add_game_code : Migration
+  public partial class AddGameCode : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
