@@ -27,8 +27,7 @@ namespace ImageHuntBotBuilder
         Task<NodeResponse> MatchLocationAsync(ITurnContext context, ImageHuntState state);
         Task MatchHiddenNodesLocationAsync(ITurnContext turnContext, ImageHuntState state);
 
-        Task<DialogSet> MatchLocationDialogAsync(
-            ITurnContext turnContext, 
+        Task MatchLocationDialogAsync(ITurnContext turnContext,
             ImageHuntState state,
             IStatePropertyAccessor<DialogState> conversationDialogState);
     }
@@ -322,7 +321,7 @@ namespace ImageHuntBotBuilder
             return distance < _rangeDistance;
         }
 
-        public async Task<DialogSet> MatchLocationDialogAsync(
+        public async Task MatchLocationDialogAsync(
             ITurnContext turnContext,
             ImageHuntState state,
             IStatePropertyAccessor<DialogState> conversationDialogState)
@@ -331,18 +330,15 @@ namespace ImageHuntBotBuilder
             if (node == null)
             {
                 _logger.LogTrace("Current node is null");
-                return null;
             }
             if (conversationDialogState == null)
             {
                 _logger.LogError($"conversationDialogState is null");
-                return null;
             }
 
             if (node.NodeType != NodeResponse.QuestionNodeType || node.NodeType == NodeResponse.ChoiceNodeType)
             {
                 _logger.LogTrace("Current node is not correct type: {0}", node.NodeType);
-                return null;
             }
             if (MatchLocation(turnContext, node, out var location))
             {
@@ -357,21 +353,20 @@ namespace ImageHuntBotBuilder
                         };
                         dialogSet.Add(new WaterfallDialog("questionNode", waterfallSteps));
                         dialogSet.Add(new TextPrompt("question"));
+                        var dialogContext = await dialogSet.CreateContextAsync(turnContext);
+                        var results = await dialogContext.ContinueDialogAsync();
+                        if (results.Status == DialogTurnStatus.Empty)
+                        {
+                            await dialogContext.BeginDialogAsync("questionNode");
+                        }
 
+                        state.CurrentDialog = dialogSet;
                         break;
                 }
 
-                var dialogContext = await dialogSet.CreateContextAsync(turnContext);
-                var results = await dialogContext.ContinueDialogAsync();
-                if (results.Status == DialogTurnStatus.Empty)
-                {
-                    await dialogContext.BeginDialogAsync("questionNode");
-                }
 
-                return dialogSet;
             }
 
-            return null;
         }
 
         private static async Task<DialogTurnResult> QuestionStepAsync(

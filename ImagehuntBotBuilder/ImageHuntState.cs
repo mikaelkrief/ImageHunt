@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using ImageHuntWebServiceClient.Responses;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
 namespace ImageHuntBotBuilder
@@ -25,6 +26,7 @@ namespace ImageHuntBotBuilder
         public int? CurrentNodeId { get; set; }
         public NodeResponse[] HiddenNodes { get; set; }
         public NodeResponse[] ActionNodes { get; set; }
+        public DialogSet CurrentDialog { get; set; }
     }
 
     public enum Status

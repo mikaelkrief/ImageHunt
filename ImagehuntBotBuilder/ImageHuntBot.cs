@@ -8,6 +8,7 @@ using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -105,6 +106,17 @@ namespace ImageHuntBotBuilder
 
                         break;
                     case ActivityTypes.Message:
+                        if (state.CurrentDialog != null)
+                        {
+                            var dialogContext =
+                                await state.CurrentDialog.CreateContextAsync(turnContext, cancellationToken);
+                            var result = await dialogContext.ContinueDialogAsync(cancellationToken);
+                            if (result.Status == DialogTurnStatus.Complete)
+                            {
+                                await turnContext.SendActivityAsync($"Reponse {result.Result}");
+                            }
+                            break;
+                        }
                         if (!string.IsNullOrEmpty(turnContext.Activity.Text) &&
                             turnContext.Activity.Text.StartsWith('/'))
                         {
