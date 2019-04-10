@@ -363,7 +363,7 @@ namespace ImageHuntBotBuilder
                             await dialogContext.BeginDialogAsync("questionNode");
                         }
 
-                        state.CurrentDialog = dialogSet;
+                        //state.CurrentDialog = dialogSet;
                         break;
                 }
 
