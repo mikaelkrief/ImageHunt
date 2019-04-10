@@ -7,7 +7,6 @@ export class Game {
   isActive: boolean;
   isPublic: boolean;
   name: string;
-  description?: string;
   startDate?: Date;
   mapCenterLat?: number;
   mapCenterLng?: number;
