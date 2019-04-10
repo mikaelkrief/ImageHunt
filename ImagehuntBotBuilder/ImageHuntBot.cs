@@ -106,6 +106,8 @@ namespace ImageHuntBotBuilder
 
                         break;
                     case ActivityTypes.Message:
+                        var conversationState = await _accessors.ConversationDialogState.GetAsync(turnContext);
+                        var dialogState = conversationState.DialogStack;
                         //if (state.CurrentDialog != null)
                         //{
                         //    var dialogContext =
