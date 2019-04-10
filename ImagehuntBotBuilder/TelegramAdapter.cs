@@ -183,13 +183,16 @@ namespace ImageHuntBotBuilder
                                 Task.Delay(delay * 1000).ContinueWith(t => WaitAsync(turnContext, activity));
                                 break;
                             case ImageHuntActivityTypes.Image:
-                                var imageUrl = activity.Attachments
-                                    .Single(a => a.ContentType == ImageHuntActivityTypes.Image).ContentUrl;
-                                using (var client = new HttpClient())
+                                if (activity.Attachments != null)
                                 {
-                                    var imageStream = await client.GetStreamAsync(new Uri(imageUrl));
-                                    var inputOnlineFile = new InputOnlineFile(imageStream);
-                                    await _telegramBotClient.SendPhotoAsync(chatId, inputOnlineFile, activity.Text);
+                                    var imageUrl = activity.Attachments
+                                        .Single(a => a.ContentType == ImageHuntActivityTypes.Image).ContentUrl;
+                                    using (var client = new HttpClient())
+                                    {
+                                        var imageStream = await client.GetStreamAsync(new Uri(imageUrl));
+                                        var inputOnlineFile = new InputOnlineFile(imageStream);
+                                        await _telegramBotClient.SendPhotoAsync(chatId, inputOnlineFile, activity.Text);
+                                    }
                                 }
 
                                 break;
