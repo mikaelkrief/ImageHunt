@@ -597,7 +597,7 @@ namespace ImageHuntBotBuilderTest
             {
                 GameId = 45,
                 TeamId = 87,
-
+                CurrentNode = new NodeResponse() { NodeType = NodeResponse.BonusNodeType}
             };
             var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
 

@@ -330,15 +330,18 @@ namespace ImageHuntBotBuilder
             if (node == null)
             {
                 _logger.LogTrace("Current node is null");
+                return;
             }
             if (conversationDialogState == null)
             {
                 _logger.LogError($"conversationDialogState is null");
+                return;
             }
 
             if (node.NodeType != NodeResponse.QuestionNodeType || node.NodeType == NodeResponse.ChoiceNodeType)
             {
                 _logger.LogTrace("Current node is not correct type: {0}", node.NodeType);
+                return;
             }
             if (MatchLocation(turnContext, node, out var location))
             {
