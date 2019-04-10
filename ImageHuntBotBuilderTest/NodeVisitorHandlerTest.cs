@@ -585,9 +585,9 @@ namespace ImageHuntBotBuilderTest
             var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
 
             // Act
-            var dialog = await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
             // Assert
-            Check.That(dialog).IsNull();
+            Check.That(state.CurrentDialog).IsNull();
         }
         [Fact]
         public async Task Should_MatchLocationDialog_Return_null_if_conversation_state_null()
@@ -602,9 +602,9 @@ namespace ImageHuntBotBuilderTest
             var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
 
             // Act
-            var dialog = await Target.MatchLocationDialogAsync(_turnContext, state, null);
+            await Target.MatchLocationDialogAsync(_turnContext, state, null);
             // Assert
-            Check.That(dialog).IsNull();
+            Check.That(state.CurrentDialog).IsNull();
         }
         [Fact]
         public async Task Should_MatchLocationDialog_Handle_Only_Question_And_Choice_Node()
@@ -619,9 +619,9 @@ namespace ImageHuntBotBuilderTest
             var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
 
             // Act
-            var dialog = await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
             // Assert
-            Check.That(dialog).IsNull();
+            Check.That(state.CurrentDialog).IsNull();
         }
         [Fact]
         public async Task Should_MatchLocationDialog_QuestionNode_Not_Reached()
@@ -648,9 +648,9 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _turnContext.Activity).Returns(activity);
 
             // Act
-            var dialog = await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
             // Assert
-            Check.That(dialog).IsNull();
+            Check.That(state.CurrentDialog).IsNull();
         }
         [Fact]
         public async Task Should_MatchLocationDialog_QuestionNode_Reached()
@@ -682,9 +682,9 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _turnContext.Activity).Returns(activity);
 
             // Act
-            var dialogSet = await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
             // Assert
-            Check.That(dialogSet).IsInstanceOf<DialogSet>();
+            Check.That(state.CurrentDialog).IsInstanceOf<DialogSet>();
         }
     }
 }
