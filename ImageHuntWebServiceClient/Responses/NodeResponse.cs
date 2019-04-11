@@ -40,8 +40,12 @@ namespace ImageHuntWebServiceClient.Responses
         public string Action { get; set; }
         public ImageResponse Image { get; set; }
         public string Question { get; set; }
+        public string Answer { get; set; }
+
         public string Hint { get; set; }
         public int Delay { get; set; }
         public BonusNode.BONUS_TYPE BonusType { get; set; }
+        public bool CanOverride { get; set; }
+
     }
 }

@@ -17,5 +17,5 @@ password : string;
   hint?: string;
   question?: string;
   answer?: string;
-
+  canOverride?: boolean;
 }
