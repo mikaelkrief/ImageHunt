@@ -361,17 +361,29 @@ namespace ImageHuntBotBuilder
         {
             var questionWaterfallSteps = new WaterfallStep[]
             {
-                QuestionAnswerStepAsync
+                AskQuestionStepAsync,
+                AnswerQuestionStepAsync
             };
             dialogs.Add(new WaterfallDialog(QuestionNodeDialog, questionWaterfallSteps));
             dialogs.Add(new TextPrompt(QuestionNodePrompt));
         }
 
-        private async Task<DialogTurnResult> QuestionAnswerStepAsync(
+        private async Task<DialogTurnResult> AnswerQuestionStepAsync(
             WaterfallStepContext stepcontext, 
             CancellationToken cancellationtoken)
         {
-            return await stepcontext.NextAsync(QuestionNodePrompt,  cancellationtoken);
+            await stepcontext.Context.SendActivityAsync(_localizer["ANSWER_RECORED"], cancellationToken: cancellationtoken);
+            return await stepcontext.EndDialogAsync(cancellationToken: cancellationtoken);
+        }
+
+        private async Task<DialogTurnResult> AskQuestionStepAsync(
+            WaterfallStepContext stepcontext, 
+            CancellationToken cancellationtoken)
+        {
+            var currentNode = stepcontext.Options as NodeResponse;
+            return await stepcontext.PromptAsync(QuestionNodePrompt, 
+                new PromptOptions(){Prompt = MessageFactory.Text(currentNode.Question)}, 
+                cancellationtoken);
         }
 
     }
