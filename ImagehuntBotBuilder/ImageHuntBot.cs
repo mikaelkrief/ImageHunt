@@ -62,6 +62,7 @@ namespace ImageHuntBotBuilder
             _commandRepository = commandRepository;
             _nodeVisitorHandler = nodeVisitorHandler;
             _dialogs = new DialogSet(accessors.ConversationDialogState);
+            _nodeVisitorHandler.ConstructDialogSet(_dialogs);
         }
 
         public async Task OnTurnAsync(
@@ -108,15 +109,15 @@ namespace ImageHuntBotBuilder
 
                         break;
                     case ActivityTypes.Message:
-                        //if (_dialogs != null)
-                        //{
-                        //    var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
-                        //    var result = await dialogContext.ContinueDialogAsync(cancellationToken);
-                        //    if (result.Status == DialogTurnStatus.Complete)
-                        //    {
-                        //        break;
-                        //    }
-                        //}
+                        if (_dialogs != null)
+                        {
+                            var dialogContext = await _dialogs.CreateContextAsync(turnContext, cancellationToken);
+                            var result = await dialogContext.ContinueDialogAsync(cancellationToken);
+                            if (result.Status == DialogTurnStatus.Complete)
+                            {
+                                break;
+                            }
+                        }
                         //if (state.CurrentDialog != null)
                         //{
                         //    var dialogContext =
@@ -157,7 +158,7 @@ namespace ImageHuntBotBuilder
                     case ImageHuntActivityTypes.Location:
                         await _nodeVisitorHandler.MatchHiddenNodesLocationAsync(turnContext, state);
                         await _nodeVisitorHandler.MatchLocationAsync(turnContext, state);
-                        //await _nodeVisitorHandler.MatchLocationDialogAsync(turnContext, state, _accessors.ConversationDialogState);
+                        await _nodeVisitorHandler.MatchLocationDialogAsync(turnContext, state, _dialogs);
                         break;
                 }
 

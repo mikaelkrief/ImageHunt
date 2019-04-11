@@ -31,6 +31,8 @@ namespace ImageHuntBotBuilderTest
         private ITurnContext _turnContext;
         private IActionWebService _actionWebService;
         private IStringLocalizer<NodeVisitorHandler> _localizer;
+        private DialogSet _dialogs;
+        private IStatePropertyAccessor<DialogState> _conversationState;
 
         public NodeVisitorHandlerTest()
         {
@@ -41,6 +43,9 @@ namespace ImageHuntBotBuilderTest
             TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<NodeVisitorHandler>>());
             A.CallTo(() => _configuration["NodeSettings:RangeDistance"]).Returns("40");
             _turnContext = A.Fake<ITurnContext>();
+            _conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
+
+            _dialogs = new DialogSet(_conversationState);
             Build();
         }
 
@@ -564,10 +569,9 @@ namespace ImageHuntBotBuilderTest
 
             A.CallTo(() => _turnContext.Activity).Returns(activity);
 
-            var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
             
             // Act
-            await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            await Target.MatchLocationDialogAsync(_turnContext, state, _dialogs);
             // Assert
 
         }
@@ -582,10 +586,9 @@ namespace ImageHuntBotBuilderTest
                 TeamId = 87,
 
             };
-            var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
 
             // Act
-            await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            await Target.MatchLocationDialogAsync(_turnContext, state, _dialogs);
             // Assert
             Check.That(state.CurrentDialog).IsNull();
         }
@@ -599,10 +602,9 @@ namespace ImageHuntBotBuilderTest
                 TeamId = 87,
                 CurrentNode = new NodeResponse() { NodeType = NodeResponse.BonusNodeType}
             };
-            var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
 
             // Act
-            await Target.MatchLocationDialogAsync(_turnContext, state, null);
+            await Target.MatchLocationDialogAsync(_turnContext, state, _dialogs);
             // Assert
             Check.That(state.CurrentDialog).IsNull();
         }
@@ -616,10 +618,9 @@ namespace ImageHuntBotBuilderTest
                 TeamId = 87,
                 CurrentNode = new NodeResponse() { NodeType = NodeResponse.BonusNodeType}
             };
-            var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
 
             // Act
-            await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            await Target.MatchLocationDialogAsync(_turnContext, state, _dialogs);
             // Assert
             Check.That(state.CurrentDialog).IsNull();
         }
@@ -633,7 +634,6 @@ namespace ImageHuntBotBuilderTest
                 TeamId = 87,
                 CurrentNode = new NodeResponse() { NodeType = NodeResponse.QuestionNodeType, Latitude = 45.8, Longitude = 0}
             };
-            var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
             var activity = new Activity(type: ImageHuntActivityTypes.Location)
             {
                 Attachments = new List<Attachment>()
@@ -648,7 +648,7 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _turnContext.Activity).Returns(activity);
 
             // Act
-            await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            await Target.MatchLocationDialogAsync(_turnContext, state, _dialogs);
             // Assert
             Check.That(state.CurrentDialog).IsNull();
         }
@@ -667,7 +667,6 @@ namespace ImageHuntBotBuilderTest
                     Question = "The Question",
                 }
             };
-            var conversationState = A.Fake<IStatePropertyAccessor<DialogState>>();
             var activity = new Activity(type: ImageHuntActivityTypes.Location)
             {
                 Attachments = new List<Attachment>()
@@ -682,7 +681,7 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _turnContext.Activity).Returns(activity);
 
             // Act
-            await Target.MatchLocationDialogAsync(_turnContext, state, conversationState);
+            await Target.MatchLocationDialogAsync(_turnContext, state, _dialogs);
             // Assert
             Check.That(state.CurrentDialog).IsInstanceOf<DialogSet>();
         }

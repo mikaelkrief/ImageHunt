@@ -29,11 +29,15 @@ namespace ImageHuntBotBuilder
 
         Task MatchLocationDialogAsync(ITurnContext turnContext,
             ImageHuntState state,
-            IStatePropertyAccessor<DialogState> conversationDialogState);
+            DialogSet dialogs);
+
+        void ConstructDialogSet(DialogSet dialogs);
     }
 
     public class NodeVisitorHandler : INodeVisitorHandler
     {
+        private const string QuestionNodePrompt = "QuestionNodePrompt";
+        private const string QuestionNodeDialog = "QuestionNodeDialog";
         private readonly ILogger<NodeVisitorHandler> _logger;
         private IStringLocalizer _localizer;
         private readonly INodeWebService _nodeWebService;
@@ -324,17 +328,12 @@ namespace ImageHuntBotBuilder
         public async Task MatchLocationDialogAsync(
             ITurnContext turnContext,
             ImageHuntState state,
-            IStatePropertyAccessor<DialogState> conversationDialogState)
+            DialogSet dialogs)
         {
             var node = state.CurrentNode;
             if (node == null)
             {
                 _logger.LogTrace("Current node is null");
-                return;
-            }
-            if (conversationDialogState == null)
-            {
-                _logger.LogError($"conversationDialogState is null");
                 return;
             }
 
@@ -345,25 +344,11 @@ namespace ImageHuntBotBuilder
             }
             if (MatchLocation(turnContext, node, out var location))
             {
-                var dialogSet = new DialogSet(conversationDialogState);
-                WaterfallStep[] waterfallSteps;
                 switch (node.NodeType)
                 {
                     case NodeResponse.QuestionNodeType:
-                        waterfallSteps = new WaterfallStep[1]
-                        {
-                            QuestionStepAsync,
-                        };
-                        dialogSet.Add(new WaterfallDialog("questionNode", waterfallSteps));
-                        dialogSet.Add(new TextPrompt("question"));
-                        var dialogContext = await dialogSet.CreateContextAsync(turnContext);
-                        var results = await dialogContext.ContinueDialogAsync();
-                        if (results.Status == DialogTurnStatus.Empty)
-                        {
-                            await dialogContext.BeginDialogAsync("questionNode");
-                        }
-
-                        //state.CurrentDialog = dialogSet;
+                        var dialogContext = await dialogs.CreateContextAsync(turnContext);
+                        await dialogContext.BeginDialogAsync(QuestionNodeDialog, node);
                         break;
                 }
 
@@ -372,17 +357,22 @@ namespace ImageHuntBotBuilder
 
         }
 
-        private static async Task<DialogTurnResult> QuestionStepAsync(
-            WaterfallStepContext stepContext,
-            CancellationToken cancellationToken)
+        public void ConstructDialogSet(DialogSet dialogs)
         {
-            return await stepContext.PromptAsync(
-                "question",
-                new PromptOptions()
-                {
-                    Prompt = MessageFactory.Text("Question"),
-                }, 
-                cancellationToken);
+            var questionWaterfallSteps = new WaterfallStep[]
+            {
+                QuestionAnswerStepAsync
+            };
+            dialogs.Add(new WaterfallDialog(QuestionNodeDialog, questionWaterfallSteps));
+            dialogs.Add(new TextPrompt(QuestionNodePrompt));
         }
+
+        private async Task<DialogTurnResult> QuestionAnswerStepAsync(
+            WaterfallStepContext stepcontext, 
+            CancellationToken cancellationtoken)
+        {
+            return await stepcontext.NextAsync(QuestionNodePrompt,  cancellationtoken);
+        }
+
     }
 }
