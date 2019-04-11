@@ -19,6 +19,8 @@ import {QuestionNodeComponent} from "./question-node/question.node.component";
 import { ContextMenuModule } from "primeng/primeng";
 import { TableModule } from "primeng/table";
 import { GMapModule } from 'primeng/gmap';
+import { InputSwitchModule } from 'primeng/inputswitch';
+
 import { GameActionListComponent } from "./game-action-list/game-action-list.component";
 import {GameActionDetailComponent} from "./game-action-detail/game-action-detail.component";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
@@ -50,7 +52,7 @@ NgModule({
     MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule,
     ToggleButtonModule, DropdownModule, ContextMenuModule, TableModule, GMapModule, SharedModule,
     RadioButtonModule, TeamModule, LightboxModule, ButtonsModule, TooltipModule, PanelModule,
-    AccordionModule, ModalModule.forRoot()
+    AccordionModule, InputSwitchModule, ModalModule.forRoot()
   ],
   declarations: [
     GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeEditComponent,

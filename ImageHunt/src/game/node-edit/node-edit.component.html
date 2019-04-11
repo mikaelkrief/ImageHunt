@@ -129,6 +129,10 @@
                         <textarea class="form-control" cols="40" rows="1" id="answer" [(ngModel)]="_node.answer" name="answer"
                                   i18n-placeholder placeholder="Expected answer"></textarea>
                       </div>
+                      <div class="form-group">
+                        <label for="canOverride" i18n>Is the node is overridable?</label>
+                        <p-inputSwitch [(ngModel)]="_node.canOverride"></p-inputSwitch>
+                      </div>
                     </div>
                     <br />
                   </tab>
