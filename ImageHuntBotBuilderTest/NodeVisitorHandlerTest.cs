@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -680,10 +681,12 @@ namespace ImageHuntBotBuilderTest
 
             A.CallTo(() => _turnContext.Activity).Returns(activity);
 
+            _dialogs.Add(new WaterfallDialog(NodeVisitorHandler.QuestionNodeDialog));
             // Act
             await Target.MatchLocationDialogAsync(_turnContext, state, _dialogs);
             // Assert
-            Check.That(state.CurrentDialog).IsInstanceOf<DialogSet>();
+            A.CallTo(() => _logger.Log(LogLevel.Information, A<EventId>._, A<object>._, A<Exception>._,
+                A<Func<object, Exception, string>>._)).MustHaveHappened();
         }
     }
 }

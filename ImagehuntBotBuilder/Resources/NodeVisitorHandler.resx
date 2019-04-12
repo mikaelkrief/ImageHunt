@@ -144,10 +144,19 @@
   <data name="NEXT_NODE_LOCATION" xml:space="preserve">
     <value>Next node {0} is at the following location:</value>
   </data>
+  <data name="NO_ANSWER" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="QUESTION_CONFIRM_ANSWER" xml:space="preserve">
+    <value>You answered {0}, do you confirm?</value>
+  </data>
   <data name="TIMER_NODE" xml:space="preserve">
     <value>You should wait {0} before continue</value>
   </data>
   <data name="WAYPOINT_REACHED" xml:space="preserve">
     <value>You reached the waypoint {0}, congrat!</value>
+  </data>
+  <data name="YES_ANSWER" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

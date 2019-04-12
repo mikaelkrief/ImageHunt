@@ -13,6 +13,7 @@ using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
@@ -36,8 +37,9 @@ namespace ImageHuntBotBuilder
 
     public class NodeVisitorHandler : INodeVisitorHandler
     {
-        private const string QuestionNodePrompt = "QuestionNodePrompt";
-        private const string QuestionNodeDialog = "QuestionNodeDialog";
+        public const string QuestionNodePrompt = "QuestionNodePrompt";
+        public const string QuestionNodeDialog = "QuestionNodeDialog";
+        public const string QuestionNodeConfirmPrompt = "QuestionNodeConfirmPrompt";
         private readonly ILogger<NodeVisitorHandler> _logger;
         private IStringLocalizer _localizer;
         private readonly INodeWebService _nodeWebService;
@@ -348,7 +350,13 @@ namespace ImageHuntBotBuilder
                 {
                     case NodeResponse.QuestionNodeType:
                         var dialogContext = await dialogs.CreateContextAsync(turnContext);
-                        await dialogContext.BeginDialogAsync(QuestionNodeDialog, node);
+                        var result = await dialogContext.ContinueDialogAsync();
+                        if (result.Status == DialogTurnStatus.Empty)
+                        {
+                            await dialogContext.BeginDialogAsync(QuestionNodeDialog, node);
+                            _logger.LogInformation("Launch Question dialog for node {0}", node.Id);
+                        }
+
                         break;
                 }
 
@@ -362,10 +370,26 @@ namespace ImageHuntBotBuilder
             var questionWaterfallSteps = new WaterfallStep[]
             {
                 AskQuestionStepAsync,
+                ConfirmAnswerStepAsync,
                 AnswerQuestionStepAsync
             };
             dialogs.Add(new WaterfallDialog(QuestionNodeDialog, questionWaterfallSteps));
             dialogs.Add(new TextPrompt(QuestionNodePrompt));
+            dialogs.Add(new ConfirmPrompt(QuestionNodeConfirmPrompt));
+        }
+
+        private async Task<DialogTurnResult> ConfirmAnswerStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
+        {
+            IList<Choice> choices = new List<Choice>(){new Choice(_localizer["YES_ANSWER"]), new Choice("NO_ANSWER")};
+            var answer = stepcontext.Result as string;
+            return await stepcontext.PromptAsync(
+                QuestionNodeConfirmPrompt, 
+                new PromptOptions()
+                {
+                    Choices = choices,
+                    Prompt = MessageFactory.Text(_localizer["QUESTION_CONFIRM_ANSWER", answer]),
+                },
+                cancellationtoken);
         }
 
         private async Task<DialogTurnResult> AnswerQuestionStepAsync(
