@@ -80,24 +80,24 @@ namespace ImageHuntTest.Controller
         }
 
         [Fact]
-        public void UploadImage()
+        public async Task UploadImage()
         {
             // Arrange
             var file = A.Fake<IFormFile>();
 
             // Act
-            var result = _target.UploadImage(file);
+            var result = await _target.UploadImage(file);
             // Assert
             Check.That(result).IsInstanceOf<CreatedAtActionResult>();
             A.CallTo(() => _imageService.AddPicture(A<Picture>._)).MustHaveHappened();
         }
         [Fact]
-        public void UploadImage_BadRequest()
+        public async Task UploadImage_BadRequest()
         {
             // Arrange
 
             // Act
-            var result = _target.UploadImage(null);
+            var result = await _target.UploadImage(null);
             // Assert
             Check.That(result).IsInstanceOf<BadRequestResult>();
         }
