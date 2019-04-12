@@ -11,6 +11,7 @@ using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -52,6 +53,7 @@ namespace ImageHuntBotBuilderTest
             _conversationState = new ConversationState(_storage);
             _accessor = new ImageHuntBotAccessors(_conversationState);
             _accessor.ImageHuntState = _statePropertyAccessor;
+            _accessor.ConversationDialogState = A.Fake<IStatePropertyAccessor<DialogState>>();
             TestContainerBuilder.RegisterInstance(_accessor);
             _commandRepository = A.Fake<ICommandRepository>();
             TestContainerBuilder.RegisterInstance(_commandRepository);
