@@ -16,6 +16,10 @@
         <replacefilter token="ADMIN_EMAIL" value="${ADMIN_EMAIL}"/>
         <replacefilter token="ADMIN_PASSWORD" value="${ADMIN_PASSWORD}"/>
         <replacefilter token="API_LOGFILE" value="${API_LOGFILE}"/>
+        <replacefilter token="CLOUD_STORAGE_URL" value="${CLOUD_STORAGE_URL}"/>
+        <replacefilter token="CLOUD_STORAGE_NAME" value="${CLOUD_STORAGE_NAME}"/>
+        <replacefilter token="CLOUD_STORAGE_KEY" value="${CLOUD_STORAGE_KEY}"/>
+        <replacefilter token="CLOUD_CONTAINER" value="${CLOUD_CONTAINER}"/>
     </replace>
     <move file="${INFILE}" toFile="${TOFILE}"></move>
   </target>
