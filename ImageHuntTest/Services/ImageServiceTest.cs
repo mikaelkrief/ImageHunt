@@ -7,6 +7,7 @@ using ImageHunt.Data;
 using ImageHunt.Services;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
@@ -17,19 +18,22 @@ namespace ImageHuntTest.Services
     public class ImageServiceTest : ContextBasedTest<HuntContext>
     {
         private ImageService _service;
-      private ILogger<ImageService> _logger;
+        private ILogger<ImageService> _logger;
+        private IConfiguration _configuration;
 
-      public ImageServiceTest()
-      {
-        _logger = A.Fake<ILogger<ImageService>>();
-            _service = new ImageService(_context, _logger);
+        public ImageServiceTest()
+        {
+            _logger = A.Fake<ILogger<ImageService>>();
+            _configuration = A.Fake<IConfiguration>();
+            _service = new ImageService(_context, _logger, _configuration);
         }
+
         [Fact]
         public void AddPicture()
         {
             // Arrange
 
-            var picture = new Picture(){Image = new byte[]{1,5,6}};
+            var picture = new Picture() {Image = new byte[] {1, 5, 6}};
             // Act
             _service.AddPicture(picture);
             // Assert
@@ -40,7 +44,7 @@ namespace ImageHuntTest.Services
         public async Task GetPictureById()
         {
             // Arrange
-            var pictures = new List<Picture>(){new Picture(), new Picture(), new Picture()};
+            var pictures = new List<Picture>() {new Picture(), new Picture(), new Picture()};
             _context.Pictures.AddRange(pictures);
             _context.SaveChanges();
             // Act
@@ -53,30 +57,38 @@ namespace ImageHuntTest.Services
         public void ExtractLocationFromImage()
         {
             // Arrange
-            var picture = new Picture() { Image = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.IMG_20170920_180905.jpg") };
+            var picture = new Picture()
+            {
+                Image = GetImageFromResource(Assembly.GetExecutingAssembly(),
+                    "ImageHuntTest.TestData.IMG_20170920_180905.jpg")
+            };
             // Act
             var result = _service.ExtractLocationFromImage(picture);
             // Assert
             Check.That(Math.Abs(result.Item1 - 59.3278160094444)).IsStrictlyLessThan(0.001);
             Check.That(Math.Abs(result.Item2 - 18.0551338194444)).IsStrictlyLessThan(0.001);
         }
+
         [Fact]
         public void ExtractLocationFromImageWithoutGPSLocation()
         {
             // Arrange
-            var picture = new Picture() { Image = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.image1.jpg") };
+            var picture = new Picture()
+            {
+                Image = GetImageFromResource(Assembly.GetExecutingAssembly(), "ImageHuntTest.TestData.image1.jpg")
+            };
             // Act
             var result = _service.ExtractLocationFromImage(picture);
             // Assert
-            Check.That(result.Item1 ).Equals(double.NaN);
-            Check.That(result.Item2 ).Equals(double.NaN);
+            Check.That(result.Item1).Equals(double.NaN);
+            Check.That(result.Item2).Equals(double.NaN);
         }
 
         [Fact]
         public void GetImageForNode()
         {
             // Arrange
-            var pictures = new List<Picture>(){new Picture(), new Picture(){Image = new byte[10]}, new Picture()};
+            var pictures = new List<Picture>() {new Picture(), new Picture() {Image = new byte[10]}, new Picture()};
             _context.Pictures.AddRange(pictures);
             var nodes = new List<Node>()
             {
@@ -90,7 +102,6 @@ namespace ImageHuntTest.Services
             // Assert
             Check.That(picture).Equals(pictures[1]);
             Check.That(picture.Image).IsNull();
-
         }
     }
 }

@@ -7,15 +7,19 @@ using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
 using ImageMagick;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHunt.Services
 {
   public class ImageService : AbstractService, IImageService
   {
-    public ImageService(HuntContext context, ILogger<ImageService> logger) : base(context, logger)
-    {
+    private readonly IConfiguration _configuration;
 
+    public ImageService(HuntContext context, ILogger<ImageService> logger, IConfiguration configuration)
+      : base(context, logger)
+    {
+      _configuration = configuration;
     }
 
     public void AddPicture(Picture picture)
