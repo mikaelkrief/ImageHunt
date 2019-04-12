@@ -1,11 +1,15 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ImageHunt.Data;
+using ImageHuntCore;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
 using ImageHuntCore.Services;
 using ImageMagick;
+using Microsoft.Azure.Storage.Auth;
+using Microsoft.Azure.Storage.Blob;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -14,23 +18,32 @@ namespace ImageHunt.Services
 {
   public class ImageService : AbstractService, IImageService
   {
-    private readonly IConfiguration _configuration;
+    private readonly IBlobProvider _blobProvider;
 
-    public ImageService(HuntContext context, ILogger<ImageService> logger, IConfiguration configuration)
+    public ImageService(
+      HuntContext context,
+      ILogger<ImageService> logger,
+      IBlobProvider blobProvider)
       : base(context, logger)
     {
-      _configuration = configuration;
+      _blobProvider = blobProvider;
     }
 
-    public void AddPicture(Picture picture)
+    public async Task AddPicture(Picture picture)
     {
+      picture.CloudUrl = await _blobProvider.UploadFromByteArrayAsync(picture.Image);
+      // Drop bytes of the image
+      picture.Image = null;
       Context.Pictures.Add(picture);
       Context.SaveChanges();
     }
 
     public async Task<Picture> GetPictureById(int pictureId)
     {
-      return Queryable.Single<Picture>(Context.Pictures, p => p.Id == pictureId);
+      var picture = await Context.Pictures.SingleAsync(p => p.Id == pictureId);
+      if (!string.IsNullOrEmpty(picture.CloudUrl))
+        picture.Image = await _blobProvider.DownloadToByteArrayAsync(picture.CloudUrl);
+      return picture;
     }
 
     public virtual (double, double) ExtractLocationFromImage(Picture picture)

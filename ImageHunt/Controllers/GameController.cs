@@ -138,7 +138,7 @@ namespace ImageHunt.Controllers
 
     [HttpPut("AddPictures/{gameId}")]
     [DisableRequestSizeLimit]
-    public IActionResult AddImageNodes(int gameId, List<IFormFile> files)
+    public async Task<IActionResult> AddImageNodes(int gameId, List<IFormFile> files)
     {
       foreach (var file in files)
       {
@@ -153,7 +153,7 @@ namespace ImageHunt.Controllers
             _logger.LogWarning($"The image {file.Name} is not geotagged");
             return new BadRequestObjectResult(new { message = $"The image {file.FileName}", filename = file.FileName });
           }
-          _imageService.AddPicture(picture);
+          await _imageService.AddPicture(picture);
           var node = new PictureNode
           {
             Image = picture,
@@ -217,7 +217,7 @@ namespace ImageHunt.Controllers
     }
 
     [HttpPost("UploadImage")]
-    public IActionResult UploadImage(IFormFile file)
+    public async Task<IActionResult> UploadImage(IFormFile file)
     {
       if (file == null)
         return BadRequest("Image is bad format or null");
@@ -229,7 +229,7 @@ namespace ImageHunt.Controllers
         var coordinates = _imageService.ExtractLocationFromImage(picture);
         if (double.IsNaN(coordinates.Item1) || double.IsNaN(coordinates.Item2))
           return BadRequest();
-        _imageService.AddPicture(picture);
+        await _imageService.AddPicture(picture);
         return CreatedAtAction("UploadImage", image);
       }
     }

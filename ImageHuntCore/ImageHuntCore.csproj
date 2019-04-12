@@ -9,6 +9,12 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Microsoft.WindowsAzure.Storage">
+      <HintPath>..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\windowsazure.storage\8.1.4\lib\netstandard1.3\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 
 
 </Project>

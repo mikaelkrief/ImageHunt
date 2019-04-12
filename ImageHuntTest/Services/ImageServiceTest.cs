@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using FakeItEasy;
 using ImageHunt.Data;
 using ImageHunt.Services;
+using ImageHuntCore;
 using ImageHuntCore.Model;
 using ImageHuntCore.Model.Node;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
@@ -19,29 +19,30 @@ namespace ImageHuntTest.Services
     {
         private ImageService _service;
         private ILogger<ImageService> _logger;
-        private IConfiguration _configuration;
+        private IBlobProvider _blobProvider;
 
         public ImageServiceTest()
         {
             _logger = A.Fake<ILogger<ImageService>>();
-            _configuration = A.Fake<IConfiguration>();
-            _service = new ImageService(_context, _logger, _configuration);
+            _blobProvider = A.Fake<IBlobProvider>();
+            _service = new ImageService(_context, _logger, _blobProvider);
         }
 
         [Fact]
-        public void AddPicture()
+        public async Task AddPicture()
         {
             // Arrange
 
             var picture = new Picture() {Image = new byte[] {1, 5, 6}};
             // Act
-            _service.AddPicture(picture);
+            await _service.AddPicture(picture);
             // Assert
             Check.That(_context.Pictures).ContainsExactly(picture);
+            A.CallTo(() => _blobProvider.UploadFromByteArrayAsync(A<byte[]>._)).MustHaveHappened();
         }
 
         [Fact]
-        public async Task GetPictureById()
+        public async Task GetPictureById_Not_In_cloud()
         {
             // Arrange
             var pictures = new List<Picture>() {new Picture(), new Picture(), new Picture()};
@@ -51,6 +52,26 @@ namespace ImageHuntTest.Services
             var result = await _service.GetPictureById(pictures[1].Id);
             // Assert
             Check.That(result).Equals(pictures[1]);
+            A.CallTo(() => _blobProvider.DownloadToByteArrayAsync(A<string>._)).MustNotHaveHappened();
+        }
+
+        [Fact]
+        public async Task GetPictureById_In_cloud()
+        {
+            // Arrange
+            var pictures = new List<Picture>() {
+                new Picture(){CloudUrl = "http://test"},
+                new Picture(){CloudUrl = "http://test"},
+                new Picture(){CloudUrl = "http://test" },
+
+            };
+            _context.Pictures.AddRange(pictures);
+            _context.SaveChanges();
+            // Act
+            var result = await _service.GetPictureById(pictures[1].Id);
+            // Assert
+            Check.That(result).Equals(pictures[1]);
+            A.CallTo(() => _blobProvider.DownloadToByteArrayAsync(A<string>._)).MustHaveHappened();
         }
 
         [Fact]
