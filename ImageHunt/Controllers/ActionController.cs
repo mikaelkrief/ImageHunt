@@ -100,7 +100,7 @@ namespace ImageHunt.Controllers
             var picture = new Picture();
             var bytes = Convert.FromBase64String(gameActionRequest.Picture);
             picture.Image = bytes;
-            _imageService.AddPicture(picture);
+            await _imageService.AddPicture(picture);
             gameAction.Picture = picture;
           }
 

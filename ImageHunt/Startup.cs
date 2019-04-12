@@ -218,6 +218,7 @@ namespace ImageHunt
     public void ConfigureContainer(ContainerBuilder builder)
     {
       builder.RegisterType<UpdateNodePointsUpdater>().As<IUpdater>().Named<IUpdater>("UpdateNodePoints");
+      builder.RegisterType<AzureBlobProvider>().As<IBlobProvider>();
     }
     public static void ConfigureMappings()
     {
