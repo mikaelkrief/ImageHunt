@@ -109,8 +109,10 @@ namespace ImageHuntTest.Controller
                 Id = "GHGHG",
                 Role = "Admin"
             };
-            var identities = new List<Identity>() {new Identity(){Id = "GHGHG", Role = "admin"} };
+            var identities = new List<Identity>() {new Identity(){Id = "GHGHG", Role = "Player"} };
             A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
+            var userRoles = new List<string>(){"Player"};
+            A.CallTo(() => _userManager.GetRolesAsync(A<Identity>._)).Returns(userRoles);
             var admins = new List<Admin> {new Admin()};
             _context.Admins.AddRange(admins);
             _context.SaveChanges();
@@ -118,6 +120,7 @@ namespace ImageHuntTest.Controller
             // Act
             await Target.UpdateUser(userRequest);
             // Assert
+            A.CallTo(() => _userManager.GetRolesAsync(A<Identity>._)).MustHaveHappened();
             A.CallTo(() => _userManager.RemoveFromRoleAsync(A<Identity>._, A<string>._)).MustHaveHappened();
             A.CallTo(() => _userManager.AddToRoleAsync(A<Identity>._, userRequest.Role)).MustHaveHappened();
         }

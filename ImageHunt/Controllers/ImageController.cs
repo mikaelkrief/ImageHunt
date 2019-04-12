@@ -54,14 +54,14 @@ namespace ImageHunt.Controllers
           File(picture.Image, "image/jpeg", "source")});
     }
     [HttpPost]
-    public IActionResult UploadImage(IFormFile file)
+    public async Task<IActionResult> UploadImage(IFormFile file)
     {
       if (file == null)
         return BadRequest();
       using (var stream = file.OpenReadStream())
       {
         var picture = _imageService.GetPictureFromStream(stream);
-        _imageService.AddPicture(picture);
+        await _imageService.AddPicture(picture);
         return CreatedAtAction("UploadImage", picture.Id);
       }
     }
@@ -75,7 +75,7 @@ namespace ImageHunt.Controllers
         var image = new byte[stream.Length];
         stream.Read(image, 0, (int)stream.Length);
         var picture = new Picture() { Image = image };
-        _imageService.AddPicture(picture);
+        await _imageService.AddPicture(picture);
         return CreatedAtAction("UploadImage", picture.Id);
       }
     }

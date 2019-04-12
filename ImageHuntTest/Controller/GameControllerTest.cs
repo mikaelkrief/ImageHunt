@@ -273,6 +273,7 @@ namespace ImageHuntTest.Controller
             // Act
             Target.AddImageNodes(1, images);
             // Assert
+            A.CallTo(() => _imageService.AddPicture(A<Picture>._)).MustHaveHappened();
             A.CallTo(() => _gameService.AddNode(1, A<Node>.That.Matches(n => CheckImageNode(n))))
                 .MustHaveHappened(Repeated.Exactly.Times(3));
         }
@@ -427,21 +428,21 @@ namespace ImageHuntTest.Controller
 
 
         [Fact]
-        public void UploadImage()
+        public async Task UploadImage()
         {
             // Arrange
             var image = new byte[10];
             var file = A.Fake<IFormFile>();
 
             // Act
-            var result = Target.UploadImage(file);
+            var result = await _target.UploadImage(file);
             // Assert
             Check.That(result).IsInstanceOf<CreatedAtActionResult>();
             A.CallTo(() => _imageService.AddPicture(A<Picture>._)).MustHaveHappened();
         }
 
         [Fact]
-        public void UploadImageWithoutGeoTag()
+        public async Task UploadImageWithoutGeoTag()
         {
             // Arrange
             var image = new byte[10];
@@ -450,18 +451,18 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _imageService.ExtractLocationFromImage(A<Picture>._))
                 .Returns((Double.NaN, Double.NaN));
             // Act
-            var result = Target.UploadImage(file);
+            var result = await _target.UploadImage(file);
             // Assert
             Check.That(result).IsInstanceOf<BadRequestResult>();
             A.CallTo(() => _imageService.ExtractLocationFromImage(A<Picture>._)).MustHaveHappened();
         }
 
         [Fact]
-        public void UploadImageImageNull()
+        public async Task UploadImageImageNull()
         {
             // Arrange
             // Act
-            var result = Target.UploadImage(null);
+            var result = await _target.UploadImage(null);
             // Assert
             Check.That(result).IsInstanceOf<BadRequestObjectResult>();
         }
