@@ -44,7 +44,7 @@ namespace ImageHuntWebServiceClient.Responses
 
         public string Hint { get; set; }
         public int Delay { get; set; }
-        public BonusNode.BONUS_TYPE BonusType { get; set; }
+        public BonusNode.BONUSTYPE BonusType { get; set; }
         public bool CanOverride { get; set; }
 
     }

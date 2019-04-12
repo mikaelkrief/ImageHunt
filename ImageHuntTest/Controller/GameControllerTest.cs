@@ -435,7 +435,7 @@ namespace ImageHuntTest.Controller
             var file = A.Fake<IFormFile>();
 
             // Act
-            var result = await _target.UploadImage(file);
+            var result = await Target.UploadImage(file);
             // Assert
             Check.That(result).IsInstanceOf<CreatedAtActionResult>();
             A.CallTo(() => _imageService.AddPicture(A<Picture>._)).MustHaveHappened();
@@ -451,7 +451,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _imageService.ExtractLocationFromImage(A<Picture>._))
                 .Returns((Double.NaN, Double.NaN));
             // Act
-            var result = await _target.UploadImage(file);
+            var result = await Target.UploadImage(file);
             // Assert
             Check.That(result).IsInstanceOf<BadRequestResult>();
             A.CallTo(() => _imageService.ExtractLocationFromImage(A<Picture>._)).MustHaveHappened();
@@ -462,7 +462,7 @@ namespace ImageHuntTest.Controller
         {
             // Arrange
             // Act
-            var result = await _target.UploadImage(null);
+            var result = await Target.UploadImage(null);
             // Assert
             Check.That(result).IsInstanceOf<BadRequestObjectResult>();
         }

@@ -378,6 +378,24 @@ namespace ImageHuntBotBuilder
             dialogs.Add(new ConfirmPrompt(QuestionNodeConfirmPrompt));
         }
 
+        #region QuestionNode prompts
+        private async Task<DialogTurnResult> AskQuestionStepAsync(
+            WaterfallStepContext stepcontext, 
+            CancellationToken cancellationtoken)
+        {
+            var currentNode = stepcontext.Options as NodeResponse;
+            return await stepcontext.PromptAsync(QuestionNodePrompt, 
+                new PromptOptions(){Prompt = MessageFactory.Text(currentNode.Question)}, 
+                cancellationtoken);
+        }
+        private async Task<DialogTurnResult> AnswerQuestionStepAsync(
+            WaterfallStepContext stepcontext, 
+            CancellationToken cancellationtoken)
+        {
+            await stepcontext.Context.SendActivityAsync(_localizer["ANSWER_RECORED"], cancellationToken: cancellationtoken);
+            return await stepcontext.EndDialogAsync(cancellationToken: cancellationtoken);
+        }
+
         private async Task<DialogTurnResult> ConfirmAnswerStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
         {
             IList<Choice> choices = new List<Choice>(){new Choice(_localizer["YES_ANSWER"]), new Choice("NO_ANSWER")};
@@ -392,23 +410,9 @@ namespace ImageHuntBotBuilder
                 cancellationtoken);
         }
 
-        private async Task<DialogTurnResult> AnswerQuestionStepAsync(
-            WaterfallStepContext stepcontext, 
-            CancellationToken cancellationtoken)
-        {
-            await stepcontext.Context.SendActivityAsync(_localizer["ANSWER_RECORED"], cancellationToken: cancellationtoken);
-            return await stepcontext.EndDialogAsync(cancellationToken: cancellationtoken);
-        }
 
-        private async Task<DialogTurnResult> AskQuestionStepAsync(
-            WaterfallStepContext stepcontext, 
-            CancellationToken cancellationtoken)
-        {
-            var currentNode = stepcontext.Options as NodeResponse;
-            return await stepcontext.PromptAsync(QuestionNodePrompt, 
-                new PromptOptions(){Prompt = MessageFactory.Text(currentNode.Question)}, 
-                cancellationtoken);
-        }
+        
 
+        #endregion
     }
 }
