@@ -379,6 +379,7 @@ namespace ImageHuntBotBuilder
         }
 
         #region QuestionNode prompts
+
         private async Task<DialogTurnResult> AskQuestionStepAsync(
             WaterfallStepContext stepcontext, 
             CancellationToken cancellationtoken)
@@ -388,12 +389,21 @@ namespace ImageHuntBotBuilder
                 new PromptOptions(){Prompt = MessageFactory.Text(currentNode.Question)}, 
                 cancellationtoken);
         }
+
         private async Task<DialogTurnResult> AnswerQuestionStepAsync(
-            WaterfallStepContext stepcontext, 
+            WaterfallStepContext stepcontext,
             CancellationToken cancellationtoken)
         {
-            await stepcontext.Context.SendActivityAsync(_localizer["ANSWER_RECORED"], cancellationToken: cancellationtoken);
-            return await stepcontext.EndDialogAsync(cancellationToken: cancellationtoken);
+            if ((bool) stepcontext.Result)
+            {
+                await stepcontext.Context.SendActivityAsync(_localizer["ANSWER_RECORED"],
+                    cancellationToken: cancellationtoken);
+                return await stepcontext.EndDialogAsync(cancellationToken: cancellationtoken);
+            }
+            else
+            {
+                return await stepcontext.ReplaceDialogAsync(QuestionNodePrompt, cancellationtoken);
+            }
         }
 
         private async Task<DialogTurnResult> ConfirmAnswerStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
@@ -401,7 +411,7 @@ namespace ImageHuntBotBuilder
             IList<Choice> choices = new List<Choice>(){new Choice(_localizer["YES_ANSWER"]), new Choice("NO_ANSWER")};
             var answer = stepcontext.Result as string;
             return await stepcontext.PromptAsync(
-                QuestionNodeConfirmPrompt, 
+                QuestionNodeConfirmPrompt,
                 new PromptOptions()
                 {
                     Choices = choices,
@@ -409,9 +419,6 @@ namespace ImageHuntBotBuilder
                 },
                 cancellationtoken);
         }
-
-
-        
 
         #endregion
     }
