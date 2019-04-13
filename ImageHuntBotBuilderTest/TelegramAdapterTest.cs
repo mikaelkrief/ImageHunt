@@ -543,5 +543,44 @@ namespace ImageHuntBotBuilderTest
                 .MustHaveHappened();
             Check.That(activities[0].Attachments[0].ContentUrl).Equals(inviteUrl);
         }
+
+        [Fact]
+        public async Task Should_Activity_with_Suggested_action_show_buttons()
+        {
+            // Arrange
+            var turnContext = A.Fake<ITurnContext>();
+
+            var activities = new Activity[]
+            {
+                new Activity(type:ActivityTypes.Message)
+                {
+                    ChannelId = "telegram",
+                    Id = "151515",
+                    Conversation = new ConversationAccount(),
+                    Text = "The choice",
+                    SuggestedActions = new SuggestedActions()
+                    {
+                        Actions = new List<CardAction>()
+                        {
+                            new CardAction(){Title = "Yes", Type = ActionTypes.ImBack, Value = true, DisplayText = "Oui"}, 
+                            new CardAction(){Title = "No", Type = ActionTypes.ImBack, Value = false, DisplayText = "Non"}, 
+                        }
+                    }
+                }
+            };
+            // Act
+            var result = await _target.SendActivitiesAsync(turnContext, activities, CancellationToken.None);
+
+            // Assert
+            A.CallTo(() => _telegramBotClient.SendTextMessageAsync(A<ChatId>._, A<string>._, A<ParseMode>._, A<bool>._,
+                    A<bool>._, A<int>._, A<IReplyMarkup>.That.Matches(r => CheckMarkup(r)), A<CancellationToken>._))
+                .MustHaveHappened();
+        }
+
+        private bool CheckMarkup(IReplyMarkup replyMarkup)
+        {
+            Check.That(replyMarkup).IsNotNull();
+            return true;
+        }
     }
 }

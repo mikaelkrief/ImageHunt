@@ -19,6 +19,7 @@ using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InputFiles;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ImageHuntBotBuilder
 {
@@ -140,13 +141,29 @@ namespace ImageHuntBotBuilder
                         switch (activity.Type)
                         {
                             case ActivityTypes.Message:
+                                InlineKeyboardMarkup markup = null;
+                                if (activity.SuggestedActions != null)
+                                {
+                                    var buttons = new List<InlineKeyboardButton> ();
+                                    foreach (var suggestedActionsAction in activity.SuggestedActions.Actions)
+                                    {
+                                        var button = new InlineKeyboardButton()
+                                        {
+                                            Text = suggestedActionsAction.DisplayText,
+                                            CallbackData = suggestedActionsAction.Value.ToString(),
+                                        };
+                                        buttons.Add(button);
+                                    }
 
+                                    markup = new InlineKeyboardMarkup(buttons);
+                                }
                                 Message telegramMessage = null;
                                 try
                                 {
                                     telegramMessage = await _telegramBotClient.SendTextMessageAsync(
                                         chatId,
-                                        activity.Text);
+                                        activity.Text,
+                                        replyMarkup: markup);
                                 }
                                 catch (ApiRequestException e)
                                 {
