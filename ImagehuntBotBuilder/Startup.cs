@@ -286,7 +286,7 @@ namespace ImagehuntBotBuilder
             if (update.EditedMessage != null)
                 return update.EditedMessage;
             if (update.Type == UpdateType.CallbackQuery)
-                return update.Message;
+                return update.CallbackQuery.Message;
             return null;
         }
 

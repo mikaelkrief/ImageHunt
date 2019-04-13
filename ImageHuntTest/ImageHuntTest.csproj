@@ -38,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="TestData\callbackQuery_choice.json" />
     <None Remove="TestData\non_closed.kml" />
   </ItemGroup>
 
