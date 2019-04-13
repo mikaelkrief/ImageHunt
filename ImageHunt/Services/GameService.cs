@@ -48,7 +48,7 @@ namespace ImageHunt.Services
         .Include(g => g.Nodes).ThenInclude(n=>n.Image)
         .Include(g=>g.Nodes).ThenInclude(n=>n.ChildrenRelation)
         .Include(g => g.Teams)
-        //.Include(g => g.Picture)
+        .Include(g => g.Picture)
         .Single(g => g.Id == gameId);
       if (game.StartDate.HasValue)
         game.StartDate = TimeZoneInfo.ConvertTimeToUtc(game.StartDate.Value, TimeZoneInfo.Utc);
