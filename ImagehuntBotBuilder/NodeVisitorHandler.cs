@@ -408,13 +408,17 @@ namespace ImageHuntBotBuilder
 
         private async Task<DialogTurnResult> ConfirmAnswerStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
         {
-            IList<Choice> choices = new List<Choice>(){new Choice(_localizer["YES_ANSWER"]), new Choice("NO_ANSWER")};
+            IList<Choice> choices = new List<Choice>()
+            {
+                new Choice(_localizer["YES_ANSWER"]){Value = true.ToString()},
+                new Choice(_localizer["NO_ANSWER"]){Value = false.ToString()}
+            };
             var answer = stepcontext.Result as string;
             return await stepcontext.PromptAsync(
                 QuestionNodeConfirmPrompt,
                 new PromptOptions()
                 {
-                    Choices = choices,
+                    //Choices = choices,
                     Prompt = MessageFactory.Text(_localizer["QUESTION_CONFIRM_ANSWER", answer]),
                 },
                 cancellationtoken);
