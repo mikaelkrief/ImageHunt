@@ -102,6 +102,20 @@ namespace ImageHuntBotBuilder
             }
         }
 
+        string SuggestedActionToString(CardAction action)
+        {
+            if (action != null)
+            {
+                if (!string.IsNullOrEmpty(action.DisplayText))
+                    return action.DisplayText;
+                if (!string.IsNullOrEmpty(action.Text))
+                    return action.Text;
+                if (!string.IsNullOrEmpty(action.Value.ToString()))
+                    return action.Value.ToString();
+            }
+
+            return string.Empty;
+        }
         public override async Task<ResourceResponse[]> SendActivitiesAsync(
             ITurnContext turnContext,
             Activity[] activities, 
@@ -149,7 +163,7 @@ namespace ImageHuntBotBuilder
                                     {
                                         var button = new InlineKeyboardButton()
                                         {
-                                            Text = string.IsNullOrEmpty(suggestedActionsAction.DisplayText)? suggestedActionsAction.Text: suggestedActionsAction.DisplayText,
+                                            Text = SuggestedActionToString(suggestedActionsAction),
                                             CallbackData = suggestedActionsAction.Value.ToString(),
                                         };
                                         buttons.Add(button);

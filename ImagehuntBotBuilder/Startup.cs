@@ -26,6 +26,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Activity = Microsoft.Bot.Schema.Activity;
 
 namespace ImagehuntBotBuilder
@@ -284,6 +285,8 @@ namespace ImagehuntBotBuilder
                 return update.Message;
             if (update.EditedMessage != null)
                 return update.EditedMessage;
+            if (update.Type == UpdateType.CallbackQuery)
+                return update.Message;
             return null;
         }
 
