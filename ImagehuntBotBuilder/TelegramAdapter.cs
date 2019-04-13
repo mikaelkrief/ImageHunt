@@ -149,7 +149,7 @@ namespace ImageHuntBotBuilder
                                     {
                                         var button = new InlineKeyboardButton()
                                         {
-                                            Text = suggestedActionsAction.DisplayText,
+                                            Text = string.IsNullOrEmpty(suggestedActionsAction.DisplayText)? suggestedActionsAction.Text: suggestedActionsAction.DisplayText,
                                             CallbackData = suggestedActionsAction.Value.ToString(),
                                         };
                                         buttons.Add(button);
