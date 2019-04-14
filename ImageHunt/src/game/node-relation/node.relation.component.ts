@@ -45,7 +45,8 @@ export class NodeRelationComponent implements OnInit {
       .filter(n => n.nodeType !== "FirstNode")
       .filter(n => !this.childrenNodes.find(n2 => n2 === n))
       .filter(n => n !== node);
-    this.addNodeDisabled = (node.nodeType !== "ChoiceNode" && node.childNodeIds.length > 0) || (this.selectedAvailable == undefined);
+    this.addNodeDisabled = (node.nodeType !== "ChoiceNode" && node.childNodeIds.length > 0) ||
+      (!this.selectedParent || !this.selectedAvailable);
     this.removeNodeDisabled = node.childNodeIds.length === 0;
   }
   addNodeDisabled: boolean;
