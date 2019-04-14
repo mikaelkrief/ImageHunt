@@ -167,14 +167,34 @@ namespace ImagehuntBotBuilder
 
         public void ConfigureDevelopmentContainer(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<LogFakePositionMiddleware>();
-            containerBuilder.RegisterType<BotFrameworkAdapter>().OnActivating(e =>
-            {
-                var adapter = e.Instance;
-                adapter.Use(e.Context.Resolve<LogFakePositionMiddleware>());
-            }).As<IAdapterIntegration>();
+            var botToken = Configuration.GetSection("BotConfiguration:BotToken").Value;
+
+            containerBuilder.Register(context => new TelegramBotClient(botToken))
+                .As<ITelegramBotClient>()
+                .SingleInstance();
+            containerBuilder.RegisterInstance(Configuration).AsImplementedInterfaces();
+
+            containerBuilder.RegisterType<TelegramAdapter>().OnActivating(e =>
+                {
+                    var adapter = e.Instance;
+                    adapter.Use(e.Context.Resolve<LogPositionMiddleware>());
+                    adapter.Use(e.Context.Resolve<TeamCompositionMiddleware>());
+                })
+                .AsSelf()
+                .As<IAdapterIntegration>();
             ConfigureContainer(containerBuilder);
         }
+
+        //public void ConfigureDevelopmentContainer(ContainerBuilder containerBuilder)
+        //{
+        //    containerBuilder.RegisterType<LogFakePositionMiddleware>();
+        //    containerBuilder.RegisterType<BotFrameworkAdapter>().OnActivating(e =>
+        //    {
+        //        var adapter = e.Instance;
+        //        adapter.Use(e.Context.Resolve<LogFakePositionMiddleware>());
+        //    }).As<IAdapterIntegration>();
+        //    ConfigureContainer(containerBuilder);
+        //}
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
