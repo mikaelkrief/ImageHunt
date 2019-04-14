@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, AfterViewInit, ViewChild, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ViewChild, EventEmitter, Output, AfterViewChecked } from '@angular/core';
 import { Node } from 'shared/node';
 import * as L from 'leaflet';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService, TabDirective } from 'ngx-bootstrap';
 import { GameService } from 'services/game.service';
 import { AlertService } from "services/alert.service";
 import { NgForm } from '@angular/forms';
@@ -19,14 +19,15 @@ class NodeMarker extends L.Marker {
 })
 
 /** node-edit component*/
-export class NodeEditComponent implements OnInit, AfterViewInit {
+export class NodeEditComponent implements OnInit, AfterViewInit, AfterViewChecked {
   pictureId: number;
 
   ngAfterViewInit(): void {
     this.setMap();
-
   }
-
+  ngAfterViewChecked(): void {
+    this.map.invalidateSize();
+  }
   nodeMarker: any;
 
   ngOnInit(): void {
@@ -87,7 +88,6 @@ export class NodeEditComponent implements OnInit, AfterViewInit {
     this.nodeMarker.node = this._node;
     this.nodeMarker.addTo(this.map);
     this.nodeMarker.on('dragend', event => this.onNodeDragged(event));
-    this.map.invalidateSize();
   }
 
   onNodeDragged(leafletEvent: L.LeafletEvent): void {
@@ -95,7 +95,9 @@ export class NodeEditComponent implements OnInit, AfterViewInit {
     this._node.latitude = newPosition.lat;
     this._node.longitude = newPosition.lng;
   }
-
+  onSelectLocation(data: TabDirective) {
+    this.map.invalidateSize();
+  }
   modalRef: any;
 
   uploadImage() {

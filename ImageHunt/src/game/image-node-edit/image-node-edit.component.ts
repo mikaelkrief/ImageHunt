@@ -32,7 +32,7 @@ export class ImageNodeEditComponent implements OnInit{
     this.map = L.map("location")
       .setView([this._node.latitude, this._node.longitude], 15);
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: 'ImageHunt'
+      attribution: 'Pixhint'
     }).addTo(this.map);
     const icon = L.divIcon({ className:"fas fa-2x fa-bullseye"});
 
