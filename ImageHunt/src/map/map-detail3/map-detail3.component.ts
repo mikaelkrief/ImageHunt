@@ -302,10 +302,10 @@ export class MapDetail3Component implements OnInit {
     this.confirmationService.confirm({
       message: "Do you really want to delete this node?",
       accept: () => {
-        const index: number = this.nodes.indexOf(node);
-        this.nodes.splice(index, 1);
-        this.clearMap();
-        this.updateMap();
+        //const index: number = this.nodes.indexOf(node);
+        //this.nodes.splice(index, 1);
+        //this.clearMap();
+        //this.updateMap();
         if (this.deleteNode)
           this.deleteNode.emit(node);
       }

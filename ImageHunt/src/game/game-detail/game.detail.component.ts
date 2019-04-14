@@ -234,9 +234,12 @@ export class GameDetailComponent implements OnInit {
     this.modalRef = this._modalService.show(BatchNodeComponent, { ignoreBackdropClick: true });
     this.modalRef.content.game = this.game;
   }
-  deleteNode(node: Node) {
+  deleteNode(node) {
     this._gameService.deleteNode(node.id)
-      .subscribe(res=>this.getGame(this.game.id));
+      .subscribe(res => {
+        this.mapComponent.clearMap();
+        this.getGame(this.game.id);
+      });
   }
 
   editNode(node: Node) {
