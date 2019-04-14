@@ -130,5 +130,17 @@ namespace ImageHunt.Services
         pictureNode.Image.Image = null;
       return pictureNode.Image;
     }
+
+    public async Task MigrateImagesToCloud()
+    {
+      foreach (var picture in Context.Pictures.Where(p=>string.IsNullOrEmpty(p.CloudUrl)))
+      {
+        var url = await _blobProvider.UploadFromByteArrayAsync(picture.Image);
+        picture.CloudUrl = url;
+        picture.Image = null;
+      }
+
+      Context.SaveChanges();
+    }
   }
 }

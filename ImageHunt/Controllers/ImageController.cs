@@ -79,5 +79,12 @@ namespace ImageHunt.Controllers
         return CreatedAtAction("UploadImage", picture.Id);
       }
     }
+
+    [HttpPost("MigrateImages")]
+    public async Task<IActionResult> MigrateImages()
+    {
+      await _imageService.MigrateImagesToCloud();
+      return Ok();
+    }
   }
 }

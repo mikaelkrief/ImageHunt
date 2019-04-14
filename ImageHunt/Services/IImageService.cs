@@ -13,5 +13,6 @@ namespace ImageHunt.Services
       (double, double) ExtractLocationFromImage(Picture picture);
       Picture GetImageForNode(Node node, bool includePictureBytes = false);
       Picture GetPictureFromStream(Stream fileStream);
+      Task MigrateImagesToCloud();
     }
 }
