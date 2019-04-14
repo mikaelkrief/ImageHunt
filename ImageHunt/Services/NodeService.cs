@@ -132,10 +132,11 @@ namespace ImageHunt.Services
       {
         foreach (var parent in parentsOfNode)
         {
-          Context.ParentChildren.Add(new ParentChildren() {Parent = parent.Parent, Children = childrenOfNode});
+          parent.Parent = Context.Nodes.Single(n=>n.Id == parent.ParentId);
+          parent.Parent.ChildrenRelation.Add(new ParentChildren(){Parent = parent.Parent, Children = childrenOfNode});
+          //Context.ParentChildren.Add(new ParentChildren() {Parent = parent.Parent, Children = childrenOfNode});
         }
       }
-
       Context.Nodes.Remove(nodeToRemove);
       Context.SaveChanges();
     }
