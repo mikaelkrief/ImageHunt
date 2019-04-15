@@ -306,7 +306,12 @@ namespace ImagehuntBotBuilder
             if (update.EditedMessage != null)
                 return update.EditedMessage;
             if (update.Type == UpdateType.CallbackQuery)
-                return update.CallbackQuery.Message;
+            {
+                var callbackQueryMessage = update.CallbackQuery.Message;
+                callbackQueryMessage.Text = update.CallbackQuery.Data;
+                return callbackQueryMessage;
+            }
+
             return null;
         }
 

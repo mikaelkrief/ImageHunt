@@ -1,0 +1,32 @@
+﻿{
+  "update_id": 379147060,
+  "callback_query": {
+    "id": "768541179562637221",
+    "from": {
+      "id": 178939937,
+      "is_bot": false,
+      "first_name": "christophe 🇨🇵",
+      "username": "nimbusparis",
+      "language_code": "fr"
+    },
+    "message": {
+      "message_id": 1188,
+      "from": {
+        "id": 595566944,
+        "is_bot": true,
+        "first_name": "PixhintDevBot",
+        "username": "ImageHuntDevBot"
+      },
+      "chat": {
+        "id": -350269084,
+        "title": "Test question",
+        "type": "group",
+        "all_members_are_administrators": false
+      },
+      "date": 1555327645,
+      "text": "You answered Answer, do you confirm?"
+    },
+    "chat_instance": "3934747920818099823",
+    "data": "Yes"
+  }
+}

@@ -344,6 +344,7 @@ namespace ImageHuntBotBuilder
                 _logger.LogTrace("Current node is not correct type: {0}", node.NodeType);
                 return;
             }
+
             if (MatchLocation(turnContext, node, out var location))
             {
                 switch (node.NodeType)
@@ -359,10 +360,7 @@ namespace ImageHuntBotBuilder
 
                         break;
                 }
-
-
             }
-
         }
 
         public void ConstructDialogSet(DialogSet dialogs)
@@ -381,12 +379,12 @@ namespace ImageHuntBotBuilder
         #region QuestionNode prompts
 
         private async Task<DialogTurnResult> AskQuestionStepAsync(
-            WaterfallStepContext stepcontext, 
+            WaterfallStepContext stepcontext,
             CancellationToken cancellationtoken)
         {
             var currentNode = stepcontext.Options as NodeResponse;
-            return await stepcontext.PromptAsync(QuestionNodePrompt, 
-                new PromptOptions(){Prompt = MessageFactory.Text(currentNode.Question)}, 
+            return await stepcontext.PromptAsync(QuestionNodePrompt,
+                new PromptOptions() {Prompt = MessageFactory.Text(currentNode.Question)},
                 cancellationtoken);
         }
 
@@ -406,19 +404,20 @@ namespace ImageHuntBotBuilder
             }
         }
 
-        private async Task<DialogTurnResult> ConfirmAnswerStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
+        private async Task<DialogTurnResult> ConfirmAnswerStepAsync(WaterfallStepContext stepcontext,
+            CancellationToken cancellationtoken)
         {
             IList<Choice> choices = new List<Choice>()
             {
-                new Choice(_localizer["YES_ANSWER"]){Value = true.ToString()},
-                new Choice(_localizer["NO_ANSWER"]){Value = false.ToString()}
+                new Choice("yes") {Action = new CardAction(displayText: _localizer["YES_ANSWER"])},
+                new Choice("no") {Action = new CardAction(displayText: _localizer["NO_ANSWER"])}
             };
             var answer = stepcontext.Result as string;
             return await stepcontext.PromptAsync(
                 QuestionNodeConfirmPrompt,
                 new PromptOptions()
                 {
-                    //Choices = choices,
+                    Choices = choices,
                     Prompt = MessageFactory.Text(_localizer["QUESTION_CONFIRM_ANSWER", answer]),
                 },
                 cancellationtoken);

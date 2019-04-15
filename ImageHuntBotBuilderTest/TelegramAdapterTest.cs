@@ -91,6 +91,19 @@ namespace ImageHuntBotBuilderTest
         }
 
         [Fact]
+        public void Should_Map_Update_CallbackQuery_to_Activity()
+        {
+            // Arrange
+            var update =
+                GetJObjectFromResource(Assembly.GetExecutingAssembly(), "ImageHuntBotBuilderTest.Data.callbackQuery.json")
+                    .ToObject<Update>();
+            // Act
+            var activity = _mapper.Map<Activity>(update);
+
+            // Assert
+            Check.That(activity.Text).Equals(update.CallbackQuery.Data);
+        }
+        [Fact]
         public void Should_New_Participant()
         {
             // Arrange
