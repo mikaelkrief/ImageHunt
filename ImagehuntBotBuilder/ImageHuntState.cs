@@ -23,6 +23,7 @@ namespace ImageHuntBotBuilder
         public GameResponse Game { get; set; }
         public TeamResponse Team { get; set; }
         public NodeResponse CurrentNode { get; set; }
+        public string CurrentAnswer { get; set; }
         public int? CurrentNodeId { get; set; }
         public NodeResponse[] HiddenNodes { get; set; }
         public NodeResponse[] ActionNodes { get; set; }

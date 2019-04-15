@@ -354,7 +354,7 @@ namespace ImageHuntBotBuilder
                         var result = await dialogContext.ContinueDialogAsync();
                         if (result.Status == DialogTurnStatus.Empty)
                         {
-                            await dialogContext.BeginDialogAsync(QuestionNodeDialog, node);
+                            await dialogContext.BeginDialogAsync(QuestionNodeDialog, state);
                             _logger.LogInformation("Launch Question dialog for node {0}", node.Id);
                         }
 
@@ -382,9 +382,10 @@ namespace ImageHuntBotBuilder
             WaterfallStepContext stepcontext,
             CancellationToken cancellationtoken)
         {
-            var currentNode = stepcontext.Options as NodeResponse;
+            var state = stepcontext.Options as ImageHuntState;
+
             return await stepcontext.PromptAsync(QuestionNodePrompt,
-                new PromptOptions() {Prompt = MessageFactory.Text(currentNode.Question)},
+                new PromptOptions() {Prompt = MessageFactory.Text(state.CurrentNode.Question)},
                 cancellationtoken);
         }
 
@@ -394,13 +395,27 @@ namespace ImageHuntBotBuilder
         {
             if ((bool) stepcontext.Result)
             {
+                var state = stepcontext.Options as ImageHuntState;
+
+                GameActionRequest actionRequest = new GameActionRequest()
+                {
+                    Action = (int)Action.ReplyQuestion,
+                    Answer = state.CurrentAnswer,
+                    GameId = state.Game.Id,
+                    TeamId = state.Team.Id,
+                    Latitude = state.CurrentLocation.Latitude,
+                    Longitude = state.CurrentLocation.Longitude,
+                    NodeId = state.CurrentNode.Id,
+                };
+                await _actionWebService.LogAction(actionRequest, cancellationtoken);
                 await stepcontext.Context.SendActivityAsync(_localizer["ANSWER_RECORED"],
                     cancellationToken: cancellationtoken);
                 return await stepcontext.EndDialogAsync(cancellationToken: cancellationtoken);
             }
             else
             {
-                return await stepcontext.ReplaceDialogAsync(QuestionNodePrompt, cancellationtoken);
+                return await stepcontext.ReplaceDialogAsync(QuestionNodeDialog, 
+                    stepcontext.Options, cancellationtoken);
             }
         }
 
@@ -409,10 +424,12 @@ namespace ImageHuntBotBuilder
         {
             IList<Choice> choices = new List<Choice>()
             {
-                new Choice("yes") {Action = new CardAction(displayText: _localizer["YES_ANSWER"])},
-                new Choice("no") {Action = new CardAction(displayText: _localizer["NO_ANSWER"])}
+                new Choice("yes") {Action = new CardAction(title: _localizer["YES_ANSWER"])},
+                new Choice("no") {Action = new CardAction(title: _localizer["NO_ANSWER"])}
             };
             var answer = stepcontext.Result as string;
+            var state = stepcontext.Options as ImageHuntState;
+            state.CurrentAnswer = answer;
             return await stepcontext.PromptAsync(
                 QuestionNodeConfirmPrompt,
                 new PromptOptions()
