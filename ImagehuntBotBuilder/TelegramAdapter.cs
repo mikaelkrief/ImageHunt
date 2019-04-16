@@ -110,6 +110,8 @@ namespace ImageHuntBotBuilder
                     return action.DisplayText;
                 if (!string.IsNullOrEmpty(action.Text))
                     return action.Text;
+                if (!string.IsNullOrEmpty(action.Title))
+                    return action.Title;
                 if (!string.IsNullOrEmpty(action.Value.ToString()))
                     return action.Value.ToString();
             }
