@@ -19,7 +19,12 @@ namespace ImageHunt.Services
   {
     private readonly IScoreChanger _scoreChanger;
 
-    public async Task<PaginatedList<GameAction>> GetGameActionsForGame(int gameId, int pageIndex, int pageSize, IncludeAction includeAction, int? teamId = null)
+    public async Task<PaginatedList<GameAction>> GetGameActionsForGame(
+      int gameId,
+      int pageIndex,
+      int pageSize,
+      IncludeAction includeAction,
+      int? teamId = null)
     {
       var gameActions = Context.GameActions
           .Include(ga => ga.Game)

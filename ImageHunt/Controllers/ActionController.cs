@@ -203,6 +203,10 @@ namespace ImageHunt.Controllers
       var gameActionsToValidate = new List<GameActionToValidate>();
       foreach (var gameAction in gameActions)
       {
+        // Strip results when tea is deleted
+        if (gameAction.Team == null)
+          continue;
+
         var gameActionToValidate = _mapper.Map<GameAction, GameActionToValidate>(gameAction);
         if (gameAction.Latitude.HasValue && gameAction.Longitude.HasValue)
         {
