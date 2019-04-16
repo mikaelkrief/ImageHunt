@@ -356,11 +356,12 @@ namespace ImageHuntTest.Controller
                 new PictureNode() {Id = 2, Latitude = 40.05, Longitude = 5.04 } ,
                 new PictureNode() {Id = 2, Latitude = 40.00005, Longitude = 5.00004 } ,
             };
+            var teams = new List<Team> {new Team()};
             //A.CallTo(() => _nodeService.GetNode())
             var gameActions = new List<GameAction>
           {
-              new GameAction() {Latitude = 40, Longitude = 5},
-              new GameAction() {Latitude = 50, Longitude = 5},
+              new GameAction() {Latitude = 40, Longitude = 5, Team = teams[0]},
+              new GameAction() {Latitude = 50, Longitude = 5, Team = teams[0]},
           };
             A.CallTo(() => _actionService.GetGameActionsForGame(A<int>._, A<int>._, A<int>._, A<IncludeAction>._, A<int?>._))
                 .Returns(Task.FromResult(new PaginatedList<GameAction>(gameActions, 2, 1, 10)));
@@ -389,11 +390,13 @@ namespace ImageHuntTest.Controller
                 new PictureNode() {Id = 2, Latitude = 40.05, Longitude = 5.04 } ,
                 new PictureNode() {Id = 2, Latitude = 40.00005, Longitude = 5.00004 } ,
             };
+            var teams = new List<Team> { new Team() };
+
             //A.CallTo(() => _nodeService.GetNode())
             var gameActions = new List<GameAction>
           {
-              new GameAction() {Latitude = 40, Longitude = 5},
-              new GameAction() {Latitude = 50, Longitude = 5},
+              new GameAction() {Latitude = 40, Longitude = 5, Team = teams[0]},
+              new GameAction() {Latitude = 50, Longitude = 5, Team = teams[0]},
           };
             A.CallTo(() => _actionService.GetGameActionsForGame(A<int>._, A<int>._, A<int>._, A<IncludeAction>._, A<int?>._))
                 .Returns(Task.FromResult(new PaginatedList<GameAction>(gameActions, 2, 1, 10)));
@@ -411,7 +414,7 @@ namespace ImageHuntTest.Controller
                 A<IncludeAction>._, 1)).MustHaveHappened();
             A.CallTo(() =>
                 _nodeService.GetGameNodesOrderByPosition(A<int>._, A<double>._, A<double>._,
-                    NodeTypes.Hidden | NodeTypes.Picture)).MustHaveHappened();
+                    NodeTypes.Hidden | NodeTypes.Picture | NodeTypes.Question)).MustHaveHappened();
             Check.That(gameActionToValidate.Extracting("Node")).IsNotNull();
         }
         [Fact]
