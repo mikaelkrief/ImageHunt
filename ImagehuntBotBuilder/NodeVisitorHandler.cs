@@ -395,19 +395,28 @@ namespace ImageHuntBotBuilder
         {
             if ((bool) stepcontext.Result)
             {
-                var state = stepcontext.Options as ImageHuntState;
-
-                GameActionRequest actionRequest = new GameActionRequest()
+                try
                 {
-                    Action = (int)Action.ReplyQuestion,
-                    Answer = state.CurrentAnswer,
-                    GameId = state.Game.Id,
-                    TeamId = state.Team.Id,
-                    Latitude = state.CurrentLocation.Latitude,
-                    Longitude = state.CurrentLocation.Longitude,
-                    NodeId = state.CurrentNode.Id,
-                };
-                await _actionWebService.LogAction(actionRequest, cancellationtoken);
+                    var state = stepcontext.Options as ImageHuntState;
+
+                    GameActionRequest actionRequest = new GameActionRequest()
+                    {
+                        Action = (int)Action.ReplyQuestion,
+                        Answer = state.CurrentAnswer,
+                        GameId = state.Game.Id,
+                        TeamId = state.Team.Id,
+                        Latitude = state.CurrentLocation.Latitude,
+                        Longitude = state.CurrentLocation.Longitude,
+                        NodeId = state.CurrentNode.Id,
+                    };
+                    await _actionWebService.LogAction(actionRequest, cancellationtoken);
+
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Error while recording action");
+                }
+
                 await stepcontext.Context.SendActivityAsync(_localizer["ANSWER_RECORED"],
                     cancellationToken: cancellationtoken);
                 return await stepcontext.EndDialogAsync(cancellationToken: cancellationtoken);
