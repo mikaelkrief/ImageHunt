@@ -23,7 +23,7 @@ namespace ImageHuntTest
 
         public TokenAuthorizationHandlerTest()
         {
-            _target = new TokenAuthorizationHandler(_context);
+            _target = new TokenAuthorizationHandler(Context);
         }
         [Fact]
         public async Task NoAuthorizationInHeader()
@@ -45,9 +45,9 @@ namespace ImageHuntTest
         [Fact]
         public void HandleAsync_GrantAccess()
         {
-            _context.Admins.Add(new Admin() { Token = "toto", Email = "toto@titi.com", ExpirationTokenDate = DateTime.Now.AddHours(1) });
-            _context.SaveChanges();
-            var target = new TokenAuthorizationHandler(_context);
+            Context.Admins.Add(new Admin() { Token = "toto", Email = "toto@titi.com", ExpirationTokenDate = DateTime.Now.AddHours(1) });
+            Context.SaveChanges();
+            var target = new TokenAuthorizationHandler(Context);
 
             var httpContext = new DefaultHttpContext() { Request = { Headers = { { "Authorization", "Bearer toto" } } } };
             var routeData = new RouteData();
@@ -67,7 +67,7 @@ namespace ImageHuntTest
         public void HandleAsync_DenyAccess()
         {
 
-            var target = new TokenAuthorizationHandler(_context);
+            var target = new TokenAuthorizationHandler(Context);
 
             var httpContext = new DefaultHttpContext() { Request = { Headers = { { "Authorization", "Bearer toto" } } } };
             var routeData = new RouteData();

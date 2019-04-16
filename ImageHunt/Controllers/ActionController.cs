@@ -106,12 +106,20 @@ namespace ImageHunt.Controllers
 
           break;
         case Action.ReplyQuestion:
-          var answer = _nodeService.GetAnswer(gameActionRequest.AnswerId);
-          gameAction.SelectedAnswer = answer;
-          if (gameAction.Node != null)
+          switch (gameAction.Node.NodeType)
           {
-            var correctAnswer = ((ChoiceNode) gameAction.Node).Answers.Single(a => a.Correct);
-            gameAction.CorrectAnswer = correctAnswer;
+            case NodeResponse.QuestionNodeType:
+              gameAction.Answer = gameActionRequest.Answer;
+              break;
+            case NodeResponse.ChoiceNodeType:
+              var answer = _nodeService.GetAnswer(gameActionRequest.AnswerId);
+              gameAction.SelectedAnswer = answer;
+              if (gameAction.Node != null)
+              {
+                var correctAnswer = ((ChoiceNode) gameAction.Node).Answers.Single(a => a.Correct);
+                gameAction.CorrectAnswer = correctAnswer;
+              }
+              break;
           }
 
           break;
@@ -195,11 +203,16 @@ namespace ImageHunt.Controllers
       var gameActionsToValidate = new List<GameActionToValidate>();
       foreach (var gameAction in gameActions)
       {
+        // Strip results when tea is deleted
+        if (gameAction.Team == null)
+          continue;
+
         var gameActionToValidate = _mapper.Map<GameAction, GameActionToValidate>(gameAction);
         if (gameAction.Latitude.HasValue && gameAction.Longitude.HasValue)
         {
           gameActionToValidate.ProbableNodes = _nodeService
-            .GetGameNodesOrderByPosition(gameActionListRequest.GameId, gameAction.Latitude.Value, gameAction.Longitude.Value, NodeTypes.Picture|NodeTypes.Hidden)
+            .GetGameNodesOrderByPosition(gameActionListRequest.GameId,
+              gameAction.Latitude.Value, gameAction.Longitude.Value, NodeTypes.Picture|NodeTypes.Hidden|NodeTypes.Question)
             .Take(gameActionListRequest.NbPotential);
           foreach (var probableNode in gameActionToValidate.ProbableNodes)
           {

@@ -130,7 +130,7 @@ namespace ImageHuntTest.Model
         public void Should_Duplicate_BonusNode()
         {
             // Arrange
-            var node = new BonusNode() { Latitude = 5, Longitude = 6, Name = "toto", Points = 56, Location = "Location", BonusType = BonusNode.BONUS_TYPE.Points_x2 };
+            var node = new BonusNode() { Latitude = 5, Longitude = 6, Name = "toto", Points = 56, Location = "Location", BonusType = BonusNode.BONUSTYPE.PointsX2 };
             // Act
             var newNode = NodeFactory.DuplicateNode(node);
             // Assert

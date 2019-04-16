@@ -22,8 +22,8 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public HelpCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IHelpCommand>>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<HelpCommand>>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IHelpCommand>>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<HelpCommand>>());
 
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState();
@@ -36,7 +36,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))

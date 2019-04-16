@@ -36,7 +36,9 @@ namespace ImageHuntBotBuilder
 
         public string Name { get; }
 
-        public Task<T> GetAsync(ITurnContext turnContext, Func<T> defaultValueFactory = null,
+        public Task<T> GetAsync(
+            ITurnContext turnContext, 
+            Func<T> defaultValueFactory = null,
             CancellationToken cancellationToken = new CancellationToken())
         {
             throw new NotImplementedException();

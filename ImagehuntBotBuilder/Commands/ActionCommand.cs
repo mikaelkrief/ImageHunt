@@ -17,17 +17,17 @@ namespace ImageHuntBotBuilder.Commands
         {
         }
 
-        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             if (state.Status != Status.Started)
             {
                 await turnContext.SendActivityAsync(
-                    _localizer["GAME_NOT_STARTED"]);
+                    Localizer["GAME_NOT_STARTED"]);
                 return;
             }
 
             var nodes = state.ActionNodes;
-            await turnContext.SendActivityAsync(_localizer["ACTION_NODES_TITLE"]);
+            await turnContext.SendActivityAsync(Localizer["ACTION_NODES_TITLE"]);
             var activities = new List<IActivity>();
             foreach (var nodeResponse in nodes)
             {
@@ -37,7 +37,8 @@ namespace ImageHuntBotBuilder.Commands
                     Text = nodeResponse.Action,
                     Attachments = new List<Attachment>()
                     {
-                        new Attachment(contentType: ImageHuntActivityTypes.Location,
+                        new Attachment(
+                            contentType: ImageHuntActivityTypes.Location,
                             content: new GeoCoordinates(
                                 latitude: nodeResponse.Latitude,
                                 longitude: nodeResponse.Longitude

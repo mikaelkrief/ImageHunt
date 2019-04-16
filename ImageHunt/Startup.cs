@@ -115,18 +115,18 @@ namespace ImageHunt
     private async Task CreateRoles(IServiceProvider serviceProvider)
     {
       //adding custom roles
-      var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-      var UserManager = serviceProvider.GetRequiredService<UserManager<Identity>>();
+      var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+      var userManager = serviceProvider.GetRequiredService<UserManager<Identity>>();
       string[] roleNames = Enum.GetNames(typeof(Role));
       IdentityResult roleResult;
 
       foreach (var roleName in roleNames)
       {
         //creating the roles and seeding them to the database
-        var roleExist = await RoleManager.RoleExistsAsync(roleName);
+        var roleExist = await roleManager.RoleExistsAsync(roleName);
         if (!roleExist)
         {
-          roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+          roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
         }
       }
       var context = serviceProvider.GetService<HuntContext>();
@@ -144,16 +144,16 @@ namespace ImageHunt
           AppUserId = admin.Id
         };
 
-        string UserPassword = Configuration["Admin:Password"];
-        var _user = await UserManager.FindByEmailAsync(admin.Email);
+        string userPassword = Configuration["Admin:Password"];
+        var user = await userManager.FindByEmailAsync(admin.Email);
 
-        if (_user == null)
+        if (user == null)
         {
-          var createPowerUser = await UserManager.CreateAsync(poweruser, UserPassword);
+          var createPowerUser = await userManager.CreateAsync(poweruser, userPassword);
           if (createPowerUser.Succeeded)
           {
             //here we tie the new user to the "Admin" role 
-            await UserManager.AddToRoleAsync(poweruser, "Admin");
+            await userManager.AddToRoleAsync(poweruser, "Admin");
           }
         }
       }
@@ -165,7 +165,7 @@ namespace ImageHunt
         context.Admins.Add(bot);
         context.SaveChanges();
 
-        var botUser = new Identity()
+        var botIdentity = new Identity()
         {
           UserName = bot.Name,
           Email = bot.Email,
@@ -173,13 +173,13 @@ namespace ImageHunt
         };
         string botPassword = Configuration["BotConfiguration:BotPassword"];
 
-        var _botUser = await UserManager.FindByEmailAsync(botUser.Email);
-        if (_botUser == null)
+        var botUser = await userManager.FindByEmailAsync(botIdentity.Email);
+        if (botUser == null)
         {
-          var createBotUser = await UserManager.CreateAsync(botUser, botPassword);
+          var createBotUser = await userManager.CreateAsync(botUser, botPassword);
           if (createBotUser.Succeeded)
           {
-            await UserManager.AddToRoleAsync(botUser, Role.Bot.ToString());
+            await userManager.AddToRoleAsync(botUser, Role.Bot.ToString());
           }
         }
 

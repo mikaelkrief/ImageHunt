@@ -29,13 +29,13 @@ namespace ImageHuntBotBuilderTest.Middlewares
         public LogPositionMiddlewareTest()
         {
             _logger = A.Fake<ILogger<LogPositionMiddleware>>();
-            _testContainerBuilder.RegisterInstance(_logger);
+            TestContainerBuilder.RegisterInstance(_logger);
             _turnContext = A.Fake<ITurnContext>();
             _nextDelegate = A.Fake<NextDelegate>();
             _actionWebService = A.Fake<IActionWebService>();
-            _testContainerBuilder.RegisterInstance(_actionWebService);
+            TestContainerBuilder.RegisterInstance(_actionWebService);
             _accessor = A.Fake<ImageHuntBotAccessors>();
-            _testContainerBuilder.RegisterInstance(_accessor);
+            TestContainerBuilder.RegisterInstance(_accessor);
             _statePropertyAccessor = A.Fake<IStatePropertyAccessor<ImageHuntState>>();
             A.CallTo(() => _accessor.ImageHuntState).Returns(_statePropertyAccessor);
             Build();
@@ -62,7 +62,7 @@ namespace ImageHuntBotBuilderTest.Middlewares
                         A<CancellationToken>._))
                 .Returns(imageHuntState);
             // Act
-            await _target.OnTurnAsync(_turnContext, _nextDelegate);
+            await Target.OnTurnAsync(_turnContext, _nextDelegate);
             // Assert
             A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._))
                 .MustHaveHappened();
@@ -90,7 +90,7 @@ namespace ImageHuntBotBuilderTest.Middlewares
                         A<CancellationToken>._))
                 .Returns(imageHuntState);
             // Act
-            await _target.OnTurnAsync(_turnContext, _nextDelegate);
+            await Target.OnTurnAsync(_turnContext, _nextDelegate);
             // Assert
             A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._))
                 .MustHaveHappened();
@@ -117,7 +117,7 @@ namespace ImageHuntBotBuilderTest.Middlewares
                         A<CancellationToken>._))
                 .Returns(imageHuntState);
             // Act
-            await _target.OnTurnAsync(_turnContext, _nextDelegate);
+            await Target.OnTurnAsync(_turnContext, _nextDelegate);
             // Assert
             A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._))
                 .MustNotHaveHappened();

@@ -5,7 +5,7 @@ namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
 
-  public partial class Add_Picture_And_Description_To_Game : Migration
+  public partial class AddPictureAndDescriptionToGame : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

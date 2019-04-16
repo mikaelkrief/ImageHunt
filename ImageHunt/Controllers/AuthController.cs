@@ -62,9 +62,9 @@ namespace ImageHunt.Controllers
       var userInfoAsString = await userInfo.Content.ReadAsStringAsync();
       var userInfoAsJSon = JsonConvert.DeserializeObject(userInfoAsString) as JObject;
       var email = userInfoAsJSon["email"].Value<string>();
-      var expires_in = resultAsObject["expires_in"].Value<int>();
+      var expiresIn = resultAsObject["expires_in"].Value<int>();
       var user = _authService.RefreshToken(email, accessToken,
-        DateTime.Now.AddSeconds(expires_in));
+        DateTime.Now.AddSeconds(expiresIn));
       resultAsObject.Add("email", email);
       if (user == null)
       {

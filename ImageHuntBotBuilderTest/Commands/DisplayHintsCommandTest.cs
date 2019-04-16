@@ -26,9 +26,9 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public DisplayHintsCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IDisplayHintsCommand>>());
-            _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<DisplayHintsCommand>>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IDisplayHintsCommand>>());
+            TestContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<DisplayHintsCommand>>());
 
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState() { Status = Status.Started };
@@ -43,11 +43,11 @@ namespace ImageHuntBotBuilderTest.Commands
 
             _state.HiddenNodes = new []
             {
-                new NodeResponse(){NodeType = NodeResponse.BonusNodeType, Name = "bonus1", BonusType = BonusNode.BONUS_TYPE.Points_x2, Hint = "Hint1"},
+                new NodeResponse(){NodeType = NodeResponse.BonusNodeType, Name = "bonus1", BonusType = BonusNode.BONUSTYPE.PointsX2, Hint = "Hint1"},
                 new NodeResponse(){NodeType = NodeResponse.HiddenNodeType, Name = "Hidden1", Points = 15, Hint = "Hint2"},
             };
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
@@ -61,7 +61,7 @@ namespace ImageHuntBotBuilderTest.Commands
 
             _state.HiddenNodes = new NodeResponse[0];
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
@@ -75,11 +75,11 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.GameId = 1;
             _state.HiddenNodes = new []
             {
-                new NodeResponse(){NodeType = NodeResponse.BonusNodeType, Name = "bonus1", BonusType = BonusNode.BONUS_TYPE.Points_x2, Hint = "Hint1"},
+                new NodeResponse(){NodeType = NodeResponse.BonusNodeType, Name = "bonus1", BonusType = BonusNode.BONUSTYPE.PointsX2, Hint = "Hint1"},
                 new NodeResponse(){NodeType = NodeResponse.HiddenNodeType, Name = "Hidden1", Points = 15, Hint = "Hint2"},
             };
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _nodeWebService.GetNodesByType(A<NodeTypes>._, A<int>._)).MustNotHaveHappened();
         }

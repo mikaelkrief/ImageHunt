@@ -32,12 +32,12 @@ namespace ImageHuntTest.Controller
 
         public NodeControllerTest()
       {
-            _testContainerBuilder.RegisterInstance(_nodeService = A.Fake<INodeService>());
-          _testContainerBuilder.RegisterInstance(_gameService = A.Fake<IGameService>());
-          _testContainerBuilder.RegisterInstance(_teamService = A.Fake<ITeamService>());
-          _testContainerBuilder.RegisterInstance(_imageService = A.Fake<IImageService>());
-            _testContainerBuilder.RegisterInstance(_mapper = AutoMapper.Mapper.Instance);
-          _testContainerBuilder.RegisterInstance(_updater = A.Fake<IUpdater>()).Named<IUpdater>("UpdateNodePoints");
+            TestContainerBuilder.RegisterInstance(_nodeService = A.Fake<INodeService>());
+          TestContainerBuilder.RegisterInstance(_gameService = A.Fake<IGameService>());
+          TestContainerBuilder.RegisterInstance(_teamService = A.Fake<ITeamService>());
+          TestContainerBuilder.RegisterInstance(_imageService = A.Fake<IImageService>());
+            TestContainerBuilder.RegisterInstance(_mapper = AutoMapper.Mapper.Instance);
+          TestContainerBuilder.RegisterInstance(_updater = A.Fake<IUpdater>()).Named<IUpdater>("UpdateNodePoints");
             Build();
       }
 
@@ -51,7 +51,7 @@ namespace ImageHuntTest.Controller
           ChildrenId = 2
         };
         // Act
-        _target.AddRelationToNode(relationRequest);
+        Target.AddRelationToNode(relationRequest);
         // Assert
         A.CallTo(() => _nodeService.AddChildren(1, A<int>._)).MustHaveHappened(Repeated.Exactly.Once);
         A.CallTo(() => _nodeService.LinkAnswerToNode(3, 2)).MustNotHaveHappened();
@@ -67,7 +67,7 @@ namespace ImageHuntTest.Controller
                 ChildrenId = 2
             };
             // Act
-            _target.RemoveRelationToNode(relationRequest);
+            Target.RemoveRelationToNode(relationRequest);
             // Assert
             A.CallTo(() => _nodeService.RemoveChildren(1, A<int>._)).MustHaveHappened(Repeated.Exactly.Once);
         }
@@ -92,7 +92,7 @@ namespace ImageHuntTest.Controller
         A.CallTo(() => _nodeService.GetNode(1)).Returns(new ChoiceNode(){Children = { new TimerNode(), new ChoiceNode(), new FirstNode()}});
 
       // Act
-      _target.AddRelationsWithAnswers(relationsRequest);
+      Target.AddRelationsWithAnswers(relationsRequest);
       // Assert
         A.CallTo(() => _nodeService.GetNode(1)).MustHaveHappened();
         A.CallTo(() => _nodeService.RemoveAllChildren(A<Node>._)).MustHaveHappened(Repeated.Exactly.Once);
@@ -111,7 +111,7 @@ namespace ImageHuntTest.Controller
           AnswerId = 1
         };
         // Act
-        _target.RemoveRelationToNode(relationRequest);
+        Target.RemoveRelationToNode(relationRequest);
         // Assert
         A.CallTo(() => _nodeService.RemoveChildren(1, A<int>._)).MustHaveHappened(Repeated.Exactly.Once);
         A.CallTo(() => _nodeService.UnlinkAnswerToNode(1)).MustHaveHappened(Repeated.Exactly.Once);
@@ -123,7 +123,7 @@ namespace ImageHuntTest.Controller
         // Arrange
         
         // Act
-        var result = _target.RemoveNode(2);
+        var result = Target.RemoveNode(2);
         // Assert
         Check.That(result).IsInstanceOf<OkResult>();
         A.CallTo(()=>_nodeService.GetNode(2)).MustHaveHappened();
@@ -136,7 +136,7 @@ namespace ImageHuntTest.Controller
         // Arrange
         
         // Act
-        var result = _target.RemoveRelation(1, 2);
+        var result = Target.RemoveRelation(1, 2);
         // Assert
         Check.That(result).IsInstanceOf<OkResult>();
         A.CallTo(() => _nodeService.GetNode(A<int>._)).MustHaveHappened(Repeated.Exactly.Twice);
@@ -149,7 +149,7 @@ namespace ImageHuntTest.Controller
             // Arrange
             
             // Act
-            var result = _target.GetNodeById(1);
+            var result = Target.GetNodeById(1);
             // Assert
             A.CallTo(() => _nodeService.GetNode(1)).MustHaveHappened();
         }
@@ -169,7 +169,7 @@ namespace ImageHuntTest.Controller
                 Action = "sdffsdf"
             };
             // Act
-            await _target.UpdateNode(nodeRequest);
+            await Target.UpdateNode(nodeRequest);
             // Assert
             A.CallTo(() => _nodeService.GetNode(nodeRequest.Id)).MustHaveHappened();
             var expectedNode = new ObjectNode(){Action = nodeRequest.Action};
@@ -190,7 +190,7 @@ namespace ImageHuntTest.Controller
                 Delay = 15,
             };
             // Act
-            await _target.UpdateNode(nodeRequest);
+            await Target.UpdateNode(nodeRequest);
             // Assert
             A.CallTo(() => _nodeService.GetNode(nodeRequest.Id)).MustHaveHappened();
             var expectedNode = new TimerNode(){Delay = nodeRequest.Delay.Value};
@@ -242,7 +242,7 @@ namespace ImageHuntTest.Controller
                 Hint = "sdffsdf"
             };
             // Act
-            await _target.UpdateNode(nodeRequest);
+            await Target.UpdateNode(nodeRequest);
             // Assert
             A.CallTo(() => _nodeService.GetNode(nodeRequest.Id)).MustHaveHappened();
             var expectedNode = new HiddenNode() { LocationHint = nodeRequest.Hint };
@@ -266,10 +266,10 @@ namespace ImageHuntTest.Controller
                 Bonus = 1,
             };
             // Act
-            await _target.UpdateNode(nodeRequest);
+            await Target.UpdateNode(nodeRequest);
             // Assert
             A.CallTo(() => _nodeService.GetNode(nodeRequest.Id)).MustHaveHappened();
-            var expectedNode = new BonusNode() { Location = nodeRequest.Hint, BonusType = (BonusNode.BONUS_TYPE) nodeRequest.Bonus };
+            var expectedNode = new BonusNode() { Location = nodeRequest.Hint, BonusType = (BonusNode.BONUSTYPE) nodeRequest.Bonus };
 
             A.CallTo(() => _nodeService.UpdateNode(A<Node>.That.Matches(n=>MatchNode(n, expectedNode)))).MustHaveHappened();
 
@@ -282,7 +282,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _nodeService.GetNode(A<int>._)).Returns(new ObjectNode());
             var nodeRequest = new NodeUpdateRequest() {Id = 1, Name = "toto", NodeType = NodeResponse.BonusNodeType};
             // Act
-            await _target.UpdateNode(nodeRequest);
+            await Target.UpdateNode(nodeRequest);
             // Assert
             A.CallTo(() => _nodeService.GetNode(nodeRequest.Id)).MustHaveHappened();
             A.CallTo(() => _nodeService.UpdateNode(A<Node>._)).MustHaveHappened();
@@ -296,7 +296,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _imageService.GetPictureById(A<int>._)).Returns(new Picture() {Id = 16});
             var nodeRequest = new NodeUpdateRequest() {Id = 1, Name = "toto", NodeType = NodeResponse.BonusNodeType, ImageId = 16};
             // Act
-            await _target.UpdateNode(nodeRequest);
+            await Target.UpdateNode(nodeRequest);
             // Assert
             A.CallTo(() => _nodeService.GetNode(nodeRequest.Id)).MustHaveHappened();
             A.CallTo(() => _nodeService.UpdateNode(A<Node>._)).MustHaveHappened();
@@ -310,7 +310,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _imageService.GetPictureById(A<int>._)).Returns(new Picture() {Id = 16});
             var nodeRequest = new NodeUpdateRequest() {Id = 1, Name = "toto", NodeType = NodeResponse.BonusNodeType, ImageId = 16};
             // Act
-            await _target.UpdateNode(nodeRequest);
+            await Target.UpdateNode(nodeRequest);
             // Assert
             A.CallTo(() => _nodeService.GetNode(nodeRequest.Id)).MustHaveHappened();
             A.CallTo(() => _nodeService.UpdateNode(A<Node>._)).MustHaveHappened();
@@ -331,7 +331,7 @@ namespace ImageHuntTest.Controller
             };
             A.CallTo(() => _gameService.GetNodes(A<int>._, NodeTypes.Picture)).Returns(nodes.Where(n=>n.NodeType == NodeResponse.PictureNodeType));
             // Act
-            var result = _target.GetNodesByType(NodeTypes.Picture.ToString(), 1);
+            var result = Target.GetNodesByType(NodeTypes.Picture.ToString(), 1);
             // Assert
             A.CallTo(() => _gameService.GetNodes(1, NodeTypes.Picture)).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();
@@ -346,7 +346,7 @@ namespace ImageHuntTest.Controller
             var team = new Team(){CurrentNode = currentNode};
             A.CallTo(() => _teamService.GetTeamById(1)).Returns(team);
             // Act
-            var result = _target.GetNextNodeForTeam(1);
+            var result = Target.GetNextNodeForTeam(1);
             // Assert
             Check.That(result).IsInstanceOf<OkObjectResult>();
             A.CallTo(() => _teamService.GetTeamById(1)).MustHaveHappened();
@@ -365,7 +365,7 @@ namespace ImageHuntTest.Controller
             };
 
             // Act
-            var result = _target.BatchUpdateNode(batchUpdateNodeRequest);
+            var result = Target.BatchUpdateNode(batchUpdateNodeRequest);
             // Assert
             A.CallTo(() => _updater.Execute()).MustHaveHappened();
         }

@@ -29,16 +29,16 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public DisplayStateCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IDisplayStateCommand>>());
-            _testContainerBuilder.RegisterInstance(_accessor = A.Fake<ImageHuntBotAccessors>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IDisplayStateCommand>>());
+            TestContainerBuilder.RegisterInstance(_accessor = A.Fake<ImageHuntBotAccessors>());
 
             _statePropertyAccessor = A.Fake<IStatePropertyAccessor<ImageHuntState>>();
 
             _storage = A.Fake<IStorage>();
             _conversationState = new ConversationState(_storage);
             A.CallTo(() => _accessor.ImageHuntState).Returns(_statePropertyAccessor);
-            _testContainerBuilder.RegisterInstance(_accessor);
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<DisplayStateCommand>>());
+            TestContainerBuilder.RegisterInstance(_accessor);
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<DisplayStateCommand>>());
 
             _turnContext = A.Fake<ITurnContext>();
 
@@ -60,7 +60,7 @@ namespace ImageHuntBotBuilderTest.Commands
             };
             A.CallTo(() => _turnContext.Activity).Returns(new Activity(text: "/state"));
             // Act
-            await _target.Execute(_turnContext, state);
+            await Target.ExecuteAsync(_turnContext, state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
@@ -82,7 +82,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _accessor.AllStates.GetAllAsync()).Returns(states);
             var state = new ImageHuntState();
             // Act
-            await _target.Execute(_turnContext, state);
+            await Target.ExecuteAsync(_turnContext, state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))

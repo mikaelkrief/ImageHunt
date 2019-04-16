@@ -26,9 +26,9 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public DisplayNodeCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IDisplayNodeCommand>>());
-            _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<DisplayNodeCommand>>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IDisplayNodeCommand>>());
+            TestContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<DisplayNodeCommand>>());
 
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState(){Status = Status.Started};
@@ -42,7 +42,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.CurrentNode = new NodeResponse(){Id = 15};
             _state.CurrentNodeId = 15;
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _nodeWebService.GetNode(15)).MustHaveHappened();
             A.CallTo(() => _turnContext.SendActivityAsync(A<IActivity>._, A<CancellationToken>._)).MustHaveHappened();
@@ -54,7 +54,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.CurrentNode = null;
             _state.CurrentNodeId = null;
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _nodeWebService.GetNode(15)).MustNotHaveHappened();
             A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._)).MustHaveHappened();
@@ -67,7 +67,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.CurrentNodeId = 15;
             _state.Status = Status.None;
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _nodeWebService.GetNode(15)).MustNotHaveHappened();
             A.CallTo(() => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._)).MustHaveHappened();

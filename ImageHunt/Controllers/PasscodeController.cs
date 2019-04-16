@@ -52,7 +52,7 @@ namespace ImageHunt.Controllers
                 .GetManifestResourceStream("ImageHunt.src.assets.ImageHunt.png");
               var image = base64QrCode.GetGraphic(20, Color.Black, Color.White, (Bitmap) Bitmap.FromStream(imageStream),
                 30);
-              passcodeResponse.QRCode = image;
+              passcodeResponse.QrCode = image;
             }
           }
         }
@@ -104,7 +104,7 @@ namespace ImageHunt.Controllers
     }
 
     [HttpGet("QRCode/{gameId}/{passcodeId}")]
-    public IActionResult GetQRCode(int gameId, int passcodeId)
+    public IActionResult GetQrCode(int gameId, int passcodeId)
     {
       var passcode = _passcodeService.Get(passcodeId);
       using (var generator = new QRCodeGenerator())

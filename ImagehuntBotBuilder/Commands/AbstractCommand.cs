@@ -10,31 +10,31 @@ namespace ImageHuntBotBuilder.Commands
 {
     public abstract class AbstractCommand : ICommand
     {
-        protected readonly ILogger _logger;
-        protected IStringLocalizer _localizer;
+        protected readonly ILogger Logger;
+        protected IStringLocalizer Localizer;
 
         public AbstractCommand(ILogger logger, IStringLocalizer localizer)
         {
-            _logger = logger;
-            _localizer = localizer;
+            Logger = logger;
+            Localizer = localizer;
         }
 
         public virtual bool IsAdmin => true;
-        protected abstract Task InternalExecute(ITurnContext turnContext, ImageHuntState state);
+        protected abstract Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state);
 
-        public virtual async Task Execute(ITurnContext turnContext, ImageHuntState state)
+        public virtual async Task ExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             try
             {
                 if (state.Team != null && !string.IsNullOrEmpty(state.Team.CultureInfo))
                 {
-                    _localizer = _localizer.WithCulture(new CultureInfo(state.Team.CultureInfo));
+                    Localizer = Localizer.WithCulture(new CultureInfo(state.Team.CultureInfo));
                 }
-                await InternalExecute(turnContext, state);
+                await InternalExecuteAsync(turnContext, state);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Exception occured while execute command");
+                Logger.LogError(e, "Exception occured while execute command");
             }
         }
     }

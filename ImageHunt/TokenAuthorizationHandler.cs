@@ -25,8 +25,8 @@ namespace ImageHunt
                 context.Fail();
                 return Task.CompletedTask;
             }
-            var access_token = requestHeader.First().Split(' ')[1];
-            var user = _context.Admins.SingleOrDefault(a=>a.Token == access_token && a.ExpirationTokenDate > DateTime.Now);
+            var accessToken = requestHeader.First().Split(' ')[1];
+            var user = _context.Admins.SingleOrDefault(a=>a.Token == accessToken && a.ExpirationTokenDate > DateTime.Now);
             var request = ((AuthorizationFilterContext)context.Resource).HttpContext.Request;
 
             foreach (var authorizationRequirement in context.Requirements)

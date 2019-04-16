@@ -18,7 +18,7 @@ namespace ImageHuntWebServiceClientTest.WebServices
         public ActionWebServiceTest()
         {
             _logger = A.Fake<ILogger<IActionWebService>>();
-            _target = new ActionWebService(_httpClient, _logger);
+            _target = new ActionWebService(HttpClient, _logger);
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace ImageHuntWebServiceClientTest.WebServices
                 Content = new StringContent("OK")
             };
 
-            A.CallTo(_fakeHttpMessageHandler)
+            A.CallTo(FakeHttpMessageHandler)
                 .Where(x => x.Method.Name == "PostAsync")
                 .WithReturnType<Task<HttpResponseMessage>>()
                 .Returns(httpResponse);
@@ -63,14 +63,14 @@ namespace ImageHuntWebServiceClientTest.WebServices
                 Content = new StringContent("OK")
             };
 
-            A.CallTo(_fakeHttpMessageHandler)
+            A.CallTo(FakeHttpMessageHandler)
                 .Where(x => x.Method.Name == "PostAsync")
                 .WithReturnType<Task<HttpResponseMessage>>()
                 .Returns(httpResponse);
             // Act
             await _target.LogAction(logActionRequest);
             // Assert
-            A.CallTo(_fakeHttpMessageHandler)
+            A.CallTo(FakeHttpMessageHandler)
                 .Where(x => x.Method.Name == "SendAsync")
                 .WithReturnType<Task<HttpResponseMessage>>().MustHaveHappened();
 
@@ -91,14 +91,14 @@ namespace ImageHuntWebServiceClientTest.WebServices
                 Content = new StringContent("OK")
             };
 
-            A.CallTo(_fakeHttpMessageHandler)
+            A.CallTo(FakeHttpMessageHandler)
                 .Where(x => x.Method.Name == "PostAsync")
                 .WithReturnType<Task<HttpResponseMessage>>()
                 .Returns(httpResponse);
             // Act
             await _target.LogAction(logActionRequest);
             // Assert
-            A.CallTo(_fakeHttpMessageHandler)
+            A.CallTo(FakeHttpMessageHandler)
                 .Where(x => x.Method.Name == "SendAsync")
                 .WithReturnType<Task<HttpResponseMessage>>().MustHaveHappened();
 

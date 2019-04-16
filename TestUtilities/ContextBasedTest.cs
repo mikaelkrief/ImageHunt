@@ -4,25 +4,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestUtilities
 {
-    public class ContextBasedTest<CONTEXT> : BaseTest, IDisposable
-        where CONTEXT : DbContext
+    public class ContextBasedTest<TContext> : BaseTest, IDisposable
+        where TContext : DbContext
     {
-        protected CONTEXT _context;
+        protected TContext Context;
 
         public ContextBasedTest()
         {
-            var dbContextOptionsBuilder = new DbContextOptionsBuilder<CONTEXT>()
+            var dbContextOptionsBuilder = new DbContextOptionsBuilder<TContext>()
                 .UseSqlite("DataSource=:memory:") 
                 .EnableSensitiveDataLogging();
-            _context = ActivableContext<CONTEXT>.CreateInstance(dbContextOptionsBuilder.Options);
-            _context.Database.OpenConnection();
-            _context.Database.EnsureCreated();
-            _context.Database.ExecuteSqlCommand("alter table Nodes add Coordinate point null;");
+            Context = ActivableContext<TContext>.CreateInstance(dbContextOptionsBuilder.Options);
+            Context.Database.OpenConnection();
+            Context.Database.EnsureCreated();
+            Context.Database.ExecuteSqlCommand("alter table Nodes add Coordinate point null;");
         }
 
         public void Dispose()
         {
-            _context?.Dispose();
+            Context?.Dispose();
         }
     }
 }

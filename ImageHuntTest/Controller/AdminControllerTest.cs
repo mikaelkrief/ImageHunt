@@ -26,10 +26,10 @@ namespace ImageHuntTest.Controller
 
         public AdminControllerTest()
         {
-            _testContainerBuilder.RegisterInstance(_adminService = A.Fake<IAdminService>());
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<AdminController>>());
-            _testContainerBuilder.RegisterInstance(_mapper = AutoMapper.Mapper.Instance);
-            _testContainerBuilder.RegisterInstance(_userManager = A.Fake<UserManager<Identity>>());
+            TestContainerBuilder.RegisterInstance(_adminService = A.Fake<IAdminService>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<AdminController>>());
+            TestContainerBuilder.RegisterInstance(_mapper = AutoMapper.Mapper.Instance);
+            TestContainerBuilder.RegisterInstance(_userManager = A.Fake<UserManager<Identity>>());
             Build();
         }
 
@@ -56,7 +56,7 @@ namespace ImageHuntTest.Controller
             // Arrange
             
             // Act
-            var result = _target.GetAllAdmins();
+            var result = Target.GetAllAdmins();
             // Assert
             A.CallTo(() => _adminService.GetAllAdmins()).MustHaveHappened();
           A.CallTo(() => _logger.Log(A<LogLevel>._, A<EventId>._, A<object>._, A<Exception>._,
@@ -71,7 +71,7 @@ namespace ImageHuntTest.Controller
             var admin = new Admin() {Id = 2};
             A.CallTo(() => _adminService.GetAdminById(A<int>._)).Returns(admin);
             // Act
-            var result = _target.GetAdminById(2) as OkObjectResult;
+            var result = Target.GetAdminById(2) as OkObjectResult;
             // Assert
             Check.That(result).IsNotNull();
             Check.That(result.Value).Equals(admin);
@@ -85,7 +85,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _adminService.GetAdminByEmail(A<string>._)).Returns(admin);
 
             // Act
-            var result = _target.GetAdminByEmail("toto@titi.com") as OkObjectResult;
+            var result = Target.GetAdminByEmail("toto@titi.com") as OkObjectResult;
             // Assert
             A.CallTo(() => _adminService.GetAdminByEmail(A<string>._)).MustHaveHappened();
             Check.That(result).IsNotNull();
@@ -98,7 +98,7 @@ namespace ImageHuntTest.Controller
             // Arrange
             var admin = new Admin();
             // Act
-            var result = _target.InsertAdmin(admin);
+            var result = Target.InsertAdmin(admin);
             // Assert
             Check.That(result).IsInstanceOf<CreatedAtActionResult>();
             A.CallTo(() => _adminService.InsertAdmin(admin)).MustHaveHappened();
@@ -111,7 +111,7 @@ namespace ImageHuntTest.Controller
             var admin = new Admin();
             A.CallTo(() => _adminService.GetAdminById(A<int>._)).Returns(admin);
             // Act
-            var result = _target.DeleteAdmin(2) as OkResult;
+            var result = Target.DeleteAdmin(2) as OkResult;
             // Assert
             Check.That(result).IsNotNull();
             A.CallTo(() => _adminService.DeleteAdmin(admin)).MustHaveHappened();
@@ -123,7 +123,7 @@ namespace ImageHuntTest.Controller
             // Arrange
             
             // Act
-            var response = _target.AssignGame(1, 4, true);
+            var response = Target.AssignGame(1, 4, true);
             // Assert
             Check.That(response).IsInstanceOf<OkObjectResult>();
             A.CallTo(() => _adminService.AssignGame(A<int>._, A<int>._, true)).MustHaveHappened();
@@ -134,7 +134,7 @@ namespace ImageHuntTest.Controller
             // Arrange
             
             // Act
-            var response = _target.AssignGame(1, 4, false);
+            var response = Target.AssignGame(1, 4, false);
             // Assert
             Check.That(response).IsInstanceOf<OkObjectResult>();
             A.CallTo(() => _adminService.AssignGame(A<int>._, A<int>._, false)).MustHaveHappened();

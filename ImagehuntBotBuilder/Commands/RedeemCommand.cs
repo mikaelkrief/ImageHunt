@@ -23,7 +23,7 @@ namespace ImageHuntBotBuilder.Commands
             _scope = scope;
         }
 
-        protected async override Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected async override Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             int gameId = 0;
             string pass;
@@ -36,30 +36,30 @@ namespace ImageHuntBotBuilder.Commands
                 pass = groups[0].Groups[2].Value;
                 var userName = turnContext.Activity.From.Name;
                 var passcodeResponse = await _passcodeWebService.RedeemPasscode(gameId, userName, pass);
-                string reply = "";
+                string reply = string.Empty;
                 switch (passcodeResponse.RedeemStatus)
                 {
                     case RedeemStatus.UserNotFound:
                         reply =
                             $"Vous ne pouvez pas utiliser cet passcode car vous ne faites pas partie de la chasse pour laquelle il est prevu";
-                        _logger.LogInformation("User {0} not in game {1}", userName, gameId);
+                        Logger.LogInformation("User {0} not in game {1}", userName, gameId);
                         break;
                     case RedeemStatus.Ok:
                         reply =
                             $"Le passcode {pass} a été bien été utilisé, il a rapporté {passcodeResponse.Points} points à votre équipe.";
-                        _logger.LogInformation("User {0} correctly redeem passcode for game {1}", userName, gameId);
+                        Logger.LogInformation("User {0} correctly redeem passcode for game {1}", userName, gameId);
                         break;
                     case RedeemStatus.WrongCode:
                         reply = $"Le passcode {pass} est inconnu";
-                        _logger.LogInformation("User {0} used wrong passcode", userName);
+                        Logger.LogInformation("User {0} used wrong passcode", userName);
                         break;
                     case RedeemStatus.FullyRedeem:
                         reply = $"Le passcode {pass} est épuisé, désolé!";
-                        _logger.LogInformation("User {0} used full redeem passcode", userName);
+                        Logger.LogInformation("User {0} used full redeem passcode", userName);
                         break;
                     case RedeemStatus.AlreadyRedeem:
                         reply = $"Le passcode {pass} a déjà été utilisé par votre équipe.";
-                        _logger.LogInformation("User {0} used already redeem passcode in game {1}", userName, gameId);
+                        Logger.LogInformation("User {0} used already redeem passcode in game {1}", userName, gameId);
 
                         break;
                 }
@@ -68,7 +68,7 @@ namespace ImageHuntBotBuilder.Commands
                     $"/broadcast teamId={passcodeResponse.TeamId} L'utilisation d'un passcode vous à rapporté {passcodeResponse.Points}!");
                 var broadcastCommand = _scope.Resolve<IBroadcastCommand>();
                 turnContext.Activity.Text = reply;
-                await broadcastCommand.Execute(turnContext, state);
+                await broadcastCommand.ExecuteAsync(turnContext, state);
             }
         }
     }

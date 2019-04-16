@@ -16,7 +16,7 @@ namespace ImageHuntBotBuilderTest
 
         public MultiConversationStateTest()
         {
-            _testContainerBuilder.RegisterInstance(_storage = A.Fake<IMultiStorage>());
+            TestContainerBuilder.RegisterInstance(_storage = A.Fake<IMultiStorage>());
             Build();
         }
 
@@ -43,7 +43,7 @@ namespace ImageHuntBotBuilderTest
             };
             A.CallTo(() => _storage.ReadAllAsync(A<CancellationToken>._)).Returns(orgStates);
             // Act
-            var states = await _target.GetAllAsync();
+            var states = await Target.GetAllAsync();
             // Assert
             A.CallTo(() => _storage.ReadAllAsync(A<CancellationToken>._)).MustHaveHappened();
 

@@ -28,9 +28,9 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public ExtractInviteLinkCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IExtractInviteLinkCommand>>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<ExtractInviteLinkCommand>>());
-            _testContainerBuilder.RegisterInstance(_teamWebService = A.Fake<ITeamWebService>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IExtractInviteLinkCommand>>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<ExtractInviteLinkCommand>>());
+            TestContainerBuilder.RegisterInstance(_teamWebService = A.Fake<ITeamWebService>());
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState();
 
@@ -43,7 +43,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
@@ -64,7 +64,7 @@ namespace ImageHuntBotBuilderTest.Commands
                 .Invokes(x =>
                     x.GetArgument<Activity[]>(0)[0].Attachments = new List<Attachment>() {new Attachment(contentUrl: "https://toto")});
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _turnContext.SendActivitiesAsync(A<Activity[]>._, A<CancellationToken>._))
                 .MustHaveHappened();

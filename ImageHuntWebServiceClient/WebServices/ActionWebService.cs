@@ -23,7 +23,7 @@ namespace ImageHuntWebServiceClient.WebServices
                 content.Add(new StringContent(logPositionRequest.TeamId.ToString()), "teamId");
                 content.Add(new StringContent(logPositionRequest.Latitude.ToString()), "latitude");
                 content.Add(new StringContent(logPositionRequest.Longitude.ToString()), "longitude");
-                var result = await PostAsync<string>($"{_httpClient.BaseAddress}api/Action/LogPosition/",
+                var result = await PostAsync<string>($"{HttpClient.BaseAddress}api/Action/LogPosition/",
                     content, cancellationToken);
             }
         }
@@ -41,8 +41,10 @@ namespace ImageHuntWebServiceClient.WebServices
                 content.Add(new StringContent(logActionRequest.Longitude.ToString()), "longitude");
                 content.Add(new StringContent(logActionRequest.PointsEarned.ToString()), "pointsEarned");
                 content.Add(new StringContent(logActionRequest.PictureId.ToString()), "pictureId");
+                if (!string.IsNullOrEmpty(logActionRequest.Answer))
+                    content.Add(new StringContent(logActionRequest.Answer), "answer");
 
-                var result = await PostAsync<GameActionResponse>($"{_httpClient.BaseAddress}api/Action/AddGameAction/",
+                var result = await PostAsync<GameActionResponse>($"{HttpClient.BaseAddress}api/Action/AddGameAction/",
                     content, cancellationToken);
                  return result;
             }

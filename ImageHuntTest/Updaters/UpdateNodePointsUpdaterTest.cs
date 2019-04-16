@@ -15,7 +15,7 @@ namespace ImageHuntTest.Updaters
 
         public UpdateNodePointsUpdaterTest()
         {
-            var container = _testContainerBuilder.Build();
+            var container = TestContainerBuilder.Build();
         }
 
         [Fact]
@@ -36,15 +36,15 @@ namespace ImageHuntTest.Updaters
                 new ObjectNode(),
                 new TimerNode()
             };
-            _context.Nodes.AddRange(nodes);
+            Context.Nodes.AddRange(nodes);
             var games = new List<Game> {new Game() {Nodes = nodes}};
-            _context.Games.AddRange(games);
-            _context.SaveChanges();
-            _target = new UpdateNodePointsUpdater(_context, games[0], @"--seedPattern=\d*_(?'seed'\d)\.jpg --nodeType=PictureNode --multiplier=10");
+            Context.Games.AddRange(games);
+            Context.SaveChanges();
+            _target = new UpdateNodePointsUpdater(Context, games[0], @"--seedPattern=\d*_(?'seed'\d)\.jpg --nodeType=PictureNode --multiplier=10");
             // Act
             _target.Execute();
             // Assert
-            Check.That(_context.Nodes.Extracting("Points")).ContainsExactly(10, 20, 30, 50, 40, 10, 20, 30, 50, 0, 0);
+            Check.That(Context.Nodes.Extracting("Points")).ContainsExactly(10, 20, 30, 50, 40, 10, 20, 30, 50, 0, 0);
         }
     }
 }

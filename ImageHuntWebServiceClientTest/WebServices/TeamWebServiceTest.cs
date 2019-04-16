@@ -21,7 +21,7 @@ namespace ImageHuntBotTest.WebServices
         public TeamWebServiceTest()
         {
             _logger = A.Fake<ILogger<ITeamWebService>>();
-            _target = new TeamWebService(_httpClient, _logger);
+            _target = new TeamWebService(HttpClient, _logger);
         }
         [Fact]
         public async Task GetTeamById()
@@ -46,7 +46,7 @@ namespace ImageHuntBotTest.WebServices
             // Act
             var result = await _target.StartGameForTeam(1, 2);
             // Assert
-            A.CallTo(_fakeHttpMessageHandler)
+            A.CallTo(FakeHttpMessageHandler)
                 .Where(x => x.Method.Name == "SendAsync")
                 .WithReturnType<Task<HttpResponseMessage>>()
                 .MustHaveHappened();

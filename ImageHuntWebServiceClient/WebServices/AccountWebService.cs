@@ -20,7 +20,7 @@ namespace ImageHuntWebServiceClient.WebServices
             var jsonString = JsonConvert.SerializeObject(loginRequest);
             using (var content = new StringContent(jsonString, Encoding.UTF8, "application/json"))
             {
-                var result = await PostAsync<LoginResponse>($"{_httpClient.BaseAddress}api/Account/Login/",
+                var result = await PostAsync<LoginResponse>($"{HttpClient.BaseAddress}api/Account/Login/",
                     content, cancellationToken);
                 return result;
             }

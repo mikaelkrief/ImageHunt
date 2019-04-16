@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
-    [Migration("20190225201943_Add_Index_On_Game_Code")]
-    partial class AddIndexOnGameCode
+    [Migration("20190416140051_AddAnswerColumnToGameAction")]
+    partial class AddAnswerColumnToGameAction
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("ImageHuntCore.Model.Admin", b =>
@@ -54,6 +54,8 @@ namespace ImageHunt.Migrations
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<bool>("IsPublic");
+
                     b.Property<double?>("MapCenterLat");
 
                     b.Property<double?>("MapCenterLng");
@@ -86,6 +88,8 @@ namespace ImageHunt.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("Action");
+
+                    b.Property<string>("Answer");
 
                     b.Property<int?>("CorrectAnswerId");
 
@@ -244,6 +248,8 @@ namespace ImageHunt.Migrations
 
                     b.Property<int?>("GameId");
 
+                    b.Property<int?>("ImageId");
+
                     b.Property<bool>("IsDeleted");
 
                     b.Property<double>("Latitude");
@@ -257,6 +263,8 @@ namespace ImageHunt.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("GameId");
+
+                    b.HasIndex("ImageId");
 
                     b.ToTable("Nodes");
 
@@ -309,6 +317,8 @@ namespace ImageHunt.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CloudUrl");
 
                     b.Property<byte[]>("Image");
 
@@ -582,10 +592,6 @@ namespace ImageHunt.Migrations
                 {
                     b.HasBaseType("ImageHuntCore.Model.Node.Node");
 
-                    b.Property<int?>("ImageId");
-
-                    b.HasIndex("ImageId");
-
                     b.HasDiscriminator().HasValue("PictureNode");
                 });
 
@@ -594,6 +600,8 @@ namespace ImageHunt.Migrations
                     b.HasBaseType("ImageHuntCore.Model.Node.Node");
 
                     b.Property<string>("Answer");
+
+                    b.Property<bool>("CanOverride");
 
                     b.Property<string>("Question");
 
@@ -683,6 +691,10 @@ namespace ImageHunt.Migrations
                     b.HasOne("ImageHuntCore.Model.Game")
                         .WithMany("Nodes")
                         .HasForeignKey("GameId");
+
+                    b.HasOne("ImageHuntCore.Model.Picture", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
                 });
 
             modelBuilder.Entity("ImageHuntCore.Model.Node.ParentChildren", b =>
@@ -800,13 +812,6 @@ namespace ImageHunt.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ImageHuntCore.Model.Node.PictureNode", b =>
-                {
-                    b.HasOne("ImageHuntCore.Model.Picture", "Image")
-                        .WithMany()
-                        .HasForeignKey("ImageId");
                 });
 #pragma warning restore 612, 618
         }

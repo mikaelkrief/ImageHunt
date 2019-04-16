@@ -27,9 +27,9 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public GiveCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IGiveCommand>>());
-            _testContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<GiveCommand>>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IGiveCommand>>());
+            TestContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<GiveCommand>>());
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState();
             Build();
@@ -45,7 +45,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.TeamId = 15;
             _state.Status = Status.Started;
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
                 .MustHaveHappened();
@@ -63,7 +63,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.TeamId = 15;
             _state.Status = Status.Started;
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
                 .MustNotHaveHappened();
@@ -81,7 +81,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.TeamId = 15;
             _state.Status = Status.None;
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
                 .MustNotHaveHappened();

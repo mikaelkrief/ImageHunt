@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ImageHunt.Migrations
 {
-    public partial class Add_Index_On_Game_Code : Migration
+    public partial class AddIndexOnGameCode : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

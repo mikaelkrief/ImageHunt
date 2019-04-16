@@ -10,7 +10,7 @@ namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
     [Migration("20180904053047_GameAction_Geocoordinates_can_be_null")]
-    partial class GameAction_Geocoordinates_can_be_null
+    partial class GameActionGeocoordinatesCanBeNull
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

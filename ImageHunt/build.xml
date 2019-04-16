@@ -20,6 +20,7 @@
         <replacefilter token="CLOUD_STORAGE_NAME" value="${CLOUD_STORAGE_NAME}"/>
         <replacefilter token="CLOUD_STORAGE_KEY" value="${CLOUD_STORAGE_KEY}"/>
         <replacefilter token="CLOUD_CONTAINER" value="${CLOUD_CONTAINER}"/>
+        <replacefilter token="IMAGEHUNT_API_URL" value="${API_URL}"/>
     </replace>
     <move file="${INFILE}" toFile="${TOFILE}"></move>
   </target>

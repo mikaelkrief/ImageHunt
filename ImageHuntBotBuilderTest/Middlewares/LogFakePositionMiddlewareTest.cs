@@ -22,14 +22,14 @@ namespace ImageHuntBotBuilderTest.Middlewares
 
         public LogFakePositionMiddlewareTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<LogFakePositionMiddleware>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<LogFakePositionMiddleware>());
             _statePropertyAccessor = A.Fake<IStatePropertyAccessor<ImageHuntState>>();
 
             _storage = A.Fake<IStorage>();
             _conversationState = new ConversationState(_storage);
             _accessor = new ImageHuntBotAccessors(_conversationState);
             _accessor.ImageHuntState = _statePropertyAccessor;
-            _testContainerBuilder.RegisterInstance(_accessor);
+            TestContainerBuilder.RegisterInstance(_accessor);
 
             _turnContext = A.Fake<ITurnContext>();
             _nextDelegate = A.Fake<NextDelegate>();
@@ -44,7 +44,7 @@ namespace ImageHuntBotBuilderTest.Middlewares
 
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             // Act
-            await _target.OnTurnAsync(_turnContext, _nextDelegate);
+            await Target.OnTurnAsync(_turnContext, _nextDelegate);
             // Assert
         }
     }

@@ -33,7 +33,7 @@ namespace ImageHuntCore.Computation
              Math.Cos(point.Item1) * Math.Sin(point.Item2),
              Math.Sin(point.Item1)));
         }
-        var average = cartesianPoints.Aggregate((A, B) => (A.Item1 + B.Item1, A.Item2 + B.Item2, A.Item3 + B.Item3));
+        var average = cartesianPoints.Aggregate((a, b) => (a.Item1 + b.Item1, a.Item2 + b.Item2, a.Item3 + b.Item3));
         average.Item1 /= cartesianPoints.Count;
         average.Item2 /= cartesianPoints.Count;
         average.Item3 /= cartesianPoints.Count;

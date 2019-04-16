@@ -19,7 +19,7 @@ namespace ImageHuntTest.Services
       public AuthServiceTest()
       {
         _logger = A.Fake<ILogger<AuthService>>();
-            _target = new AuthService(_context, _logger);
+            _target = new AuthService(Context, _logger);
         }
 
         [Fact]
@@ -27,8 +27,8 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var admins = new List<Admin>() {new Admin(){Email = "toto@titi.com"},new Admin(){Email = "tato@titi.com"},};
-            _context.Admins.AddRange(admins);
-            _context.SaveChanges();
+            Context.Admins.AddRange(admins);
+            Context.SaveChanges();
             // Act
             _target.RefreshToken("tato@titi.com", "token", DateTime.Now.AddHours(1));
             // Assert

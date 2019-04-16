@@ -2,13 +2,13 @@
 {
     public class BonusNode : Node
     {
-        public enum BONUS_TYPE
+        public enum BONUSTYPE
         {
-            Points_x2,
-            Points_x3,
+            PointsX2,
+            PointsX3,
         }
 
         public string Location { get; set; }
-        public BONUS_TYPE BonusType { get; set; }
+        public BONUSTYPE BonusType { get; set; }
     }
 }

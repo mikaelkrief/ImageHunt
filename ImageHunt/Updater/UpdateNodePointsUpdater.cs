@@ -17,14 +17,14 @@ namespace ImageHunt.Updater
 
     public override void Execute()
     {
-      var nodeType = _arguments["nodeType"];
-      _context.Attach(_game);
+      var nodeType = Arguments["nodeType"];
+      Context.Attach(Game);
       switch (nodeType)
       {
         case NodeResponse.PictureNodeType:
-          var regex = new Regex(_arguments["seedPattern"]);
-          var nodes = _game.Nodes.Where(n => n.NodeType == nodeType);
-          var multiplier = Convert.ToInt32(_arguments["multiplier"]);
+          var regex = new Regex(Arguments["seedPattern"]);
+          var nodes = Game.Nodes.Where(n => n.NodeType == nodeType);
+          var multiplier = Convert.ToInt32(Arguments["multiplier"]);
           foreach (var node in nodes)
           {
             if (regex.IsMatch(node.Name))
@@ -34,7 +34,7 @@ namespace ImageHunt.Updater
             }
           }
 
-          _context.SaveChanges();
+          Context.SaveChanges();
           break;
       }
     }

@@ -15,7 +15,8 @@ namespace ImageHuntBotBuilder.Middlewares
         private readonly ImageHuntBotAccessors _accessors;
         private readonly IActionWebService _actionWebService;
 
-        public LogPositionMiddleware(ILogger<LogPositionMiddleware> logger,
+        public LogPositionMiddleware(
+            ILogger<LogPositionMiddleware> logger,
             ImageHuntBotAccessors accessors,
             IActionWebService actionWebService)
         {
@@ -24,7 +25,9 @@ namespace ImageHuntBotBuilder.Middlewares
             _actionWebService = actionWebService;
         }
 
-        public async Task OnTurnAsync(ITurnContext turnContext, NextDelegate next,
+        public async Task OnTurnAsync(
+            ITurnContext turnContext, 
+            NextDelegate next,
             CancellationToken cancellationToken = new CancellationToken())
         {
             if (turnContext.Activity.Type == ImageHuntActivityTypes.Location)

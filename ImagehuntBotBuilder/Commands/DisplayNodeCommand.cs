@@ -21,20 +21,20 @@ namespace ImageHuntBotBuilder.Commands
             _nodeWebService = nodeWebService;
         }
 
-        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             if (state.Status != Status.Started)
             {
-                _logger.LogInformation("Game not initialized");
-                await turnContext.SendActivityAsync(_localizer["GAME_NOT_STARTED"]);
+                Logger.LogInformation("Game not initialized");
+                await turnContext.SendActivityAsync(Localizer["GAME_NOT_STARTED"]);
                 return;
             }
 
 
             if (!state.CurrentNodeId.HasValue)
             {
-                _logger.LogInformation("No current node");
-                await turnContext.SendActivityAsync(_localizer["NO_CURRENT_NODE"]);
+                Logger.LogInformation("No current node");
+                await turnContext.SendActivityAsync(Localizer["NO_CURRENT_NODE"]);
                 return;
             }
 
@@ -42,12 +42,12 @@ namespace ImageHuntBotBuilder.Commands
             var activity = new Activity()
             {
                 Type = ImageHuntActivityTypes.Location,
-                Text = _localizer["NEXT_NODE_POSITION", node.Name],
+                Text = Localizer["NEXT_NODE_POSITION", node.Name],
                 Attachments = new List<Attachment>() { new Attachment()
                 {
                     Content = new GeoCoordinates(latitude:node.Latitude, longitude:node.Longitude),
                     ContentType = ImageHuntActivityTypes.Location
-                } }
+                } },
             };
             await turnContext.SendActivityAsync(activity);
         }

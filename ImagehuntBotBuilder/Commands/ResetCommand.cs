@@ -15,7 +15,7 @@ namespace ImageHuntBotBuilder.Commands
         {
         }
 
-        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             state.GameId = null;
             state.TeamId = null;

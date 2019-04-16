@@ -15,14 +15,15 @@ namespace ImageHuntBotBuilder.Commands
     {
         private readonly ImageHuntBotAccessors _accessors;
 
-        public DeleteStateCommand(ILogger<IDeleteStateCommand> logger, 
+        public DeleteStateCommand(
+            ILogger<IDeleteStateCommand> logger, 
             IStringLocalizer<DeleteStateCommand> localizer,
             ImageHuntBotAccessors accessors) : base(logger, localizer)
         {
             _accessors = accessors;
         }
 
-        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             var regex = new Regex(@"\/delState \s*(gameid\=(?'gameid'\d*)|teamid\=(?'teamid'\d*))");
             if (regex.IsMatch(turnContext.Activity.Text))

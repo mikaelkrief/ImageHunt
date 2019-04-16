@@ -6,6 +6,6 @@ namespace ImageHuntBotBuilder.Commands.Interfaces
     public interface ICommand
     {
         bool IsAdmin { get; }
-        Task Execute(ITurnContext turnContext, ImageHuntState state);
+        Task ExecuteAsync(ITurnContext turnContext, ImageHuntState state);
     }
 }

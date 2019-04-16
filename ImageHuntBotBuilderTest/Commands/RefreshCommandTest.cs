@@ -28,9 +28,9 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public RefreshCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IRefreshCommand>>());
-            _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<RefreshCommand>>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IRefreshCommand>>());
+            TestContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<RefreshCommand>>());
 
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState();
@@ -48,7 +48,7 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(() => _nodeWebService.GetNodesByType(NodeTypes.Hidden, A<int>._)).Returns(hiddenNodes);
             A.CallTo(() => _nodeWebService.GetNodesByType(NodeTypes.Action, A<int>._)).Returns(actionNodes);
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             Check.That(_state.HiddenNodes).Contains(hiddenNodes);
             Check.That(_state.ActionNodes).Contains(actionNodes);
@@ -63,7 +63,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
 
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))

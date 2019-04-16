@@ -17,7 +17,7 @@ namespace ImageHuntWebServiceClientTest.WebServices
         public ImageWebServiceTest()
         {
             _logger = A.Fake<ILogger<IImageWebService>>();
-            _target = new ImageWebService(_httpClient, _logger);
+            _target = new ImageWebService(HttpClient, _logger);
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace ImageHuntWebServiceClientTest.WebServices
                 // Act
                 var result = await _target.UploadImage(memStream);
                 // Assert
-                A.CallTo(_fakeHttpMessageHandler)
+                A.CallTo(FakeHttpMessageHandler)
                     .Where(x => x.Method.Name == "SendAsync")
                     .WithReturnType<Task<HttpResponseMessage>>()
                     .MustHaveHappened();

@@ -5,7 +5,7 @@ namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
 
-  public partial class GameAction_Geocoordinates_can_be_null : Migration
+  public partial class GameActionGeocoordinatesCanBeNull : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

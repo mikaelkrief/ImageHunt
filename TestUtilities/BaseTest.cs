@@ -7,11 +7,11 @@ namespace TestUtilities
 {
     public class BaseTest
     {
-      protected ContainerBuilder _testContainerBuilder;
-      protected IContainer _container;
+      protected ContainerBuilder TestContainerBuilder;
+      protected IContainer Container;
       public BaseTest()
       {
-        _testContainerBuilder = new ContainerBuilder();
+        TestContainerBuilder = new ContainerBuilder();
       }
     protected byte[] GetImageFromResource(Assembly assembly, string resourceName)
         {
@@ -49,16 +49,16 @@ namespace TestUtilities
 
     public class BaseTest<T> : BaseTest where T : class
     {
-        protected T _target;
+        protected T Target;
         public BaseTest() : base()
         {
-            _testContainerBuilder.RegisterType<T>();
+            TestContainerBuilder.RegisterType<T>();
         }
 
         public void Build()
         {
-            _container = _testContainerBuilder.Build();
-            _target = _container.Resolve<T>();
+            Container = TestContainerBuilder.Build();
+            Target = Container.Resolve<T>();
         }
     }
 }

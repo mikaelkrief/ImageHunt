@@ -11,6 +11,7 @@ using ImageHuntBotBuilder.Commands.Interfaces;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -40,22 +41,23 @@ namespace ImageHuntBotBuilderTest
         {
             Startup.ConfigureMappings();
             _logger = A.Fake<ILogger<ImageHuntBotBuilder.ImageHuntBot>>();
-            _testContainerBuilder.RegisterInstance(_logger);
+            TestContainerBuilder.RegisterInstance(_logger);
             _turnContext = A.Fake<ITurnContext>();
             _actionWebService = A.Fake<IActionWebService>();
             _teamWebService = A.Fake<ITeamWebService>();
-            _testContainerBuilder.RegisterInstance(_actionWebService);
-            _testContainerBuilder.RegisterInstance(_teamWebService);
-            _testContainerBuilder.RegisterInstance(_nodevisitorHandler = A.Fake<INodeVisitorHandler>());
+            TestContainerBuilder.RegisterInstance(_actionWebService);
+            TestContainerBuilder.RegisterInstance(_teamWebService);
+            TestContainerBuilder.RegisterInstance(_nodevisitorHandler = A.Fake<INodeVisitorHandler>());
             _statePropertyAccessor = A.Fake<IStatePropertyAccessor<ImageHuntState>>();
             _storage = A.Fake<IStorage>();
             _conversationState = new ConversationState(_storage);
             _accessor = new ImageHuntBotAccessors(_conversationState);
             _accessor.ImageHuntState = _statePropertyAccessor;
-            _testContainerBuilder.RegisterInstance(_accessor);
+            _accessor.ConversationDialogState = A.Fake<IStatePropertyAccessor<DialogState>>();
+            TestContainerBuilder.RegisterInstance(_accessor);
             _commandRepository = A.Fake<ICommandRepository>();
-            _testContainerBuilder.RegisterInstance(_commandRepository);
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<ImageHuntBot>>());
+            TestContainerBuilder.RegisterInstance(_commandRepository);
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<ImageHuntBot>>());
             _activity = new Activity() {Conversation = new ConversationAccount(){Id = "toto|livechat"}};
             _state = new ImageHuntState();
             Build();
@@ -86,7 +88,7 @@ namespace ImageHuntBotBuilderTest
             _activity.Attachments = attachments;
             A.CallTo(() => _turnContext.Activity).Returns(_activity);
             // Act
-            await _target.OnTurnAsync(_turnContext);
+            await Target.OnTurnAsync(_turnContext);
             // Assert
             A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._))
                 .MustNotHaveHappened();
@@ -116,7 +118,7 @@ namespace ImageHuntBotBuilderTest
             _activity.Attachments = attachments;
             A.CallTo(() => _turnContext.Activity).Returns(_activity);
             // Act
-            await _target.OnTurnAsync(_turnContext);
+            await Target.OnTurnAsync(_turnContext);
             // Assert
             A.CallTo(() => _actionWebService.LogPosition(A<LogPositionRequest>._, A<CancellationToken>._))
                 .MustNotHaveHappened();
@@ -149,7 +151,7 @@ namespace ImageHuntBotBuilderTest
 
             A.CallTo(() => _turnContext.Activity).Returns(_activity);
             // Act
-            await _target.OnTurnAsync(_turnContext);
+            await Target.OnTurnAsync(_turnContext);
             // Assert
             A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._)).MustHaveHappened();
         }
@@ -181,7 +183,7 @@ namespace ImageHuntBotBuilderTest
 
             A.CallTo(() => _turnContext.Activity).Returns(_activity);
             // Act
-            await _target.OnTurnAsync(_turnContext);
+            await Target.OnTurnAsync(_turnContext);
             // Assert
             A.CallTo(() => _teamWebService.UploadImage(A<UploadImageRequest>._)).MustNotHaveHappened();
             A.CallTo(
@@ -202,10 +204,10 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).Returns(command);
 
             // Act
-            await _target.OnTurnAsync(_turnContext);
+            await Target.OnTurnAsync(_turnContext);
             // Assert
             A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).MustHaveHappened();
-            A.CallTo(() => command.Execute(_turnContext, A<ImageHuntState>._)).MustHaveHappened();
+            A.CallTo(() => command.ExecuteAsync(_turnContext, A<ImageHuntState>._)).MustHaveHappened();
         }
         [Fact]
         public async Task Should_Bot_Not_execute_command_if_user_not_authorized()
@@ -219,7 +221,7 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _commandRepository.Get(A<ITurnContext>._, A<ImageHuntState>._, A<string>._)).Throws(new NotAuthorizedException("User not authorized"));
 
             // Act
-            await _target.OnTurnAsync(_turnContext);
+            await Target.OnTurnAsync(_turnContext);
             // Assert
             A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).MustHaveHappened();
         }
@@ -235,7 +237,7 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _commandRepository.Get(A<ITurnContext>._, A<ImageHuntState>._, A<string>._)).Throws(new CommandNotFound("toto"));
 
             // Act
-            await _target.OnTurnAsync(_turnContext);
+            await Target.OnTurnAsync(_turnContext);
             // Assert
             A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).MustHaveHappened();
             A.CallTo(
@@ -270,7 +272,7 @@ namespace ImageHuntBotBuilderTest
 
             A.CallTo(() => _turnContext.Activity).Returns(_activity);
             // Act
-            await _target.OnTurnAsync(_turnContext);
+            await Target.OnTurnAsync(_turnContext);
             // Assert
             A.CallTo(
                     () => _nodevisitorHandler.MatchLocationAsync(A<ITurnContext>._, A<ImageHuntState>._))

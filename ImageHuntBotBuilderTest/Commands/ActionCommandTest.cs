@@ -25,9 +25,9 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public ActionCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IActionCommand>>());
-            _testContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<ActionCommand>>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IActionCommand>>());
+            TestContainerBuilder.RegisterInstance(_nodeWebService = A.Fake<INodeWebService>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<ActionCommand>>());
 
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState() {Status = Status.Started};
@@ -41,7 +41,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.Status = Status.Initialized;
             _state.GameId = 1;
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
@@ -56,7 +56,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _state.GameId = 1;
             _state.ActionNodes = new NodeResponse[] {new NodeResponse(), new NodeResponse(),};
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))

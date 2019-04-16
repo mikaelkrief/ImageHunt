@@ -87,6 +87,8 @@ namespace ImageHunt.Migrations
 
                     b.Property<int>("Action");
 
+                    b.Property<string>("Answer");
+
                     b.Property<int?>("CorrectAnswerId");
 
                     b.Property<DateTime>("DateOccured");

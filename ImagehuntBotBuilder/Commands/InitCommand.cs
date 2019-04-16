@@ -29,12 +29,12 @@ namespace ImageHuntBotBuilder.Commands
 
         public override bool IsAdmin => true;
 
-        protected override async Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected override async Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             if (state.Status != Status.None || state.GameId.HasValue || state.TeamId.HasValue)
             {
-                await turnContext.SendActivityAsync(_localizer["GROUP_ALREADY_INITIALIZED"]);
-                _logger.LogWarning("Group already initialized");
+                await turnContext.SendActivityAsync(Localizer["GROUP_ALREADY_INITIALIZED"]);
+                Logger.LogWarning("Group already initialized");
                 return;
             }
 
@@ -45,14 +45,14 @@ namespace ImageHuntBotBuilder.Commands
                 var groups = regEx.Matches(text);
                 state.GameId = Convert.ToInt32(groups[0].Groups[1].Value);
                 state.TeamId = Convert.ToInt32(groups[0].Groups[2].Value);
-                _logger.LogInformation("Init group for GameId={0} TeamId={1}", state.GameId, state.TeamId);
+                Logger.LogInformation("Init group for GameId={0} TeamId={1}", state.GameId, state.TeamId);
                 state.Game = await _gameWebService.GetGameById(state.GameId.Value) as GameResponse;
                 state.Team = await _teamWebService.GetTeamById(state.TeamId.Value);
                 if (state.Game == null || state.Team == null)
                 {
-                    _logger.LogError("Unable to find Game and/or Team");
+                    Logger.LogError("Unable to find Game and/or Team");
 
-                    var unableToFindGame = string.Format(_localizer["UNABLE_FIND_GAME"], state.GameId??0, state.TeamId??0);
+                    var unableToFindGame = string.Format(Localizer["UNABLE_FIND_GAME"], state.GameId??0, state.TeamId??0);
                     await turnContext.SendActivityAsync(unableToFindGame);
                     state.GameId = state.TeamId = null;
                     return;
@@ -64,10 +64,11 @@ namespace ImageHuntBotBuilder.Commands
                 state.ActionNodes = new List<NodeResponse>(nodeResponses).ToArray();
                 state.Status = Status.Initialized;
                 string confirmMessage =
-                    string.Format(_localizer["GROUP_INITIALIZED"],
+                    string.Format(
+                        Localizer["GROUP_INITIALIZED"],
                         state.Team.Name, state.Game.Name, state.Game.StartDate.ToString(new CultureInfo(state.Team.CultureInfo)));
                 await turnContext.SendActivityAsync(confirmMessage);
-                _logger.LogInformation("Group initialized");
+                Logger.LogInformation("Group initialized");
             }
         }
     }

@@ -36,10 +36,14 @@ export class GameActionListComponent implements OnInit {
     this.gameService.getPictureSubmissionsToValidateForGame(this.gameId, (event.first / event.rows) + 1,
         event.rows, this.nbExpectedImageDisplayed, this.teamId),
       this.gameService.getHiddenActionToValidateForGame(this.gameId, (event.first / event.rows) + 1,
-        event.rows, this.nbExpectedImageDisplayed, this.teamId)])
+        event.rows, this.nbExpectedImageDisplayed, this.teamId),
+      this.gameService.getQuestionAnswerToValidateForGame(this.gameId, (event.first / event.rows) + 1,
+        event.rows, this.nbExpectedImageDisplayed, this.teamId)
+        ])
       .subscribe(responses => {
         this.gameActions = <GameAction[]>responses[0];
         this.gameActions = this.gameActions.concat(<GameAction[]>responses[1]);
+        this.gameActions = this.gameActions.concat(<GameAction[]>responses[2]);
         this.computeDeltas();
         this.loading = false;
       });
@@ -123,10 +127,12 @@ export class GameActionListComponent implements OnInit {
 
   computeDeltas() {
     this.gameActions.map(ga => {
-      ga.delta = this.getDistanceFromLatLon(ga.latitude,
-        ga.longitude,
-        ga.probableNodes[0].latitude,
-        ga.probableNodes[0].longitude);
+      if (ga.probableNodes[0]) {
+        ga.delta = this.getDistanceFromLatLon(ga.latitude,
+          ga.longitude,
+          ga.probableNodes[0].latitude,
+          ga.probableNodes[0].longitude);
+      }
     });
   }
   modifyPoints(action: GameAction) {

@@ -22,8 +22,8 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public UploadTeamAvatarCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IUploadTeamAvatarCommand>>());
-            _testContainerBuilder.RegisterInstance(_teamWebService = A.Fake<ITeamWebService>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<IUploadTeamAvatarCommand>>());
+            TestContainerBuilder.RegisterInstance(_teamWebService = A.Fake<ITeamWebService>());
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState() { Status = Status.Started };
 
@@ -36,7 +36,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
         }
     }
@@ -50,7 +50,7 @@ namespace ImageHuntBotBuilderTest.Commands
             _teamWebService = teamWebService;
         }
 
-        protected override Task InternalExecute(ITurnContext turnContext, ImageHuntState state)
+        protected override Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             throw new NotImplementedException();
         }

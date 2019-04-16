@@ -20,7 +20,9 @@ namespace ImageHuntBotBuilder.Commands
         private IEnumerable<AdminResponse> _admins;
         private DateTime? _refreshTime;
 
-        public CommandRepository(ILogger<ICommandRepository> logger, IAdminWebService adminWebService,
+        public CommandRepository(
+            ILogger<ICommandRepository> logger, 
+            IAdminWebService adminWebService,
             ILifetimeScope scope)
         {
             _logger = logger;
@@ -28,7 +30,7 @@ namespace ImageHuntBotBuilder.Commands
             _scope = scope;
         }
 
-        public async Task RefreshAdmins()
+        public async Task RefreshAdminsAsync()
         {
             var span = DateTime.Now - (_refreshTime ?? DateTime.Now);
             if (span > TimeSpan.FromMinutes(5) || _admins == null)

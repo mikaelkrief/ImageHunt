@@ -10,7 +10,7 @@ namespace ImageHunt.Migrations
 {
     [DbContext(typeof(HuntContext))]
     [Migration("20190213122455_Add_AppId_In_Identity")]
-    partial class Add_AppId_In_Identity
+    partial class AddAppIdInIdentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

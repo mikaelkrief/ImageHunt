@@ -41,16 +41,16 @@ namespace ImageHuntTest.Controller
 
         public ActionControllerTest()
         {
-            _testContainerBuilder.RegisterInstance(_gameService = A.Fake<IGameService>());
-            _testContainerBuilder.RegisterInstance(_playerService = A.Fake<IPlayerService>());
-            _testContainerBuilder.RegisterInstance(_teamService = A.Fake<ITeamService>());
-            _testContainerBuilder.RegisterInstance(_imageService = A.Fake<IImageService>());
-            _testContainerBuilder.RegisterInstance(_actionService = A.Fake<IActionService>());
-            _testContainerBuilder.RegisterInstance(_nodeService = A.Fake<INodeService>());
-            _testContainerBuilder.RegisterInstance(_hubContext = A.Fake<IHubContext<LocationHub>>());
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<ActionController>>());
-            _testContainerBuilder.RegisterInstance(_userManager = A.Fake<UserManager<Identity>>());
-            _testContainerBuilder.RegisterInstance(_mapper = Mapper.Instance);
+            TestContainerBuilder.RegisterInstance(_gameService = A.Fake<IGameService>());
+            TestContainerBuilder.RegisterInstance(_playerService = A.Fake<IPlayerService>());
+            TestContainerBuilder.RegisterInstance(_teamService = A.Fake<ITeamService>());
+            TestContainerBuilder.RegisterInstance(_imageService = A.Fake<IImageService>());
+            TestContainerBuilder.RegisterInstance(_actionService = A.Fake<IActionService>());
+            TestContainerBuilder.RegisterInstance(_nodeService = A.Fake<INodeService>());
+            TestContainerBuilder.RegisterInstance(_hubContext = A.Fake<IHubContext<LocationHub>>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<ActionController>>());
+            TestContainerBuilder.RegisterInstance(_userManager = A.Fake<UserManager<Identity>>());
+            TestContainerBuilder.RegisterInstance(_mapper = Mapper.Instance);
             Build();
         }
 
@@ -68,7 +68,7 @@ namespace ImageHuntTest.Controller
                 PointsEarned = 2
             };
             // Act
-            await _target.AddGameAction(gameActionRequest);
+            await Target.AddGameAction(gameActionRequest);
             // Assert
             A.CallTo(() => _teamService.SetBonus(A<int>._, A<int>._)).MustHaveHappened();
         }
@@ -87,7 +87,7 @@ namespace ImageHuntTest.Controller
 
             };
             // Act
-            var result = await _target.AddGameAction(gameActionRequest);
+            var result = await Target.AddGameAction(gameActionRequest);
             // Assert
             Check.That(result).IsInstanceOf<CreatedAtActionResult>();
             A.CallTo(() => _imageService.AddPicture(A<Picture>.That.Matches(p => CheckPicture(p)))).MustHaveHappened();
@@ -126,7 +126,7 @@ namespace ImageHuntTest.Controller
 
             };
             // Act
-            var result = await _target.AddGameAction(gameActionRequest);
+            var result = await Target.AddGameAction(gameActionRequest);
             // Assert
             Check.That(result).IsInstanceOf<CreatedAtActionResult>();
             A.CallTo(() => _actionService.AddGameAction(A<GameAction>.That.Matches(ga => CheckGameActionForAction(ga, Action.StartGame, gameActionRequest.Latitude.Value, gameActionRequest.Longitude.Value))))
@@ -160,7 +160,7 @@ namespace ImageHuntTest.Controller
                     ga.Action = (Action) gameActionRequest.Action;
                 });
             // Act
-            var result = await _target.AddGameAction(gameActionRequest);
+            var result = await Target.AddGameAction(gameActionRequest);
             // Assert
             Check.That(result).IsInstanceOf<CreatedAtActionResult>();
             A.CallTo(() => _actionService.AddGameAction(A<GameAction>
@@ -214,7 +214,7 @@ namespace ImageHuntTest.Controller
             };
             A.CallTo(() => _nodeService.GetNode(A<int>._)).Returns(questionNode);
             // Act
-            var result = _target.AddGameAction(gameActionRequest);
+            var result = Target.AddGameAction(gameActionRequest);
             // Assert
             A.CallTo(() => _nodeService.GetAnswer(A<int>._)).MustHaveHappened();
             A.CallTo(() => _nodeService.GetNode(gameActionRequest.NodeId)).MustHaveHappened();
@@ -235,10 +235,10 @@ namespace ImageHuntTest.Controller
             // Arrange
             var identities = new List<Identity> {new Identity(){Id="15", AppUserId = 15}};
             A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
-            _target.ControllerContext = new ControllerContext() { HttpContext = new DefaultHttpContext() };
-            _target.User.AddIdentity(new ClaimsIdentity(new[] { new Claim(new ClaimsIdentityOptions().UserIdClaimType, "15"), }));
+            Target.ControllerContext = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            Target.User.AddIdentity(new ClaimsIdentity(new[] { new Claim(new ClaimsIdentityOptions().UserIdClaimType, "15"), }));
             // Act
-            var result = _target.Validate(1, 1);
+            var result = Target.Validate(1, 1);
 
             // Assert
             Check.That(result).IsInstanceOf<OkObjectResult>();
@@ -251,10 +251,10 @@ namespace ImageHuntTest.Controller
             var identities = new List<Identity> { new Identity() { Id = "15", AppUserId = 15 } };
             A.CallTo(() => _userManager.Users).Returns(identities.AsQueryable());
 
-            _target.ControllerContext = new ControllerContext() { HttpContext = new DefaultHttpContext() };
-            _target.User.AddIdentity(new ClaimsIdentity(new[] { new Claim(new ClaimsIdentityOptions().UserIdClaimType, "15"), }));
+            Target.ControllerContext = new ControllerContext() { HttpContext = new DefaultHttpContext() };
+            Target.User.AddIdentity(new ClaimsIdentity(new[] { new Claim(new ClaimsIdentityOptions().UserIdClaimType, "15"), }));
             // Act
-            var result = _target.Reject(1);
+            var result = Target.Reject(1);
 
             // Assert
             Check.That(result).IsInstanceOf<OkResult>();
@@ -277,7 +277,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _teamService.GetTeamById(logPositionRequest.TeamId))
                 .Returns(new Team() {Id = logPositionRequest.TeamId});
             // Act
-            var result = await _target.LogPosition(logPositionRequest);
+            var result = await Target.LogPosition(logPositionRequest);
             // Assert
             A.CallTo(() => _gameService.GetGameById(logPositionRequest.GameId)).MustHaveHappened();
             A.CallTo(() => _teamService.GetTeamById(logPositionRequest.TeamId))
@@ -304,7 +304,7 @@ namespace ImageHuntTest.Controller
             // Arrange
             
             // Act
-            var result = _target.GetGameActionsForGame(1);
+            var result = Target.GetGameActionsForGame(1);
             // Assert
             Check.That(result).IsInstanceOf<OkObjectResult>();
             A.CallTo(() => _actionService.GetGamePositionsForGame(A<int>._));
@@ -315,7 +315,7 @@ namespace ImageHuntTest.Controller
             // Arrange
 
             // Act
-            var result = _target.GetGameAction(1) as OkObjectResult;
+            var result = Target.GetGameAction(1) as OkObjectResult;
             // Assert
             A.CallTo(() => _actionService.GetGameAction(1)).MustHaveHappened();
         }
@@ -326,7 +326,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _actionService.GetGameActionCountForGame(A<int>._, A<IncludeAction>._, A<int?>._)).Returns(12);
             var request = new GameActionCountRequest() { GameId = 1, IncludeAction = "All" };
             // Act
-            var result = _target.GetGameActionCountForGame(request) as OkObjectResult;
+            var result = Target.GetGameActionCountForGame(request) as OkObjectResult;
             // Assert
             Check.That(result.Value).Equals(12);
         }
@@ -337,7 +337,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _actionService.GetGameActionCountForGame(A<int>._, A<IncludeAction>._, A<int?>._)).Returns(12);
             var request = new GameActionCountRequest() { GameId = 1, TeamId = 1, IncludeAction = "All" };
             // Act
-            var result = _target.GetGameActionCountForGame(request) as OkObjectResult;
+            var result = Target.GetGameActionCountForGame(request) as OkObjectResult;
             // Assert
             Check.That(result.Value).Equals(12);
             A.CallTo(() => _actionService.GetGameActionCountForGame(request.GameId, IncludeAction.All, 1))
@@ -356,18 +356,19 @@ namespace ImageHuntTest.Controller
                 new PictureNode() {Id = 2, Latitude = 40.05, Longitude = 5.04 } ,
                 new PictureNode() {Id = 2, Latitude = 40.00005, Longitude = 5.00004 } ,
             };
+            var teams = new List<Team> {new Team()};
             //A.CallTo(() => _nodeService.GetNode())
             var gameActions = new List<GameAction>
           {
-              new GameAction() {Latitude = 40, Longitude = 5},
-              new GameAction() {Latitude = 50, Longitude = 5},
+              new GameAction() {Latitude = 40, Longitude = 5, Team = teams[0]},
+              new GameAction() {Latitude = 50, Longitude = 5, Team = teams[0]},
           };
             A.CallTo(() => _actionService.GetGameActionsForGame(A<int>._, A<int>._, A<int>._, A<IncludeAction>._, A<int?>._))
                 .Returns(Task.FromResult(new PaginatedList<GameAction>(gameActions, 2, 1, 10)));
             A.CallTo(() => _nodeService.GetGameNodesOrderByPosition(1, 40, 5, A<NodeTypes>._)).Returns(nodes);
             var gameActionListRequest = new GameActionListRequest() { GameId = 1, PageIndex = 1, PageSize = 1, NbPotential = 3 };
             // Act
-            var result = await _target.GetGameActionsToValidate(gameActionListRequest) as OkObjectResult;
+            var result = await Target.GetGameActionsToValidate(gameActionListRequest) as OkObjectResult;
             // Assert
             Check.That(result.Value).IsInstanceOf<List<GameActionToValidate>>();
             var gameActionToValidate = result.Value as List<GameActionToValidate>;
@@ -389,18 +390,20 @@ namespace ImageHuntTest.Controller
                 new PictureNode() {Id = 2, Latitude = 40.05, Longitude = 5.04 } ,
                 new PictureNode() {Id = 2, Latitude = 40.00005, Longitude = 5.00004 } ,
             };
+            var teams = new List<Team> { new Team() };
+
             //A.CallTo(() => _nodeService.GetNode())
             var gameActions = new List<GameAction>
           {
-              new GameAction() {Latitude = 40, Longitude = 5},
-              new GameAction() {Latitude = 50, Longitude = 5},
+              new GameAction() {Latitude = 40, Longitude = 5, Team = teams[0]},
+              new GameAction() {Latitude = 50, Longitude = 5, Team = teams[0]},
           };
             A.CallTo(() => _actionService.GetGameActionsForGame(A<int>._, A<int>._, A<int>._, A<IncludeAction>._, A<int?>._))
                 .Returns(Task.FromResult(new PaginatedList<GameAction>(gameActions, 2, 1, 10)));
             A.CallTo(() => _nodeService.GetGameNodesOrderByPosition(1, 40, 5, A<NodeTypes>._)).Returns(nodes);
             var gameActionListRequest = new GameActionListRequest() { GameId = 1, TeamId = 1, PageIndex = 1, PageSize = 1, NbPotential = 3 };
             // Act
-            var result = await _target.GetGameActionsToValidate(gameActionListRequest) as OkObjectResult;
+            var result = await Target.GetGameActionsToValidate(gameActionListRequest) as OkObjectResult;
             // Assert
             Check.That(result.Value).IsInstanceOf<List<GameActionToValidate>>();
             var gameActionToValidate = result.Value as List<GameActionToValidate>;
@@ -411,7 +414,7 @@ namespace ImageHuntTest.Controller
                 A<IncludeAction>._, 1)).MustHaveHappened();
             A.CallTo(() =>
                 _nodeService.GetGameNodesOrderByPosition(A<int>._, A<double>._, A<double>._,
-                    NodeTypes.Hidden | NodeTypes.Picture)).MustHaveHappened();
+                    NodeTypes.Hidden | NodeTypes.Picture | NodeTypes.Question)).MustHaveHappened();
             Check.That(gameActionToValidate.Extracting("Node")).IsNotNull();
         }
         [Fact]
@@ -425,7 +428,7 @@ namespace ImageHuntTest.Controller
                 PageIndex = 0,
             };
             // Act
-            var result = await _target.GetGameActions(gameActionListRequest) as OkObjectResult;
+            var result = await Target.GetGameActions(gameActionListRequest) as OkObjectResult;
             // Assert
             A.CallTo(() => _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, 
                 gameActionListRequest.PageSize, A<IncludeAction>._, null)).MustHaveHappened();
@@ -449,7 +452,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _actionService.GetGameActionsForGame(A<int>._, A<int>._, A<int>._, A<IncludeAction>._, A<int?>._))
                 .Returns(Task.FromResult(new PaginatedList<GameAction>(gameActions, 2, 10, 1)));
             // Act
-            var result = await _target.GetGameActions(gameActionListRequest) as OkObjectResult;
+            var result = await Target.GetGameActions(gameActionListRequest) as OkObjectResult;
             // Assert
             A.CallTo(() => _actionService.GetGameActionsForGame(gameActionListRequest.GameId, gameActionListRequest.PageIndex, gameActionListRequest.PageSize, A<IncludeAction>._, null)).MustHaveHappened();
             Check.That(result).IsNotNull();
@@ -465,10 +468,32 @@ namespace ImageHuntTest.Controller
                 PointsEarned = 35,
             };
             // Act
-            var result = _target.Modify(gameActionRequest);
+            var result = Target.Modify(gameActionRequest);
             // Assert
             Check.That(result).IsInstanceOf<OkObjectResult>();
             Check.That(((OkObjectResult) result).Value).IsInstanceOf<GameActionResponse>();
+        }
+        
+        [Fact]
+        public void Should_AddAction_For_QuestionNode_Succeed()
+        {
+            // Arrange
+            var gameActionRequest = new GameActionRequest()
+            {
+                Action = (int)Action.ReplyQuestion,
+                NodeId = 56,
+                GameId = 76,
+                TeamId = 65,
+                Answer = "toto",
+                Latitude = 45.78,
+                Longitude = 5.878,
+
+            };
+            // Act
+            var result = Target.AddGameAction(gameActionRequest);
+            // Assert
+            A.CallTo(() => _nodeService.GetNode(A<int>._)).MustHaveHappened();
+            A.CallTo(() => _actionService.AddGameAction(A<GameAction>._)).MustHaveHappened();
         }
     }
 }

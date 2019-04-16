@@ -22,7 +22,7 @@ namespace ImageHuntTest.Services
         public NodeServiceTest()
         {
             _logger = A.Fake<ILogger<NodeService>>();
-            _target = new NodeService(_context, _logger);
+            _target = new NodeService(Context, _logger);
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace ImageHuntTest.Services
             // Act
             _target.AddNode(node);
             // Assert
-            Check.That(_context.Nodes).ContainsExactly(node);
+            Check.That(Context.Nodes).ContainsExactly(node);
         }
 
         [Fact]
@@ -41,8 +41,8 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var nodes = new List<Node>() {new TimerNode(), new TimerNode(), new TimerNode()};
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
 
             // Act
             _target.AddChildren(nodes[1].Id, nodes[2].Id);
@@ -65,8 +65,8 @@ namespace ImageHuntTest.Services
             };
             nodes[1].ChildrenRelation.Add(new ParentChildren() {Parent = nodes[1], Children = nodes[3]});
             nodes[1].ChildrenRelation.Add(new ParentChildren() {Parent = nodes[1], Children = nodes[4]});
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
 
             // Act
             _target.RemoveChildren(nodes[1].Id, nodes[1].Children[0].Id);
@@ -80,8 +80,8 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var nodes = new List<Node>() {new TimerNode(), new TimerNode(), new TimerNode()};
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             // Act
             _target.AddChildren(nodes[1], nodes[2]);
             // Assert
@@ -94,8 +94,8 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var nodes = new List<Node>() {new TimerNode() {Id = 1}, new TimerNode() {Id = 2}, new TimerNode() {Id = 3}};
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             // Act
             var resultNode = _target.GetNode(2);
             // Assert
@@ -107,16 +107,16 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var answers = new List<Answer>() {new Answer(), new Answer()};
-            _context.Answers.AddRange(answers);
-            _context.SaveChanges();
+            Context.Answers.AddRange(answers);
+            Context.SaveChanges();
             var nodes = new List<Node>() {new TimerNode(), new ChoiceNode() {Answers = answers}, new TimerNode()};
-            foreach (var answer in _context.Answers)
+            foreach (var answer in Context.Answers)
             {
                 answer.Node = nodes[1];
             }
 
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             // Act
             var resultNode = _target.GetNode(nodes[1].Id);
 
@@ -130,16 +130,16 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var images = new List<Picture> {new Picture(), new Picture(), new Picture()};
-            _context.Pictures.AddRange(images);
-            _context.SaveChanges();
+            Context.Pictures.AddRange(images);
+            Context.SaveChanges();
             var nodes = new List<Node>()
             {
                 new TimerNode(),
                 new PictureNode() {Image = images[1]},
                 new TimerNode()
             };
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             // Act
             var resultNode = _target.GetNode(nodes[1].Id);
 
@@ -160,8 +160,8 @@ namespace ImageHuntTest.Services
                 new PictureNode() {Latitude = 59.327816, Longitude = 18.055133},
             };
             var games = new List<Game>() {new Game(), new Game() {Nodes = pictureNodes}};
-            _context.Games.AddRange(games);
-            _context.SaveChanges();
+            Context.Games.AddRange(games);
+            Context.SaveChanges();
             var picture = new Picture()
             {
                 Image = GetImageFromResource(Assembly.GetExecutingAssembly(),
@@ -183,7 +183,7 @@ namespace ImageHuntTest.Services
                 new Answer() {Id = 2},
                 new Answer() {Id = 3},
             };
-            _context.Answers.AddRange(answers);
+            Context.Answers.AddRange(answers);
             var nodes = new List<Node>()
             {
                 new PictureNode() {Id = 1},
@@ -191,8 +191,8 @@ namespace ImageHuntTest.Services
                 new PictureNode() {Id = 3},
                 new PictureNode() {Id = 4},
             };
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             // Act
             _target.LinkAnswerToNode(2, 3);
             // Assert
@@ -210,7 +210,7 @@ namespace ImageHuntTest.Services
                 new Answer() {Id = 2},
                 new Answer() {Id = 3},
             };
-            _context.Answers.AddRange(answers);
+            Context.Answers.AddRange(answers);
             var nodes = new List<Node>()
             {
                 new PictureNode() {Id = 1},
@@ -218,8 +218,8 @@ namespace ImageHuntTest.Services
                 new PictureNode() {Id = 3},
                 new PictureNode() {Id = 4},
             };
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             // Act
             _target.LinkAnswerToNode(4, 3);
             // Assert
@@ -235,7 +235,7 @@ namespace ImageHuntTest.Services
                 new Answer() {Id = 2},
                 new Answer() {Id = 3},
             };
-            _context.Answers.AddRange(answers);
+            Context.Answers.AddRange(answers);
             var nodes = new List<Node>()
             {
                 new PictureNode() {Id = 1},
@@ -243,8 +243,8 @@ namespace ImageHuntTest.Services
                 new PictureNode() {Id = 3},
                 new PictureNode() {Id = 4},
             };
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             // Act
             _target.LinkAnswerToNode(2, 5);
             // Assert
@@ -268,9 +268,9 @@ namespace ImageHuntTest.Services
                 new Answer() {Id = 2},
                 new Answer() {Id = 3, Node = nodes[3]},
             };
-            _context.Nodes.AddRange(nodes);
-            _context.Answers.AddRange(answers);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.Answers.AddRange(answers);
+            Context.SaveChanges();
             // Act
             _target.UnlinkAnswerToNode(3);
             // Assert
@@ -294,9 +294,9 @@ namespace ImageHuntTest.Services
                 new Answer() {Id = 2},
                 new Answer() {Id = 3, Node = nodes[3]},
             };
-            _context.Nodes.AddRange(nodes);
-            _context.Answers.AddRange(answers);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.Answers.AddRange(answers);
+            Context.SaveChanges();
             // Act
             Check.ThatCode(() => _target.UnlinkAnswerToNode(4)).DoesNotThrow();
             // Assert
@@ -319,8 +319,8 @@ namespace ImageHuntTest.Services
                 new ParentChildren() {Parent = nodes[1], Children = nodes[3]},
                 new ParentChildren() {Parent = nodes[1], Children = nodes[4]},
             };
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             Check.That(nodes[1].Children).HasSize(2);
 
             // Act
@@ -334,8 +334,8 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var answers = new List<Answer> {new Answer(), new Answer(), new Answer()};
-            _context.Answers.AddRange(answers);
-            _context.SaveChanges();
+            Context.Answers.AddRange(answers);
+            Context.SaveChanges();
             // Act
             var result = _target.GetAnswer(answers[1].Id);
             // Assert
@@ -354,7 +354,7 @@ namespace ImageHuntTest.Services
                 new ObjectNode(),
                 new LastNode()
             };
-            _context.Nodes.AddRange(nodes);
+            Context.Nodes.AddRange(nodes);
             nodes[0].ChildrenRelation =
                 new List<ParentChildren>() {new ParentChildren() {Parent = nodes[0], Children = nodes[1]}};
             nodes[1].ChildrenRelation = new List<ParentChildren>()
@@ -367,13 +367,13 @@ namespace ImageHuntTest.Services
                 new List<ParentChildren>() {new ParentChildren() {Parent = nodes[2], Children = nodes[4]}};
             nodes[3].ChildrenRelation =
                 new List<ParentChildren>() {new ParentChildren() {Parent = nodes[3], Children = nodes[4]}};
-            _context.SaveChanges();
+            Context.SaveChanges();
             // Act
             _target.RemoveNode(nodes[1]);
             // Assert
-            Check.That(_context.Nodes).Not.Contains(nodes[1]);
+            Check.That(Context.Nodes).Not.Contains(nodes[1]);
 
-            Check.That(_context.ParentChildren).HasSize(3);
+            Check.That(Context.ParentChildren).HasSize(3);
         }
 
         [Fact]
@@ -388,7 +388,7 @@ namespace ImageHuntTest.Services
                 new ObjectNode(),
                 new LastNode()
             };
-            _context.Nodes.AddRange(nodes);
+            Context.Nodes.AddRange(nodes);
             nodes[0].ChildrenRelation = new List<ParentChildren>()
             {
                 new ParentChildren() {Parent = nodes[0], Children = nodes[1]}
@@ -405,13 +405,13 @@ namespace ImageHuntTest.Services
             {
                 new ParentChildren() {Parent = nodes[3], Children = nodes[4]}
             };
-            _context.SaveChanges();
+            Context.SaveChanges();
             // Act
             _target.RemoveNode(nodes[1]);
             // Assert
-            Check.That(_context.Nodes).Not.Contains(nodes[1]);
+            Check.That(Context.Nodes).Not.Contains(nodes[1]);
 
-            Check.That(_context.ParentChildren.First(pc=>pc.Parent == nodes[0]).Children).Equals(nodes[2]);
+            Check.That(Context.ParentChildren.First(pc=>pc.Parent == nodes[0]).Children).Equals(nodes[2]);
         }
 
         [Fact]
@@ -428,25 +428,25 @@ namespace ImageHuntTest.Services
                 new LastNode(),
                 new ChoiceNode() {Answers = new List<Answer>() {new Answer()}}
             };
-            _context.Nodes.AddRange(nodes);
+            Context.Nodes.AddRange(nodes);
             nodes[0].ChildrenRelation =
                 new List<ParentChildren>() {new ParentChildren() {Parent = nodes[0], Children = nodes[1]}};
             nodes[2].ChildrenRelation =
                 new List<ParentChildren>() {new ParentChildren() {Parent = nodes[2], Children = nodes[4]}};
             nodes[3].ChildrenRelation =
                 new List<ParentChildren>() {new ParentChildren() {Parent = nodes[3], Children = nodes[4]}};
-            _context.SaveChanges();
+            Context.SaveChanges();
             _target.LinkAnswerToNode(answers[0].Id, nodes[2].Id);
             _target.LinkAnswerToNode(answers[1].Id, nodes[3].Id);
             _target.LinkAnswerToNode(answers[2].Id, nodes[4].Id);
             // Act
             _target.RemoveNode(nodes[1]);
             // Assert
-            Check.That(_context.Nodes).Not.Contains(nodes[1]);
+            Check.That(Context.Nodes).Not.Contains(nodes[1]);
 
-            Check.That(_context.ParentChildren).HasSize(2);
+            Check.That(Context.ParentChildren).HasSize(2);
             Check.That(((ChoiceNode) nodes[1]).Answers).HasSize(0);
-            Check.That(_context.Answers).HasSize(1);
+            Check.That(Context.Answers).HasSize(1);
         }
 
         [Fact]
@@ -456,12 +456,12 @@ namespace ImageHuntTest.Services
             var nodes = new List<Node> {new FirstNode(), new TimerNode(), new LastNode()};
             nodes[0].ChildrenRelation.Add(new ParentChildren() {Parent = nodes[0], Children = nodes[1]});
             nodes[1].ChildrenRelation.Add(new ParentChildren() {Parent = nodes[1], Children = nodes[2]});
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             // Act
             _target.RemoveRelation(nodes[1], nodes[2]);
             // Assert
-            Check.That(_context.ParentChildren).HasSize(1);
+            Check.That(Context.ParentChildren).HasSize(1);
             Check.That(nodes[1].Children).HasSize(0);
         }
 
@@ -478,8 +478,8 @@ namespace ImageHuntTest.Services
                 new LastNode()
             };
             nodes[0].ChildrenRelation.Add(new ParentChildren() {Parent = nodes[0], Children = nodes[1]});
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             _target.AddChildren(nodes[1], nodes[2]);
             _target.AddChildren(nodes[1], nodes[3]);
             _target.LinkAnswerToNode(answers[0].Id, nodes[2].Id);
@@ -487,9 +487,9 @@ namespace ImageHuntTest.Services
             // Act
             _target.RemoveRelation(nodes[1], nodes[2]);
             // Assert
-            Check.That(_context.ParentChildren).HasSize(2);
+            Check.That(Context.ParentChildren).HasSize(2);
             Check.That(nodes[1].Children).HasSize(1);
-            Check.That(_context.Answers).HasSize(1);
+            Check.That(Context.Answers).HasSize(1);
         }
 
         [Fact]
@@ -502,8 +502,8 @@ namespace ImageHuntTest.Services
                 new PictureNode() {Name = "titi", Points = 9, Latitude = 45.6, Longitude = 8.3},
                 new TimerNode()
             };
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             var updatedNode = new PictureNode()
             {
                 Id = nodes[1].Id,
@@ -532,10 +532,10 @@ namespace ImageHuntTest.Services
                 new ObjectNode() {Latitude = 42.0007, Longitude = 5.0001},
                 new ObjectNode() {Latitude = 40.0007, Longitude = 5.0001},
             };
-            _context.Nodes.AddRange(nodes);
+            Context.Nodes.AddRange(nodes);
             var games = new List<Game>() {new Game() {Nodes = nodes}};
-            _context.Games.AddRange(games);
-            _context.SaveChanges();
+            Context.Games.AddRange(games);
+            Context.SaveChanges();
             // Act
             var closeNodes = _target.GetGameNodesOrderByPosition(games[0].Id, 40.0, 5.0);
             // Assert
@@ -553,10 +553,10 @@ namespace ImageHuntTest.Services
                 new PictureNode() {Latitude = 42.0007, Longitude = 5.0001},
                 new HiddenNode() {Latitude = 42.0007, Longitude = 5.0001},
             };
-            _context.Nodes.AddRange(nodes);
+            Context.Nodes.AddRange(nodes);
             var games = new List<Game>() {new Game() {Nodes = nodes}};
-            _context.Games.AddRange(games);
-            _context.SaveChanges();
+            Context.Games.AddRange(games);
+            Context.SaveChanges();
             // Act
             var closeNodes =
                 _target.GetGameNodesOrderByPosition(games[0].Id, 40.0, 5.0, NodeTypes.Picture | NodeTypes.Hidden);
@@ -579,8 +579,8 @@ namespace ImageHuntTest.Services
                 new HiddenNode() {Latitude = 7, Longitude = 1},
             };
             var games = new List<Game> {new Game() {Nodes = nodes}};
-            _context.Games.AddRange(games);
-            _context.SaveChanges();
+            Context.Games.AddRange(games);
+            Context.SaveChanges();
             // Act
             var resNodes = _target.GetGameNodesOrderByPosition(games[0].Id, 1, 1, NodeTypes.Path);
             // Assert

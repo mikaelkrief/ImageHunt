@@ -14,13 +14,13 @@ namespace ImageHuntWebServiceClient.WebServices
 
         public async Task<NodeResponse> GetNode(int nodeId)
         {
-            return await GetAsync<NodeResponse>($"{_httpClient.BaseAddress}api/Node/{nodeId}");
+            return await GetAsync<NodeResponse>($"{HttpClient.BaseAddress}api/Node/{nodeId}");
         }
 
         public async Task<IEnumerable<NodeResponse>> GetNodesByType(NodeTypes nodeType, int gameId)
         {
             return await GetAsync<IEnumerable<NodeResponse>>(
-                $"{_httpClient.BaseAddress}api/Node/GetNodesByType/{gameId}/{(int)nodeType}");
+                $"{HttpClient.BaseAddress}api/Node/GetNodesByType/{gameId}/{(int)nodeType}");
         }
 
         //public async Task<IEnumerable<NodeResponse>> GetGameNodesOrderByPosition(int gameId, double latitude,

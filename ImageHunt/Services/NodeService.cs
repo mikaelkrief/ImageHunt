@@ -30,7 +30,7 @@ namespace ImageHunt.Services
         .SingleOrDefault(n => n.Id == nodeId);
       if (node == null)
       {
-        _logger.LogError("Node Id: {0} not found", nodeId);
+        Logger.LogError("Node Id: {0} not found", nodeId);
         return null;
       }
 
@@ -183,6 +183,10 @@ namespace ImageHunt.Services
       if (nodeTypes.HasFlag(NodeTypes.Hidden))
       {
         selectedNodes = selectedNodes.Union(nodes.Where(n => n.NodeType == NodeResponse.HiddenNodeType || n.NodeType == NodeResponse.BonusNodeType));
+      }
+      if (nodeTypes.HasFlag(NodeTypes.Question))
+      {
+        selectedNodes = selectedNodes.Union(nodes.Where(n => n.NodeType == NodeResponse.QuestionNodeType || n.NodeType == NodeResponse.ChoiceNodeType));
       }
       if (nodeTypes.HasFlag(NodeTypes.Path))
       {

@@ -18,7 +18,7 @@ namespace ImageHuntBotTest
         public GameServiceTest()
       {
           _logger = A.Fake<ILogger<IGameWebService>>();
-        _target = new GameWebService(_httpClient, _logger);
+        _target = new GameWebService(HttpClient, _logger);
       }
       [Fact]
       public async Task GetGameById()
@@ -30,7 +30,7 @@ namespace ImageHuntBotTest
         // Act
         var response = await _target.GetGameById(1);
         // Assert
-        A.CallTo(_fakeHttpMessageHandler)
+        A.CallTo(FakeHttpMessageHandler)
           .Where(x=>x.Method.Name == "SendAsync")
           .WithReturnType<Task<HttpResponseMessage>>()
           .MustHaveHappened();

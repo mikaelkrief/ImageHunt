@@ -29,10 +29,10 @@ namespace ImageHuntBotBuilderTest.Middlewares
 
         public TeamCompositionMiddlewareTest()
         {
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<TeamCompositionMiddleware>>());
-            _testContainerBuilder.RegisterInstance(_teamWebService = A.Fake<ITeamWebService>());
-            _testContainerBuilder.RegisterInstance(_accessor = A.Fake<ImageHuntBotAccessors>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<TeamCompositionMiddleware>>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<TeamCompositionMiddleware>>());
+            TestContainerBuilder.RegisterInstance(_teamWebService = A.Fake<ITeamWebService>());
+            TestContainerBuilder.RegisterInstance(_accessor = A.Fake<ImageHuntBotAccessors>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<TeamCompositionMiddleware>>());
             _statePropertyAccessor = A.Fake<IStatePropertyAccessor<ImageHuntState>>();
             A.CallTo(() => _accessor.ImageHuntState).Returns(_statePropertyAccessor);
 
@@ -62,7 +62,7 @@ namespace ImageHuntBotBuilderTest.Middlewares
                         A<CancellationToken>._))
                 .Returns(state);
             // Act
-            await _target.OnTurnAsync(_turnContext, _nextDelegate);
+            await Target.OnTurnAsync(_turnContext, _nextDelegate);
             // Assert
             A.CallTo(() => _nextDelegate.Invoke(A<CancellationToken>._)).MustNotHaveHappened();
         }
@@ -89,7 +89,7 @@ namespace ImageHuntBotBuilderTest.Middlewares
                 .Returns(state);
 
             // Act
-            await _target.OnTurnAsync(_turnContext, _nextDelegate);
+            await Target.OnTurnAsync(_turnContext, _nextDelegate);
             // Assert
             A.CallTo(() => _teamWebService.RemovePlayerFromTeam(A<int>._, A<string>._)).MustHaveHappened();
         }
@@ -114,7 +114,7 @@ namespace ImageHuntBotBuilderTest.Middlewares
                         A<CancellationToken>._))
                 .Returns(state);
             // Act
-            await _target.OnTurnAsync(_turnContext, _nextDelegate);
+            await Target.OnTurnAsync(_turnContext, _nextDelegate);
             // Assert
             A.CallTo(() => _nextDelegate.Invoke(A<CancellationToken>._)).MustNotHaveHappened();
         }
@@ -126,7 +126,7 @@ namespace ImageHuntBotBuilderTest.Middlewares
             var activity = new Activity(type: ActivityTypes.Message);
             A.CallTo(() => _turnContext.Activity).Returns(activity);
             // Act
-            await _target.OnTurnAsync(_turnContext, _nextDelegate);
+            await Target.OnTurnAsync(_turnContext, _nextDelegate);
             // Assert
             A.CallTo(() => _nextDelegate.Invoke(A<CancellationToken>._)).MustHaveHappened();
         }

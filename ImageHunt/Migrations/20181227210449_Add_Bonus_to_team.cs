@@ -5,7 +5,7 @@ namespace ImageHunt.Migrations
 {
   [ExcludeFromCodeCoverage]
 
-  public partial class Add_Bonus_to_team : Migration
+  public partial class AddBonusToTeam : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

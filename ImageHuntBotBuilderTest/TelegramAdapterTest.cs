@@ -49,20 +49,20 @@ namespace ImageHuntBotBuilderTest
             Startup.ConfigureMappings();
             _configuration = A.Fake<IConfiguration>();
             _credentialProvider = A.Fake<ICredentialProvider>();
-            _testContainerBuilder.RegisterInstance(_credentialProvider);
-            _testContainerBuilder.RegisterInstance(_configuration);
-            _testContainerBuilder.RegisterType<TelegramAdapter>();
+            TestContainerBuilder.RegisterInstance(_credentialProvider);
+            TestContainerBuilder.RegisterInstance(_configuration);
+            TestContainerBuilder.RegisterType<TelegramAdapter>();
             _logger = A.Fake<ILogger<TelegramAdapter>>();
-            _testContainerBuilder.RegisterInstance(_logger);
+            TestContainerBuilder.RegisterInstance(_logger);
             _mapper = Mapper.Instance;
-            _testContainerBuilder.RegisterInstance(_mapper);
+            TestContainerBuilder.RegisterInstance(_mapper);
             _telegramBotClient = A.Fake<ITelegramBotClient>();
-            _testContainerBuilder.RegisterInstance(_telegramBotClient);
+            TestContainerBuilder.RegisterInstance(_telegramBotClient);
             _fakeHttpMessageHandler = A.Fake<HttpMessageHandler>();
             _httpClient = new HttpClient(_fakeHttpMessageHandler) { BaseAddress = new Uri("http://test.com") };
-            _testContainerBuilder.RegisterInstance(_httpClient);
-            _testContainerBuilder.RegisterInstance(_imageWebService = A.Fake<IImageWebService>());
-            var container = _testContainerBuilder.Build();
+            TestContainerBuilder.RegisterInstance(_httpClient);
+            TestContainerBuilder.RegisterInstance(_imageWebService = A.Fake<IImageWebService>());
+            var container = TestContainerBuilder.Build();
 
             _target = container.Resolve<TelegramAdapter>();
 
@@ -90,6 +90,19 @@ namespace ImageHuntBotBuilderTest
             Check.That(activity.Timestamp).Equals(new DateTimeOffset(update.Message.Date));
         }
 
+        [Fact]
+        public void Should_Map_Update_CallbackQuery_to_Activity()
+        {
+            // Arrange
+            var update =
+                GetJObjectFromResource(Assembly.GetExecutingAssembly(), "ImageHuntBotBuilderTest.Data.callbackQuery.json")
+                    .ToObject<Update>();
+            // Act
+            var activity = _mapper.Map<Activity>(update);
+
+            // Assert
+            Check.That(activity.Text).Equals(update.CallbackQuery.Data);
+        }
         [Fact]
         public void Should_New_Participant()
         {
@@ -542,6 +555,45 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _telegramBotClient.ExportChatInviteLinkAsync(A<ChatId>._, A<CancellationToken>._))
                 .MustHaveHappened();
             Check.That(activities[0].Attachments[0].ContentUrl).Equals(inviteUrl);
+        }
+
+        [Fact]
+        public async Task Should_Activity_with_Suggested_action_show_buttons()
+        {
+            // Arrange
+            var turnContext = A.Fake<ITurnContext>();
+
+            var activities = new Activity[]
+            {
+                new Activity(type:ActivityTypes.Message)
+                {
+                    ChannelId = "telegram",
+                    Id = "151515",
+                    Conversation = new ConversationAccount(),
+                    Text = "The choice",
+                    SuggestedActions = new SuggestedActions()
+                    {
+                        Actions = new List<CardAction>()
+                        {
+                            new CardAction(){Title = "Yes", Type = ActionTypes.ImBack, Value = true, DisplayText = "Oui"}, 
+                            new CardAction(){Title = "No", Type = ActionTypes.ImBack, Value = false, DisplayText = "Non"}, 
+                        }
+                    }
+                }
+            };
+            // Act
+            var result = await _target.SendActivitiesAsync(turnContext, activities, CancellationToken.None);
+
+            // Assert
+            A.CallTo(() => _telegramBotClient.SendTextMessageAsync(A<ChatId>._, A<string>._, A<ParseMode>._, A<bool>._,
+                    A<bool>._, A<int>._, A<IReplyMarkup>.That.Matches(r => CheckMarkup(r)), A<CancellationToken>._))
+                .MustHaveHappened();
+        }
+
+        private bool CheckMarkup(IReplyMarkup replyMarkup)
+        {
+            Check.That(replyMarkup).IsNotNull();
+            return true;
         }
     }
 }

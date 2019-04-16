@@ -29,11 +29,11 @@ namespace ImageHuntTest.Controller
 
         public PasscodeControllerTest()
         {
-            _testContainerBuilder.RegisterInstance(_passcodeService = A.Fake<IPasscodeService>());
-            _testContainerBuilder.RegisterInstance(_teamService = A.Fake<ITeamService>());
-            _testContainerBuilder.RegisterInstance(_configuration = A.Fake<IConfiguration>());
-            _testContainerBuilder.RegisterInstance(_mapper = Mapper.Instance);
-            _testContainerBuilder.RegisterInstance(_userManager = A.Fake<UserManager<Identity>>());
+            TestContainerBuilder.RegisterInstance(_passcodeService = A.Fake<IPasscodeService>());
+            TestContainerBuilder.RegisterInstance(_teamService = A.Fake<ITeamService>());
+            TestContainerBuilder.RegisterInstance(_configuration = A.Fake<IConfiguration>());
+            TestContainerBuilder.RegisterInstance(_mapper = Mapper.Instance);
+            TestContainerBuilder.RegisterInstance(_userManager = A.Fake<UserManager<Identity>>());
             Build();
         }
 
@@ -44,7 +44,7 @@ namespace ImageHuntTest.Controller
             var passcodes = new List<Passcode>() { new Passcode() { Pass = "toto" }, new Passcode() { Pass = "tata" } };
             A.CallTo(() => _passcodeService.GetAll(1)).Returns(passcodes);
             // Act
-            var result = _target.Get(1);
+            var result = Target.Get(1);
             // Assert
             A.CallTo(() => _passcodeService.GetAll(1)).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();
@@ -65,7 +65,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _passcodeService.GetAll(A<int>._)).Returns(passcodes);
             A.CallTo(() => _teamService.GetTeamForUserName(A<int>._, A<string>._)).Returns(new Team() { Id = 2 });
             // Act
-            var result = _target.Redeem(new PasscodeRedeemRequest() { GameId = 1, Pass = "ghjgsjdgjhd" });
+            var result = Target.Redeem(new PasscodeRedeemRequest() { GameId = 1, Pass = "ghjgsjdgjhd" });
             // Assert
             A.CallTo(() => _passcodeService.Redeem(1, 2, "ghjgsjdgjhd")).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();
@@ -79,7 +79,7 @@ namespace ImageHuntTest.Controller
             // Arrange
 
             // Act
-            var result = _target.Delete(1, 2);
+            var result = Target.Delete(1, 2);
             // Assert
             Check.That(result).IsInstanceOf<OkResult>();
             A.CallTo(() => _passcodeService.Delete(1, 2));
@@ -91,7 +91,7 @@ namespace ImageHuntTest.Controller
             // Arrange
             var passcodeRequest = new PasscodeRequest() { GameId = 1, Pass = "toto", NbRedeem = 3, Points = 3 };
             // Act
-            var result = _target.Add(passcodeRequest);
+            var result = Target.Add(passcodeRequest);
             // Assert
             Check.That(result).IsInstanceOf<OkObjectResult>();
             A.CallTo(() => _passcodeService.Add(passcodeRequest.GameId, A<Passcode>.That.Matches(p => CheckPasscode(p, passcodeRequest)))).MustHaveHappened();
@@ -111,7 +111,7 @@ namespace ImageHuntTest.Controller
             // Arrange
             A.CallTo(() => _teamService.GetTeamForUserName(A<int>._, A<string>._)).Returns(null);
             // Act
-            var result = _target.Redeem(new PasscodeRedeemRequest() { GameId = 1, Pass = "ghjgsjdgjhd" });
+            var result = Target.Redeem(new PasscodeRedeemRequest() { GameId = 1, Pass = "ghjgsjdgjhd" });
             // Assert
             Check.That(result).IsInstanceOf<NotFoundObjectResult>();
         }
@@ -123,7 +123,7 @@ namespace ImageHuntTest.Controller
             A.CallTo(() => _passcodeService.Get(A<int>._)).Returns(new Passcode() { Pass = "toto" });
             A.CallTo(() => _configuration["BotConfiguration:BotName"]).Returns("ImageHuntDevBot");
             // Act
-            var result = _target.GetQRCode(1, 15);
+            var result = Target.GetQrCode(1, 15);
             // Assert
             A.CallTo(() => _passcodeService.Get(A<int>._)).MustHaveHappened();
             A.CallTo(() => _configuration["BotConfiguration:BotName"]).MustHaveHappened();
@@ -141,7 +141,7 @@ namespace ImageHuntTest.Controller
                 new Passcode() { Pass = "Toto" }, };
             A.CallTo(() => _passcodeService.GetAll(A<int>._)).Returns(passcodes);
             // Act
-            var result = _target.GetPage(1, 1);
+            var result = Target.GetPage(1, 1);
             // Assert
             A.CallTo(() => _passcodeService.GetAll(A<int>._)).MustHaveHappened();
         }

@@ -31,7 +31,7 @@ namespace ImageHuntWebServiceClient.WebServices
             {
                 try
                 {
-                    var result = await PatchAsync<PasscodeResponse>($"{_httpClient.BaseAddress}api/Passcode", content);
+                    var result = await PatchAsync<PasscodeResponse>($"{HttpClient.BaseAddress}api/Passcode", content);
 
                     return result;
 

@@ -11,8 +11,9 @@ namespace ImageHuntWebServiceClient.Responses
         Hidden = 0x0002,
         Path = 0x0004,
         Action = 0x0008,
+        Question = 0x0010,
 
-        All = Picture | Hidden | Path | Action,
+        All = Picture | Hidden | Path | Action | Question,
     }
 
     public partial class NodeResponse
@@ -44,7 +45,7 @@ namespace ImageHuntWebServiceClient.Responses
 
         public string Hint { get; set; }
         public int Delay { get; set; }
-        public BonusNode.BONUS_TYPE BonusType { get; set; }
+        public BonusNode.BONUSTYPE BonusType { get; set; }
         public bool CanOverride { get; set; }
 
     }

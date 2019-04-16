@@ -25,9 +25,9 @@ namespace ImageHuntBotBuilderTest.Commands
 
         public TrollCommandTest()
         {
-            _testContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>());
-            _testContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<ITrollCommand>>());
-            _testContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<TrollCommand>>());
+            TestContainerBuilder.RegisterInstance(_actionWebService = A.Fake<IActionWebService>());
+            TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<ITrollCommand>>());
+            TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<TrollCommand>>());
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState() { Status = Status.Started, TeamId = 15, GameId = 5};
 
@@ -40,7 +40,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
                 .MustHaveHappened();
@@ -51,7 +51,7 @@ namespace ImageHuntBotBuilderTest.Commands
             // Arrange
             _state.TeamId = null;
             // Act
-            await _target.Execute(_turnContext, _state);
+            await Target.ExecuteAsync(_turnContext, _state);
             // Assert
             A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
                 .MustNotHaveHappened();

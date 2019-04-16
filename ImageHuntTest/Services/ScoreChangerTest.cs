@@ -22,7 +22,7 @@ namespace ImageHuntTest.Services
             var score = new Score(){Points = 15, Team = new Team(){TeamPlayers = new List<TeamPlayer> {new TeamPlayer(), new TeamPlayer()}}};
             var game = new Game(){ NbPlayerPenaltyValue = 0.05, NbPlayerPenaltyThreshold = 4}; 
             // Act
-            var result = _target.ComputeScore(score, game);
+            var result = Target.ComputeScore(score, game);
             // Assert
             Check.That(result).Equals(score.Points);
         }
@@ -38,7 +38,7 @@ namespace ImageHuntTest.Services
             var score = new Score(){Points = 15, Team = team};
             var game = new Game(){ NbPlayerPenaltyValue = 0.05, NbPlayerPenaltyThreshold = 4}; 
             // Act
-            var result = _target.ComputeScore(score, game);
+            var result = Target.ComputeScore(score, game);
             // Assert
             Check.That(result).Equals(score.Points * team.Bonus);
         }
@@ -60,7 +60,7 @@ namespace ImageHuntTest.Services
             }};
             var game = new Game() { NbPlayerPenaltyValue = 0.05, NbPlayerPenaltyThreshold = 4 };
             // Act
-            var result = _target.ComputeScore(score, game);
+            var result = Target.ComputeScore(score, game);
             // Assert
             Check.That(result).Equals(13.5);
         }

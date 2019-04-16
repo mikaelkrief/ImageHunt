@@ -25,7 +25,7 @@ namespace ImageHuntTest.Services
         {
             _logger = A.Fake<ILogger<ImageService>>();
             _blobProvider = A.Fake<IBlobProvider>();
-            _service = new ImageService(_context, _logger, _blobProvider);
+            _service = new ImageService(Context, _logger, _blobProvider);
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace ImageHuntTest.Services
             // Act
             await _service.AddPicture(picture);
             // Assert
-            Check.That(_context.Pictures).ContainsExactly(picture);
+            Check.That(Context.Pictures).ContainsExactly(picture);
             A.CallTo(() => _blobProvider.UploadFromByteArrayAsync(A<byte[]>._)).MustHaveHappened();
         }
 
@@ -46,8 +46,8 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var pictures = new List<Picture>() {new Picture(), new Picture(), new Picture()};
-            _context.Pictures.AddRange(pictures);
-            _context.SaveChanges();
+            Context.Pictures.AddRange(pictures);
+            Context.SaveChanges();
             // Act
             var result = await _service.GetPictureById(pictures[1].Id);
             // Assert
@@ -65,8 +65,8 @@ namespace ImageHuntTest.Services
                 new Picture(){CloudUrl = "http://test" },
 
             };
-            _context.Pictures.AddRange(pictures);
-            _context.SaveChanges();
+            Context.Pictures.AddRange(pictures);
+            Context.SaveChanges();
             // Act
             var result = await _service.GetPictureById(pictures[1].Id);
             // Assert
@@ -91,7 +91,7 @@ namespace ImageHuntTest.Services
         }
 
         [Fact]
-        public void ExtractLocationFromImageWithoutGPSLocation()
+        public void ExtractLocationFromImageWithoutGpsLocation()
         {
             // Arrange
             var picture = new Picture()
@@ -110,14 +110,14 @@ namespace ImageHuntTest.Services
         {
             // Arrange
             var pictures = new List<Picture>() {new Picture(), new Picture() {Image = new byte[10]}, new Picture()};
-            _context.Pictures.AddRange(pictures);
+            Context.Pictures.AddRange(pictures);
             var nodes = new List<Node>()
             {
                 new PictureNode() {Image = pictures[1]},
                 new PictureNode() {Image = pictures[0]}
             };
-            _context.Nodes.AddRange(nodes);
-            _context.SaveChanges();
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
             // Act
             var picture = _service.GetImageForNode(nodes[0]);
             // Assert

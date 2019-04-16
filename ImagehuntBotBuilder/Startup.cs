@@ -14,6 +14,7 @@ using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Configuration;
@@ -25,6 +26,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Activity = Microsoft.Bot.Schema.Activity;
 
 namespace ImagehuntBotBuilder
@@ -133,6 +135,7 @@ namespace ImagehuntBotBuilder
                 {
                     ImageHuntState =
                         conversationState.CreateProperty<ImageHuntState>(ImageHuntBotAccessors.ImageHuntStateName),
+                    ConversationDialogState = conversationState.CreateProperty<DialogState>("DialogState"),
                     AllStates = new MultiConversationState<ImageHuntState>(dataStore),
                 };
 
@@ -164,19 +167,39 @@ namespace ImagehuntBotBuilder
 
         public void ConfigureDevelopmentContainer(ContainerBuilder containerBuilder)
         {
-            containerBuilder.RegisterType<LogFakePositionMiddleware>();
-            containerBuilder.RegisterType<BotFrameworkAdapter>().OnActivating(e =>
-            {
-                var adapter = e.Instance;
-                adapter.Use(e.Context.Resolve<LogFakePositionMiddleware>());
-            }).As<IAdapterIntegration>();
+            var botToken = Configuration.GetSection("BotConfiguration:BotToken").Value;
+
+            containerBuilder.Register(context => new TelegramBotClient(botToken))
+                .As<ITelegramBotClient>()
+                .SingleInstance();
+            containerBuilder.RegisterInstance(Configuration).AsImplementedInterfaces();
+
+            containerBuilder.RegisterType<TelegramAdapter>().OnActivating(e =>
+                {
+                    var adapter = e.Instance;
+                    adapter.Use(e.Context.Resolve<LogPositionMiddleware>());
+                    adapter.Use(e.Context.Resolve<TeamCompositionMiddleware>());
+                })
+                .AsSelf()
+                .As<IAdapterIntegration>();
             ConfigureContainer(containerBuilder);
         }
+
+        //public void ConfigureDevelopmentContainer(ContainerBuilder containerBuilder)
+        //{
+        //    containerBuilder.RegisterType<LogFakePositionMiddleware>();
+        //    containerBuilder.RegisterType<BotFrameworkAdapter>().OnActivating(e =>
+        //    {
+        //        var adapter = e.Instance;
+        //        adapter.Use(e.Context.Resolve<LogFakePositionMiddleware>());
+        //    }).As<IAdapterIntegration>();
+        //    ConfigureContainer(containerBuilder);
+        //}
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
             // Login to WebApi
-            LoginApi().Wait();
+            LoginApiAsync().Wait();
 
             containerBuilder.RegisterModule<DefaultModule>();
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
@@ -207,11 +230,11 @@ namespace ImagehuntBotBuilder
             containerBuilder.Register(a => new HttpClient()
             {
                 BaseAddress = new Uri(Configuration.GetValue<string>("ImageHuntApi:Url")),
-                DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken) }
+                DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken) },
             });
         }
 
-        private async Task LoginApi()
+        private async Task LoginApiAsync()
         {
             _logger.LogTrace("LoginApi");
             var apiBaseAddress = Configuration["ImageHuntApi:Url"];
@@ -227,7 +250,7 @@ namespace ImagehuntBotBuilder
             try
             {
                 var response = await accountService.Login(logingRequest);
-                _jwtToken = response.result.value;
+                _jwtToken = response.Result.Value;
 
             }
             catch (AggregateException e)
@@ -282,6 +305,13 @@ namespace ImagehuntBotBuilder
                 return update.Message;
             if (update.EditedMessage != null)
                 return update.EditedMessage;
+            if (update.Type == UpdateType.CallbackQuery)
+            {
+                var callbackQueryMessage = update.CallbackQuery.Message;
+                callbackQueryMessage.Text = update.CallbackQuery.Data;
+                return callbackQueryMessage;
+            }
+
             return null;
         }
 
@@ -293,9 +323,11 @@ namespace ImagehuntBotBuilder
                 config.CreateMap<Update, Activity>()
                     .ForMember(a => a.ChannelId, opt => opt.MapFrom(e => "telegram"))
                     .ForMember(a => a.Value, opt => opt.MapFrom(u => u))
-                    .ForMember(a => a.Timestamp,
+                    .ForMember(
+                        a => a.Timestamp,
                         opt => opt.MapFrom(u => new DateTimeOffset(MessageFromUpdate(u).Date)))
-                    .ForMember(a => a.Id,
+                    .ForMember(
+                        a => a.Id,
                         expression => expression.MapFrom(u => MessageFromUpdate(u).Chat.Id.ToString()))
                     .ForMember(a => a.Type, opt => opt.MapFrom(e => ActivityTypeFromUpdate(e)))
                     .ForMember(a => a.Conversation, opt => opt.MapFrom((u, a) =>
@@ -320,7 +352,7 @@ namespace ImagehuntBotBuilder
                             {
                                 ContentUrl = message.Photo.OrderByDescending(p => p.FileSize).First().FileId,
                                 ContentType = "telegram/image",
-                                Name = message.Text
+                                Name = message.Text,
                             };
                             attachments.Add(attachment);
                         }
@@ -330,8 +362,9 @@ namespace ImagehuntBotBuilder
                             var attachment = new Attachment()
                             {
                                 ContentType = "location",
-                                Content = new GeoCoordinates(latitude: message.Location.Latitude,
-                                    longitude: message.Location.Longitude)
+                                Content = new GeoCoordinates(
+                                    latitude: message.Location.Latitude,
+                                    longitude: message.Location.Longitude),
                             };
                             attachments.Add(attachment);
                         }
@@ -343,7 +376,7 @@ namespace ImagehuntBotBuilder
                                 var attachment = new Attachment()
                                 {
                                     ContentType = ImageHuntActivityTypes.NewPlayer,
-                                    Content = new ConversationAccount(name: newChatMember.Username)
+                                    Content = new ConversationAccount(name: newChatMember.Username),
                                 };
                                 attachments.Add(attachment);
                             }
@@ -354,7 +387,7 @@ namespace ImagehuntBotBuilder
                             var attachment = new Attachment()
                             {
                                 ContentType = ImageHuntActivityTypes.LeftPlayer,
-                                Content = new ConversationAccount(name: message.LeftChatMember.Username)
+                                Content = new ConversationAccount(name: message.LeftChatMember.Username),
                             };
                             attachments.Add(attachment);
                         }

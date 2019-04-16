@@ -19,7 +19,12 @@ namespace ImageHunt.Services
   {
     private readonly IScoreChanger _scoreChanger;
 
-    public async Task<PaginatedList<GameAction>> GetGameActionsForGame(int gameId, int pageIndex, int pageSize, IncludeAction includeAction, int? teamId = null)
+    public async Task<PaginatedList<GameAction>> GetGameActionsForGame(
+      int gameId,
+      int pageIndex,
+      int pageSize,
+      IncludeAction includeAction,
+      int? teamId = null)
     {
       var gameActions = Context.GameActions
           .Include(ga => ga.Game)
@@ -28,6 +33,7 @@ namespace ImageHunt.Services
           .Include(ga => ga.Picture)
           .Where(ga => ga.Game.Id == gameId)
           .Where(ga => !ga.IsReviewed)
+          .Where(t=>t.Team != null)
         ;
       if (teamId.HasValue)
         gameActions = gameActions.Where(ga => ga.Team.Id == teamId.Value);
@@ -98,7 +104,7 @@ namespace ImageHunt.Services
       {
         var delta = GeographyComputation.Distance(gameAction.Node.Latitude, gameAction.Node.Longitude,
           gameAction.Latitude.Value, gameAction.Longitude.Value);
-        _logger.LogDebug("Delta = {0} for nodeId {1}", delta, gameAction.Node.Id);
+        Logger.LogDebug("Delta = {0} for nodeId {1}", delta, gameAction.Node.Id);
         return delta;
       }
       else

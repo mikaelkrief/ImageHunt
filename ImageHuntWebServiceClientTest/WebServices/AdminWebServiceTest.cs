@@ -16,7 +16,7 @@ namespace ImageHuntWebServiceClientTest.WebServices
         public AdminWebServiceTest()
         {
             _logger = A.Fake<ILogger<IAdminWebService>>();
-            _target = new AdminWebService(_httpClient, _logger);
+            _target = new AdminWebService(HttpClient, _logger);
         }
         [Fact]
         public async Task GetAllAdmins()

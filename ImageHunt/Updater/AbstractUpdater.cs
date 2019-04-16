@@ -7,15 +7,15 @@ namespace ImageHunt.Updater
 {
   public abstract class AbstractUpdater : IUpdater
   {
-    protected readonly HuntContext _context;
-    protected readonly Game _game;
+    protected readonly HuntContext Context;
+    protected readonly Game Game;
     private readonly string _rawArguments;
-    protected Dictionary<string, string> _arguments = new Dictionary<string, string>();
+    protected Dictionary<string, string> Arguments = new Dictionary<string, string>();
 
     public AbstractUpdater(HuntContext context, Game game, string arguments)
     {
-      _context = context;
-      _game = game;
+      Context = context;
+      Game = game;
       _rawArguments = arguments;
       SplitArguments();
     }
@@ -31,7 +31,7 @@ namespace ImageHunt.Updater
           var groupCollection = regex.Matches(s)[0].Groups;
           var key = groupCollection[1].Value;
           var value = groupCollection[2].Value;
-          _arguments.Add(key, value);
+          Arguments.Add(key, value);
 
         }
       }
