@@ -39,7 +39,7 @@ namespace ImageHuntBotBuilder.Commands
             }
 
             var text = turnContext.Activity.Text;
-            var regEx = new Regex(@"(?i)\/init gameid=(\d*) teamid=(\d*)");
+            var regEx = new Regex(@"(?i)\/init gameid\s?=\s?(\d*) teamid\s?=\s?(\d*)");
             if (regEx.IsMatch(text))
             {
                 var groups = regEx.Matches(text);

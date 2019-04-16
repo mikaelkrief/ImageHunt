@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
@@ -87,6 +88,48 @@ namespace ImageHuntBotBuilderTest.Commands
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
                 .MustHaveHappened(states.Count, Times.Exactly);
+        }
+        [Fact]
+        public async Task Should_Display_All_State_Of_A_Game()
+        {
+            // Arrange
+            var activity = new Activity(type: ActivityTypes.Message, text: "/state gameid=15");
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            var states = new List<ImageHuntState>
+            {
+                new ImageHuntState() {GameId = 15, TeamId = 6, ConversationId = "Conv1"},
+                new ImageHuntState() {GameId = 15, TeamId = 7, ConversationId = "Conv2"},
+                new ImageHuntState() {GameId = 16, TeamId = 15, ConversationId = "Conv3"},
+            };
+            A.CallTo(() => _accessor.AllStates.GetAllAsync()).Returns(states);
+            var state = new ImageHuntState();
+            // Act
+            await Target.ExecuteAsync(_turnContext, state);
+            // Assert
+            A.CallTo(
+                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                .MustHaveHappened(states.Count(s=>s.GameId == 15), Times.Exactly);
+        }
+        [Fact]
+        public async Task Should_Display_All_State_Of_A_Team()
+        {
+            // Arrange
+            var activity = new Activity(type: ActivityTypes.Message, text: "/state teamid=15");
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+            var states = new List<ImageHuntState>
+            {
+                new ImageHuntState() {GameId = 15, TeamId = 6, ConversationId = "Conv1"},
+                new ImageHuntState() {GameId = 15, TeamId = 7, ConversationId = "Conv2"},
+                new ImageHuntState() {GameId = 16, TeamId = 15, ConversationId = "Conv3"},
+            };
+            A.CallTo(() => _accessor.AllStates.GetAllAsync()).Returns(states);
+            var state = new ImageHuntState();
+            // Act
+            await Target.ExecuteAsync(_turnContext, state);
+            // Assert
+            A.CallTo(
+                    () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
+                .MustHaveHappened(states.Count(s=>s.TeamId == 15), Times.Exactly);
         }
     }
 }
