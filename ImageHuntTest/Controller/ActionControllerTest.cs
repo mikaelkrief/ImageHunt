@@ -470,5 +470,27 @@ namespace ImageHuntTest.Controller
             Check.That(result).IsInstanceOf<OkObjectResult>();
             Check.That(((OkObjectResult) result).Value).IsInstanceOf<GameActionResponse>();
         }
+        
+        [Fact]
+        public void Should_AddAction_For_QuestionNode_Succeed()
+        {
+            // Arrange
+            var gameActionRequest = new GameActionRequest()
+            {
+                Action = (int)Action.ReplyQuestion,
+                NodeId = 56,
+                GameId = 76,
+                TeamId = 65,
+                Answer = "toto",
+                Latitude = 45.78,
+                Longitude = 5.878,
+
+            };
+            // Act
+            var result = Target.AddGameAction(gameActionRequest);
+            // Assert
+            A.CallTo(() => _nodeService.GetNode(A<int>._)).MustHaveHappened();
+            A.CallTo(() => _actionService.AddGameAction(A<GameAction>._)).MustHaveHappened();
+        }
     }
 }
