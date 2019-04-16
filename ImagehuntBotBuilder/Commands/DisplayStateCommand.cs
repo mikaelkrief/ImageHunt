@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands.Interfaces;
 using Microsoft.Bot.Builder;
@@ -28,18 +30,41 @@ namespace ImageHuntBotBuilder.Commands
         {
             if (state != null)
             {
-                if (turnContext.Activity.Text.Contains("All", StringComparison.InvariantCultureIgnoreCase))
+                var selectedStates = new List<ImageHuntState>();
+                var regEx = new Regex(@"\/state\s?(gameid\s?=\s?(?'gameid'\d*)|(teamid\s?=\s?(?'teamid'\d*))|(?'all'all)|)");
+                if (regEx.IsMatch(turnContext.Activity.Text))
                 {
-                    var states = await _accessors.AllStates.GetAllAsync();
-                    foreach (var imageHuntState in states)
-                    {
-                        await ComposeReplyAsync(turnContext, imageHuntState);
+                    var matches = regEx.Match(turnContext.Activity.Text);
+                     var states = await _accessors.AllStates.GetAllAsync();
+                   if (matches.Groups["all"].Success)
+                   {
+                       selectedStates.AddRange(states);
                     }
+                    else if (matches.Groups["gameid"].Success)
+                    {
+                        var gameId = Convert.ToInt32(matches.Groups["gameid"].Captures[0].Value);
+                        selectedStates.AddRange(states.Where(s => (s.Game != null && s.Game.Id == gameId) || 
+                                                                  (s.GameId.HasValue && s.GameId.Value == gameId)));
+
+                    }
+                    else if (matches.Groups["teamid"].Success)
+                    {
+                        var teamid = Convert.ToInt32(matches.Groups["teamid"].Captures[0].Value);
+                        selectedStates.AddRange(states.Where(s => (s.Team != null && s.Team.Id == teamid) || 
+                                                                  (s.TeamId.HasValue && s.TeamId.Value == teamid)));
+
+                    }
+                    else
+                    {
+                        selectedStates.Add(state);
+                    }
+
                 }
-                else
+                foreach (var imageHuntState in selectedStates)
                 {
-                    await ComposeReplyAsync(turnContext, state);
+                    await ComposeReplyAsync(turnContext, imageHuntState);
                 }
+
             }
         }
 
