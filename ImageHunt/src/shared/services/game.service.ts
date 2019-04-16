@@ -92,6 +92,11 @@ export class GameService {
       return this.http.get<GameAction[]>(`api/Action/GameActionsToValidate?gameId=${gameId}&teamId=${teamId}&pageIndex=${pageIndex}&pageSize=${pageSize}&nbPotential=${nbProbableNode}&includeAction=HiddenNode`);
     return this.http.get<GameAction[]>(`api/Action/GameActionsToValidate?gameId=${gameId}&pageIndex=${pageIndex}&pageSize=${pageSize}&nbPotential=${nbProbableNode}&includeAction=HiddenNode`);
   }
+  getQuestionAnswerToValidateForGame(gameId: number, pageIndex: number, pageSize: number, nbProbableNode: number, teamId?: number) {
+    if (teamId)
+      return this.http.get<GameAction[]>(`api/Action/GameActionsToValidate?gameId=${gameId}&teamId=${teamId}&pageIndex=${pageIndex}&pageSize=${pageSize}&nbPotential=${nbProbableNode}&includeAction=ReplyQuestion`);
+    return this.http.get<GameAction[]>(`api/Action/GameActionsToValidate?gameId=${gameId}&pageIndex=${pageIndex}&pageSize=${pageSize}&nbPotential=${nbProbableNode}&includeAction=ReplyQuestion`);
+  }
   getGameAction(gameActionId: number) {
     return this.http.get(`api/Action/GetGameAction/${gameActionId}`);
   }
