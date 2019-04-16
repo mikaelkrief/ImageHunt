@@ -183,6 +183,10 @@ namespace ImageHunt.Services
       {
         selectedNodes = selectedNodes.Union(nodes.Where(n => n.NodeType == NodeResponse.HiddenNodeType || n.NodeType == NodeResponse.BonusNodeType));
       }
+      if (nodeTypes.HasFlag(NodeTypes.Question))
+      {
+        selectedNodes = selectedNodes.Union(nodes.Where(n => n.NodeType == NodeResponse.QuestionNodeType || n.NodeType == NodeResponse.ChoiceNodeType));
+      }
       if (nodeTypes.HasFlag(NodeTypes.Path))
       {
         selectedNodes = selectedNodes.Union(nodes.Where(n => n.NodeType == NodeResponse.FirstNodeType ||

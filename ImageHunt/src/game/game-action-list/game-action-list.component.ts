@@ -127,10 +127,12 @@ export class GameActionListComponent implements OnInit {
 
   computeDeltas() {
     this.gameActions.map(ga => {
-      ga.delta = this.getDistanceFromLatLon(ga.latitude,
-        ga.longitude,
-        ga.probableNodes[0].latitude,
-        ga.probableNodes[0].longitude);
+      if (ga.probableNodes[0]) {
+        ga.delta = this.getDistanceFromLatLon(ga.latitude,
+          ga.longitude,
+          ga.probableNodes[0].latitude,
+          ga.probableNodes[0].longitude);
+      }
     });
   }
   modifyPoints(action: GameAction) {

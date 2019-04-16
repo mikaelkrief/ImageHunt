@@ -11,8 +11,9 @@ namespace ImageHuntWebServiceClient.Responses
         Hidden = 0x0002,
         Path = 0x0004,
         Action = 0x0008,
+        Question = 0x0010,
 
-        All = Picture | Hidden | Path | Action,
+        All = Picture | Hidden | Path | Action | Question,
     }
 
     public partial class NodeResponse
