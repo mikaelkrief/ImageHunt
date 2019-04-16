@@ -28,6 +28,7 @@ namespace ImageHunt.Services
           .Include(ga => ga.Picture)
           .Where(ga => ga.Game.Id == gameId)
           .Where(ga => !ga.IsReviewed)
+          .Where(t=>t.Team != null)
         ;
       if (teamId.HasValue)
         gameActions = gameActions.Where(ga => ga.Team.Id == teamId.Value);
