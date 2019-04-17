@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Autofac;
 using FakeItEasy;
 using ImageHunt;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore;
+using ImageHuntBotCore.Commands;
+using ImageHuntBotCore.Commands.Interfaces;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
@@ -31,7 +35,7 @@ namespace ImageHuntBotBuilderTest
         private IStorage _storage;
         private ConversationState _conversationState;
         private ITeamWebService _teamWebService;
-        private ICommandRepository _commandRepository;
+        private ICommandRepository<ImageHuntState> _commandRepository;
         private Activity _activity;
         private ImageHuntState _state;
         private INodeVisitorHandler _nodevisitorHandler;
@@ -55,7 +59,7 @@ namespace ImageHuntBotBuilderTest
             _accessor.ImageHuntState = _statePropertyAccessor;
             _accessor.ConversationDialogState = A.Fake<IStatePropertyAccessor<DialogState>>();
             TestContainerBuilder.RegisterInstance(_accessor);
-            _commandRepository = A.Fake<ICommandRepository>();
+            _commandRepository = A.Fake<ICommandRepository<ImageHuntState>>();
             TestContainerBuilder.RegisterInstance(_commandRepository);
             TestContainerBuilder.RegisterInstance(_localizer = A.Fake<IStringLocalizer<ImageHuntBot>>());
             _activity = new Activity() {Conversation = new ConversationAccount(){Id = "toto|livechat"}};
@@ -200,7 +204,7 @@ namespace ImageHuntBotBuilderTest
             _activity.Type = ActivityTypes.Message;
             _activity.Text ="/toto";
             A.CallTo(() => _turnContext.Activity).Returns(_activity);
-            var command = A.Fake<ICommand>();
+            var command = A.Fake<ICommand<ImageHuntState>>();
             A.CallTo(() => _commandRepository.Get(_turnContext, A<ImageHuntState>._, _activity.Text)).Returns(command);
 
             // Act

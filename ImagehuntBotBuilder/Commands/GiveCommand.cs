@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore.Commands;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
@@ -12,7 +13,7 @@ using Action = ImageHuntCore.Model.Action;
 namespace ImageHuntBotBuilder.Commands
 {
     [Command("give")]
-    public class GiveCommand : AbstractCommand, IGiveCommand
+    public class GiveCommand : AbstractCommand<ImageHuntState>, IGiveCommand
     {
         private readonly IActionWebService _actionWebService;
 

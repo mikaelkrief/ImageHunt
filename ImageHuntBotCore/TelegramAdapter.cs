@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,7 +20,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
-namespace ImageHuntBotBuilder
+namespace ImageHuntBotCore
 {
     public class TelegramAdapter : BotAdapter, IAdapterIntegration
     {
@@ -60,7 +59,7 @@ namespace ImageHuntBotBuilder
                     {
                         switch (attachment.ContentType)
                         {
-                            case string s when s.StartsWith(ImageHuntActivityTypes.Image):
+                            case string s when s.StartsWith((string) ImageHuntActivityTypes.Image):
                                 {
                                     // Try to download the image
                                     using (var request =
@@ -153,7 +152,7 @@ namespace ImageHuntBotBuilder
 
                         break;
                     case "telegram":
-                        var chatId = Convert.ToInt64(activity.Conversation.Id);
+                        var chatId = Convert.ToInt64((string) activity.Conversation.Id);
                         switch (activity.Type)
                         {
                             case ActivityTypes.Message:

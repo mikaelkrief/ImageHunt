@@ -9,6 +9,7 @@ using Autofac;
 using AutoMapper;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Middlewares;
+using ImageHuntBotCore;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Builder;

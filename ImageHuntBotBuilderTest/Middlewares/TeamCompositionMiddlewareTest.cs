@@ -6,6 +6,7 @@ using Autofac;
 using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Middlewares;
+using ImageHuntBotCore;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;

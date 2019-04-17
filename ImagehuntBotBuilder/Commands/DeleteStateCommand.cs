@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore.Commands;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Localization;
@@ -11,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace ImageHuntBotBuilder.Commands
 {
     [Command("delState")]
-    public class DeleteStateCommand : AbstractCommand, IDeleteStateCommand
+    public class DeleteStateCommand : AbstractCommand<ImageHuntState>, IDeleteStateCommand
     {
         private readonly ImageHuntBotAccessors _accessors;
 

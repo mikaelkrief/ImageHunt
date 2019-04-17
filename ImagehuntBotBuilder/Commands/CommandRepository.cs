@@ -1,108 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Autofac;
-using ImageHuntBotBuilder.Commands.Interfaces;
-using ImageHuntWebServiceClient.Responses;
+using ImageHuntBotCore.Commands;
+using ImageHuntBotCore.Commands.Interfaces;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Extensions.Logging;
 
 namespace ImageHuntBotBuilder.Commands
 {
-    public class CommandRepository : ICommandRepository
+    public class CommandRepository : CommandRepository<ImageHuntState>
     {
-        private readonly ILogger<ICommandRepository> _logger;
-        private readonly IAdminWebService _adminWebService;
-        private readonly ILifetimeScope _scope;
-        private IEnumerable<AdminResponse> _admins;
-        private DateTime? _refreshTime;
-
-        public CommandRepository(
-            ILogger<ICommandRepository> logger, 
-            IAdminWebService adminWebService,
-            ILifetimeScope scope)
+        public CommandRepository(ILogger<ICommandRepository<ImageHuntState>> logger, IAdminWebService adminWebService, ILifetimeScope scope) 
+            : base(logger, adminWebService, scope)
         {
-            _logger = logger;
-            _adminWebService = adminWebService;
-            _scope = scope;
         }
 
-        public async Task RefreshAdminsAsync()
+        public override ICommand<ImageHuntState> Get(ITurnContext turnContext, ImageHuntState state, string commandText)
         {
-            var span = DateTime.Now - (_refreshTime ?? DateTime.Now);
-            if (span > TimeSpan.FromMinutes(5) || _admins == null)
-            {
-                _admins = await _adminWebService.GetAllAdmins();
-                _refreshTime = DateTime.Now;
-            }
-        }
-
-        public ICommand Get(ITurnContext turnContext, ImageHuntState state, string commandText)
-        {
-            // Remove leading '/' if any and extract command name
-            var regex = new Regex(@"\/?(\S*)");
-            if (!regex.IsMatch(commandText))
-            {
-                return null;
-            }
-
-            if (commandText.Contains('@'))
-                commandText = commandText.Split('@')[0];
-            var group = regex.Matches(commandText);
-            commandText = group[0].Groups[1].Value;
-            if (turnContext.Activity == null)
-            {
-                throw new ArgumentNullException("turnContext.Activity");
-            }
-
-            var from = turnContext.Activity.From;
-            if (from == null)
-            {
-                throw new NotAuthorizedException("no User");
-            }
-
-            ICommand command;
-            try
-            {
-                command = _scope.ResolveNamed<ICommand>(commandText.ToLowerInvariant());
-            }
-            catch (Exception e)
-            {
-                throw new CommandNotFound(commandText);
-            }
-            if (command.IsAdmin && _admins.All(a => !turnContext.Activity.From.Name.Equals(a.Name, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                throw new NotAuthorizedException(turnContext.Activity.From.Name);
-            }
-
+            var command = base.Get(turnContext, state, commandText);
             if (state.Team != null && command.IsAdmin && state.Team.Players.Any(p => p.ChatLogin == turnContext.Activity.From.Name))
             {
                 throw new NotAuthorizedException(turnContext.Activity.From.Name);
             }
+
             return command;
         }
-    }
-
-    public class NotAuthorizedException : Exception
-    {
-        public string UserName { get; }
-
-        public NotAuthorizedException(string userName)
-        {
-            UserName = userName;
-        }
-    }
-
-    public class CommandNotFound : Exception
-    {
-        public CommandNotFound(string command)
-        {
-            Command = command;
-        }
-
-        public string Command { get; set; }
     }
 }

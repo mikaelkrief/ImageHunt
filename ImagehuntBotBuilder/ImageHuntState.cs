@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using ImageHuntBotCore;
 using ImageHuntWebServiceClient.Responses;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -12,7 +13,7 @@ namespace ImageHuntBotBuilder
     /// Stored in <see cref="Microsoft.Bot.Builder.ConversationState"/> and
     /// backed by <see cref="Microsoft.Bot.Builder.MemoryStorage"/>.
     /// </summary>
-    public class ImageHuntState
+    public class ImageHuntState : IState
     {
         public string ConversationId { get; set; }
         public Status Status { get; set; }
@@ -28,6 +29,7 @@ namespace ImageHuntBotBuilder
         public NodeResponse[] HiddenNodes { get; set; }
         public NodeResponse[] ActionNodes { get; set; }
         public DialogSet CurrentDialog { get; set; }
+        public string CultureInfo { get; set; }
     }
 
     public enum Status

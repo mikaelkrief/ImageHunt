@@ -1,4 +1,4 @@
-﻿namespace ImageHuntBotBuilder
+﻿namespace ImageHuntBotCore
 {
     public static class ImageHuntActivityTypes
     {

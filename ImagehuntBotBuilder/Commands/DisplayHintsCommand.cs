@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore.Commands;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
@@ -12,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace ImageHuntBotBuilder.Commands
 {
     [Command("hints")]
-    public class DisplayHintsCommand : AbstractCommand, IDisplayHintsCommand
+    public class DisplayHintsCommand : AbstractCommand<ImageHuntState>, IDisplayHintsCommand
     {
         private readonly INodeWebService _nodeWebService;
         private readonly ITeamWebService _teamWebService;

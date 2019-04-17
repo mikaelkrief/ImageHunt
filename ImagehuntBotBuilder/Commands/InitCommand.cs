@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore.Commands;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
@@ -13,7 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace ImageHuntBotBuilder.Commands
 {
     [Command("init")]
-    public class InitCommand : AbstractCommand, IInitCommand
+    public class InitCommand : AbstractCommand<ImageHuntState>, IInitCommand
     {
         private readonly IGameWebService _gameWebService;
         private readonly ITeamWebService _teamWebService;

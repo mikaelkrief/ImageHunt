@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Autofac;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore.Commands;
 using ImageHuntWebServiceClient;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
@@ -12,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace ImageHuntBotBuilder.Commands
 {
     [Command("redeem")]
-    public class RedeemCommand : AbstractCommand, IRedeemCommand
+    public class RedeemCommand : AbstractCommand<ImageHuntState>, IRedeemCommand
     {
         private readonly IPasscodeWebService _passcodeWebService;
         private readonly ILifetimeScope _scope;

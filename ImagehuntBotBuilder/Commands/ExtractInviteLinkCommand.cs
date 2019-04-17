@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore;
+using ImageHuntBotCore.Commands;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
@@ -10,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace ImageHuntBotBuilder.Commands
 {
     [Command("inviteLink")]
-    public class ExtractInviteLinkCommand : AbstractCommand, IExtractInviteLinkCommand
+    public class ExtractInviteLinkCommand : AbstractCommand<ImageHuntState>, IExtractInviteLinkCommand
     {
         private readonly ITeamWebService _teamWebService;
 

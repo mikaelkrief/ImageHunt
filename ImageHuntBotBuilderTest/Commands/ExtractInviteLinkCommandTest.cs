@@ -7,6 +7,7 @@ using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;

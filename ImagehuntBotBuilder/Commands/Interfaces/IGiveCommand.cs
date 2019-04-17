@@ -1,6 +1,8 @@
-﻿namespace ImageHuntBotBuilder.Commands.Interfaces
+﻿using ImageHuntBotCore.Commands.Interfaces;
+
+namespace ImageHuntBotBuilder.Commands.Interfaces
 {
-    public interface IGiveCommand : ICommand
+    public interface IGiveCommand : ICommand<ImageHuntState>
     {
     }
 }

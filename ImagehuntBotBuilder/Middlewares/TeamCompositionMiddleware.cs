@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using ImageHuntBotCore;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;

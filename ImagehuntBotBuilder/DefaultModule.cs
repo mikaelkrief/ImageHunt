@@ -2,6 +2,8 @@
 using Castle.Core.Internal;
 using ImageHuntBotBuilder.Commands;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore.Commands;
+using ImageHuntBotCore.Commands.Interfaces;
 using ImageHuntWebServiceClient.WebServices;
 
 namespace ImageHuntBotBuilder
@@ -23,7 +25,7 @@ namespace ImageHuntBotBuilder
                 .PublicOnly()
                 .Where(t => t.Name.EndsWith("Command") && t.IsClass)
                 .AsImplementedInterfaces()
-                .Named<ICommand>(ct =>
+                .Named<ICommand<ImageHuntState>>(ct =>
                 {
                     var ca = ct.GetAttribute<CommandAttribute>();
                     return ca.Command;

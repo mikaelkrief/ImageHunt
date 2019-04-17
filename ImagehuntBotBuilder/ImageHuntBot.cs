@@ -5,6 +5,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore;
+using ImageHuntBotCore.Commands;
+using ImageHuntBotCore.Commands.Interfaces;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
@@ -32,7 +35,7 @@ namespace ImageHuntBotBuilder
         private readonly ImageHuntBotAccessors _accessors;
         private readonly IActionWebService _actionWebService;
         private readonly ITeamWebService _teamWebService;
-        private readonly ICommandRepository _commandRepository;
+        private readonly ICommandRepository<ImageHuntState> _commandRepository;
         private readonly INodeVisitorHandler _nodeVisitorHandler;
         private readonly ILogger _logger;
         private IStringLocalizer _localizer;
@@ -48,7 +51,7 @@ namespace ImageHuntBotBuilder
             ImageHuntBotAccessors accessors,
             IActionWebService actionWebService,
             ITeamWebService teamWebService,
-            ICommandRepository commandRepository,
+            ICommandRepository<ImageHuntState> commandRepository,
             INodeVisitorHandler nodeVisitorHandler,
             ILogger<ImageHuntBot> logger,
             IStringLocalizer<ImageHuntBot> localizer)

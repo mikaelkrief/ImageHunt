@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Globalization;
 using System.Threading.Tasks;
-using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore.Commands.Interfaces;
 using Microsoft.Bot.Builder;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
-namespace ImageHuntBotBuilder.Commands
+namespace ImageHuntBotCore.Commands
 {
-    public abstract class AbstractCommand : ICommand
+    public abstract class AbstractCommand<TState> : ICommand<TState> 
+        where TState :IState, new()
     {
         protected readonly ILogger Logger;
         protected IStringLocalizer Localizer;
@@ -20,15 +21,15 @@ namespace ImageHuntBotBuilder.Commands
         }
 
         public virtual bool IsAdmin => true;
-        protected abstract Task InternalExecuteAsync(ITurnContext turnContext, ImageHuntState state);
+        protected abstract Task InternalExecuteAsync(ITurnContext turnContext, TState state);
 
-        public virtual async Task ExecuteAsync(ITurnContext turnContext, ImageHuntState state)
+        public virtual async Task ExecuteAsync(ITurnContext turnContext, TState state)
         {
             try
             {
-                if (state.Team != null && !string.IsNullOrEmpty(state.Team.CultureInfo))
+                if (!string.IsNullOrEmpty(state.CultureInfo))
                 {
-                    Localizer = Localizer.WithCulture(new CultureInfo(state.Team.CultureInfo));
+                    Localizer = Localizer.WithCulture(new CultureInfo(state.CultureInfo));
                 }
                 await InternalExecuteAsync(turnContext, state);
             }
@@ -36,17 +37,6 @@ namespace ImageHuntBotBuilder.Commands
             {
                 Logger.LogError(e, "Exception occured while execute command");
             }
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Class)]
-    public class CommandAttribute : Attribute
-    {
-        public string Command { get; }
-
-        public CommandAttribute(string command)
-        {
-            Command = command.ToLowerInvariant();
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore;
+using ImageHuntBotCore.Commands;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
@@ -9,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace ImageHuntBotBuilder.Commands
 {
     [Command("Rename")]
-    public class RenameChatCommand : AbstractCommand, IRenameChatCommand
+    public class RenameChatCommand : AbstractCommand<ImageHuntState>, IRenameChatCommand
     {
         private readonly IGameWebService _gameWebService;
         private readonly ITeamWebService _teamWebService;

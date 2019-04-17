@@ -10,6 +10,7 @@ using AutoMapper;
 using FakeItEasy;
 using ImagehuntBotBuilder;
 using ImageHuntBotBuilder;
+using ImageHuntBotCore;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Connector;

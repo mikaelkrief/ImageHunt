@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore.Commands;
 using ImageHuntCore.Computation;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
@@ -11,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace ImageHuntBotBuilder.Commands
 {
     [Command("resetNext")]
-    public class ResetNextNodeCommand : AbstractCommand, IResetNextNodeCommand
+    public class ResetNextNodeCommand : AbstractCommand<ImageHuntState>, IResetNextNodeCommand
     {
         private readonly INodeWebService _nodeWebService;
         private readonly IGameWebService _gameWebService;

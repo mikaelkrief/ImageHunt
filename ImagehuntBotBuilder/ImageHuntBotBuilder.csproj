@@ -44,6 +44,7 @@
     <PackageReference Include="Telegram.Bot" Version="14.10.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ImageHuntBotCore\ImageHuntBotCore.csproj" />
     <ProjectReference Include="..\ImageHuntCore\ImageHuntCore.csproj" />
     <ProjectReference Include="..\ImageHuntWebServiceClient\ImageHuntWebServiceClient.csproj" />
   </ItemGroup>

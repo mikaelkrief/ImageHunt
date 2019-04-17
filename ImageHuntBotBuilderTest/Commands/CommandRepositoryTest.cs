@@ -6,10 +6,14 @@ using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore;
+using ImageHuntBotCore.Commands;
+using ImageHuntBotCore.Commands.Interfaces;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
@@ -18,7 +22,7 @@ using Xunit;
 namespace ImageHuntBotBuilderTest.Commands
 {
     [Command("dummy1")]
-    class Dummy1Command : ICommand
+    class Dummy1Command : ICommand<ImageHuntState>
     {
         public bool IsAdmin => false;
         public Task ExecuteAsync(ITurnContext turnContext, ImageHuntState state)
@@ -27,29 +31,30 @@ namespace ImageHuntBotBuilderTest.Commands
         }
     }
     [Command("dummy2")]
-    class Dummy2Command : ICommand
+    class Dummy2Command : ICommand<ImageHuntState>
     {
         public bool IsAdmin => true;
         public Task ExecuteAsync(ITurnContext turnContext, ImageHuntState state)
         {
             throw new NotImplementedException();
         }
+
     }
 
     public class CommandRepositoryTest : BaseTest<CommandRepository>
     {
-        private ILogger<ICommandRepository> _logger;
+        private ILogger<ICommandRepository<ImageHuntState>> _logger;
         private ITurnContext _turnContext;
         private IAdminWebService _adminWebService;
         private ImageHuntState _state;
 
         public CommandRepositoryTest()
         {
-            _logger = A.Fake<ILogger<ICommandRepository>>();
+            _logger = A.Fake<ILogger<ICommandRepository<ImageHuntState>>>();
             _adminWebService = A.Fake<IAdminWebService>();
             TestContainerBuilder.RegisterInstance(_adminWebService);
-            TestContainerBuilder.RegisterCommand<Dummy1Command>();
-            TestContainerBuilder.RegisterCommand<Dummy2Command>();
+            TestContainerBuilder.RegisterType<Dummy1Command>().Named<ICommand<ImageHuntState>>("dummy1");
+            TestContainerBuilder.RegisterType<Dummy2Command>().Named<ICommand<ImageHuntState>>("dummy2");
             TestContainerBuilder.RegisterInstance(_logger);
             _turnContext = A.Fake<ITurnContext>();
             _state = new ImageHuntState();

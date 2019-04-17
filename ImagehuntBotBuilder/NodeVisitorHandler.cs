@@ -6,6 +6,7 @@ using System.Net.NetworkInformation;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
+using ImageHuntBotCore;
 using ImageHuntCore.Computation;
 using ImageHuntCore.Model.Node;
 using ImageHuntWebServiceClient.Request;

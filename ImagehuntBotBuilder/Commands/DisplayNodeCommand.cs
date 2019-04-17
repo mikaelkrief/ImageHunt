@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore;
+using ImageHuntBotCore.Commands;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
@@ -10,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace ImageHuntBotBuilder.Commands
 {
     [Command("next")]
-    public class DisplayNodeCommand : AbstractCommand, IDisplayNodeCommand
+    public class DisplayNodeCommand : AbstractCommand<ImageHuntState>, IDisplayNodeCommand
     {
         private readonly INodeWebService _nodeWebService;
         public override bool IsAdmin => false;

@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore.Commands;
 using Microsoft.Bot.Builder;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -12,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace ImageHuntBotBuilder.Commands
 {
     [Command("state")]
-    public class DisplayStateCommand : AbstractCommand, IDisplayStateCommand
+    public class DisplayStateCommand : AbstractCommand<ImageHuntState>, IDisplayStateCommand
     {
         private readonly ImageHuntBotAccessors _accessors;
 
@@ -36,6 +37,7 @@ namespace ImageHuntBotBuilder.Commands
                 {
                     var matches = regEx.Match(turnContext.Activity.Text);
                      var states = await _accessors.AllStates.GetAllAsync();
+                    // Strip null states
                    if (matches.Groups["all"].Success)
                    {
                        selectedStates.AddRange(states);

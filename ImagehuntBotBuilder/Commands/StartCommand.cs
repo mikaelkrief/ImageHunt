@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Autofac;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore.Commands;
+using ImageHuntBotCore.Commands.Interfaces;
 using Microsoft.Bot.Builder;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
@@ -9,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace ImageHuntBotBuilder.Commands
 {
     [Command("start")]
-    public class StartCommand : AbstractCommand, IStartCommand
+    public class StartCommand : AbstractCommand<ImageHuntState>, IStartCommand
     {
         private readonly ILifetimeScope _scope;
 
@@ -30,7 +32,7 @@ namespace ImageHuntBotBuilder.Commands
                 {
                     var group = regex.Matches(payload);
                     var subCommand = $"/{group[0].Groups[1].Value}";
-                    ICommand subDialog = null;
+                    ICommand<ImageHuntState> subDialog = null;
                     var subpayload = payload;
                     // Replace # by space
                     subpayload = payload.Replace('_', ' ');

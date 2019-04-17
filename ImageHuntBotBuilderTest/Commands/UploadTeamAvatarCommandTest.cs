@@ -5,6 +5,7 @@ using FakeItEasy;
 using ImageHuntBotBuilder;
 using ImageHuntBotBuilder.Commands;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore.Commands;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
 using Microsoft.Extensions.Localization;
@@ -41,7 +42,7 @@ namespace ImageHuntBotBuilderTest.Commands
         }
     }
     [Command("upIcon")]
-    public class UploadTeamAvatarCommand : AbstractCommand, IUploadTeamAvatarCommand
+    public class UploadTeamAvatarCommand : AbstractCommand<ImageHuntState>, IUploadTeamAvatarCommand
     {
         private readonly ITeamWebService _teamWebService;
 

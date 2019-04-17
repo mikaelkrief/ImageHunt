@@ -33,6 +33,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dockerfiles", "Dockerfiles"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageHuntCoreTest", "ImageHuntCoreTest\ImageHuntCoreTest.csproj", "{48FB3ABC-F6DA-48CD-86AA-4854FAB97D5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntValidatorBot", "ImageHuntValidatorBot\ImageHuntValidatorBot.csproj", "{760FF55E-7C36-4958-A44E-9D7E0FBF23B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageHuntBotCore", "ImageHuntBotCore\ImageHuntBotCore.csproj", "{5B94DC2D-D72A-4F94-B64C-B1F354C5932C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +83,14 @@ Global
 		{48FB3ABC-F6DA-48CD-86AA-4854FAB97D5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48FB3ABC-F6DA-48CD-86AA-4854FAB97D5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48FB3ABC-F6DA-48CD-86AA-4854FAB97D5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{760FF55E-7C36-4958-A44E-9D7E0FBF23B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{760FF55E-7C36-4958-A44E-9D7E0FBF23B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{760FF55E-7C36-4958-A44E-9D7E0FBF23B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{760FF55E-7C36-4958-A44E-9D7E0FBF23B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B94DC2D-D72A-4F94-B64C-B1F354C5932C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B94DC2D-D72A-4F94-B64C-B1F354C5932C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B94DC2D-D72A-4F94-B64C-B1F354C5932C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B94DC2D-D72A-4F94-B64C-B1F354C5932C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

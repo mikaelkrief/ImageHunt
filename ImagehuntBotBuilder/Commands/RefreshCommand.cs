@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using ImageHuntBotCore.Commands;
 using ImageHuntWebServiceClient.Responses;
 using ImageHuntWebServiceClient.WebServices;
 using Microsoft.Bot.Builder;
@@ -9,7 +10,7 @@ using Microsoft.Extensions.Logging;
 namespace ImageHuntBotBuilder.Commands
 {
     [Command("refresh")]
-    public class RefreshCommand : AbstractCommand, IRefreshCommand
+    public class RefreshCommand : AbstractCommand<ImageHuntState>, IRefreshCommand
     {
         private readonly INodeWebService _nodeWebService;
 

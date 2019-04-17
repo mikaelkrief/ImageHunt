@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ImageHuntBotBuilder.Commands.Interfaces;
+using ImageHuntBotCore.Commands;
 using ImageHuntCore.Model;
 using ImageHuntWebServiceClient.Request;
 using ImageHuntWebServiceClient.WebServices;
@@ -10,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace ImageHuntBotBuilder.Commands
 {
     [Command("end")]
-    public class EndCommand : AbstractCommand, IEndCommand
+    public class EndCommand : AbstractCommand<ImageHuntState>, IEndCommand
     {
         private readonly IActionWebService _actionWebService;
 
