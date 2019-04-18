@@ -26,7 +26,7 @@ namespace ImageHuntBotBuilder
                 var dic = new List<T>();
                 foreach (var s in sub)
                 {
-                    var vals = s.Values.Select(v=>(T)v);
+                    var vals = s.Values.Select(v=> v as T);
                     list.AddRange(vals.Where(state => state != null));
                 }
             }
