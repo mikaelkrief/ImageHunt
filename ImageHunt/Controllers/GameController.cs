@@ -389,7 +389,7 @@ namespace ImageHunt.Controllers
       var firstNode = newNode.First(n => n.NodeType == NodeResponse.FirstNodeType);
       firstNode.DuplicatePath(orgNodes, newNode);
       SaveRelation(firstNode);
-      return Ok(_mapper.Map<GameResponse>(newGame));
+      return Ok(_mapper.Map<GameResponseEx>(newGame));
     }
 
     private void SaveRelation(Node currentNode)
