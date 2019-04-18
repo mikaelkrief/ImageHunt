@@ -206,7 +206,7 @@ export class MapDetail3Component implements OnInit {
         return {
           icon: 'camera',
           prefix: 'fa',
-          markerColor: 'blue'
+          markerColor: 'cadetblue'
         };
 
       case 'FirstNode':
