@@ -27,7 +27,7 @@ namespace ImageHuntBotBuilder
                 foreach (var s in sub)
                 {
                     var vals = s.Values.Select(v=>(T)v);
-                    list.AddRange(vals);
+                    list.AddRange(vals.Where(state => state != null));
                 }
             }
 
