@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using ImageHuntBotBuilder;
+using ImageHuntBotCore;
 using NFluent;
 using TestUtilities;
 using Xunit;

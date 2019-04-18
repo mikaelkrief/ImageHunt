@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Newtonsoft.Json;
 using Polly;
-using static Newtonsoft.Json.TypeNameHandling;
 
-namespace ImageHuntBotBuilder
+namespace ImageHuntBotCore
 {
     public class FileStorage : IMultiStorage
     {
@@ -19,7 +18,7 @@ namespace ImageHuntBotBuilder
         private static readonly JsonSerializerSettings SerializationSettings = new JsonSerializerSettings()
         {
             // we use all so that we get typed roundtrip out of storage, but we don't use validation because we don't know what types are valid
-            TypeNameHandling = All,
+            TypeNameHandling = TypeNameHandling.All,
         };
 
         public FileStorage(string folder)
@@ -59,7 +58,7 @@ namespace ImageHuntBotBuilder
 
         private async Task<IEnumerable<string>> ReadAllKeysAsync()
         {
-            return Directory.EnumerateFiles(this._folder).Select(f => Path.GetFileName(f));
+            return Directory.EnumerateFiles(this._folder).Select(f => Path.GetFileName((string) f));
         }
 
         public async Task WriteAsync(IDictionary<string, object> changes, CancellationToken cancellationToken = new CancellationToken())
@@ -163,11 +162,5 @@ namespace ImageHuntBotBuilder
 
             return sb.ToString();
         }
-    }
-
-    public interface IMultiStorage  : IStorage
-    {
-        Task<IEnumerable<IDictionary<string, object>>> ReadAllAsync(
-            CancellationToken cancellationToken = new CancellationToken());
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
@@ -27,11 +28,8 @@ namespace ImageHuntValidator
                     // logging.AddDebug();
                     // logging.AddConsole();
                 })
-
-                // Logging Options.
-                // Consider using Application Insights for your logging and metrics needs.
-                // https://azure.microsoft.com/en-us/services/application-insights/
-                // .UseApplicationInsights()
+                .ConfigureServices(services => services.AddAutofac())
+                .UseApplicationInsights("470e2a25-5b03-4f65-9975-b8f26d741653")
                 .UseStartup<Startup>()
                 .Build();
     }

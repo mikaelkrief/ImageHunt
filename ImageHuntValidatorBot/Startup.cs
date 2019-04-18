@@ -2,8 +2,15 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Autofac;
+using ImageHuntValidatorBot;
+using ImageHuntWebServiceClient.Request;
+using ImageHuntWebServiceClient.WebServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -21,11 +28,14 @@ namespace ImageHuntValidator
     /// </summary>
     public class Startup
     {
+        private readonly ILogger<Startup> _logger;
         private ILoggerFactory _loggerFactory;
         private readonly bool _isProduction;
+        private string _jwtToken;
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, ILogger<Startup> logger)
         {
+            _logger = logger;
             _isProduction = env.IsProduction();
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -53,6 +63,7 @@ namespace ImageHuntValidator
         /// <seealso cref="https://docs.microsoft.com/en-us/azure/bot-service/bot-service-manage-channels?view=azure-bot-service-4.0"/>
         public void ConfigureServices(IServiceCollection services)
         {
+            _logger.LogTrace("ConfigureServices");
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
             var botFilePath = Configuration.GetSection("botFilePath")?.Value;
             if (!File.Exists(botFilePath))
@@ -118,13 +129,13 @@ namespace ImageHuntValidator
             var conversationState = new ConversationState(dataStore);
             services.AddSingleton(conversationState);
 
-            services.AddBot<ImageHuntValidatorBotBot>(options =>
+            services.AddBot<ImageHuntValidatorBot>(options =>
            {
                options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
 
                 // Catches any errors that occur during a conversation turn and logs them to currently
                 // configured ILogger.
-                ILogger logger = _loggerFactory.CreateLogger<ImageHuntValidatorBotBot>();
+                ILogger logger = _loggerFactory.CreateLogger<ImageHuntValidatorBot>();
 
                options.OnTurnError = async (context, exception) =>
                {
@@ -142,5 +153,47 @@ namespace ImageHuntValidator
                 .UseStaticFiles()
                 .UseBotFramework();
         }
+
+        public void ConfigureDevelopmentContainer(ContainerBuilder builder)
+        {
+            var botToken = Configuration.GetSection("BotConfiguration:BotToken").Value;
+
+            ConfigureContainer(builder);
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+#if !DEBUG
+            LoginApiAsync().Wait();
+#endif
+            builder.RegisterModule<DefaultModule>();
+
+        }
+        private async Task LoginApiAsync()
+        {
+            _logger.LogTrace("LoginApi");
+            var apiBaseAddress = Configuration["ImageHuntApi:Url"];
+            _logger.LogDebug("Connect to {0}", apiBaseAddress);
+            var httpLogin = new HttpClient() { BaseAddress = new Uri(apiBaseAddress) };
+            var accountService =
+                new AccountWebService(httpLogin, new LoggerFactory().CreateLogger<IAccountWebService>());
+            var logingRequest = new LoginRequest()
+            {
+                UserName = Configuration["BotConfiguration:BotName"],
+                Password = Configuration["BotConfiguration:BotPassword"],
+            };
+            try
+            {
+                var response = await accountService.Login(logingRequest);
+                _jwtToken = response.Result.Value;
+
+            }
+            catch (AggregateException e)
+            {
+                _logger.LogCritical(e, "Unable to login to ImageHunt API, give-up");
+                Process.GetCurrentProcess().Kill();
+            }
+        }
+
     }
 }

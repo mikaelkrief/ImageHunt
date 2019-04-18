@@ -20,7 +20,7 @@ namespace ImageHuntValidator
     /// <see cref="IStatePropertyAccessor{T}"/> object are created with a singleton lifetime.
     /// </summary>
     /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-2.1"/>
-    public class ImageHuntValidatorBotBot : IBot
+    public class ImageHuntValidatorBot : IBot
     {
         private readonly ImageHuntValidatorBotAccessors _accessors;
         private readonly ILogger _logger;
@@ -31,7 +31,7 @@ namespace ImageHuntValidator
         /// <param name="conversationState">The managed conversation state.</param>
         /// <param name="loggerFactory">A <see cref="ILoggerFactory"/> that is hooked to the Azure App Service provider.</param>
         /// <seealso cref="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-2.1#windows-eventlog-provider"/>
-        public ImageHuntValidatorBotBot(ConversationState conversationState, ILoggerFactory loggerFactory)
+        public ImageHuntValidatorBot(ConversationState conversationState, ILoggerFactory loggerFactory)
         {
             if (conversationState == null)
             {
@@ -48,7 +48,7 @@ namespace ImageHuntValidator
                 ValidatorState = conversationState.CreateProperty<ImageHuntValidatorState>(ImageHuntValidatorBotAccessors.ValidatorStateName),
             };
 
-            _logger = loggerFactory.CreateLogger<ImageHuntValidatorBotBot>();
+            _logger = loggerFactory.CreateLogger<ImageHuntValidatorBot>();
             _logger.LogTrace("Turn start.");
         }
 
@@ -80,7 +80,7 @@ namespace ImageHuntValidator
 
                 // Save the new turn count into the conversation state.
                 await _accessors.ConversationState.SaveChangesAsync(turnContext);
-
+                await turnContext.SendActivityAsync($"{turnContext.Activity.Type} event detected");
             }
             else
             {
