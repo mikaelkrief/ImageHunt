@@ -59,6 +59,19 @@ export class MapDetail3Component implements OnInit {
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: 'ImageHunt'
     }).addTo(this.map);
+
+    this.pictureNodeLayer = new L.LayerGroup();
+    this.pictureNodeLayer.addTo(this.map);
+    this.waypointsNodeLayer = new L.LayerGroup();
+    this.waypointsNodeLayer.addTo(this.map);
+    this.hiddenNodeLayer = new L.LayerGroup();
+    this.hiddenNodeLayer.addTo(this.map);
+    L.control.layers(null, {
+      "Picture nodes": this.pictureNodeLayer,
+      "Waypoint nodes": this.waypointsNodeLayer,
+      "Hidden nodes": this.hiddenNodeLayer
+    }).addTo(this.map);
+
     this.updateMap();
     this.map.on('click', event=> this.mapClicked.emit(event));
 
@@ -127,6 +140,7 @@ export class MapDetail3Component implements OnInit {
                   ]
               });
             decorator.addTo(this.map);
+            decorator.addTo(this.waypointsNodeLayer);
           });
         }
       });
@@ -171,6 +185,7 @@ export class MapDetail3Component implements OnInit {
         });
       marker.node = node;
       marker.addTo(this.map);
+      this.addNodeToLayer(marker);
       marker.on('click', event => this.onNodeClick(event));
       marker.on('dragend', event => this.onNodeDragged(event));
 
@@ -331,4 +346,31 @@ export class MapDetail3Component implements OnInit {
     
     this.map.fitBounds(coords);
   }
+
+  pictureNodeLayer: L.LayerGroup<any>;
+  waypointsNodeLayer: L.LayerGroup<any>;
+
+  addNodeToLayer(nodeMarker: NodeMarker) {
+    switch (nodeMarker.node.nodeType) {
+      case "PictureNode":
+        nodeMarker.addTo(this.pictureNodeLayer);
+        break;
+      case "WaypointNode":
+      case "ObjectNode":
+      case "QuestionNode":
+      case "TimerNode":
+      case "ChoiceNode":
+      case "FirstNode":
+      case "LastNode":
+        nodeMarker.addTo(this.waypointsNodeLayer);
+        break;
+      case "HiddenNode":
+      case "BonusNode":
+        nodeMarker.addTo(this.hiddenNodeLayer);
+        break;
+    default:
+    }
+  }
+
+  hiddenNodeLayer: L.LayerGroup<any>;
 }
