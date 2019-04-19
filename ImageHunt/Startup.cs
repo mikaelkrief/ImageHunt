@@ -233,6 +233,8 @@ namespace ImageHunt
         config.CreateMap<GameAction, GameActionResponse>();
         config.CreateMap<Game, GameResponseEx>()
           .ForMember(x=> x.PictureUrl, p=>p.MapFrom(i=>i.Picture != null? i.Picture.CloudUrl:""));
+        config.CreateMap<Game, GameResponse>()
+          .ForMember(x=> x.PictureUrl, p=>p.MapFrom(i=>i.Picture != null? i.Picture.CloudUrl:""));
 
         config.CreateMap<Node, Node>().ForSourceMember(x => x.Id, opt => opt.DoNotValidate());
         config.CreateMap<Node, NodeResponse>()
