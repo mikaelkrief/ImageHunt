@@ -1,7 +1,7 @@
-  import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, AfterContentChecked, AfterContentInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, AfterContentChecked, AfterContentInit } from '@angular/core';
 import * as L from 'leaflet';
-import 'leaflet-polylinedecorator';
 import 'leaflet-contextmenu';
+import { AntPath, antPath } from 'leaflet-ant-path';
 import 'leaflet.awesome-markers';
 
 import { GameService } from '../../shared/services/game.service';
@@ -122,25 +122,14 @@ export class MapDetail3Component implements OnInit {
         if (node.childNodeIds) {
           node.childNodeIds.forEach(childId => {
             const child = this.nodes.find(n => n.id == childId);
-            const polyline = L.polyline(
-              [
-                [node.latitude, node.longitude],
-                [child.latitude, child.longitude]
-              ],
-              { color: 'Blue', weight: 2 }
-            );
-            //polyline.addTo(this.map);
+            const polyline = new AntPath([
+              [node.latitude, node.longitude],
+              [child.latitude, child.longitude]
+            ],
+              { color: "Blue", hardwareAccelerated:true, delay:800, dashArray:[60,20] });
+            polyline.addTo(this.map);
+            polyline.addTo(this.waypointsNodeLayer);
             this.polylines.push(polyline);
-            const symbol = L.Symbol.arrowHead({ pixelSize: 10, pathOptions: { fillOpacity: 1, weight: 2 } });
-            const decorator = L.polylineDecorator(polyline,
-              {
-                patterns:
-                  [
-                    { offset: 0, repeat: 20, symbol: symbol }
-                  ]
-              });
-            decorator.addTo(this.map);
-            decorator.addTo(this.waypointsNodeLayer);
           });
         }
       });
