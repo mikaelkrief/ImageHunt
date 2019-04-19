@@ -51,11 +51,18 @@ _Restrictions_
 The telegram group should have been initialized.
 
 ## `/state`
-This command display the state of the chatroom
+This command display the state of a chatroom by criteria:
 
 _Usage_
 
-    /state
+* `/state`
+    Display the state of the current chatroom
+* `/state all`
+    Display the states of all chatrooms
+* `/state gameid=56`
+    Display the states of the chatroom belongs to the game of id 56
+* `/state teamid=45`
+    Display the state of the chatroom of the team with id 45
 
 _Result_
 > Game Status: Initialized  
