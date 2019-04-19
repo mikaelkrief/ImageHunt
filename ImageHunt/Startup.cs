@@ -231,7 +231,8 @@ namespace ImageHunt
           .ForMember(x => x.Picture, expression => expression.Ignore())
           .ForMember(m => m.PointsEarned, opt => opt.MapFrom(gar => gar.PointsEarned));
         config.CreateMap<GameAction, GameActionResponse>();
-        config.CreateMap<Game, GameResponseEx>();
+        config.CreateMap<Game, GameResponseEx>()
+          .ForMember(x=> x.PictureUrl, p=>p.MapFrom(i=>i.Picture != null? i.Picture.CloudUrl:""));
 
         config.CreateMap<Node, Node>().ForSourceMember(x => x.Id, opt => opt.DoNotValidate());
         config.CreateMap<Node, NodeResponse>()
@@ -274,11 +275,13 @@ namespace ImageHunt
         config.CreateMap<Identity, UserResponse>();
         config.CreateMap<Game, GameTeamsResponse>()
           .ForMember(g => g.Teams, g => g.MapFrom(game => game.Teams))
-          .ForMember(g => g.PictureId, g => g.MapFrom(game => game.Picture != null ? game.Picture.Id : 0));
+          .ForMember(g => g.PictureId, g => g.MapFrom(game => game.Picture != null ? game.Picture.Id : 0))
+          .ForMember(p => p.PictureUrl, g => g.MapFrom(game => game.Picture != null ? game.Picture.CloudUrl : ""));
         config.CreateMap<ImageRequest, Picture>()
           .ForMember(p=>p.Id, p=>p.MapFrom(i=>i.PictureId));
         config.CreateMap<Picture, ImageResponse>()
-          .ForMember(p => p.PictureId, p => p.MapFrom(i => i.Id));
+          .ForMember(p => p.PictureId, p => p.MapFrom(i => i.Id))
+          .ForMember(p => p.PictureUrl, p=> p.MapFrom(i=>i.CloudUrl));
       });
     }
 

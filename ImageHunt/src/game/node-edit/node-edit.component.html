@@ -211,12 +211,12 @@
 
                   </ng-template>
                   <div>
-                    <div class="img-thumbnail" id="picture" name="picture" *ngIf="_node && _node.image && _node.image.pictureId !== 0">
+                    <div class="img-thumbnail" id="picture" name="picture" *ngIf="_node && _node.image && _node.image.pictureUrl !== ''">
                       <img class="img-thumbnail" id="nodeThumbnail" name="nodeThumbnail"
-                           src="api/Image/Thumbnail?pictureId={{_node.image.pictureId}}&width=300&height=300" />
+                           [src]="_node.image.pictureUrl" width="300" />
 
                     </div>
-                    <div class="img-thumbnail" id="picture" name="picture" *ngIf="!_node || !_node.image || _node.image.pictureId === 0">
+                    <div class="img-thumbnail" id="picture" name="picture" *ngIf="!_node || !_node.image || _node.image.pictureUrl === ''">
                       <button class="btn btn-primary" type="button" (click)="uploadImage()">
                         <span i18n>No picture associated with this node, click to add one</span>
                       </button>

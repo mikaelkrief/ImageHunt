@@ -8,8 +8,8 @@
         <tr *ngFor="let game of games | dateFilter:'startDate':today:true">
           <td>
             <div style="float: left; margin-right: 20px;">
-              <img *ngIf="game.picture" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{game.picture.id}}&width=100" />
-              <img *ngIf="!game.picture" class="img-thumbnail" src="assets/ImageHunt.png" width="100px" />
+              <img *ngIf="game.picture" class="img-thumbnail" [src]="game.picture.cloudUrl" width="100" />
+              <img *ngIf="!game.picture" class="img-thumbnail" src="assets/ImageHunt.png" width="100" />
             </div>
           </td>
           <td>
@@ -43,8 +43,8 @@
           <tr *ngFor="let game of games | dateFilter:'startDate':today:false">
             <td>
               <div style="float: left; margin-right: 20px;">
-                <img *ngIf="game.picture" class="img-thumbnail" src="api/Image/Thumbnail?pictureId={{game.picture.id}}&width=100" />
-                <img *ngIf="!game.picture" class="img-thumbnail" src="assets/ImageHunt.png" width="100px" />
+                <img *ngIf="game.picture" class="img-thumbnail" [src]="game.picture.cloudUrl" width="100" />
+                <img *ngIf="!game.picture" class="img-thumbnail" src="assets/ImageHunt.png" width="100" />
               </div>
               <div>
                 <a id="gameName" [routerLink]="['/game', game.id]">{{game.name}}</a>

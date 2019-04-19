@@ -657,7 +657,7 @@ namespace ImageHuntTest.Controller
             // Assert
             A.CallTo(() => _gameService.Duplicate(orgGame, A<Admin>._)).MustHaveHappened();
             Check.That(result).IsInstanceOf<OkObjectResult>();
-            var newGame = ((OkObjectResult) result).Value as GameResponse;
+            var newGame = ((OkObjectResult) result).Value as GameResponseEx;
             Check.That(newGame.Name).Equals(orgGame.Name);
             Check.That(newGame.IsActive).Equals(orgGame.IsActive);
             A.CallTo(() => _gameService.AddNode(A<int>._, A<Node>._))
