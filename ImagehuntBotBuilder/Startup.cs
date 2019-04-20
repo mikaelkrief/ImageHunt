@@ -285,7 +285,7 @@ namespace ImagehuntBotBuilder
             {
                 var hostNameOrAddress = Dns.GetHostName();
                 var ip = Dns.GetHostEntry(hostNameOrAddress)
-                    .AddressList.FirstOrDefault(x => !x.MapToIPv4().Equals(IPAddress.Loopback));
+                    .AddressList.FirstOrDefault(x => x.MapToIPv4().GetAddressBytes()[0] != 127);
                 Console.WriteLine($"Host Name: {hostNameOrAddress}");
                 botUrl = $"https://{ip}/api/messages";
                 Console.WriteLine($"BotUrl:{botUrl}");
