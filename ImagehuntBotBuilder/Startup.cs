@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Autofac;
 using AutoMapper;
@@ -282,7 +283,7 @@ namespace ImagehuntBotBuilder
             try
             {
                 Console.WriteLine($"Host Name: {Dns.GetHostName()}");
-                Console.WriteLine($"Domain name: string domainName = IPGlobalProperties.GetIPGlobalProperties().DomainName;");
+                Console.WriteLine($"Domain name: string domainName = {IPGlobalProperties.GetIPGlobalProperties().DomainName}");
                 Console.WriteLine($"BotUrl:{botUrl}");
                 telegramBotClient?.SetWebhookAsync(botUrl).Wait();
             }
