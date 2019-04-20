@@ -46,6 +46,7 @@
     "ng2-ui-auth": "^9.2.1",
     "ngx-bootstrap": "^3.3.0",
     "ngx-color-picker": "^6.8.0",
+    "ngx-markdown": "^7.1.5",
     "popper.js": "^1.14.6",
     "primeicons": "^1.0.0",
     "primeng": "^6.1.7",

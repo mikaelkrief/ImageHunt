@@ -9,12 +9,14 @@ import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { ConfirmationService } from "primeng/api";
 import { SharedModule } from "../shared/shared.module";
 import { BsModalService } from 'ngx-bootstrap';
+import { BotCommandComponent } from './bot-command/bot-command.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, SharedModule],
-  declarations: [AdminListComponent, AdminCreateComponent],
-  exports: [AdminListComponent, AdminCreateComponent],
-  bootstrap: [AdminListComponent, AdminCreateComponent],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ConfirmDialogModule, SharedModule, MarkdownModule ],
+  declarations: [AdminListComponent, AdminCreateComponent, BotCommandComponent],
+  exports: [AdminListComponent, AdminCreateComponent, BotCommandComponent],
+  bootstrap: [AdminListComponent, AdminCreateComponent, BotCommandComponent],
   providers: [AdminService, ConfirmationService, BsModalService]
 
 })
