@@ -34,6 +34,7 @@
 
 
   <ItemGroup>
+    <Folder Include="src\assets\markdown\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

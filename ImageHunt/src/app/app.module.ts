@@ -5,7 +5,7 @@ import { AppComponent } from "./app.component";
 import { BsDropdownModule, ModalModule, TabsModule, ButtonsModule, TooltipModule, AccordionModule, BsModalService  } from "ngx-bootstrap";
 import { AlertModule } from "ngx-bootstrap/alert";
 import '@angular/common';
-
+import { MarkdownModule } from 'ngx-markdown';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 //import { Ng2UiAuthModule } from "ng2-ui-auth";
@@ -93,6 +93,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
         tokenGetter: tokenGetter,
       }
     }),
+    MarkdownModule.forRoot(),
     HomeModule,
     GameModule,
     TeamModule,

@@ -20,7 +20,8 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/assets/markdown"
             ],
             "styles": [
 
@@ -37,7 +38,8 @@
               "node_modules/leaflet/dist/leaflet.js",
               "node_modules/leaflet-contextmenu/dist/leaflet.contextmenu.min.js",
               "node_modules/leaflet-ant-path/dist/leaflet-ant-path.es6.js",
-              "node_modules/leaflet.awesome-markers/dist/leaflet.awesome-markers.js"
+              "node_modules/leaflet.awesome-markers/dist/leaflet.awesome-markers.js",
+              "node_modules/marked/lib/marked.js"
 
             ]
           },

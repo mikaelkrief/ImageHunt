@@ -21,9 +21,11 @@ import { GameTeamsComponent } from '../../team/game-teams/game-teams.component';
 import { GameAvailableComponent } from '../../game/game-available/game-available.component';
 import { GameValidationComponent } from '../../game/game-validation/game-validation.component';
 import { EditUserComponent } from '../../account/edit-user/edit-user.component';
+import { BotCommandComponent } from '../../admin/bot-command/bot-command.component';
 
 const routes: Routes = [
   { path: "home", component: HomeComponent },
+  { path: "command", component: BotCommandComponent, canActivate: [AuthGuard], data: { roles: ["Admin", "GameMaster"] } },
   { path: "game", component: GameListComponent, canActivate: [AuthGuard], data: { roles: ["Admin", "GameMaster"] } },
   { path: "game/:gameId", component: GameDetailComponent, canActivate: [AuthGuard], data: { roles: ["Admin", "GameMaster"] } },
   { path: "action/:gameId", component: GameActionListComponent, canActivate: [AuthGuard], data: { roles: ["Admin", "GameMaster", "Validator"] } },
