@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using Autofac;
 using AutoMapper;
@@ -201,7 +202,7 @@ namespace ImagehuntBotBuilder
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
             // Login to WebApi
-            LoginApiAsync().Wait();
+            //LoginApiAsync().Wait();
 
             containerBuilder.RegisterModule<DefaultModule>();
             var secretKey = Configuration.GetSection("botFileSecret")?.Value;
@@ -282,10 +283,10 @@ namespace ImagehuntBotBuilder
             var botUrl = Configuration["BotConfiguration:BotUrl"];
             try
             {
-                Console.WriteLine($"Host Name: {Dns.GetHostName()}");
-                var addresses = Dns.GetHostAddresses(Dns.GetHostName());
-                var externalAddress = addresses.First(a => !a.Equals(IPAddress.Loopback));
-                botUrl = $"https://{externalAddress}/api/messages";
+                var hostNameOrAddress = Dns.GetHostName();
+                var ip = Dns.GetHostEntry(hostNameOrAddress).AddressList.FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
+                Console.WriteLine($"Host Name: {hostNameOrAddress}");
+                botUrl = $"https://{ip}/api/messages";
                 Console.WriteLine($"BotUrl:{botUrl}");
                 telegramBotClient?.SetWebhookAsync(botUrl).Wait();
             }
