@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -280,6 +281,7 @@ namespace ImagehuntBotBuilder
             var botUrl = Configuration["BotConfiguration:BotUrl"];
             try
             {
+                Console.WriteLine($"Host Name: {Dns.GetHostName()}");
                 Console.WriteLine($"BotUrl:{botUrl}");
                 telegramBotClient?.SetWebhookAsync(botUrl).Wait();
             }
