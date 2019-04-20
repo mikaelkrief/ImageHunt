@@ -29,12 +29,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="src\assets\markdown\BotCommands.md" />
     <None Remove="src\shared\userRegistration.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="src\assets\markdown\BotCommands.md">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 
   <ItemGroup>
-    <Folder Include="src\assets\markdown\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
