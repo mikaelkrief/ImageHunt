@@ -283,7 +283,7 @@ namespace ImagehuntBotBuilder
             try
             {
                 Console.WriteLine($"Host Name: {Dns.GetHostName()}");
-                Console.WriteLine($"Domain name: string domainName = {IPGlobalProperties.GetIPGlobalProperties().DomainName}");
+                Console.WriteLine($"IP = {Dns.GetHostAddresses(Dns.GetHostName())}");
                 Console.WriteLine($"BotUrl:{botUrl}");
                 telegramBotClient?.SetWebhookAsync(botUrl).Wait();
             }
