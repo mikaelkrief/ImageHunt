@@ -287,7 +287,7 @@ namespace ImagehuntBotBuilder
                 var ip = Dns.GetHostEntry(hostNameOrAddress)
                     .AddressList.FirstOrDefault(x => x.MapToIPv4().GetAddressBytes()[0] != 127);
                 Console.WriteLine($"Host Name: {hostNameOrAddress}");
-                botUrl = $"https://{ip}/api/messages";
+                botUrl = $"https://{ip}:5001/api/messages";
                 Console.WriteLine($"BotUrl:{botUrl}");
                 telegramBotClient?.SetWebhookAsync(botUrl).Wait();
             }
