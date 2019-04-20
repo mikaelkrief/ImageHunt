@@ -284,10 +284,8 @@ namespace ImagehuntBotBuilder
             {
                 Console.WriteLine($"Host Name: {Dns.GetHostName()}");
                 var addresses = Dns.GetHostAddresses(Dns.GetHostName());
-                foreach (var ipAddress in addresses)
-                {
-                    Console.WriteLine($"IP = {ipAddress}");
-                }
+                var externalAddress = addresses.Single(a => a != IPAddress.Loopback);
+                botUrl = $"https://{externalAddress}/api/messages";
                 Console.WriteLine($"BotUrl:{botUrl}");
                 telegramBotClient?.SetWebhookAsync(botUrl).Wait();
             }
