@@ -256,6 +256,7 @@ namespace ImageHuntBotBuilder
         {
             if (state.Status != Status.Started)
                 return;
+            _localizer = _localizer.WithCulture(new CultureInfo(state.Team.CultureInfo));
 
             var rangeDistance = Convert.ToDouble(_configuration["NodeSettings:RangeDistance"]);
             if (state.HiddenNodes == null || !state.HiddenNodes.Any())
