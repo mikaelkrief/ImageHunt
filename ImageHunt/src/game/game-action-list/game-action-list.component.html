@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-10">
-    <h2 i18n >Validate game action</h2>
+    <h2 i18n>Validate game action</h2>
   </div>
   <div class="col-2">
     <button type="button" pButton icon="fas fa-sync" (click)="refresh(actionTable)"></button>
@@ -9,7 +9,7 @@
 
 </div>
 <p-table #actionTable
-  class="table"
+         class="table"
          [value]="gameActions"
          [paginator]="true"
          [rows]="10"
@@ -31,7 +31,7 @@
       <th i18n>Points</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-action let-rowData >
+  <ng-template pTemplate="body" let-action let-rowData>
     <tr>
       <td>{{action.dateOccured|date:'HH:mm'}}</td>
       <td style="white-space: nowrap;">{{isNaN(action.delta)?'-':action.delta | number:'1.0-2':'fr'}} m</td>
@@ -42,16 +42,44 @@
                     [options]="action.probableNodes" optionLabel="name"
                     (onChange)="probableNodeChanged($event, action)"
                     autoWidth="false">
-          <ng-template let-item pTemplate="selectedItem" style="width: 100%">
-            <img *ngIf="action.node && action.node.image" [src]="action.node.image.cloudUrl" width="40" />
-            <span style="vertical-align: middle;float: right"> {{item.label}}</span>
+          <ng-template let-item pTemplate="selectedItem" style="width: 100%; margin: 5px 5px 0 0">
+              <div class="row">
+                <div class="col-4" *ngIf="action.node && action.node.image" style="padding: 2px">
+                  <img [src]="action.node.image.cloudUrl" width="100%" />
+                </div>
+                <div [ngClass]="{'col-8':action.node && action.node.image, 'col-12':!action.node || !action.node.image}">
+                  <div class="row">
+                    <div class="col-12">
+                      <span style="vertical-align: middle; float: right"> {{item.label}}</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <span>{{item.value.points}} points</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
           </ng-template>
           <ng-template let-item pTemplate="item">
             <!--<div class="ui-helper-clearfix" style="position: relative; height: 50px;">-->
-            <div class="row">
-              <img class="col-4" *ngIf="item.value && item.value.image" [src]="item.value.image.cloudUrl" width="40"/>
-              <span class="col-4" style="font-size: 14px;">{{item.label}}</span>
-              <span class="col-4" style="vertical-align: middle">{{item.value.points}}</span>
+            <div class="row" >
+              <div class="col-4" *ngIf="item.value && item.value.image">
+                <img [src]="item.value.image.cloudUrl" height="40"/>
+              </div>
+              <div [ngClass]="{'col-8':action.node && action.node.image, 'col-12':!action.node || !action.node.image}">
+                <div class="row">
+                  <div class="col-12">
+
+                    <span style="font-size: 14px;">{{item.label}}</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <span style="vertical-align: middle">{{item.value.points}}</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
           </ng-template>
@@ -62,10 +90,10 @@
         <div class="thumbnail" *ngIf="action.picture !== null">
           <p-lightbox type="content">
             <a class="group" href="#">
-              <img class="thumbnail" [src]="action.picture.cloudUrl" width="150" />
+              <img class="thumbnail" [src]="action.picture.cloudUrl" width="150"/>
             </a>
             <div>
-              <img [src]="action.picture.cloudUrl" width="500" />
+              <img [src]="action.picture.cloudUrl" width="500"/>
             </div>
           </p-lightbox>
         </div>
@@ -81,7 +109,9 @@
         </button>
       </td>
       <td>
-        <button class="btn btn-danger" (click)="rejectGameAction(action)"><span class="fa fa-times"></span></button>
+        <button class="btn btn-danger" (click)="rejectGameAction(action)">
+          <span class="fa fa-times"></span>
+        </button>
       </td>
       <td>
         <points [(points)]="action.pointsEarned" (pointsChange)="setPoints(action)"></points>

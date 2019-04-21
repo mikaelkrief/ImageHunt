@@ -42,12 +42,13 @@ namespace ImageHunt.Services
         case IncludeAction.Picture:
           gameActions = gameActions
             .Where(ga => ga.Action == Action.SubmitPicture)
-            .Where(ga => ga.Latitude.HasValue && ga.Longitude.HasValue)
-
-
-            ;
+            .Where(ga => ga.Latitude.HasValue && ga.Longitude.HasValue);
           break;
         case IncludeAction.ReplyQuestion:
+          gameActions = gameActions
+            .Where(ga => ga.Action == Action.ReplyQuestion)
+            .Where(ga => ga.Latitude.HasValue && ga.Longitude.HasValue);
+
           break;
         case IncludeAction.HiddenNode:
           gameActions = gameActions

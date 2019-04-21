@@ -547,6 +547,161 @@ namespace ImageHuntTest.Services
             Check.That(results).ContainsExactly(gameActions[2], gameActions[4]);
         }
         [Fact]
+        public async Task GetGameActionForGame_Only_QuestionNodes()
+        {
+            // Arrange
+            var teams = new List<Team> { new Team(), new Team(), new Team() };
+            Context.Teams.AddRange(teams);
+            Context.SaveChanges();
+            var games = new List<Game> { new Game(), new Game() };
+            Context.AddRange(games);
+            Context.SaveChanges();
+            var nodes = new List<Node>(){new FirstNode(){Latitude = 10.0001, Longitude = 15.0001},
+       new ObjectNode(){Latitude = 12, Longitude = 16}, new LastNode()};
+            Context.Nodes.AddRange(nodes);
+            Context.SaveChanges();
+            var gameActions = new List<GameAction>()
+      {
+        new GameAction()
+        {
+          Game = games[1],
+          Action = Action.StartGame,
+          DateOccured = DateTime.Now,
+          Latitude = 10,
+          Longitude = 15,
+          Node = nodes[0],
+          Team = teams[1]
+        },
+        new GameAction()
+        {
+          Game = games[1],
+          Action = Action.VisitWaypoint,
+          DateOccured = DateTime.Now,
+          Latitude = 11,
+          Longitude = 15.2,
+          Node = nodes[1],
+          Team = teams[1]
+        },
+        new GameAction()
+        {
+          Game = games[1],
+          Action = Action.ReplyQuestion,
+          DateOccured = DateTime.Now,
+          Latitude = 11,
+          Longitude = 15.2,
+          Node = nodes[1],
+          Team = teams[1],
+          Picture = new Picture()
+        },
+        new GameAction()
+        {
+          Game = games[1],
+          Action = Action.VisitWaypoint,
+          DateOccured = DateTime.Now.AddMinutes(15),
+          Latitude = 11.3,
+          Longitude = 15.5,
+          Team = teams[1]
+        },
+          new GameAction()
+          {
+              Game = games[1],
+              Action = Action.ReplyQuestion,
+              DateOccured = DateTime.Now,
+              Latitude = 11,
+              Longitude = 15.2,
+              Node = nodes[1],
+              Team = teams[1],
+              Picture = new Picture()
+          },
+          new GameAction()
+          {
+              Game = games[1],
+              Action = Action.SubmitPicture,
+              DateOccured = DateTime.Now,
+              Latitude = 11,
+              Longitude = 15.2,
+              Node = nodes[1],
+              Team = teams[1],
+              Picture = new Picture()
+          },
+          new GameAction()
+          {
+              Game = games[1],
+              Action = Action.SubmitPicture,
+              DateOccured = DateTime.Now,
+              Latitude = 11,
+              Longitude = 15.2,
+              Node = nodes[1],
+              Team = teams[1],
+              Picture = new Picture()
+          },
+
+        new GameAction()
+        {
+          Game = games[0],
+          Action = Action.ReplyQuestion,
+          DateOccured = DateTime.Now,
+          Latitude = 11,
+          Longitude = 15.2,
+          Node = nodes[1],
+          Team = teams[1]
+        },
+          new GameAction()
+          {
+              Game = games[1],
+              Action = Action.SubmitPicture,
+              DateOccured = DateTime.Now,
+              Latitude = 11,
+              Longitude = 15.2,
+              Node = nodes[1],
+              Team = teams[1],
+              Picture = new Picture()
+          },
+          new GameAction()
+          {
+              Game = games[1],
+              Action = Action.SubmitPicture,
+              DateOccured = DateTime.Now,
+              Latitude = 11,
+              Longitude = 15.2,
+              Node = nodes[1],
+              Team = teams[1],
+              Picture = new Picture()
+          },
+          new GameAction()
+          {
+              Game = games[1],
+              Action = Action.SubmitPicture,
+              DateOccured = DateTime.Now,
+              Latitude = 11,
+              Longitude = 15.2,
+              Node = nodes[1],
+              Team = teams[1],
+              Picture = new Picture()
+          },
+          new GameAction()
+          {
+              Game = games[1],
+              Action = Action.SubmitPicture,
+              DateOccured = DateTime.Now,
+              Latitude = 11,
+              Longitude = 15.2,
+              Node = nodes[1],
+              Team = teams[1],
+              Picture = new Picture()
+          },
+
+      };
+            Context.GameActions.AddRange(gameActions);
+            Context.SaveChanges();
+            // Act
+            var results = await _target.GetGameActionsForGame(games[1].Id, 1, 2, IncludeAction.ReplyQuestion);
+            // Assert
+            Check.That(results).HasSize(gameActions.Count(ga => ga.Game == games[1] && 
+                                                                ( ga.Action == Action.ReplyQuestion)));
+            Check.That(results).ContainsExactly(gameActions[2], gameActions[4]);
+        }
+        [Fact]
         public async Task GetGameActionForGame_Paginated_ForTeam()
         {
             // Arrange
