@@ -124,13 +124,13 @@
     <value>Vermenigvuldig de eindscore met 3</value>
   </data>
   <data name="BONUS_HINT" xml:space="preserve">
-    <value>Hint : {0}{1}Bonus: {2} points</value>
+    <value>Hint : {0}{1}Bonus: {2}</value>
   </data>
   <data name="GAME_NOT_STARTED" xml:space="preserve">
     <value>Spel niet gestart, vraag hulp aan spelleider</value>
   </data>
   <data name="HIDDEN_HINT" xml:space="preserve">
-    <value>Hint : {0}[1}Bonus: {2} points</value>
+    <value>Hint : {0}{1}Bonus: {2} points</value>
   </data>
   <data name="HIDDEN_NODES_TITLE" xml:space="preserve">
     <value>Tips om verborgen knooppunten te vinden:</value>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -67,7 +68,7 @@ namespace ImageHuntBotBuilderTest
             var state = new ImageHuntState()
             {
                 Status = Status.Started,
-                Team = new TeamResponse(),
+                Team = new TeamResponse(){CultureInfo = "fr"},
                 CurrentNode = new NodeResponse()
                 {
                     Latitude = 45.8,
@@ -91,6 +92,7 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(
                     () => _turnContext.SendActivityAsync(A<string>._, A<string>._, A<string>._, A<CancellationToken>._))
                 .MustHaveHappened();
+            A.CallTo(() => _localizer.WithCulture(A<CultureInfo>._)).MustHaveHappened();
 
             A.CallTo(() => _actionWebService.LogAction(A<GameActionRequest>._, A<CancellationToken>._))
                 .MustHaveHappened();

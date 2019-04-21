@@ -130,7 +130,7 @@
     <value>Game not started, please ask assistance to game master</value>
   </data>
   <data name="HIDDEN_HINT" xml:space="preserve">
-    <value>Hint : {0}[1}Bonus: {2} points</value>
+    <value>Hint : {0}{1}Bonus: {2} points</value>
   </data>
   <data name="HIDDEN_NODES_TITLE" xml:space="preserve">
     <value>Hints to find hidden nodes:</value>
