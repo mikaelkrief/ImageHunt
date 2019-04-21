@@ -270,3 +270,4 @@ environment.prod.ts
 /ImagehuntBot/ngrok.exe
 /ImageHuntTelegramBot/ngrok.exe
 /ngrok.exe
+/ImagehuntBotBuilder/appsettings.Test.json

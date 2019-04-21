@@ -190,7 +190,7 @@ namespace ImageHuntBotBuilder
                     var imageActivity = new Activity(
                         text: _localizer["DO_ACTION_REQUEST", node.Action],
                         type: ImageHuntActivityTypes.Image);
-                    var apiBaseAddress = _configuration["ImageHuntApi:Url"];
+                    var apiBaseAddress = _configuration["ImageHuntApi_Url"];
                     if (node.Image != null)
                     {
                         imageActivity.Attachments = new List<Attachment>

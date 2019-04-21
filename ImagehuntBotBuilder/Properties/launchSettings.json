@@ -18,7 +18,8 @@
     "ImagehuntBotBuilder": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ImageHuntApi_Url": "http://pixhint.com"
       },
       "applicationUrl": "http://localhost:3978/"
     }

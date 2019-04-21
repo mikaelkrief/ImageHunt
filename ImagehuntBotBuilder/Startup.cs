@@ -232,7 +232,7 @@ namespace ImagehuntBotBuilder
             containerBuilder.RegisterInstance(Mapper.Instance);
             containerBuilder.Register(a => new HttpClient()
             {
-                BaseAddress = new Uri(Configuration.GetValue<string>("ImageHuntApi:Url")),
+                BaseAddress = new Uri(Configuration.GetValue<string>("ImageHuntApi_Url")),
                 DefaultRequestHeaders = { Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken) },
             });
         }
@@ -240,7 +240,7 @@ namespace ImagehuntBotBuilder
         private async Task LoginApiAsync()
         {
             _logger.LogTrace("LoginApi");
-            var apiBaseAddress = Configuration["ImageHuntApi:Url"];
+            var apiBaseAddress = Configuration["ImageHuntApi_Url"];
             _logger.LogDebug("Connect to {0}", apiBaseAddress);
             var httpLogin = new HttpClient() { BaseAddress = new Uri(apiBaseAddress) };
             var accountService =
