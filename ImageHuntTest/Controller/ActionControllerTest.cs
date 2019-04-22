@@ -316,7 +316,9 @@ namespace ImageHuntTest.Controller
         public void GetGameAction()
         {
             // Arrange
-
+            A.CallTo(() => _configuration[A<string>._]).Returns("40");
+            A.CallTo(() => _actionService.GetGameAction(A<int>._))
+                .Returns(new GameAction() {Latitude = 15, Longitude = 5, Game = new Game()});
             // Act
             var result = Target.GetGameAction(1) as OkObjectResult;
             // Assert
