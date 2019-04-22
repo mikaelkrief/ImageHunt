@@ -11,6 +11,16 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 /** navmenu component*/
 export class NavmenuComponent implements OnInit
 {
+  isExpanded = false;
+
+  collapse() {
+    this.isExpanded = false;
+  }
+
+  toggle() {
+    this.isExpanded = !this.isExpanded;
+  }
+
   constructor(private _jwtHelperService: JwtHelperService) {
   }
 
