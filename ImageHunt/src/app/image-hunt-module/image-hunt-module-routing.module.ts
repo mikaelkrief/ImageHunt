@@ -28,9 +28,10 @@ const routes: Routes = [
   { path: "command", component: BotCommandComponent, canActivate: [AuthGuard], data: { roles: ["Admin", "GameMaster"] } },
   { path: "game", component: GameListComponent, canActivate: [AuthGuard], data: { roles: ["Admin", "GameMaster"] } },
   { path: "game/:gameId", component: GameDetailComponent, canActivate: [AuthGuard], data: { roles: ["Admin", "GameMaster"] } },
+  { path: "action/detail/:gameActionId", component: GameActionDetailComponent, canActivate: [AuthGuard], data: { roles: ["Admin", "GameMaster", "Validator"] } },
+
   { path: "action/:gameId", component: GameActionListComponent, canActivate: [AuthGuard], data: { roles: ["Admin", "GameMaster", "Validator"] } },
   { path: "action/:gameId/:teamId", component: GameActionListComponent, canActivate: [AuthGuard], data: { roles: ["Admin", "GameMaster", "Validator"] } },
-  { path: "action/detail/:gameActionId", component: GameActionDetailComponent, canActivate: [AuthGuard], data: { roles: ["Admin", "GameMaster", "Validator"] } },
   { path: "team/:gameId/:teamId", component: TeamDetailComponent },
   { path: "teams/:gameId", component: TeamListComponent },
   { path: "team", component: TeamListComponent },

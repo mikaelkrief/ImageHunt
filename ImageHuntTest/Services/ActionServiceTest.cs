@@ -1267,5 +1267,38 @@ namespace ImageHuntTest.Services
             // Assert
             Check.That(modified.PointsEarned).Equals(actions[1].PointsEarned);
         }
+
+        [Fact]
+        public void Should_Next_Return_Next_Action_Not_reviewed_of_game()
+        {
+            // Arrange
+            var games = new List<Game>
+            {
+                new Game(),
+                new Game(),
+            };
+            Context.Games.AddRange(games);
+            var actions = new List<GameAction>
+            {
+                new GameAction() {PointsEarned = 56, Game = games[0], IsReviewed = true},
+                new GameAction() {PointsEarned = 54, Game = games[1], IsReviewed = false},
+                new GameAction() {PointsEarned = 54, Game = games[0], IsReviewed = true},
+                new GameAction() {PointsEarned = 54, Game = games[1], IsReviewed = false},
+                new GameAction() {PointsEarned = 54, Game = games[0], IsReviewed = false},
+                new GameAction() {PointsEarned = 54, Game = games[0], IsReviewed = false},
+                new GameAction() {PointsEarned = 54, Game = games[1], IsReviewed = false},
+                new GameAction() {PointsEarned = 54, Game = games[0], IsReviewed = false},
+                new GameAction() {PointsEarned = 54, Game = games[1], IsReviewed = false},
+                new GameAction() {PointsEarned = 54, Game = games[0], IsReviewed = false},
+                new GameAction() {PointsEarned = 54, Game = games[1], IsReviewed = false},
+                new GameAction() {PointsEarned = 34, Game = games[0], IsReviewed = false},
+            };
+            Context.GameActions.AddRange(actions);
+            Context.SaveChanges();
+            // Act
+            var result = _target.GetNextGameAction(games[0].Id, actions[4].Id);
+            // Assert
+            Check.That(result).Equals(actions[5]);
+        }
     }
 }

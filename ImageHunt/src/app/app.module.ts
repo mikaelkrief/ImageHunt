@@ -57,6 +57,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { ImageHuntModuleRoutingModule } from "./image-hunt-module/image-hunt-module-routing.module";
 import { BatchNodeComponent } from "../game/batch-node/batch-node.component";
 import { NodeEditComponent } from "../game/node-edit/node-edit.component";
+import { CarouselModule } from 'primeng/carousel';
 registerLocaleData(localeFr);
 export function tokenGetter() {
   return localStorage.getItem('authToken');
@@ -103,6 +104,7 @@ export class MyAuthConfig implements IPartialConfigOptions {
     PlayerModule,
     AdminModule,
     ReactiveFormsModule,
+    CarouselModule,
     ContextMenuModule,
     NavmenuModule,
     PageNotFoundModule,

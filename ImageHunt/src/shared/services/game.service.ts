@@ -106,7 +106,9 @@ export class GameService {
   rejectGameAction(gameActionId: number) {
     return this.http.put(`api/Action/Reject/${gameActionId}`, null);
   }
-
+  nextGameAction(gameId: number, gameActionId: number): Observable<GameAction> {
+    return this.http.get<GameAction>(`api/Action/Next/${gameId}/${gameActionId}`);
+  }
   getGameReviewed() { return this.http.get("api/Game/Reviewed"); }
   getScoreForGame(gameId) {
     return this.http.get(`api/Game/Score/${gameId}`);
