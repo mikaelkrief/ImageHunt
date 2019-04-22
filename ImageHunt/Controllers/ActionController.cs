@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Action = ImageHuntCore.Model.Action;
 
@@ -31,6 +32,7 @@ namespace ImageHunt.Controllers
     private readonly IHubContext<LocationHub> _hubContext;
     private readonly IMapper _mapper;
     private readonly ILogger<ActionController> _logger;
+    private readonly IConfiguration _configuration;
 
     public ActionController(IGameService gameService,
       IPlayerService playerService,
@@ -41,6 +43,7 @@ namespace ImageHunt.Controllers
       IHubContext<LocationHub> hubContext,
       IMapper mapper,
       ILogger<ActionController> logger,
+      IConfiguration configuration,
       UserManager<Identity> userManager)
     :base(userManager)
     {
@@ -53,6 +56,7 @@ namespace ImageHunt.Controllers
       _hubContext = hubContext;
       _mapper = mapper;
       _logger = logger;
+      _configuration = configuration;
     }
     /// <summary>
     /// Add a game action from players to a game
@@ -137,7 +141,6 @@ namespace ImageHunt.Controllers
     }
 
     [HttpPut("Validate/{gameActionId}/{nodeId}")]
-    [Authorize]
     public IActionResult Validate(int gameActionId, int nodeId)
     {
       //var validatorId = UserId;
@@ -146,7 +149,6 @@ namespace ImageHunt.Controllers
       return Ok(gameAction);
     }
     [HttpPut("Reject/{gameActionId}")]
-    [Authorize]
     public IActionResult Reject(int gameActionId)
     {
       var validatorId = UserId;
@@ -183,7 +185,20 @@ namespace ImageHunt.Controllers
     [HttpGet("GetGameAction/{gameActionId}")]
     public IActionResult GetGameAction(int gameActionId)
     {
-      return Ok(_actionService.GetGameAction(gameActionId));
+      var gameAction = _actionService.GetGameAction(gameActionId);
+      var gameActionToValidate = _mapper.Map<GameActionToValidate>(gameAction);
+      gameActionToValidate.ProbableNodes = _nodeService
+        .GetGameNodesOrderByPosition(gameAction.Game.Id,
+          gameAction.Latitude.Value, gameAction.Longitude.Value,
+          NodeTypes.Picture | NodeTypes.Hidden | NodeTypes.Question)
+        .Take(Convert.ToInt32(_configuration["NodeSettings:ProbableNodeNumber"]));
+      foreach (var probableNode in gameActionToValidate.ProbableNodes)
+      {
+        if (probableNode is PictureNode)
+          ((PictureNode)probableNode).Image = _imageService.GetImageForNode(probableNode);
+      }
+
+      return Ok(gameActionToValidate);
     }
     [HttpGet("GameActionCount")]
     public IActionResult GetGameActionCountForGame([FromQuery]GameActionCountRequest getGameActionCountRequest)
@@ -208,24 +223,34 @@ namespace ImageHunt.Controllers
           continue;
 
         var gameActionToValidate = _mapper.Map<GameAction, GameActionToValidate>(gameAction);
-        if (gameAction.Latitude.HasValue && gameAction.Longitude.HasValue)
-        {
-          gameActionToValidate.ProbableNodes = _nodeService
-            .GetGameNodesOrderByPosition(gameActionListRequest.GameId,
-              gameAction.Latitude.Value, gameAction.Longitude.Value, NodeTypes.Picture|NodeTypes.Hidden|NodeTypes.Question)
-            .Take(gameActionListRequest.NbPotential);
-          foreach (var probableNode in gameActionToValidate.ProbableNodes)
-          {
-            if (probableNode is PictureNode)
-              ((PictureNode)probableNode).Image = _imageService.GetImageForNode(probableNode);
-          }
+        FillProbableNodes(gameActionListRequest.GameId,
+          gameActionListRequest.NbPotential, gameActionToValidate);
+        gameActionToValidate.Node = gameActionToValidate.ProbableNodes.FirstOrDefault();
+        gameActionsToValidate.Add(gameActionToValidate);
 
-          gameActionToValidate.Node = gameActionToValidate.ProbableNodes.FirstOrDefault();
-          gameActionsToValidate.Add(gameActionToValidate);
-        }
       }
       return Ok(gameActionsToValidate);
     }
+
+    private void FillProbableNodes(int gameId, int nbPotential,
+      GameActionToValidate gameActionToValidate)
+    {
+      if (gameActionToValidate.Latitude.HasValue && gameActionToValidate.Longitude.HasValue)
+      {
+        gameActionToValidate.ProbableNodes = _nodeService
+          .GetGameNodesOrderByPosition(gameId,
+            gameActionToValidate.Latitude.Value, gameActionToValidate.Longitude.Value,
+            NodeTypes.Picture | NodeTypes.Hidden | NodeTypes.Question)
+          .Take(nbPotential);
+        foreach (var probableNode in gameActionToValidate.ProbableNodes)
+        {
+          if (probableNode is PictureNode)
+            ((PictureNode) probableNode).Image = _imageService.GetImageForNode(probableNode);
+        }
+
+      }
+    }
+
     [HttpGet("GameActions")]
     public async Task<IActionResult> GetGameActions([FromQuery]GameActionListRequest gameActionListRequest)
     {
@@ -252,6 +277,13 @@ namespace ImageHunt.Controllers
       gameAction.PointsEarned = gameActionRequest.PointsEarned;
       _actionService.Update(gameAction);
       return Ok(_mapper.Map<GameActionResponse>(gameAction));
+    }
+    [HttpGet("Next/{gameId}/{gameActionId}")]
+    public IActionResult GetNextGameAction(int gameId, int gameActionId)
+    {
+      var gameActionToValidate = _mapper.Map<GameActionToValidate>(_actionService.GetNextGameAction(gameId, gameActionId));
+      FillProbableNodes(gameId, 5, gameActionToValidate);
+      return Ok(gameActionToValidate);
     }
   }
 }

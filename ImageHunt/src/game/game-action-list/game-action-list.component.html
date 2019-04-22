@@ -2,8 +2,10 @@
   <div class="col-10">
     <h2 i18n>Validate game action</h2>
   </div>
+
   <div class="col-2">
-    <button type="button" pButton icon="fas fa-sync" (click)="refresh(actionTable)"></button>
+    <button class="btn btn-primary" type="button" (click)="showOneByOne()" [disabled]="!gameActions || !gameActions[0]"><i class="fas fa-tag"></i></button>
+    <button class="btn btn-primary" type="button" (click)="refresh(actionTable)"><i class="fas fa-sync"></i></button>
 
   </div>
 
@@ -34,7 +36,7 @@
   <ng-template pTemplate="body" let-action let-rowData>
     <tr>
       <td>{{action.dateOccured|date:'HH:mm'}}</td>
-      <td style="white-space: nowrap;">{{isNaN(action.delta)?'-':action.delta | number:'1.0-2':'fr'}} m</td>
+      <td style="white-space: nowrap;">{{isNaN(action.delta)?'-':action.delta | number:'1.0-2'}} m</td>
       <td>{{action.team.name}}</td>
       <td>{{action.action|gameActionTranslationPipe}}</td>
       <td>

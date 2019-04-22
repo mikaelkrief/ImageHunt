@@ -44,6 +44,7 @@ import { GameValidationComponent } from './game-validation/game-validation.compo
 import { PointsComponent } from './points/points.component';
 import { BatchNodeComponent } from "./batch-node/batch-node.component";
 import { NodeEditComponent } from "./node-edit/node-edit.component";
+import { CarouselModule } from 'primeng/carousel';
 
 @
 NgModule({
@@ -52,7 +53,7 @@ NgModule({
     MapModule, BsDropdownModule, TabsModule, AlertModule, BrowserModule, ConfirmDialogModule,
     ToggleButtonModule, DropdownModule, ContextMenuModule, TableModule, GMapModule, SharedModule,
     RadioButtonModule, TeamModule, LightboxModule, ButtonsModule, TooltipModule, PanelModule,
-    AccordionModule, InputSwitchModule, ModalModule.forRoot()
+    AccordionModule, InputSwitchModule, ModalModule.forRoot(), CarouselModule
   ],
   declarations: [
     GameCreateComponent, GameDetailComponent, GameListComponent, NodeCreateComponent, NodeEditComponent,

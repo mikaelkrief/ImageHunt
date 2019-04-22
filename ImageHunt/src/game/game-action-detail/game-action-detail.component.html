@@ -1,25 +1,113 @@
+<h2 i18n>Game actions</h2>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-3" i18n>Player:</div>
-    <div class="col-lg-3">{{gameAction.team.name}}</div>
-    <div class="col-lg-3" i18n>Time of the action:</div>
-    <div class="col-lg-3">{{gameAction.dateOccured | date:'short'}}</div>
-  </div>
-  <div class="row">
-    <div class="col-lg-3" i18n>Position of the action</div>
-    <div class="col-lg-3">
-      <geocoordinate [Point]="{'latitude':gameAction.latitude, 'longitude':gameAction.longitude}"></geocoordinate>
+    <div class="col-8" i18n>
+      <div class="row">
+        <div class="col">
+          <label for="time" i18n>Time</label>
+          <input class="form-control" type="datetime" name="time" id="time" readonly [value]="gameAction.dateOccured"/>
+        </div>
+        <div class="col">
+          <label for="delta" i18n>Delta</label>
+          <input class="form-control" type="number" name="delta" id="delta" readonly [value]="gameAction.delta"/>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="team" i18n>Team</label>
+          <input class="form-control" type="text" name="team" id="team" readonly [value]="gameAction.team.name"/>
+        </div>
+        <div class="col">
+          <label for="action" i18n>Action</label>
+          <p-dropdown [options]="actionTypes" [ngModel]="gameAction.action"></p-dropdown>
+        </div>
+
+      </div>
+      <br/>
+      <div class="row">
+        <div class="col">
+          <label i18n>Points</label>
+          <h3 name="pointsEarned" id="pointsEarned">{{gameAction.pointsEarned}}</h3>
+        </div>
+        <div class="col">
+          <label i18n>Review status</label>
+          <div>
+            <span *ngIf="gameAction.isReviewed!=null">{{gameAction.isReviewed?'Reviewed':'Not reviewed'}}</span>
+          </div>
+        </div>
+        <div class="col">
+          <label i18n>Validation Status</label>
+          <div>
+            <span *ngIf="gameAction.isValidated!=null">{{gameAction.isValidated?'Validated':''}}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="thumbnail" *ngIf="gameAction.picture">
+        <p-lightbox type="content">
+          <a class="group" href="#">
+            <img class="img-fluid img-thumbnail" [src]="gameAction.picture.cloudUrl"/>
+          </a>
+          <div>
+            <img [src]="gameAction.picture.cloudUrl" width="500"/>
+          </div>
+        </p-lightbox>
+      </div>
     </div>
   </div>
-    <div class="row">
-    <div class="col-lg-3" i18n>Position of the node</div>
-      <div class="col-lg-3" >
-        <geocoordinate *ngIf="gameAction.node!=null" [Point]="{'latitude':gameAction.node.latitude, 'longitude':gameAction.node.longitude}"></geocoordinate>
-      </div>
+  <div class="row">
+    <div class="col-12">
+      <p-carousel [value]="gameAction.probableNodes" responsive="true">
+        <ng-template let-node pTemplate="item">
+          <div class="ui-grid ui-grid-responsive">
+            <button class="btn col-12" (click)="selectNode(node)">
+              <div class="ui-grid-row">
+                <div *ngIf="node.image" class="ui-grid-col-12">
+                  <img class="img-fluid img-thumbnail" [src]="node.image.cloudUrl" />
+                </div>
+                <div *ngIf="!node.image" class="ui-grid-col-12">
+                  <span i18n>No image for this node</span>
+                </div>
+              </div>
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                  <span i18n>Name: {{node.name}}</span>
+                </div>
+              </div>
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                  <span i18n>{{node.points}} points</span>
+                </div>
+              </div>
+              <div class="ui-grid-row">
+                <div class="ui-grid-col-12">
+                  <span i18n>Delta: {{node.delta| number:'1.0-2'}} meters</span>
+                </div>
+              </div>
+            </button>
+          </div>
+        </ng-template>
+      </p-carousel>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <button class="btn btn-success btn-block" (click)="validate(gameAction)" [disabled]="gameAction.isValidated">
+        <i class="fas fa-check"></i> <span i18n> Validate action</span>
+      </button>
+    </div>
+    <div class="col-4">
+      <button class="btn btn-danger btn-block" (click)="reject(gameAction)">
+        <i class="fas fa-times"></i> <span i18n> Reject action</span>
+      </button>
+    </div>
+    <div class="col-4">
+      <button class="btn btn-secondary btn-block" (click)="next(gameAction)">
+        <i class="fas fa-forward"></i><span i18n> Next action</span>
+      </button>
+    </div>
   </div>
 </div>
-<img [src]="gameAction.picture.imageData"/>
-<span i18n>Delta between action and node: {{gameAction.delta}}</span>
-<p-toggleButton (click)="validate(gameAction.id)" [(ngModel)]="gameAction.isValidated" [style]="{'width':'150px'}"
-                i18n-onLabel onLabel="Valid" i18n-offLabel offLabel="Invalid" onIcon="fa-check-square"></p-toggleButton>
-

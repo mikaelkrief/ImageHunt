@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NFluent;
 using TestUtilities;
@@ -38,6 +39,7 @@ namespace ImageHuntTest.Controller
         private ILogger<ActionController> _logger;
         private IMapper _mapper;
         private UserManager<Identity> _userManager;
+        private IConfiguration _configuration;
 
         public ActionControllerTest()
         {
@@ -47,6 +49,7 @@ namespace ImageHuntTest.Controller
             TestContainerBuilder.RegisterInstance(_imageService = A.Fake<IImageService>());
             TestContainerBuilder.RegisterInstance(_actionService = A.Fake<IActionService>());
             TestContainerBuilder.RegisterInstance(_nodeService = A.Fake<INodeService>());
+            TestContainerBuilder.RegisterInstance(_configuration = A.Fake<IConfiguration>());
             TestContainerBuilder.RegisterInstance(_hubContext = A.Fake<IHubContext<LocationHub>>());
             TestContainerBuilder.RegisterInstance(_logger = A.Fake<ILogger<ActionController>>());
             TestContainerBuilder.RegisterInstance(_userManager = A.Fake<UserManager<Identity>>());
@@ -494,6 +497,18 @@ namespace ImageHuntTest.Controller
             // Assert
             A.CallTo(() => _nodeService.GetNode(A<int>._)).MustHaveHappened();
             A.CallTo(() => _actionService.AddGameAction(A<GameAction>._)).MustHaveHappened();
+        }
+
+        [Fact]
+        public void Should_Next_return_Next_GameAction()
+        {
+            // Arrange
+            
+            // Act
+            var result = Target.GetNextGameAction(5, 5);
+            // Assert
+            var response = result as OkObjectResult;
+            Check.That(response.Value).IsInstanceOf<GameActionToValidate>();
         }
     }
 }

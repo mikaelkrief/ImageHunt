@@ -206,5 +206,21 @@ namespace ImageHunt.Services
       Context.SaveChanges();
       return gameAction;
     }
+
+    public GameAction GetNextGameAction(int gameId, int gameActionId)
+    {
+      var gameActionsToReview = Context.GameActions.Include(ga => ga.Game)
+        .Where(ga => ga.Game.Id == gameId)
+        .Where(ga => !ga.IsReviewed)
+        .OrderBy(ga => ga.Id).ToList();
+      var nextGameAction =gameActionsToReview
+        .SkipWhile(ga=>ga.Id ==gameActionId)
+        .FirstOrDefault();
+      return Context.GameActions
+        .Include(ga => ga.Game)
+        .Include(ga => ga.Team)
+        .Include(ga => ga.Picture)
+        .Single(ga => ga.Id == nextGameAction.Id);
+    }
   }
 }

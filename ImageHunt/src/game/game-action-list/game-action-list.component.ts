@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {GameService} from "../../shared/services/game.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { GameAction } from "../../shared/gameAction";
 import { Node } from "../../shared/node";
 import { LazyLoadEvent } from 'primeng/api';
@@ -16,7 +16,7 @@ import { forkJoin } from 'rxjs';
 export class GameActionListComponent implements OnInit {
   selectedProbableNode: any;
   /** GameActionList ctor */
-    constructor(private gameService: GameService, private route: ActivatedRoute, private alertService: AlertService) {
+    constructor(private gameService: GameService, private route: ActivatedRoute, private alertService: AlertService, private router: Router) {
     }
   images: any[][] = [];
   nbExpectedImageDisplayed = 5;
@@ -160,5 +160,8 @@ export class GameActionListComponent implements OnInit {
           action.pointsEarned = res.pointsEarned;
         },
         error => this.handleError(error));
+  }
+  showOneByOne() {
+    this.router.navigateByUrl(`/action/detail/${this.gameActions[0].id}`);
   }
 }
