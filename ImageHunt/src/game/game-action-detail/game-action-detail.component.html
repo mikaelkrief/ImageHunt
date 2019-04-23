@@ -28,7 +28,7 @@
       <div class="row">
         <div class="col">
           <label i18n>Points</label>
-          <h3 name="pointsEarned" id="pointsEarned">{{gameAction.pointsEarned}}</h3>
+          <points [(points)]="gameAction.pointsEarned" (pointsChange)="setPoints(gameAction)"></points>
         </div>
         <div class="col">
           <label i18n>Review status</label>

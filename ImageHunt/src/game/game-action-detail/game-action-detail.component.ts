@@ -134,6 +134,15 @@ export class GameActionDetailComponent implements OnInit {
         this.selectNode(this.gameAction.probableNodes[0]);
       });
   }
+  setPoints(action: GameAction) {
+    this.gameService.modifyGameAction(action)
+      .subscribe(res => {
+          action.isValidated = res.isValidated;
+          action.isReviewed = res.isReviewed;
+          action.pointsEarned = res.pointsEarned;
+        },
+        error => this.handleError(error));
+  }
 
   selectedNode;
 }
