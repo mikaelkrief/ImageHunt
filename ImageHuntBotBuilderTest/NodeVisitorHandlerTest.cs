@@ -690,5 +690,63 @@ namespace ImageHuntBotBuilderTest
             A.CallTo(() => _logger.Log(LogLevel.Information, A<EventId>._, A<object>._, A<Exception>._,
                 A<Func<object, Exception, string>>._)).MustHaveHappened();
         }
+        [Fact]
+        public async Task Should_MatchLocationDialog_ChoiceNode_Reached()
+        {
+            // Arrange
+            var state = new ImageHuntState()
+            {
+                GameId = 45,
+                TeamId = 87,
+                CurrentNode = new NodeResponse()
+                {
+                    NodeType = NodeResponse.ChoiceNodeType,
+                    Latitude = 45.8, Longitude = 5.87,
+                    Question = "The Question",
+                    Answers = new List<AnswerResponse>()
+                    {
+                        new AnswerResponse(){Response = "toto"},
+                        new AnswerResponse(){Response = "titi"},
+                        new AnswerResponse(){Response = "tata"},
+                    }
+                }
+            };
+            var activity = new Activity(type: ImageHuntActivityTypes.Location)
+            {
+                Attachments = new List<Attachment>()
+                {
+                    new Attachment()
+                    {
+                        Content = new GeoCoordinates(latitude: 45.8, longitude: 5.87)
+                    }
+                }
+            };
+
+            A.CallTo(() => _turnContext.Activity).Returns(activity);
+
+            _dialogs.Add(new WaterfallDialog(NodeVisitorHandler.ChoiceNodeDialog));
+            // Act
+            await Target.MatchLocationDialogAsync(_turnContext, state, _dialogs);
+            // Assert
+            A.CallTo(() => _logger.Log(LogLevel.Information, A<EventId>._, A<object>._, A<Exception>._,
+                A<Func<object, Exception, string>>._)).MustHaveHappened();
+        }
+
+        [Fact]
+        public void Should_CreateDialogSet()
+        {
+            // Arrange
+
+            var dialogSet = new DialogSet(_conversationState);
+            // Act
+            Target.ConstructDialogSet(dialogSet);
+            // Assert
+            Check.That(dialogSet.Find(NodeVisitorHandler.ChoiceNodeDialog)).IsInstanceOf<WaterfallDialog>();
+            Check.That(dialogSet.Find(NodeVisitorHandler.QuestionNodeDialog)).IsInstanceOf<WaterfallDialog>();
+            Check.That(dialogSet.Find(NodeVisitorHandler.QuestionNodePrompt)).IsInstanceOf<TextPrompt>();
+            Check.That(dialogSet.Find(NodeVisitorHandler.ChoiceNodePrompt)).IsInstanceOf<ChoicePrompt>();
+            Check.That(dialogSet.Find(NodeVisitorHandler.QuestionNodeConfirmPrompt)).IsInstanceOf<ConfirmPrompt>();
+            Check.That(dialogSet.Find(NodeVisitorHandler.ChoiceNodeConfirmPrompt)).IsInstanceOf<ConfirmPrompt>();
+        }
     }
 }

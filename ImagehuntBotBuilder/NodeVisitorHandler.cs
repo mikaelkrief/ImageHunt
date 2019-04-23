@@ -38,8 +38,12 @@ namespace ImageHuntBotBuilder
     public class NodeVisitorHandler : INodeVisitorHandler
     {
         public const string QuestionNodePrompt = "QuestionNodePrompt";
+        public const string ChoiceNodePrompt = "ChoiceNodePrompt";
         public const string QuestionNodeDialog = "QuestionNodeDialog";
         public const string QuestionNodeConfirmPrompt = "QuestionNodeConfirmPrompt";
+        public const string ChoiceNodeConfirmPrompt = "ChoiceNodeConfirmPrompt";
+
+        public const string ChoiceNodeDialog = "ChoiceNodeDialog";
         private readonly ILogger<NodeVisitorHandler> _logger;
         private IStringLocalizer _localizer;
         private readonly INodeWebService _nodeWebService;
@@ -64,6 +68,7 @@ namespace ImageHuntBotBuilder
             _actionWebService = actionWebService;
             _rangeDistance = Convert.ToDouble(_configuration["NodeSettings:RangeDistance"]);
         }
+
 
         public async Task<NodeResponse> MatchLocationAsync(ITurnContext context, ImageHuntState state)
         {
@@ -340,7 +345,8 @@ namespace ImageHuntBotBuilder
                 return;
             }
 
-            if (node.NodeType != NodeResponse.QuestionNodeType || node.NodeType == NodeResponse.ChoiceNodeType)
+            if (node.NodeType != NodeResponse.QuestionNodeType &&
+                node.NodeType != NodeResponse.ChoiceNodeType)
             {
                 _logger.LogTrace("Current node is not correct type: {0}", node.NodeType);
                 return;
@@ -351,14 +357,26 @@ namespace ImageHuntBotBuilder
                 switch (node.NodeType)
                 {
                     case NodeResponse.QuestionNodeType:
-                        var dialogContext = await dialogs.CreateContextAsync(turnContext);
-                        var result = await dialogContext.ContinueDialogAsync();
-                        if (result.Status == DialogTurnStatus.Empty)
                         {
-                            await dialogContext.BeginDialogAsync(QuestionNodeDialog, state);
-                            _logger.LogInformation("Launch Question dialog for node {0}", node.Id);
+                            var dialogContext = await dialogs.CreateContextAsync(turnContext);
+                            var result = await dialogContext.ContinueDialogAsync();
+                            if (result.Status == DialogTurnStatus.Empty)
+                            {
+                                await dialogContext.BeginDialogAsync(QuestionNodeDialog, state);
+                                _logger.LogInformation("Launch Question dialog for node {0}", node.Id);
+                            }
                         }
-
+                        break;
+                    case NodeResponse.ChoiceNodeType:
+                        {
+                            var dialogContext = await dialogs.CreateContextAsync(turnContext);
+                            var result = await dialogContext.ContinueDialogAsync();
+                            if (result.Status == DialogTurnStatus.Empty)
+                            {
+                                await dialogContext.BeginDialogAsync(ChoiceNodeDialog, state);
+                                _logger.LogInformation("Launch Choice dialog for node {0}", node.Id);
+                            }
+                        }
                         break;
                 }
             }
@@ -375,7 +393,20 @@ namespace ImageHuntBotBuilder
             dialogs.Add(new WaterfallDialog(QuestionNodeDialog, questionWaterfallSteps));
             dialogs.Add(new TextPrompt(QuestionNodePrompt));
             dialogs.Add(new ConfirmPrompt(QuestionNodeConfirmPrompt));
+
+            var choiceWaterfallSteps = new WaterfallStep[]
+            {
+                AskChoiceStepAsync,
+                ConfirmAnswerStepAsync,
+                AnswerChoiceStepAsync
+            };
+            dialogs.Add(new WaterfallDialog(ChoiceNodeDialog, choiceWaterfallSteps));
+            dialogs.Add(new ChoicePrompt(ChoiceNodePrompt));
+            dialogs.Add(new ConfirmPrompt(ChoiceNodeConfirmPrompt));
+
         }
+
+
 
         #region QuestionNode prompts
 
@@ -402,7 +433,7 @@ namespace ImageHuntBotBuilder
 
                     GameActionRequest actionRequest = new GameActionRequest()
                     {
-                        Action = (int)Action.ReplyQuestion,
+                        Action = (int) Action.ReplyQuestion,
                         Answer = state.CurrentAnswer,
                         GameId = state.Game.Id,
                         TeamId = state.Team.Id,
@@ -411,7 +442,6 @@ namespace ImageHuntBotBuilder
                         NodeId = state.CurrentNode.Id,
                     };
                     await _actionWebService.LogAction(actionRequest, cancellationtoken);
-
                 }
                 catch (Exception e)
                 {
@@ -424,7 +454,7 @@ namespace ImageHuntBotBuilder
             }
             else
             {
-                return await stepcontext.ReplaceDialogAsync(QuestionNodeDialog, 
+                return await stepcontext.ReplaceDialogAsync(QuestionNodeDialog,
                     stepcontext.Options, cancellationtoken);
             }
         }
@@ -450,6 +480,17 @@ namespace ImageHuntBotBuilder
                 cancellationtoken);
         }
 
+        #endregion
+
+        #region ChoiceNode prompts
+        private async Task<DialogTurnResult> AskChoiceStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
+        {
+            throw new NotImplementedException();
+        }
+        private Task<DialogTurnResult> AnswerChoiceStepAsync(WaterfallStepContext stepcontext, CancellationToken cancellationtoken)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }
