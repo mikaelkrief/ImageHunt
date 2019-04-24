@@ -144,8 +144,8 @@
                     <div>
                       <div class="form-group">
                         <label for="choiceQuestion" i18n>Question</label>
-                        <textarea class="form-control" cols="40" rows="3" id="choiceQuestion" ngModel
-                                  name="choiceQuestion" i18n-placeholder placeholder="Choice label"></textarea>
+                        <textarea class="form-control" cols="40" rows="3" id="choiceQuestion" [(ngModel)]="_node.question"
+                                  name="choiceQuestion" i18n-placeholder placeholder="Choice question"></textarea>
                       </div>
 
                     </div>

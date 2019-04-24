@@ -104,9 +104,28 @@ export class NodeEditComponent implements OnInit, AfterViewInit, AfterViewChecke
     this.modalRef = this._modalService.show(UploadImageComponent, { ignoreBackdropClick: true });
     this.modalRef.content.pictureId.subscribe(id => this._node.image = { pictureId: id, name: '' });
   }
+  correctAnswer: number;
 
   saveChanges(form: NgForm) {
+    // Add answers
+    if (form.value.nodeType === 'ChoiceNode') {
+      this.node.choices = [];
+      for (let i = 0; i < this.choices.length; i++) {
+        this.node.choices.push({ response: this.choices[i], correct: i === +this.correctAnswer });
+      }
+    }
+
     this.nodeEmit.emit(this.node);
     this.bsModalRef.hide();
   }
+  choices: string[];
+
+  addChoice(newChoice: NgForm) {
+    if (this.choices == null) {
+      this.choices = [];
+    }
+    this.choices.push(newChoice.value.choice);
+    newChoice.reset();
+  }
+
 }

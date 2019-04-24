@@ -1,6 +1,6 @@
 export class Answer {
-  id: number;
+  id?: number;
   response: string;
-  nodeId: number;
+  nodeId?: number;
   correct: boolean;
 }

@@ -1,3 +1,5 @@
+import { Answer } from "./answer";
+
 export class Node {
   id: number;
   image: any;
@@ -15,5 +17,6 @@ export class Node {
   bonus?: number;
   hint?: string;
   question?: string;
-  answer?:string;
+  answer?: string;
+  choices?: Answer[];
 }

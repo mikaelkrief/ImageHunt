@@ -93,7 +93,7 @@ export class QuestionNodeComponent implements OnInit
     }
   }
   saveRelations() {
-    var relationAnswers = this.answersNodeRelations.map(a => new QuestionNodeAnswerRelation(this.selectedNode.nodeId, a.nodeId, a.answerId));
+    var relationAnswers = this.answersNodeRelations.map(a => new QuestionNodeAnswerRelation(this.selectedNode.id, a.nodeId, a.answerId));
     this._gameService.addRelationAnswers(relationAnswers)
       .subscribe(res => {
         this._alertService.sendAlert(`Les relations du noeud ${this.selectedNode.name} ont été sauvegardées`, "success", 5000);
