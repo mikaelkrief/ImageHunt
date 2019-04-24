@@ -1,4 +1,4 @@
-﻿/// <reference path="../../../node_modules/@types/jasmine/index.d.ts" />
+/// <reference path="../../../node_modules/@types/jasmine/index.d.ts" />
 import { TestBed, async, ComponentFixture, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { BrowserModule, By } from "@angular/platform-browser";
 import { GameActionDetailComponent } from './game-action-detail.component';
@@ -19,7 +19,10 @@ describe('game-action-detail component', () => {
         component = fixture.componentInstance;
     }));
 
-    it('should do something', async(() => {
-        expect(true).toEqual(true);
+  it('should no answer selected no answer selected and buttons disabled', async(() => {
+    //component.selectedAnswer = component.selectedTargetNode = undefined;
+    //expect(component.linkBtnEnabled).toEqual(false);
+    //expect(component.unlinkBtnEnabled).toEqual(false);
+
     }));
 });

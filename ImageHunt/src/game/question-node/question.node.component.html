@@ -6,41 +6,47 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="form-inline">
-      <div class="input-group">
-        <label for="Noeud" i18n>Node to edit</label>
-        <select class="form-control" [(ngModel)]="selectedNode" (change)="nodeSelected($event)">
+    <div >
+      <div class="form-group">
+        <label for="selectedNode" i18n>Node to edit</label>
+        <select class="form-control" [(ngModel)]="selectedNode" name="selectedNode" (change)="nodeSelected($event)">
           <option *ngFor="let node of questionNodes"  [ngValue]="node">{{node.name}}</option>
         </select>
       </div>
     </div>
-    <div class="form-inline">
-      <div class="input-group" *ngIf="selectedNode">
-        <label i18n>Question</label>
-        <textarea class="form-control" cols="40" rows="3" readonly [value]="selectedNode.question" i18n-placeholder placeholder="Question"></textarea>
+    <div >
+      <div class="form-group" *ngIf="selectedNode">
+        <label for="question" i18n>Question</label>
+        <textarea class="form-control" name="question" cols="40" rows="3" readonly
+                  [value]="selectedNode.question" i18n-placeholder placeholder="Question"></textarea>
       </div>
     </div>
     <div class="row" *ngIf="selectedNode!=null">
-      <div class="col-sm-4">
-        <div class="input-group">
-          <label i18n>Answers</label>
-          <select class="form-control" [(ngModel)]="selectedAnswer" size="5"
-                  (change)="responseSelected()">
+      <div class="col-4">
+        <div class="form-group">
+          <label i18n for="selectedAnswer">Answers</label>
+          <select class="form-control" [(ngModel)]="selectedAnswer" size="5" name="selectedAnswer"
+                  (change)="answerSelected()">
             <option *ngFor="let answer of selectedNode.answers" [ngValue]="answer">{{answer.response}}</option>
           </select>
         </div>
       </div>
-      <div class="col-sm-4">
+      <div class="col-4">
         <div class="row">
-          <span></span>
-          <button class="btn btn-success" [disabled]="!linkBtnEnabled" (click)="associateAnswerToNode()" i18n>Link</button>
-          <button class="btn btn-danger" [disabled]="!unlinkBtnEnabled" (click)="dissociateAnswerToNode()" i18n>Unlink</button>
+          <div>
+            <button class="btn btn-success" [disabled]="!linkBtnEnabled" (click)="associateAnswerToNode()" i18n>Link</button>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <button class="btn btn-danger" [disabled]="!unlinkBtnEnabled" (click)="dissociateAnswerToNode()" i18n>Unlink</button>
+          </div>
         </div>
       </div>
-      <div class="col-sm-4">
-        <label>Noeuds</label>
-        <select class="form-control" size="5" [(ngModel)]="selectedTargetNode"
-                (change)="responseSelected()">
+      <div class="col-4">
+        <label for="selectedTargetNode" i18n>Target Nodes</label>
+        <select class="form-control" size="5" [(ngModel)]="selectedTargetNode" name="selectedTargetNode"
+                (change)="targetNodeSelected()">
           <option *ngFor="let node of availableNodes" [ngValue]="node">{{node.name}}</option>
         </select>
       </div>
